@@ -26,6 +26,7 @@ class Finance extends React.Component {
           path={`${this.props.match.path}`}
           render={props => <this.connectedApp {...this.props}/>} 
         />
+        <Route component={() => { this.NoMatch(); }} />
       </Switch>
     );
   }

@@ -4,11 +4,12 @@ import Route from 'react-router-dom/Route';
 import _ from "lodash";
 import queryString from 'query-string';
 // Folio
-import uuid from 'uuid';
-import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
+import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import packageInfo from '../../../package';
+import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
+import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
+import packageInfo from '../../../package';
 // Components and Pages
 import View from '../View';
 
@@ -62,7 +63,6 @@ class Main extends Component {
             };
 
             let cql = `(name="${resourceData.query.query}*")`;
-            console.log(cql);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -71,7 +71,6 @@ class Main extends Component {
                 cql = filterCql;
               }
             }
-            console.log(cql);
 
             const { sort } = resourceData.query;
             if (sort) {
@@ -102,16 +101,21 @@ class Main extends Component {
 
   constructor(props) {
     super(props);
-  }
- 
-  componentWillMount() {
+    const query = props.location.search ? queryString.parse(props.location.search) : {};
+    this.state = {
+      searchTerm: query.query || '',
+      sortOrder: query.sort || '',
+      filters: initialFilterState(filterConfig, query.filters),
+    };
+    this.transitionToParams = transitionToParams.bind(this);
+    this.removeQueryParam = removeQueryParam.bind(this);
+    this.onChangeSearch = this.onChangeSearch.bind(this);
   }
 
   render() {
     const props = this.props;
-    // console.log(props);
+    console.log(this.props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
-    // console.log(initialPath);
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Vendor Status': data => _.get(data, ['vendor_status'], '')
@@ -131,11 +135,19 @@ class Main extends Component {
           viewRecordComponent={View}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
+          finishedResourceName="perms"
+          viewRecordPerms="venodr.item.get"
+          newRecordPerms="vendor.item.post,login.item.post,perms.users.item.post"
           parentResources={props.resources}
           parentMutator={props.mutator}
+          onChange={this.onChangeSearch()}
         />
       </div>
     )
+  }
+
+  onChangeSearch(e) {
+    console.log("change on search");
   }
 }
 

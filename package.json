@@ -17,6 +17,7 @@
     "route": "/finance",
     "home": "/finance?filters=vendor_status.Pending&sort=Name",
     "hasSettings": true,
+    "queryResource": "query",
     "okapiInterfaces": {},
     "permissionSets": []
   },

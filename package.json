@@ -15,7 +15,7 @@
     "type": "app",
     "displayName": "ui-finance",
     "route": "/finance",
-    "home": "/finance?filters=vendor_status.Pending&sort=Name",
+    "home": "/finance/ledger",
     "hasSettings": true,
     "queryResource": "query",
     "okapiInterfaces": {},

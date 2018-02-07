@@ -1,0 +1,8 @@
+/* Ledger */
+.panePadding {
+  & > .paneset {
+    background: black;
+    padding-top: 50px;
+  }
+}
+@media (max-width: 640px) {}

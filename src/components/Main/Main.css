@@ -1,9 +1,15 @@
 /* Main */
-.searchHeader {
-  position: relative;
-  display: block;
+.SegControl {
+  float: left;
+  display: -ms-flexbox;
   overflow: hidden;
-  height: 38px;
+  position: relative;
+  z-index: 1;
+  padding: 9px 10px 0 10px;
+  width: 16%;
   border-bottom: 1px solid gainsboro;
-  margin: 0 0 1rem;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
 }

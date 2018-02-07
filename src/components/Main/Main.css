@@ -1,15 +1,16 @@
 /* Main */
 .SegControl {
-  float: left;
-  display: -ms-flexbox;
-  overflow: hidden;
+  display: flex;
   position: relative;
   z-index: 1;
   padding: 9px 10px 0 10px;
-  width: 16%;
+  width: 100%;
+  flex-direction: row;
   border-bottom: 1px solid gainsboro;
+  align-items: center;
+  justify-content: center;
 
-  @media (max-width: 640px) {
-    display: none;
+  &>nav {
+    width: 35%;
   }
 }

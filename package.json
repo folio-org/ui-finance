@@ -22,7 +22,7 @@
     "permissionSets": []
   },
   "scripts": {
-    "start": "stripescli serve --port=8080 --hasAllPerms",
+    "start": "stripescli serve --port=8089 --hasAllPerms",
     "build": "stripescli build --output ./output",
     "test": "stripescli test --run demo --show",
     "lint": "eslint src"

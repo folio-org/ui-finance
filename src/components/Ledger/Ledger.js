@@ -131,7 +131,7 @@ class Ledger extends Component {
       'Period End': data => _.get(data, ['period_end'], '')
     }
     return (
-      <div style={{width: '100%'}} className={css.panePadding}>
+      <div style={{width: '100%'}} className={css.panepadding}>
         <SearchAndSort
           moduleName={packageInfo.name.replace(/.*\//, '')}
           moduleTitle={'ledger'}

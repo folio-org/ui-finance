@@ -8,8 +8,8 @@ import SegmentedControl from '@folio/stripes-components/lib/SegmentedControl';
 import Button from '@folio/stripes-components/lib/Button';
 // Components and Pages
 import Ledger from '../Ledger';
-import Fund from '../Fund';
-import Budget from '../Budget';
+// import Fund from '../Fund';
+// import Budget from '../Budget';
 import css from './Main.css';
 
 class Main extends Component {
@@ -19,8 +19,8 @@ class Main extends Component {
       activeTab: 'ledger'
     }
     this.connectedLedger = props.stripes.connect(Ledger);
-    this.connectedFund = props.stripes.connect(Fund);
-    this.connectedBudget = props.stripes.connect(Budget);
+    // this.connectedFund = props.stripes.connect(Fund);
+    // this.connectedBudget = props.stripes.connect(Budget);
     this.handleActivate = this.handleActivate.bind(this);
   }
 
@@ -34,21 +34,23 @@ class Main extends Component {
     return (
       <div style={{width: '100%'}}>
         <div className={css.SegControl}>
-          <SegmentedControl activeId={this.state.activeTab} onActivate={this.handleActivate}>
+          <SegmentedControl className={css.test} activeId={this.state.activeTab} onActivate={this.handleActivate}>
             <Button id="ledger">Ledger</Button>
             <Button id="fund">Fund</Button>
             <Button id="budget">Budget</Button>
           </SegmentedControl>
+          <br />
         </div>
         <Route
-        path={`${this.props.match.path}/ledger`}
-        render={props => <this.connectedLedger
-          stripes={this.props.stripes}
-          mutator={this.props.mutator}
-          resources={this.props.resources}
-          {...props} />
+          path={`${this.props.match.path}/ledger`}
+          render={props => <this.connectedLedger
+            stripes={this.props.stripes}
+            mutator={this.props.mutator}
+            resources={this.props.resources}
+            {...props} />
           }
         />
+        {/*
         <Route
           path={`${this.props.match.path}/fund`}
           render={props => <this.connectedLedger
@@ -66,7 +68,7 @@ class Main extends Component {
             resources={this.props.resources}
             {...props} />
           }
-        />
+        /> */}
       </div>
     )
   }

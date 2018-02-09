@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Route from 'react-router-dom/Route';
+import {Route, Redirect} from 'react-router-dom';
 import _ from "lodash";
 import queryString from 'query-string';
 // Stripes Components
@@ -42,7 +42,7 @@ class Main extends Component {
           <br />
         </div>
         <Route
-          path={`${this.props.match.path}/ledger`}
+          path={`${this.props.match.path}`}
           render={props => <this.connectedLedger
             stripes={this.props.stripes}
             mutator={this.props.mutator}

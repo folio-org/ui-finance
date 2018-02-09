@@ -7,3 +7,7 @@
 .dateInputFix input {
   padding: 4px !important;
 }
+
+.checkbox {
+  padding-top: 20px;
+ }

@@ -11,9 +11,8 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 // Components and Pages
-import LedgerForm from './LedgerForm';
 import css from './Ledger.css';
-// import View from './View';
+import LedgerPane from './LedgerPane';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -33,19 +32,15 @@ const filterConfig = [
 
 class Ledger extends Component {
   static manifest = Object.freeze({
-    vendor: {
-      type: 'okapi',
-      records: 'vendors',
-      path: 'vendor'
-    },
     query: {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name',
+        sort: 'Name'
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
+    resultCountFiscalYear: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
       records: 'ledgers',
@@ -104,6 +99,47 @@ class Ledger extends Component {
         },
         staticFallback: { params: {} },
       },
+    },
+    fiscalYear: {
+      type: 'okapi',
+      records: 'fiscal_years',
+      recordsRequired: '%{resultCountFiscalYear}',
+      path: 'fiscal_year',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            const sortMap = {
+              Name: 'name',
+            };
+
+            let cql = `(name="${resourceData.query.query}*")`;
+
+            const { sort } = resourceData.query;
+            if (sort) {
+              const sortIndexes = sort.split(',').map((sort1) => {
+                let reverse = false;
+                if (sort1.startsWith('-')) {
+                  // eslint-disable-next-line no-param-reassign
+                  sort1 = sort1.substr(1);
+                  reverse = true;
+                }
+                let sortIndex = sortMap[sort1] || sort1;
+                if (reverse) {
+                  sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
+                }
+                return sortIndex;
+              });
+
+              cql += ` sortby ${sortIndexes.join(' ')}`;
+            }
+            console.log(cql);
+            return cql;
+          },
+        },
+        staticFallback: { params: {} },
+      },
     }
   });
 
@@ -119,9 +155,13 @@ class Ledger extends Component {
     this.removeQueryParam = removeQueryParam.bind(this);
   }
 
+  create = (ledgerdata) => {
+    const { mutator } = this.props;
+    mutator.records.POST(ledgerdata);
+  }
+
   render() {
     const props = this.props;
-    console.log(props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
@@ -142,7 +182,8 @@ class Ledger extends Component {
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={{}}
-          editRecordComponent={LedgerForm}
+          onCreate={this.create}
+          editRecordComponent={LedgerPane}
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
@@ -151,6 +192,7 @@ class Ledger extends Component {
           newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
           parentResources={props.resources}
           parentMutator={props.mutator}
+          detailProps={this.props.stripes}
         />
       </div>
     )

@@ -25,7 +25,7 @@ const pages = [
 export default class FinanceSettings extends React.Component {
   render() {
     return (
-      <Settings {...this.props} pages={pages} paneTitle="ui-finance" />
+      <Settings {...this.props} pages={pages} paneTitle="finance" />
     );
   }
 }

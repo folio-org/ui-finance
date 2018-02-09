@@ -11,9 +11,9 @@ import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
 // Components and Pages
-import LedgerForm from './LedgerForm';
+import FiscalYearForm from './FiscalYearForm';
 
-class LedgerPane extends Component {
+class FiscalYearPane extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
@@ -57,17 +57,19 @@ class LedgerPane extends Component {
   }
 
   render() {
-    const { initialValues } = this.props;
-    const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create ledger';
-    const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updateledger', 'Update ledger') :
-      this.getLastMenu('clickable-createnewledger', 'Create ledger');
+    // const { initialValues } = this.props;
+    // const firstMenu = this.getAddFirstMenu();
+    // const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create Fiscal Year';
+    // const lastMenu = initialValues.id ?
+      // this.getLastMenu('clickable-update-fiscal-year', 'Update Fiscal Year') :
+      // this.getLastMenu('clickable-createnew-fiscal-year', 'Create Fiscal Year');
+    // <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
     return (
-      <form id="form-ledger">
+      <form id="form-fiscal-year">
         <Paneset>
-          <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-            <LedgerForm {...this.props} />
+          <Pane defaultWidth="100%">
+            <FiscalYearForm {...this.props} />
+            <p>awraer</p>
           </Pane>
         </Paneset>
       </form>
@@ -80,9 +82,9 @@ function asyncValidate(values, dispatch, props, blurredField) {
 }
 
 export default stripesForm({
-  form: 'ledgerForm',
+  form: 'FiscalYearPane',
   // validate,
   asyncValidate,
   navigationCheck: true,
   enableReinitialize: true,
-})(LedgerPane);
+})(FiscalYearPane);

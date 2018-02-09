@@ -15,11 +15,16 @@
     "type": "app",
     "displayName": "ui-finance",
     "route": "/finance",
-    "home": "/finance/ledger",
+    "home": "/finance",
     "hasSettings": true,
     "queryResource": "query",
     "okapiInterfaces": {},
-    "permissionSets": []
+    "permissionSets": [],
+    "translations": {
+      "en": {
+        "search": "Search"
+      }
+    }
   },
   "scripts": {
     "start": "stripescli serve --port=8089 --hasAllPerms",

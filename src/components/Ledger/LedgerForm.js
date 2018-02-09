@@ -9,14 +9,18 @@ import Button from '@folio/stripes-components/lib/Button';
 import Icon from '@folio/stripes-components/lib/Icon';
 import stripesForm from '@folio/stripes-form';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
+import { AccordionSet, Accordion} from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
+import Modal from '@folio/stripes-components/lib/Modal';
+import stripes from "@folio/stripes-connect";
 // Components and Pages
 import css from './LedgerForm.css';
+import {FiscalYear} from '../FiscalYear';
 
 class LedgerForm extends Component {
   static propTypes = {
@@ -35,14 +39,19 @@ class LedgerForm extends Component {
         { label: 'Active', value: 'Active' },
         { label: 'Inactive', value: 'Inactive' },
         { label: 'Pending', value: 'Pending' },
-      ]
+      ],
+      // Modal
+      modalStatus: false,
+      modalTitle: 'Fiscal Year Listing'
     }
+    this.modalStatus = this.modalStatus.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
   }
 
   render() {
     return (
-      <div className={css.LedgerForm}>
-        <form id="form-ledger">
+      <Row>
+        <Col xs={8} style={{ margin: "0 auto" }}>
           <Row>
             <Col xs={12} md={6}>
               <Col xs={12}>
@@ -80,27 +89,36 @@ class LedgerForm extends Component {
             <Col xs={12} md={6}>
               <Row>
                 <Col xs={12} md={6} className={css.dateInputFix}>
-                  <Field label="Fiscal Year Begin Date" name="period_start" id="period_start" component={Datepicker} />
+                  <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
                 </Col>
                 <Col xs={12} md={6} className={css.dateInputFix}>
-                  <Field label="Fiscal Year End Date" name="period_end" id="period_end" component={Datepicker} />
+                  <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
                 </Col>
               </Row>
-              <Col xs={12}>
+              <Col xs={12} className={css.checkbox}>
                 <Field label="Freeze Activity" name='freeze_activity' id='freeze_activity' component={Checkbox} />
               </Col>
             </Col>
+            <Col xs={12}>
+              <Accordion label="Fiscal Year" id="FiscalYearSection" open={true}>
+                <FiscalYear {...this.props} />
+              </Accordion>
+            </Col>
           </Row>
-        </form>
-      </div>
+        </Col>
+      </Row>
     )
+  }
+
+  modalStatus(e) {
+    const modalStatus = this.state.modalStatus ? false : true;
+    this.setState({ modalStatus });
+  }
+
+  updateTitle(e) {
+    console.log(e);
+    // this.setState({ modalStatus });
   }
 }
 
-export default stripesForm({
-  form: 'ledgerForm',
-  // validate,
-  // asyncValidate,
-  navigationCheck: true,
-  enableReinitialize: true,
-})(LedgerForm);
+export default LedgerForm;

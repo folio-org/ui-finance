@@ -4,6 +4,7 @@ import Route from 'react-router-dom/Route';
 import _ from "lodash";
 import queryString from 'query-string';
 // Folio
+import Layer from '@folio/stripes-components/lib/Layer';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
@@ -13,6 +14,7 @@ import packageInfo from '../../../package';
 // Components and Pages
 import css from './Ledger.css';
 import LedgerPane from './LedgerPane';
+import { FiscalYearPane } from '../FiscalYear';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -158,10 +160,12 @@ class Ledger extends Component {
   create = (ledgerdata) => {
     const { mutator } = this.props;
     mutator.records.POST(ledgerdata);
+    // console.log(ledgerdata);
   }
 
   render() {
     const props = this.props;
+    console.log(props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
@@ -170,6 +174,7 @@ class Ledger extends Component {
       'Period Start': data => _.get(data, ['period_start'], ''),
       'Period End': data => _.get(data, ['period_end'], '')
     }
+    const urlQuery = queryString.parse(this.props.location.search || '');
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
         <SearchAndSort
@@ -194,6 +199,15 @@ class Ledger extends Component {
           parentMutator={props.mutator}
           detailProps={this.props.stripes}
         />
+        <Layer isOpen={urlQuery.layer ? urlQuery.layer === 'addFiscalYear' : false} label={`Add New Fiscal Year Dialog`}>
+          <FiscalYearPane
+            // id={`fiscalyearform-addfiscalyear`}
+            // onSubmit={record => this.createRecord(record)}
+            // onCancel={this.closeNewRecord}
+            parentResources={this.props.parentResources}
+            parentMutator={this.props.parentMutator}
+          />
+        </Layer>
       </div>
     )
   }

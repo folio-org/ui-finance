@@ -45,7 +45,7 @@ class LedgerForm extends Component {
       modalTitle: 'Fiscal Year Listing'
     }
     this.modalStatus = this.modalStatus.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
+
   }
 
   render() {
@@ -113,11 +113,6 @@ class LedgerForm extends Component {
   modalStatus(e) {
     const modalStatus = this.state.modalStatus ? false : true;
     this.setState({ modalStatus });
-  }
-
-  updateTitle(e) {
-    console.log(e);
-    // this.setState({ modalStatus });
   }
 }
 

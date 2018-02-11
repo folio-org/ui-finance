@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import _ from "lodash";
 import queryString from 'query-string';
+import { Field, FieldArray } from 'redux-form';
 // Folio
+import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import Layer from '@folio/stripes-components/lib/Layer';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
@@ -13,6 +15,10 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
 import Modal from '@folio/stripes-components/lib/Modal';
+import Button from '@folio/stripes-components/lib/Button';
+import TextField from '@folio/stripes-components/lib/TextField';
+import TextArea from '@folio/stripes-components/lib/TextArea';
+import Select from '@folio/stripes-components/lib/Select';
 // Components and Pages
 import FiscalYearPane from './FiscalYearPane';
 
@@ -23,7 +29,6 @@ class FiscalYear extends Component {
   static propTypes = {
     parentMutator: PropTypes.object.isRequired,
     parentResources: PropTypes.object.isRequired,
-    updateTitle: PropTypes.func.isRequired,
   }
   
   constructor(props) {
@@ -35,6 +40,9 @@ class FiscalYear extends Component {
       showList: false,
       showEditForm: true,
     };
+
+    this.transitionToParams = transitionToParams.bind(this);
+    this.onAddFiscalYear = this.onAddFiscalYear.bind(this);
   }
 
   render() {
@@ -45,31 +53,44 @@ class FiscalYear extends Component {
     // const loader = () => {
     //   return props.resources.fiscalYear ? props.resources.fiscalYear.isPending : false;
     // }
-    console.log(props);
+
     return (
-      <div style={{ border: '1px solid #dcdcdc', marginBottom: '10px' }}>
-        <Paneset>
-          <Pane defaultWidth="fill" paneTitle="Fiscal Year Listing">
-            <MultiColumnList
-              // autosize
-              // virtualize
-              id={`list-fiscal-years-multilist`}
-              // contentData={records}
-              // selectedRow={this.state.selectedRow}
-              // onRowClick={this.onSelectRow}
-              // onHeaderClick={this.onHeaderClick}
-              visibleColumns={['name']}
-              // sortedColumn={sortBy}
-              // sortDirection={sortOrder + 'ending'}
-              // panePreloader={listPreloaderStatus}
-              // onNeedMoreData={this.onNeedMore}
-              // loading={loader()}
-              loading={false}
-            />
-          </Pane>
-        </Paneset>
-      </div>
+      <Row>
+        <Col xs={8} style={{ margin: "0 auto" }}>
+          <div style={{display: 'block', clear: 'both', overflow: 'hidden'}}>
+            <Button buttonStyle='primary' id="Add-Fiscal-Year" onClick={this.onAddFiscalYear} title="Add Fiscal Year" style={{ float: 'right' }}>+ Add Fiscal Year</Button>
+          </div>
+          <div style={{ border: '1px solid #dcdcdc', marginBottom: '10px' }}>
+            <Paneset>
+              <Pane defaultWidth="fill" paneTitle="Fiscal Year Listing">
+                <MultiColumnList
+                  // autosize
+                  // virtualize
+                  id={`list-fiscal-years-multilist`}
+                  // contentData={records}
+                  // selectedRow={this.state.selectedRow}
+                  // onRowClick={this.onSelectRow}
+                  // onHeaderClick={this.onHeaderClick}
+                  visibleColumns={['name']}
+                  // sortedColumn={sortBy}
+                  // sortDirection={sortOrder + 'ending'}
+                  // panePreloader={listPreloaderStatus}
+                  // onNeedMoreData={this.onNeedMore}
+                  // loading={loader()}
+                  loading={false}
+                />
+              </Pane>
+            </Paneset>
+          </div>
+        </Col>
+        <FiscalYearPane />
+      </Row>
     )
+  }
+
+  onAddFiscalYear() {
+    this.transitionToParams({ layer: 'addFiscalYear' });
+    console.log("add fiscal year");
   }
 }
 

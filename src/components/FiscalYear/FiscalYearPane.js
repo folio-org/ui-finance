@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
@@ -10,6 +11,7 @@ import stripesForm from '@folio/stripes-form';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
+
 // Components and Pages
 import FiscalYearForm from './FiscalYearForm';
 
@@ -22,10 +24,14 @@ class FiscalYearPane extends Component {
     onRemove: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    parentMutator: PropTypes.object.isRequired,
+    parentResources: PropTypes.object.isRequired,
   }
   
   constructor(props) {
     super(props);
+    this.onClick = this.onClick.bind(this);
+    this.transitionToParams = transitionToParams.bind(this);
   }
 
   getAddFirstMenu() {
@@ -69,11 +75,16 @@ class FiscalYearPane extends Component {
         <Paneset>
           <Pane defaultWidth="100%">
             <FiscalYearForm {...this.props} />
-            <p>awraer</p>
+            <button onClick={this.onClick}>Go Back</button>
           </Pane>
         </Paneset>
+        
       </form>
     )
+  }
+
+  onClick() {
+    this.transitionToParams({ layer: 'create' });
   }
 }
 

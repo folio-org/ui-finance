@@ -76,6 +76,7 @@ class LedgerPane extends Component {
 }
 
 function asyncValidate(values, dispatch, props, blurredField) {
+  console.log("asyc please disable");
   return new Promise(resolve => resolve());
 }
 

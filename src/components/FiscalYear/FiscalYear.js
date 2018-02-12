@@ -6,7 +6,6 @@ import queryString from 'query-string';
 import { Field, FieldArray } from 'redux-form';
 // Folio
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Layer from '@folio/stripes-components/lib/Layer';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
@@ -14,7 +13,6 @@ import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction'
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
-import Modal from '@folio/stripes-components/lib/Modal';
 import Button from '@folio/stripes-components/lib/Button';
 import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
@@ -42,27 +40,31 @@ class FiscalYear extends Component {
     };
 
     this.transitionToParams = transitionToParams.bind(this);
-    this.onAddFiscalYear = this.onAddFiscalYear.bind(this);
+    this.addFiscalYear = this.addFiscalYear.bind(this);
+    this.gotoAddFiscalYear = this.gotoAddFiscalYear.bind(this);
+  }
+
+  
+  addFiscalYear() {
+    return (<PaneMenu>
+      <Button id={'create-fical-year'} title={'create-fical-year'} onClick={this.gotoAddFiscalYear}>Add Fiscal Year</Button>
+    </PaneMenu>);
+  }
+
+  gotoAddFiscalYear() {
+    console.log('go to create fiscal year');
   }
 
   render() {
     const props = this.props;
-    // debugger;
     const records = (props.resources || {}).fiscalYear || [];
-    // console.log(records);
-    // const loader = () => {
-    //   return props.resources.fiscalYear ? props.resources.fiscalYear.isPending : false;
-    // }
 
     return (
       <Row>
         <Col xs={8} style={{ margin: "0 auto" }}>
-          <div style={{display: 'block', clear: 'both', overflow: 'hidden'}}>
-            <Button buttonStyle='primary' id="Add-Fiscal-Year" onClick={this.onAddFiscalYear} title="Add Fiscal Year" style={{ float: 'right' }}>+ Add Fiscal Year</Button>
-          </div>
           <div style={{ border: '1px solid #dcdcdc', marginBottom: '10px' }}>
             <Paneset>
-              <Pane defaultWidth="fill" paneTitle="Fiscal Year Listing">
+              <Pane defaultWidth="100%" paneTitle="Fiscal Year Listing" lastMenu={this.addFiscalYear()}>
                 <MultiColumnList
                   // autosize
                   // virtualize
@@ -80,10 +82,14 @@ class FiscalYear extends Component {
                   loading={false}
                 />
               </Pane>
+              {/*
+              <Pane defaultWidth="100%" paneTitle="Add Fiscal Year">
+                <FiscalYearPane {...this.props} />
+              </Pane>
+              */}
             </Paneset>
           </div>
         </Col>
-        <FiscalYearPane />
       </Row>
     )
   }

@@ -14,6 +14,7 @@ import packageInfo from '../../../package';
 // Components and Pages
 import css from './Ledger.css';
 import LedgerPane from './LedgerPane';
+import LedgerAndFiscalYear from './LedgerAndFiscalYear';
 import { FiscalYearPane } from '../FiscalYear';
 
 const INITIAL_RESULT_COUNT = 30;
@@ -159,13 +160,12 @@ class Ledger extends Component {
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
-    mutator.records.POST(ledgerdata);
-    // console.log(ledgerdata);
+    // mutator.records.POST(ledgerdata);
+    console.log(ledgerdata);
   }
 
   render() {
     const props = this.props;
-    console.log(props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
@@ -181,14 +181,14 @@ class Ledger extends Component {
           moduleName={packageInfo.name.replace(/.*\//, '')}
           moduleTitle={'ledger'}
           objectName="ledger"
-          baseRoute={'/finance/ledger'}
+          baseRoute={'/finance'}
           filterConfig={filterConfig}
           visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={{}}
           onCreate={this.create}
-          editRecordComponent={LedgerPane}
+          editRecordComponent={LedgerAndFiscalYear}
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
@@ -199,15 +199,6 @@ class Ledger extends Component {
           parentMutator={props.mutator}
           detailProps={this.props.stripes}
         />
-        <Layer isOpen={urlQuery.layer ? urlQuery.layer === 'addFiscalYear' : false} label={`Add New Fiscal Year Dialog`}>
-          <FiscalYearPane
-            // id={`fiscalyearform-addfiscalyear`}
-            // onSubmit={record => this.createRecord(record)}
-            // onCancel={this.closeNewRecord}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Layer>
       </div>
     )
   }

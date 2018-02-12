@@ -30,7 +30,7 @@ class FiscalYearPane extends Component {
   
   constructor(props) {
     super(props);
-    this.onClick = this.onClick.bind(this);
+    // this.onClick = this.onClick.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
   }
 
@@ -50,41 +50,39 @@ class FiscalYearPane extends Component {
     return (
       <PaneMenu>
         <Button
-          id={id}
+          id={'fdsdf'}
           type="submit"
-          title={label}
+          title={'label'}
           disabled={pristine || submitting}
           onClick={handleSubmit}
         >
-          {label}
+          {'testet'}
         </Button>
       </PaneMenu>
     );
   }
 
   render() {
-    // const { initialValues } = this.props;
+    const { pristine, submitting, handleSubmit } = this.props;
     // const firstMenu = this.getAddFirstMenu();
     // const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create Fiscal Year';
     // const lastMenu = initialValues.id ?
-      // this.getLastMenu('clickable-update-fiscal-year', 'Update Fiscal Year') :
-      // this.getLastMenu('clickable-createnew-fiscal-year', 'Create Fiscal Year');
-    // <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
+    //   this.getLastMenu('clickable-update-fiscal-year', 'Update Fiscal Year') :
+    //   this.getLastMenu('clickable-createnew-fiscal-year', 'Create Fiscal Year');
     return (
       <form id="form-fiscal-year">
-        <Paneset>
-          <Pane defaultWidth="100%">
-            <FiscalYearForm {...this.props} />
-            <button onClick={this.onClick}>Go Back</button>
-          </Pane>
-        </Paneset>
-        
+        <Button
+          id={'fiscal year'}
+          type="submit"
+          title={'label'}
+          disabled={pristine || submitting}
+          onClick={handleSubmit}
+        >
+          Submit button for fiscal year
+        </Button>
+        <FiscalYearForm {...this.props} />
       </form>
     )
-  }
-
-  onClick() {
-    this.transitionToParams({ layer: 'create' });
   }
 }
 

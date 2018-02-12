@@ -18,6 +18,7 @@ import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import Modal from '@folio/stripes-components/lib/Modal';
 import stripes from "@folio/stripes-connect";
+import RepeatableField from '@folio/stripes-components/lib/structures/RepeatableField';
 // Components and Pages
 import css from './LedgerForm.css';
 import {FiscalYear} from '../FiscalYear';
@@ -51,7 +52,7 @@ class LedgerForm extends Component {
   render() {
     return (
       <Row>
-        <Col xs={8} style={{ margin: "0 auto" }}>
+        <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
           <Row>
             <Col xs={12} md={6}>
               <Col xs={12}>
@@ -98,11 +99,6 @@ class LedgerForm extends Component {
               <Col xs={12} className={css.checkbox}>
                 <Field label="Freeze Activity" name='freeze_activity' id='freeze_activity' component={Checkbox} />
               </Col>
-            </Col>
-            <Col xs={12}>
-              <Accordion label="Fiscal Year" id="FiscalYearSection" open={true}>
-                <FiscalYear {...this.props} />
-              </Accordion>
             </Col>
           </Row>
         </Col>

@@ -15,7 +15,6 @@ import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
-import Modal from '@folio/stripes-components/lib/Modal';
 // Components and Pages
 import css from './FiscalYearForm.css';
 

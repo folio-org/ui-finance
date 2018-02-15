@@ -42,6 +42,7 @@ class FiscalYear extends Component {
     this.transitionToParams = transitionToParams.bind(this);
     this.addFiscalYear = this.addFiscalYear.bind(this);
     this.gotoAddFiscalYear = this.gotoAddFiscalYear.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   
@@ -82,12 +83,10 @@ class FiscalYear extends Component {
                   loading={false}
                 />
               </Pane>
-              {/*
-              <Pane defaultWidth="100%" paneTitle="Add Fiscal Year">
-                <FiscalYearPane {...this.props} />
-              </Pane>
-              */}
             </Paneset>
+            <Pane defaultWidth="100%" paneTitle="Add Fiscal Year">
+              <FiscalYearPane {...this.props} handleSubmit={this.handleSubmit} />
+            </Pane>
           </div>
         </Col>
       </Row>
@@ -97,6 +96,11 @@ class FiscalYear extends Component {
   onAddFiscalYear() {
     this.transitionToParams({ layer: 'addFiscalYear' });
     console.log("add fiscal year");
+  }
+
+  handleSubmit(e) {
+    console.log(e);
+    console.log("testing");
   }
 }
 

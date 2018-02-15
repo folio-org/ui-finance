@@ -45,7 +45,7 @@ class LedgerPaneCombi extends Component {
     return (
       <div>
         <LedgerPane {...this.props} />
-        {/* <FiscalYear {...this.props} /> */}
+        <FiscalYear {...this.props} />
       </div>
     )
   }

@@ -160,8 +160,8 @@ class Ledger extends Component {
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
-    // mutator.records.POST(ledgerdata);
-    console.log(ledgerdata);
+    mutator.records.POST(ledgerdata);
+    // console.log(ledgerdata);
   }
 
   render() {

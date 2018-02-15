@@ -14,6 +14,7 @@ import packageInfo from '../../../package';
 // Components and Pages
 import css from './Ledger.css';
 import LedgerPane from './LedgerPane';
+import LedgerView from './LedgerView';
 import LedgerAndFiscalYear from './LedgerAndFiscalYear';
 import { FiscalYearPane } from '../FiscalYear';
 
@@ -61,7 +62,6 @@ class Ledger extends Component {
               https://issues.folio.org/browse/STRIPES-480
             */
             const resourceData = args[2];
-            console.log(resourceData);
             const sortMap = {
               Name: 'name',
               'Period Start': 'period_start',
@@ -96,7 +96,6 @@ class Ledger extends Component {
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
-            console.log(cql);
             return cql;
           },
         },
@@ -186,7 +185,7 @@ class Ledger extends Component {
           visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
-          viewRecordComponent={{}}
+          viewRecordComponent={LedgerView}
           onCreate={this.create}
           editRecordComponent={LedgerAndFiscalYear}
           newRecordInitialValues={{}}

@@ -41,8 +41,7 @@ class FiscalYear extends Component {
 
     this.transitionToParams = transitionToParams.bind(this);
     this.addFiscalYear = this.addFiscalYear.bind(this);
-    this.gotoAddFiscalYear = this.gotoAddFiscalYear.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit2 = this.handleSubmit2.bind(this);
   }
 
   
@@ -85,7 +84,7 @@ class FiscalYear extends Component {
               </Pane>
             </Paneset>
             <Pane defaultWidth="100%" paneTitle="Add Fiscal Year">
-              <FiscalYearPane {...this.props} handleSubmit={this.handleSubmit} />
+              <FiscalYearPane {...this.props} />
             </Pane>
           </div>
         </Col>
@@ -98,9 +97,14 @@ class FiscalYear extends Component {
     console.log("add fiscal year");
   }
 
-  handleSubmit(e) {
-    console.log(e);
-    console.log("testing");
+  // handleSubmit2(records) {
+  //   console.log(records);
+  // }
+
+  handleSubmit2 = (ledgerdata) => {
+    const { mutator } = this.props;
+    mutator.records.POST(ledgerdata);
+    // console.log(ledgerdata);
   }
 }
 

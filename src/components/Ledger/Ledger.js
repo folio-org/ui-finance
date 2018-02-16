@@ -12,7 +12,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 // Components and Pages
-import css from './Ledger.css';
+import css from './css/Ledger.css';
 import LedgerPane from './LedgerPane';
 import LedgerView from './LedgerView';
 import LedgerAndFiscalYear from './LedgerAndFiscalYear';

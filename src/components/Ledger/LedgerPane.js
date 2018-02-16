@@ -58,6 +58,7 @@ class LedgerPane extends Component {
 
   render() {
     const { initialValues } = this.props;
+    console.log(this.props);
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create ledger';
     const lastMenu = initialValues.id ?

@@ -11,7 +11,6 @@ import stripesForm from '@folio/stripes-form';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
-
 // Components and Pages
 import FiscalYearForm from './FiscalYearForm';
 
@@ -30,59 +29,22 @@ class FiscalYearPane extends Component {
   
   constructor(props) {
     super(props);
-    // this.onClick = this.onClick.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
-  }
-
-  getAddFirstMenu() {
-    const { onCancel } = this.props;
-    return (
-      <PaneMenu>
-        <button id="clickable-closenewuserdialog" onClick={onCancel} title="close" aria-label="Close New User Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
-        </button>
-      </PaneMenu>
-    );
-  }
-
-  getLastMenu(id, label) {
-    const { pristine, submitting, handleSubmit } = this.props;
-    return (
-      <PaneMenu>
-        <Button
-          id={'fdsdf'}
-          type="submit"
-          title={'label'}
-          disabled={pristine || submitting}
-          onClick={handleSubmit}
-        >
-          {'testet'}
-        </Button>
-      </PaneMenu>
-    );
+    this.onCreate = this.onCreate.bind(this);
   }
 
   render() {
     const { pristine, submitting, handleSubmit } = this.props;
-    // const firstMenu = this.getAddFirstMenu();
-    // const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create Fiscal Year';
-    // const lastMenu = initialValues.id ?
-    //   this.getLastMenu('clickable-update-fiscal-year', 'Update Fiscal Year') :
-    //   this.getLastMenu('clickable-createnew-fiscal-year', 'Create Fiscal Year');
     return (
       <form id="form-fiscal-year">
-        <Button
-          id={'fiscal year'}
-          type="submit"
-          title={'label'}
-          disabled={pristine || submitting}
-          onClick={handleSubmit}
-        >
-          Submit button for fiscal year
-        </Button>
+        <Button id={'fiscal year'} type="submit" title={'label'} disabled={pristine || submitting} onClick={handleSubmit(this.onCreate)}>+ Add</Button>
         <FiscalYearForm {...this.props} />
       </form>
     )
+  }
+
+  onCreate(records) {
+    console.log(records);
   }
 }
 
@@ -94,6 +56,4 @@ export default stripesForm({
   form: 'FiscalYearPane',
   // validate,
   asyncValidate,
-  navigationCheck: true,
-  enableReinitialize: true,
 })(FiscalYearPane);

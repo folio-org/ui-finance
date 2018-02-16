@@ -18,7 +18,7 @@ import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import stripes from "@folio/stripes-connect";
 // Components and Pages
-import css from './LedgerForm.css';
+import css from './css/LedgerForm.css';
 import {FiscalYear} from '../FiscalYear';
 
 class LedgerForm extends Component {
@@ -39,12 +39,7 @@ class LedgerForm extends Component {
         { label: 'Inactive', value: 'Inactive' },
         { label: 'Pending', value: 'Pending' },
       ],
-      // Modal
-      modalStatus: false,
-      modalTitle: 'Fiscal Year Listing'
     }
-    this.modalStatus = this.modalStatus.bind(this);
-
   }
 
   render() {
@@ -104,11 +99,6 @@ class LedgerForm extends Component {
         </Row>
       </div>
     )
-  }
-
-  modalStatus(e) {
-    const modalStatus = this.state.modalStatus ? false : true;
-    this.setState({ modalStatus });
   }
 }
 

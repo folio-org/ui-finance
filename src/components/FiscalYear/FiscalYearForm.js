@@ -15,8 +15,9 @@ import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
-// Components and Pages
-import css from './FiscalYearForm.css';
+// Components and Utils
+import css from './css/FiscalYearForm.css';
+import { Required } from '../../Utils/Validate';
 
 class FiscalYearForm extends Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class FiscalYearForm extends Component {
 
   constructor(props) {
     super(props);
+    console.log(this.props);
   }
 
   render() {
@@ -32,10 +34,10 @@ class FiscalYearForm extends Component {
       <div className={css.FiscalYearForm}>
         <Row>
           <Col xs={12}>
-            <Field label="Name" name="name" id="name" component={TextField} fullWidth />
+            <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
           </Col>
           <Col xs={12}>
-            <Field label="Code" name="code" id="code" component={TextField} fullWidth />
+            <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
           </Col>
           <Col xs={12}>
             <Field label="Description" name="description" id="description" component={TextArea} fullWidth />

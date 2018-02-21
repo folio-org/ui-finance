@@ -45,6 +45,13 @@ class FiscalYearPane extends Component {
 
   onCreate(records) {
     console.log(records);
+    const { parentMutator } = this.props;
+    // parentMutator.fiscalYear.POST(records);
+  }
+
+  onEdit(records) {
+    const { parentMutator } = this.props;
+    parentMutator.fiscalYear.PUT(ledgerdata);
   }
 }
 

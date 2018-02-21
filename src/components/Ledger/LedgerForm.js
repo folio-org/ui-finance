@@ -13,10 +13,14 @@ import { AccordionSet, Accordion} from '@folio/stripes-components/lib/Accordion'
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
+import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import stripes from "@folio/stripes-connect";
+import { Dropdown } from '@folio/stripes-components/lib/Dropdown';
+import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
+import List from '@folio/stripes-components/lib/List';
 // Components and Pages
 import css from './css/LedgerForm.css';
 import {FiscalYear} from '../FiscalYear';
@@ -29,6 +33,7 @@ class LedgerForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fiscalYearDD: false,
       currency_dd: [
         { label: "-- Select --", value: "" },
         { label: 'US Dollar', value: 'USD' }
@@ -40,6 +45,12 @@ class LedgerForm extends Component {
         { label: 'Pending', value: 'Pending' },
       ],
     }
+
+    this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
+    this.renderList = this.renderList.bind(this);
+    this.renderForms = this.renderForms.bind(this);
+    this.renderSubForm = this.renderSubForm.bind(this);
+    this.renderField = this.renderField.bind(this);
   }
 
   render() {
@@ -95,10 +106,83 @@ class LedgerForm extends Component {
                 </Col>
               </Col>
             </Row>
+            <Col xs={12}>
+              <h4>Fiscal Year</h4>
+              <Dropdown id="AddFiscalYearDropdown" open={this.state.fiscalYearDD} onToggle={this.onToggleAddFiscalYearDD} group style={{ float: 'right' }} pullRight>
+                <Button data-role="toggle" align="end" aria-haspopup="true" >
+                  &#43; Add Permission
+                </Button>
+                <DropdownMenu data-role="menu" aria-label="available fiscal year" onToggle={this.onToggleAddFiscalYearDD}>
+                  <FieldArray label="Fiscal Year" name="fiscal_year" id="fiscal_year" component={this.renderList} />
+                </DropdownMenu>
+              </Dropdown>
+            </Col>
+            <Col xs={12}>
+              <FieldArray label="Fiscal Year" name="fiscal_year" id="fiscal_year" component={this.renderForms} />
+            </Col>
           </Col>
         </Row>
       </div>
     )
+  }
+
+  onToggleAddFiscalYearDD() {
+    console.log(this.state.fiscalYearDD);
+    if (this.state.fiscalYearDD === true) {
+      this.setState({ fiscalYearDD: false });
+    } else {
+      this.setState({ fiscalYearDD: true });
+    }
+  }
+
+  renderList = ({ fields }) => {
+    const props = this.props;
+    const records = (props.parentResources || {}).fiscalYear.records || [];
+    const itemFormatter = (item, index) => (
+      <li key={index}><a href="javascript:void(0)" onClick={() => {
+        fields.push({ ...item });
+      }}>{item.name}</a></li>
+    );
+    const isEmptyMessage = 'No items to show';
+      return (
+      <List
+        items={records}
+        itemFormatter={itemFormatter}
+        isEmptyMessage={isEmptyMessage}
+      />
+    )
+  }
+
+  renderForms = ({ fields }) => {
+    return (
+      <Row>
+        <Col xs={12}>
+          {fields.map(this.renderSubForm)}
+        </Col>
+      </Row>
+    )
+  }
+
+  // <Col xs={12} md={4}>
+  //   <Field label="name" className={css.readonlyInput} name={`${elem}.name`} id={`${elem}.name`} component={TextField} disabled readonly fullWidth />
+  // </Col>
+  // <Col xs={12} md={4}>
+  //   <Field label="description" className={css.readonlyInput} name={`${elem}.description`} id={`${elem}.description`} component={TextField} disabled readonly fullWidth />
+  // </Col>
+  // <Col xs={12} md={4}>
+  // <Field label="Code" className={css.readonlyInput} name={`${elem}.code`} id={`${elem}.code`} component={TextField} disabled readonly fullWidth />
+  // </Col>
+
+  renderSubForm = (elem, index, fields) => {
+    return (
+      <Row key={index}>
+        <Col xs={12} md={2}>
+          <Button onClick={() => fields.remove(index)} buttonStyle="error" style={{ width: '100%', marginTop: '18px' }}>
+            Remove
+          </Button>
+        </Col>
+      </Row>
+    );
   }
 }
 

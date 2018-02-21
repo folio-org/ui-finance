@@ -17,11 +17,21 @@ import Button from '@folio/stripes-components/lib/Button';
 import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
+import EditableList from '@folio/stripes-components/lib/structures/EditableList';
+import Modal from '@folio/stripes-components/lib/Modal';
 // Components and Pages
-import FiscalYearPane from './FiscalYearPane';
+// import FiscalYearPane from './FiscalYearPane'
 
-const INITIAL_RESULT_COUNT = 30;
-const RESULT_COUNT_INCREMENT = 30;
+const contentData = [
+  {
+    id: 1,
+    name: 'Item 1',
+  },
+  {
+    id: 2,
+    name: 'Item 2',
+  }
+];
 
 class FiscalYear extends Component {
   static propTypes = {
@@ -41,13 +51,21 @@ class FiscalYear extends Component {
 
     this.transitionToParams = transitionToParams.bind(this);
     this.addFiscalYear = this.addFiscalYear.bind(this);
-    this.handleSubmit2 = this.handleSubmit2.bind(this);
+    this.onSelectRow = this.onSelectRow.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
+    this.handleClose = this.handleClose.bind(this)
   }
+
+  handleUpdate(){}
+  handleDelete(){}
+  handleCreate(){}
 
   
   addFiscalYear() {
     return (<PaneMenu>
-      <Button id={'create-fical-year'} title={'create-fical-year'} onClick={this.gotoAddFiscalYear}>Add Fiscal Year</Button>
+      <Button id={'create-fical-year'} title={'create-fical-year'} onClick={this.gotoAddFiscalYear}>Create Fiscal Year</Button>
     </PaneMenu>);
   }
 
@@ -57,38 +75,49 @@ class FiscalYear extends Component {
 
   render() {
     const props = this.props;
-    const records = (props.resources || {}).fiscalYear || [];
-
+    const records = (props.parentResources || {}).fiscalYear.records || [];
+    const editButton = {button:'this is a button'};
     return (
-      <Row>
-        <Col xs={8} style={{ margin: "0 auto" }}>
-          <div style={{ border: '1px solid #dcdcdc', marginBottom: '10px' }}>
-            <Paneset>
-              <Pane defaultWidth="100%" paneTitle="Fiscal Year Listing" lastMenu={this.addFiscalYear()}>
-                <MultiColumnList
-                  // autosize
-                  // virtualize
-                  id={`list-fiscal-years-multilist`}
-                  // contentData={records}
-                  // selectedRow={this.state.selectedRow}
-                  // onRowClick={this.onSelectRow}
-                  // onHeaderClick={this.onHeaderClick}
-                  visibleColumns={['name']}
-                  // sortedColumn={sortBy}
-                  // sortDirection={sortOrder + 'ending'}
-                  // panePreloader={listPreloaderStatus}
-                  // onNeedMoreData={this.onNeedMore}
-                  // loading={loader()}
-                  loading={false}
+      <Modal dismissible closeOnBackgroundClick open label="example">
+        <button onClick={this.handleClose}>Close modal</button>
+        <Row>
+          <Col xs={8} style={{ margin: "0 auto" }}>
+            <div style={{ border: '1px solid #dcdcdc', marginBottom: '10px' }}>
+              <Paneset>
+                <Pane defaultWidth="100%" paneTitle="Fiscal Year Listing" lastMenu={this.addFiscalYear()}>
+                  <MultiColumnList
+                    // autosize
+                    // virtualize
+                    id={`list-fiscal-years-multilist`}
+                    contentData={records}
+                    // selectedRow={this.state.selectedRow}
+                    onRowClick={()=> {return false;}}
+                    // onHeaderClick={this.onHeaderClick}
+                    visibleColumns={['name', 'code', 'description']}
+                    // sortedColumn={sortBy}
+                    // sortDirection={sortOrder + 'ending'}
+                    // panePreloader={listPreloaderStatus}
+                    // onNeedMoreData={this.onNeedMore}
+                    // loading={loader()}
+                    loading={false}
+                  />
+                </Pane>
+              </Paneset>
+              <Pane defaultWidth="100%" paneTitle="Add Fiscal Year">
+                <EditableList
+                  contentData={records}
+                  createButtonLabel="+ Add new"
+                  visibleFields={['id', 'name']}
+                  onUpdate={this.handleUpdate}
+                  onDelete={this.handleDelete}
+                  onCreate={this.handleCreate}
+                  actionSuppression={{ delete: () => false, edit: () => false }}
                 />
               </Pane>
-            </Paneset>
-            <Pane defaultWidth="100%" paneTitle="Add Fiscal Year">
-              <FiscalYearPane {...this.props} />
-            </Pane>
-          </div>
-        </Col>
-      </Row>
+            </div>
+          </Col>
+        </Row>
+      </Modal>
     )
   }
 
@@ -97,14 +126,12 @@ class FiscalYear extends Component {
     console.log("add fiscal year");
   }
 
-  // handleSubmit2(records) {
-  //   console.log(records);
-  // }
+  onSelectRow() {
+    console.log('row selected');
+  }
 
-  handleSubmit2 = (ledgerdata) => {
-    const { mutator } = this.props;
-    mutator.records.POST(ledgerdata);
-    // console.log(ledgerdata);
+  handleClose() {
+    console.log('row selected');
   }
 }
 

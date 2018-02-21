@@ -15,8 +15,6 @@ import packageInfo from '../../../package';
 import css from './css/Ledger.css';
 import LedgerPane from './LedgerPane';
 import LedgerView from './LedgerView';
-import LedgerAndFiscalYear from './LedgerAndFiscalYear';
-import { FiscalYearPane } from '../FiscalYear';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -35,7 +33,7 @@ const filterConfig = [
 ];
 
 class Ledger extends Component {
-  static manifest = Object.freeze({
+static manifest = Object.freeze({
     query: {
       initialValue: {
         query: '',
@@ -160,11 +158,12 @@ class Ledger extends Component {
   create = (ledgerdata) => {
     const { mutator } = this.props;
     mutator.records.POST(ledgerdata);
-    // console.log(ledgerdata);
   }
 
   render() {
     const props = this.props;
+    // console.log(props);
+    
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
@@ -187,7 +186,7 @@ class Ledger extends Component {
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={LedgerView}
           onCreate={this.create}
-          editRecordComponent={LedgerAndFiscalYear}
+          editRecordComponent={LedgerPane}
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}

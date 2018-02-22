@@ -10,6 +10,8 @@ import stripesForm from '@folio/stripes-form';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
+import { connect } from 'react-redux';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 // Components and Pages
 import LedgerForm from './LedgerForm';
 
@@ -22,10 +24,13 @@ class LedgerPane extends Component {
     onRemove: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    parentResources: PropTypes.object,
+    parentMutator: PropTypes.object
   }
   
   constructor(props) {
     super(props);
+    this.getFiscalYears = this.getFiscalYears.bind(this);
   }
 
   getAddFirstMenu() {
@@ -57,8 +62,8 @@ class LedgerPane extends Component {
   }
 
   render() {
-    const { initialValues } = this.props;
     // console.log(this.props);
+    const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create ledger';
     const lastMenu = initialValues.id ?
@@ -68,11 +73,31 @@ class LedgerPane extends Component {
       <form id="form-ledger">
         <Paneset>
           <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-            <LedgerForm {...this.props} />
+            <LedgerForm dropdown_fiscalyears_array={this.getFiscalYears()} {...this.props} />
           </Pane>
         </Paneset>
       </form>
     )
+  }
+  
+  getFiscalYears() {
+    let newArr = [];
+    const fiscalRecords = (this.props.parentResources || {}).fiscalYear.records || [];
+    const arrLength = fiscalRecords.length - 1;
+    if (fiscalRecords != null) {
+      Object.keys(fiscalRecords).map((key) => {
+        let name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
+        let val = fiscalRecords[key].id;
+        newArr.push({
+          label: name.toString(),
+          value: val.toString()
+        });
+        if (Number(key) === arrLength) {
+          return newArr;
+        }
+      });
+    }
+    return newArr;
   }
 }
 

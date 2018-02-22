@@ -28,6 +28,7 @@ import {FiscalYear} from '../FiscalYear';
 class LedgerForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
+    // dropdown_fiscalyears: PropTypes.array
   }
 
   constructor(props) {
@@ -47,17 +48,20 @@ class LedgerForm extends Component {
     }
 
     this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
-    this.renderList = this.renderList.bind(this);
-    this.renderForms = this.renderForms.bind(this);
-    this.renderSubForm = this.renderSubForm.bind(this);
-    this.renderField = this.renderField.bind(this);
   }
 
   render() {
+    // const dropdown_fiscalyears = [{ label: "arvind", value: "f87ccffe-e77c-422c-b706-c8ac5238cd2e" }, { label: "aika", value: "7d28284c-5555-45c8-98b1-a9fd60910e3f" }];
+    // const getFiscalYeaStatus = (this.props.parentResources || {}).fiscalYear.hasLoaded || false;
+    const newRecords = this.props.dropdown_fiscalyears_array !== null ? true :  false;
+    // this.setState({ newRecords });
+    // console.log(typeof dropdown_fiscalyears);
+    console.log(this.props);
     return (
       <div>
         <Row>
           <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
+            
             <Row>
               <Col xs={12} md={6}>
                 <Col xs={12}>
@@ -108,17 +112,14 @@ class LedgerForm extends Component {
             </Row>
             <Col xs={12}>
               <h4>Fiscal Year</h4>
-              <Dropdown id="AddFiscalYearDropdown" open={this.state.fiscalYearDD} onToggle={this.onToggleAddFiscalYearDD} group style={{ float: 'right' }} pullRight>
-                <Button data-role="toggle" align="end" aria-haspopup="true" >
-                  &#43; Add Permission
-                </Button>
-                <DropdownMenu data-role="menu" aria-label="available fiscal year" onToggle={this.onToggleAddFiscalYearDD}>
-                  <FieldArray label="Fiscal Year" name="fiscal_year" id="fiscal_year" component={this.renderList} />
-                </DropdownMenu>
-              </Dropdown>
-            </Col>
-            <Col xs={12}>
-              <FieldArray label="Fiscal Year" name="fiscal_year" id="fiscal_year" component={this.renderForms} />
+              {
+                newRecords ? (
+                  <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={this.props.dropdown_fiscalyears_array} style={{ height: '100px', width: '100%' }}  />
+                ) : (
+                  <p>"No fiscal year available"</p>
+                )
+              }
+              
             </Col>
           </Col>
         </Row>
@@ -127,62 +128,11 @@ class LedgerForm extends Component {
   }
 
   onToggleAddFiscalYearDD() {
-    console.log(this.state.fiscalYearDD);
     if (this.state.fiscalYearDD === true) {
       this.setState({ fiscalYearDD: false });
     } else {
       this.setState({ fiscalYearDD: true });
     }
-  }
-
-  renderList = ({ fields }) => {
-    const props = this.props;
-    const records = (props.parentResources || {}).fiscalYear.records || [];
-    const itemFormatter = (item, index) => (
-      <li key={index}><a href="javascript:void(0)" onClick={() => {
-        fields.push({ ...item });
-      }}>{item.name}</a></li>
-    );
-    const isEmptyMessage = 'No items to show';
-      return (
-      <List
-        items={records}
-        itemFormatter={itemFormatter}
-        isEmptyMessage={isEmptyMessage}
-      />
-    )
-  }
-
-  renderForms = ({ fields }) => {
-    return (
-      <Row>
-        <Col xs={12}>
-          {fields.map(this.renderSubForm)}
-        </Col>
-      </Row>
-    )
-  }
-
-  // <Col xs={12} md={4}>
-  //   <Field label="name" className={css.readonlyInput} name={`${elem}.name`} id={`${elem}.name`} component={TextField} disabled readonly fullWidth />
-  // </Col>
-  // <Col xs={12} md={4}>
-  //   <Field label="description" className={css.readonlyInput} name={`${elem}.description`} id={`${elem}.description`} component={TextField} disabled readonly fullWidth />
-  // </Col>
-  // <Col xs={12} md={4}>
-  // <Field label="Code" className={css.readonlyInput} name={`${elem}.code`} id={`${elem}.code`} component={TextField} disabled readonly fullWidth />
-  // </Col>
-
-  renderSubForm = (elem, index, fields) => {
-    return (
-      <Row key={index}>
-        <Col xs={12} md={2}>
-          <Button onClick={() => fields.remove(index)} buttonStyle="error" style={{ width: '100%', marginTop: '18px' }}>
-            Remove
-          </Button>
-        </Col>
-      </Row>
-    );
   }
 }
 

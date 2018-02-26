@@ -157,20 +157,25 @@ static manifest = Object.freeze({
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
-    mutator.records.POST(ledgerdata);
+    mutator.records.POST(ledgerdata).then(newLedger => {
+      mutator.query.update({
+        _path: `/finance/view/${newLedger.id}`,
+        layer: null
+      });
+    })
   }
 
   render() {
     const props = this.props;
     // console.log(props);
-    
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.get(data, ['code'], ''),
       'Description': data => _.get(data, ['description'], ''),
       'Period Start': data => _.get(data, ['period_start'], ''),
-      'Period End': data => _.get(data, ['period_end'], '')
+      'Period End': data => _.get(data, ['period_end'], ''),
+      'Fiscal Year': data => _.get(data, ['fiscal_year'], '')
     }
     const urlQuery = queryString.parse(this.props.location.search || '');
     return (
@@ -181,7 +186,7 @@ static manifest = Object.freeze({
           objectName="ledger"
           baseRoute={'/finance'}
           filterConfig={filterConfig}
-          visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
+          visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End', 'Fiscal Year']}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={LedgerView}

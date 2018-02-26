@@ -71,15 +71,15 @@ class LedgerForm extends Component {
                   <Field label="Code" name="code" id="code" component={TextField} fullWidth />
                 </Col>
                 <Col xs={12}>
-                  <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} />
+                  <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} disabled />
                 </Col>  
               </Col>
               <Col xs={12} md={6}>
                 <Col xs={12}>
-                  <Field label="Status" name="status" id="status" component={Select} fullWidth dataOptions={this.state.status_dd} />
+                  <Field label="Status" name="status" id="status" component={Select} fullWidth dataOptions={this.state.status_dd} disabled />
                 </Col>  
                 <Col xs={12}>
-                  <Field label="Tags" name="tags" id="tags" component={TextField} fullWidth />
+                  <Field label="Tags" name="tags" id="tags" component={TextField} fullWidth disabled />
                 </Col>
                 <Col xs={12}>
                   <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
@@ -90,37 +90,41 @@ class LedgerForm extends Component {
               </Col>   
               <Col xs={12} md={6}>
                 <Col xs={12}>
-                  <Field label="Allowable Encumbrance" name="allowable_encumbrance" id="allowable_encumbrance" component={TextField} fullWidth />
+                  <Field label="Allowable Encumbrance" name="allowable_encumbrance" id="allowable_encumbrance" component={TextField} fullWidth disabled />
                 </Col>
                 <Col xs={12}>
-                  <Field label="Allowable Expenditure:" name="allowable_expenditure" id="allowable_expenditure" component={TextField} fullWidth />
+                  <Field label="Allowable Expenditure:" name="allowable_expenditure" id="allowable_expenditure" component={TextField} fullWidth disabled />
                 </Col>
               </Col>
               <Col xs={12} md={6}>
-                <Row>
-                  <Col xs={12} md={6} className={css.dateInputFix}>
-                    <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
-                  </Col>
-                  <Col xs={12} md={6} className={css.dateInputFix}>
-                    <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
-                  </Col>
-                </Row>
                 <Col xs={12} className={css.checkbox}>
-                  <Field label="Freeze Activity" name='freeze_activity' id='freeze_activity' component={Checkbox} />
+                  <Field label="Freeze Activity" name='freeze_activity' id='freeze_activity' component={Checkbox} disabled />
                 </Col>
               </Col>
             </Row>
-            <Col xs={12}>
-              <h4>Fiscal Year</h4>
-              {
-                newRecords ? (
-                  <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={this.props.dropdown_fiscalyears_array} style={{ height: '100px', width: '100%' }}  />
-                ) : (
-                  <p>"No fiscal year available"</p>
-                )
-              }
-              
-            </Col>
+            <Row>
+              <Col xs={12}>
+                <h4>Fiscal Year Period</h4>
+              </Col>
+              <Col xs={12} md={6} className={css.dateInputFix}>
+                <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
+              </Col>
+              <Col xs={12} md={6} className={css.dateInputFix}>
+                <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
+              </Col>
+              <Col xs={12}>
+                <h4>Fiscal Year Label</h4>
+              </Col>
+              <Col xs={12}>
+                {
+                  newRecords ? (
+                    <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={this.props.dropdown_fiscalyears_array} style={{ height: '150px', width: '100%' }} />
+                  ) : (
+                      <p>"No fiscal year available"</p>
+                    )
+                }
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>

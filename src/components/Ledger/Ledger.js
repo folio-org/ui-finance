@@ -167,6 +167,7 @@ static manifest = Object.freeze({
 
   render() {
     const props = this.props;
+    const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     // console.log(props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
@@ -190,6 +191,7 @@ static manifest = Object.freeze({
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={LedgerView}
+          onSelectRow={onSelectRow}
           onCreate={this.create}
           editRecordComponent={LedgerPane}
           newRecordInitialValues={{}}

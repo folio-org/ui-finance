@@ -59,7 +59,7 @@ class LedgerForm extends Component {
     console.log(this.props);
     return (
       <div>
-        <Row>
+        <Row> 
           <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
             
             <Row>

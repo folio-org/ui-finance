@@ -21,6 +21,7 @@ import stripes from "@folio/stripes-connect";
 import { Dropdown } from '@folio/stripes-components/lib/Dropdown';
 import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
 import List from '@folio/stripes-components/lib/List';
+import IfPermission from '@folio/stripes-components/lib/IfPermission';
 // Components and Pages
 import css from './css/LedgerForm.css';
 import {FiscalYear} from '../FiscalYear';
@@ -28,7 +29,7 @@ import {FiscalYear} from '../FiscalYear';
 class LedgerForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    // dropdown_fiscalyears: PropTypes.array
+    deleteLedger: PropTypes.func
   }
 
   constructor(props) {
@@ -51,17 +52,13 @@ class LedgerForm extends Component {
   }
 
   render() {
-    // const dropdown_fiscalyears = [{ label: "arvind", value: "f87ccffe-e77c-422c-b706-c8ac5238cd2e" }, { label: "aika", value: "7d28284c-5555-45c8-98b1-a9fd60910e3f" }];
-    // const getFiscalYeaStatus = (this.props.parentResources || {}).fiscalYear.hasLoaded || false;
+    const { initialValues } = this.props;
+    const showDeleteButton = initialValues.id ? true : false;
     const newRecords = this.props.dropdown_fiscalyears_array !== null ? true :  false;
-    // this.setState({ newRecords });
-    // console.log(typeof dropdown_fiscalyears);
-    console.log(this.props);
     return (
       <div>
         <Row> 
           <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
-            
             <Row>
               <Col xs={12} md={6}>
                 <Col xs={12}>
@@ -125,6 +122,16 @@ class LedgerForm extends Component {
                 }
               </Col>
             </Row>
+            <IfPermission perm="ledger.item.delete">
+              <Row end="xs">
+                <Col xs={12}>
+                  {
+                    showDeleteButton &&
+                    <Button type="button" onClick={() => { this.props.deleteLedger(initialValues.id) }}>Remove</Button>
+                  }
+                 </Col>
+              </Row>
+            </IfPermission>
           </Col>
         </Row>
       </div>

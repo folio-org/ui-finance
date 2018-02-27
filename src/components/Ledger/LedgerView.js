@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 // Components and Pages
 import Layer from '@folio/stripes-components/lib/Layer';
 import Pane from '@folio/stripes-components/lib/Pane';
@@ -18,6 +19,7 @@ import LedgerPane from './LedgerPane';
 class LedgerView extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
+    onCloseEdit: PropTypes.func,
     parentResources: PropTypes.shape({}),
     parentMutator: PropTypes.shape({}),
   }
@@ -26,12 +28,11 @@ class LedgerView extends Component {
     super(props);
     this.getData = this.getData.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
+    this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
   }
 
   render() {
-    console.log(this.props);
     const initialValues = this.getData();
-    const fiscalYears = initialValues !== null ? initialValues.fiscal_years : [];
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
       <IfPermission perm="ledger.item.put">
@@ -45,6 +46,15 @@ class LedgerView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
+
+    if (!initialValues) {
+      return (
+        <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+        </Pane>
+      );
+    }
+
     return (
       <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
@@ -61,15 +71,15 @@ class LedgerView extends Component {
             <KeyValue label="period end" value={_.get(initialValues, ['period_end'], '')} />
           </Col>
           <Col xs={12}>
-            <KeyValue label="Fiscal Year" value={fiscalYears.map((e, i) => this.getFiscalYears(e, i))} />
+            <KeyValue label="Fiscal Year" value={initialValues.fiscal_years.map((e, i) => this.getFiscalYears(e, i))} />
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">
-          <LedgerPane
-            stripes={stripes}
+          <this.connectedLedgerPane
+            stripes={this.props.stripes}
             initialValues={initialValues}
-            // onSubmit={(record) => { this.update(record); }}
-            // onCancel={this.props.onCloseEdit}
+            onSubmit={(record) => { this.update(record); }}
+            onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
           />
@@ -84,7 +94,7 @@ class LedgerView extends Component {
     if (!ledgers || ledgers.length === 0 || !id) return null;
     // Logging below shows this DOES sometimes find the wrong record. But why?
     // console.log(`getUser: found ${ledgers.length} users, id '${ledgers[0].id}' ${ledgers[0].id === id ? '==' : '!='} '${id}'`);
-    return ledgers.find(u => u.id === id);
+    return ledgers.find(u => u.id === id);  
   }
 
   getFiscalYears = (e, i) => {
@@ -97,6 +107,12 @@ class LedgerView extends Component {
     return (
       <p key={i}>{_.get(data, ['code'], '')}, {_.get(data, ['name'], '')}, {_.get(data, ['description'], '')}</p>
     )
+  }
+
+  update(ledgerdata) {
+    this.props.parentMutator.records.PUT(ledgerdata).then(() => {
+      this.props.onCloseEdit();
+    });
   }
 }
 

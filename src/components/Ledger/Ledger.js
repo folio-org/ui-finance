@@ -203,6 +203,7 @@ static manifest = Object.freeze({
           parentResources={props.resources}
           parentMutator={props.mutator}
           detailProps={this.props.stripes}
+          onComponentWillUnmount={this.props.onComponentWillUnmount}
         />
       </div>
     )

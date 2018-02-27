@@ -31,6 +31,7 @@ class LedgerPane extends Component {
   constructor(props) {
     super(props);
     this.getFiscalYears = this.getFiscalYears.bind(this);
+    this.deleteLedger = this.deleteLedger.bind(this);
   }
 
   getAddFirstMenu() {
@@ -65,18 +66,17 @@ class LedgerPane extends Component {
     // console.log(this.props);
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span><Icon icon="edit" iconRootClass={css.UserFormEditIcon} />Edit: {getFullName(initialValues)}</span> : 'Create ledger';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create ledger';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updateledger', 'Update ledger') :
       this.getLastMenu('clickable-createnewledger', 'Create ledger');
+
     return (
-      <Paneset>
+      <form id="form-ledger">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <form id="form-ledger">
-            <LedgerForm dropdown_fiscalyears_array={this.getFiscalYears()} {...this.props} />
-          </form>
+          <LedgerForm dropdown_fiscalyears_array={this.getFiscalYears()} {...this.props} deleteLedger={this.deleteLedger} />
         </Pane>
-      </Paneset>
+      </form>
     )
   }
   
@@ -98,6 +98,16 @@ class LedgerPane extends Component {
       });
     }
     return newArr;
+  }
+
+  deleteLedger(ID) {
+    const { parentMutator } = this.props;
+    parentMutator.records.DELETE({ id: ID }).then(() => {
+      parentMutator.query.update({
+        _path: `/finance`,
+        layer: null
+      });
+    });
   }
 }
 

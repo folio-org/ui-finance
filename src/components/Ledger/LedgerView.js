@@ -13,6 +13,7 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import LedgerPane from './LedgerPane';
 
 class LedgerView extends Component {
   static propTypes = {
@@ -31,6 +32,7 @@ class LedgerView extends Component {
     console.log(this.props);
     const initialValues = this.getData();
     const fiscalYears = initialValues !== null ? initialValues.fiscal_years : [];
+    const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
       <IfPermission perm="ledger.item.put">
         <IconButton
@@ -62,6 +64,16 @@ class LedgerView extends Component {
             <KeyValue label="Fiscal Year" value={fiscalYears.map((e, i) => this.getFiscalYears(e, i))} />
           </Col>
         </Row>
+        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">
+          <LedgerPane
+            stripes={stripes}
+            initialValues={initialValues}
+            // onSubmit={(record) => { this.update(record); }}
+            // onCancel={this.props.onCloseEdit}
+            parentResources={this.props.parentResources}
+            parentMutator={this.props.parentMutator}
+          />
+        </Layer>
       </Pane>
     )
   }

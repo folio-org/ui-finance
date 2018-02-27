@@ -70,13 +70,13 @@ class LedgerPane extends Component {
       this.getLastMenu('clickable-updateledger', 'Update ledger') :
       this.getLastMenu('clickable-createnewledger', 'Create ledger');
     return (
-      <form id="form-ledger">
-        <Paneset>
-          <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
+      <Paneset>
+        <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
+          <form id="form-ledger">
             <LedgerForm dropdown_fiscalyears_array={this.getFiscalYears()} {...this.props} />
-          </Pane>
-        </Paneset>
-      </form>
+          </form>
+        </Pane>
+      </Paneset>
     )
   }
   

@@ -33,7 +33,7 @@ const filterConfig = [
 ];
 
 class Ledger extends Component {
-static manifest = Object.freeze({
+  static manifest = Object.freeze({
     query: {
       initialValue: {
         query: '',
@@ -45,6 +45,7 @@ static manifest = Object.freeze({
     resultCountFiscalYear: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
+      clear: true,
       records: 'ledgers',
       recordsRequired: '%{resultCount}',
       path: 'ledger',
@@ -159,16 +160,20 @@ static manifest = Object.freeze({
     const { mutator } = this.props;
     mutator.records.POST(ledgerdata).then(newLedger => {
       mutator.query.update({
-        _path: `/finance/view/${newLedger.id}`,
+        _path: `/finance/ledger/view/${newLedger.id}`,
         layer: null
       });
     })
   }
 
+  componentWillMount() {
+    this.props.handleActivate({ id: 'ledger' });
+  }
+
   render() {
+    console.log("ledger.js");
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
-    // console.log(props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
@@ -176,35 +181,39 @@ static manifest = Object.freeze({
       'Description': data => _.get(data, ['description'], ''),
       'Period Start': data => _.get(data, ['period_start'], ''),
       'Period End': data => _.get(data, ['period_end'], ''),
-      'Fiscal Year': data => _.get(data, ['fiscal_year'], '')
+      // 'Fiscal Year': data => _.get(data, ['fiscal_years'], '')
     }
+    const getRecords = (this.props.resources || {}).records || [];
     const urlQuery = queryString.parse(this.props.location.search || '');
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
-        <SearchAndSort
-          moduleName={packageInfo.name.replace(/.*\//, '')}
-          moduleTitle={'ledger'}
-          objectName="ledger"
-          baseRoute={'/finance'}
-          filterConfig={filterConfig}
-          visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End', 'Fiscal Year']}
-          resultsFormatter={resultsFormatter}
-          initialFilters={this.constructor.manifest.query.initialValue.filters}
-          viewRecordComponent={LedgerView}
-          onSelectRow={onSelectRow}
-          onCreate={this.create}
-          editRecordComponent={LedgerPane}
-          newRecordInitialValues={{}}
-          initialResultCount={INITIAL_RESULT_COUNT}
-          resultCountIncrement={RESULT_COUNT_INCREMENT}
-          finishedResourceName="perms"
-          viewRecordPerms="ledger.item.get"
-          newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
-          detailProps={this.props.stripes}
-          onComponentWillUnmount={this.props.onComponentWillUnmount}
-        />
+        {
+          getRecords  &&
+          <SearchAndSort
+            moduleName={packageInfo.name.replace(/.*\//, '')}
+            moduleTitle={'ledger'}
+            objectName="ledger"
+            baseRoute={`${this.props.match.path}`}
+            filterConfig={filterConfig}
+            visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
+            resultsFormatter={resultsFormatter}
+            initialFilters={this.constructor.manifest.query.initialValue.filters}
+            viewRecordComponent={LedgerView}
+            onSelectRow={onSelectRow}
+            onCreate={this.create}
+            editRecordComponent={LedgerPane}
+            newRecordInitialValues={{}}
+            initialResultCount={INITIAL_RESULT_COUNT}
+            resultCountIncrement={RESULT_COUNT_INCREMENT}
+            finishedResourceName="perms"
+            viewRecordPerms="ledger.item.get"
+            newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
+            parentResources={props.resources}
+            parentMutator={props.mutator}
+            detailProps={this.props.stripes}
+            onComponentWillUnmount={this.props.onComponentWillUnmount}
+          />
+        }
       </div>
     )
   }

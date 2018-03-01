@@ -22,14 +22,16 @@ import { Required } from '../../Utils/Validate';
 class FiscalYearForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
+    deleteFiscalYear: PropTypes.func
   }
 
   constructor(props) {
     super(props);
-    console.log(this.props);
   }
 
   render() {
+    const showDeleteButton = initialValues.id ? true : false;
+    
     return (
       <div className={css.FiscalYearForm}>
         <Row>
@@ -43,6 +45,16 @@ class FiscalYearForm extends Component {
             <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
           </Col>
         </Row>
+        <IfPermission perm="ledger.item.delete">
+          <Row end="xs">
+            <Col xs={12}>
+              {
+                showDeleteButton &&
+                <Button type="button" onClick={() => { this.props.deleteFiscalYear(initialValues.id) }}>Remove</Button>
+              }
+            </Col>
+          </Row>
+        </IfPermission>
       </div>
     ) 
   }

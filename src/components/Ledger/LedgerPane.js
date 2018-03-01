@@ -104,7 +104,7 @@ class LedgerPane extends Component {
     const { parentMutator } = this.props;
     parentMutator.records.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
-        _path: `/finance`,
+        _path: `/finance/ledger`,
         layer: null
       });
     });

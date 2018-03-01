@@ -14,8 +14,8 @@
   "stripes": {
     "type": "app",
     "displayName": "ui-finance",
-    "route": "/finance",
-    "home": "/finance",
+    "route": "/finance/ledger",
+    "home": "/finance/ledger",
     "hasSettings": true,
     "queryResource": "query"
   },

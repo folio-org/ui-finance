@@ -61,7 +61,7 @@ class FiscalYearPane extends Component {
   }
 
   render() {
-    const { pristine, submitting, handleSubmit } = this.props;
+    const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create fiscal year';
     const lastMenu = initialValues.id ?
@@ -99,9 +99,6 @@ export default stripesForm({
   navigationCheck: true,
   enableReinitialize: true,
 })(FiscalYearPane);
-
-
-
 
 
 // onCreate(records) {

@@ -39,7 +39,6 @@ class FiscalYear extends Component {
     resultCountLedger: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
-      clear: true,
       records: 'fiscal_years',
       recordsRequired: '%{resultCount}',
       path: 'fiscal_year',
@@ -134,36 +133,32 @@ class FiscalYear extends Component {
       'Code': data => _.toString(_.get(data, ['code'], '')),
       'Description': data => _.get(data, ['description'], '')
     }
-    const is_rightPath = this.props.match.path === "/finance/fiscalyear" ? true : false;
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
-        {
-          is_rightPath &&
-          <SearchAndSort
-            moduleName={'fiscal_year'}
-            moduleTitle={'fiscal_year'}
-            objectName="fiscal_year"
-            baseRoute={`${this.props.match.path}`}
-            filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Description']}
-            resultsFormatter={resultsFormatter}
-            initialFilters={this.constructor.manifest.query.initialValue.filters}
-            viewRecordComponent={FiscalYearView}
-            onSelectRow={onSelectRow}
-            onCreate={this.create}
-            editRecordComponent={FiscalYearPane}
-            newRecordInitialValues={{}}
-            initialResultCount={INITIAL_RESULT_COUNT}
-            resultCountIncrement={RESULT_COUNT_INCREMENT}
-            finishedResourceName="perms"
-            viewRecordPerms="fiscal_year.item.get"
-            newRecordPerms="fiscal_year.item.post,login.item.post,perms.fiscal_year.item.post"
-            parentResources={props.resources}
-            parentMutator={props.mutator}
-            detailProps={this.props.stripes}
-            onComponentWillUnmount={this.props.onComponentWillUnmount}
-          />
-        }
+        <SearchAndSort
+          moduleName={'fiscal_year'}
+          moduleTitle={'fiscal_year'}
+          objectName="fiscal_year"
+          baseRoute={`${this.props.match.path}`}
+          filterConfig={filterConfig}
+          visibleColumns={['Name', 'Code', 'Description']}
+          resultsFormatter={resultsFormatter}
+          initialFilters={this.constructor.manifest.query.initialValue.filters}
+          viewRecordComponent={FiscalYearView}
+          onSelectRow={onSelectRow}
+          onCreate={this.create}
+          editRecordComponent={FiscalYearPane}
+          newRecordInitialValues={{}}
+          initialResultCount={INITIAL_RESULT_COUNT}
+          resultCountIncrement={RESULT_COUNT_INCREMENT}
+          finishedResourceName="perms"
+          viewRecordPerms="fiscal_year.item.get"
+          newRecordPerms="fiscal_year.item.post,login.item.post,perms.fiscal_year.item.post"
+          parentResources={props.resources}
+          parentMutator={props.mutator}
+          detailProps={this.props.stripes}
+          onComponentWillUnmount={this.props.onComponentWillUnmount}
+        />
       </div>
     )
   }

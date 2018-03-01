@@ -15,6 +15,8 @@ import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
+import List from '@folio/stripes-components/lib/List';
+import IfPermission from '@folio/stripes-components/lib/IfPermission';
 // Components and Utils
 import css from './css/FiscalYearForm.css';
 import { Required } from '../../Utils/Validate';
@@ -30,6 +32,7 @@ class FiscalYearForm extends Component {
   }
 
   render() {
+    const { initialValues } = this.props;
     const showDeleteButton = initialValues.id ? true : false;
     
     return (

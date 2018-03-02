@@ -31,9 +31,9 @@ class Main extends Component {
       activeTab: id,
     });
     if (id === 'ledger') {
-      this.props.history.push(`/finance/ledger`);
+      this.props.history.push(`${this.props.match.path}/ledger`);
     } else {
-      this.props.history.push(`/finance/${id}`);
+      this.props.history.push(`${this.props.match.path}/${id}`);
     }
   }
   

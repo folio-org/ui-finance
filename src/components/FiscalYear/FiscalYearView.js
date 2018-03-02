@@ -67,7 +67,7 @@ class FiscalYearView extends Component {
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
           </Col>
         </Row>
-        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">
+        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Fiscal Year Dialog">
           <this.connectedFiscalYearPane
             stripes={this.props.stripes}
             initialValues={initialValues}

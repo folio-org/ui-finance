@@ -36,7 +36,7 @@ class FiscalYearPane extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewuserdialog" onClick={onCancel} title="close" aria-label="Close New User Dialog">
+        <button id="clickable-closenewfiscalyeardialog" onClick={onCancel} title="close" aria-label="Close New Fiscal Year Dialog">
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
         </button>
       </PaneMenu>
@@ -99,15 +99,3 @@ export default stripesForm({
   navigationCheck: true,
   enableReinitialize: true,
 })(FiscalYearPane);
-
-
-// onCreate(records) {
-//   console.log(records);
-//   const { parentMutator } = this.props;
-//   // parentMutator.fiscalYear.POST(records);
-// }
-
-// onEdit(records) {
-//   const { parentMutator } = this.props;
-//   parentMutator.fiscalYear.PUT(ledgerdata);
-// }

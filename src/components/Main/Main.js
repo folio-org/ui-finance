@@ -9,7 +9,7 @@ import Button from '@folio/stripes-components/lib/Button';
 // Components and Pages
 import Ledger from '../Ledger';
 import FiscalYear from '../FiscalYear/FiscalYear';
-// import Fund from '../Fund';
+import Fund from '../Fund/Fund';
 // import Budget from '../Budget';
 import css from './Main.css';
 
@@ -21,9 +21,9 @@ class Main extends Component {
     }
     this.connectedLedger = props.stripes.connect(Ledger);
     this.connectedFiscalYear = props.stripes.connect(FiscalYear);
-    this.handleActivate = this.handleActivate.bind(this);
-    // this.connectedFund = props.stripes.connect(Fund);
+    this.connectedFund = props.stripes.connect(Fund);
     // this.connectedBudget = props.stripes.connect(Budget);
+    this.handleActivate = this.handleActivate.bind(this);
   }
 
   handleActivate({ id }) {
@@ -70,28 +70,18 @@ class Main extends Component {
               {...props} />
             }
           />
+          <Route
+            path={`${this.props.match.path}/fund`}
+            render={props => <this.connectedFund
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
           <Redirect exact from={`${this.props.match.path}`} to={`${this.props.match.path}/ledger`} />
         </Switch>
-        {/* <Redirect from={`${this.props.match.path}`} to={`${this.props.match.path}/ledger`} /> */}
-        {/*
-        <Route
-          path={`${this.props.match.path}/fund`}
-          render={props => <this.connectedLedger
-            stripes={this.props.stripes}
-            mutator={this.props.mutator}
-            resources={this.props.resources}
-            {...props} />
-          }
-        />
-        <Route
-          path={`${this.props.match.path}/budget`}
-          render={props => <this.connectedLedger
-            stripes={this.props.stripes}
-            mutator={this.props.mutator}
-            resources={this.props.resources}
-            {...props} />
-          }
-        /> */}
       </div>
     )
   }

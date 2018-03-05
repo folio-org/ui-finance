@@ -123,7 +123,6 @@ class FiscalYear extends Component {
   }
 
   render() {
-    console.log("ledger.js");
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     console.log(props);
@@ -162,29 +161,6 @@ class FiscalYear extends Component {
       </div>
     )
   }
-
-  // handleCreate(data){
-  //   const { mutator } = this.props;
-  //   mutator.fiscalYear.POST(data);
-  // }
-  // handleUpdate(data){
-  //   const { mutator } = this.props;
-  //   mutator.fiscalYear.PUT(data);
-  // }
-  // handleDelete(ID){
-  //   const { mutator } = this.props;
-  //   mutator.query.update({ fiscalyearID: ID }, this.deleteFiscalYear(ID));
-  // }
-  // deleteFiscalYear(ID) {
-    // const { mutator, resources } = this.props;
-    // const ledger = (resources || {}).ledger.records || [];
-    // if (!ledger || ledger.length > 0) {
-    //   return false;
-    // } else {
-    //   mutator.fiscalYear.DELETE({ id:ID });
-    // }
-    // return false;
-  // }
 }
 
 export default FiscalYear;

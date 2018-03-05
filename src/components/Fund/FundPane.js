@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
@@ -10,12 +11,10 @@ import stripesForm from '@folio/stripes-form';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
-import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
 // Components and Pages
-import LedgerForm from './LedgerForm';
+import FundForm from './FundForm';
 
-class LedgerPane extends Component {
+class FundPane extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
@@ -27,18 +26,17 @@ class LedgerPane extends Component {
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object
   }
-  
+
   constructor(props) {
     super(props);
-    this.getFiscalYears = this.getFiscalYears.bind(this);
-    this.deleteLedger = this.deleteLedger.bind(this);
+    this.deleteFund = this.deleteFund.bind(this);
   }
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Ledger Dialog">
+        <button id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Fund Dialog">
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
         </button>
       </PaneMenu>
@@ -63,48 +61,26 @@ class LedgerPane extends Component {
   }
 
   render() {
-    // console.log(this.props);
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create ledger';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create fund';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updateledger', 'Update ledger') :
-      this.getLastMenu('clickable-createnewledger', 'Create ledger');
-
+      this.getLastMenu('clickable-updatefund', 'Update fund') :
+      this.getLastMenu('clickable-createnewfund', 'Create fund');
     return (
-      <form id="form-ledger">
+      <form id="form-fund">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <LedgerForm dropdown_fiscalyears_array={this.getFiscalYears()} {...this.props} deleteLedger={this.deleteLedger} />
+          <FundForm {...this.props} {...this.props} deleteFund={this.deleteFund} />
         </Pane>
       </form>
     )
   }
-  
-  getFiscalYears() {
-    let newArr = [];
-    const fiscalRecords = (this.props.parentResources || {}).fiscalYear.records || [];
-    const arrLength = fiscalRecords.length - 1;
-    if (fiscalRecords != null) {
-      Object.keys(fiscalRecords).map((key) => {
-        let name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
-        let val = fiscalRecords[key].id;
-        newArr.push({
-          label: name.toString(),
-          value: val.toString()
-        });
-        if (Number(key) === arrLength) {
-          return newArr;
-        }
-      });
-    }
-    return newArr;
-  }
 
-  deleteLedger(ID) {
+  deleteFund(ID) {
     const { parentMutator } = this.props;
     parentMutator.records.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
-        _path: `/finance/ledger`,
+        _path: `/finance/fund`,
         layer: null
       });
     });
@@ -117,9 +93,9 @@ function asyncValidate(values, dispatch, props, blurredField) {
 }
 
 export default stripesForm({
-  form: 'ledgerForm',
+  form: 'FundPane',
   // validate,
   asyncValidate,
   navigationCheck: true,
   enableReinitialize: true,
-})(LedgerPane);
+})(FundPane);

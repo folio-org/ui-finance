@@ -181,7 +181,7 @@ class Ledger extends Component {
       'Description': data => _.get(data, ['description'], ''),
       'Period Start': data => _.get(data, ['period_start'], ''),
       'Period End': data => _.get(data, ['period_end'], ''),
-      // 'Fiscal Year': data => _.get(data, ['fiscal_years'], '')
+      'Fiscal Year': data => _.toString(_.get(data, ['fiscal_years'], ''))
     }
     const getRecords = (this.props.resources || {}).records || [];
     const urlQuery = queryString.parse(this.props.location.search || '');
@@ -195,7 +195,7 @@ class Ledger extends Component {
             objectName="ledger"
             baseRoute={`${this.props.match.path}`}
             filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
+            visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End', 'Fiscal Year']}
             resultsFormatter={resultsFormatter}
             initialFilters={this.constructor.manifest.query.initialValue.filters}
             viewRecordComponent={LedgerView}

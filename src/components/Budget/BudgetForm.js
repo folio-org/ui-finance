@@ -14,7 +14,6 @@ import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
-import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import List from '@folio/stripes-components/lib/List';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 // Components and Utils
@@ -60,31 +59,43 @@ class BudgetForm extends Component {
                 <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
-              </Col>
-              <Col xs={6}>
-                <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
-              </Col>
-              <Col xs={6} className={css.dateInputFix}>
-                <Field label="Created Date" name="created_date" id="created_date" component={Datepicker} />
-              </Col>
-              <Col xs={6}>
                 <Field label="Budget Status" name="fund_status" id="fund_status" component={Select} fullWidth dataOptions={this.state.fund_status_dd} />
               </Col>
               <Col xs={6}>
-                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} />
+                <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Ledger" name="ledger_id" id="ledger" component={Select} fullWidth dataOptions={this.getLedger()} />
+                <Field label="Limit ENC Ppercent" name="limit_enc_percent" id="limit_enc_percent" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Limit EXP Percent" name="limit_exp_percent" id="limit_exp_percent" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Allocation" name="allocation" id="allocation" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Awaiting Payment" name="awaiting_payment" id="awaiting_payment" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Available" name="available" id="available" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Encumbered" name="encumbered" id="encumbered" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Expenditures" name="expenditures" id="expenditures" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Over encumbrance" name="over_encumbrance" id="over_encumbrance" component={TextField} type="number" fullWidth />
+              </Col>
+              <Col xs={6}>
+                <Field label="Fund" name="fund_id" id="fund_id" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
+              </Col>
+              <Col xs={6}>
+                <Field label="Fiscal Year" name="fiscal_year_id" id="fiscal_year_id" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
               </Col>
               <Col xs={6}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
-              </Col>
-              <Col xs={6}>
-                <Field label="Allocation From" name="allocation_from" id="allocation_from" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
-              </Col>
-              <Col xs={6}>
-                <Field label="Allocation To" name="allocation_to" id="allocation_to" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
               </Col>
             </Row>
             <IfPermission perm="fund.item.delete">

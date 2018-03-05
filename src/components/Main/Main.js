@@ -10,7 +10,7 @@ import Button from '@folio/stripes-components/lib/Button';
 import Ledger from '../Ledger';
 import FiscalYear from '../FiscalYear/FiscalYear';
 import Fund from '../Fund/Fund';
-// import Budget from '../Budget';
+import Budget from '../Budget/Budget';
 import css from './Main.css';
 
 class Main extends Component {
@@ -22,7 +22,7 @@ class Main extends Component {
     this.connectedLedger = props.stripes.connect(Ledger);
     this.connectedFiscalYear = props.stripes.connect(FiscalYear);
     this.connectedFund = props.stripes.connect(Fund);
-    // this.connectedBudget = props.stripes.connect(Budget);
+    this.connectedBudget = props.stripes.connect(Budget);
     this.handleActivate = this.handleActivate.bind(this);
   }
 
@@ -61,8 +61,8 @@ class Main extends Component {
             }
           />
           <Route
-            path={`${this.props.match.path}/fiscalyear`}
-            render={props => <this.connectedFiscalYear
+            path={`${this.props.match.path}/fund`}
+            render={props => <this.connectedFund
               stripes={this.props.stripes}
               mutator={this.props.mutator}
               resources={this.props.resources}
@@ -71,8 +71,18 @@ class Main extends Component {
             }
           />
           <Route
-            path={`${this.props.match.path}/fund`}
-            render={props => <this.connectedFund
+            path={`${this.props.match.path}/budget`}
+            render={props => <this.connectedBudget
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
+          <Route
+            path={`${this.props.match.path}/fiscalyear`}
+            render={props => <this.connectedFiscalYear
               stripes={this.props.stripes}
               mutator={this.props.mutator}
               resources={this.props.resources}

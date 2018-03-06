@@ -7,11 +7,15 @@
 
 .filterTsf {
   width: 200px;
-  height: 200px;
   position: absolute;
+  overflow: hidden;
   right: 0;
   top: 0;
   background: burlywood;
   padding: 10px;
   z-index: 1;
+}
+
+.filterTsf div:first-child h5 {
+  margin-top: 0;
 }

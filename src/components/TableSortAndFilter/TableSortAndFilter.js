@@ -26,14 +26,24 @@ const filterConfig = [
     name: 'type',
     cql: 'type',
     values: [
-      { name: 'fiction', cql: 'active' },
+      { name: 'fiction', cql: false },
+      { name: 'anime', cql: true },
+    ]
+  },
+  {
+    label: 'Status',
+    name: 'status',
+    cql: 'status',
+    values: [
+      { name: 'active', cql: true },
+      { name: 'inactive', cql: false },
+      { name: 'pending', cql: false },
     ]
   }
 ];
 
 class TableSortAndFilter extends Component {
   static manifest = Object.freeze({
-    // Table Query
     tableQuery: {
       initialValue: {
         query: '',
@@ -100,10 +110,18 @@ class TableSortAndFilter extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      filters: ''
+    }
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onSelectRow = this.onSelectRow.bind(this);
-    this.onChangeFilter = this.onChangeFilter.bind(this);
     this.renderFilter = this.renderFilter.bind(this);
+    this.renderValues = this.renderValues.bind(this);
+    this.onChangeFilterCheckbox = this.onChangeFilterCheckbox.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({ filters: filterConfig });
   }
 
   render() {
@@ -130,8 +148,7 @@ class TableSortAndFilter extends Component {
               <div className={css.wrapperTsf}>
                 { /* filter */ }
                 <div className={css.filterTsf}>
-                  {filterConfig.map(this.renderFilter)}
-                  <Checkbox label="filter" name='filter' id='filter' onChange={this.onChangeFilter} checked={true} />
+                  {this.state.filters.map(this.renderFilter)}
                 </div>
                 { /* Table */ }
                 <MultiColumnList
@@ -156,19 +173,41 @@ class TableSortAndFilter extends Component {
         </Paneset>
       </div>
     )
+    
   }
 
   onHeaderClick(e, obj){
-    console.log(e);
-    console.log(obj);
+    
   }
 
   onSelectRow() {
     return false;
   }
 
-  onChangeFilter() {
+  renderFilter(data, i, all) {
+    return (
+      <div key={`filterwrapper-${i}`}>
+        <h5>{`${data.label}`}</h5> 
+        {data.values.map(this.renderValues)}
+      </div>
+    )
+  }
 
+  renderValues(data, i, all) {
+    let getName = _.get(data, ['name'], '');
+    return (
+      <div key={`filteritem-${i}`}>
+        <Checkbox label={getName} name={getName} id={getName} onChange={() => this.onChangeFilterCheckbox(getName)} checked={`${data.cql}` == 'true'} />
+      </div>
+    )
+  }
+
+  onChangeFilterCheckbox(e) {
+    const normalisedUsers = this.state.filters.map(filters => {
+      _.mapValues(filters, val => console.log(val))
+    })
+    // console.log(normalisedUsers);
+    return false;
   }
 }
 

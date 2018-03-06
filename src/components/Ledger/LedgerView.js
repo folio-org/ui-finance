@@ -15,6 +15,8 @@ import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import LedgerPane from './LedgerPane';
+import TableSortAndFilter from '../TableSortAndFilter';
+
 
 class LedgerView extends Component {
   static propTypes = {
@@ -72,6 +74,9 @@ class LedgerView extends Component {
           </Col>
           <Col xs={12}>
             <KeyValue label="Fiscal Year" value={initialValues.fiscal_years.map((e, i) => this.getFiscalYears(e, i))} />
+          </Col>
+          <Col xs={12}>
+            <TableSortAndFilter />
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">

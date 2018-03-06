@@ -12,6 +12,7 @@ import FiscalYear from '../FiscalYear/FiscalYear';
 import Fund from '../Fund/Fund';
 import Budget from '../Budget/Budget';
 import css from './Main.css';
+import TableSortAndFilter from '../TableSortAndFilter';
 
 class Main extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Main extends Component {
     this.connectedFiscalYear = props.stripes.connect(FiscalYear);
     this.connectedFund = props.stripes.connect(Fund);
     this.connectedBudget = props.stripes.connect(Budget);
+    this.connectedTableSortAndFilter = props.stripes.connect(TableSortAndFilter);
     this.handleActivate = this.handleActivate.bind(this);
   }
 
@@ -50,6 +52,16 @@ class Main extends Component {
           <br />
         </div>
         <Switch>
+          <Route
+            path={`${this.props.match.path}`}
+            render={props => <this.connectedTableSortAndFilter
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
           <Route
             path={`${this.props.match.path}/ledger`}
             render={props => <this.connectedLedger

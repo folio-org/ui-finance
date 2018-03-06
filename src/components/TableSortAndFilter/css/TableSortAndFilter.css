@@ -1,0 +1,17 @@
+/* Table Sort and Filter */
+.tsf, .wrapperTsf {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.filterTsf {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: burlywood;
+  padding: 10px;
+  z-index: 1;
+}

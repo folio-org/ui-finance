@@ -185,54 +185,39 @@ class TableSortAndFilter extends Component {
   }
 
   renderFilter(data, i, all) {
+    let parentName = _.get(data, ['name'], '');
     return (
       <div key={`filterwrapper-${i}`}>
         <h5>{`${data.label}`}</h5> 
-        {data.values.map(this.renderValues)}
+        {data.values.map((data, i) => this.renderValues(data, i, parentName))}
       </div>
     )
   }
 
-  renderValues(data, i, all) {
+  renderValues(data, i, parentName) {                      
     let getName = _.get(data, ['name'], '');
     return (
       <div key={`filteritem-${i}`}>
-        <Checkbox label={getName} name={getName} id={getName} onChange={() => this.onChangeFilterCheckbox(getName)} checked={`${data.cql}` == 'true'} />
+        <Checkbox label={getName} name={getName} id={getName} onChange={() => this.onChangeFilterCheckbox(getName, parentName)} checked={`${data.cql}` == 'true'} />
       </div>
     )
   }
 
-  onChangeFilterCheckbox(e) {
-    const normalisedUsers = this.state.filters.map(filters => {
-      _.mapValues(filters, val => console.log(val))
-    })
-    // console.log(normalisedUsers);
-    return false;
+  onChangeFilterCheckbox(chckName, parentName) {
+    const loopFilters = this.state.filters.map(filters => {
+      let arrParentName = filters.name;
+      _.mapValues(filters.values, val => {
+        if (arrParentName === parentName) {
+          if (val.name === chckName) {
+            val['cql'] = val.cql !== true;
+          }
+        }
+      });
+      return filters;
+    });
+
+    this.setState({ filters: loopFilters });
   }
 }
 
 export default TableSortAndFilter;
-{/* <SearchAndSort
-  moduleName={packageInfo.name.replace(/.*\//, '')}
-  moduleTitle={'ledger'}
-  objectName="ledger"
-  baseRoute={`${this.props.match.path}`}
-  filterConfig={filterConfig}
-  visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End', 'Fiscal Year']}
-  resultsFormatter={resultsFormatter}
-  initialFilters={this.constructor.manifest.query.initialValue.filters}
-  viewRecordComponent={LedgerView}
-  onSelectRow={onSelectRow}
-  onCreate={this.create}
-  editRecordComponent={LedgerPane}
-  newRecordInitialValues={{}}
-  initialResultCount={INITIAL_RESULT_COUNT}
-  resultCountIncrement={RESULT_COUNT_INCREMENT}
-  finishedResourceName="perms"
-  viewRecordPerms="ledger.item.get"
-  newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
-  parentResources={props.resources}
-  parentMutator={props.mutator}
-  detailProps={this.props.stripes}
-  onComponentWillUnmount={this.props.onComponentWillUnmount}
-/> */}

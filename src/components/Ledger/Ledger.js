@@ -12,10 +12,9 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 // Components and Pages
-import css from './Ledger.css';
+import css from './css/Ledger.css';
 import LedgerPane from './LedgerPane';
-import LedgerAndFiscalYear from './LedgerAndFiscalYear';
-import { FiscalYearPane } from '../FiscalYear';
+import LedgerView from './LedgerView';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -46,6 +45,7 @@ class Ledger extends Component {
     resultCountFiscalYear: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
+      clear: true,
       records: 'ledgers',
       recordsRequired: '%{resultCount}',
       path: 'ledger',
@@ -61,7 +61,6 @@ class Ledger extends Component {
               https://issues.folio.org/browse/STRIPES-480
             */
             const resourceData = args[2];
-            console.log(resourceData);
             const sortMap = {
               Name: 'name',
               'Period Start': 'period_start',
@@ -96,7 +95,6 @@ class Ledger extends Component {
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
-            console.log(cql);
             return cql;
           },
         },
@@ -160,45 +158,62 @@ class Ledger extends Component {
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
-    // mutator.records.POST(ledgerdata);
-    console.log(ledgerdata);
+    mutator.records.POST(ledgerdata).then(newLedger => {
+      mutator.query.update({
+        _path: `/finance/ledger/view/${newLedger.id}`,
+        layer: null
+      });
+    })
+  }
+
+  componentWillMount() {
+    this.props.handleActivate({ id: 'ledger' });
   }
 
   render() {
+    console.log("ledger.js");
     const props = this.props;
+    const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.get(data, ['code'], ''),
       'Description': data => _.get(data, ['description'], ''),
       'Period Start': data => _.get(data, ['period_start'], ''),
-      'Period End': data => _.get(data, ['period_end'], '')
+      'Period End': data => _.get(data, ['period_end'], ''),
+      'Fiscal Year': data => _.toString(_.get(data, ['fiscal_years'], ''))
     }
+    const getRecords = (this.props.resources || {}).records || [];
     const urlQuery = queryString.parse(this.props.location.search || '');
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
-        <SearchAndSort
-          moduleName={packageInfo.name.replace(/.*\//, '')}
-          moduleTitle={'ledger'}
-          objectName="ledger"
-          baseRoute={'/finance'}
-          filterConfig={filterConfig}
-          visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
-          resultsFormatter={resultsFormatter}
-          initialFilters={this.constructor.manifest.query.initialValue.filters}
-          viewRecordComponent={{}}
-          onCreate={this.create}
-          editRecordComponent={LedgerAndFiscalYear}
-          newRecordInitialValues={{}}
-          initialResultCount={INITIAL_RESULT_COUNT}
-          resultCountIncrement={RESULT_COUNT_INCREMENT}
-          finishedResourceName="perms"
-          viewRecordPerms="ledger.item.get"
-          newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
-          detailProps={this.props.stripes}
-        />
+        {
+          getRecords  &&
+          <SearchAndSort
+            moduleName={packageInfo.name.replace(/.*\//, '')}
+            moduleTitle={'ledger'}
+            objectName="ledger"
+            baseRoute={`${this.props.match.path}`}
+            filterConfig={filterConfig}
+            visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End', 'Fiscal Year']}
+            resultsFormatter={resultsFormatter}
+            initialFilters={this.constructor.manifest.query.initialValue.filters}
+            viewRecordComponent={LedgerView}
+            onSelectRow={onSelectRow}
+            onCreate={this.create}
+            editRecordComponent={LedgerPane}
+            newRecordInitialValues={{}}
+            initialResultCount={INITIAL_RESULT_COUNT}
+            resultCountIncrement={RESULT_COUNT_INCREMENT}
+            finishedResourceName="perms"
+            viewRecordPerms="ledger.item.get"
+            newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
+            parentResources={props.resources}
+            parentMutator={props.mutator}
+            detailProps={this.props.stripes}
+            onComponentWillUnmount={this.props.onComponentWillUnmount}
+          />
+        }
       </div>
     )
   }

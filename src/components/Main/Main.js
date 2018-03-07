@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Route, Redirect} from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import _ from "lodash";
 import queryString from 'query-string';
 // Stripes Components
@@ -8,19 +8,23 @@ import SegmentedControl from '@folio/stripes-components/lib/SegmentedControl';
 import Button from '@folio/stripes-components/lib/Button';
 // Components and Pages
 import Ledger from '../Ledger';
-// import Fund from '../Fund';
-// import Budget from '../Budget';
+import FiscalYear from '../FiscalYear/FiscalYear';
+import Fund from '../Fund/Fund';
+import Budget from '../Budget/Budget';
 import css from './Main.css';
+import TableSortAndFilter from '../TableSortAndFilter';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 'ledger'
+      activeTab: ''
     }
     this.connectedLedger = props.stripes.connect(Ledger);
-    // this.connectedFund = props.stripes.connect(Fund);
-    // this.connectedBudget = props.stripes.connect(Budget);
+    this.connectedFiscalYear = props.stripes.connect(FiscalYear);
+    this.connectedFund = props.stripes.connect(Fund);
+    this.connectedBudget = props.stripes.connect(Budget);
+    this.connectedTableSortAndFilter = props.stripes.connect(TableSortAndFilter);
     this.handleActivate = this.handleActivate.bind(this);
   }
 
@@ -28,47 +32,78 @@ class Main extends Component {
     this.setState({
       activeTab: id,
     });
+    if (id === 'ledger') {
+      this.props.history.push(`${this.props.match.path}/ledger`);
+    } else {
+      this.props.history.push(`${this.props.match.path}/${id}`);
+    }
   }
   
   render() {
     return (
       <div style={{width: '100%'}}>
         <div className={css.SegControl}>
-          <SegmentedControl className={css.test} activeId={this.state.activeTab} onActivate={this.handleActivate}>
+          <SegmentedControl activeId={this.state.activeTab} onActivate={this.handleActivate}>
             <Button id="ledger">Ledger</Button>
             <Button id="fund">Fund</Button>
             <Button id="budget">Budget</Button>
+            <Button id="fiscalyear">Fiscal Year</Button>
           </SegmentedControl>
           <br />
         </div>
-        <Route
-          path={`${this.props.match.path}`}
-          render={props => <this.connectedLedger
-            stripes={this.props.stripes}
-            mutator={this.props.mutator}
-            resources={this.props.resources}
-            {...props} />
-          }
-        />
-        {/*
-        <Route
-          path={`${this.props.match.path}/fund`}
-          render={props => <this.connectedLedger
-            stripes={this.props.stripes}
-            mutator={this.props.mutator}
-            resources={this.props.resources}
-            {...props} />
-          }
-        />
-        <Route
-          path={`${this.props.match.path}/budget`}
-          render={props => <this.connectedLedger
-            stripes={this.props.stripes}
-            mutator={this.props.mutator}
-            resources={this.props.resources}
-            {...props} />
-          }
-        /> */}
+        <Switch>
+          <Route
+            path={`${this.props.match.path}`}
+            render={props => <this.connectedTableSortAndFilter
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
+          <Route
+            path={`${this.props.match.path}/ledger`}
+            render={props => <this.connectedLedger
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
+          <Route
+            path={`${this.props.match.path}/fund`}
+            render={props => <this.connectedFund
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
+          <Route
+            path={`${this.props.match.path}/budget`}
+            render={props => <this.connectedBudget
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
+          <Route
+            path={`${this.props.match.path}/fiscalyear`}
+            render={props => <this.connectedFiscalYear
+              stripes={this.props.stripes}
+              mutator={this.props.mutator}
+              resources={this.props.resources}
+              handleActivate={this.handleActivate}
+              {...props} />
+            }
+          />
+          <Redirect exact from={`${this.props.match.path}`} to={`${this.props.match.path}/ledger`} />
+        </Switch>
       </div>
     )
   }

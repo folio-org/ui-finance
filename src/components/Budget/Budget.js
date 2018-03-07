@@ -4,6 +4,7 @@ import Route from 'react-router-dom/Route';
 import _ from "lodash";
 import queryString from 'query-string';
 // Folio
+import Layer from '@folio/stripes-components/lib/Layer';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
@@ -11,45 +12,35 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 // Components and Pages
-import BudgetForm from './BudgetForm';
-// import View from './View';
+import css from './css/Budget.css';
+import BudgetPane from './BudgetPane';
+import BudgetView from './BudgetView';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-
-const filterConfig = [
-  // {
-  //   label: 'Vendor Status',
-  //   name: 'vendor_status',
-  //   cql: 'vendor_status',
-  //   values: [
-  //     { name: 'Active', cql: 'active' },
-  //     { name: 'Pending', cql: 'pending' },
-  //     { name: 'Inactive', cql: 'inactive' },
-  //   ]
-  // }
-];
+const filterConfig = [];
 
 class Budget extends Component {
+  static propTypes = {
+    mutator: PropTypes.object.isRequired,
+    resources: PropTypes.object.isRequired,
+    handleActivate: PropTypes.func
+  }
+
   static manifest = Object.freeze({
-    vendor: {
-      type: 'okapi',
-      records: 'vendors',
-      path: 'vendor'
-    },
     query: {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name',
+        sort: 'Name'
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
-      records: 'ledgers',
+      records: 'budgets',
       recordsRequired: '%{resultCount}',
-      path: 'ledger',
+      path: 'budget',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -62,14 +53,12 @@ class Budget extends Component {
               https://issues.folio.org/browse/STRIPES-480
             */
             const resourceData = args[2];
-            console.log(resourceData);
             const sortMap = {
               Name: 'name',
-              'Period Start': 'period_start',
-              'Period End': 'period_end'
+              Code: 'code',
             };
 
-            let cql = `(name="${resourceData.query.query}*")`;
+            let cql = `(name="${resourceData.query.query}*" or code="${resourceData.query.query}*")`;
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -97,15 +86,22 @@ class Budget extends Component {
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
-            console.log(cql);
             return cql;
           },
         },
         staticFallback: { params: {} },
       },
-    }
+    },
+    // resultCountLedger: { initialValue: INITIAL_RESULT_COUNT },
+    // ledger: {
+    //   type: 'okapi',
+    //   records: 'ledgers',
+    //   path: 'ledger',
+    //   recordsRequired: '30',
+    //   perRequest: 30
+    // },
   });
-
+  
   constructor(props) {
     super(props);
     const query = props.location.search ? queryString.parse(props.location.search) : {};
@@ -118,39 +114,62 @@ class Budget extends Component {
     this.removeQueryParam = removeQueryParam.bind(this);
   }
 
+  create = (budgetData) => {
+    const { mutator } = this.props;
+    mutator.records.POST(budgetData).then(newBudget => {
+      mutator.query.update({
+        _path: `/finance/budget/view/${newBudget.id}`,
+        layer: null
+      });
+    })
+  }
+
+  componentWillMount() {
+    this.props.handleActivate({ id: 'budget' });
+  }
+
   render() {
     const props = this.props;
     console.log(props);
+    
+    const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.get(data, ['code'], ''),
-      'Description': data => _.get(data, ['description'], ''),
-      'Period Start': data => _.get(data, ['period_start'], ''),
-      'Period End': data => _.get(data, ['period_end'], '')
+      'Code': data => _.toString(_.get(data, ['code'], '')),
+      // 'Created Date': data => _.toString(_.get(data, ['created_date'], '')),
+      // 'Budget Status': data => _.get(data, ['budget_status'], ''),
+      // 'Currency': data => _.get(data, ['Currency'], ''),
+      // 'Ledger': data => _.get(data, ['ledger_id'], ''),
+      // 'Allocation From': data => _.toString(_.get(data, ['allocation_from'], '')),
+      // 'Allocation To': data => _.toString(_.get(data, ['allocation_to'], '')),
+      // 'Tags': data => _.toString(_.get(data, ['tags'], ''))
     }
     return (
-      <div style={{width: '100%'}}>
-      
+      <div style={{ width: '100%' }} className={css.panepadding}>
         <SearchAndSort
-          moduleName={packageInfo.name.replace(/.*\//, '')}
-          moduleTitle={'ledger'}
-          objectName="ledger"
-          baseRoute={'/finance/ledger'}
+          moduleName={'budget'}
+          moduleTitle={'budget'}
+          objectName="budget"
+          baseRoute={`${this.props.match.path}`}
           filterConfig={filterConfig}
-          visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
+          visibleColumns = {['Name', 'Code'/*, 'Created Date', 'Budget Status', 'Currency', 'Ledger', 'Allocation From', 'Allocation To', 'Tags'*/]}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
-          viewRecordComponent={{}}
-          editRecordComponent={LedgerForm}
+          viewRecordComponent={BudgetView}
+          onSelectRow={onSelectRow}
+          onCreate={this.create}
+          editRecordComponent={BudgetPane}
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
-          viewRecordPerms="ledger.item.get"
-          newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
+          viewRecordPerms="budget.item.get"
+          newRecordPerms="budget.item.post,login.item.post,perms.budget.item.post"
           parentResources={props.resources}
           parentMutator={props.mutator}
+          detailProps={this.props.stripes}
+          onComponentWillUnmount={this.props.onComponentWillUnmount}
         />
       </div>
     )

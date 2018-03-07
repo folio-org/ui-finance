@@ -15,12 +15,16 @@ import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
-// Components and Pages
-import css from './FiscalYearForm.css';
+import List from '@folio/stripes-components/lib/List';
+import IfPermission from '@folio/stripes-components/lib/IfPermission';
+// Components and Utils
+import css from './css/FiscalYearForm.css';
+import { Required } from '../../Utils/Validate';
 
 class FiscalYearForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
+    deleteFiscalYear: PropTypes.func
   }
 
   constructor(props) {
@@ -28,19 +32,32 @@ class FiscalYearForm extends Component {
   }
 
   render() {
+    const { initialValues } = this.props;
+    const showDeleteButton = initialValues.id ? true : false;
+    
     return (
       <div className={css.FiscalYearForm}>
         <Row>
           <Col xs={12}>
-            <Field label="Name" name="name" id="name" component={TextField} fullWidth />
+            <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
           </Col>
           <Col xs={12}>
-            <Field label="Code" name="code" id="code" component={TextField} fullWidth />
+            <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
           </Col>
           <Col xs={12}>
             <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
           </Col>
         </Row>
+        <IfPermission perm="ledger.item.delete">
+          <Row end="xs">
+            <Col xs={12}>
+              {
+                showDeleteButton &&
+                <Button type="button" onClick={() => { this.props.deleteFiscalYear(initialValues.id) }}>Remove</Button>
+              }
+            </Col>
+          </Row>
+        </IfPermission>
       </div>
     ) 
   }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import _ from "lodash";
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
+import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import { Dropdown } from '@folio/stripes-components/lib/Dropdown';
 import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
@@ -38,15 +39,21 @@ const filterConfig = [
       { name: 'active', cql: true },
       { name: 'inactive', cql: false },
       { name: 'pending', cql: false },
-    ]
+    ] 
   }
 ];
 
 const visibleColumnsConfig = [
-  { 'title': 'title', 'status': true },
   { 'title': 'author', 'status': false },
-  { 'title': 'type', 'status': true}
+  { 'title': 'title', 'status': false },
+  { 'title': 'type', 'status': true }
 ];
+
+// const defualtConfig = [
+//   { 'title': 'author', 'status': false },
+//   { 'title': 'title', 'status': false },
+//   { 'title': 'type', 'status': false }
+// ];
 
 class TableSortAndFilter extends Component {
   constructor(props) {
@@ -54,12 +61,13 @@ class TableSortAndFilter extends Component {
     this.state = {
       filters: '',
       onToggleColumnDD: false,
-      visibleColumns: visibleColumnsConfig
+      visibleColumns: {}
     }
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onSelectRow = this.onSelectRow.bind(this);
     this.onToggleColumnDD = this.onToggleColumnDD.bind(this);
     this.columnObjToArr = this.columnObjToArr.bind(this);
+    this.resetColumn = this.resetColumn.bind(this);
     this.renderColumnChk = this.renderColumnChk.bind(this);
     this.onChangeColumnChk = this.onChangeColumnChk.bind(this);
     this.renderFilter = this.renderFilter.bind(this);
@@ -68,9 +76,14 @@ class TableSortAndFilter extends Component {
   }
 
   componentWillMount() {
-    this.setState({ filters: filterConfig, visibleColumns: visibleColumnsConfig });
-    this.columnObjToArr();
+    this.setState({ filters: filterConfig, visibleColumns: this.resetColumn() });
   }
+
+  componentDidMount() {
+    const newConfig = _.cloneDeep(visibleColumnsConfig);
+    this.setState({ visibleColumns: newConfig });
+  }
+
 
   render() {
     const catalogResults = [
@@ -78,14 +91,13 @@ class TableSortAndFilter extends Component {
       { title: 'Orange Book', author: 'Philip Ramos', type: 'anime' },
     ];
     const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
-    console.log(visibleColumns);
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
         <Paneset>
           <Pane defaultWidth="100%">
             <div className={css.tsf}>
               {/* Dropdown */}
-              <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} group pullRight>
+              <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
                 <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
                 <DropdownMenu data-role="menu" aria-label="available permissions">
                   <ul>
@@ -108,7 +120,7 @@ class TableSortAndFilter extends Component {
                     // selectedRow={this.state.selectedRow}
                     onRowClick={this.onSelectRow}
                     onHeaderClick={this.onHeaderClick}
-                    // columnWidths={{ name: '50%', vendor_status: '25%', payment_method: '25%' }}
+                    // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
                     visibleColumns={visibleColumns}
                     // sortedColumn={sortBy}
                     // sortDirection={sortOrder + 'ending'}
@@ -125,15 +137,23 @@ class TableSortAndFilter extends Component {
     )
   }
 
+  resetColumn() {
+    const defaultConfig = _.cloneDeep(visibleColumnsConfig);
+    const loopFilter = defaultConfig.map(column => {
+      column['status'] = true;
+      return column;
+    });
+    return loopFilter;
+  }
+
   columnObjToArr() {
     const newArr = [];
     this.state.visibleColumns.map((e, i) => {
       if (e.status === true) newArr.push(e.title);
     });
-
     return newArr;
   }
-
+  
   renderColumnChk(e, i) {
     let getTitle = e.title;
     let getStatus = e.status;

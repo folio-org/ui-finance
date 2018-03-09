@@ -5,6 +5,10 @@
   overflow: auto;
 }
 
+.wrapperTsf .headerRow .header {
+  
+}
+
 .filterTsf {
   width: 200px;
   position: absolute;

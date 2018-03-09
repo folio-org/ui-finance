@@ -20,7 +20,6 @@
     "queryResource": "query"
   },
   "scripts": {
-    "start": "stripes serve --port=8080 --hasAllPerms",
     "build": "stripes build --output ./output",
     "test": "stripes test --run demo --show",
     "lint": "eslint lib"

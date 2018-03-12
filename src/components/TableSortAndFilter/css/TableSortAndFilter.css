@@ -1,12 +1,16 @@
 /* Table Sort and Filter */
-.tsf, .wrapperTsf {
+.tsf {
+  height: 300px;
+  width: 100%;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.tsfWrapper, .tsfTable{
   height: 100%;
   width: 100%;
   overflow: auto;
-}
-
-.wrapperTsf .headerRow .header {
-  
 }
 
 .filterTsf {
@@ -15,11 +19,21 @@
   overflow: hidden;
   right: 0;
   top: 0;
-  background: burlywood;
-  padding: 10px;
   z-index: 1;
+
+  &>div {
+    padding: 10px;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  }
 }
 
-.filterTsf div:first-child h5 {
+.filterTsf div h5 {
   margin-top: 0;
+  margin-bottom: 5px;
 }

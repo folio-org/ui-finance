@@ -31,6 +31,7 @@ class LedgerView extends Component {
     this.getData = this.getData.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
+    this.connectedTableSortAndFilter = this.props.stripes.connect(TableSortAndFilter);
   }
 
   render() {
@@ -76,7 +77,11 @@ class LedgerView extends Component {
             <KeyValue label="Fiscal Year" value={initialValues.fiscal_years.map((e, i) => this.getFiscalYears(e, i))} />
           </Col>
           <Col xs={12}>
-            <TableSortAndFilter />
+            <this.connectedTableSortAndFilter
+              stripes={this.props.stripes}
+              parentResources={this.props.parentResources}
+              parentMutator={this.props.parentMutator}
+            />
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">

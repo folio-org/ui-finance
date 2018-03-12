@@ -9,6 +9,7 @@ import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Button from '@folio/stripes-components/lib/Button';
 import css from './css/TableSortAndFilter.css';
+import TetherComponent from 'react-tether'
 
 // Unsed components and not required
 import Pane from '@folio/stripes-components/lib/Pane';
@@ -44,16 +45,10 @@ const filterConfig = [
 ];
 
 const visibleColumnsConfig = [
-  { 'title': 'author', 'status': false },
+  { 'title': 'author', 'status': true },
   { 'title': 'title', 'status': false },
   { 'title': 'type', 'status': true }
 ];
-
-// const defualtConfig = [
-//   { 'title': 'author', 'status': false },
-//   { 'title': 'title', 'status': false },
-//   { 'title': 'type', 'status': false }
-// ];
 
 class TableSortAndFilter extends Component {
   constructor(props) {
@@ -61,7 +56,12 @@ class TableSortAndFilter extends Component {
     this.state = {
       filters: '',
       onToggleColumnDD: false,
-      visibleColumns: {}
+      visibleColumns: {},
+      // Filter position
+      filterTop: 0,
+      filterLeft: 300,
+      showFilterWrapper: false,
+      showFilterName: ''
     }
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onSelectRow = this.onSelectRow.bind(this);
@@ -73,6 +73,7 @@ class TableSortAndFilter extends Component {
     this.renderFilter = this.renderFilter.bind(this);
     this.renderFilterValues = this.renderFilterValues.bind(this);
     this.onChangeFilterChk = this.onChangeFilterChk.bind(this);
+    // this.filterLookUp = this.filterLookUp.bind(this);
   }
 
   componentWillMount() {
@@ -84,7 +85,6 @@ class TableSortAndFilter extends Component {
     this.setState({ visibleColumns: newConfig });
   }
 
-
   render() {
     const catalogResults = [
       { title: 'Microbiology Today', author: 'James Edward', type: 'fiction' },
@@ -92,47 +92,43 @@ class TableSortAndFilter extends Component {
     ];
     const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
     return (
-      <div style={{width: '100%'}} className={css.panepadding}>
-        <Paneset>
-          <Pane defaultWidth="100%">
-            <div className={css.tsf}>
-              {/* Dropdown */}
-              <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
-                <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
-                <DropdownMenu data-role="menu" aria-label="available permissions">
-                  <ul>
-                    {this.state.visibleColumns.map(this.renderColumnChk)}
-                  </ul>
-                </DropdownMenu>
-              </Dropdown>
-              <div className={css.wrapperTsf}>
-                { /* filter */ }
-                <div className={css.filterTsf}>
-                  {this.state.filters.map(this.renderFilter)}
-                </div>
-                { /* Table */ }
-                {this.state.visibleColumns &&
-                  <MultiColumnList
-                    autosize
-                    virtualize
-                    id={`list-TableAndSortFilter`}
-                    contentData={catalogResults}
-                    // selectedRow={this.state.selectedRow}
-                    onRowClick={this.onSelectRow}
-                    onHeaderClick={this.onHeaderClick}
-                    // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
-                    visibleColumns={visibleColumns}
-                    // sortedColumn={sortBy}
-                    // sortDirection={sortOrder + 'ending'}
-                    // panePreloader={listPreloaderStatus}
-                    // onNeedMoreData={this.onNeedMore}
-                    // loading={loader()}
-                  />
-                }
-              </div>
+      <div className={css.tsf}>
+        <div className={css.tsfWrapper}>
+          {/* Dropdown */}
+          <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
+            <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
+            <DropdownMenu data-role="menu" aria-label="available permissions">
+              <ul className="dropdown">
+                {this.state.visibleColumns.map(this.renderColumnChk)}
+              </ul>
+            </DropdownMenu>
+          </Dropdown>
+          <div className={css.tsfTable}>
+            { /* Table */ }
+            {this.state.visibleColumns &&
+              <MultiColumnList
+                autosize
+                virtualize
+                id={`list-TableAndSortFilter`}
+                contentData={catalogResults}
+                // selectedRow={this.state.selectedRow}
+                onRowClick={this.onSelectRow}
+                onHeaderClick={this.onHeaderClick}
+                // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
+                visibleColumns={visibleColumns}
+                // sortedColumn={sortBy}
+                // sortDirection={sortOrder + 'ending'}
+                // panePreloader={listPreloaderStatus}
+                // onNeedMoreData={this.onNeedMore}
+                // loading={loader()}
+              />
+            }
+            { /* filter */}
+            <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }}>
+              {this.state.filters.map(this.renderFilter)}
             </div>
-          </Pane>
-        </Paneset>
+          </div>
+        </div>
       </div>
     )
   }
@@ -175,7 +171,29 @@ class TableSortAndFilter extends Component {
     this.setState({ visibleColumns: loopFilter });
   }
 
-  onHeaderClick(e, obj){}
+  onHeaderClick(e, obj){
+    // Assign position to floating filter
+    const filterTop = e.nativeEvent.layerY + e.nativeEvent.layerY;
+    const filterLeft = e.nativeEvent.layerX;
+    // Filter State
+    const showFilterWrapper = this.state.showFilterWrapper !== true;
+    this.setState({ 
+      filterTop,
+      filterLeft, 
+      showFilterWrapper: showFilterWrapper,
+      showFilterName: `${obj.name}`
+    });
+    // this.filterLookUp();
+  }
+
+  // filterLookUp() {
+  //   let isName = false;
+  //   filterConfig.map(filters => {
+  //     console.log(filters);
+  //     return
+  //   });
+  //   return isName;
+  // }
 
   onSelectRow() {
     return false;
@@ -187,9 +205,12 @@ class TableSortAndFilter extends Component {
   }
 
   renderFilter(data, i, all) {
-    let parentName = _.get(data, ['name'], '');
+    const parentName = _.get(data, ['name'], '');
+    const showFilter = this.state.showFilterName === parentName ? 'block' : 'none';
+    // console.log(this.state.showFilterName);
+    console.log(this.state.showFilterName);
     return (
-      <div key={`filterwrapper-${i}`}>
+      <div key={`filterwrapper-${i}`} style={{ display: showFilter }}>
         <h5>{`${data.label}`}</h5> 
         {data.values.map((data, i) => this.renderFilterValues(data, i, parentName))}
       </div>
@@ -198,11 +219,9 @@ class TableSortAndFilter extends Component {
 
   renderFilterValues(data, i, parentName) {                      
     let getName = _.get(data, ['name'], '');
-    return (
-      <div key={`filteritem-${i}`}>
+    return <div key={`filteritem-${i}`}>
         <Checkbox label={getName} name={getName} id={getName} onChange={() => this.onChangeFilterChk(getName, parentName)} checked={data.cql} />
-      </div>
-    )
+      </div>;
   }
 
   onChangeFilterChk(chckName, parentName) {
@@ -223,8 +242,8 @@ class TableSortAndFilter extends Component {
 }
 
 TableSortAndFilter.propTypes = {
-  resources: PropTypes.object,
-  mutator: PropTypes.object
+  parentResources: PropTypes.object,
+  parentMutator: PropTypes.object
 }
 
 TableSortAndFilter.manifest = Object.freeze({

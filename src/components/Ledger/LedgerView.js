@@ -61,7 +61,17 @@ class LedgerView extends Component {
           { name: 'inactive', cql: true },
           { name: 'pending', cql: true },
         ]
-      }
+      },
+      // {
+      //   label: 'Name',
+      //   name: 'name',
+      //   cql: 'name',
+      //   values: [
+      //     { name: 'active', cql: true },
+      //     { name: 'inactive', cql: true },
+      //     { name: 'pending', cql: true },
+      //   ]
+      // }
     ];
     const visibleColumnsConfig = [
       { 'title': 'name', 'status': true },

@@ -60,7 +60,6 @@ class TableSortAndFilter extends Component {
   }
 
   render() {
-    console.log(this.props);
     const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
 
     if(!this.isData()) {
@@ -160,12 +159,22 @@ class TableSortAndFilter extends Component {
     // Assign position to floating filter
     const filterTop = e.nativeEvent.layerY + e.nativeEvent.layerY;
     const filterLeft = e.nativeEvent.layerX;
-    // Filter State
-    const showFilterWrapper = this.state.showFilterWrapper !== true;
+    // Check Filter and show/hide filter wrapper
+    const showFilterWrapper = () => {
+      var isFilter = false; 
+      this.state.filters.map(filters => {
+        if(filters.name === obj.name) {
+          isFilter = this.state.showFilterWrapper !== true;
+          console.log(isFilter);
+        }
+      });
+      return isFilter;
+    }
+
     this.setState({ 
       filterTop,
       filterLeft, 
-      showFilterWrapper: showFilterWrapper,
+      showFilterWrapper: showFilterWrapper(),
       showFilterName: `${obj.name}`
     });
   }
@@ -181,7 +190,13 @@ class TableSortAndFilter extends Component {
 
   renderFilter(data, i, all) {
     const parentName = _.get(data, ['name'], '');
-    const showFilter = this.state.showFilterName === parentName ? 'block' : 'none';
+    let showFilter;
+    if (this.state.showFilterName === parentName) {
+      showFilter = (showFilter !== 'block') ? 'hide' : 'block';
+    } else {
+      showFilter = 'block';
+    }
+    
     return (
       <div key={`filterwrapper-${i}`} style={{ display: showFilter }}>
         <h5>{`${data.label}`}</h5> 

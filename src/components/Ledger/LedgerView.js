@@ -32,6 +32,7 @@ class LedgerView extends Component {
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
     this.connectedTableSortAndFilter = this.props.stripes.connect(TableSortAndFilter);
+    this.onUpdateFilter = this.onUpdateFilter.bind(this);
   }
 
   render() {
@@ -49,6 +50,27 @@ class LedgerView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
+    // Table Config
+    const filterConfig = [
+      {
+        label: 'Vendor Status',
+        name: 'vendor_status',
+        cql: 'vendor_status',
+        values: [
+          { name: 'active', cql: true },
+          { name: 'inactive', cql: true },
+          { name: 'pending', cql: true },
+        ]
+      }
+    ];
+    const visibleColumnsConfig = [
+      { 'title': 'name', 'status': true },
+      { 'title': 'vendor_status', 'status': true }
+    ];
+    const formatter = {
+      name: data => _.get(data, ['name'], ''),
+      vendor_status: data => _.get(data, ['vendor_status'], '')
+    };
 
     if (!initialValues) {
       return (
@@ -79,6 +101,10 @@ class LedgerView extends Component {
           <Col xs={12}>
             <this.connectedTableSortAndFilter
               stripes={this.props.stripes}
+              filterConfig={filterConfig}
+              visibleColumnsConfig={visibleColumnsConfig}
+              formatter={formatter}
+              onUpdateFilter={this.onUpdateFilter}
               parentResources={this.props.parentResources}
               parentMutator={this.props.parentMutator}
             />
@@ -123,6 +149,11 @@ class LedgerView extends Component {
     this.props.parentMutator.records.PUT(ledgerdata).then(() => {
       this.props.onCloseEdit();
     });
+  }
+
+  onUpdateFilter(data) {
+    const { parentMutator } = this.props;
+    parentMutator.tableQuery.update({ filter:data });
   }
 }
 

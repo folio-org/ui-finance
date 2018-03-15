@@ -159,16 +159,27 @@ class TableSortAndFilter extends Component {
     // Assign position to floating filter
     const filterTop = e.nativeEvent.layerY + e.nativeEvent.layerY;
     const filterLeft = e.nativeEvent.layerX;
+    const wrapperStatus = this.state.showFilterWrapper;
+    const FilterName = this.state.showFilterName;
+    let filterLookup = () => {
+      let filters = this.state.filters;
+      for (let i = 0; i < filters.length; i++) {
+        if (filters[i].name === obj.name) {
+          return true;
+          break;
+        }
+      }
+      return false;
+    }
     // Check Filter and show/hide filter wrapper
     const showFilterWrapper = () => {
-      var isFilter = false; 
-      this.state.filters.map(filters => {
-        if(filters.name === obj.name) {
-          isFilter = this.state.showFilterWrapper !== true;
-          console.log(isFilter);
-        }
-      });
-      return isFilter;
+      if ((!FilterName || FilterName !== obj.name) && filterLookup()) {
+        return true;
+      } else if ((!FilterName || !this.state.showFilterWrapper) && filterLookup()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     this.setState({ 

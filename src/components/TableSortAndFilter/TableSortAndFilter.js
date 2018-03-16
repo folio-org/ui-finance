@@ -20,7 +20,6 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 
-const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
 class TableSortAndFilter extends Component {
@@ -48,6 +47,9 @@ class TableSortAndFilter extends Component {
     this.onChangeFilterChk = this.onChangeFilterChk.bind(this);
     this.createFilterQuery = this.createFilterQuery.bind(this);
     this.isData = this.isData.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.onNeedMore = this.onNeedMore.bind(this);
   }
 
   componentWillMount() {
@@ -55,27 +57,33 @@ class TableSortAndFilter extends Component {
   }
 
   componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
     const newConfig = _.cloneDeep(this.props.visibleColumnsConfig);
     this.setState({ visibleColumns: newConfig });
   }
 
-  render() {
-    const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);    
+  }
 
-    if(!this.isData()) {
+  render() {
+    const { parentResources, resourceName } = this.props;
+    const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
+    const loader = () => parentResources[resourceName] ? parentResources[resourceName].isPending : false;
+
+    if(!this.isData) {
       return (
         <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
       )
     }
-
-    return (
+      return (
       <div className={css.tsf}>
         <div className={css.tsfWrapper}>
           {/* Dropdown */}
           <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
             <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
             <DropdownMenu data-role="menu" aria-label="available permissions">
-              <ul className="dropdown">
+              <ul className={css.showhideDropdown}>
                 {this.state.visibleColumns.map(this.renderColumnChk)}
               </ul>
             </DropdownMenu>
@@ -97,11 +105,11 @@ class TableSortAndFilter extends Component {
               // sortedColumn={sortBy}
               // sortDirection={sortOrder + 'ending'}
               // panePreloader={listPreloaderStatus}
-              // onNeedMoreData={this.onNeedMore}
-              // loading={loader()}   
+              onNeedMoreData={this.onNeedMore}
+              loading={loader()}
             />
             { /* filter */}
-            <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }}>
+            <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }} ref={this.setWrapperRef}>
               {this.state.filters.map(this.renderFilter)}
             </div>
           </div>
@@ -110,9 +118,9 @@ class TableSortAndFilter extends Component {
     )
   }
 
-  isData() {
-    const { parentResources } = this.props;
-    const data = (parentResources.tableRecords || {}).records || [];
+  isData = () => {
+    const { parentResources, resourceName } = this.props;
+    const data = (parentResources[resourceName] || {}).records || [];
     if (!data || data.length === 0) return null;
     return data;
   }
@@ -125,7 +133,7 @@ class TableSortAndFilter extends Component {
     });
     return loopFilter;
   }
-
+  
   columnObjToArr() {
     const newArr = [];
     this.state.visibleColumns.map((e, i) => {
@@ -201,10 +209,8 @@ class TableSortAndFilter extends Component {
 
   renderFilter(data, i, all) {
     const parentName = _.get(data, ['name'], '');
-    let showFilter;
-    if (this.state.showFilterName === parentName) {
-      showFilter = (showFilter !== 'block') ? 'hide' : 'block';
-    } else {
+    let showFilter = 'none';
+    if ((this.state.showFilterName === parentName) && this.state.showFilterWrapper) {
       showFilter = 'block';
     }
     
@@ -265,6 +271,27 @@ class TableSortAndFilter extends Component {
       // Updated filter
       this.props.onUpdateFilter(parentItem);
     });
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({ showFilterWrapper: false });
+    }
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  onNeedMore() {
+    if (!_.isUndefined(this.props)) {
+      if (!_.isNull(this.props.parentResources)) {
+        // console.log(this.props);
+        const { parentResources, parentMutator } = this.props;
+        let num = parentResources.resultCountTable + RESULT_COUNT_INCREMENT;
+        parentMutator.resultCountTable.replace(num);
+      }
+    }
   }
 }
 

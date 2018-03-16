@@ -137,15 +137,16 @@ class Ledger extends Component {
         filter: 'and vendor_status=(active or inactive)',
         sort: 'Name',
         sortBy: 'asc',
-        resultCount: INITIAL_RESULT_COUNT
+        resultCount: INITIAL_RESULT_COUNT,
       },
     },
+    resultCountTable: { initialValue: INITIAL_RESULT_COUNT },
     tableRecords: {
       type: 'okapi',
       records: 'vendors',
       path: 'vendor',
-      recordsRequired: INITIAL_RESULT_COUNT,
-      perRequest: 30,
+      recordsRequired: '%{resultCountTable}',
+      perRequest: RESULT_COUNT_INCREMENT,
       params: {
         query: (...args) => {
           const data = args[2];

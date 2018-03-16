@@ -42,3 +42,8 @@
   margin-top: 0;
   margin-bottom: 5px;
 }
+
+.showhideDropdown {
+  padding: 10px !important;
+  margin-bottom: 0;
+}

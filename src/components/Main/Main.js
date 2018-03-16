@@ -50,16 +50,6 @@ class Main extends Component {
           <br />
         </div>
         <Switch>
-          {/* <Route
-            path={`${this.props.match.path}`}
-            render={props => <this.connectedTableSortAndFilter
-              stripes={this.props.stripes}
-              mutator={this.props.mutator}
-              resources={this.props.resources}
-              handleActivate={this.handleActivate}
-              {...props} />
-            }
-          /> */}
           <Route
             path={`${this.props.match.path}/ledger`}
             render={props => <this.connectedLedger

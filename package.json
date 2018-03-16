@@ -307,7 +307,7 @@
     },
     {
       "permissionName": "finance.module.all",
-      "displayName": "All finance-module perms",
+      "displayName": "Finance: all permissions",
       "description": "All permissions for the finance module",
       "subPermissions": [
         "budget.all",
@@ -317,7 +317,8 @@
         "ledger.all",
         "tag.all",
         "transaction.all"
-      ]
+      ],
+      "visible": true
     }
   ]
 }

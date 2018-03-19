@@ -28,7 +28,7 @@ class LedgerView extends Component {
 
   constructor(props) {
     super(props);
-    this.getData = this.getData.bind(this);
+    console.log(props);
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
     this.connectedTableSortAndFilter = this.props.stripes.connect(TableSortAndFilter);

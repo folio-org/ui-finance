@@ -71,12 +71,7 @@ class TableSortAndFilter extends Component {
     const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
     const loader = () => parentResources[resourceName] ? parentResources[resourceName].isPending : false;
 
-    if(!this.isData) {
-      return (
-        <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-      )
-    }
-      return (
+    return (
       <div className={css.tsf}>
         <div className={css.tsfWrapper}>
           {/* Dropdown */}
@@ -121,7 +116,7 @@ class TableSortAndFilter extends Component {
   isData = () => {
     const { parentResources, resourceName } = this.props;
     const data = (parentResources[resourceName] || {}).records || [];
-    if (!data || data.length === 0) return null;
+    if (!data || data.length === 0) return [];
     return data;
   }
 

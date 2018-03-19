@@ -134,7 +134,7 @@ class Ledger extends Component {
     tableQuery: {
       initialValue: {
         query: 'query=(name=*)',
-        filter: 'and vendor_status=(active or inactive)',
+        filter: '',
         sort: 'Name',
         sortBy: 'asc',
         resultCount: INITIAL_RESULT_COUNT,

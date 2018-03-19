@@ -171,7 +171,6 @@ class Ledger extends Component {
   }
 
   render() {
-    console.log("ledger.js");
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));

@@ -36,7 +36,6 @@ class FiscalYear extends Component {
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
-    resultCountLedger: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
       records: 'fiscal_years',
@@ -93,7 +92,31 @@ class FiscalYear extends Component {
         },
         staticFallback: { params: {} },
       },
-    }
+    },
+    ledger: { initialValue: INITIAL_RESULT_COUNT },
+    ledgerQuery: {
+      initialValue: {
+        query: `query=(fiscal_years="")`,
+        filter: '',
+        sort: 'Name',
+        sortBy: 'asc',
+        resultCount: 0,
+      },
+    },
+    ledger: {
+      type: 'okapi',
+      records: 'ledgers',
+      path: 'ledger',
+      recordsRequired: '%{ledgerQuery.resultCount}',
+
+      params: {
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.ledgerQuery.query} ${data.ledgerQuery.filter} sortby ${data.ledgerQuery.sort}`;
+          return cql;
+        },
+      }
+    },
   });
   
   constructor(props) {
@@ -109,7 +132,7 @@ class FiscalYear extends Component {
   }
 
   create = (fiscalyeardata) => {
-    const { mutator } = this.props;
+  const { mutator } = this.props;
     mutator.records.POST(fiscalyeardata).then(newFiscalYear => {
       mutator.query.update({
         _path: `/finance/fiscalyear/view/${newFiscalYear.id}`,

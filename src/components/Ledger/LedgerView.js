@@ -28,7 +28,6 @@ class LedgerView extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
     this.connectedTableSortAndFilter = this.props.stripes.connect(TableSortAndFilter);
@@ -57,9 +56,9 @@ class LedgerView extends Component {
         name: 'vendor_status',
         cql: 'vendor_status',
         values: [
-          { name: 'active', cql: true },
-          { name: 'inactive', cql: true },
-          { name: 'pending', cql: true },
+          { name: 'active', cql: false },
+          { name: 'inactive', cql: false },
+          { name: 'pending', cql: false },
         ]
       }
     ];

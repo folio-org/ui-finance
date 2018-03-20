@@ -180,6 +180,8 @@ class Ledger extends Component {
   }
 
   componentWillMount() {
+    // query=(name=*)
+    // parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:30 });
     this.props.handleActivate({ id: 'ledger' });
   }
 

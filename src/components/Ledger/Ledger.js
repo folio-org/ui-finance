@@ -19,18 +19,7 @@ import LedgerView from './LedgerView';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
-const filterConfig = [
-  // {
-  //   label: 'Vendor Status',
-  //   name: 'vendor_status',
-  //   cql: 'vendor_status',
-  //   values: [
-  //     { name: 'Active', cql: 'active' },
-  //     { name: 'Pending', cql: 'pending' },
-  //     { name: 'Inactive', cql: 'inactive' },
-  //   ]
-  // }
-];
+const filterConfig = [];
 
 class Ledger extends Component {
   static manifest = Object.freeze({
@@ -95,6 +84,7 @@ class Ledger extends Component {
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
+            console.log(cql);
             return cql;
           },
         },
@@ -135,13 +125,36 @@ class Ledger extends Component {
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
-            console.log(cql);
             return cql;
           },
         },
-        staticFallback: { params: {} },
+        staticFallback: { params: {}},
       },
-    }
+    },
+    tableQuery: {
+      initialValue: {
+        query: 'query=(name=*)',
+        filter: '',
+        sort: 'Name',
+        sortBy: 'asc',
+        resultCount: INITIAL_RESULT_COUNT,
+      },
+    },
+    resultCountTable: { initialValue: INITIAL_RESULT_COUNT },
+    tableRecords: {
+      type: 'okapi',
+      records: 'vendors',
+      path: 'vendor',
+      recordsRequired: '%{resultCountTable}',
+      perRequest: RESULT_COUNT_INCREMENT,
+      params: {
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.tableQuery.query} ${data.tableQuery.filter} sortby ${data.tableQuery.sort}`;
+          return cql;
+        },
+      }
+    },
   });
 
   constructor(props) {
@@ -167,6 +180,8 @@ class Ledger extends Component {
   }
 
   componentWillMount() {
+    // query=(name=*)
+    // parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:30 });
     this.props.handleActivate({ id: 'ledger' });
   }
 

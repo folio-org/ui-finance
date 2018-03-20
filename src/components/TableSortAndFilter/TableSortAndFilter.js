@@ -9,7 +9,7 @@ import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Button from '@folio/stripes-components/lib/Button';
 import css from './css/TableSortAndFilter.css';
-import TetherComponent from 'react-tether'
+import Icon from '@folio/stripes-components/lib/Icon';
 
 // Unsed components and not required
 import Pane from '@folio/stripes-components/lib/Pane';
@@ -20,35 +20,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 
-const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const filterConfig = [
-  {
-    label: 'Type',
-    name: 'type',
-    cql: 'type',
-    values: [
-      { name: 'fiction', cql: false },
-      { name: 'anime', cql: true },
-    ]
-  },
-  {
-    label: 'Status',
-    name: 'status',
-    cql: 'status',
-    values: [
-      { name: 'active', cql: true },
-      { name: 'inactive', cql: false },
-      { name: 'pending', cql: false },
-    ] 
-  }
-];
-
-const visibleColumnsConfig = [
-  { 'title': 'author', 'status': true },
-  { 'title': 'title', 'status': false },
-  { 'title': 'type', 'status': true }
-];
 
 class TableSortAndFilter extends Component {
   constructor(props) {
@@ -73,24 +45,32 @@ class TableSortAndFilter extends Component {
     this.renderFilter = this.renderFilter.bind(this);
     this.renderFilterValues = this.renderFilterValues.bind(this);
     this.onChangeFilterChk = this.onChangeFilterChk.bind(this);
-    // this.filterLookUp = this.filterLookUp.bind(this);
+    this.createFilterQuery = this.createFilterQuery.bind(this);
+    this.isData = this.isData.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.onNeedMore = this.onNeedMore.bind(this);
   }
 
   componentWillMount() {
-    this.setState({ filters: filterConfig, visibleColumns: this.resetColumn() });
+    this.setState({ filters: this.props.filterConfig, visibleColumns: this.resetColumn() });
   }
 
   componentDidMount() {
-    const newConfig = _.cloneDeep(visibleColumnsConfig);
+    document.addEventListener('mousedown', this.handleClickOutside);
+    const newConfig = _.cloneDeep(this.props.visibleColumnsConfig);
     this.setState({ visibleColumns: newConfig });
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);    
+  }
+
   render() {
-    const catalogResults = [
-      { title: 'Microbiology Today', author: 'James Edward', type: 'fiction' },
-      { title: 'Orange Book', author: 'Philip Ramos', type: 'anime' },
-    ];
+    const { parentResources, resourceName } = this.props;
     const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
+    const loader = () => parentResources[resourceName] ? parentResources[resourceName].isPending : false;
+
     return (
       <div className={css.tsf}>
         <div className={css.tsfWrapper}>
@@ -98,33 +78,33 @@ class TableSortAndFilter extends Component {
           <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
             <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
             <DropdownMenu data-role="menu" aria-label="available permissions">
-              <ul className="dropdown">
+              <ul className={css.showhideDropdown}>
                 {this.state.visibleColumns.map(this.renderColumnChk)}
               </ul>
             </DropdownMenu>
           </Dropdown>
           <div className={css.tsfTable}>
             { /* Table */ }
-            {this.state.visibleColumns &&
-              <MultiColumnList
-                autosize
-                virtualize
-                id={`list-TableAndSortFilter`}
-                contentData={catalogResults}
-                // selectedRow={this.state.selectedRow}
-                onRowClick={this.onSelectRow}
-                onHeaderClick={this.onHeaderClick}
-                // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
-                visibleColumns={visibleColumns}
-                // sortedColumn={sortBy}
-                // sortDirection={sortOrder + 'ending'}
-                // panePreloader={listPreloaderStatus}
-                // onNeedMoreData={this.onNeedMore}
-                // loading={loader()}
-              />
-            }
+            <MultiColumnList
+              autosize
+              virtualize
+              interactive={false}
+              id={`list-TableAndSortFilter`}
+              contentData={this.isData()}
+              formatter={this.props.formatter}
+              // selectedRow={this.state.selectedRow}
+              onRowClick={this.onSelectRow}
+              onHeaderClick={this.onHeaderClick}
+              // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
+              visibleColumns={visibleColumns}
+              // sortedColumn={sortBy}
+              // sortDirection={sortOrder + 'ending'}
+              // panePreloader={listPreloaderStatus}
+              onNeedMoreData={this.onNeedMore}
+              loading={loader()}
+            />
             { /* filter */}
-            <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }}>
+            <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }} ref={this.setWrapperRef}>
               {this.state.filters.map(this.renderFilter)}
             </div>
           </div>
@@ -133,15 +113,22 @@ class TableSortAndFilter extends Component {
     )
   }
 
+  isData = () => {
+    const { parentResources, resourceName } = this.props;
+    const data = (parentResources[resourceName] || {}).records || [];
+    if (!data || data.length === 0) return [];
+    return data;
+  }
+
   resetColumn() {
-    const defaultConfig = _.cloneDeep(visibleColumnsConfig);
+    const defaultConfig = _.cloneDeep(this.props.visibleColumnsConfig);
     const loopFilter = defaultConfig.map(column => {
       column['status'] = true;
       return column;
     });
     return loopFilter;
   }
-
+  
   columnObjToArr() {
     const newArr = [];
     this.state.visibleColumns.map((e, i) => {
@@ -175,25 +162,36 @@ class TableSortAndFilter extends Component {
     // Assign position to floating filter
     const filterTop = e.nativeEvent.layerY + e.nativeEvent.layerY;
     const filterLeft = e.nativeEvent.layerX;
-    // Filter State
-    const showFilterWrapper = this.state.showFilterWrapper !== true;
+    const wrapperStatus = this.state.showFilterWrapper;
+    const FilterName = this.state.showFilterName;
+    let filterLookup = () => {
+      let filters = this.state.filters;
+      for (let i = 0; i < filters.length; i++) {
+        if (filters[i].name === obj.name) {
+          return true;
+          break;
+        }
+      }
+      return false;
+    }
+    // Check Filter and show/hide filter wrapper
+    const showFilterWrapper = () => {
+      if ((!FilterName || FilterName !== obj.name) && filterLookup()) {
+        return true;
+      } else if ((!FilterName || !this.state.showFilterWrapper) && filterLookup()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     this.setState({ 
       filterTop,
       filterLeft, 
-      showFilterWrapper: showFilterWrapper,
+      showFilterWrapper: showFilterWrapper(),
       showFilterName: `${obj.name}`
     });
-    // this.filterLookUp();
   }
-
-  // filterLookUp() {
-  //   let isName = false;
-  //   filterConfig.map(filters => {
-  //     console.log(filters);
-  //     return
-  //   });
-  //   return isName;
-  // }
 
   onSelectRow() {
     return false;
@@ -206,9 +204,11 @@ class TableSortAndFilter extends Component {
 
   renderFilter(data, i, all) {
     const parentName = _.get(data, ['name'], '');
-    const showFilter = this.state.showFilterName === parentName ? 'block' : 'none';
-    // console.log(this.state.showFilterName);
-    console.log(this.state.showFilterName);
+    let showFilter = 'none';
+    if ((this.state.showFilterName === parentName) && this.state.showFilterWrapper) {
+      showFilter = 'block';
+    }
+    
     return (
       <div key={`filterwrapper-${i}`} style={{ display: showFilter }}>
         <h5>{`${data.label}`}</h5> 
@@ -236,79 +236,67 @@ class TableSortAndFilter extends Component {
       });
       return filters;
     });
-
     this.setState({ filters: loopFilters });
+    this.createFilterQuery(loopFilters);
+  }
+  
+  createFilterQuery(arg) {
+    const { parentResources } = this.props;
+    let parentItem = "";
+    let parentArr = [];
+    const filterQuery = this.state.filters.map(filters => {
+      let groupItem;
+      let groupArr = [];
+      let parentArrName = filters.name;
+      _.mapValues(filters.values, val => {
+        console.log(val.cql);
+        if (val.cql === true) {
+          groupArr.push(val.name);
+        }
+      });
+      // Join items
+      if (groupArr.length >= 1) {
+        groupItem = groupArr.join(" or ");
+        parentArr.push(`${parentArrName}=(${groupItem})`);
+      }
+      // Join Parent Filters
+      if (parentArr.length >= 1) {
+        parentItem = "and " + parentArr.join(" and ");
+      }
+      // Updated filter
+      this.props.onUpdateFilter(parentItem);
+    });
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({ showFilterWrapper: false });
+    }
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  onNeedMore() {
+    if (!_.isUndefined(this.props)) {
+      if (!_.isNull(this.props.parentResources)) {
+        // console.log(this.props);
+        const { parentResources, parentMutator } = this.props;
+        let num = parentResources.resultCountTable + RESULT_COUNT_INCREMENT;
+        parentMutator.resultCountTable.replace(num);
+      }
+    }
   }
 }
 
 TableSortAndFilter.propTypes = {
   parentResources: PropTypes.object,
-  parentMutator: PropTypes.object
+  parentMutator: PropTypes.object,
+  filterConfig: PropTypes.array,
+  visibleColumnsConfig: PropTypes.array,
+  formatter: PropTypes.object,
+  onUpdateFilter: PropTypes.func
 }
-
-TableSortAndFilter.manifest = Object.freeze({
-  tableQuery: {
-    initialValue: {
-      query: '',
-      filters: '',
-      sort: 'Name'
-    },
-  },
-  tableRecords: {
-    type: 'okapi',
-    clear: true,
-    records: 'ledgers',
-    recordsRequired: '%{resultCount}',
-    path: 'ledger',
-    perRequest: RESULT_COUNT_INCREMENT,
-    GET: {
-      params: {
-        query: (...args) => {
-          const resourceData = args[2];
-          const sortMap = {
-            Name: 'name',
-            'Period Start': 'period_start',
-            'Period End': 'period_end'
-          };
-
-          let cql = `(name="${resourceData.tableQuery.query}*")`;
-          const filterCql = filters2cql(filterConfig, resourceData.tableQuery.filters);
-          if (filterCql) {
-            if (cql) {
-              cql = `(${cql}) and ${filterCql}`;
-            } else {
-              cql = filterCql;
-            }
-          }
-
-          const {
-            sort
-          } = resourceData.tableQuery;
-          if (sort) {
-            const sortIndexes = sort.split(',').map((sort1) => {
-              let reverse = false;
-              if (sort1.startsWith('-')) {
-                // eslint-disable-next-line no-param-reassign
-                sort1 = sort1.substr(1);
-                reverse = true;
-              }
-              let sortIndex = sortMap[sort1] || sort1;
-              if (reverse) {
-                sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
-              }
-              return sortIndex;
-            });
-
-            cql += ` sortby ${sortIndexes.join(' ')}`;
-          }
-          return cql;
-        },
-      },
-      staticFallback: {
-        params: {}
-      },
-    },
-  },
-});
 
 export default TableSortAndFilter;

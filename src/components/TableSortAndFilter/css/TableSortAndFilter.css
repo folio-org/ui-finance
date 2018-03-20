@@ -1,16 +1,21 @@
 /* Table Sort and Filter */
 .tsf {
-  height: 300px;
   width: 100%;
   border: 1px solid #cccccc;
   padding: 10px;
   border-radius: 5px;
 }
 
-.tsfWrapper, .tsfTable{
+.tsfWrapper{
   height: 100%;
   width: 100%;
-  overflow: auto;
+  clear: both;
+}
+
+.tsfTable {
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .filterTsf {
@@ -19,7 +24,7 @@
   overflow: hidden;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 999;
 
   &>div {
     padding: 10px;
@@ -36,4 +41,9 @@
 .filterTsf div h5 {
   margin-top: 0;
   margin-bottom: 5px;
+}
+
+.showhideDropdown {
+  padding: 10px !important;
+  margin-bottom: 0;
 }

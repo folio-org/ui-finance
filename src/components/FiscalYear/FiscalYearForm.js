@@ -33,6 +33,7 @@ class FiscalYearForm extends Component {
   constructor(props) {
     super(props);
     this.checkLedger = this.checkLedger.bind(this);
+    this.ledgerDataRender = this.ledgerDataRender.bind(this);
   }
 
   componentWillMount() {
@@ -42,11 +43,24 @@ class FiscalYearForm extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialValues, parentMutator, parentResources } = this.props;
+    if (parentResources !== null) {
+      if (parentResources.ledger !== null) {
+        if(!_.isEqual(nextProps.parentResources.ledger.records, this.props.parentResources.ledger.records)) {
+          parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:20 });
+        }
+      }
+    }
+  }
+  
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = (isEditPage && this.checkLedger() === null) ? true : false;
-
+    const showDeleteButton = this.checkLedger() !== null ? false : true;
+    const ledgerData = this.checkLedger();
+    const itemFormatter = (item) => (this.ledgerDataRender(item)); 
+    const isEmptyMessage = "No items found";
     return (
       <div className={css.FiscalYearForm}>
         <Row>
@@ -60,19 +74,31 @@ class FiscalYearForm extends Component {
             <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
           </Col>
         </Row>
-        <IfPermission perm="fiscal_year.item.delete">
-          <Row end="xs">
-            <Col xs={12}>
-              {
-                showDeleteButton ? (
+        { isEditPage && (
+          <IfPermission perm="fiscal_ year.item.delete">
+            { showDeleteButton ? (
+              <Row end="xs">
+                <Col xs={12}>
                   <Button type="button" onClick={() => { this.props.deleteFiscalYear(initialValues.id) }}>Remove</Button>
-                ) : (
-                  <Badges color="default">This fiscal year is connected to a ledger. Please removed the connection to delete this fiscal year</Badges>
-                )
-              }
-            </Col>
-          </Row>
-        </IfPermission>
+                </Col>
+              </Row>
+            ) : (
+              <Row>
+                <Col xs={12}>
+                  <Badges color="red">This fiscal year is connected to a ledger. Please removed the connection to delete this fiscal year</Badges>
+                </Col>
+                <Col xs={12}>
+                  <div className={css.list}>
+                    {
+                      ledgerData &&
+                      <List items={ledgerData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
+                    }
+                  </div>
+                </Col>
+              </Row>
+            )}
+          </IfPermission>
+        )}
       </div>
     ) 
   }
@@ -82,6 +108,15 @@ class FiscalYearForm extends Component {
     const data = (parentResources.ledger || {}).records || [];
     if (!data || data.length === 0) return null;
     return data;
+  }
+
+  ledgerDataRender(data) {
+    console.log(this.props);
+    console.log(data);
+    return(<li>
+      <a href={`/finance/ledger/view/${data.id}`}>{data.name}</a>
+    </li>
+    );
   }
 }
 

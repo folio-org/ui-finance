@@ -74,7 +74,7 @@ class TableSortAndFilter extends Component {
     return (
       <div className={css.tsf}>
         <div className={css.tsfWrapper}>
-          <h4 style={{"float": "left", "margin-top": "0", "margin-left": "10px"}}>Transactions</h4>
+          <h4 style={{"float": "left", "marginTop": "0", "marginLeft": "10px"}}>Transactions</h4>
           {/* Dropdown */}
           <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
             <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>

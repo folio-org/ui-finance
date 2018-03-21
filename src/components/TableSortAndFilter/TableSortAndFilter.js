@@ -33,7 +33,8 @@ class TableSortAndFilter extends Component {
       filterTop: 0,
       filterLeft: 300,
       showFilterWrapper: false,
-      showFilterName: ''
+      showFilterName: '',
+      showClearButton: false
     }
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onSelectRow = this.onSelectRow.bind(this);
@@ -50,6 +51,7 @@ class TableSortAndFilter extends Component {
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.onNeedMore = this.onNeedMore.bind(this);
+    this.onHandleClickClear = this.onHandleClickClear.bind(this);
   }
 
   componentWillMount() {
@@ -84,6 +86,10 @@ class TableSortAndFilter extends Component {
               </ul>
             </DropdownMenu>
           </Dropdown>
+          {
+            this.state.showClearButton &&
+            <Button data-role="clear filter" align="end" bottomMargin0 style={{float: "right"}} onClick={this.onHandleClickClear}>Clear Filter</Button>
+          }
           <div className={css.tsfTable}>
             { /* Table */ }
             <MultiColumnList
@@ -237,20 +243,30 @@ class TableSortAndFilter extends Component {
       });
       return filters;
     });
-    this.setState({ filters: loopFilters });
+
+    // Show and hide filter button
+    if(!_.isEqual(this.state.filters, this.props.filterConfig)) {
+      if (this.state.showClearButton === false) {
+        this.setState({ filters: loopFilters, showClearButton: true });
+      } else{
+        this.setState({ filters: loopFilters });
+      }
+    } else {
+      this.setState({ filters: loopFilters, showClearButton: false });
+    }
+   
     this.createFilterQuery(loopFilters);
   }
   
-  createFilterQuery(arg) {
+  createFilterQuery() {
     const { parentResources } = this.props;
     let parentItem = "";
     let parentArr = [];
-    const filterQuery = this.state.filters.map(filters => {
+    this.state.filters.map(filters => {
       let groupItem;
       let groupArr = [];
       let parentArrName = filters.name;
       _.mapValues(filters.values, val => {
-        console.log(val.cql);
         if (val.cql === true) {
           groupArr.push(val.name);
         }
@@ -288,6 +304,15 @@ class TableSortAndFilter extends Component {
         parentMutator.resultCountTable.replace(num);
       }
     }
+  }
+
+  onHandleClickClear() {
+    this.setState({
+      filters: this.props.filterConfig,
+      visibleColumns: this.resetColumn()
+    }, function() {
+      this.createFilterQuery();
+    });
   }
 }
 

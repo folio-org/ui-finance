@@ -111,8 +111,6 @@ class FiscalYearForm extends Component {
   }
 
   ledgerDataRender(data) {
-    console.log(this.props);
-    console.log(data);
     return(<li>
       <a href={`/finance/ledger/view/${data.id}`}>{data.name}</a>
     </li>

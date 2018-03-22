@@ -19,8 +19,8 @@ import BudgetView from './BudgetView';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = [];
-
 class Budget extends Component {
+  
   static propTypes = {
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
@@ -32,7 +32,7 @@ class Budget extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name'
+        sort: 'Name',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -92,14 +92,22 @@ class Budget extends Component {
         staticFallback: { params: {} },
       },
     },
-    // resultCountLedger: { initialValue: INITIAL_RESULT_COUNT },
-    // ledger: {
-    //   type: 'okapi',
-    //   records: 'ledgers',
-    //   path: 'ledger',
-    //   recordsRequired: '30',
-    //   perRequest: 30
-    // },
+    fundResultCount: INITIAL_RESULT_COUNT,
+    fund: {
+      type: 'okapi',
+      records: 'funds',
+      path: 'fund',
+      recordsRequired: '%{fundResultCount}',
+      perRequest: RESULT_COUNT_INCREMENT,
+    },
+    fiscalyearResultCount: INITIAL_RESULT_COUNT,
+    fiscalyear: {
+      type: 'okapi',
+      records: 'fiscal_years',
+      path: 'fiscal_year',
+      recordsRequired: '%{fiscalyearResultCount}',
+      perRequest: RESULT_COUNT_INCREMENT,
+    },
   });
   
   constructor(props) {
@@ -130,8 +138,6 @@ class Budget extends Component {
 
   render() {
     const props = this.props;
-    console.log(props);
-    
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {

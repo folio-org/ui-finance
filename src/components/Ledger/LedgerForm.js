@@ -22,6 +22,7 @@ import { Dropdown } from '@folio/stripes-components/lib/Dropdown';
 import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
 import List from '@folio/stripes-components/lib/List';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
+import Badges from '@folio/stripes-components/lib/Badge/Badge.js'
 // Components and Pages
 import css from './css/LedgerForm.css';
 import {FiscalYear} from '../FiscalYear';
@@ -48,12 +49,36 @@ class LedgerForm extends Component {
       ],
     }
 
+    this.checkFund = this.checkFund.bind(this);
+    this.fundDataRender = this.fundDataRender.bind(this);
     this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
+  }
+
+  componentWillMount() {
+    const { initialValues, parentMutator } = this.props;
+    if (initialValues.id) {
+      parentMutator.fundQuery.update({ query: `query=(ledger_id="${initialValues.id}")`, resultCount:30 });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { initialValues, parentMutator, parentResources } = this.props;
+    if (parentResources !== null) {
+      if (parentResources.fund !== null) {
+        if(!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
+          parentMutator.fundQuery.update({ query: `query=(ledger_id="${initialValues.id}")`, resultCount:20 });
+        }
+      }
+    }
   }
 
   render() {
     const { initialValues } = this.props;
-    const showDeleteButton = initialValues.id ? true : false;
+    const isEditPage = initialValues.id ? true : false;
+    const showDeleteButton = this.checkFund() !== null ? false : true;
+    const fundData = this.checkFund();
+    const itemFormatter = (item) => (this.fundDataRender(item)); 
+    const isEmptyMessage = "No items found";
     const newRecords = this.props.dropdown_fiscalyears_array !== null ? true :  false;
     return (
       <div>
@@ -122,20 +147,50 @@ class LedgerForm extends Component {
                 }
               </Col>
             </Row>
+            { isEditPage && (
             <IfPermission perm="ledger.item.delete">
+              { showDeleteButton ? (
               <Row end="xs">
-                <Col xs={12}>
-                  {
-                    showDeleteButton &&
+                  <Col xs={12}>
                     <Button type="button" onClick={() => { this.props.deleteLedger(initialValues.id) }}>Remove</Button>
-                  }
-                 </Col>
-              </Row>
+                  </Col>
+                </Row>
+              ) : (
+                <Row>
+                  <Col xs={12}>
+                    <Badges color="red">This Ledger is connected to a Fund. Please removed the connection to delete this ledger</Badges>
+                  </Col>
+                  <Col xs={12}>
+                    <div className={css.list}>
+                      {
+                        fundData &&
+                        <List items={fundData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
+                      }
+                    </div>
+                  </Col>
+                </Row>
+              )}
             </IfPermission>
+            )}
           </Col>
         </Row>
       </div>
     )
+  }
+
+  checkFund = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.fund || {}).records || [];
+    console.log(parentResources);
+    if (!data || data.length === 0) return null;
+    return data;
+  }
+
+  fundDataRender(data) {
+    return(<li>
+      <a href={`/finance/fund/view/${data.id}`}>{data.name}</a>
+    </li>
+    );
   }
 
   onToggleAddFiscalYearDD() {

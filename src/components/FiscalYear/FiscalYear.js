@@ -93,7 +93,6 @@ class FiscalYear extends Component {
         staticFallback: { params: {} },
       },
     },
-    ledger: { initialValue: INITIAL_RESULT_COUNT },
     ledgerQuery: {
       initialValue: {
         query: `query=(fiscal_years="")`,
@@ -108,7 +107,6 @@ class FiscalYear extends Component {
       records: 'ledgers',
       path: 'ledger',
       recordsRequired: '%{ledgerQuery.resultCount}',
-
       params: {
         query: (...args) => {
           const data = args[2];

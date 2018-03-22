@@ -90,6 +90,30 @@ class Ledger extends Component {
         staticFallback: { params: {} },
       },
     },
+    tableQuery: {
+      initialValue: {
+        query: 'query=(name=*)',
+        filter: '',
+        sort: 'Name',
+        sortBy: 'asc',
+        resultCount: INITIAL_RESULT_COUNT,
+      },
+    },
+    resultCountTable: { initialValue: INITIAL_RESULT_COUNT },
+    tableRecords: {
+      type: 'okapi',
+      records: 'vendors',
+      path: 'vendor',
+      recordsRequired: '%{resultCountTable}',
+      perRequest: RESULT_COUNT_INCREMENT,
+      params: {
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.tableQuery.query} ${data.tableQuery.filter} sortby ${data.tableQuery.sort}`;
+          return cql;
+        },
+      }
+    },
     fiscalYear: {
       type: 'okapi',
       records: 'fiscal_years',
@@ -130,30 +154,28 @@ class Ledger extends Component {
         staticFallback: { params: {}},
       },
     },
-    tableQuery: {
+    fundQuery: {
       initialValue: {
-        query: 'query=(name=*)',
+        query: `query=(fiscal_years="")`,
         filter: '',
         sort: 'Name',
         sortBy: 'asc',
-        resultCount: INITIAL_RESULT_COUNT,
+        resultCount: 0,
       },
     },
-    resultCountTable: { initialValue: INITIAL_RESULT_COUNT },
-    tableRecords: {
+    fund: {
       type: 'okapi',
-      records: 'vendors',
-      path: 'vendor',
-      recordsRequired: '%{resultCountTable}',
-      perRequest: RESULT_COUNT_INCREMENT,
+      records: 'funds',
+      path: 'fund',
+      recordsRequired: '%{fundQuery.resultCount}',
       params: {
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.tableQuery.query} ${data.tableQuery.filter} sortby ${data.tableQuery.sort}`;
+          let cql = `${data.fundQuery.query} ${data.fundQuery.filter} sortby ${data.fundQuery.sort}`;
           return cql;
         },
       }
-    },
+    }
   });
 
   constructor(props) {

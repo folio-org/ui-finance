@@ -44,12 +44,43 @@ class BudgetForm extends Component {
       ],
       ledger_dd: []
     }
-    this.getLedger = this.getLedger.bind(this);
+    this.getData = this.getData.bind(this);
   }
+
+  componentWillMount() {
+    const { parentMutator, parentResources } = this.props;
+    let initialResultCount = parentResources.fundResultCount;
+    parentMutator.fundResultCount.replace(Math.floor(Math.random()+1)+initialResultCount);
+    parentMutator.fiscalyearResultCount.replace(Math.floor(Math.random()+1)+initialResultCount);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { initialValues, parentMutator, parentResources, initialResultCount } = this.props;
+    if (parentResources !== null) {
+      if (parentResources.fund !== null) {
+        let fundResultCount = parentResources.fundResultCount;
+        if(!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
+          parentMutator.fundResultCount.replace(Math.floor(Math.random()+2)+fundResultCount);
+        }
+      }
+      if (parentResources.fiscalyear !== null) {
+        let fiscalyearResultCount = parentResources.fisclayearResultCount;
+        if(!_.isEqual(nextProps.parentResources.fiscalyear.records, this.props.parentResources.fiscalyear.records)) {
+          parentMutator.fiscalyearResultCount.replace(Math.floor(Math.random()+2)+fiscalyearResultCount);
+        }
+      }
+    }
+  }
+
+  
 
   render() {
     const { initialValues } = this.props;
+    console.log(this.props);
     const showDeleteButton = initialValues.id ? true : false;
+    const fundData = this.getData('fund');
+    const fiscalyearData = this.getData('fiscalyear');
+    
     return (
       <div style={{ margin: "0 auto", padding: '0' }} className={css.BudgetForm}>
         <Row>
@@ -89,10 +120,10 @@ class BudgetForm extends Component {
                 <Field label="Over encumbrance" name="over_encumbrance" id="over_encumbrance" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Fund" name="fund_id" id="fund_id" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
+                <Field label="Fund" name="fund_id" id="fund_id" component={Select} fullWidth dataOptions={fundData} />
               </Col>
               <Col xs={6}>
-                <Field label="Fiscal Year" name="fiscal_year_id" id="fiscal_year_id" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
+                <Field label="Fiscal Year" name="fiscal_year_id" id="fiscal_year_id" component={Select} fullWidth dataOptions={fiscalyearData} />
               </Col>
               <Col xs={6}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
@@ -114,18 +145,18 @@ class BudgetForm extends Component {
     ) 
   }
 
-  getLedger() {
+  getData(resourceName) {
     const { parentResources } = this.props;
-    const ledgers = (parentResources.ledger || {}).records || [];
-    if (!ledgers || ledgers.length === 0) return null;
+    const records = (parentResources[`${resourceName}`] || {}).records || [];
+    if (!records || records.length === 0) return null;
     let newArr = [];
-    Object.keys(ledgers).map((key) => {
+    Object.keys(records).map((key) => {
       let obj = {
-        label: ledgers[key].name,
-        value: _.toString(ledgers[key].id)
+        label: records[key].name,
+        value: _.toString(records[key].id)
       };
       newArr.push(obj);
-      if (Number(key) === ledgers.length) {
+      if (Number(key) === records.length) {
         return newArr;
       }
     });

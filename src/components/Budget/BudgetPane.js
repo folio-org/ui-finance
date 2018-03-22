@@ -70,7 +70,7 @@ class BudgetPane extends Component {
     return (
       <form id="form-budget">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <BudgetForm {...this.props} {...this.props} deleteBudget={this.deleteBudget} />
+          <BudgetForm {...this.props} deleteBudget={this.deleteBudget} />
         </Pane>
       </form>
     )

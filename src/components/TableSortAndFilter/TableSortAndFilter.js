@@ -76,7 +76,7 @@ class TableSortAndFilter extends Component {
     return (
       <div className={css.tsf}>
         <div className={css.tsfWrapper}>
-          <h4 style={{"float": "left", "marginTop": "0", "marginLeft": "10px"}}>Transactions</h4>
+          <h4 style={{"float": "left", "marginTop": "6pm", "marginLeft": "10px", "marginBottom": "10px"}}>{this.props.heading}</h4>
           {/* Dropdown */}
           <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
             <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
@@ -320,6 +320,7 @@ TableSortAndFilter.propTypes = {
   parentResources: PropTypes.object,
   parentMutator: PropTypes.object,
   filterConfig: PropTypes.array,
+  heading: PropTypes.string,
   visibleColumnsConfig: PropTypes.array,
   formatter: PropTypes.object,
   onUpdateFilter: PropTypes.func

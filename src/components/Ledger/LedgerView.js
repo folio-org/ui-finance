@@ -100,6 +100,7 @@ class LedgerView extends Component {
           <Col xs={12}>
             <this.connectedTableSortAndFilter
               resourceName="tableRecords"
+              tableInitCountName="queryCustom.tableCount"
               heading="Transactions"
               stripes={this.props.stripes}
               filterConfig={filterConfig}

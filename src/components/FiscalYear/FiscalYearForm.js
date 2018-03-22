@@ -85,7 +85,7 @@ class FiscalYearForm extends Component {
             ) : (
               <Row>
                 <Col xs={12}>
-                  <Badges color="red">This fiscal year is connected to a ledger. Please removed the connection to delete this fiscal year</Badges>
+                  <Badges color="red">This fiscal year is connected to a ledger. Please removed the connection before deleting this fiscal year</Badges>
                 </Col>
                 <Col xs={12}>
                   <div className={css.list}>

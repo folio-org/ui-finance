@@ -57,7 +57,7 @@ class LedgerForm extends Component {
   componentWillMount() {
     const { initialValues, parentMutator } = this.props;
     if (initialValues.id) {
-      parentMutator.fundQuery.update({ query: `query=(ledger_id="${initialValues.id}")`, resultCount:30 });
+      parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random()+1)+30 });
     }
   }
 
@@ -66,7 +66,7 @@ class LedgerForm extends Component {
     if (parentResources !== null) {
       if (parentResources.fund !== null) {
         if(!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
-          parentMutator.fundQuery.update({ query: `query=(ledger_id="${initialValues.id}")`, resultCount:20 });
+          parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random()+2)+30 });
         }
       }
     }
@@ -77,7 +77,7 @@ class LedgerForm extends Component {
     const isEditPage = initialValues.id ? true : false;
     const showDeleteButton = this.checkFund() !== null ? false : true;
     const fundData = this.checkFund();
-    const itemFormatter = (item) => (this.fundDataRender(item)); 
+    const itemFormatter = (item, i) => (this.fundDataRender(item, i)); 
     const isEmptyMessage = "No items found";
     const newRecords = this.props.dropdown_fiscalyears_array !== null ? true :  false;
     return (
@@ -158,7 +158,7 @@ class LedgerForm extends Component {
               ) : (
                 <Row>
                   <Col xs={12}>
-                    <Badges color="red">This Ledger is connected to a Fund. Please removed the connection to delete this ledger</Badges>
+                    <Badges color="red">This Ledger is connected to a Fund. Please removed the connection before deleting this ledger</Badges>
                   </Col>
                   <Col xs={12}>
                     <div className={css.list}>
@@ -181,13 +181,13 @@ class LedgerForm extends Component {
   checkFund = () => {
     const { parentResources } = this.props;
     const data = (parentResources.fund || {}).records || [];
-    console.log(parentResources);
     if (!data || data.length === 0) return null;
+    console.log(data);
     return data;
   }
 
-  fundDataRender(data) {
-    return(<li>
+  fundDataRender(data, i) {
+    return(<li key={i}>
       <a href={`/finance/fund/view/${data.id}`}>{data.name}</a>
     </li>
     );

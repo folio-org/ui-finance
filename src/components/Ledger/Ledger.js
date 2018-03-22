@@ -31,7 +31,6 @@ class Ledger extends Component {
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
-    resultCountFiscalYear: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
       clear: true,
@@ -94,17 +93,16 @@ class Ledger extends Component {
       initialValue: {
         query: 'query=(name=*)',
         filter: '',
-        sort: 'Name',
+        sort: 'name',
         sortBy: 'asc',
         resultCount: INITIAL_RESULT_COUNT,
       },
     },
-    resultCountTable: { initialValue: INITIAL_RESULT_COUNT },
     tableRecords: {
       type: 'okapi',
       records: 'vendors',
       path: 'vendor',
-      recordsRequired: '%{resultCountTable}',
+      recordsRequired: '%{queryCustom.tableCount}',
       perRequest: RESULT_COUNT_INCREMENT,
       params: {
         query: (...args) => {
@@ -114,10 +112,18 @@ class Ledger extends Component {
         },
       }
     },
+    queryCustom: {
+      initialValue: {
+        fundCount: INITIAL_RESULT_COUNT,
+        fundQueryName: 'query=(ledger_id="")',
+        fiscalyearCount: INITIAL_RESULT_COUNT,
+        tableCount: INITIAL_RESULT_COUNT
+      }
+    },
     fiscalYear: {
       type: 'okapi',
       records: 'fiscal_years',
-      recordsRequired: '%{resultCountFiscalYear}',
+      recordsRequired: '%{queryCount.fiscalyearCount}',
       path: 'fiscal_year',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
@@ -154,24 +160,15 @@ class Ledger extends Component {
         staticFallback: { params: {}},
       },
     },
-    fundQuery: {
-      initialValue: {
-        query: `query=(fiscal_years="")`,
-        filter: '',
-        sort: 'Name',
-        sortBy: 'asc',
-        resultCount: 0,
-      },
-    },
     fund: {
       type: 'okapi',
       records: 'funds',
       path: 'fund',
-      recordsRequired: '%{fundQuery.resultCount}',
-      params: {
+      recordsRequired: '%{queryCustom.fundCount}',
+      params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.fundQuery.query} ${data.fundQuery.filter} sortby ${data.fundQuery.sort}`;
+          let cql = `${data.queryCustom.fundQueryName} sortby Name`;
           return cql;
         },
       }

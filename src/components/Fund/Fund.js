@@ -101,6 +101,25 @@ class Fund extends Component {
       recordsRequired: '30',
       perRequest: 30
     },
+    fundQuery: {
+      initialValue: {
+        name: 'query=(ledger_id="")',
+        count: INITIAL_RESULT_COUNT
+      }
+    },
+    fund: {
+      type: 'okapi',
+      records: 'funds',
+      path: 'fund',
+      recordsRequired: '%{fundQuery.count}',
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.fundQuery.name} sortby Name`;
+          return cql;
+        }
+      }
+    }
   });
   
   constructor(props) {

@@ -65,8 +65,8 @@ class LedgerForm extends Component {
     const { initialValues, parentMutator, parentResources } = this.props;
     if (parentResources !== null) {
       if (parentResources.fund !== null) {
-        if(!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
-          parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random()+2)+30 });
+        if (!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
+          parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
         }
       }
     }
@@ -150,7 +150,7 @@ class LedgerForm extends Component {
             { isEditPage && (
             <IfPermission perm="ledger.item.delete">
               { showDeleteButton ? (
-              <Row end="xs">
+                <Row end="xs">
                   <Col xs={12}>
                     <Button type="button" onClick={() => { this.props.deleteLedger(initialValues.id) }}>Remove</Button>
                   </Col>
@@ -170,12 +170,12 @@ class LedgerForm extends Component {
                   </Col>
                 </Row>
               )}
-            </IfPermission>
+             </IfPermission>
             )}
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 
   checkFund = () => {

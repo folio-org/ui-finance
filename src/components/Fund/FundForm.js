@@ -50,7 +50,12 @@ class FundForm extends Component {
 
   render() {
     const { initialValues } = this.props;
-    const showDeleteButton = initialValues.id ? true : false;
+    const isEditPage = initialValues.id ? true : false;
+    const showDeleteButton = this.checkBudget() !== null ? false : true;
+    const fundData = this.checkBudget();
+    const itemFormatter = (item, i) => (this.budgetDataRender(item, i)); 
+    const isEmptyMessage = "No items found";
+    
     return (
       <div style={{ margin: "0 auto", padding: '0' }} className={css.FundForm}>
         <Row>
@@ -60,7 +65,7 @@ class FundForm extends Component {
                 <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
+                <Field label="Cπode" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
@@ -87,16 +92,31 @@ class FundForm extends Component {
                 <Field label="Allocation To" name="allocation_to" id="allocation_to" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
               </Col>
             </Row>
+            { isEditPage && (
             <IfPermission perm="fund.item.delete">
-              <Row end="xs">
-                <Col xs={12}>
-                  {
-                    showDeleteButton &&
+              { showDeleteButton ? (
+                <Row end="xs">
+                  <Col xs={12}>
                     <Button type="button" onClick={() => { this.props.deleteFund(initialValues.id) }}>Remove</Button>
-                  }
-                </Col>
-              </Row>
-            </IfPermission>
+                  </Col>
+                </Row>
+              ) : (
+                <Row>
+                  <Col xs={12}>
+                    <Badges color="red">This Budget is connected to a Fund. Please removed the connection before deleting this ledger</Badges>
+                  </Col>
+                  <Col xs={12}>
+                    <div className={css.list}>
+                      {
+                        budgetData &&
+                        <List items={budgetData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
+                      }
+                    </div>
+                  </Col>
+                </Row>
+              )}
+             </IfPermission>
+            )}
           </Col>
         </Row>
       </div>
@@ -119,6 +139,21 @@ class FundForm extends Component {
       }
     });
     return newArr;
+  }
+
+  checkBudget = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    console.log(data);
+    return data;
+  }
+
+  budgetDataRender(data, i) {
+    return(<li key={i}>
+      <a href={`/finance/budget/view/${data.id}`}>{data.name}</a>
+    </li>
+    );
   }
 }
 

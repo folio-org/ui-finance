@@ -308,7 +308,8 @@ class TableSortAndFilter extends Component {
   onHandleClickClear() {
     this.setState({
       filters: this.props.filterConfig,
-      visibleColumns: this.resetColumn()
+      visibleColumns: this.resetColumn(),
+      showClearButton: false
     }, function() {
       this.createFilterQuery();
     });

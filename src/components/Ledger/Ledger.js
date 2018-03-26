@@ -120,45 +120,10 @@ class Ledger extends Component {
         tableCount: INITIAL_RESULT_COUNT
       }
     },
-    fiscalYear: {
+    fiscalyear: {
       type: 'okapi',
       records: 'fiscal_years',
-      recordsRequired: '%{queryCount.fiscalyearCount}',
-      path: 'fiscal_year',
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const sortMap = {
-              Name: 'name',
-            };
-
-            let cql = `(name="${resourceData.query.query}*")`;
-
-            const { sort } = resourceData.query;
-            if (sort) {
-              const sortIndexes = sort.split(',').map((sort1) => {
-                let reverse = false;
-                if (sort1.startsWith('-')) {
-                  // eslint-disable-next-line no-param-reassign
-                  sort1 = sort1.substr(1);
-                  reverse = true;
-                }
-                let sortIndex = sortMap[sort1] || sort1;
-                if (reverse) {
-                  sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
-                }
-                return sortIndex;
-              });
-
-              cql += ` sortby ${sortIndexes.join(' ')}`;
-            }
-            return cql;
-          },
-        },
-        staticFallback: { params: {}},
-      },
+      path: 'fiscal_year'
     },
     fund: {
       type: 'okapi',

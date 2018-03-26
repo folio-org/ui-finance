@@ -80,6 +80,7 @@ class LedgerForm extends Component {
     const itemFormatter = (item, i) => (this.fundDataRender(item, i)); 
     const isEmptyMessage = "No items found";
     const newRecords = this.props.dropdown_fiscalyears_array !== null ? true :  false;
+    
     return (
       <div>
         <Row> 
@@ -183,7 +184,6 @@ class LedgerForm extends Component {
     const { parentResources } = this.props;
     const data = (parentResources.fund || {}).records || [];
     if (!data || data.length === 0) return null;
-    console.log(data);
     return data;
   }
 

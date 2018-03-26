@@ -82,7 +82,7 @@ class LedgerPane extends Component {
   
   getFiscalYears() {
     let newArr = [];
-    const fiscalRecords = (this.props.parentResources || {}).fiscalYear.records || [];
+    const fiscalRecords = (this.props.parentResources || {}).fiscalyear.records || [];
     const arrLength = fiscalRecords.length - 1;
     if (fiscalRecords != null) {
       Object.keys(fiscalRecords).map((key) => {

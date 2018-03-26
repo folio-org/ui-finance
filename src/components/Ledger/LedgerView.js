@@ -137,7 +137,7 @@ class LedgerView extends Component {
 
   getFiscalYears = (e, i) => {
     const { parentResources } = this.props;
-    const fiscalYears = (parentResources.fiscalYear || {}).records || [];
+    const fiscalYears = (parentResources.fiscalyear || {}).records || [];
     if (!fiscalYears || fiscalYears.length === 0) return null;
     
     let data = fiscalYears.find(u => u.id === e);

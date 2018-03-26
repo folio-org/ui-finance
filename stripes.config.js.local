@@ -8,8 +8,8 @@ module.exports = {
     showPerms: false,
     // showHomeLink: false
     // listInvisiblePerms: false
-    // disableAuth: false
-    hasAllPerms: true
+    disableAuth: true,
+    hasAllPerms: true,
     // softLogout: false
   },
   "aliases": {

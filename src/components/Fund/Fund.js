@@ -103,7 +103,7 @@ class Fund extends Component {
     },
     budgetQuery: {
       initialValue: {
-        name: 'query=(fund_id="")',
+        fundID: 'query=(fund_id="")',
         count: INITIAL_RESULT_COUNT
       }
     },
@@ -115,7 +115,7 @@ class Fund extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery.name} sortby Name`;
+          let cql = `${data.budgetQuery.fundID} sortby Name`;
           return cql;
         }
       }

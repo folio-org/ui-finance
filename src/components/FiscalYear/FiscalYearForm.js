@@ -57,9 +57,11 @@ class FiscalYearForm extends Component {
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = this.checkLedger() !== null ? false : true;
+    const showDeleteButton = (this.checkLedger() !== null && this.checkBudget() !== null) ? false : true;
     const ledgerData = this.checkLedger();
+    const budgetData = this.checkBudget();
     const itemFormatter = (item) => (this.ledgerDataRender(item)); 
+    const itemFormatterBudget = (item, i) => (this.budgetDataRender(item, i)); 
     const isEmptyMessage = "No items found";
     return (
       <div className={css.FiscalYearForm}>
@@ -85,15 +87,25 @@ class FiscalYearForm extends Component {
             ) : (
               <Row>
                 <Col xs={12}>
-                  <Badges color="red">This fiscal year is connected to a ledger. Please removed the connection before deleting this fiscal year</Badges>
-                </Col>
-                <Col xs={12}>
-                  <div className={css.list}>
-                    {
-                      ledgerData &&
-                      <List items={ledgerData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-                    }
-                  </div>
+                  {
+                    ledgerData &&
+                    (
+                      <div className={css.list}>
+                        <h4>Ledger Connection</h4>
+                        <span>This fiscal year is connected to a ledger. Please removed the connection before deleting this fiscal year</span>
+                        <List items={ledgerData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
+                      </div>
+                    )
+                  }
+                  {
+                    budgetData && 
+                    (<div className={css.list}>
+                      <h4>Budget Connection</h4>
+                      <span>This fiscal year is connected to a Budget. Please removed the connection before deleting this fiscal year</span>
+                      <List items={budgetData} itemFormatter={itemFormatterBudget} isEmptyMessage={isEmptyMessage} />
+                    </div>
+                    )
+                  }
                 </Col>
               </Row>
             )}
@@ -113,6 +125,21 @@ class FiscalYearForm extends Component {
   ledgerDataRender(data) {
     return(<li>
       <a href={`/finance/ledger/view/${data.id}`}>{data.name}</a>
+    </li>
+    );
+  }
+
+  checkBudget = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    console.log(data);
+    return data;
+  }
+
+  budgetDataRender(data, i) {
+    return(<li key={i}>
+      <a href={`/finance/budget/view/${data.id}`}>{data.name}</a>
     </li>
     );
   }

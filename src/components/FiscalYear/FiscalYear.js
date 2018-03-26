@@ -115,6 +115,25 @@ class FiscalYear extends Component {
         },
       }
     },
+    budgetQuery: {
+      initialValue: {
+        fundID: 'query=(fund_id="")',
+        count: INITIAL_RESULT_COUNT
+      }
+    },
+    budget: {
+      type: 'okapi',
+      records: 'budgets',
+      path: 'budget',
+      recordsRequired: '%{budgetQuery.count}',
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.budgetQuery.fundID} sortby Name`;
+          return cql;
+        }
+      }
+    }
   });
   
   constructor(props) {

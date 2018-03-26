@@ -2,3 +2,11 @@
 .dateInputFix input {
   padding: 4px !important;
 }
+
+.list ul {
+  padding: 10px 0 0 0 !important;
+}
+
+h4 {
+  margin-bottom: 5px;
+}

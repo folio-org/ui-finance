@@ -17,6 +17,7 @@ import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import List from '@folio/stripes-components/lib/List';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
+import Badges from '@folio/stripes-components/lib/Badge/Badge.js'
 // Components and Utils
 import css from './css/FundForm.css';
 import { Required } from '../../Utils/Validate';
@@ -48,11 +49,29 @@ class FundForm extends Component {
     this.getLedger = this.getLedger.bind(this);
   }
 
+  componentWillMount() {
+    const { initialValues, parentMutator } = this.props;
+    if (initialValues.id) {
+      parentMutator.budgetQuery.update({ fundID: `query=(fund_id="${initialValues.id}")`, fundCount: Math.floor(Math.random()+1)+30 });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { initialValues, parentMutator, parentResources } = this.props;
+    if (parentResources !== null) {
+      if (parentResources.budget !== null) {
+        if (!_.isEqual(nextProps.parentResources.budget.records, this.props.parentResources.budget.records)) {
+          parentMutator.budgetQuery.update({ fundID: `query=(fund_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
+        }
+      }
+    }
+  }
+
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
     const showDeleteButton = this.checkBudget() !== null ? false : true;
-    const fundData = this.checkBudget();
+    const budgetData = this.checkBudget();
     const itemFormatter = (item, i) => (this.budgetDataRender(item, i)); 
     const isEmptyMessage = "No items found";
     
@@ -102,16 +121,17 @@ class FundForm extends Component {
                 </Row>
               ) : (
                 <Row>
-                  <Col xs={12}>
-                    <Badges color="red">This Budget is connected to a Fund. Please removed the connection before deleting this ledger</Badges>
-                  </Col>
-                  <Col xs={12}>
-                    <div className={css.list}>
-                      {
-                        budgetData &&
-                        <List items={budgetData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-                      }
-                    </div>
+                  <Col xs={12}>                  
+                    {
+                      budgetData &&
+                      (
+                        <div className={css.list}>
+                          <h4>Budget Connection</h4>
+                          <span color="red">This Fund is connected to a Budget. Please removed the connection before deleting this Fund</span>
+                          <List items={budgetData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
+                        </div>
+                      )
+                    }
                   </Col>
                 </Row>
               )}

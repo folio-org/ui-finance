@@ -158,15 +158,16 @@ class LedgerForm extends Component {
               ) : (
                 <Row>
                   <Col xs={12}>
-                    <Badges color="red">This Ledger is connected to a Fund. Please removed the connection before deleting this ledger</Badges>
-                  </Col>
-                  <Col xs={12}>
-                    <div className={css.list}>
-                      {
-                        fundData &&
-                        <List items={fundData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-                      }
-                    </div>
+                    {
+                      fundData &&
+                      (
+                        <div className={css.list}>
+                          <h4>Budget Connection</h4>
+                          <span>This Ledger is connected to a Fund. Please removed the connection before deleting this ledger</span>
+                          <List items={fundData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
+                        </div>
+                      )
+                    }
                   </Col>
                 </Row>
               )}

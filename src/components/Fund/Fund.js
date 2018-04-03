@@ -164,13 +164,22 @@ class Fund extends Component {
       'Allocation To': data => _.toString(_.get(data, ['allocation_to'], '')),
       'Tags': data => _.toString(_.get(data, ['tags'], ''))
     }
+    const packageInfoReWrite = () => {
+      const path = '/finance/fund';
+      packageInfo.stripes.route = path;
+      packageInfo.stripes.home = path;
+      return packageInfo;
+    };
+
+
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
         <SearchAndSort
+          packageInfo={packageInfoReWrite()}
           moduleName={'fund'}
           moduleTitle={'fund'}
           objectName="fund"
-          baseRoute={`${this.props.match.path}`}
+          baseRoute={`finance/fund/`}
           filterConfig={filterConfig}
           visibleColumns = {['Name', 'Code', 'Description', 'Created Date', 'Fund Status', 'Currency', 'Ledger', 'Allocation From', 'Allocation To', 'Tags']}
           resultsFormatter={resultsFormatter}

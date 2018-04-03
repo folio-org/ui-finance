@@ -180,11 +180,19 @@ class Ledger extends Component {
     }
     const getRecords = (this.props.resources || {}).records || [];
     const urlQuery = queryString.parse(this.props.location.search || '');
+    const packageInfoReWrite = () => {
+      const path = '/finance/ledger';
+      packageInfo.stripes.route = path;
+      packageInfo.stripes.home = path;
+      return packageInfo;
+    };
+
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
         {
           getRecords  &&
           <SearchAndSort
+            packageInfo={packageInfoReWrite()}
             moduleName={packageInfo.name.replace(/.*\//, '')}
             moduleTitle={'ledger'}
             objectName="ledger"

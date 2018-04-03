@@ -143,17 +143,18 @@ class Budget extends Component {
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.toString(_.get(data, ['code'], '')),
-      // 'Created Date': data => _.toString(_.get(data, ['created_date'], '')),
-      // 'Budget Status': data => _.get(data, ['budget_status'], ''),
-      // 'Currency': data => _.get(data, ['Currency'], ''),
-      // 'Ledger': data => _.get(data, ['ledger_id'], ''),
-      // 'Allocation From': data => _.toString(_.get(data, ['allocation_from'], '')),
-      // 'Allocation To': data => _.toString(_.get(data, ['allocation_to'], '')),
-      // 'Tags': data => _.toString(_.get(data, ['tags'], ''))
     }
+    const packageInfoReWrite = () => {
+      const path = '/finance/budget';
+      packageInfo.stripes.route = path;
+      packageInfo.stripes.home = path;
+      return packageInfo;
+    };
+
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
         <SearchAndSort
+          packageInfo={packageInfoReWrite()}
           moduleName={'budget'}
           moduleTitle={'budget'}
           objectName="budget"

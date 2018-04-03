@@ -172,9 +172,17 @@ class FiscalYear extends Component {
       'Code': data => _.toString(_.get(data, ['code'], '')),
       'Description': data => _.get(data, ['description'], '')
     }
+    const packageInfoReWrite = () => {
+      const path = '/finance/fiscalyear';
+      packageInfo.stripes.route = path;
+      packageInfo.stripes.home = path;
+      return packageInfo;
+    };
+
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
         <SearchAndSort
+          packageInfo={packageInfoReWrite()}
           moduleName={'fiscal_year'}
           moduleTitle={'fiscal_year'}
           objectName="fiscal_year"

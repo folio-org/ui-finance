@@ -9,10 +9,7 @@ module.exports = {
     // showHomeLink: false
     // listInvisiblePerms: false
     disableAuth: true,
-    hasAllPerms: true,
+    hasAllPerms: true
     // softLogout: false
-  },
-  "aliases": {
-    "@folio/finance": "../ui-finance",
   }
 };

@@ -18,13 +18,6 @@
     "home": "/finance",
     "hasSettings": true,
     "queryResource": "query",
-    "icons": [
-      {
-        "name": "app",
-        "alt": "Create, view and manage finance",
-        "title": "Finance"
-      }
-    ],
     "permissionSets": [
       {
         "permissionName": "budget.collection.get",
@@ -302,7 +295,7 @@
     ]
   },
   "scripts": {
-    "start": "stripes serve --port=8080;",
+    "start": "stripes serve",
     "build": "stripes build --output ./output",
     "test": "stripes test --run demo --show",
     "lint": "eslint lib"

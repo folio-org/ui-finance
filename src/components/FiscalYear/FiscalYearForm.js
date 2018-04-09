@@ -52,12 +52,21 @@ class FiscalYearForm extends Component {
         }
       }
     }
+
+    // const { initialValues, parentMutator, parentResources } = this.props;
+    // if (parentResources !== null) {
+    //   if (parentResources.fund !== null) {
+    //     if (!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
+    //       parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
+    //     }
+    //   }
+    // }
   }
   
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = (this.checkLedger() !== null && this.checkBudget() !== null) ? false : true;
+    const showDeleteButton = (this.checkLedger() !== null || this.checkBudget() !== null) ? false : true;
     const ledgerData = this.checkLedger();
     const budgetData = this.checkBudget();
     const itemFormatter = (item) => (this.ledgerDataRender(item)); 

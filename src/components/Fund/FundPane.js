@@ -53,6 +53,7 @@ class FundPane extends Component {
           title={label}
           disabled={pristine || submitting}
           onClick={handleSubmit}
+          style={{marginBottom: '0'}}
         >
           {label}
         </Button>

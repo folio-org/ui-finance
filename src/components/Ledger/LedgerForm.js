@@ -79,8 +79,8 @@ class LedgerForm extends Component {
     const fundData = this.checkFund();
     const itemFormatter = (item, i) => (this.fundDataRender(item, i)); 
     const isEmptyMessage = "No items found";
-    const newRecords = this.props.dropdown_fiscalyears_array !== null ? true :  false;
-    
+    const newFislcalYear = this.props.dropdown_fiscalyears_array !== null ? true :  false;
+    console.log(this.props.dropdown_fiscalyears_array);
     return (
       <div>
         <Row> 
@@ -140,7 +140,7 @@ class LedgerForm extends Component {
               </Col>
               <Col xs={12}>
                 {
-                  newRecords ? (
+                  newFislcalYear ? (
                     <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={this.props.dropdown_fiscalyears_array} style={{ height: '150px', width: '100%' }} />
                   ) : (
                       <p>"No fiscal year available"</p>
@@ -163,7 +163,7 @@ class LedgerForm extends Component {
                       fundData &&
                       (
                         <div className={css.list}>
-                          <h4>Budget Connection</h4>
+                          <h4>Fund Connection</h4>
                           <span>This Ledger is connected to a Fund. Please removed the connection before deleting this ledger</span>
                           <List items={fundData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
                         </div>

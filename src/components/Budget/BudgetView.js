@@ -95,16 +95,14 @@ class BudgetView extends Component {
 
   getFiscalYears = (e, i) => {
     const { parentResources } = this.props;
-    // initialValues.fiscal_years
-    console.log(this.props);
-    // const fiscalYears = (parentResources.fiscalyear || {}).records || [];
-    // if (!fiscalYears || fiscalYears.length === 0) return null;
+    const fiscalYears = (parentResources.fiscalyear || {}).records || [];
+    if (!fiscalYears || fiscalYears.length === 0) return null;
+    let data = fiscalYears.find(u => u.id === e);
+    if (!data || data.length === 0) return null;
     
-    // let data = fiscalYears.find(u => u.id === e);
-    // if (!data || data.length === 0) return null;
-    // return (
-    //   <p key={i}>{_.get(data, ['code'], '')}, {_.get(data, ['name'], '')}, {_.get(data, ['description'], '')}</p>
-    // )
+    return (
+      <p key={i}>{_.get(data, ['code'], '')}, {_.get(data, ['name'], '')}, {_.get(data, ['description'], '')}</p>
+    )
   }
 
   update(data) {

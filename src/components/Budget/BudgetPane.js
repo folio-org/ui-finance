@@ -29,6 +29,7 @@ class BudgetPane extends Component {
 
   constructor(props) {
     super(props);
+    this.getFiscalYears = this.getFiscalYears.bind(this);
     this.deleteBudget = this.deleteBudget.bind(this);
   }
 
@@ -75,6 +76,26 @@ class BudgetPane extends Component {
         </Pane>
       </form>
     )
+  }
+
+  getFiscalYears() {
+    let newArr = [];
+    const fiscalRecords = (this.props.parentResources || {}).fiscalyear.records || [];
+    const arrLength = fiscalRecords.length - 1;
+    if (fiscalRecords != null) {
+      Object.keys(fiscalRecords).map((key) => {
+        let name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
+        let val = fiscalRecords[key].id;
+        newArr.push({
+          label: name.toString(),
+          value: val.toString()
+        });
+        if (Number(key) === arrLength) {
+          return newArr;
+        }
+      });
+    }
+    return newArr;
   }
 
   deleteBudget(ID) {

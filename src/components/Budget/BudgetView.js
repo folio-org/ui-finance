@@ -27,11 +27,13 @@ class BudgetView extends Component {
   constructor(props) {
     super(props);
     this.getData = this.getData.bind(this);
+    this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedBudgetPane = this.props.stripes.connect(BudgetPane);
   }
 
   render() {
     const initialValues = this.getData();
+    console.log(this.props);
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
       <IfPermission perm="budget.item.put">
@@ -63,6 +65,12 @@ class BudgetView extends Component {
           <Col xs={3}>
             <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
+          <Col xs={3}>
+            <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="fund" value={_.toString(_.get(initialValues, ['fund'], ''))} />
+          </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Budget Dialog">
           <this.connectedBudgetPane
@@ -83,6 +91,20 @@ class BudgetView extends Component {
     const budget = (parentResources.records || {}).records || [];
     if (!budget || budget.length === 0 || !id) return null;
     return budget.find(u => u.id === id);
+  }
+
+  getFiscalYears = (e, i) => {
+    const { parentResources } = this.props;
+    // initialValues.fiscal_years
+    console.log(this.props);
+    // const fiscalYears = (parentResources.fiscalyear || {}).records || [];
+    // if (!fiscalYears || fiscalYears.length === 0) return null;
+    
+    // let data = fiscalYears.find(u => u.id === e);
+    // if (!data || data.length === 0) return null;
+    // return (
+    //   <p key={i}>{_.get(data, ['code'], '')}, {_.get(data, ['name'], '')}, {_.get(data, ['description'], '')}</p>
+    // )
   }
 
   update(data) {

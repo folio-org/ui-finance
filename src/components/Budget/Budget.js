@@ -107,6 +107,18 @@ class Budget extends Component {
       path: 'fiscal_year',
       recordsRequired: '%{fiscalyearResultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            const sortMap = {
+              Name: 'name'
+            };
+            let cql = `(name="*")`;
+            return cql;
+          },
+        }
+      },
     },
   });
   
@@ -138,6 +150,7 @@ class Budget extends Component {
 
   render() {
     const props = this.props;
+    console.log(this.props.resources);
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {

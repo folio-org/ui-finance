@@ -64,9 +64,10 @@ class BudgetForm extends Component {
         }
       }
       if (parentResources.fiscalyear !== null) {
-        let fiscalyearResultCount = parentResources.fisclayearResultCount;
+        let fiscalyearResultCount = parentResources.fiscalyearResultCount;
         if(!_.isEqual(nextProps.parentResources.fiscalyear.records, this.props.parentResources.fiscalyear.records)) {
           parentMutator.fiscalyearResultCount.replace(Math.floor(Math.random()+2)+fiscalyearResultCount);
+          console.log(Math.floor(Math.random()+2)+fiscalyearResultCount);
         }
       }
     }
@@ -148,6 +149,7 @@ class BudgetForm extends Component {
   getData(resourceName) {
     const { parentResources } = this.props;
     const records = (parentResources[`${resourceName}`] || {}).records || [];
+    console.log(records);
     if (!records || records.length === 0) return null;
     let newArr = [];
     Object.keys(records).map((key) => {

@@ -84,7 +84,7 @@ class FundForm extends Component {
                 <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Cπode" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
+                <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />

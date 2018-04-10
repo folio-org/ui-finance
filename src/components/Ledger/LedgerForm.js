@@ -56,16 +56,20 @@ class LedgerForm extends Component {
 
   componentWillMount() {
     const { initialValues, parentMutator } = this.props;
-    if (initialValues.id) {
-      parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random()+1)+30 });
-    }
   }
 
   componentWillReceiveProps(nextProps) {
     const { initialValues, parentMutator, parentResources } = this.props;
     if (parentResources !== null) {
+      // Funds
       if (parentResources.fund !== null) {
         if (!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
+          parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
+        }
+      }
+      // Fiscla Year
+      if (parentResources.fiscalyear !== null) {
+        if (!_.isEqual(nextProps.parentResources.fiscalyear.records, this.props.parentResources.fiscalyear.records)) {
           parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
         }
       }

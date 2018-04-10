@@ -300,7 +300,7 @@ class TableSortAndFilter extends Component {
       if (!_.isNull(this.props.parentResources)) {
         const { parentResources, parentMutator } = this.props;
         let num = parentResources.queryCustom.tableCount + RESULT_COUNT_INCREMENT;
-        parentMutator.queryCustom.replace({tableCount: num});
+        parentMutator.queryCustom.update({tableCount: num});
       }
     }
   }

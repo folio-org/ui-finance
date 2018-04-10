@@ -114,11 +114,11 @@ class Ledger extends Component {
     },
     queryCustom: {
       initialValue: {
-        fundQueryName: 'query=(name="*")',
-        fundCount: INITIAL_RESULT_COUNT,
-        fiscalyearQueryName: 'query=(name="*")',
-        fiscalyearCount: INITIAL_RESULT_COUNT,
-        tableCount: INITIAL_RESULT_COUNT
+        fundQuery: 'query=(name="*")',
+        fundCount: 200,
+        fiscalyearQuery: 'query=(name="*")',
+        fiscalyearCount: 200,
+        tableCount: 200
       }
     },
     fiscalyear: {
@@ -138,16 +138,7 @@ class Ledger extends Component {
     fund: {
       type: 'okapi',
       records: 'funds',
-      path: 'fund',
-      recordsRequired: '%{queryCustom.fundCount}',
-      perRequest: RESULT_COUNT_INCREMENT,
-      params: { 
-        query: (...args) => {
-          const data = args[2];
-          let cql = `${data.queryCustom.fundQueryName} sortby name`;
-          return cql;
-        },
-      }
+      path: 'fund'
     }
   });
 
@@ -179,7 +170,6 @@ class Ledger extends Component {
 
   render() {
     const props = this.props;
-    console.log(this.props);
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {

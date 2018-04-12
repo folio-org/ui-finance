@@ -25,12 +25,15 @@ class LedgerPane extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    parentMutator: PropTypes.object,
+    dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    }))
   }
   
   constructor(props) {
     super(props);
-    this.getFiscalYears = this.getFiscalYears.bind(this);
     this.deleteLedger = this.deleteLedger.bind(this);
   }
 
@@ -64,8 +67,7 @@ class LedgerPane extends Component {
   }
 
   render() {
-    // console.log(this.props);
-    const { initialValues } = this.props;
+    const { initialValues, getFiscalYears } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create ledger';
     const lastMenu = initialValues.id ?
@@ -75,32 +77,12 @@ class LedgerPane extends Component {
     return (
       <form id="form-ledger">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <LedgerForm dropdown_fiscalyears_array={this.getFiscalYears()} {...this.props} deleteLedger={this.deleteLedger} />
+          <LedgerForm {...this.props} deleteLedger={this.deleteLedger} />
         </Pane>
       </form>
     )
   }
   
-  getFiscalYears() {
-    let newArr = [];
-    const fiscalRecords = (this.props.parentResources || {}).fiscalyear.records || [];
-    const arrLength = fiscalRecords.length - 1;
-    if (fiscalRecords != null) {
-      Object.keys(fiscalRecords).map((key) => {
-        let name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
-        let val = fiscalRecords[key].id;
-        newArr.push({
-          label: name.toString(),
-          value: val.toString()
-        });
-        if (Number(key) === arrLength) {
-          return newArr;
-        }
-      });
-    }
-    return newArr;
-  }
-
   deleteLedger(ID) {
     const { parentMutator } = this.props;
     parentMutator.records.DELETE({ id: ID }).then(() => {

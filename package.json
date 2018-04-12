@@ -13,11 +13,18 @@
   },
   "stripes": {
     "type": "app",
-    "displayName": "ui-finance",
+    "displayName": "Finance",
     "route": "/finance",
     "home": "/finance",
     "hasSettings": true,
     "queryResource": "query",
+    "icons": [
+      {
+        "name": "app",
+        "alt": "Create, view and manage Finance",
+        "title": "Finance"
+      }
+    ],
     "permissionSets": [
       {
         "permissionName": "budget.collection.get",

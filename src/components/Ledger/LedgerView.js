@@ -15,7 +15,8 @@ import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import LedgerPane from './LedgerPane';
-import TableSortAndFilter from '../TableSortAndFilter';
+// import TableSortAndFilter from '../TableSortAndFilter';
+import ConnectionListing from '../ConnectionListing';
 
 
 class LedgerView extends Component {
@@ -24,6 +25,10 @@ class LedgerView extends Component {
     onCloseEdit: PropTypes.func,
     parentResources: PropTypes.shape({}),
     parentMutator: PropTypes.shape({}),
+    dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    }))
   }
 
   constructor(props) {
@@ -44,6 +49,7 @@ class LedgerView extends Component {
   }
 
   render() {
+    console.log(this.props);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
@@ -58,8 +64,7 @@ class LedgerView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
-    console.log(this.props);
-    // Table Config
+    // Table Sort Filter Config
     const filterConfig = [
       {
         label: 'Vendor Status',
@@ -76,13 +81,16 @@ class LedgerView extends Component {
       { 'title': 'name', 'status': true },
       { 'title': 'vendor_status', 'status': true }
     ];
+    // Table
     const formatter = {
       name: data => _.get(data, ['name'], ''),
       vendor_status: data => _.get(data, ['vendor_status'], '')
     };
     const startDate = new Date(_.get(initialValues, ['period_start'], '')).toDateString();
     const endDate = new Date(_.get(initialValues, ['period_end'], '')).toDateString();
-
+    // Connections
+    const fundData = this.checkFund();
+    
     if (!initialValues) {
       return (
         <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
@@ -109,7 +117,7 @@ class LedgerView extends Component {
           <Col xs={12}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
-          <Col xs={12}>
+          {/* <Col xs={12}>
             <this.connectedTableSortAndFilter
               resourceName="tableRecords"
               tableInitCountName="queryCustom.tableCount"
@@ -122,6 +130,18 @@ class LedgerView extends Component {
               parentResources={this.props.parentResources}
               parentMutator={this.props.parentMutator}
             />
+          </Col> */}
+          <Col xs={12}>
+            {
+              fundData &&
+              <ConnectionListing
+                title={'Fund Connection'}
+                description={'This Ledger is connected to a Fund. Please removed the connection before deleting this ledger'}
+                isEmptyMessage={'"No items found"'}
+                items={fundData}
+                path={'/finance/fund/view/'}
+              />
+            }
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">
@@ -132,6 +152,8 @@ class LedgerView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
+            dropdownFiscalyears={this.props.dropdownFiscalyears}
+            fundData={fundData}
           />
         </Layer>
       </Pane>
@@ -142,8 +164,6 @@ class LedgerView extends Component {
     const { parentResources, match: { params: { id } } } = this.props;
     const ledgers = (parentResources.records || {}).records || [];
     if (!ledgers || ledgers.length === 0 || !id) return null;
-    // Logging below shows this DOES sometimes find the wrong record. But why?
-    // console.log(`getUser: found ${ledgers.length} users, id '${ledgers[0].id}' ${ledgers[0].id === id ? '==' : '!='} '${id}'`);
     return ledgers.find(u => u.id === id);  
   }
 
@@ -155,14 +175,13 @@ class LedgerView extends Component {
     return (
       <p>{_.get(newData, ['code'], '')}, {_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
     )
+  }
 
-    
-    
-    // if (!fiscalYears || fiscalYears.length === 0) return null;
-    // 
-    // let data = fiscalYears.find(u => u.id === e);
-    // if (!data || data.length === 0) return null;
-    
+  checkFund = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.fund || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
   }
 
   update(ledgerdata) {

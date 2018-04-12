@@ -30,7 +30,12 @@ import {FiscalYear} from '../FiscalYear';
 class LedgerForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    deleteLedger: PropTypes.func
+    deleteLedger: PropTypes.func,
+    dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })),
+    dropdownFiscalyears: PropTypes.arrayOf(PropTypes.object)
   }
 
   constructor(props) {
@@ -77,13 +82,12 @@ class LedgerForm extends Component {
   }
 
   render() {
-    const { initialValues } = this.props;
+    const { initialValues, dropdownFiscalyears } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = this.checkFund() !== null ? false : true;
-    const fundData = this.checkFund();
+    const showDeleteButton = this.props.checkFund !== null ? false : true;
     const itemFormatter = (item, i) => (this.fundDataRender(item, i)); 
     const isEmptyMessage = "No items found";
-    const newFislcalYear = this.props.dropdown_fiscalyears_array !== null ? true :  false;
+    const newFislcalYear = this.props.dropdownFiscalyears !== null ? true :  false;
     return (
       <div>
         <Row> 
@@ -130,7 +134,7 @@ class LedgerForm extends Component {
             </Row>
             <Row>
               <Col xs={12}>
-                <h4>Fiscal Year Period</h4>
+                <p>Fiscal Year Period</p>
               </Col>
               <Col xs={12} md={6} className={css.dateInputFix}>
                 <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
@@ -139,12 +143,12 @@ class LedgerForm extends Component {
                 <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
               </Col>
               <Col xs={12}>
-                <h4>Fiscal Year Label</h4>
+                <p>Fiscal Year Label</p>
               </Col>
               <Col xs={12}>
                 {
                   newFislcalYear ? (
-                    <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={this.props.dropdown_fiscalyears_array} style={{ height: '150px', width: '100%' }} />
+                    <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} style={{ height: '150px', width: '100%' }} />
                   ) : (
                       <p>"No fiscal year available"</p>
                     )

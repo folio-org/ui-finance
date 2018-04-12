@@ -165,7 +165,6 @@ class FiscalYear extends Component {
   render() {
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
-    console.log(props);
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),

@@ -152,6 +152,7 @@ class Ledger extends Component {
     };
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
+    this.getFiscalYears = this.getFiscalYears.bind(this);
   }
 
   create = (ledgerdata) => {
@@ -172,15 +173,17 @@ class Ledger extends Component {
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
+    
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.get(data, ['code'], ''),
       'Description': data => _.get(data, ['description'], ''),
-      'Period Start': data => _.get(data, ['period_start'], ''),
-      'Period End': data => _.get(data, ['period_end'], ''),
-      'Fiscal Year': data => _.toString(_.get(data, ['fiscal_years'], ''))
+      'Period Start': data => new Date(_.get(data, ['period_start'], '')).toDateString(),
+      'Period End': data => new Date(_.get(data, ['period_end'], '')).toDateString()
     }
+
     const getRecords = (this.props.resources || {}).records || [];
+    const getFiscalYearsRecords = this.getFiscalYears();
     const urlQuery = queryString.parse(this.props.location.search || '');
     const packageInfoReWrite = () => {
       const path = '/finance/ledger';
@@ -200,7 +203,7 @@ class Ledger extends Component {
             objectName="ledger"
             baseRoute={`${this.props.match.path}`}
             filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End', 'Fiscal Year']}
+            visibleColumns={['Name', 'Code', 'Description', 'Period Start', 'Period End']}
             resultsFormatter={resultsFormatter}
             initialFilters={this.constructor.manifest.query.initialValue.filters}
             viewRecordComponent={LedgerView}
@@ -215,12 +218,38 @@ class Ledger extends Component {
             newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
             parentResources={props.resources}
             parentMutator={props.mutator}
-            detailProps={this.props.stripes}
+            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords }}
             onComponentWillUnmount={this.props.onComponentWillUnmount}
           />
         }
       </div>
     )
+  }
+
+  getFiscalYears() {
+    let newArr = [];
+    const fiscalRecords = (this.props.resources.fiscalyear || {}).records || [];
+    if (!fiscalRecords || fiscalRecords.length === 0) return null;
+    const arrLength = fiscalRecords.length - 1;
+    if (fiscalRecords != null) {
+      // Loop through records
+      let preObj = { label: 'Select a Fiscal Year', value: '' };
+      newArr.push(preObj);
+      // Loop through records
+      Object.keys(fiscalRecords).map((key) => {
+        let name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
+        let val = fiscalRecords[key].id;
+        let obj = {
+          label: _.toString(name),
+          value: _.toString(val)
+        };
+        newArr.push(obj);
+        if (Number(key) === arrLength) {
+          return newArr;
+        }
+      });
+    }
+    return newArr;
   }
 }
 

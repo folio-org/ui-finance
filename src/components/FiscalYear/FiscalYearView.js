@@ -15,6 +15,7 @@ import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FiscalYearPane from './FiscalYearPane';
+import ConnectionListing from '../ConnectionListing';
 
 class FiscalYearView extends Component {
   static propTypes = {
@@ -28,6 +29,8 @@ class FiscalYearView extends Component {
     super(props);
     this.getData = this.getData.bind(this);
     this.connectedFiscalYearPane = this.props.stripes.connect(FiscalYearPane);
+    // Connections
+    this.checkLedger = this.checkLedger.bind(this);
   }
 
   render() {
@@ -45,6 +48,8 @@ class FiscalYearView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
+    const ledgerData = this.checkLedger();
+    const budgetData = this.checkBudget();
 
     if (!initialValues) {
       return (
@@ -66,6 +71,32 @@ class FiscalYearView extends Component {
           <Col xs={3}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
           </Col>
+          {
+            ledgerData &&
+            <Col xs={12}>
+              <hr />
+              <ConnectionListing
+                title={'Ledger Connection'}
+                isEmptyMessage={'"No items found"'}
+                items={ledgerData}
+                isView={true}
+                path={'/finance/fiscalyear/view/'}
+              />
+            </Col>
+          }
+          {
+            budgetData &&
+            <Col xs={12}>
+              <hr />
+              <ConnectionListing
+                title={'Budget Connection'}
+                isEmptyMessage={'"No items found"'}
+                items={budgetData}
+                isView={true}
+                path={'/finance/budget/view/'}
+              />
+            </Col>
+          }
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Fiscal Year Dialog">
           <this.connectedFiscalYearPane
@@ -75,6 +106,8 @@ class FiscalYearView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
+            ledgerData={ledgerData}
+            budgetData={budgetData}
           />
         </Layer>
       </Pane>
@@ -86,6 +119,21 @@ class FiscalYearView extends Component {
     const fiscalyear = (parentResources.records || {}).records || [];
     if (!fiscalyear || fiscalyear.length === 0 || !id) return null;
     return fiscalyear.find(u => u.id === id);
+  }
+
+  checkLedger = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.ledger || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
+  }
+
+  checkBudget = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    console.log(data);
+    return data;
   }
 
   update(data) {

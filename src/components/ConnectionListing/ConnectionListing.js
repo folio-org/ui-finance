@@ -17,7 +17,6 @@ class ConnectionListing extends Component {
     path: PropTypes.string
   }
 
-  
   constructor(props) {
     super(props);
     this.state = {}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -115,18 +115,19 @@ class LedgerView extends Component {
           <Col xs={12}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
-          <Col xs={12}>
-            {
-              fundData &&
+          {
+            fundData &&
+            <Col xs={12}>
+              <hr />
               <ConnectionListing
                 title={'Fund Connection'}
                 isEmptyMessage={'"No items found"'}
                 items={fundData}
                 isView={true}
-                path={'/finance/fund/view/'}
+                path={'/finance/ledger/view/'}
               />
-            }
-          </Col>
+            </Col>
+          }
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">
           <this.connectedLedgerPane

@@ -162,9 +162,10 @@ class LedgerForm extends Component {
                 </Row>
               ) : (
                 <Row>
-                  <Col xs={12}>
-                    {
-                      fundData &&
+                  {
+                    fundData &&
+                    <Col xs={12}>
+                      <hr />
                       <ConnectionListing
                         title={'Fund Connection'}
                         isEmptyMessage={'"No items found"'}
@@ -172,8 +173,8 @@ class LedgerForm extends Component {
                         isView={false}
                         path={'/finance/fund/view/'}
                       />
-                    }
-                  </Col>
+                    </Col>
+                  }
                 </Row>
               )}
              </IfPermission>

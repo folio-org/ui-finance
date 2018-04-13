@@ -32,26 +32,24 @@ class FiscalYearForm extends Component {
 
   constructor(props) {
     super(props);
-    this.checkLedger = this.checkLedger.bind(this);
-    this.ledgerDataRender = this.ledgerDataRender.bind(this);
   }
 
   componentWillMount() {
-    const { initialValues, parentMutator } = this.props;
-    if (initialValues.id) {
-      parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:30 });
-    }
+    // const { initialValues, parentMutator } = this.props;
+    // if (initialValues.id) {
+    //   parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:30 });
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialValues, parentMutator, parentResources } = this.props;
-    if (parentResources !== null) {
-      if (parentResources.ledger !== null) {
-        if(!_.isEqual(nextProps.parentResources.ledger.records, this.props.parentResources.ledger.records)) {
-          parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:20 });
-        }
-      }
-    }
+    // const { initialValues, parentMutator, parentResources } = this.props;
+    // if (parentResources !== null) {
+    //   if (parentResources.ledger !== null) {
+    //     if(!_.isEqual(nextProps.parentResources.ledger.records, this.props.parentResources.ledger.records)) {
+    //       parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:20 });
+    //     }
+    //   }
+    // }
 
     // const { initialValues, parentMutator, parentResources } = this.props;
     // if (parentResources !== null) {
@@ -66,12 +64,10 @@ class FiscalYearForm extends Component {
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = (this.checkLedger() !== null || this.checkBudget() !== null) ? false : true;
-    const ledgerData = this.checkLedger();
-    const budgetData = this.checkBudget();
-    const itemFormatter = (item) => (this.ledgerDataRender(item)); 
-    const itemFormatterBudget = (item, i) => (this.budgetDataRender(item, i)); 
-    const isEmptyMessage = "No items found";
+    const showDeleteButton = (this.props.checkLedger !== null || this.props.checkBudget !== null) ? false : true;
+    const ledgerData = this.props.checkLedger;
+    const budgetData = this.props.checkBudget;
+
     return (
       <div className={css.FiscalYearForm}>
         <Row>
@@ -95,62 +91,38 @@ class FiscalYearForm extends Component {
               </Row>
             ) : (
               <Row>
-                <Col xs={12}>
-                  {
-                    ledgerData &&
-                    (
-                      <div className={css.list}>
-                        <h4>Ledger Connection</h4>
-                        <span>This fiscal year is connected to a ledger. Please removed the connection before deleting this fiscal year</span>
-                        <List items={ledgerData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-                      </div>
-                    )
-                  }
-                  {
-                    budgetData && 
-                    (<div className={css.list}>
-                      <h4>Budget Connection</h4>
-                      <span>This fiscal year is connected to a Budget. Please removed the connection before deleting this fiscal year</span>
-                      <List items={budgetData} itemFormatter={itemFormatterBudget} isEmptyMessage={isEmptyMessage} />
-                    </div>
-                    )
-                  }
-                </Col>
+                {
+                  ledgerData &&
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title={'Ledger Connection'}
+                      isEmptyMessage={'"No items found"'}
+                      items={ledgerData}
+                      isView={true}
+                      path={'/finance/fiscalyear/view/'}
+                    />
+                  </Col>
+                }
+                {
+                  budgetData && 
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title={'Budget Connection'}
+                      isEmptyMessage={'"No items found"'}
+                      items={budgetData}
+                      isView={true}
+                      path={'/finance/budget/view/'}
+                    />
+                  </Col>
+                }
               </Row>
             )}
           </IfPermission>
         )}
       </div>
     ) 
-  }
-
-  checkLedger = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.ledger || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
-  }
-
-  ledgerDataRender(data) {
-    return(<li>
-      <a href={`/finance/ledger/view/${data.id}`}>{data.name}</a>
-    </li>
-    );
-  }
-
-  checkBudget = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.budget || {}).records || [];
-    if (!data || data.length === 0) return null;
-    console.log(data);
-    return data;
-  }
-
-  budgetDataRender(data, i) {
-    return(<li key={i}>
-      <a href={`/finance/budget/view/${data.id}`}>{data.name}</a>
-    </li>
-    );
   }
 }
 

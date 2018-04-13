@@ -93,27 +93,10 @@ class FiscalYear extends Component {
         staticFallback: { params: {} },
       },
     },
-    ledgerQuery: {
-      initialValue: {
-        query: `query=(fiscal_years="")`,
-        filter: '',
-        sort: 'Name',
-        sortBy: 'asc',
-        resultCount: 0,
-      },
-    },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger',
-      recordsRequired: '%{ledgerQuery.resultCount}',
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          let cql = `${data.ledgerQuery.query} ${data.ledgerQuery.filter} sortby ${data.ledgerQuery.sort}`;
-          return cql;
-        },
-      }
+      path: 'ledger'
     },
     budgetQuery: {
       initialValue: {

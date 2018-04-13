@@ -14,3 +14,14 @@
     width: 35%;
   }
 }
+
+/* Forms */
+.listLabel, .listLabelEdit {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.listLabel {
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.62);
+}

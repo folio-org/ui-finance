@@ -122,6 +122,7 @@ class LedgerView extends Component {
                 title={'Fund Connection'}
                 isEmptyMessage={'"No items found"'}
                 items={fundData}
+                isView={true}
                 path={'/finance/fund/view/'}
               />
             }

@@ -25,7 +25,8 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Badges from '@folio/stripes-components/lib/Badge/Badge.js'
 // Components and Pages
 import css from './css/LedgerForm.css';
-import {FiscalYear} from '../FiscalYear';
+import { FiscalYear } from '../FiscalYear';
+import ConnectionListing from '../ConnectionListing';
 
 class LedgerForm extends Component {
   static propTypes = {
@@ -53,9 +54,6 @@ class LedgerForm extends Component {
         { label: 'Pending', value: 'Pending' },
       ],
     }
-
-    this.checkFund = this.checkFund.bind(this);
-    this.fundDataRender = this.fundDataRender.bind(this);
     this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
   }
 
@@ -82,10 +80,9 @@ class LedgerForm extends Component {
   }
 
   render() {
-    const { initialValues, dropdownFiscalyears } = this.props;
+    const { initialValues, dropdownFiscalyears, fundData } = this.props;
     const isEditPage = initialValues.id ? true : false;
     const showDeleteButton = this.props.checkFund !== null ? false : true;
-    const itemFormatter = (item, i) => (this.fundDataRender(item, i)); 
     const isEmptyMessage = "No items found";
     const newFislcalYear = this.props.dropdownFiscalyears !== null ? true :  false;
     return (
@@ -168,13 +165,13 @@ class LedgerForm extends Component {
                   <Col xs={12}>
                     {
                       fundData &&
-                      (
-                        <div className={css.list}>
-                          <h4>Fund Connection</h4>
-                          <span>This Ledger is connected to a Fund. Please removed the connection before deleting this ledger</span>
-                          <List items={fundData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-                        </div>
-                      )
+                      <ConnectionListing
+                        title={'Fund Connection'}
+                        isEmptyMessage={'"No items found"'}
+                        items={fundData}
+                        isView={false}
+                        path={'/finance/fund/view/'}
+                      />
                     }
                   </Col>
                 </Row>
@@ -184,20 +181,6 @@ class LedgerForm extends Component {
           </Col>
         </Row>
       </div>
-    );
-  }
-
-  checkFund = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.fund || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
-  }
-
-  fundDataRender(data, i) {
-    return(<li key={i}>
-      <a href={`/finance/fund/view/${data.id}`}>{data.name}</a>
-    </li>
     );
   }
 

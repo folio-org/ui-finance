@@ -1,4 +1,4 @@
 {
   "configFile": "stripes.config.js.local",
-  "port": 8090
+  "port": 8081
 }

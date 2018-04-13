@@ -15,7 +15,6 @@ import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import LedgerPane from './LedgerPane';
-// import TableSortAndFilter from '../TableSortAndFilter';
 import ConnectionListing from '../ConnectionListing';
 
 
@@ -35,7 +34,6 @@ class LedgerView extends Component {
     super(props);
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
-    this.connectedTableSortAndFilter = this.props.stripes.connect(TableSortAndFilter);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
   }
 
@@ -117,26 +115,11 @@ class LedgerView extends Component {
           <Col xs={12}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
-          {/* <Col xs={12}>
-            <this.connectedTableSortAndFilter
-              resourceName="tableRecords"
-              tableInitCountName="queryCustom.tableCount"
-              heading="Transactions"
-              stripes={this.props.stripes}
-              filterConfig={filterConfig}
-              visibleColumnsConfig={visibleColumnsConfig}
-              formatter={formatter}
-              onUpdateFilter={this.onUpdateFilter}
-              parentResources={this.props.parentResources}
-              parentMutator={this.props.parentMutator}
-            />
-          </Col> */}
           <Col xs={12}>
             {
               fundData &&
               <ConnectionListing
                 title={'Fund Connection'}
-                description={'This Ledger is connected to a Fund. Please removed the connection before deleting this ledger'}
                 isEmptyMessage={'"No items found"'}
                 items={fundData}
                 path={'/finance/fund/view/'}

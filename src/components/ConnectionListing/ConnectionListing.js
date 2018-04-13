@@ -7,7 +7,7 @@ import css from './css/ConnectionListing.css';
 class ConnectionListing extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     isEmptyMessage: PropTypes.string.isRequired,
     parentResources: PropTypes.shape(PropTypes.object),
     parentMutator: PropTypes.shape(PropTypes.object),
@@ -28,8 +28,11 @@ class ConnectionListing extends Component {
 console.log(this.props);
     return (
       <div className={css.list}>
-        <h4>{title}</h4>
-        <p>{description}</p>
+        <h6>{title}</h6>
+        {
+          description &&
+          <div class="label">description</div>
+        }
         <List items={items} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
       </div>
     )

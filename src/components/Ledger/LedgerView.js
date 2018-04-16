@@ -47,7 +47,6 @@ class LedgerView extends Component {
   }
 
   render() {
-    console.log(this.props);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
@@ -87,8 +86,10 @@ class LedgerView extends Component {
     const startDate = new Date(_.get(initialValues, ['period_start'], '')).toDateString();
     const endDate = new Date(_.get(initialValues, ['period_end'], '')).toDateString();
     // Connections
-    const fundData = this.checkFund();
+    const isFundData = this.props.checkFund !== null ? true : false;
     
+    console.log(this.props.checkFund);
+        
     if (!initialValues) {
       return (
         <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
@@ -116,15 +117,15 @@ class LedgerView extends Component {
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
           {
-            fundData &&
+            isFundData &&
             <Col xs={12}>
               <hr />
               <ConnectionListing
                 title={'Fund Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={fundData}
+                items={this.props.fundData}
                 isView={true}
-                path={'/finance/ledger/view/'}
+                path={'/finance/fund/view/'}
               />
             </Col>
           }
@@ -138,7 +139,7 @@ class LedgerView extends Component {
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
             dropdownFiscalyears={this.props.dropdownFiscalyears}
-            fundData={fundData}
+            fundData={this.props.fundData}
           />
         </Layer>
       </Pane>
@@ -160,13 +161,6 @@ class LedgerView extends Component {
     return (
       <p>{_.get(newData, ['code'], '')}, {_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
     )
-  }
-
-  checkFund = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.fund || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
   }
 
   update(ledgerdata) {

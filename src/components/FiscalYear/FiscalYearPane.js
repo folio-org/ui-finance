@@ -71,7 +71,7 @@ class FiscalYearPane extends Component {
     return (
       <form id="form-fiscalyear">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <FiscalYearForm {...this.props} {...this.props} deleteFiscalYear={this.deleteFiscalYear} />
+          <FiscalYearForm {...this.props} deleteFiscalYear={this.deleteFiscalYear} />
         </Pane>
       </form>
     )

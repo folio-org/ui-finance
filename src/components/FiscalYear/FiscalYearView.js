@@ -30,7 +30,7 @@ class FiscalYearView extends Component {
     this.getData = this.getData.bind(this);
     this.connectedFiscalYearPane = this.props.stripes.connect(FiscalYearPane);
     // Connections
-    this.checkLedger = this.checkLedger.bind(this);
+    const isFundData = this.props.checkFund !== null ? true : false;
   }
 
   render() {
@@ -48,8 +48,8 @@ class FiscalYearView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
-    const ledgerData = this.checkLedger();
-    const budgetData = this.checkBudget();
+    const isLedgerData = this.props.ledgerData !== null ? true : false;
+    const isBudgetData = this.props.budgetData !== null ? true : false;
 
     if (!initialValues) {
       return (
@@ -72,26 +72,26 @@ class FiscalYearView extends Component {
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
           </Col>
           {
-            ledgerData &&
+            isLedgerData &&
             <Col xs={12}>
               <hr />
               <ConnectionListing
                 title={'Ledger Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={ledgerData}
+                items={this.props.ledgerData}
                 isView={true}
                 path={'/finance/fiscalyear/view/'}
               />
             </Col>
           }
           {
-            budgetData &&
+            isBudgetData &&
             <Col xs={12}>
               <hr />
               <ConnectionListing
                 title={'Budget Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={budgetData}
+                items={this.props.budgetData}
                 isView={true}
                 path={'/finance/budget/view/'}
               />
@@ -106,8 +106,8 @@ class FiscalYearView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
-            ledgerData={ledgerData}
-            budgetData={budgetData}
+            ledgerData={this.props.ledgerData}
+            budgetData={this.props.budgetData}
           />
         </Layer>
       </Pane>
@@ -119,21 +119,6 @@ class FiscalYearView extends Component {
     const fiscalyear = (parentResources.records || {}).records || [];
     if (!fiscalyear || fiscalyear.length === 0 || !id) return null;
     return fiscalyear.find(u => u.id === id);
-  }
-
-  checkLedger = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.ledger || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
-  }
-
-  checkBudget = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.budget || {}).records || [];
-    if (!data || data.length === 0) return null;
-    console.log(data);
-    return data;
   }
 
   update(data) {

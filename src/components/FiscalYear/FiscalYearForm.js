@@ -21,6 +21,7 @@ import Badges from '@folio/stripes-components/lib/Badge/Badge.js'
 // Components and Utils
 import css from './css/FiscalYearForm.css';
 import { Required } from '../../Utils/Validate';
+import ConnectionListing from '../ConnectionListing';
 
 class FiscalYearForm extends Component {
   static propTypes = {
@@ -64,9 +65,9 @@ class FiscalYearForm extends Component {
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = (this.props.checkLedger !== null || this.props.checkBudget !== null) ? false : true;
-    const ledgerData = this.props.checkLedger;
-    const budgetData = this.props.checkBudget;
+    const showDeleteButton = (this.props.ledgerData !== null || this.props.budgetData !== null) ? false : true;
+    const isLedgerData = this.props.ledgerData !== null ? true : false;
+    const isBudgetData = this.props.budgetData !== null ? true : false;
 
     return (
       <div className={css.FiscalYearForm}>
@@ -92,26 +93,26 @@ class FiscalYearForm extends Component {
             ) : (
               <Row>
                 {
-                  ledgerData &&
+                  isLedgerData &&
                   <Col xs={12}>
                     <hr />
                     <ConnectionListing
                       title={'Ledger Connection'}
                       isEmptyMessage={'"No items found"'}
-                      items={ledgerData}
+                      items={this.props.ledgerData}
                       isView={true}
-                      path={'/finance/fiscalyear/view/'}
+                      path={'/finance/ledger/view/'}
                     />
                   </Col>
                 }
                 {
-                  budgetData && 
+                  isBudgetData && 
                   <Col xs={12}>
                     <hr />
                     <ConnectionListing
                       title={'Budget Connection'}
                       isEmptyMessage={'"No items found"'}
-                      items={budgetData}
+                      items={this.props.budgetData}
                       isView={true}
                       path={'/finance/budget/view/'}
                     />

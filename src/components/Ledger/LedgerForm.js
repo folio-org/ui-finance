@@ -83,7 +83,6 @@ class LedgerForm extends Component {
     const { initialValues, dropdownFiscalyears, fundData } = this.props;
     const isEditPage = initialValues.id ? true : false;
     const showDeleteButton = this.props.checkFund !== null ? false : true;
-    const isEmptyMessage = "No items found";
     const newFislcalYear = this.props.dropdownFiscalyears !== null ? true :  false;
     return (
       <div>

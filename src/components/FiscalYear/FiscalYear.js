@@ -129,6 +129,8 @@ class FiscalYear extends Component {
     };
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
+    this.checkLedger = this.checkLedger.bind();
+    this.checkBudget = this.checkBudget.bind();
   }
 
   create = (fiscalyeardata) => {
@@ -154,6 +156,9 @@ class FiscalYear extends Component {
       'Code': data => _.toString(_.get(data, ['code'], '')),
       'Description': data => _.get(data, ['description'], '')
     }
+    const ledgerData = this.checkLedger();
+    const budgetData = this.checkBudget();
+
     const packageInfoReWrite = () => {
       const path = '/finance/fiscalyear';
       packageInfo.stripes.route = path;
@@ -185,11 +190,25 @@ class FiscalYear extends Component {
           newRecordPerms="fiscal_year.item.post,login.item.post,perms.fiscal_year.item.post"
           parentResources={props.resources}
           parentMutator={props.mutator}
-          detailProps={this.props.stripes}
+          detailProps={{stripes: this.props.stripes, ledgerData: ledgerData, budgetData: budgetData }}
           onComponentWillUnmount={this.props.onComponentWillUnmount}
         />
       </div>
     )
+  }
+
+  checkLedger = () => {
+    const { resources } = this.props;
+    const data = (resources.ledger || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
+  }
+
+  checkBudget = () => {
+    const { resources } = this.props;
+    const data = (resources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
   }
 }
 

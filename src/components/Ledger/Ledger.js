@@ -153,6 +153,7 @@ class Ledger extends Component {
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
+    this.checkFund = this.checkFund.bind(this);
   }
 
   create = (ledgerdata) => {
@@ -184,6 +185,7 @@ class Ledger extends Component {
 
     const getRecords = (this.props.resources || {}).records || [];
     const getFiscalYearsRecords = this.getFiscalYears();
+    const fundData = this.checkFund();
     const urlQuery = queryString.parse(this.props.location.search || '');
     const packageInfoReWrite = () => {
       const path = '/finance/ledger';
@@ -218,12 +220,19 @@ class Ledger extends Component {
             newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
             parentResources={props.resources}
             parentMutator={props.mutator}
-            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords }}
+            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords, fundData: fundData  }}
             onComponentWillUnmount={this.props.onComponentWillUnmount}
           />
         }
       </div>
     )
+  }
+
+  checkFund = () => {
+    const { resources } = this.props;
+    const data = (resources.fund || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
   }
 
   getFiscalYears() {

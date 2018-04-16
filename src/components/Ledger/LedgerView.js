@@ -87,8 +87,6 @@ class LedgerView extends Component {
     const endDate = new Date(_.get(initialValues, ['period_end'], '')).toDateString();
     // Connections
     const isFundData = this.props.checkFund !== null ? true : false;
-    
-    console.log(this.props.checkFund);
         
     if (!initialValues) {
       return (

@@ -15,6 +15,7 @@ import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FundPane from './FundPane';
+import ConnectionListing from '../ConnectionListing';
 
 class FundView extends Component {
   static propTypes = {
@@ -45,6 +46,7 @@ class FundView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
+    const isBudgetData = this.props.checkBudget !== null ? true : false;
 
     if (!initialValues) {
       return (
@@ -66,6 +68,19 @@ class FundView extends Component {
           <Col xs={3}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
           </Col>
+          {
+            isBudgetData &&
+            <Col xs={12}>
+              <hr />
+              <ConnectionListing
+                title={'Budget Connection'}
+                isEmptyMessage={'"No items found"'}
+                items={this.props.budgetData}
+                isView={true}
+                path={'/finance/budget/view/'}
+              />
+            </Col>
+          }
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Fund Dialog">
           <this.connectedFundPane
@@ -75,6 +90,7 @@ class FundView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
+            budgetData={this.props.budgetData}
           />
         </Layer>
       </Pane>

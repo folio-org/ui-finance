@@ -21,6 +21,7 @@ import Badges from '@folio/stripes-components/lib/Badge/Badge.js'
 // Components and Utils
 import css from './css/FundForm.css';
 import { Required } from '../../Utils/Validate';
+import ConnectionListing from '../ConnectionListing';
 
 class FundForm extends Component {
   static propTypes = {
@@ -70,10 +71,7 @@ class FundForm extends Component {
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = this.checkBudget() !== null ? false : true;
-    const budgetData = this.checkBudget();
-    const itemFormatter = (item, i) => (this.budgetDataRender(item, i)); 
-    const isEmptyMessage = "No items found";
+    const showDeleteButton = this.props.checkBudget !== null ? false : true;
     
     return (
       <div style={{ margin: "0 auto", padding: '0' }} className={css.FundForm}>
@@ -121,17 +119,15 @@ class FundForm extends Component {
                 </Row>
               ) : (
                 <Row>
-                  <Col xs={12}>                  
-                    {
-                      budgetData &&
-                      (
-                        <div className={css.list}>
-                          <h4>Budget Connection</h4>
-                          <span color="red">This Fund is connected to a Budget. Please removed the connection before deleting this Fund</span>
-                          <List items={budgetData} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-                        </div>
-                      )
-                    }
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title={'Budget Connection'}
+                      isEmptyMessage={'"No items found"'}
+                      items={this.props.budgetData}
+                      isView={false}
+                      path={'/finance/fund/view/'}
+                    />
                   </Col>
                 </Row>
               )}
@@ -159,14 +155,6 @@ class FundForm extends Component {
       }
     });
     return newArr;
-  }
-
-  checkBudget = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.budget || {}).records || [];
-    if (!data || data.length === 0) return null;
-    console.log(data);
-    return data;
   }
 
   budgetDataRender(data, i) {

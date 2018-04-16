@@ -132,6 +132,7 @@ class Fund extends Component {
     };
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
+    this.checkBudget = this.checkBudget.bind(this);
   }
 
   create = (fundData) => {
@@ -170,6 +171,7 @@ class Fund extends Component {
       packageInfo.stripes.home = path;
       return packageInfo;
     };
+    const budgetData = this.checkBudget();
 
 
     return (
@@ -196,11 +198,18 @@ class Fund extends Component {
           newRecordPerms="fund.item.post,login.item.post,perms.fund.item.post"
           parentResources={props.resources}
           parentMutator={props.mutator}
-          detailProps={this.props.stripes}
+          detailProps={{stripes: this.props.stripes, budgetData: budgetData  }}
           onComponentWillUnmount={this.props.onComponentWillUnmount}
         />
       </div>
     )
+  }
+
+  checkBudget = () => {
+    const { resources } = this.props;
+    const data = (resources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
   }
 }
 

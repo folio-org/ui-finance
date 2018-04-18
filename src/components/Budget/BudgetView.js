@@ -106,6 +106,14 @@ class BudgetView extends Component {
   }
 
   update(data) {
+    const fiscalID = data.fiscal_year_id;
+    const fundID = data.fund_id;
+    if(fiscalID == ''  || fiscalID == null) {
+      data['fiscal_year_id'] = null;
+    }
+    if(fundID == ''  || fundID == null) {
+      data['fund_id'] = null;
+    }
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCloseEdit();
     });

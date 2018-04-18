@@ -67,17 +67,13 @@ class BudgetForm extends Component {
         let fiscalyearResultCount = parentResources.fiscalyearResultCount;
         if(!_.isEqual(nextProps.parentResources.fiscalyear.records, this.props.parentResources.fiscalyear.records)) {
           parentMutator.fiscalyearResultCount.replace(Math.floor(Math.random()+2)+fiscalyearResultCount);
-          console.log(Math.floor(Math.random()+2)+fiscalyearResultCount);
         }
       }
     }
   }
 
-  
-
   render() {
-    const { initialValues } = this.props;
-    console.log(this.props);
+    const { initialValues, onChange } = this.props;
     const showDeleteButton = initialValues.id ? true : false;
     const fundData = this.getData('fund');
     const fiscalyearData = this.getData('fiscalyear');
@@ -114,7 +110,7 @@ class BudgetForm extends Component {
               <Col xs={6}>
                 <Field label="Encumbered" name="encumbered" id="encumbered" component={TextField} type="number" fullWidth />
               </Col>
-              <Col xs={6}>
+              <Col xs={6}> 
                 <Field label="Expenditures" name="expenditures" id="expenditures" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
@@ -149,16 +145,25 @@ class BudgetForm extends Component {
   getData(resourceName) {
     const { parentResources } = this.props;
     const records = (parentResources[`${resourceName}`] || {}).records || [];
-    console.log(records);
     if (!records || records.length === 0) return null;
     let newArr = [];
+    let preObj = {};
+    // Loop through records
+    if(resourceName === 'fund') {
+      preObj = { label: 'Select a Fund', value:'' };
+    } else {
+      preObj = { label: 'Select a Fiscal Year', value:'' };
+    }
+    console.log(preObj);
+    newArr.push(preObj);
+    
     Object.keys(records).map((key) => {
       let obj = {
-        label: records[key].name,
+        label: _.toString(records[key].name),
         value: _.toString(records[key].id)
       };
       newArr.push(obj);
-      if (Number(key) === records.length) {
+      if (Number(key) === (records.length - 1)) {
         return newArr;
       }
     });

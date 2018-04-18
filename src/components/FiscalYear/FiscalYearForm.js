@@ -35,39 +35,11 @@ class FiscalYearForm extends Component {
     super(props);
   }
 
-  componentWillMount() {
-    // const { initialValues, parentMutator } = this.props;
-    // if (initialValues.id) {
-    //   parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:30 });
-    // }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // const { initialValues, parentMutator, parentResources } = this.props;
-    // if (parentResources !== null) {
-    //   if (parentResources.ledger !== null) {
-    //     if(!_.isEqual(nextProps.parentResources.ledger.records, this.props.parentResources.ledger.records)) {
-    //       parentMutator.ledgerQuery.update({ query: `query=(fiscal_years="${initialValues.id}")`, resultCount:20 });
-    //     }
-    //   }
-    // }
-
-    // const { initialValues, parentMutator, parentResources } = this.props;
-    // if (parentResources !== null) {
-    //   if (parentResources.fund !== null) {
-    //     if (!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
-    //       parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
-    //     }
-    //   }
-    // }
-  }
-  
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = (this.props.ledgerData !== null || this.props.budgetData !== null) ? false : true;
-    const isLedgerData = this.props.ledgerData !== null ? true : false;
-    const isBudgetData = this.props.budgetData !== null ? true : false;
+    const showDeleteButton = (this.props.isLedgerData || this.props.isBudgetData) ? false : true;
+    console.log(showDeleteButton);
 
     return (
       <div className={css.FiscalYearForm}>
@@ -93,7 +65,7 @@ class FiscalYearForm extends Component {
             ) : (
               <Row>
                 {
-                  isLedgerData &&
+                  this.props.isLedgerData &&
                   <Col xs={12}>
                     <hr />
                     <ConnectionListing
@@ -106,7 +78,7 @@ class FiscalYearForm extends Component {
                   </Col>
                 }
                 {
-                  isBudgetData && 
+                  this.props.isBudgetData && 
                   <Col xs={12}>
                     <hr />
                     <ConnectionListing

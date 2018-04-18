@@ -27,10 +27,36 @@ class FiscalYearView extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      ledgerData: {},
+      budgetData: {},
+      initialData: {}
+    };
     this.getData = this.getData.bind(this);
     this.connectedFiscalYearPane = this.props.stripes.connect(FiscalYearPane);
     // Connections
     const isFundData = this.props.checkFund !== null ? true : false;
+  }
+
+  componentDidMount() {
+    const { parentMutator, parentResources } = this.props;
+    const initialData = this.getData();
+    this.setState({ initialData, ledgerData: {}, budgetData: {}, });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps);
+    const { parentMutator, parentResources } = nextProps;
+    if (parentResources !== null && parentResources.ledger !== null) {
+      if(prevState.initialData) {
+        if (!_.isEqual(prevState.ledgerData, parentResources.ledger.records) || !_.isEqual(prevState.budgetData, parentResources.budget.records)) {
+          parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${prevState.initialData.id}")`});
+          parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${prevState.initialData.id}")`});
+          return { ledgerData: parentResources.ledger.records, budgetData: parentResources.budget.records };
+        }
+      }
+    }
+    return false;
   }
 
   render() {
@@ -48,8 +74,11 @@ class FiscalYearView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
-    const isLedgerData = this.props.ledgerData !== null ? true : false;
-    const isBudgetData = this.props.budgetData !== null ? true : false;
+    const isLedgerData = this.state.ledgerData !== null && this.state.ledgerData.length > 0 ? true : false;
+    const isBudgetData = this.state.budgetData !== null && this.state.budgetData.length > 0 ? true : false;
+
+    // console.log(this.state.ledgerData);
+    // console.log(this.state.budgetData);
 
     if (!initialValues) {
       return (
@@ -78,7 +107,7 @@ class FiscalYearView extends Component {
               <ConnectionListing
                 title={'Ledger Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={this.props.ledgerData}
+                items={this.state.ledgerData}
                 isView={true}
                 path={'/finance/fiscalyear/view/'}
               />
@@ -91,7 +120,7 @@ class FiscalYearView extends Component {
               <ConnectionListing
                 title={'Budget Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={this.props.budgetData}
+                items={this.state.budgetData}
                 isView={true}
                 path={'/finance/budget/view/'}
               />
@@ -106,8 +135,10 @@ class FiscalYearView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
-            ledgerData={this.props.ledgerData}
-            budgetData={this.props.budgetData}
+            ledgerData={this.state.ledgerData}
+            budgetData={this.state.budgetData}
+            isLedgerData={isLedgerData}
+            isBudgetData={isBudgetData}
           />
         </Layer>
       </Pane>

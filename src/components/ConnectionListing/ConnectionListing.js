@@ -27,12 +27,13 @@ class ConnectionListing extends Component {
     const itemFormatter = (item, i) => (this.dataRender(item, i)); 
     const isEmptyMessage = this.props.isEmptyMessage;
     const isView = this.props.isView == true ? cssMain.listLabel : cssMain.listLabelEdit;
+    const isDescription = description ? true : false;
     return (
       <div className={css.list}>
         <label className={isView}>{title}</label>
         {
-          description &&
-          <div class="label">description</div>
+          isDescription &&
+          <div class="label">{description}</div>
         }
         <List items={items} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
       </div>

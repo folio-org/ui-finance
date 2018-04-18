@@ -97,9 +97,7 @@ class Fund extends Component {
     ledger: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger',
-      recordsRequired: '30',
-      perRequest: 30
+      path: 'ledger'
     },
     budgetQuery: {
       initialValue: {
@@ -111,7 +109,6 @@ class Fund extends Component {
       type: 'okapi',
       records: 'budgets',
       path: 'budget',
-      recordsRequired: '%{budgetQuery.count}',
       params: { 
         query: (...args) => {
           const data = args[2];

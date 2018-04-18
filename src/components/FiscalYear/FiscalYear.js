@@ -93,26 +93,36 @@ class FiscalYear extends Component {
         staticFallback: { params: {} },
       },
     },
+    ledgerQuery: {
+      initialValue: {
+        id: 'query=(fiscal_years=null)',
+      }
+    },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger'
+      path: 'ledger',
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.ledgerQuery.id} sortby name`;
+          return cql;
+        }
+      }
     },
     budgetQuery: {
       initialValue: {
-        fundID: 'query=(fund_id="")',
-        count: INITIAL_RESULT_COUNT
+        id: 'query=(fund_id=null)',
       }
     },
     budget: {
       type: 'okapi',
       records: 'budgets',
       path: 'budget',
-      recordsRequired: '%{budgetQuery.count}',
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery.fundID} sortby Name`;
+          let cql = `${data.budgetQuery.id} sortby Name`;
           return cql;
         }
       }
@@ -129,8 +139,6 @@ class FiscalYear extends Component {
     };
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
-    this.checkLedger = this.checkLedger.bind();
-    this.checkBudget = this.checkBudget.bind();
   }
 
   create = (fiscalyeardata) => {
@@ -143,12 +151,11 @@ class FiscalYear extends Component {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.handleActivate({ id: 'fiscalyear' });
   }
 
   render() {
-    const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
@@ -156,8 +163,6 @@ class FiscalYear extends Component {
       'Code': data => _.toString(_.get(data, ['code'], '')),
       'Description': data => _.get(data, ['description'], '')
     }
-    const ledgerData = this.checkLedger();
-    const budgetData = this.checkBudget();
 
     const packageInfoReWrite = () => {
       const path = '/finance/fiscalyear';
@@ -188,27 +193,13 @@ class FiscalYear extends Component {
           finishedResourceName="perms"
           viewRecordPerms="fiscal_year.item.get"
           newRecordPerms="fiscal_year.item.post,login.item.post,perms.fiscal_year.item.post"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
-          detailProps={{stripes: this.props.stripes, ledgerData: ledgerData, budgetData: budgetData }}
+          parentResources={this.props.resources}
+          parentMutator={this.props.mutator}
+          detailProps={{stripes: this.props.stripes }}
           onComponentWillUnmount={this.props.onComponentWillUnmount}
         />
       </div>
     )
-  }
-
-  checkLedger = () => {
-    const { resources } = this.props;
-    const data = (resources.ledger || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
-  }
-
-  checkBudget = () => {
-    const { resources } = this.props;
-    const data = (resources.budget || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
   }
 }
 

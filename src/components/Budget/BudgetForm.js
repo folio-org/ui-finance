@@ -150,11 +150,10 @@ class BudgetForm extends Component {
     let preObj = {};
     // Loop through records
     if(resourceName === 'fund') {
-      preObj = { label: 'Select a Fund', value:'' };
+      preObj = { label: '-- Select a Fund --', value:'' };
     } else {
-      preObj = { label: 'Select a Fiscal Year', value:'' };
+      preObj = { label: '-- Select a Fiscal Year --', value:'' };
     }
-    console.log(preObj);
     newArr.push(preObj);
     
     Object.keys(records).map((key) => {

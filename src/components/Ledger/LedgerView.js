@@ -32,18 +32,44 @@ class LedgerView extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      viewID: '',
+      fundData: {}
+    };
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
+    this.getFund = this.getFund.bind(this);
   }
 
   componentDidMount() {
-    const { parentMutator } = this.props;
-    const initialValues = this.getData();
-    if(initialValues) {
-      const id = initialValues.fiscal_years[0];
-      parentMutator.queryCustom.update({ fiscalyearQuery : `query=(id=${id})`, fiscalyearCount: 1 });
+    // const { parentMutator, parentResources } = this.props;
+    // const initialData = (parentResources.records || {}).records || [];
+    // this.setState({ viewID  });
+    // console.log(this.props);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+    if(!_.isEqual(prevState.viewID, id)) {
+      parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id="${id}")`});
+      return { viewID:id };
     }
+    // debugger;
+    // const { parentMutator, parentResources } = nextProps;
+    // if (parentResources !== null && parentResources.fund !== null) {
+    //   const ledgers = (parentResources.records || {}).records || [];
+    //   if (!_.isEqual(prevState.initialData, ledgers)) {
+    //     return { initialData: ledgers };
+    //   }
+    // }
+    // if (parentResources !== null && parentResources.fund !== null) {
+    //     if (!_.isEqual(prevState.fundData, parentResources.fund.records)) {
+    
+    //     }
+
+    // }
+    return false;
   }
 
   render() {
@@ -86,7 +112,7 @@ class LedgerView extends Component {
     const startDate = new Date(_.get(initialValues, ['period_start'], '')).toDateString();
     const endDate = new Date(_.get(initialValues, ['period_end'], '')).toDateString();
     // Connections
-    const isFundData = this.props.checkFund !== null ? true : false;
+    const isFundData = this.getFund() !== null ? true : false;
         
     if (!initialValues) {
       return (
@@ -95,7 +121,7 @@ class LedgerView extends Component {
         </Pane>
       );
     }
-
+    
     return (
       <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
@@ -121,7 +147,7 @@ class LedgerView extends Component {
               <ConnectionListing
                 title={'Fund Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={this.props.fundData}
+                items={this.getFund()}
                 isView={true}
                 path={'/finance/fund/view/'}
               />
@@ -137,7 +163,8 @@ class LedgerView extends Component {
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
             dropdownFiscalyears={this.props.dropdownFiscalyears}
-            fundData={this.props.fundData}
+            fundData={this.getFund()}
+            isFundData={isFundData}
           />
         </Layer>
       </Pane>
@@ -149,6 +176,13 @@ class LedgerView extends Component {
     const ledgers = (parentResources.records || {}).records || [];
     if (!ledgers || ledgers.length === 0 || !id) return null;
     return ledgers.find(u => u.id === id);  
+  }
+
+  getFund() {
+    const { parentResources, match: { params: { id } } } = this.props;
+    const fund = (parentResources.fund || {}).records || [];
+    if (!fund || fund.length === 0 || !id) return null;
+    return fund;  
   }
 
   getFiscalYears = () => {

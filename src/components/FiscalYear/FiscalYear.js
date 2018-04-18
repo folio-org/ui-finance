@@ -122,7 +122,7 @@ class FiscalYear extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery.id} sortby Name`;
+          let cql = `${data.budgetQuery.id} sortby name`;
           return cql;
         }
       }

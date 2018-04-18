@@ -105,6 +105,11 @@ class FundView extends Component {
   }
 
   update(data) {
+    const id = data.ledger_id;
+    if(id == ''  || id == null) {
+      data['ledger_id'] = null;
+    }
+    
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCloseEdit();
     });

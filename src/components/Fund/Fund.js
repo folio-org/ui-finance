@@ -152,15 +152,7 @@ class Fund extends Component {
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.toString(_.get(data, ['code'], '')),
-      'Description': data => _.get(data, ['description'], ''),
-      'Created Date': data => _.toString(_.get(data, ['created_date'], '')),
-      'Fund Status': data => _.get(data, ['fund_status'], ''),
-      'Currency': data => _.get(data, ['Currency'], ''),
-      'Ledger': data => _.get(data, ['ledger_id'], ''),
-      'Allocation From': data => _.toString(_.get(data, ['allocation_from'], '')),
-      'Allocation To': data => _.toString(_.get(data, ['allocation_to'], '')),
-      'Tags': data => _.toString(_.get(data, ['tags'], ''))
+      'Code': data => _.toString(_.get(data, ['code'], ''))
     }
     const packageInfoReWrite = () => {
       const path = '/finance/fund';
@@ -180,7 +172,7 @@ class Fund extends Component {
           objectName="fund"
           baseRoute={`finance/fund/`}
           filterConfig={filterConfig}
-          visibleColumns = {['Name', 'Code', 'Description', 'Created Date', 'Fund Status', 'Currency', 'Ledger', 'Allocation From', 'Allocation To', 'Tags']}
+          visibleColumns = {['Name', 'Code', ]}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={FundView}

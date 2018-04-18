@@ -40,18 +40,16 @@ class FiscalYearView extends Component {
 
   componentDidMount() {
     const { parentMutator, parentResources } = this.props;
-    const initialData = this.getData();
-    this.setState({ initialData, ledgerData: {}, budgetData: {}, });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log(nextProps);
     const { parentMutator, parentResources } = nextProps;
     if (parentResources !== null && parentResources.ledger !== null) {
-      if(prevState.initialData) {
+      if(nextPRops.initialData) {
         if (!_.isEqual(prevState.ledgerData, parentResources.ledger.records) || !_.isEqual(prevState.budgetData, parentResources.budget.records)) {
-          parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${prevState.initialData.id}")`});
-          parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${prevState.initialData.id}")`});
+          parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${nextProps.initialData.id}")`});
+          parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${nextProps.initialData.id}")`});
           return { ledgerData: parentResources.ledger.records, budgetData: parentResources.budget.records };
         }
       }
@@ -76,9 +74,6 @@ class FiscalYearView extends Component {
     </PaneMenu>);
     const isLedgerData = this.state.ledgerData !== null && this.state.ledgerData.length > 0 ? true : false;
     const isBudgetData = this.state.budgetData !== null && this.state.budgetData.length > 0 ? true : false;
-
-    // console.log(this.state.ledgerData);
-    // console.log(this.state.budgetData);
 
     if (!initialValues) {
       return (

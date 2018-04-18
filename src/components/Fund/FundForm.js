@@ -144,6 +144,7 @@ class FundForm extends Component {
     const ledgers = (parentResources.ledger || {}).records || [];
     if (!ledgers || ledgers.length === 0) return null;
     let newArr = [];
+    newArr.push({ label: '-- Select a ledger --', value:'' });
     Object.keys(ledgers).map((key) => {
       let obj = {
         label: ledgers[key].name,

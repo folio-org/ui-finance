@@ -57,32 +57,10 @@ class LedgerForm extends Component {
     this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
   }
 
-  componentWillMount() {
-    const { initialValues, parentMutator } = this.props;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { initialValues, parentMutator, parentResources } = this.props;
-    if (parentResources !== null) {
-      // Funds
-      if (parentResources.fund !== null) {
-        if (!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
-          parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
-        }
-      }
-      // Fiscla Year
-      if (parentResources.fiscalyear !== null) {
-        if (!_.isEqual(nextProps.parentResources.fiscalyear.records, this.props.parentResources.fiscalyear.records)) {
-          parentMutator.queryCustom.update({ fundQueryName: `query=(ledger_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
-        }
-      }
-    }
-  }
-
   render() {
     const { initialValues, dropdownFiscalyears, fundData } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = this.props.checkFund !== null ? false : true;
+    const showDeleteButton = this.props.fundData !== null ? false : true;
     const newFislcalYear = this.props.dropdownFiscalyears !== null ? true :  false;
     return (
       <div>

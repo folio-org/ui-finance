@@ -89,33 +89,9 @@ class Ledger extends Component {
         staticFallback: { params: {} },
       },
     },
-    tableQuery: {
-      initialValue: {
-        query: 'query=(name=*)',
-        filter: '',
-        sort: 'name',
-        sortBy: 'asc',
-        resultCount: INITIAL_RESULT_COUNT,
-      },
-    },
-    tableRecords: {
-      type: 'okapi',
-      records: 'vendors',
-      path: 'vendor',
-      recordsRequired: '%{queryCustom.tableCount}',
-      perRequest: RESULT_COUNT_INCREMENT,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          let cql = `${data.tableQuery.query} ${data.tableQuery.filter} sortby ${data.tableQuery.sort}`;
-          return cql;
-        },
-      }
-    },
     queryCustom: {
       initialValue: {
-        fundQuery: 'query=(name="*")',
-        fundCount: 200,
+        fundQuery: 'query=(fund_id=null)',
         fiscalyearQuery: 'query=(name="*")',
         fiscalyearCount: 200,
         tableCount: 200
@@ -138,7 +114,14 @@ class Ledger extends Component {
     fund: {
       type: 'okapi',
       records: 'funds',
-      path: 'fund'
+      path: 'fund',
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.queryCustom.fundQuery} sortby name`;
+          return cql;
+        }
+      }
     }
   });
 
@@ -153,7 +136,6 @@ class Ledger extends Component {
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
-    this.checkFund = this.checkFund.bind(this);
   }
 
   create = (ledgerdata) => {
@@ -182,9 +164,8 @@ class Ledger extends Component {
       'Period End': data => new Date(_.get(data, ['period_end'], '')).toDateString()
     }
 
-    const getRecords = (this.props.resources || {}).records || [];
+    const getRecords = (this.props.resources || {}).records || []; 
     const getFiscalYearsRecords = this.getFiscalYears();
-    const fundData = this.checkFund();
     const urlQuery = queryString.parse(this.props.location.search || '');
     const packageInfoReWrite = () => {
       const path = '/finance/ledger';
@@ -219,19 +200,12 @@ class Ledger extends Component {
             newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
             parentResources={props.resources}
             parentMutator={props.mutator}
-            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords, fundData: fundData  }}
+            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords  }}
             onComponentWillUnmount={this.props.onComponentWillUnmount}
           />
         }
       </div>
     )
-  }
-
-  checkFund = () => {
-    const { resources } = this.props;
-    const data = (resources.fund || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
   }
 
   getFiscalYears() {

@@ -93,25 +93,28 @@ class Fund extends Component {
         staticFallback: { params: {} },
       },
     },
-    resultCountLedger: { initialValue: INITIAL_RESULT_COUNT },
+    ledgerQuery: { initialValue: 'query=(name="*")' },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger'
-    },
-    budgetQuery: {
-      initialValue: {
-        id: 'query=(fund_id="")'
+      path: 'ledger',
+      params: {
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.ledgerQuery} sortby name`;
+          return cql;
+        }
       }
     },
+    budgetQuery: { initialValue: 'query=(fund_id=null)' },
     budget: {
       type: 'okapi',
       records: 'budgets',
       path: 'budget',
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery.id} sortby name`;
+          let cql = `${data.budgetQuery} sortby name`;
           return cql;
         }
       }

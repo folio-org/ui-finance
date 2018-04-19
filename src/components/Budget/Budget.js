@@ -92,34 +92,32 @@ class Budget extends Component {
         staticFallback: { params: {} },
       },
     },
-    fundResultCount: INITIAL_RESULT_COUNT,
+    fundQuery: { initialValue: 'query=(name="*")' },
     fund: {
       type: 'okapi',
       records: 'funds',
       path: 'fund',
-      recordsRequired: '%{fundResultCount}',
-      perRequest: RESULT_COUNT_INCREMENT,
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.fundQuery} sortby name`;
+          return cql;
+        }
+      }
     },
-    fiscalyearResultCount: INITIAL_RESULT_COUNT,
+    fiscalyearQuery: { initialValue: 'query=(name="*")' },
     fiscalyear: {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
-      recordsRequired: '%{fiscalyearResultCount}',
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const sortMap = {
-              Name: 'name'
-            };
-            let cql = `(name="*")`;
-            return cql;
-          },
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.fiscalyearQuery} sortby name`;
+          return cql;
         }
-      },
-    },
+      }
+    }
   });
   
   constructor(props) {

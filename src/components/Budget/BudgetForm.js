@@ -42,34 +42,38 @@ class BudgetForm extends Component {
         { label: 'Canadian Dollar', value: 'CAD' },
         { label: 'U.S. Dollar', value: 'USD' },
       ],
-      ledger_dd: []
+      fund_dd: [],
+      fiscalyear_dd: []
     }
     this.getData = this.getData.bind(this);
   }
 
-  componentWillMount() {
-    const { parentMutator, parentResources } = this.props;
-    let initialResultCount = parentResources.fundResultCount;
-    parentMutator.fundResultCount.replace(Math.floor(Math.random()+1)+initialResultCount);
-    parentMutator.fiscalyearResultCount.replace(Math.floor(Math.random()+1)+initialResultCount);
+
+  componentDidMount(){
+    const { parentMutator } = this.props;
+    parentMutator.fundQuery.replace('query=(name="*")');
+    parentMutator.fiscalyearQuery.replace('query=(name="*")');
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialValues, parentMutator, parentResources, initialResultCount } = this.props;
-    if (parentResources !== null) {
-      if (parentResources.fund !== null) {
-        let fundResultCount = parentResources.fundResultCount;
-        if(!_.isEqual(nextProps.parentResources.fund.records, this.props.parentResources.fund.records)) {
-          parentMutator.fundResultCount.replace(Math.floor(Math.random()+2)+fundResultCount);
-        }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { parentMutator, parentResources } = nextProps;
+    if  (parentResources || (parentResources.fund && parentResources.fiscalyear)) {
+      let fund_dd = parentResources.fund.records;
+      if(!_.isEqual(prevState.fund_dd, fund_dd)) {
+        return { fund_dd };
       }
-      if (parentResources.fiscalyear !== null) {
-        let fiscalyearResultCount = parentResources.fiscalyearResultCount;
-        if(!_.isEqual(nextProps.parentResources.fiscalyear.records, this.props.parentResources.fiscalyear.records)) {
-          parentMutator.fiscalyearResultCount.replace(Math.floor(Math.random()+2)+fiscalyearResultCount);
-        }
+      let fiscalyear_dd = parentResources.fiscalyear.records;
+      if(!_.isEqual(prevState.fiscalyear_dd, fiscalyear_dd)) {
+        return { fiscalyear_dd };
       }
     }
+    return false;
+  }
+
+  componentWillUnmount(){
+    const { parentMutator } = this.props;
+    parentMutator.fundQuery.replace('query=(name=null)');
+    parentMutator.fiscalyearQuery.replace('query=(name=null)');
   }
 
   render() {

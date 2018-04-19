@@ -60,7 +60,6 @@ class FundView extends Component {
     return false;
   }
   
-
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
     parentMutator.budgetQuery.update({ id: `query=(fund_id=null)`});

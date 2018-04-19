@@ -50,23 +50,26 @@ class FundForm extends Component {
     this.getLedger = this.getLedger.bind(this);
   }
 
-  componentWillMount() {
-    const { initialValues, parentMutator } = this.props;
-    if (initialValues.id) {
-      parentMutator.budgetQuery.update({ fundID: `query=(fund_id="${initialValues.id}")`, fundCount: Math.floor(Math.random()+1)+30 });
-    }
+  componentDidMount() {
+    const { parentMutator } = this.props;
+    parentMutator.ledgerQuery.replace('query=(name="*")');
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialValues, parentMutator, parentResources } = this.props;
-    if (parentResources !== null) {
-      if (parentResources.budget !== null) {
-        if (!_.isEqual(nextProps.parentResources.budget.records, this.props.parentResources.budget.records)) {
-          parentMutator.budgetQuery.update({ fundID: `query=(fund_id="${initialValues.id}")`, fundCount: Math.floor(Math.random() + 2) + 30 });
-        }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { parentResources } = nextProps;
+    if  (parentResources || parentResources.ledger) {
+      let ledger_dd = parentResources.ledger.records;
+      if(!_.isEqual(prevState.ledger_dd, ledger_dd)) {
+        return { ledger_dd };
       }
     }
+    return false;
   }
+
+  // componentWillUnmount(){
+  //   const { parentMutator } = this.props;
+  //   parentMutator.ledgerQuery.replace('query=(name=null)');
+  // }
 
   render() {
     const { initialValues } = this.props;

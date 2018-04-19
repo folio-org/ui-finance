@@ -17,6 +17,7 @@ import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FiscalYearPane from './FiscalYearPane';
 import ConnectionListing from '../ConnectionListing';
 
+var num=0;
 class FiscalYearView extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
@@ -28,36 +29,57 @@ class FiscalYearView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ledgerData: {},
-      budgetData: {},
-      initialData: {}
+      viewID: '',
+      ledgerData: [],
+      budgetData: []
     };
     this.getData = this.getData.bind(this);
+    this.getLedger = this.getLedger.bind(this);
+    this.getBudget = this.getBudget.bind(this);
     this.connectedFiscalYearPane = this.props.stripes.connect(FiscalYearPane);
-    // Connections
-    const isFundData = this.props.checkFund !== null ? true : false;
   }
 
   componentDidMount() {
-    const { parentMutator, parentResources } = this.props;
+    this.setState({ viewID:''});
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps);
-    const { parentMutator, parentResources } = nextProps;
-    if (parentResources !== null && parentResources.ledger !== null) {
-      if(nextPRops.initialData) {
-        if (!_.isEqual(prevState.ledgerData, parentResources.ledger.records) || !_.isEqual(prevState.budgetData, parentResources.budget.records)) {
-          parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${nextProps.initialData.id}")`});
-          parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${nextProps.initialData.id}")`});
-          return { ledgerData: parentResources.ledger.records, budgetData: parentResources.budget.records };
-        }
+    const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+    let queryData = () => {
+      parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${id}")`});
+      parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${id}")`});
+    }
+
+    if(!_.isEqual(prevState.viewID, id)) {
+      queryData();
+      let ledger = (parentResources.ledger || {}).records || [];
+      let budget = (parentResources.budget || {}).records || [];
+      return { viewID:id, ledgerData: ledger, budgetData: budget };
+    }
+
+    if  (parentResources || (parentResources.ledger && parentResources.budget)) {
+      if(!_.isEqual(prevState.ledgerData, parentResources.ledger.records)) {
+        parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${id}")`});
+        let ledger = (parentResources.ledger || {}).records || [];
+        return { ledgerData: ledger };
+      }
+      if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
+        parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${id}")`}); 
+        let budget = (parentResources.budget || {}).records || [];
+        return { budgetData: budget };
       }
     }
     return false;
   }
 
+  componentWillUnmount(){
+    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
+    parentMutator.ledgerQuery.update({ id: `query=(fiscal_years=null)`});
+    parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id=null)`});
+  }
+
   render() {
+    console.log(this.state);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
@@ -72,8 +94,8 @@ class FiscalYearView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
-    const isLedgerData = this.state.ledgerData !== null && this.state.ledgerData.length > 0 ? true : false;
-    const isBudgetData = this.state.budgetData !== null && this.state.budgetData.length > 0 ? true : false;
+    const isLedgerData = this.getLedger() !== null ? true : false;
+    const isBudgetData = this.getBudget() !== null ? true : false;
 
     if (!initialValues) {
       return (
@@ -102,7 +124,7 @@ class FiscalYearView extends Component {
               <ConnectionListing
                 title={'Ledger Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={this.state.ledgerData}
+                items={this.getLedger()}
                 isView={true}
                 path={'/finance/fiscalyear/view/'}
               />
@@ -115,7 +137,7 @@ class FiscalYearView extends Component {
               <ConnectionListing
                 title={'Budget Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={this.state.budgetData}
+                items={this.getBudget()}
                 isView={true}
                 path={'/finance/budget/view/'}
               />
@@ -130,8 +152,8 @@ class FiscalYearView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
-            ledgerData={this.state.ledgerData}
-            budgetData={this.state.budgetData}
+            ledgerData={this.getLedger()}
+            budgetData={this.getBudget()}
             isLedgerData={isLedgerData}
             isBudgetData={isBudgetData}
           />
@@ -145,6 +167,20 @@ class FiscalYearView extends Component {
     const fiscalyear = (parentResources.records || {}).records || [];
     if (!fiscalyear || fiscalyear.length === 0 || !id) return null;
     return fiscalyear.find(u => u.id === id);
+  }
+
+  getLedger() {
+    const { parentResources, match: { params: { id } } } = this.props;
+    const ledger = (parentResources.ledger || {}).records || [];
+    if (!ledger || ledger.length === 0 || !id) return null;
+    return ledger;
+  }
+
+  getBudget() {
+    const { parentResources, match: { params: { id } } } = this.props;
+    const budget = (parentResources.budget || {}).records || [];
+    if (!budget || budget.length === 0 || !id) return null;
+    return budget;
   }
 
   update(data) {

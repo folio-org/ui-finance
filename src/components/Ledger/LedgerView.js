@@ -34,7 +34,7 @@ class LedgerView extends Component {
     super(props);
     this.state = {
       viewID: '',
-      fundData: {}
+      fundData: []
     };
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
@@ -43,33 +43,32 @@ class LedgerView extends Component {
   }
 
   componentDidMount() {
-    // const { parentMutator, parentResources } = this.props;
-    // const initialData = (parentResources.records || {}).records || [];
-    // this.setState({ viewID  });
-    // console.log(this.props);
+    this.setState({ viewID:'' });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
-    if(!_.isEqual(prevState.viewID, id)) {
+    let queryData = () => {
       parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id="${id}")`});
+    }
+    if(!_.isEqual(prevState.viewID, id)) {
+      queryData();
       return { viewID:id };
     }
-    // debugger;
-    // const { parentMutator, parentResources } = nextProps;
-    // if (parentResources !== null && parentResources.fund !== null) {
-    //   const ledgers = (parentResources.records || {}).records || [];
-    //   if (!_.isEqual(prevState.initialData, ledgers)) {
-    //     return { initialData: ledgers };
-    //   }
-    // }
-    // if (parentResources !== null && parentResources.fund !== null) {
-    //     if (!_.isEqual(prevState.fundData, parentResources.fund.records)) {
-    
-    //     }
 
-    // }
+    if(parentResources && parentResources.fund) {
+      if(!_.isEqual(prevState.fundData, parentResources.fund.records)) {
+        queryData();
+        let fund = (parentResources.fund || {}).records || [];
+        return { fundData: fund };
+      }
+    }
     return false;
+  }
+
+  componentWillUnmount(){
+    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
+    parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id=null)`});
   }
 
   render() {

@@ -114,9 +114,9 @@
   dependencies:
     sanitize-html "^1.18.2"
 
-"@folio/stripes-cli@^1.0.100061":
-  version "1.0.100061"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-1.0.100061.tgz#6eb743b783b47554a8c0a68668a6443e6a352953"
+"@folio/stripes-cli@^1.1.100062":
+  version "1.1.100062"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-1.1.100062.tgz#6c748ecaa798c6306895521021f4502882d13537"
   dependencies:
     "@folio/developer" "^1.3.0"
     "@folio/stripes-core" "^2.9.0"

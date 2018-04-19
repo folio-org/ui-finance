@@ -313,7 +313,7 @@
     "eslint": "^4.8.0"
   },
   "dependencies": {
-    "@folio/stripes-cli": "^1.0.100061",
+    "@folio/stripes-cli": "^1.1.100062",
     "@folio/stripes-components": "^2.0.0",
     "@folio/stripes-connect": "^3.0.0",
     "@folio/stripes-core": "^2.7.0",

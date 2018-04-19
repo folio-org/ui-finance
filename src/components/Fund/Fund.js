@@ -101,8 +101,7 @@ class Fund extends Component {
     },
     budgetQuery: {
       initialValue: {
-        fundID: 'query=(fund_id="")',
-        count: INITIAL_RESULT_COUNT
+        id: 'query=(fund_id="")'
       }
     },
     budget: {
@@ -112,7 +111,7 @@ class Fund extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery.fundID} sortby Name`;
+          let cql = `${data.budgetQuery.id} sortby name`;
           return cql;
         }
       }
@@ -129,7 +128,6 @@ class Fund extends Component {
     };
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
-    this.checkBudget = this.checkBudget.bind(this);
   }
 
   create = (fundData) => {
@@ -142,7 +140,7 @@ class Fund extends Component {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.handleActivate({ id: 'fund' });
   }
 
@@ -160,8 +158,6 @@ class Fund extends Component {
       packageInfo.stripes.home = path;
       return packageInfo;
     };
-    const budgetData = this.checkBudget();
-
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
@@ -187,18 +183,11 @@ class Fund extends Component {
           newRecordPerms="fund.item.post,login.item.post,perms.fund.item.post"
           parentResources={props.resources}
           parentMutator={props.mutator}
-          detailProps={{stripes: this.props.stripes, budgetData: budgetData  }}
+          detailProps={{stripes: this.props.stripes }}
           onComponentWillUnmount={this.props.onComponentWillUnmount}
         />
       </div>
     )
-  }
-
-  checkBudget = () => {
-    const { resources } = this.props;
-    const data = (resources.budget || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
   }
 }
 

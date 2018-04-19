@@ -45,13 +45,6 @@ class FiscalYear extends Component {
       GET: {
         params: {
           query: (...args) => {
-            /*
-              This code is not DRY as it is copied from makeQueryFunction in stripes-components.
-              This is necessary, as makeQueryFunction only referneces query paramaters as a data source.
-              STRIPES-480 is intended to correct this and allow this query function to be replace with a call
-              to makeQueryFunction.
-              https://issues.folio.org/browse/STRIPES-480
-            */
             const resourceData = args[2];
             const sortMap = {
               Name: 'name',

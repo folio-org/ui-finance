@@ -27,8 +27,43 @@ class FundView extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      viewID: '',
+      budgetData: []
+    };
     this.getData = this.getData.bind(this);
+    this.getBudget = this.getBudget.bind(this);
     this.connectedFundPane = this.props.stripes.connect(FundPane);
+  }
+
+  componentDidMount() {
+    this.setState({ viewID:'' });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+    let queryData = () => {
+      parentMutator.budgetQuery.update({ id: `query=(fund_id="${id}")`});
+    }
+    if(!_.isEqual(prevState.viewID, id)) {
+      queryData();
+      return { viewID:id };
+    }
+
+    if(parentResources && parentResources.budget) {
+      if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
+        queryData();
+        let budget = (parentResources.budget || {}).records || [];
+        return { budgetData: budget };
+      }
+    }
+    return false;
+  }
+  
+
+  componentWillUnmount(){
+    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
+    parentMutator.budgetQuery.update({ id: `query=(fund_id=null)`});
   }
 
   render() {
@@ -46,7 +81,7 @@ class FundView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
-    const isBudgetData = this.props.checkBudget !== null ? true : false;
+    const isBudgetData = this.getBudget() !== null ? true : false;
 
     if (!initialValues) {
       return (
@@ -75,7 +110,7 @@ class FundView extends Component {
               <ConnectionListing
                 title={'Budget Connection'}
                 isEmptyMessage={'"No items found"'}
-                items={this.props.budgetData}
+                items={this.getBudget()}
                 isView={true}
                 path={'/finance/budget/view/'}
               />
@@ -102,6 +137,13 @@ class FundView extends Component {
     const fund = (parentResources.records || {}).records || [];
     if (!fund || fund.length === 0 || !id) return null;
     return fund.find(u => u.id === id);
+  }
+
+  getBudget() {
+    const { parentResources } = this.props;
+    const data = (parentResources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
   }
 
   update(data) {

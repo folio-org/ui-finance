@@ -43,7 +43,7 @@ class FundView extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     let queryData = () => {
-      parentMutator.budgetQuery.update({ id: `query=(fund_id="${id}")`});
+      parentMutator.budgetQuery.replace(`query=(fund_id="${id}")`);
     }
     if(!_.isEqual(prevState.viewID, id)) {
       queryData();
@@ -62,7 +62,7 @@ class FundView extends Component {
   
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.budgetQuery.update({ id: `query=(fund_id=null)`});
+    parentMutator.budgetQuery.replace(`query=(fund_id=null)`);
   }
 
   render() {
@@ -124,7 +124,8 @@ class FundView extends Component {
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
-            budgetData={this.props.budgetData}
+            budgetData={this.getBudget()}
+            isBudgetData={isBudgetData}
           />
         </Layer>
       </Pane>

@@ -106,7 +106,7 @@ class Fund extends Component {
         }
       }
     },
-    budgetQuery: { initialValue: 'query=(fund_id=null)' },
+    budgetQuery: { initialValue: 'query=(fund_id="")' },
     budget: {
       type: 'okapi',
       records: 'budgets',

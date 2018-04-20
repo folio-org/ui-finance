@@ -148,7 +148,6 @@ class Budget extends Component {
 
   render() {
     const props = this.props;
-    console.log(this.props.resources);
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
     const initialPath = (_.get(packageInfo, ['stripes', 'home']));
     const resultsFormatter = {

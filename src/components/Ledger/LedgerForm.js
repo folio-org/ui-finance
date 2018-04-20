@@ -57,6 +57,11 @@ class LedgerForm extends Component {
     this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
   }
 
+  componentDidMount() {
+    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
+    parentMutator.queryCustom.update({ fiscalyearsQuery: 'query=(name="*")', });
+  }
+
   render() {
     const { initialValues, dropdownFiscalyears, fundData } = this.props;
     const isEditPage = initialValues.id ? true : false;
@@ -122,7 +127,7 @@ class LedgerForm extends Component {
               <Col xs={12}>
                 {
                   newFislcalYear ? (
-                    <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} style={{ height: '150px', width: '100%' }} />
+                    <Field name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} />
                   ) : (
                       <p>"No fiscal year available"</p>
                     )

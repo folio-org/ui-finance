@@ -74,7 +74,6 @@ class FundForm extends Component {
   render() {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
-    const showDeleteButton = this.props.checkBudget !== null ? false : true;
     
     return (
       <div style={{ margin: "0 auto", padding: '0' }} className={css.FundForm}>
@@ -114,13 +113,7 @@ class FundForm extends Component {
             </Row>
             { isEditPage && (
             <IfPermission perm="fund.item.delete">
-              { showDeleteButton ? (
-                <Row end="xs">
-                  <Col xs={12}>
-                    <Button type="button" onClick={() => { this.props.deleteFund(initialValues.id) }}>Remove</Button>
-                  </Col>
-                </Row>
-              ) : (
+              { this.props.isBudgetData ? (
                 <Row>
                   <Col xs={12}>
                     <hr />
@@ -131,6 +124,12 @@ class FundForm extends Component {
                       isView={false}
                       path={'/finance/fund/view/'}
                     />
+                  </Col>
+                </Row>
+              ) : (
+                <Row end="xs">  
+                  <Col xs={12}>
+                    <Button type="button" onClick={() => { this.props.deleteFund(initialValues.id) }}>Remove</Button>
                   </Col>
                 </Row>
               )}

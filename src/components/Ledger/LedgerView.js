@@ -16,7 +16,7 @@ import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import LedgerPane from './LedgerPane';
 import ConnectionListing from '../ConnectionListing';
-
+import FormatDate from '../../Utils/FormatDate';
 
 class LedgerView extends Component {
   static propTypes = {
@@ -34,33 +34,46 @@ class LedgerView extends Component {
     super(props);
     this.state = {
       viewID: '',
-      fundData: []
+      fiscalyearID: null,
+      fundData: [],
     };
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
     this.getFund = this.getFund.bind(this);
-  }
-
-  componentDidMount() {
-    this.setState({ viewID:'' });
+    this.getData = this.getData.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+  
     let queryData = () => {
-      parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id="${id}")`});
+      parentMutator.queryCustom.update({ 
+        fundQuery: `query=(ledger_id="${id}")`,
+        ledgerIDQuery: `query=(id="${id}")`, 
+        fiscalyearsQuery: `query=(name="*")`
+      });
     }
+
     if(!_.isEqual(prevState.viewID, id)) {
       queryData();
       return { viewID:id };
     }
 
-    if(parentResources && parentResources.fund) {
+    if(parentResources && (parentResources.fund && parentResources.ledgerID)) {
       if(!_.isEqual(prevState.fundData, parentResources.fund.records)) {
         queryData();
         let fund = (parentResources.fund || {}).records || [];
         return { fundData: fund };
+      }
+      
+      const ledger = parentResources.ledgerID.records;
+      if (ledger[0]) {
+        const fyID = ledger[0].fiscal_years[0];
+        if(!_.isEqual(prevState.fiscalyearID, fyID)) {
+          parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(id="${fyID}")`});
+          return { fiscalyearID: fyID };
+        }
       }
     }
     return false;
@@ -68,10 +81,16 @@ class LedgerView extends Component {
 
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id=null)`});
+    parentMutator.queryCustom.update({ 
+      ledgerIDQuery: 'query=(ledger_id=null)',
+      fundQuery: `query=(ledger_id=null)`,
+      fiscalyearIDQuery: `query=(fiscal_years=null)`,
+      fiscalyearsQuery: `query=(name=null)`
+    });
   }
 
   render() {
+    console.log(this.props);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
@@ -108,8 +127,8 @@ class LedgerView extends Component {
       name: data => _.get(data, ['name'], ''),
       vendor_status: data => _.get(data, ['vendor_status'], '')
     };
-    const startDate = new Date(_.get(initialValues, ['period_start'], '')).toDateString();
-    const endDate = new Date(_.get(initialValues, ['period_end'], '')).toDateString();
+    const startDate = FormatDate(_.get(initialValues, ['period_start'], ''));
+    const endDate = FormatDate(_.get(initialValues, ['period_end'], ''));
     // Connections
     const isFundData = this.getFund() !== null ? true : false;
         
@@ -186,7 +205,7 @@ class LedgerView extends Component {
 
   getFiscalYears = () => {
     const { parentResources } = this.props;
-    const data = (parentResources.fiscalyear || {}).records || [];
+    const data = (parentResources.fiscalyearID || {}).records || [];
     if (!data || data.length === 0) return null;
     const newData = data[0];
     return (

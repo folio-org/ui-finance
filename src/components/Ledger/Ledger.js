@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import FormatDate from '../../Utils/FormatDate';
 // Components and Pages
 import css from './css/Ledger.css';
 import LedgerPane from './LedgerPane';
@@ -84,22 +85,45 @@ class Ledger extends Component {
     },
     queryCustom: {
       initialValue: {
+        ledgerIDQuery: 'query=(ledger_id=null)',
         fundQuery: 'query=(fund_id=null)',
-        fiscalyearQuery: 'query=(name="*")',
-        fiscalyearCount: 200,
-        tableCount: 200
+        fiscalyearIDQuery: 'query=(id=null)',
+        fiscalyearsQuery: 'query=(name="*")',
+      }
+    },
+    ledgerID: {
+      type: 'okapi',
+      records: 'ledgers',
+      path: 'ledger',
+      recordsRequired: 1,
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
+          return cql;
+        },
       }
     },
     fiscalyear: {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
-      recordsRequired: '%{queryCustom.fiscalyearCount}',
-      perRequest: RESULT_COUNT_INCREMENT,
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `query=(name="*") sortby name`;
+          let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
+          return cql;
+        },
+      }
+    },
+    fiscalyearID: {
+      type: 'okapi',
+      records: 'fiscal_years',
+      path: 'fiscal_year',
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
           return cql;
         },
       }
@@ -126,6 +150,7 @@ class Ledger extends Component {
       sortOrder: query.sort || '',
       filters: initialFilterState(filterConfig, query.filters),
     };
+    
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
@@ -153,8 +178,8 @@ class Ledger extends Component {
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.get(data, ['code'], ''),
-      'Period Start': data => new Date(_.get(data, ['period_start'], '')).toDateString(),
-      'Period End': data => new Date(_.get(data, ['period_end'], '')).toDateString()
+      'Period Start': data => FormatDate(_.get(data, ['period_start'], '')),
+      'Period End': data => FormatDate(_.get(data, ['period_end'], ''))
     }
 
     const getRecords = (this.props.resources || {}).records || []; 
@@ -224,6 +249,7 @@ class Ledger extends Component {
         }
       });
     }
+    console.log(newArr);
     return newArr;
   }
 }

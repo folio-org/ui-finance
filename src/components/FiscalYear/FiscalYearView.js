@@ -46,25 +46,25 @@ class FiscalYearView extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     let queryData = () => {
-      parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${id}")`});
-      parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${id}")`});
+      parentMutator.ledgerQuery.replace(`query=(fiscal_years="${id}")`);
+      parentMutator.budgetQuery.replace(`query=(fiscal_year_id="${id}")`);
     }
 
     if(!_.isEqual(prevState.viewID, id)) {
-      queryData();
-      let ledger = (parentResources.ledger || {}).records || [];
-      let budget = (parentResources.budget || {}).records || [];
-      return { viewID:id, ledgerData: ledger, budgetData: budget };
-    }
+        queryData();
+        let ledger = (parentResources.ledger || {}).records || [];
+        let budget = (parentResources.budget || {}).records || [];
+        return { viewID:id, ledgerData: ledger, budgetData: budget };
+      }
 
     if  (parentResources || (parentResources.ledger && parentResources.budget)) {
       if(!_.isEqual(prevState.ledgerData, parentResources.ledger.records)) {
-        parentMutator.ledgerQuery.update({ id: `query=(fiscal_years="${id}")`});
+        parentMutator.ledgerQuery.replace(`query=(fiscal_years="${id}")`);
         let ledger = (parentResources.ledger || {}).records || [];
         return { ledgerData: ledger };
       }
       if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
-        parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id="${id}")`}); 
+        parentMutator.budgetQuery.replace(`query=(fiscal_year_id="${id}")`); 
         let budget = (parentResources.budget || {}).records || [];
         return { budgetData: budget };
       }
@@ -74,8 +74,8 @@ class FiscalYearView extends Component {
 
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.ledgerQuery.update({ id: `query=(fiscal_years=null)`});
-    parentMutator.budgetQuery.update({ id: `query=(fiscal_year_id=null)`});
+    parentMutator.ledgerQuery.replace(`query=(fiscal_years=null)`);
+    parentMutator.budgetQuery.replace(`query=(fiscal_year_id=null)`);
   }
 
   render() {

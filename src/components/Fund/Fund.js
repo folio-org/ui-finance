@@ -144,7 +144,7 @@ class Fund extends Component {
   }
 
   componentDidMount() {
-    this.props.handleActivate({ id: 'fund' });
+    // this.props.handleActivate({ id: 'fund' });
   }
 
   render() {
@@ -164,6 +164,11 @@ class Fund extends Component {
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
+        <Tabs
+          tabID="fund"
+          parentResources={props.resources}
+          parentMutator={props.mutator}
+        />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName={'fund'}

@@ -137,7 +137,7 @@ class FiscalYear extends Component {
   }
 
   componentDidMount() {
-    this.props.handleActivate({ id: 'fiscalyear' });
+    // this.props.handleActivate({ id: 'fiscalyear' });
   }
 
   render() {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import _ from "lodash";
@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import Tabs from '../Tabs';
 import FormatDate from '../../Utils/FormatDate';
 // Components and Pages
 import css from './css/Ledger.css';
@@ -150,7 +151,6 @@ class Ledger extends Component {
       sortOrder: query.sort || '',
       filters: initialFilterState(filterConfig, query.filters),
     };
-    
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
@@ -164,10 +164,6 @@ class Ledger extends Component {
         layer: null
       });
     })
-  }
-
-  componentWillMount() {
-    this.props.handleActivate({ id: 'ledger' });
   }
 
   render() {
@@ -195,32 +191,39 @@ class Ledger extends Component {
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
         {
-          getRecords  &&
-          <SearchAndSort
-            packageInfo={packageInfoReWrite()}
-            moduleName={packageInfo.name.replace(/.*\//, '')}
-            moduleTitle={'ledger'}
-            objectName="ledger"
-            baseRoute={`${this.props.match.path}`}
-            filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Period Start', 'Period End']}
-            resultsFormatter={resultsFormatter}
-            initialFilters={this.constructor.manifest.query.initialValue.filters}
-            viewRecordComponent={LedgerView}
-            onSelectRow={onSelectRow}
-            onCreate={this.create}
-            editRecordComponent={LedgerPane}
-            newRecordInitialValues={{}}
-            initialResultCount={INITIAL_RESULT_COUNT}
-            resultCountIncrement={RESULT_COUNT_INCREMENT}
-            finishedResourceName="perms"
-            viewRecordPerms="ledger.item.get"
-            newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
-            parentResources={props.resources}
-            parentMutator={props.mutator}
-            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords  }}
-            onComponentWillUnmount={this.props.onComponentWillUnmount}
-          />
+          getRecords && 
+          <Fragment>
+            <Tabs
+              tabID="ledger"
+              parentResources={props.resources}
+              parentMutator={props.mutator}
+            />
+            <SearchAndSort
+              packageInfo={packageInfoReWrite()}
+              moduleName={packageInfo.name.replace(/.*\//, '')}
+              moduleTitle={'ledger'}
+              objectName="ledger"
+              baseRoute={`${this.props.match.path}`}
+              filterConfig={filterConfig}
+              visibleColumns={['Name', 'Code', 'Period Start', 'Period End']}
+              resultsFormatter={resultsFormatter}
+              initialFilters={this.constructor.manifest.query.initialValue.filters}
+              viewRecordComponent={LedgerView}
+              onSelectRow={onSelectRow}
+              onCreate={this.create}
+              editRecordComponent={LedgerPane}
+              newRecordInitialValues={{}}
+              initialResultCount={INITIAL_RESULT_COUNT}
+              resultCountIncrement={RESULT_COUNT_INCREMENT}
+              finishedResourceName="perms"
+              viewRecordPerms="ledger.item.get"
+              newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
+              parentResources={props.resources}
+              parentMutator={props.mutator}
+              detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords  }}
+              onComponentWillUnmount={this.props.onComponentWillUnmount}
+            />
+          </Fragment>
         }
       </div>
     )
@@ -249,7 +252,6 @@ class Ledger extends Component {
         }
       });
     }
-    console.log(newArr);
     return newArr;
   }
 }

@@ -143,7 +143,7 @@ class Budget extends Component {
   }
 
   componentWillMount() {
-    this.props.handleActivate({ id: 'budget' });
+    // this.props.handleActivate({ id: 'budget' });
   }
 
   render() {

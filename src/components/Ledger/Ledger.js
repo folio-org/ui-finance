@@ -166,10 +166,6 @@ class Ledger extends Component {
     })
   }
 
-  componentWillMount() {
-    this.props.handleActivate({ id: 'ledger' });
-  }
-
   render() {
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
@@ -192,6 +188,7 @@ class Ledger extends Component {
       return packageInfo;
     };
 
+    
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
         {
@@ -202,6 +199,7 @@ class Ledger extends Component {
             moduleTitle={'ledger'}
             objectName="ledger"
             baseRoute={`${this.props.match.path}`}
+            // path={`${this.props.match.path}`}
             filterConfig={filterConfig}
             visibleColumns={['Name', 'Code', 'Period Start', 'Period End']}
             resultsFormatter={resultsFormatter}
@@ -249,7 +247,6 @@ class Ledger extends Component {
         }
       });
     }
-    console.log(newArr);
     return newArr;
   }
 }

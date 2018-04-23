@@ -136,9 +136,6 @@ class FiscalYear extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.handleActivate({ id: 'fiscalyear' });
-  }
 
   render() {
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;

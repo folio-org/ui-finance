@@ -90,7 +90,6 @@ class LedgerView extends Component {
   }
 
   render() {
-    console.log(this.props);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
@@ -193,6 +192,7 @@ class LedgerView extends Component {
     const { parentResources, match: { params: { id } } } = this.props;
     const ledgers = (parentResources.records || {}).records || [];
     if (!ledgers || ledgers.length === 0 || !id) return null;
+    console.log(ledgers);
     return ledgers.find(u => u.id === id);  
   }
 

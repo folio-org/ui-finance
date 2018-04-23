@@ -143,10 +143,6 @@ class Fund extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.handleActivate({ id: 'fund' });
-  }
-
   render() {
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;

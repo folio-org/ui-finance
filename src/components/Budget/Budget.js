@@ -142,10 +142,6 @@ class Budget extends Component {
     })
   }
 
-  componentWillMount() {
-    this.props.handleActivate({ id: 'budget' });
-  }
-
   render() {
     const props = this.props;
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;

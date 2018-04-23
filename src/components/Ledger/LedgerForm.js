@@ -95,7 +95,9 @@ class LedgerForm extends Component {
                 </Col>
               </Col>
               <Col xs={12}>
-                <hr />      
+                <Col xs={12}>
+                  <hr />      
+                </Col>
               </Col>   
               <Col xs={12} md={6}>
                 <Col xs={12}>
@@ -113,26 +115,33 @@ class LedgerForm extends Component {
             </Row>
             <Row>
               <Col xs={12}>
-                <p>Fiscal Year Period</p>
-              </Col>
-              <Col xs={12} md={6} className={css.dateInputFix}>
-                <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
-              </Col>
-              <Col xs={12} md={6} className={css.dateInputFix}>
-                <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
-              </Col>
+                <Col xs={12}>
+                  <hr />      
+                </Col>
+              </Col>   
               <Col xs={12}>
-                <p>Fiscal Year Label</p>
-              </Col>
-              <Col xs={12}>
-                {
-                  newFislcalYear ? (
-                    <Field name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} />
-                  ) : (
-                      <p>"No fiscal year available"</p>
-                    )
-                }
-              </Col>
+                <Col xs={12}>
+                  <p>Fiscal Year Period</p>
+                </Col>
+                <Col xs={12} md={6} className={css.dateInputFix}>
+                  <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
+                </Col>
+                <Col xs={12} md={6} className={css.dateInputFix}>
+                  <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
+                </Col>
+                <Col xs={12}>
+                  <p>Fiscal Year Label</p>
+                </Col>
+                <Col xs={12}>
+                  {
+                    newFislcalYear ? (
+                      <Field name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} />
+                    ) : (
+                        <span>-- No fiscal year available --</span>
+                      )
+                  }
+                </Col>
+              </Col> 
             </Row>
             { isEditPage && (
             <IfPermission perm="ledger.item.delete">

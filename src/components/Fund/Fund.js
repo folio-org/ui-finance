@@ -120,6 +120,10 @@ class Fund extends Component {
       }
     }
   });
+
+  componentDidMount() {
+    this.props.handleActivate({ id: 'fund' });
+  }
   
   constructor(props) {
     super(props);

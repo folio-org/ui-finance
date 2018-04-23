@@ -27,14 +27,15 @@ class Main extends Component {
   }
 
   handleActivate({ id }) {
+    // const { mutator } = this.props;
     this.setState({
       activeTab: id,
     });
-    if (id === 'ledger') {
-      this.props.history.push(`${this.props.match.path}/ledger`);
-    } else {
-      this.props.history.push(`${this.props.match.path}/${id}`);
-    }
+    // mutator.query.update({
+    //   _path: `/${id}`,
+    //   layer: null
+    // });
+    // console.log(this.props);
   }
   
   render() {

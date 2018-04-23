@@ -33,6 +33,7 @@ class FundView extends Component {
     };
     this.getData = this.getData.bind(this);
     this.getBudget = this.getBudget.bind(this);
+    this.getLedger = this.getLedger.bind(this);
     this.connectedFundPane = this.props.stripes.connect(FundPane);
   }
 
@@ -144,6 +145,16 @@ class FundView extends Component {
     const data = (parentResources.budget || {}).records || [];
     if (!data || data.length === 0) return null;
     return data;
+  }
+
+  getLedger = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.ledgerID || {}).records || [];
+    if (!data || data.length === 0) return null;
+    const newData = data[0];
+    return (
+      <p>{_.get(newData, ['code'], '')}, {_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
+    )
   }
 
   update(data) {

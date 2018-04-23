@@ -126,6 +126,10 @@ class FiscalYear extends Component {
     this.removeQueryParam = removeQueryParam.bind(this);
   }
 
+  componentDidMount() {
+    this.props.handleActivate({ id: 'fiscalyear' });
+  }
+
   create = (fiscalyeardata) => {
   const { mutator } = this.props;
     mutator.records.POST(fiscalyeardata).then(newFiscalYear => {

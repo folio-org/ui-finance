@@ -192,7 +192,6 @@ class LedgerView extends Component {
     const { parentResources, match: { params: { id } } } = this.props;
     const ledgers = (parentResources.records || {}).records || [];
     if (!ledgers || ledgers.length === 0 || !id) return null;
-    console.log(ledgers);
     return ledgers.find(u => u.id === id);  
   }
 

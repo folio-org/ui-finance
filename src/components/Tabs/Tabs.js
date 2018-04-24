@@ -18,19 +18,16 @@ class Tabs extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.tabID)
-  }
-
-  handleActivate({ id }) {
-    const  { parentResources, parentMutator } = this.props;
+    const id = this.props.tabID;
+    if (!id) return null;
     this.setState({
       activeTab: id,
     });
+  }
 
-    console.log(this.props);
-    // const query = (parentResources.query || {}).records || [];
-    // if (!query || query.length === 0) return null;
-    // parentMutator.query.update({ _path: `/finance/${id}` });
+  handleActivate({ id }) {
+    const  { parentMutator } = this.props;
+    parentMutator.query.update({ _path: `/finance/${id}` });
   }
   
   render() {

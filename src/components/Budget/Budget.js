@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import Tabs from '../Tabs';
 // Components and Pages
 import css from './css/Budget.css';
 import BudgetPane from './BudgetPane';
@@ -163,6 +164,11 @@ class Budget extends Component {
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
+        <Tabs
+          tabID="budget"
+          parentResources={props.resources}
+          parentMutator={props.mutator}
+        />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName={'budget'}

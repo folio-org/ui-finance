@@ -89,8 +89,7 @@ class LedgerView extends Component {
     });
   }
 
-  render() {
-    console.log(this.props);
+  render() {  
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>

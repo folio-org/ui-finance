@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import Tabs from '../Tabs';
 // Components and Pages
 import css from './css/Fund.css';
 import FundPane from './FundPane';

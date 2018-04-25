@@ -27,7 +27,7 @@ class Tabs extends Component {
 
   handleActivate({ id }) {
     const  { parentMutator } = this.props;
-    parentMutator.query.update({ _path: `/finance/${id}` });
+    parentMutator.query.update({ _path: `/finance/${id}`, layer: 'null' });
   }
   
   render() {

@@ -55,12 +55,12 @@ class LedgerView extends Component {
       });
     }
 
-    if(!_.isEqual(prevState.viewID, id)) {
-      queryData();
-      return { viewID:id };
-    }
-
     if(parentResources && (parentResources.fund && parentResources.ledgerID)) {
+      if(!_.isEqual(prevState.viewID, id)) {
+        queryData();
+        return { viewID:id };
+      }
+      
       if(!_.isEqual(prevState.fundData, parentResources.fund.records)) {
         queryData();
         let fund = (parentResources.fund || {}).records || [];
@@ -135,7 +135,7 @@ class LedgerView extends Component {
       return (
         <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-        </Pane>
+        </Pane> 
       );
     }
     

@@ -34,6 +34,7 @@ class FundView extends Component {
     this.getData = this.getData.bind(this);
     this.getBudget = this.getBudget.bind(this);
     this.connectedFundPane = this.props.stripes.connect(FundPane);
+    this.getLedger = this.getLedger.bind(this);
   }
 
   componentDidMount() {
@@ -43,14 +44,15 @@ class FundView extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     let queryData = () => {
-      parentMutator.budgetQuery.replace(`query=(fund_id="${id}")`);
+      parentMutator.queryCustom.update({ budgetQuery:`query=(fund_id="${id}")` });
     }
-    if(!_.isEqual(prevState.viewID, id)) {
-      queryData();
-      return { viewID:id };
-    }
-
+    
     if(parentResources && parentResources.budget) {
+      if(!_.isEqual(prevState.viewID, id)) {
+        queryData();
+        return { viewID:id };
+      }
+
       if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
         queryData();
         let budget = (parentResources.budget || {}).records || [];
@@ -62,7 +64,7 @@ class FundView extends Component {
   
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.budgetQuery.replace(`query=(fund_id=null)`);
+    parentMutator.queryCustom.update({ budgetQuery: `query=(fund_id=null)` });
   }
 
   render() {
@@ -101,6 +103,9 @@ class FundView extends Component {
           </Col>
           <Col xs={3}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Ledger" value={this.getLedger()} />
           </Col>
           {
             isBudgetData &&
@@ -144,6 +149,15 @@ class FundView extends Component {
     const data = (parentResources.budget || {}).records || [];
     if (!data || data.length === 0) return null;
     return data;
+  }
+
+  getLedger = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.ledgerID || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return (
+      <p>{_.get(data, ['name'], '')}</p>
+    )
   }
 
   update(data) {

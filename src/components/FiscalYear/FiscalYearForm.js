@@ -39,7 +39,6 @@ class FiscalYearForm extends Component {
     const { initialValues } = this.props;
     const isEditPage = initialValues.id ? true : false;
     const showDeleteButton = (this.props.isLedgerData || this.props.isBudgetData) ? false : true;
-    console.log(showDeleteButton);
 
     return (
       <div className={css.FiscalYearForm}>

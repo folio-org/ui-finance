@@ -171,7 +171,7 @@ class FundView extends Component {
     if (!data || data.length === 0) return null;
     const newData = data[0];
     return (
-      <p>{_.get(newData, ['name'], '')}</p>
+      <span>{_.get(newData, ['name'], '')}</span>
     )
   }
 

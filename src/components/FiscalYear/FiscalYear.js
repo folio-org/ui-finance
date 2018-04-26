@@ -101,8 +101,6 @@ class FiscalYear extends Component {
             return cql;
           }
         }
-
-        
       }
     },
     budgetQuery: { initialValue: 'query=(fund_id=null)' },

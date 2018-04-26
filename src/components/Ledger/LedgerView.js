@@ -213,6 +213,8 @@ class LedgerView extends Component {
   }
 
   update(ledgerdata) {
+    const fiscalyear = ledgerdata.fiscal_years;
+    ledgerdata['fiscal_years'] = [`${fiscalyear}`];
     this.props.parentMutator.records.PUT(ledgerdata).then(() => {
       this.props.onCloseEdit();
     });

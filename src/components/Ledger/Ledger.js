@@ -86,9 +86,9 @@ class Ledger extends Component {
     },
     queryCustom: {
       initialValue: {
-        ledgerIDQuery: 'query=(ledger_id=null)',
-        fundQuery: 'query=(fund_id=null)',
-        fiscalyearIDQuery: 'query=(id=null)',
+        ledgerIDQuery: 'query=(ledger_id="null")',
+        fundQuery: 'query=(fund_id="null")',
+        fiscalyearIDQuery: 'query=(id="null")',
         fiscalyearsQuery: 'query=(name="*")',
       }
     },
@@ -100,8 +100,10 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
-          return cql;
+          if(`${data.queryCustom.ledgerIDQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
+            return cql;
+          }
         },
       }
     },
@@ -112,8 +114,10 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
-          return cql;
+          if (`${data.queryCustom.fiscalyearsQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
+            return cql;
+          }
         },
       }
     },
@@ -124,9 +128,11 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
-          return cql;
-        },
+          if (`${data.queryCustom.fiscalyearIDQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
+            return cql;
+          }
+        }
       }
     },
     fund: {
@@ -136,8 +142,10 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.fundQuery} sortby name`;
-          return cql;
+          if (`${data.queryCustom.fundQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.fundQuery} sortby name`;
+            return cql;
+          }
         }
       }
     }
@@ -216,6 +224,7 @@ class Ledger extends Component {
               initialResultCount={INITIAL_RESULT_COUNT}
               resultCountIncrement={RESULT_COUNT_INCREMENT}
               finishedResourceName="perms"
+
               viewRecordPerms="ledger.item.get"
               newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
               parentResources={props.resources}

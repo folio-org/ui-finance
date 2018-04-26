@@ -101,8 +101,11 @@ class Budget extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.fundQuery} sortby name`;
-          return cql;
+          const newData = `${data.fundQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     },
@@ -114,8 +117,11 @@ class Budget extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.fiscalyearQuery} sortby name`;
-          return cql;
+          const newData = `${data.fiscalyearQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     }

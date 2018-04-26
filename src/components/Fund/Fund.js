@@ -97,7 +97,7 @@ class Fund extends Component {
     queryCustom: {
       initialValue: {
         ledgerQuery: 'query=(name="*")',
-        ledgerIDQuery: 'query=(id="null")',
+        ledgerIDQuery: 'query=(ledger_id="null")',
         budgetQuery: 'query=(fund_id="null")',
       }
     },
@@ -108,8 +108,11 @@ class Fund extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.ledgerQuery} sortby name`;
-          return cql;
+          const newData = `${data.queryCustom.ledgerQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     },
@@ -121,8 +124,11 @@ class Fund extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
-          return cql;
+          const newData = `${data.queryCustom.ledgerIDQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         },
       }
     },
@@ -133,8 +139,11 @@ class Fund extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.budgetQuery} sortby name`;
-          return cql;
+          const newData = `${data.queryCustom.budgetQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     }

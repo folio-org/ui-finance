@@ -95,9 +95,14 @@ class FiscalYear extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.ledgerQuery} sortby name`;
-          return cql;
+          const newData = `${data.ledgerQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
+
+        
       }
     },
     budgetQuery: { initialValue: 'query=(fund_id=null)' },
@@ -108,8 +113,11 @@ class FiscalYear extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery} sortby name`;
-          return cql;
+          const newData = `${data.budgetQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     }

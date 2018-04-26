@@ -53,7 +53,7 @@ class FundView extends Component {
     let queryData = () => {
       console.log(fundID());
       parentMutator.queryCustom.update({
-        budgetQuery:`query=(fund_id="${id}")`,
+        // budgetQuery:`query=(fund_id="${id}")`,
         ledgerIDQuery:`query=(id="${fundID()}")`,
       });
     }

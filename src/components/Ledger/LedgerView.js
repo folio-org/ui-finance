@@ -82,10 +82,10 @@ class LedgerView extends Component {
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
     parentMutator.queryCustom.update({ 
-      ledgerIDQuery: 'query=(ledger_id=null)',
-      fundQuery: `query=(ledger_id=null)`,
-      fiscalyearIDQuery: `query=(fiscal_years=null)`,
-      fiscalyearsQuery: `query=(name=null)`
+      ledgerIDQuery: 'query=(ledger_id="")',
+      fundQuery: `query=(ledger_id="")`,
+      fiscalyearIDQuery: `query=(fiscal_years="")`,
+      fiscalyearsQuery: `query=(name="")`
     });
   }
 

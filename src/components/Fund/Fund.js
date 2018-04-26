@@ -97,8 +97,8 @@ class Fund extends Component {
     queryCustom: {
       initialValue: {
         ledgerQuery: 'query=(name="*")',
-        ledgerIDQuery: 'query=(ledger_id=null)',
-        budgetQuery: 'query=(fund_id=null)',
+        ledgerIDQuery: 'query=(id="null")',
+        budgetQuery: 'query=(fund_id="null")',
       }
     },
     ledger: {
@@ -160,10 +160,6 @@ class Fund extends Component {
         layer: null
       });
     })
-  }
-
-  componentDidMount() {
-    // this.props.handleActivate({ id: 'fund' });
   }
 
   render() {

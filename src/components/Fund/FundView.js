@@ -29,7 +29,7 @@ class FundView extends Component {
     super(props);
     this.state = {
       viewID: '',
-      budgetData: []
+      budgetData: [],
     };
     this.getData = this.getData.bind(this);
     this.getBudget = this.getBudget.bind(this);
@@ -43,11 +43,22 @@ class FundView extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+    const fundID = () => {
+      const fund = (parentResources.records || {}).records || [];
+      if (!fund || fund.length === 0 || !id) return null;
+      const newFund = fund.find(u => u.id === id);
+      return newFund.ledger_id;
+    }
+
     let queryData = () => {
-      parentMutator.queryCustom.update({ budgetQuery:`query=(fund_id="${id}")` });
+      console.log(fundID());
+      parentMutator.queryCustom.update({
+        budgetQuery:`query=(fund_id="${id}")`,
+        ledgerIDQuery:`query=(id="${fundID()}")`,
+      });
     }
     
-    if(parentResources && parentResources.budget) {
+    if(parentResources && (parentResources.budget || parentResources.ledgerID)) {
       if(!_.isEqual(prevState.viewID, id)) {
         queryData();
         return { viewID:id };
@@ -107,6 +118,9 @@ class FundView extends Component {
           <Col xs={3}>
             <KeyValue label="Ledger" value={this.getLedger()} />
           </Col>
+          <Col xs={3}>
+            <KeyValue label="currency" value={_.get(initialValues, ['currency'], '')} />
+          </Col>
           {
             isBudgetData &&
             <Col xs={12}>
@@ -155,8 +169,9 @@ class FundView extends Component {
     const { parentResources } = this.props;
     const data = (parentResources.ledgerID || {}).records || [];
     if (!data || data.length === 0) return null;
+    const newData = data[0];
     return (
-      <p>{_.get(data, ['name'], '')}</p>
+      <p>{_.get(newData, ['name'], '')}</p>
     )
   }
 

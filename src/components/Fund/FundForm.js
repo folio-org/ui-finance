@@ -59,7 +59,6 @@ class FundForm extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    debugger;
     const { parentResources, parentMutator } = nextProps;
     if  (parentResources || parentResources.ledger) {
       let ledger_dd = parentResources.ledger.records;

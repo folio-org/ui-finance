@@ -93,7 +93,14 @@ class Budget extends Component {
         staticFallback: { params: {} },
       },
     },
-    fundQuery: { initialValue: 'query=(name="*")' },
+    queryCustom: {
+      initialValue: {
+        fundQuery: 'query=(name="*")',
+        fiscalyearQuery: 'query=(name="*")',
+        fundQueryID: 'query=(id="*")',
+        fiscalyearQueryID: 'query=(id="*")'
+      }
+    },
     fund: {
       type: 'okapi',
       records: 'funds',
@@ -101,7 +108,7 @@ class Budget extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          const newData = `${data.fundQuery}`;
+          const newData = `${data.queryCustom.fundQuery}`;
           if(newData !== 'undefined') {
             let cql = `${newData} sortby name`;
             return cql;
@@ -109,7 +116,6 @@ class Budget extends Component {
         }
       }
     },
-    fiscalyearQuery: { initialValue: 'query=(name="*")' },
     fiscalyear: {
       type: 'okapi',
       records: 'fiscal_years',
@@ -117,7 +123,39 @@ class Budget extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          const newData = `${data.fiscalyearQuery}`;
+          const newData = `${data.queryCustom.fiscalyearQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
+        }
+      }
+    },
+    fundID: {
+      type: 'okapi',
+      records: 'funds',
+      path: 'fund',
+      recordsRequired: 1,
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          const newData = `${data.queryCustom.fundQueryID}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
+        }
+      }
+    },
+    fiscalyearID: {
+      type: 'okapi',
+      records: 'fiscal_years',
+      path: 'fiscal_year',
+      recordsRequired: 1,
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          const newData = `${data.queryCustom.fiscalyearQueryID}`;
           if(newData !== 'undefined') {
             let cql = `${newData} sortby name`;
             return cql;
@@ -147,10 +185,6 @@ class Budget extends Component {
         layer: null
       });
     })
-  }
-
-  componentWillMount() {
-    // this.props.handleActivate({ id: 'budget' });
   }
 
   render() {

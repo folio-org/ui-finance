@@ -26,14 +26,48 @@ class BudgetView extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      viewID: '',
+      fundData: [],
+      fiscalyearData: []
+    };
     this.getData = this.getData.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
+    this.getFund = this.getFund.bind(this);
     this.connectedBudgetPane = this.props.stripes.connect(BudgetPane);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+    if(parentResources && (parentResources.fundID || parentResources.fiscalyearID)) {
+      let queryData = () => {
+        const budget = (parentResources.records || {}).records || [];
+        if (!budget || budget.length === 0 || !id) return null;
+        const newBudget = budget.find(u => u.id === id);
+        parentMutator.queryCustom.update({
+          fundQueryID:`query=(id="${newBudget.fund_id}")`,
+          fiscalyearQueryID:`query=(id="${newBudget.fiscal_year_id}")`,
+        });
+      }
+
+      if(!_.isEqual(prevState.viewID, id)) {
+        queryData();
+        return { viewID:id };
+      }
+
+      if(!_.isEqual(prevState.fundData, parentResources.fundID.records) || !_.isEqual(prevState.fiscalyearData, parentResources.fiscalyearID.records)) {
+        queryData();
+        let fundData = (parentResources.fundID || {}).records || [];
+        let fiscalyearData = (parentResources.fiscalyearID || {}).records || [];
+        return { fundData, fiscalyearData };
+      }
+      return false;
+    }
+    return false;
   }
 
   render() {
     const initialValues = this.getData();
-    console.log(this.props);
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
       <IfPermission perm="budget.item.put">
@@ -66,10 +100,10 @@ class BudgetView extends Component {
             <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
+            <KeyValue label="fiscal year" value={this.getFiscalYears()} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="fund" value={_.toString(_.get(initialValues, ['fund'], ''))} />
+            <KeyValue label="fund" value={this.getFund()} />
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Budget Dialog">
@@ -95,13 +129,22 @@ class BudgetView extends Component {
 
   getFiscalYears = (e, i) => {
     const { parentResources } = this.props;
-    const fiscalYears = (parentResources.fiscalyear || {}).records || [];
+    const fiscalYears = (parentResources.fiscalyearID || {}).records || [];
     if (!fiscalYears || fiscalYears.length === 0) return null;
     let data = fiscalYears.find(u => u.id === e);
     if (!data || data.length === 0) return null;
     
     return (
-      <p key={i}>{_.get(data, ['code'], '')}, {_.get(data, ['name'], '')}, {_.get(data, ['description'], '')}</p>
+      <span key={i}>{_.get(data, ['name'], '')}</span>
+    )
+  }
+
+  getFund = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.fundID || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return (
+      <span>{_.get(data, ['name'], '')}</span>
     )
   }
 

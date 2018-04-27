@@ -28,8 +28,8 @@ class BudgetView extends Component {
     super(props);
     this.state = {
       viewID: '',
-      fundData: [],
-      fiscalyearData: []
+      fundID: null,
+      fyID: null
     };
     this.getData = this.getData.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
@@ -39,31 +39,42 @@ class BudgetView extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
-    if(parentResources && (parentResources.fundID || parentResources.fiscalyearID)) {
-      let queryData = () => {
-        const budget = (parentResources.records || {}).records || [];
-        if (!budget || budget.length === 0 || !id) return null;
-        const newBudget = budget.find(u => u.id === id);
-        parentMutator.queryCustom.update({
-          fundQueryID:`query=(id="${newBudget.fund_id}")`,
-          fiscalyearQueryID:`query=(id="${newBudget.fiscal_year_id}")`,
-        });
-      }
+    let queryData = () => {
+      parentMutator.queryCustom.update({
+        budgetIDQuery: `query=(id="${id}")`
+      });
+    }
 
+    if(parentResources && (parentResources.fundID || parentResources.fiscalyearID)) {
       if(!_.isEqual(prevState.viewID, id)) {
         queryData();
         return { viewID:id };
       }
+      const budget = parentResources.budgetID.records;
+      if (budget[0]) {
+        const fundID = budget[0].fund_id;
+        if(!_.isEqual(prevState.fundID, fundID)) {
+          parentMutator.queryCustom.update({ fundQueryID: `query=(id="${fundID}")`});
+          return { fundID };
+        }
 
-      if(!_.isEqual(prevState.fundData, parentResources.fundID.records) || !_.isEqual(prevState.fiscalyearData, parentResources.fiscalyearID.records)) {
-        queryData();
-        let fundData = (parentResources.fundID || {}).records || [];
-        let fiscalyearData = (parentResources.fiscalyearID || {}).records || [];
-        return { fundData, fiscalyearData };
+        const fyID = budget[0].fiscal_year_id;
+        if(!_.isEqual(prevState.fyID, fyID)) {
+          parentMutator.queryCustom.update({ fiscalyearQueryID: `query=(id="${fyID}")`});
+          return { fyID };
+        }
       }
-      return false;
     }
     return false;
+  }
+  
+  componentWillUnmount(){
+    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
+    parentMutator.queryCustom.update({
+      budgetIDQuery:`query=(id="")`,
+      fundQueryID:`query=(id="")`,
+      fiscalyearQueryID:`query=(id="")`,
+    });
   }
 
   render() {
@@ -127,15 +138,12 @@ class BudgetView extends Component {
     return budget.find(u => u.id === id);
   }
 
-  getFiscalYears = (e, i) => {
-    const { parentResources } = this.props;
+  getFiscalYears = () => {
+    const { parentResources, match: { params: { id } } } = this.props;
     const fiscalYears = (parentResources.fiscalyearID || {}).records || [];
     if (!fiscalYears || fiscalYears.length === 0) return null;
-    let data = fiscalYears.find(u => u.id === e);
-    if (!data || data.length === 0) return null;
-    
     return (
-      <span key={i}>{_.get(data, ['name'], '')}</span>
+      <span>{_.get(fiscalYears[0], ['name'], '')}</span>
     )
   }
 
@@ -144,7 +152,7 @@ class BudgetView extends Component {
     const data = (parentResources.fundID || {}).records || [];
     if (!data || data.length === 0) return null;
     return (
-      <span>{_.get(data, ['name'], '')}</span>
+      <span>{_.get(data[0], ['name'], '')}</span>
     )
   }
 

@@ -95,10 +95,27 @@ class Budget extends Component {
     },
     queryCustom: {
       initialValue: {
-        fundQuery: 'query=(name="*")',
-        fiscalyearQuery: 'query=(name="*")',
-        fundQueryID: 'query=(id="*")',
-        fiscalyearQueryID: 'query=(id="*")'
+        budgetIDQuery: 'query=(id=null)',
+        fundQuery: 'query=(name=null)',
+        fiscalyearQuery: 'query=(name=null)',
+        fundQueryID: 'query=(id=null)',
+        fiscalyearQueryID: 'query=(id=null)'
+      }
+    },
+    budgetID: {
+      type: 'okapi',
+      records: 'budgets',
+      path: 'budget',
+      recordsRequired: 1,
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          const newData = `${data.queryCustom.budgetIDQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          } 
+        },
       }
     },
     fund: {

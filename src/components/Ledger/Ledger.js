@@ -111,6 +111,7 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
+      recordsRequired: 1,
       params: { 
         query: (...args) => {
           const data = args[2];
@@ -125,6 +126,7 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
+      recordsRequired: 1,
       params: { 
         query: (...args) => {
           const data = args[2];

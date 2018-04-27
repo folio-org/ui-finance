@@ -71,9 +71,12 @@ class FundForm extends Component {
   }
 
   componentWillUnmount(){
-  const { parentMutator } = this.props;
-  // parentMutator.ledgerQuery.replace('query=(name=null)');
-  parentMutator.queryCustom.update( { ledgerQuery: 'query=(name=null)' });
+    const { parentMutator } = this.props;
+    parentMutator.queryCustom.update({
+      ledgerQuery: 'query=(name=null)',
+      budgetQuery:`query=(fund_id=null)`,
+      ledgerIDQuery:`query=(id="*")`
+    });
   }
 
   render() {

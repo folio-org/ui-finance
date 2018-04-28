@@ -97,7 +97,7 @@ class Fund extends Component {
     queryCustom: {
       initialValue: {
         ledgerQuery: 'query=(name="*")',
-        ledgerIDQuery: 'query=(ledger_id="*")',
+        ledgerIDQuery: 'query=(ledger_id=null)',
         budgetQuery: 'query=(fund_id="null")',
       }
     },

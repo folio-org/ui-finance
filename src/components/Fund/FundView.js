@@ -30,6 +30,7 @@ class FundView extends Component {
     this.state = {
       viewID: '',
       budgetData: [],
+      ledgerID: null
     };
     this.getData = this.getData.bind(this);
     this.getBudget = this.getBudget.bind(this);
@@ -37,44 +38,42 @@ class FundView extends Component {
     this.getLedger = this.getLedger.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ viewID:'' });
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
-    const fundID = () => {
-      const fund = (parentResources.records || {}).records || [];
-      if (!fund || fund.length === 0 || !id) return null;
-      const newFund = fund.find(u => u.id === id);
-      return newFund.ledger_id;
-    }
-
     let queryData = () => {
       parentMutator.queryCustom.update({
         budgetQuery:`query=(fund_id="${id}")`,
-        ledgerIDQuery:`query=(id="${fundID()}")`,
       });
     }
-    
-    if(parentResources && (parentResources.budget || parentResources.ledgerID)) {
+
+    if((parentResources || parentResources.records) && (parentResources.budget || parentResources.ledgerID)) {
+      const fund = parentResources.records.records;
+      const data = fund !== null ? fund.find(u => u.id === id) : false;
+
       if(!_.isEqual(prevState.viewID, id)) {
         queryData();
         return { viewID:id };
       }
-
       if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
         queryData();
         let budget = (parentResources.budget || {}).records || [];
         return { budgetData: budget };
+      }
+      
+      if (data) { 
+        const ledgerID = data.ledger_id;
+        if(!_.isEqual(prevState.ledgerID, ledgerID)) {
+          parentMutator.queryCustom.update({ ledgerIDQuery: `query=(id="${ledgerID}")`});
+          return { ledgerID };
+        }
       }
     }
     return false;
   }
   
   componentWillUnmount(){
-    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.queryCustom.update({ budgetQuery: `query=(fund_id=null)` });
+    const { parentMutator } = this.props;
+    parentMutator.queryCustom.update({ budgetQuery: `query=(fund_id="null")` });
   }
 
   render() {

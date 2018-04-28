@@ -228,7 +228,6 @@ class Ledger extends Component {
               initialResultCount={INITIAL_RESULT_COUNT}
               resultCountIncrement={RESULT_COUNT_INCREMENT}
               finishedResourceName="perms"
-
               viewRecordPerms="ledger.item.get"
               newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
               parentResources={props.resources}

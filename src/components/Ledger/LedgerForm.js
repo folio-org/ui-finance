@@ -59,7 +59,7 @@ class LedgerForm extends Component {
 
   componentDidMount() {
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.queryCustom.update({ fiscalyearsQuery: 'query=(name="*")', });
+    parentMutator.queryCustom.update({ fiscalyearsQuery: 'query=(name="*")' });
   }
 
   render() {

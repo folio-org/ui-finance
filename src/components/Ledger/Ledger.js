@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import _ from "lodash";
@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import Tabs from '../Tabs';
 import FormatDate from '../../Utils/FormatDate';
 // Components and Pages
 import css from './css/Ledger.css';
@@ -85,9 +86,9 @@ class Ledger extends Component {
     },
     queryCustom: {
       initialValue: {
-        ledgerIDQuery: 'query=(ledger_id=null)',
-        fundQuery: 'query=(fund_id=null)',
-        fiscalyearIDQuery: 'query=(id=null)',
+        ledgerIDQuery: 'query=(ledger_id="null")',
+        fundQuery: 'query=(fund_id="null")',
+        fiscalyearIDQuery: 'query=(id="null")',
         fiscalyearsQuery: 'query=(name="*")',
       }
     },
@@ -99,8 +100,10 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
-          return cql;
+          if(`${data.queryCustom.ledgerIDQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
+            return cql;
+          }
         },
       }
     },
@@ -108,11 +111,14 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
+      recordsRequired: 1,
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
-          return cql;
+          if (`${data.queryCustom.fiscalyearsQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
+            return cql;
+          }
         },
       }
     },
@@ -120,12 +126,15 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
+      recordsRequired: 1,
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
-          return cql;
-        },
+          if (`${data.queryCustom.fiscalyearIDQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
+            return cql;
+          }
+        }
       }
     },
     fund: {
@@ -135,16 +144,14 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.queryCustom.fundQuery} sortby name`;
-          return cql;
+          if (`${data.queryCustom.fundQuery}` !== 'undefined') {
+            let cql = `${data.queryCustom.fundQuery} sortby name`;
+            return cql;
+          }
         }
       }
     }
   });
-
-  componentDidMount() {
-    this.props.handleActivate({ id: 'ledger' });
-  }
 
   constructor(props) {
     super(props);
@@ -154,7 +161,6 @@ class Ledger extends Component {
       sortOrder: query.sort || '',
       filters: initialFilterState(filterConfig, query.filters),
     };
-    
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
@@ -162,6 +168,8 @@ class Ledger extends Component {
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
+    const fiscalyear = ledgerdata.fiscal_years;
+    ledgerdata['fiscal_years'] = [`${fiscalyear}`];
     mutator.records.POST(ledgerdata).then(newLedger => {
       mutator.query.update({
         _path: `/finance/ledger/view/${newLedger.id}`,
@@ -192,37 +200,43 @@ class Ledger extends Component {
       return packageInfo;
     };
 
-    
     return (
       <div style={{width: '100%'}} className={css.panepadding}>
         {
-          getRecords  &&
-          <SearchAndSort
-            packageInfo={packageInfoReWrite()}
-            moduleName={packageInfo.name.replace(/.*\//, '')}
-            moduleTitle={'ledger'}
-            objectName="ledger"
-            baseRoute={`${this.props.match.path}`}
-            // path={`${this.props.match.path}`}
-            filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Period Start', 'Period End']}
-            resultsFormatter={resultsFormatter}
-            initialFilters={this.constructor.manifest.query.initialValue.filters}
-            viewRecordComponent={LedgerView}
-            onSelectRow={onSelectRow}
-            onCreate={this.create}
-            editRecordComponent={LedgerPane}
-            newRecordInitialValues={{}}
-            initialResultCount={INITIAL_RESULT_COUNT}
-            resultCountIncrement={RESULT_COUNT_INCREMENT}
-            finishedResourceName="perms"
-            viewRecordPerms="ledger.item.get"
-            newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
-            parentResources={props.resources}
-            parentMutator={props.mutator}
-            detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords  }}
-            onComponentWillUnmount={this.props.onComponentWillUnmount}
-          />
+          getRecords && 
+          <Fragment>
+            <Tabs
+              tabID="ledger"
+              parentResources={props.resources}
+              parentMutator={props.mutator}
+            />
+            <SearchAndSort
+              packageInfo={packageInfoReWrite()}
+              moduleName={packageInfo.name.replace(/.*\//, '')}
+              moduleTitle={'ledger'}
+              objectName="ledger"
+              baseRoute={`${this.props.match.path}`}
+              filterConfig={filterConfig}
+              visibleColumns={['Name', 'Code', 'Period Start', 'Period End']}
+              resultsFormatter={resultsFormatter}
+              initialFilters={this.constructor.manifest.query.initialValue.filters}
+              viewRecordComponent={LedgerView}
+              onSelectRow={onSelectRow}
+              onCreate={this.create}
+              editRecordComponent={LedgerPane}
+              newRecordInitialValues={{}}
+              initialResultCount={INITIAL_RESULT_COUNT}
+              resultCountIncrement={RESULT_COUNT_INCREMENT}
+              finishedResourceName="perms"
+
+              viewRecordPerms="ledger.item.get"
+              newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
+              parentResources={props.resources}
+              parentMutator={props.mutator}
+              detailProps={{stripes: this.props.stripes, dropdownFiscalyears: getFiscalYearsRecords  }}
+              onComponentWillUnmount={this.props.onComponentWillUnmount}
+            />
+          </Fragment>
         }
       </div>
     )
@@ -239,7 +253,7 @@ class Ledger extends Component {
       newArr.push(preObj);
       // Loop through records
       Object.keys(fiscalRecords).map((key) => {
-        let name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
+        let name = `Name:${fiscalRecords[key].name}`;
         let val = fiscalRecords[key].id;
         let obj = {
           label: _.toString(name),

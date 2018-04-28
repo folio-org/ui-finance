@@ -55,12 +55,12 @@ class LedgerView extends Component {
       });
     }
 
-    if(!_.isEqual(prevState.viewID, id)) {
-      queryData();
-      return { viewID:id };
-    }
-
     if(parentResources && (parentResources.fund && parentResources.ledgerID)) {
+      if(!_.isEqual(prevState.viewID, id)) {
+        queryData();
+        return { viewID:id };
+      }
+      
       if(!_.isEqual(prevState.fundData, parentResources.fund.records)) {
         queryData();
         let fund = (parentResources.fund || {}).records || [];
@@ -82,14 +82,14 @@ class LedgerView extends Component {
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
     parentMutator.queryCustom.update({ 
-      ledgerIDQuery: 'query=(ledger_id=null)',
-      fundQuery: `query=(ledger_id=null)`,
-      fiscalyearIDQuery: `query=(fiscal_years=null)`,
-      fiscalyearsQuery: `query=(name=null)`
+      ledgerIDQuery: 'query=(ledger_id="")',
+      fundQuery: `query=(ledger_id="")`,
+      fiscalyearIDQuery: `query=(fiscal_years="")`,
+      fiscalyearsQuery: `query=(name="")`
     });
   }
 
-  render() {
+  render() {  
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
@@ -135,7 +135,7 @@ class LedgerView extends Component {
       return (
         <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-        </Pane>
+        </Pane> 
       );
     }
     
@@ -208,11 +208,13 @@ class LedgerView extends Component {
     if (!data || data.length === 0) return null;
     const newData = data[0];
     return (
-      <p>{_.get(newData, ['code'], '')}, {_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
+      <p>{_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
     )
   }
 
   update(ledgerdata) {
+    const fiscalyear = ledgerdata.fiscal_years;
+    ledgerdata['fiscal_years'] = [`${fiscalyear}`];
     this.props.parentMutator.records.PUT(ledgerdata).then(() => {
       this.props.onCloseEdit();
     });

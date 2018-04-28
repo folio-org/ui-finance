@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import Tabs from '../Tabs';
 // Components and Pages
 import css from './css/Fund.css';
 import FundPane from './FundPane';
@@ -93,7 +94,13 @@ class Fund extends Component {
         staticFallback: { params: {} },
       },
     },
-    ledgerQuery: { initialValue: 'query=(name="*")' },
+    queryCustom: {
+      initialValue: {
+        ledgerQuery: 'query=(name="*")',
+        ledgerIDQuery: 'query=(ledger_id=null)',
+        budgetQuery: 'query=(fund_id="null")',
+      }
+    },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
@@ -101,12 +108,30 @@ class Fund extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.ledgerQuery} sortby name`;
-          return cql;
+          const newData = `${data.queryCustom.ledgerQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     },
-    budgetQuery: { initialValue: 'query=(fund_id="")' },
+    ledgerID: {
+      type: 'okapi',
+      records: 'ledgers',
+      path: 'ledger',
+      recordsRequired: 1,
+      params: { 
+        query: (...args) => {
+          const data = args[2];
+          const newData = `${data.queryCustom.ledgerIDQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
+        },
+      }
+    },
     budget: {
       type: 'okapi',
       records: 'budgets',
@@ -114,8 +139,11 @@ class Fund extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery} sortby name`;
-          return cql;
+          const newData = `${data.queryCustom.budgetQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     }
@@ -164,6 +192,11 @@ class Fund extends Component {
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
+        <Tabs
+          tabID="fund"
+          parentResources={props.resources}
+          parentMutator={props.mutator}
+        />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName={'fund'}

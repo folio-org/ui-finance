@@ -16,40 +16,16 @@ import css from './Main.css';
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeTab: ''
-    }
     this.connectedLedger = props.stripes.connect(Ledger);
     this.connectedFiscalYear = props.stripes.connect(FiscalYear);
     this.connectedFund = props.stripes.connect(Fund);
     this.connectedBudget = props.stripes.connect(Budget);
-    this.handleActivate = this.handleActivate.bind(this);
-  }
-
-  handleActivate({ id }) {
-    // const { mutator } = this.props;
-    this.setState({
-      activeTab: id,
-    });
-    // mutator.query.update({
-    //   _path: `/${id}`,
-    //   layer: null
-    // });
-    // console.log(this.props);
+    this.connectedBudget = props.stripes.connect(Budget);
   }
   
   render() {
     return (
       <div style={{width: '100%'}}>
-        <div className={css.SegControl}>
-          <SegmentedControl activeId={this.state.activeTab} onActivate={this.handleActivate}>
-            <Button id="ledger">Ledger</Button>
-            <Button id="fund">Fund</Button>
-            <Button id="budget">Budget</Button>
-            <Button id="fiscalyear">Fiscal Year</Button>
-          </SegmentedControl>
-          <br />
-        </div>
         <Switch>
           <Route
             path={`${this.props.match.path}/ledger`}
@@ -57,7 +33,6 @@ class Main extends Component {
               stripes={this.props.stripes}
               mutator={this.props.mutator}
               resources={this.props.resources}
-              handleActivate={this.handleActivate}
               {...props} />
             }
           />
@@ -67,7 +42,6 @@ class Main extends Component {
               stripes={this.props.stripes}
               mutator={this.props.mutator}
               resources={this.props.resources}
-              handleActivate={this.handleActivate}
               {...props} />
             }
           />
@@ -77,7 +51,6 @@ class Main extends Component {
               stripes={this.props.stripes}
               mutator={this.props.mutator}
               resources={this.props.resources}
-              handleActivate={this.handleActivate}
               {...props} />
             }
           />
@@ -87,7 +60,6 @@ class Main extends Component {
               stripes={this.props.stripes}
               mutator={this.props.mutator}
               resources={this.props.resources}
-              handleActivate={this.handleActivate}
               {...props} />
             }
           />

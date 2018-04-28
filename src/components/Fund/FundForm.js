@@ -52,24 +52,32 @@ class FundForm extends Component {
 
   componentDidMount() {
     const { parentMutator } = this.props;
-    parentMutator.ledgerQuery.replace('query=(name="*")');
+    parentMutator.queryCustom.update( { 
+      budgetQuery: 'query=(name="*")',
+      ledgerQuery: 'query=(name="*")'
+    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { parentResources } = nextProps;
+    const { parentResources, parentMutator } = nextProps;
     if  (parentResources || parentResources.ledger) {
       let ledger_dd = parentResources.ledger.records;
       if(!_.isEqual(prevState.ledger_dd, ledger_dd)) {
+        parentMutator.queryCustom.update( { ledgerQuery: 'query=(name="*")' });
         return { ledger_dd };
       }
     }
     return false;
   }
 
-  // componentWillUnmount(){
-  //   const { parentMutator } = this.props;
-  //   parentMutator.ledgerQuery.replace('query=(name=null)');
-  // }
+  componentWillUnmount(){
+    const { parentMutator } = this.props;
+    parentMutator.queryCustom.update({
+      ledgerQuery: 'query=(name=null)',
+      budgetQuery:`query=(fund_id=null)`,
+      ledgerIDQuery:`query=(id="*")`
+    });
+  }
 
   render() {
     const { initialValues } = this.props;

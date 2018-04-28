@@ -29,41 +29,51 @@ class FundView extends Component {
     super(props);
     this.state = {
       viewID: '',
-      budgetData: []
+      budgetData: [],
+      ledgerID: null
     };
     this.getData = this.getData.bind(this);
     this.getBudget = this.getBudget.bind(this);
-    this.getLedger = this.getLedger.bind(this);
     this.connectedFundPane = this.props.stripes.connect(FundPane);
-  }
-
-  componentDidMount() {
-    this.setState({ viewID:'' });
+    this.getLedger = this.getLedger.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     let queryData = () => {
-      parentMutator.budgetQuery.replace(`query=(fund_id="${id}")`);
-    }
-    if(!_.isEqual(prevState.viewID, id)) {
-      queryData();
-      return { viewID:id };
+      parentMutator.queryCustom.update({
+        budgetQuery:`query=(fund_id="${id}")`,
+      });
     }
 
-    if(parentResources && parentResources.budget) {
+    if((parentResources || parentResources.records) && (parentResources.budget || parentResources.ledgerID)) {
+      const fund = parentResources.records.records;
+      const data = fund !== null ? fund.find(u => u.id === id) : false;
+
+      if(!_.isEqual(prevState.viewID, id)) {
+        queryData();
+        return { viewID:id };
+      }
       if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
         queryData();
         let budget = (parentResources.budget || {}).records || [];
         return { budgetData: budget };
+      }
+      
+      if (data) { 
+        const ledgerID = data.ledger_id;
+        if(!_.isEqual(prevState.ledgerID, ledgerID)) {
+          parentMutator.queryCustom.update({ ledgerIDQuery: `query=(id="${ledgerID}")`});
+          return { ledgerID };
+        }
       }
     }
     return false;
   }
   
   componentWillUnmount(){
-    const { parentMutator, parentResources, match: { params: { id } } } = this.props;
-    parentMutator.budgetQuery.replace(`query=(fund_id=null)`);
+    const { parentMutator } = this.props;
+    parentMutator.queryCustom.update({ budgetQuery: `query=(fund_id="null")` });
   }
 
   render() {
@@ -102,6 +112,12 @@ class FundView extends Component {
           </Col>
           <Col xs={3}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Ledger" value={this.getLedger()} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="currency" value={_.get(initialValues, ['currency'], '')} />
           </Col>
           {
             isBudgetData &&
@@ -153,7 +169,7 @@ class FundView extends Component {
     if (!data || data.length === 0) return null;
     const newData = data[0];
     return (
-      <p>{_.get(newData, ['code'], '')}, {_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
+      <span>{_.get(newData, ['name'], '')}</span>
     )
   }
 

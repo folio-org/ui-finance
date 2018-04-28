@@ -11,6 +11,7 @@ import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter }
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
+import Tabs from '../Tabs';
 // Components and Pages
 import css from './css/FiscalYear.css';
 import FiscalYearPane from './FiscalYearPane';
@@ -94,8 +95,11 @@ class FiscalYear extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.ledgerQuery} sortby name`;
-          return cql;
+          const newData = `${data.ledgerQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     },
@@ -107,8 +111,11 @@ class FiscalYear extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          let cql = `${data.budgetQuery} sortby name`;
-          return cql;
+          const newData = `${data.budgetQuery}`;
+          if(newData !== 'undefined') {
+            let cql = `${newData} sortby name`;
+            return cql;
+          }
         }
       }
     }
@@ -126,10 +133,6 @@ class FiscalYear extends Component {
     this.removeQueryParam = removeQueryParam.bind(this);
   }
 
-  componentDidMount() {
-    this.props.handleActivate({ id: 'fiscalyear' });
-  }
-
   create = (fiscalyeardata) => {
   const { mutator } = this.props;
     mutator.records.POST(fiscalyeardata).then(newFiscalYear => {
@@ -140,6 +143,9 @@ class FiscalYear extends Component {
     })
   }
 
+  componentDidMount() {
+    // this.props.handleActivate({ id: 'fiscalyear' });
+  }
 
   render() {
     const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
@@ -159,6 +165,11 @@ class FiscalYear extends Component {
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
+        <Tabs
+          tabID="fiscalyear"
+          parentResources={this.props.resources}
+          parentMutator={this.props.mutator}
+        />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName={'fiscal_year'}

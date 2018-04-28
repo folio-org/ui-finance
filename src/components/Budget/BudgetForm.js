@@ -51,8 +51,10 @@ class BudgetForm extends Component {
 
   componentDidMount(){
     const { parentMutator } = this.props;
-    parentMutator.fundQuery.replace('query=(name="*")');
-    parentMutator.fiscalyearQuery.replace('query=(name="*")');
+    parentMutator.queryCustom.update({ 
+      fundQuery: 'query=(name="*")',
+      fiscalyearQuery: 'query=(name="*")'
+    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -72,8 +74,12 @@ class BudgetForm extends Component {
 
   componentWillUnmount(){
     const { parentMutator } = this.props;
-    parentMutator.fundQuery.replace('query=(name=null)');
-    parentMutator.fiscalyearQuery.replace('query=(name=null)');
+    parentMutator.queryCustom.update({ 
+      fundQuery: 'query=(name=null)',
+      fiscalyearQuery: 'query=(name=null)',
+      fundQueryID:`query=(id=null)`,
+      fiscalyearQueryID:`query=(id=null)`
+    });
   }
 
   render() {

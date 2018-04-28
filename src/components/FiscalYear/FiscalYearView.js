@@ -79,7 +79,6 @@ class FiscalYearView extends Component {
   }
 
   render() {
-    console.log(this.state);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>

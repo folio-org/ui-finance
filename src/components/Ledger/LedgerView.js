@@ -208,7 +208,7 @@ class LedgerView extends Component {
     if (!data || data.length === 0) return null;
     const newData = data[0];
     return (
-      <p>{_.get(newData, ['code'], '')}, {_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
+      <p>{_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
     )
   }
 

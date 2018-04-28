@@ -24,8 +24,7 @@ const filterConfig = [];
 class FiscalYear extends Component {
   static propTypes = {
     mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-    handleActivate: PropTypes.func
+    resources: PropTypes.object.isRequired
   }
 
   static manifest = Object.freeze({
@@ -141,10 +140,6 @@ class FiscalYear extends Component {
         layer: null
       });
     })
-  }
-
-  componentDidMount() {
-    // this.props.handleActivate({ id: 'fiscalyear' });
   }
 
   render() {

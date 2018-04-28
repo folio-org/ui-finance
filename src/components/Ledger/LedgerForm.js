@@ -130,7 +130,7 @@ class LedgerForm extends Component {
               <Col xs={12}>
                 {
                   newFislcalYear ? (
-                    <Field multiple name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} style={{height: '180px'}} />
+                    <Field name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} />
                   ) : (
                       <span>-- No fiscal year available ---</span>
                     )

@@ -24,8 +24,7 @@ const filterConfig = [];
 class Fund extends Component {
   static propTypes = {
     mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-    handleActivate: PropTypes.func
+    resources: PropTypes.object.isRequired
   }
 
   static manifest = Object.freeze({
@@ -148,10 +147,6 @@ class Fund extends Component {
       }
     }
   });
-
-  componentDidMount() {
-    this.props.handleActivate({ id: 'fund' });
-  }
   
   constructor(props) {
     super(props);

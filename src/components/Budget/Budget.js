@@ -182,10 +182,6 @@ class Budget extends Component {
     }
   });
   
-  componentDidMount() {
-    this.props.handleActivate({ id: 'budget' });
-  }
-  
   constructor(props) {
     super(props);
     const query = props.location.search ? queryString.parse(props.location.search) : {};

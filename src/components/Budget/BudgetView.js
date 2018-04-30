@@ -14,7 +14,11 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import IfInterface from '@folio/stripes-components/lib/IfInterface';
 import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import craftLayerUrl from '@folio/stripes-components/util/craftLayerUrl';
 import BudgetPane from './BudgetPane';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
+import TableSortAndFilter from '../TableSortAndFilter';
+
 
 class BudgetView extends Component {
   static propTypes = {
@@ -34,7 +38,13 @@ class BudgetView extends Component {
     this.getData = this.getData.bind(this);
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.getFund = this.getFund.bind(this);
+    this.onCloseTransaction = this.onCloseTransaction.bind(this);
+    this.connectedTableSortAndFilter = this.props.stripes.connect(TableSortAndFilter);
     this.connectedBudgetPane = this.props.stripes.connect(BudgetPane);
+    this.craftLayerUrl = craftLayerUrl.bind(this);
+    this.transitionToParams = transitionToParams.bind(this);
+    this.openTransactionLayer = this.openTransactionLayer.bind(this);
+    
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -75,6 +85,13 @@ class BudgetView extends Component {
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
+      <IconButton
+        icon="archive"
+        id="clickable-viewtransaction"
+        style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
+        onClick={this.openTransactionLayer}
+        title="View Transaction"
+      />
       <IfPermission perm="budget.item.put">
         <IconButton
           icon="edit"
@@ -86,6 +103,27 @@ class BudgetView extends Component {
         />
       </IfPermission>
     </PaneMenu>);
+    // Table Sort Filter Config
+    const filterConfig = [
+      {
+        label: 'Vendor Status',
+        name: 'vendor_status',
+        cql: 'vendor_status',
+        values: [
+          { name: 'active', cql: false },
+          { name: 'inactive', cql: false },
+          { name: 'pending', cql: false },
+        ]
+      }
+    ];
+    const visibleColumnsConfig = [
+      { 'title': 'name', 'status': true },
+      { 'title': 'vendor_status', 'status': true }
+    ];
+    const formatter = {
+      name: data => _.get(data, ['name'], ''),
+      vendor_status: data => _.get(data, ['vendor_status'], '')
+    };
 
     if (!initialValues) {
       return (
@@ -117,6 +155,22 @@ class BudgetView extends Component {
             initialValues={initialValues}
             onSubmit={(record) => { this.update(record); }}
             onCancel={this.props.onCloseEdit}
+            parentResources={this.props.parentResources}
+            parentMutator={this.props.parentMutator}
+          />
+        </Layer>
+        <Layer isOpen={query.layer ? query.layer === 'transaction' : false} label="Transaction's Dialog">
+          <this.connectedTableSortAndFilter
+            paneWidth={'40%'}
+            resourceName="tableRecords"
+            tableInitCountName="queryCustom.tableCount"
+            heading="Transactions"
+            stripes={this.props.stripes}
+            filterConfig={filterConfig}
+            onClose={this.onCloseTransaction}
+            visibleColumnsConfig={visibleColumnsConfig}
+            formatter={formatter}
+            onUpdateFilter={this.onUpdateFilter}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
           />
@@ -162,6 +216,17 @@ class BudgetView extends Component {
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCloseEdit();
     });
+  }
+
+  openTransactionLayer() {
+    this.transitionToParams({ layer: 'transaction' });
+  }
+
+  onCloseTransaction() {
+    this.props.parentMutator.query.update({
+      layer: null
+    });
+    this.transitionToParams({ layer: null });
   }
 }
 

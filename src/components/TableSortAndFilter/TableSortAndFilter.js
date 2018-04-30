@@ -14,6 +14,7 @@ import Icon from '@folio/stripes-components/lib/Icon';
 // Unsed components and not required
 import Pane from '@folio/stripes-components/lib/Pane';
 import Paneset from '@folio/stripes-components/lib/Paneset';
+import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import queryString from 'query-string';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
@@ -52,6 +53,7 @@ class TableSortAndFilter extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.onNeedMore = this.onNeedMore.bind(this);
     this.onHandleClickClear = this.onHandleClickClear.bind(this);
+    
   }
 
   componentWillMount() {
@@ -74,49 +76,51 @@ class TableSortAndFilter extends Component {
     const loader = () => parentResources[resourceName] ? parentResources[resourceName].isPending : false;
 
     return (
-      <div className={css.tsf}>
-        <div className={css.tsfWrapper}>
-          <h4 style={{"float": "left", "marginTop": "6pm", "marginLeft": "10px", "marginBottom": "10px"}}>{this.props.heading}</h4>
-          {/* Dropdown */}
-          <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
-            <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
-            <DropdownMenu data-role="menu" aria-label="available permissions">
-              <ul className={css.showhideDropdown}>
-                {this.state.visibleColumns.map(this.renderColumnChk)}
-              </ul>
-            </DropdownMenu>
-          </Dropdown>
-          {
-            this.state.showClearButton &&
-            <Button data-role="clear filter" align="end" bottomMargin0 style={{float: "right"}} onClick={this.onHandleClickClear}>Clear Filter</Button>
-          }
-          <div className={css.tsfTable}>
-            { /* Table */ }
-            <MultiColumnList
-              autosize
-              virtualize
-              interactive={false}
-              id={`list-TableAndSortFilter`}
-              contentData={this.isData()}
-              formatter={this.props.formatter}
-              // selectedRow={this.state.selectedRow}
-              onRowClick={this.onSelectRow}
-              onHeaderClick={this.onHeaderClick}
-              // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
-              visibleColumns={visibleColumns}
-              // sortedColumn={sortBy}
-              // sortDirection={sortOrder + 'ending'}
-              // panePreloader={listPreloaderStatus}
-              onNeedMoreData={this.onNeedMore}
-              loading={loader()}
-            />
-            { /* filter */}
-            <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }} ref={this.setWrapperRef}>
-              {this.state.filters.map(this.renderFilter)}
+      <Pane id="pane-viewtransactions" defaultWidth={this.props.paneWidth} paneTitle="Transaction's View" dismissible onClose={this.props.onClose}>
+        <div className={css.tsf}>
+          <div className={css.tsfWrapper}>
+            <h4 style={{"float": "left", "marginTop": "6pm", "marginLeft": "10px", "marginBottom": "10px"}}>{this.props.heading}</h4>
+            {/* Dropdown */}
+            <Dropdown id="ShowHideColumnsDropdown" open={this.state.onToggleColumnDD} onToggle={this.onToggleColumnDD} style={{ float: 'right', marginBottom:'10px' }} group pullRight>
+              <Button data-role="toggle" align="end" bottomMargin0 aria-haspopup="true">&#43; Show/Hide Columns</Button>
+              <DropdownMenu data-role="menu" aria-label="available permissions">
+                <ul className={css.showhideDropdown}>
+                  {this.state.visibleColumns.map(this.renderColumnChk)}
+                </ul>
+              </DropdownMenu>
+            </Dropdown>
+            {
+              this.state.showClearButton &&
+              <Button data-role="clear filter" align="end" bottomMargin0 style={{float: "right"}} onClick={this.onHandleClickClear}>Clear Filter</Button>
+            }
+            <div className={css.tsfTable}>
+              { /* Table */ }
+              <MultiColumnList
+                autosize
+                virtualize
+                interactive={false}
+                id={`list-TableAndSortFilter`}
+                contentData={this.isData()}
+                formatter={this.props.formatter}
+                // selectedRow={this.state.selectedRow}
+                onRowClick={this.onSelectRow}
+                onHeaderClick={this.onHeaderClick}
+                // columnWidths={{ author: '50%', title: '25%', type: '25%' }}
+                visibleColumns={visibleColumns}
+                // sortedColumn={sortBy}
+                // sortDirection={sortOrder + 'ending'}
+                // panePreloader={listPreloaderStatus}
+                onNeedMoreData={this.onNeedMore}
+                loading={loader()}
+              />
+              { /* filter */}
+              <div className={css.filterTsf} style={{ top: this.state.filterTop, left: this.state.filterLeft, display: this.state.showFilterWrapper ? 'block' : 'none' }} ref={this.setWrapperRef}>
+                {this.state.filters.map(this.renderFilter)}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Pane>
     )
   }
 
@@ -314,6 +318,7 @@ class TableSortAndFilter extends Component {
       this.createFilterQuery();
     });
   }
+
 }
 
 TableSortAndFilter.propTypes = {

@@ -74,7 +74,6 @@ class LedgerView extends Component {
     return false;
   }
 
-
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
     parentMutator.queryCustom.update({ 
@@ -84,7 +83,6 @@ class LedgerView extends Component {
       fiscalyearsQuery: `query=(name=null)`
     });
   }
-
 
   render() {  
     const initialValues = this.getData();

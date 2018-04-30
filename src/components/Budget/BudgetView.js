@@ -39,29 +39,23 @@ class BudgetView extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
-    let queryData = () => {
-      parentMutator.queryCustom.update({
-        budgetIDQuery: `query=(id="${id}")`
-      });
-    }
-
     if(parentResources && (parentResources.fundID || parentResources.fiscalyearID)) {
       if(!_.isEqual(prevState.viewID, id)) {
-        queryData();
+        parentMutator.queryCustom.update({ budgetIDQuery: `query=(id="${id}")` });
         return { viewID:id };
       }
-      const budget = parentResources.budgetID.records;
-      if (budget[0]) {
-        const fundID = budget[0].fund_id;
-        if(!_.isEqual(prevState.fundID, fundID)) {
-          parentMutator.queryCustom.update({ fundQueryID: `query=(id="${fundID}")`});
-          return { fundID };
-        }
 
-        const fyID = budget[0].fiscal_year_id;
-        if(!_.isEqual(prevState.fyID, fyID)) {
-          parentMutator.queryCustom.update({ fiscalyearQueryID: `query=(id="${fyID}")`});
-          return { fyID };
+      const budget = parentResources.records.records;
+      const data = budget !== null ? budget.find(u => u.id === id) : false;
+      if (data) {
+        const fundID = data.fund_id;
+        const fyID = data.fiscal_year_id;
+        if(!_.isEqual(prevState.fundID, fundID) || !_.isEqual(prevState.fyID, fyID)) {
+          parentMutator.queryCustom.update({
+            fundQueryID: `query=(id="${fundID}")`,
+            fiscalyearQueryID: `query=(id="${fyID}")`
+          });
+          return { fyID, fundID };
         }
       }
     }
@@ -71,12 +65,12 @@ class BudgetView extends Component {
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
     parentMutator.queryCustom.update({
-      budgetIDQuery:`query=(id="")`,
-      fundQueryID:`query=(id="")`,
-      fiscalyearQueryID:`query=(id="")`,
+      budgetIDQuery:`query=(id=null)`,
+      fundQueryID:`query=(id=null)`,
+      fiscalyearQueryID:`query=(id=null)`,
     });
   }
-
+  
   render() {
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};

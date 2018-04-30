@@ -111,10 +111,9 @@ class Budget extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.budgetIDQuery}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          } 
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         },
       }
     },
@@ -126,10 +125,9 @@ class Budget extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fundQuery}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          }
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         }
       }
     },
@@ -141,10 +139,9 @@ class Budget extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fiscalyearQuery}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          }
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         }
       }
     },
@@ -157,10 +154,9 @@ class Budget extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fundQueryID}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          }
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         }
       }
     },
@@ -173,10 +169,9 @@ class Budget extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fiscalyearQueryID}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          }
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         }
       }
     }

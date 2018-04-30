@@ -50,26 +50,21 @@ class LedgerView extends Component {
     let queryData = () => {
       parentMutator.queryCustom.update({ 
         fundQuery: `query=(ledger_id="${id}")`,
-        ledgerIDQuery: `query=(id="${id}")`, 
         fiscalyearsQuery: `query=(name="*")`
       });
     }
 
-    if(parentResources && (parentResources.fund && parentResources.ledgerID)) {
-      if(!_.isEqual(prevState.viewID, id)) {
-        queryData();
-        return { viewID:id };
-      }
-      
-      if(!_.isEqual(prevState.fundData, parentResources.fund.records)) {
+    if(parentResources && parentResources.fund) {
+      if(!_.isEqual(prevState.viewID, id) || !_.isEqual(prevState.fundData, parentResources.fund.records)) {
         queryData();
         let fund = (parentResources.fund || {}).records || [];
-        return { fundData: fund };
+        return { viewID:id, fundData: fund };
       }
-      
-      const ledger = parentResources.ledgerID.records;
-      if (ledger[0]) {
-        const fyID = ledger[0].fiscal_years[0];
+
+      const ledger = parentResources.records.records;
+      const data = ledger !== null ? ledger.find(u => u.id === id) : false;
+      if (data) {
+        const fyID = data.fiscal_years.length > 0 ? data.fiscal_years[0] : null
         if(!_.isEqual(prevState.fiscalyearID, fyID)) {
           parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(id="${fyID}")`});
           return { fiscalyearID: fyID };
@@ -79,15 +74,17 @@ class LedgerView extends Component {
     return false;
   }
 
+
   componentWillUnmount(){
     const { parentMutator, parentResources, match: { params: { id } } } = this.props;
     parentMutator.queryCustom.update({ 
-      ledgerIDQuery: 'query=(ledger_id="")',
-      fundQuery: `query=(ledger_id="")`,
-      fiscalyearIDQuery: `query=(fiscal_years="")`,
-      fiscalyearsQuery: `query=(name="")`
+      ledgerIDQuery: 'query=(ledger_id=null)',
+      fundQuery: `query=(ledger_id=null)`,
+      fiscalyearIDQuery: `query=(fiscal_years=null)`,
+      fiscalyearsQuery: `query=(name=null)`
     });
   }
+
 
   render() {  
     const initialValues = this.getData();

@@ -100,10 +100,9 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          if(`${data.queryCustom.ledgerIDQuery}` !== 'undefined') {
-            let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
-            return cql;
-          }
+          if (`${data.queryCustom.ledgerIDQuery}` === 'undefined') return undefined;
+          let cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
+          return cql;
         },
       }
     },
@@ -115,10 +114,9 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          if (`${data.queryCustom.fiscalyearsQuery}` !== 'undefined') {
-            let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
-            return cql;
-          }
+          if (`${data.queryCustom.fiscalyearsQuery}` === 'undefined') return undefined;
+          let cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
+          return cql;
         },
       }
     },
@@ -130,10 +128,9 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          if (`${data.queryCustom.fiscalyearIDQuery}` !== 'undefined') {
-            let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
-            return cql;
-          }
+          if (`${data.queryCustom.fiscalyearIDQuery}` === 'undefined') return undefined;
+          let cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
+          return cql;
         }
       }
     },
@@ -144,10 +141,9 @@ class Ledger extends Component {
       params: { 
         query: (...args) => {
           const data = args[2];
-          if (`${data.queryCustom.fundQuery}` !== 'undefined') {
-            let cql = `${data.queryCustom.fundQuery} sortby name`;
-            return cql;
-          }
+          if (`${data.queryCustom.fundQuery}` === 'undefined') return undefined;
+          let cql = `${data.queryCustom.fundQuery} sortby name`;
+          return cql;
         }
       }
     }

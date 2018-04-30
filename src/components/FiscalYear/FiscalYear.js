@@ -95,10 +95,9 @@ class FiscalYear extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.ledgerQuery}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          }
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         }
       }
     },
@@ -111,10 +110,9 @@ class FiscalYear extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.budgetQuery}`;
-          if(newData !== 'undefined') {
-            let cql = `${newData} sortby name`;
-            return cql;
-          }
+          if(newData === 'undefined') return undefined;
+          let cql = `${newData} sortby name`;
+          return cql;
         }
       }
     }

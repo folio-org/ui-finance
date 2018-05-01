@@ -43,56 +43,67 @@ class FiscalYearForm extends Component {
     return (
       <div className={css.FiscalYearForm}>
         <Row>
-          <Col xs={12}>
-            <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
-          </Col>
-          <Col xs={12}>
-            <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
-          </Col>
-          <Col xs={12}>
-            <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
+          <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
+            <Row>
+              <Col xs={12}>
+                <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
+              </Col>
+              <Col xs={12}>
+                <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
+              </Col>
+              <Col xs={12}>
+                <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
+              </Col>
+              <Col xs={12} md={6}>
+                <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
+              </Col>
+              <Col xs={12} md={6}>
+                <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
+              </Col>
+            </Row>
+              { isEditPage && (
+                <IfPermission perm="fiscal_ year.item.delete">
+                  { showDeleteButton ? (
+                    <Row end="xs">
+                      <Col xs={12}>
+                        <Button type="button" onClick={() => { this.props.deleteFiscalYear(initialValues.id) }}>Remove</Button>
+                      </Col>
+                    </Row>
+                  ) : (
+                    <Row>
+                      {
+                        this.props.isLedgerData &&
+                        <Col xs={12}>
+                          <hr />
+                          <ConnectionListing
+                            title={'Ledger Connection'}
+                            isEmptyMessage={'"No items found"'}
+                            items={this.props.ledgerData}
+                            isView={true}
+                            path={'/finance/ledger/view/'}
+                          />
+                        </Col>
+                      }
+                      {
+                        this.props.isBudgetData && 
+                        <Col xs={12}>
+                          <hr />
+                          <ConnectionListing
+                            title={'Budget Connection'}
+                            isEmptyMessage={'"No items found"'}
+                            items={this.props.budgetData}
+                            isView={true}
+                            path={'/finance/budget/view/'}
+                          />
+                        </Col>
+                      }
+                    </Row>
+                  )}
+                </IfPermission>
+              )}
+            
           </Col>
         </Row>
-        { isEditPage && (
-          <IfPermission perm="fiscal_ year.item.delete">
-            { showDeleteButton ? (
-              <Row end="xs">
-                <Col xs={12}>
-                  <Button type="button" onClick={() => { this.props.deleteFiscalYear(initialValues.id) }}>Remove</Button>
-                </Col>
-              </Row>
-            ) : (
-              <Row>
-                {
-                  this.props.isLedgerData &&
-                  <Col xs={12}>
-                    <hr />
-                    <ConnectionListing
-                      title={'Ledger Connection'}
-                      isEmptyMessage={'"No items found"'}
-                      items={this.props.ledgerData}
-                      isView={true}
-                      path={'/finance/ledger/view/'}
-                    />
-                  </Col>
-                }
-                {
-                  this.props.isBudgetData && 
-                  <Col xs={12}>
-                    <hr />
-                    <ConnectionListing
-                      title={'Budget Connection'}
-                      isEmptyMessage={'"No items found"'}
-                      items={this.props.budgetData}
-                      isView={true}
-                      path={'/finance/budget/view/'}
-                    />
-                  </Col>
-                }
-              </Row>
-            )}
-          </IfPermission>
-        )}
       </div>
     ) 
   }

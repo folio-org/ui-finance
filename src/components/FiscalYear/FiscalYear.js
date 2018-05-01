@@ -131,7 +131,7 @@ class FiscalYear extends Component {
   }
 
   create = (fiscalyeardata) => {
-  const { mutator } = this.props;
+    const { mutator } = this.props;
     mutator.records.POST(fiscalyeardata).then(newFiscalYear => {
       mutator.query.update({
         _path: `/finance/fiscalyear/view/${newFiscalYear.id}`,

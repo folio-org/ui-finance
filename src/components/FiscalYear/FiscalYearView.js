@@ -16,8 +16,8 @@ import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FiscalYearPane from './FiscalYearPane';
 import ConnectionListing from '../ConnectionListing';
+import FormatDate from '../../Utils/FormatDate';
 
-var num=0;
 class FiscalYearView extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
@@ -90,11 +90,13 @@ class FiscalYearView extends Component {
           onClick={this.props.onEdit}
           href={this.props.editLink}
           title="Edit Fiscal Year"
-        />
+        />  
       </IfPermission>
     </PaneMenu>);
     const isLedgerData = this.getLedger() !== null ? true : false;
     const isBudgetData = this.getBudget() !== null ? true : false;
+    const startDate = FormatDate(_.get(initialValues, ['period_start'], ''));
+    const endDate = FormatDate(_.get(initialValues, ['period_end'], ''));
 
     if (!initialValues) {
       return (
@@ -107,14 +109,20 @@ class FiscalYearView extends Component {
     return (
       <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
-          <Col xs={3}>
+          <Col xs={4}>
             <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
           </Col>
-          <Col xs={3}>
+          <Col xs={4}>
             <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
-          <Col xs={3}>
+          <Col xs={4}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
+          </Col>
+          <Col xs={4}>
+            <KeyValue label="period start" value={startDate} /> 
+          </Col>
+          <Col xs={4}>
+            <KeyValue label="period end" value={endDate} />
           </Col>
           {
             isLedgerData &&

@@ -16,7 +16,6 @@ import TextArea from '@folio/stripes-components/lib/TextArea';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
-import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import stripes from "@folio/stripes-connect";
 import { Dropdown } from '@folio/stripes-components/lib/Dropdown';
 import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
@@ -55,6 +54,8 @@ class LedgerForm extends Component {
       ],
     }
     this.onToggleAddFiscalYearDD = this.onToggleAddFiscalYearDD.bind(this);
+    this.renderList = this.renderList.bind(this);
+    this.renderSubFields = this.renderSubFields.bind(this);
   }
 
   componentDidMount() {
@@ -63,10 +64,9 @@ class LedgerForm extends Component {
   }
 
   render() {
-    const { initialValues, dropdownFiscalyears, fundData } = this.props;
+    const { initialValues, fundData } = this.props;
     const isEditPage = initialValues.id ? true : false;
     const showDeleteButton = this.props.fundData !== null ? false : true;
-    const newFislcalYear = this.props.dropdownFiscalyears !== null ? true :  false;
     return (
       <div>
         <Row> 
@@ -116,25 +116,7 @@ class LedgerForm extends Component {
                 <hr />      
               </Col>   
               <Col xs={12}>
-                <p>Fiscal Year Period</p>
-              </Col>
-              <Col xs={12} md={6} className={css.dateInputFix}>
-                <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} />
-              </Col>
-              <Col xs={12} md={6} className={css.dateInputFix}>
-                <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} />
-              </Col>
-              <Col xs={12}>
-                <p>Fiscal Year Label</p>
-              </Col>
-              <Col xs={12}>
-                {
-                  newFislcalYear ? (
-                    <Field name="fiscal_years" name="fiscal_years" id="fiscal_years" component={Select} dataOptions={dropdownFiscalyears} />
-                  ) : (
-                      <span>-- No fiscal year available ---</span>
-                    )
-                }
+                <FieldArray label="Fiscal Year" name="fiscal_years" id="fiscal_years" component={this.renderList} />
               </Col>
             </Row>
             { isEditPage && (
@@ -167,6 +149,40 @@ class LedgerForm extends Component {
           </Col>
         </Row>
       </div>
+    );
+  }
+
+  renderList = ({ fields }) => {
+    return (
+      <Row>
+        <Col xs={12} md={6}>
+          <h6>Fiscal Years</h6>
+        </Col>
+        <Col xs={12}>
+          {fields.length === 0 &&
+            <div><em>- Please add fiscal year -</em></div>
+          }
+          {fields.map(this.renderSubFields)}
+        </Col>
+        <Col xs={12}  style={{ paddingTop: '10px'}}>
+          <Button onClick={() => fields.push({})}>+ Add</Button>
+        </Col>
+      </Row>
+    )
+  }
+
+  renderSubFields = (elem, index, fields) => {
+    return (
+      <Row key={index}>
+        <Col xs={5}>
+          <Field name={`${elem}`} id={`${elem}.value`} component={Select} dataOptions={this.props.dropdownFiscalyears} />
+        </Col> 
+        <Col xs={2}>
+          <Button onClick={() => fields.remove(index)} buttonStyle="danger">
+            Remove
+          </Button>
+        </Col>
+      </Row>
     );
   }
 

@@ -94,15 +94,8 @@ class LedgerPane extends Component {
   }
 }
 
-function asyncValidate(values, dispatch, props, blurredField) {
-  console.log("asyc please disable");
-  return new Promise(resolve => resolve());
-}
-
 export default stripesForm({
   form: 'ledgerForm',
-  // validate,
-  asyncValidate,
   navigationCheck: true,
   enableReinitialize: true,
 })(LedgerPane);

@@ -64,11 +64,29 @@ class LedgerView extends Component {
       const ledger = parentResources.records.records;
       const data = ledger !== null ? ledger.find(u => u.id === id) : false;
       if (data) {
-        const fyID = data.fiscal_years.length > 0 ? data.fiscal_years[0] : null
+        const buildQuery = () => {
+          let newStr;
+          let arrStore = [];
+          let fydata = data.fiscal_years;
+          const fydataLength = fydata.length-1;
+          fydata.forEach((e, i, arr) => {
+            if (i === 0) {
+              arrStore.push(`id="${e}"`);
+            } else {
+              arrStore.push(` or id="${e}"`);
+            }
+            if (fydataLength === i) {
+              newStr = arrStore.join("");
+            } 
+          });
+          return newStr;
+        }
+        let fyID = data.fiscal_years.length > 0 ? buildQuery() : null;
         if(!_.isEqual(prevState.fiscalyearID, fyID)) {
-          parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(id="${fyID}")`});
+          parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(${fyID})`});
           return { fiscalyearID: fyID };
         }
+        
       }
     }
     return false;
@@ -121,8 +139,6 @@ class LedgerView extends Component {
       name: data => _.get(data, ['name'], ''),
       vendor_status: data => _.get(data, ['vendor_status'], '')
     };
-    const startDate = FormatDate(_.get(initialValues, ['period_start'], ''));
-    const endDate = FormatDate(_.get(initialValues, ['period_end'], ''));
     // Connections
     const isFundData = this.getFund() !== null ? true : false;
         
@@ -143,12 +159,7 @@ class LedgerView extends Component {
           <Col xs={3}>
             <KeyValue label="code" value={_.get(initialValues, ['code'], '')} />
           </Col>
-          <Col xs={3}>
-            <KeyValue label="period start" value={startDate} /> 
-          </Col>
-          <Col xs={3}>
-            <KeyValue label="period end" value={endDate} />
-          </Col>
+
           <Col xs={12}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
@@ -201,15 +212,13 @@ class LedgerView extends Component {
     const { parentResources } = this.props;
     const data = (parentResources.fiscalyearID || {}).records || [];
     if (!data || data.length === 0) return null;
-    const newData = data[0];
-    return (
-      <p>{_.get(newData, ['name'], '')}, {_.get(newData, ['description'], '')}</p>
-    )
+    data.map(function(item, i){
+      console.log(item.name);
+      return (<p key={i}>{item.name}, {item.description}</p>);
+    });
   }
 
   update(ledgerdata) {
-    const fiscalyear = ledgerdata.fiscal_years;
-    ledgerdata['fiscal_years'] = [`${fiscalyear}`];
     this.props.parentMutator.records.PUT(ledgerdata).then(() => {
       this.props.onCloseEdit();
     });

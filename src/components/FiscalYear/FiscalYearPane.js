@@ -88,15 +88,9 @@ class FiscalYearPane extends Component {
   }
 }
 
-function asyncValidate(values, dispatch, props, blurredField) {
-  console.log("asyc please disable");
-  return new Promise(resolve => resolve());
-}
-
 export default stripesForm({
   form: 'FiscalYearPane',
   // validate,
-  asyncValidate,
   navigationCheck: true,
   enableReinitialize: true,
 })(FiscalYearPane);

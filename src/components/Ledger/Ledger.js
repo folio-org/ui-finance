@@ -164,8 +164,6 @@ class Ledger extends Component {
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
-    const fiscalyear = ledgerdata.fiscal_years;
-    ledgerdata['fiscal_years'] = [`${fiscalyear}`];
     mutator.records.POST(ledgerdata).then(newLedger => {
       mutator.query.update({
         _path: `/finance/ledger/view/${newLedger.id}`,
@@ -213,7 +211,7 @@ class Ledger extends Component {
               objectName="ledger"
               baseRoute={`${this.props.match.path}`}
               filterConfig={filterConfig}
-              visibleColumns={['Name', 'Code', 'Period Start', 'Period End']}
+              visibleColumns={['Name', 'Code']}
               resultsFormatter={resultsFormatter}
               initialFilters={this.constructor.manifest.query.initialValue.filters}
               viewRecordComponent={LedgerView}

@@ -85,13 +85,15 @@ class BudgetView extends Component {
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (<PaneMenu>
-      <IconButton
-        icon="archive"
+      <Button
         id="clickable-viewtransaction"
-        style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
         onClick={this.openTransactionLayer}
-        title="View Transaction"
-      />
+        title={`Transactions View`}
+        buttonStyle="primary paneHeaderNewButton"
+        marginBottom0
+      >
+        Transctions
+      </Button>
       <IfPermission perm="budget.item.put">
         <IconButton
           icon="edit"

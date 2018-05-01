@@ -109,13 +109,9 @@ class FundForm extends Component {
               <Col xs={6}>
                 <Field label="Ledger" name="ledger_id" id="ledger" component={Select} fullWidth dataOptions={this.getLedger()} />
               </Col>
-              <Col xs={6}>
+              <Col xs={6} style={{display:'none'}}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
-              </Col>
-              <Col xs={6}>
                 <Field label="Allocation From" name="allocation_from" id="allocation_from" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
-              </Col>
-              <Col xs={6}>
                 <Field label="Allocation To" name="allocation_to" id="allocation_to" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
               </Col>
             </Row>

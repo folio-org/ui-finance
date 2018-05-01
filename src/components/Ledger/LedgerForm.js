@@ -72,52 +72,26 @@ class LedgerForm extends Component {
         <Row> 
           <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
             <Row>
-              <Col xs={12} md={6}>
-                <Col xs={12}>
-                  <Field label="Name" name="name" id="name" component={TextField} fullWidth />
-                </Col>
-                <Col xs={12}>
-                  <Field label="Code" name="code" id="code" component={TextField} fullWidth />
-                </Col>
-                <Col xs={12}>
-                  <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} disabled />
-                </Col>  
-              </Col>
-              <Col xs={12} md={6}>
-                <Col xs={12}>
-                  <Field label="Status" name="status" id="status" component={Select} fullWidth dataOptions={this.state.status_dd} disabled />
-                </Col>  
-                <Col xs={12}>
-                  <Field label="Tags" name="tags" id="tags" component={TextField} fullWidth disabled />
-                </Col>
-                <Col xs={12}>
-                  <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
-                </Col>
+              <Col xs={12}>
+              <Field label="Name" name="name" id="name" component={TextField} fullWidth />
               </Col>
               <Col xs={12}>
-                <hr />      
-              </Col>   
-              <Col xs={12} md={6}>
-                <Col xs={12}>
-                  <Field label="Allowable Encumbrance" name="allowable_encumbrance" id="allowable_encumbrance" component={TextField} fullWidth disabled />
-                </Col>
-                <Col xs={12}>
-                  <Field label="Allowable Expenditure:" name="allowable_expenditure" id="allowable_expenditure" component={TextField} fullWidth disabled />
-                </Col>
+                <Field label="Code" name="code" id="code" component={TextField} fullWidth />
               </Col>
-              <Col xs={12} md={6}>
-                <Col xs={12} className={css.checkbox}>
-                  <Field label="Freeze Activity" name='freeze_activity' id='freeze_activity' component={Checkbox} disabled />
-                </Col>
-              </Col>
-            </Row>
-            <Row>
               <Col xs={12}>
-                <hr />      
-              </Col>   
+                <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
+              </Col>
               <Col xs={12}>
                 <FieldArray label="Fiscal Year" name="fiscal_years" id="fiscal_years" component={this.renderList} />
               </Col>
+              <Col xs={12} style={{display: 'none'}}>
+                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} disabled />
+                <Field label="Status" name="status" id="status" component={Select} fullWidth dataOptions={this.state.status_dd} disabled />
+                <Field label="Tags" name="tags" id="tags" component={TextField} fullWidth disabled />
+                <Field label="Allowable Encumbrance" name="allowable_encumbrance" id="allowable_encumbrance" component={TextField} fullWidth disabled />
+                <Field label="Allowable Expenditure:" name="allowable_expenditure" id="allowable_expenditure" component={TextField} fullWidth disabled />
+                <Field label="Freeze Activity" name='freeze_activity' id='freeze_activity' component={Checkbox} disabled />
+              </Col>  
             </Row>
             { isEditPage && (
             <IfPermission perm="ledger.item.delete">
@@ -156,7 +130,7 @@ class LedgerForm extends Component {
     return (
       <Row>
         <Col xs={12} md={6}>
-          <h6>Fiscal Years</h6>
+          <h6 style={{marginTop:"0"}}>Fiscal Years</h6>
         </Col>
         <Col xs={12}>
           {fields.length === 0 &&

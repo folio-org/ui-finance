@@ -33,9 +33,9 @@ class BudgetForm extends Component {
     this.state = {
       fund_status_dd: [
         { label: "-- Select --", value: "" },
-        { label: 'Active', value: 'Active' },
-        { label: 'Inactive', value: 'Inactive' },
-        { label: 'Pending', value: 'Pending' },
+        { label: 'Active', value: 'active' },
+        { label: 'Inactive', value: 'inactive' },
+        { label: 'Pending', value: 'pending' },
       ],
       currency_dd: [
         { label: "-- Select --", value: "" },
@@ -97,7 +97,7 @@ class BudgetForm extends Component {
                 <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Budget Status" name="fund_status" id="fund_status" component={Select} fullWidth dataOptions={this.state.fund_status_dd} />
+                <Field label="Budget Status" name="budget_status" id="budget_status" component={Select} fullWidth dataOptions={this.state.fund_status_dd} />
               </Col>
               <Col xs={6}>
                 <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
@@ -132,7 +132,7 @@ class BudgetForm extends Component {
               <Col xs={6}>
                 <Field label="Fiscal Year" name="fiscal_year_id" id="fiscal_year_id" component={Select} fullWidth dataOptions={fiscalyearData} />
               </Col>
-              <Col xs={6}>
+              <Col xs={6} style={{display: 'none'}}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
               </Col>
             </Row>

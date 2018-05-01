@@ -20,6 +20,7 @@ import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction'
 import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
+import TableData from './TableData';
 
 const RESULT_COUNT_INCREMENT = 30;
 
@@ -74,8 +75,9 @@ class TableSortAndFilter extends Component {
     const { parentResources, resourceName } = this.props;
     const visibleColumns = this.columnObjToArr() ? this.columnObjToArr() : [];
     const loader = () => parentResources[resourceName] ? parentResources[resourceName].isPending : false;
-
+    console.log(TableData);
     return (
+      
       <Pane id="pane-viewtransactions" defaultWidth={this.props.paneWidth} paneTitle="Transaction's View" dismissible onClose={this.props.onClose}>
         <div className={css.tsf}>
           <div className={css.tsfWrapper}>
@@ -100,7 +102,8 @@ class TableSortAndFilter extends Component {
                 virtualize
                 interactive={false}
                 id={`list-TableAndSortFilter`}
-                contentData={this.isData()}
+                // contentData={this.isData()}
+                contentData={TableData}
                 formatter={this.props.formatter}
                 // selectedRow={this.state.selectedRow}
                 onRowClick={this.onSelectRow}
@@ -110,6 +113,7 @@ class TableSortAndFilter extends Component {
                 // sortedColumn={sortBy}
                 // sortDirection={sortOrder + 'ending'}
                 // panePreloader={listPreloaderStatus}
+                columnMapping={this.props.columnMapping}
                 onNeedMoreData={this.onNeedMore}
                 loading={loader()}
               />
@@ -328,7 +332,8 @@ TableSortAndFilter.propTypes = {
   heading: PropTypes.string,
   visibleColumnsConfig: PropTypes.array,
   formatter: PropTypes.object,
-  onUpdateFilter: PropTypes.func
+  onUpdateFilter: PropTypes.func,
+  columnMapping: PropTypes.object
 }
 
 export default TableSortAndFilter;

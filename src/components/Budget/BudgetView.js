@@ -118,13 +118,33 @@ class BudgetView extends Component {
         ]
       }
     ];
+    
     const visibleColumnsConfig = [
-      { 'title': 'name', 'status': true },
-      { 'title': 'vendor_status', 'status': true }
+      { 'title': "id", 'status': true, },
+      { 'title': "allocated", 'status': true, },
+      { 'title': "amount", 'status': true, },
+      { 'title': "awaiting_payment", 'status': true, },
+      { 'title': "encumbered", 'status': true, },
+      { 'title': "expenditures", 'status': true, },
+      { 'title': "note", 'status': true, },
+      { 'title': "timestamp", 'status': true, },
+      { 'title': "source_id", 'status': true, },
+      { 'title': "transaction_type", 'status': true, },
+      { 'title': "budget_id", 'status': true, },
     ];
-    const formatter = {
-      name: data => _.get(data, ['name'], ''),
-      vendor_status: data => _.get(data, ['vendor_status'], '')
+
+    const columnMapping = {
+      id: 'ID',
+      allocated: 'Allocated',
+      amount: 'Amount',
+      awaiting_payment: 'Awaiting Payment',
+      encumbered: 'Encumbered',
+      expenditures: 'Expenditures',
+      note: 'Note',
+      timestamp: 'Timestamp',
+      source_id: 'Source ID',
+      transaction_type: 'Transaction Type',
+      budget_id: 'Budget ID',
     };
 
     if (!initialValues) {
@@ -171,7 +191,8 @@ class BudgetView extends Component {
             filterConfig={filterConfig}
             onClose={this.onCloseTransaction}
             visibleColumnsConfig={visibleColumnsConfig}
-            formatter={formatter}
+            // formatter={formatter}
+            columnMapping={columnMapping}
             onUpdateFilter={this.onUpdateFilter}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}

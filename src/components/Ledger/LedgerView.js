@@ -153,14 +153,13 @@ class LedgerView extends Component {
     return (
       <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
-          <Col xs={3}>
+          <Col xs={4}>
             <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
           </Col>
-          <Col xs={3}>
+          <Col xs={4}>
             <KeyValue label="code" value={_.get(initialValues, ['code'], '')} />
           </Col>
-
-          <Col xs={12}>
+          <Col xs={4}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
           {
@@ -212,9 +211,9 @@ class LedgerView extends Component {
     const { parentResources } = this.props;
     const data = (parentResources.fiscalyearID || {}).records || [];
     if (!data || data.length === 0) return null;
-    data.map(function(item, i){
+    return data.map(function(item, i){
       console.log(item.name);
-      return (<p key={i}>{item.name}, {item.description}</p>);
+      return (<p key={i} style={{margin: '0 0 5px'}}>{item.name}, {item.description}</p>);
     });
   }
 

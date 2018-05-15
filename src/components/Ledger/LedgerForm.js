@@ -42,7 +42,7 @@ class LedgerForm extends Component {
     super(props);
     this.state = {
       fiscalYearDD: false,
-      currency_dd: [
+      currencyDD: [
         { label: "-- Select --", value: "" },
         { label: 'US Dollar', value: 'USD' }
       ],
@@ -85,7 +85,7 @@ class LedgerForm extends Component {
                 <FieldArray label="Fiscal Year" name="fiscal_years" id="fiscal_years" component={this.renderList} />
               </Col>
               <Col xs={12} style={{display: 'none'}}>
-                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} disabled />
+                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currencyDD} disabled />
                 <Field label="Status" name="status" id="status" component={Select} fullWidth dataOptions={this.state.status_dd} disabled />
                 <Field label="Tags" name="tags" id="tags" component={TextField} fullWidth disabled />
                 <Field label="Allowable Encumbrance" name="allowable_encumbrance" id="allowable_encumbrance" component={TextField} fullWidth disabled />

@@ -1,5 +1,6 @@
-import Budget from './Budget.js';
-import BudgetForm from './BudgetForm.js';
-import BudgetPane from './BudgetPane.js';
-import BudgetView from './BudgetView.js';
+import Budget from './Budget';
+import BudgetForm from './BudgetForm';
+import BudgetPane from './BudgetPane';
+import BudgetView from './BudgetView';
+
 export { Budget, BudgetForm, BudgetPane, BudgetView };

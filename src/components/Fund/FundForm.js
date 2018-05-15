@@ -34,13 +34,13 @@ class FundForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fund_status_dd: [
+      fundStatusDD: [
         { label: "-- Select --", value: "" },
         { label: 'Active', value: 'Active' },
         { label: 'Inactive', value: 'Inactive' },
         { label: 'Pending', value: 'Pending' },
       ],
-      currency_dd: [
+      currencyDD: [
         { label: "-- Select --", value: "" },
         { label: 'Canadian Dollar', value: 'CAD' },
         { label: 'U.S. Dollar', value: 'USD' },
@@ -101,10 +101,10 @@ class FundForm extends Component {
                 <Field label="Created Date" name="created_date" id="created_date" component={Datepicker} />
               </Col>
               <Col xs={6}>
-                <Field label="Fund Status" name="fund_status" id="fund_status" component={Select} fullWidth dataOptions={this.state.fund_status_dd} />
+                <Field label="Fund Status" name="fund_status" id="fund_status" component={Select} fullWidth dataOptions={this.state.fundStatusDD} />
               </Col>
               <Col xs={6}>
-                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currency_dd} />
+                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currencyDD} />
               </Col>
               <Col xs={6}>
                 <Field label="Ledger" name="ledger_id" id="ledger" component={Select} fullWidth dataOptions={this.getLedger()} />

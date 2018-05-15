@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Route from 'react-router-dom/Route';
-import _ from "lodash";
-import queryString from 'query-string';
+import _ from 'lodash';
 // Folio
-import Layer from '@folio/stripes-components/lib/Layer';
-import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
+import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
@@ -20,13 +16,16 @@ import BudgetView from './BudgetView';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = [];
+
 class Budget extends Component {
-  
   static propTypes = {
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
-    handleActivate: PropTypes.func
-  }
+    stripes: PropTypes.object,
+    onSelectRow: PropTypes.func,
+    onComponentWillUnmount: PropTypes.func,
+    match: PropTypes.string
+  };
 
   static manifest = Object.freeze({
     query: {
@@ -107,12 +106,12 @@ class Budget extends Component {
       records: 'budgets',
       path: 'budget',
       recordsRequired: 1,
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.budgetIDQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         },
       }
@@ -121,12 +120,12 @@ class Budget extends Component {
       type: 'okapi',
       records: 'funds',
       path: 'fund',
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fundQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
@@ -135,12 +134,12 @@ class Budget extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fiscalyearQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
@@ -150,12 +149,12 @@ class Budget extends Component {
       records: 'funds',
       path: 'fund',
       recordsRequired: 1,
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fundQueryID}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
@@ -165,26 +164,21 @@ class Budget extends Component {
       records: 'fiscal_years',
       path: 'fiscal_year',
       recordsRequired: 1,
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.fiscalyearQueryID}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
     }
   });
-  
+
   constructor(props) {
     super(props);
-    const query = props.location.search ? queryString.parse(props.location.search) : {};
-    this.state = {
-      searchTerm: query.query || '',
-      sortOrder: query.sort || '',
-      filters: initialFilterState(filterConfig, query.filters),
-    };
+    this.state = {};
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
   }
@@ -196,17 +190,15 @@ class Budget extends Component {
         _path: `/finance/budget/view/${newBudget.id}`,
         layer: null
       });
-    })
+    });
   }
 
   render() {
-    const props = this.props;
-    const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
-    const initialPath = (_.get(packageInfo, ['stripes', 'home']));
+    const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.toString(_.get(data, ['code'], '')),
-    }
+    };
     const packageInfoReWrite = () => {
       const path = '/finance/budget';
       packageInfo.stripes.route = path;
@@ -218,17 +210,17 @@ class Budget extends Component {
       <div style={{ width: '100%' }} className={css.panepadding}>
         <Tabs
           tabID="budget"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
+          parentResources={resources}
+          parentMutator={mutator}
         />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
-          moduleName={'budget'}
-          moduleTitle={'budget'}
+          moduleName="budget"
+          moduleTitle="budget"
           objectName="budget"
-          baseRoute={`${this.props.match.path}`}
+          baseRoute={`${match.path}`}
           filterConfig={filterConfig}
-          visibleColumns = {['Name', 'Code'/*, 'Created Date', 'Budget Status', 'Currency', 'Ledger', 'Allocation From', 'Allocation To', 'Tags'*/]}
+          visibleColumns={['Name', 'Code']}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={BudgetView}
@@ -241,13 +233,13 @@ class Budget extends Component {
           finishedResourceName="perms"
           viewRecordPerms="budget.item.get"
           newRecordPerms="budget.item.post,login.item.post,perms.budget.item.post"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
-          detailProps={this.props.stripes}
-          onComponentWillUnmount={this.props.onComponentWillUnmount}
+          parentResources={resources}
+          parentMutator={mutator}
+          detailProps={stripes}
+          onComponentWillUnmount={onComponentWillUnmount}
         />
       </div>
-    )
+    );
   }
 }
 

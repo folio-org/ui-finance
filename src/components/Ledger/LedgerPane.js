@@ -1,18 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
 import stripesForm from '@folio/stripes-form';
-import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import TextField from '@folio/stripes-components/lib/TextField';
-import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
-// Components and Pages
 import LedgerForm from './LedgerForm';
 
 class LedgerPane extends Component {
@@ -31,7 +23,7 @@ class LedgerPane extends Component {
       value: PropTypes.string.isRequired
     }))
   }
-  
+
   constructor(props) {
     super(props);
     this.deleteLedger = this.deleteLedger.bind(this);
@@ -58,7 +50,7 @@ class LedgerPane extends Component {
           title={label}
           disabled={pristine || submitting}
           onClick={handleSubmit}
-          style={{marginBottom: '0'}}
+          style={{ marginBottom: '0' }}
         >
           {label}
         </Button>
@@ -66,8 +58,18 @@ class LedgerPane extends Component {
     );
   }
 
+  deleteLedger(ID) {
+    const { parentMutator } = this.props;
+    parentMutator.records.DELETE({ id: ID }).then(() => {
+      parentMutator.query.update({
+        _path: '/finance/ledger',
+        layer: null
+      });
+    });
+  }
+
   render() {
-    const { initialValues, getFiscalYears } = this.props;
+    const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create ledger';
     const lastMenu = initialValues.id ?
@@ -80,17 +82,7 @@ class LedgerPane extends Component {
           <LedgerForm {...this.props} deleteLedger={this.deleteLedger} />
         </Pane>
       </form>
-    )
-  }
-  
-  deleteLedger(ID) {
-    const { parentMutator } = this.props;
-    parentMutator.records.DELETE({ id: ID }).then(() => {
-      parentMutator.query.update({
-        _path: `/finance/ledger`,
-        layer: null
-      });
-    });
+    );
   }
 }
 

@@ -1,1 +1,1 @@
-export { default } from './Ledger.js';
+export { default } from './Ledger';

@@ -19,12 +19,12 @@ const filterConfig = [];
 
 class Budget extends Component {
   static propTypes = {
-    mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
+    match: PropTypes.string,
     stripes: PropTypes.object,
     onSelectRow: PropTypes.func,
-    onComponentWillUnmount: PropTypes.func,
-    match: PropTypes.string
+    mutator: PropTypes.object.isRequired,
+    resources: PropTypes.object.isRequired,
+    onComponentWillUnmount: PropTypes.func
   };
 
   static manifest = Object.freeze({

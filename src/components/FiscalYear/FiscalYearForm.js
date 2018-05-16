@@ -17,21 +17,15 @@ class FiscalYearForm extends Component {
     initialValues: PropTypes.object,
     deleteFiscalYear: PropTypes.object,
     ledgerData: PropTypes.arrayOf(PropTypes.object),
-    budgetData: PropTypes.arrayOf(PropTypes.object),
-    isLedgerData: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object,
-    ]),
-    isBudgetData: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object,
-    ])
+    budgetData: PropTypes.arrayOf(PropTypes.object)
   }
 
   render() {
-    const { initialValues, isLedgerData, isBudgetData, ledgerData, budgetData, deleteFiscalYear } = this.props;
+    const { initialValues, ledgerData, budgetData, deleteFiscalYear } = this.props;
     const isEditPage = initialValues.id || false;
-    const showDeleteButton = (isLedgerData || isBudgetData) || false;
+    const isLedgerData = ledgerData !== null ? ledgerData : false;
+    const isBudgetData = budgetData !== null ? budgetData : false;
+    const isDataAvail = ledgerData || budgetData;
 
     return (
       <div className={css.FiscalYearForm}>
@@ -57,13 +51,7 @@ class FiscalYearForm extends Component {
             {
               isEditPage && (
               <IfPermission perm="fiscal_ year.item.delete">
-                { showDeleteButton ? (
-                  <Row end="xs">
-                    <Col xs={12}>
-                      <Button type="button" onClick={() => { deleteFiscalYear(initialValues.id); }}>Remove</Button>
-                    </Col>
-                  </Row>
-                ) : (
+                { isDataAvail ? (
                   <Row>
                     {
                       isLedgerData &&
@@ -92,6 +80,12 @@ class FiscalYearForm extends Component {
                       </Col>
                     }
                   </Row>
+                ) : (
+                  <Row end="xs">
+                    <Col xs={12}>
+                      <Button type="button" onClick={() => { deleteFiscalYear(initialValues.id); }}>Remove</Button>
+                    </Col>
+                  </Row>       
                 )}
               </IfPermission>
               )

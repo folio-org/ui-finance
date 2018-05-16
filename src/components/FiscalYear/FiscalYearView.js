@@ -193,8 +193,6 @@ class FiscalYearView extends Component {
             parentMutator={this.props.parentMutator}
             ledgerData={this.getLedger()}
             budgetData={this.getBudget()}
-            isLedgerData={isLedgerData}
-            isBudgetData={isBudgetData}
           />
         </Layer>
       </Pane>

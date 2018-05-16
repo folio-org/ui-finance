@@ -134,7 +134,7 @@ class LedgerForm extends Component {
                         isView
                       />
                     </Col>
-                  </Row>                
+                  </Row>
                 ) : (
                   <Row end="xs">
                     <Col xs={12}>

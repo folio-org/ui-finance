@@ -18,7 +18,7 @@ const filterConfig = [];
 
 class Fund extends Component {
   static propTypes = {
-    match: PropTypes.string,
+    match: PropTypes.object,
     stripes: PropTypes.object,
     onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,

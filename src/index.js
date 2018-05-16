@@ -7,8 +7,9 @@ import Settings from './settings';
 
 class Finance extends React.Component {
   static propTypes = {
-    match: PropTypes.object.isRequired,
+    match: PropTypes.object,
     showSettings: PropTypes.bool,
+    stripes: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -24,7 +25,7 @@ class Finance extends React.Component {
       <Switch>
         <Route
           path={`${this.props.match.path}`}
-          render={props => <this.connectedApp {...this.props}/>} 
+          render={() => <this.connectedApp {...this.props} />}
         />
         <Route component={() => { this.NoMatch(); }} />
       </Switch>

@@ -1,3 +1,11 @@
 // Validate Required Field
-const Required = (value) => value ? undefined : 'Required!'
-export { Required };
+const Required = (value) => {
+  if (value) return undefined;
+  return 'Required!';
+};
+
+const RequiredInput = () => {
+  return false;
+};
+
+export { Required, RequiredInput };

@@ -9,10 +9,10 @@
   border-bottom: 1px solid gainsboro;
   align-items: center;
   justify-content: center;
+}
 
-  &>nav {
-    width: 35%;
-  }
+.SegControl > nav {
+  width: 35%;
 }
 
 /* Forms */

@@ -1,35 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from "lodash";
-import queryString from 'query-string';
-// Stripes Components
 import SegmentedControl from '@folio/stripes-components/lib/SegmentedControl';
 import Button from '@folio/stripes-components/lib/Button';
-// Components and Pages
 import css from './Tabs.css';
 
 class Tabs extends Component {
+  static propTypes = {
+    tabID: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    parentMutator: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       activeTab: ''
-    }
+    };
     this.handleActivate = this.handleActivate.bind(this);
+    this.setTabID = this.setTabID.bind(this);
   }
 
   componentDidMount() {
-    const id = this.props.tabID;
-    if (!id) return null;
+    this.setTabID();
+  }
+
+  setTabID() {
+    const { tabID } = this.props;
+    if (!tabID) return null;
     this.setState({
-      activeTab: id,
+      activeTab: tabID,
     });
+    return false;
   }
 
   handleActivate({ id }) {
-    const  { parentMutator } = this.props;
+    const { parentMutator } = this.props;
     parentMutator.query.update({ _path: `/finance/${id}`, layer: 'null' });
   }
-  
+
   render() {
     return (
       <div className={css.SegControl}>
@@ -40,7 +50,7 @@ class Tabs extends Component {
           <Button id="fiscalyear">Fiscal Year</Button>
         </SegmentedControl>
       </div>
-    )
+    );
   }
 }
 

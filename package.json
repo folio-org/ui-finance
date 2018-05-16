@@ -312,7 +312,7 @@
     "start": "stripes serve",
     "build": "stripes build --output ./output",
     "test": "stripes test nightmare --run demo --show",
-    "lint": "eslint src/components/Budget"
+    "lint": "eslint src"
   },
   "devDependencies": {
     "@folio/eslint-config-stripes": "^1.1.0",

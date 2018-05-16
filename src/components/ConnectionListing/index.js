@@ -1,1 +1,1 @@
-export { default } from './ConnectionListing.js';
+export { default } from './ConnectionListing';

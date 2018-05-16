@@ -20,7 +20,7 @@ class LedgerForm extends Component {
       value: PropTypes.string.isRequired
     })),
     parentMutator: PropTypes.object,
-    fundData: PropTypes.object,
+    fundData: PropTypes.arrayOf(PropTypes.object)
   }
 
   constructor(props) {
@@ -93,7 +93,7 @@ class LedgerForm extends Component {
   render() {
     const { initialValues, fundData } = this.props;
     const isEditPage = initialValues.id || false;
-    const showDeleteButton = this.props.fundData || false;
+    const isFundData = fundData !== null ? fundData : false;
     return (
       <div>
         <Row>
@@ -122,27 +122,24 @@ class LedgerForm extends Component {
             </Row>
             { isEditPage && (
               <IfPermission perm="ledger.item.delete">
-                { showDeleteButton ? (
+                { isFundData ? (
+                  <Row>
+                    <Col xs={12}>
+                      <hr />
+                      <ConnectionListing
+                        title="Fund Connection"
+                        isEmptyMessage="No items found"
+                        items={fundData}
+                        path="/finance/fund/view/"
+                        isView
+                      />
+                    </Col>
+                  </Row>                
+                ) : (
                   <Row end="xs">
                     <Col xs={12}>
                       <Button type="button" onClick={() => { this.props.deleteLedger(initialValues.id); }}>Remove</Button>
                     </Col>
-                  </Row>
-                ) : (
-                  <Row>
-                    {
-                      fundData &&
-                      <Col xs={12}>
-                        <hr />
-                        <ConnectionListing
-                          title="Fund Connection"
-                          isEmptyMessage="No items found"
-                          items={fundData}
-                          isView={false}
-                          path="/finance/fund/view/"
-                        />
-                      </Col>
-                    }
                   </Row>
                 )}
               </IfPermission>

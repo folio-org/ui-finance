@@ -185,7 +185,6 @@ class FundView extends Component {
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
             budgetData={this.getBudget()}
-            isBudgetData={isBudgetData}
           />
         </Layer>
       </Pane>

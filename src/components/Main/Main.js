@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import _ from "lodash";
-import queryString from 'query-string';
-// Stripes Components
-import SegmentedControl from '@folio/stripes-components/lib/SegmentedControl';
-import Button from '@folio/stripes-components/lib/Button';
 // Components and Pages
 import Ledger from '../Ledger';
 import FiscalYear from '../FiscalYear/FiscalYear';
 import Fund from '../Fund/Fund';
 import Budget from '../Budget/Budget';
-import css from './Main.css';
 
 class Main extends Component {
+  static propTypes = {
+    match: PropTypes.object,
+    stripes: PropTypes.object,
+    mutator: PropTypes.object,
+    resources: PropTypes.object
+  }
   constructor(props) {
     super(props);
     this.connectedLedger = props.stripes.connect(Ledger);
@@ -22,51 +22,56 @@ class Main extends Component {
     this.connectedBudget = props.stripes.connect(Budget);
     this.connectedBudget = props.stripes.connect(Budget);
   }
-  
+
   render() {
+    const { resources, mutator, match, stripes } = this.props;
     return (
-      <div style={{width: '100%'}}>
+      <div style={{ width: '100%' }}>
         <Switch>
           <Route
-            path={`${this.props.match.path}/ledger`}
+            path={`${match.path}/ledger`}
             render={props => <this.connectedLedger
-              stripes={this.props.stripes}
-              mutator={this.props.mutator}
-              resources={this.props.resources}
-              {...props} />
+              stripes={stripes}
+              mutator={mutator}
+              resources={resources}
+              {...props}
+            />
             }
           />
           <Route
-            path={`${this.props.match.path}/fund`}
+            path={`${match.path}/fund`}
             render={props => <this.connectedFund
-              stripes={this.props.stripes}
-              mutator={this.props.mutator}
-              resources={this.props.resources}
-              {...props} />
+              stripes={stripes}
+              mutator={mutator}
+              resources={resources}
+              {...props}
+            />
             }
           />
           <Route
-            path={`${this.props.match.path}/budget`}
+            path={`${match.path}/budget`}
             render={props => <this.connectedBudget
-              stripes={this.props.stripes}
-              mutator={this.props.mutator}
-              resources={this.props.resources}
-              {...props} />
+              stripes={stripes}
+              mutator={mutator}
+              resources={resources}
+              {...props}
+            />
             }
           />
           <Route
-            path={`${this.props.match.path}/fiscalyear`}
+            path={`${match.path}/fiscalyear`}
             render={props => <this.connectedFiscalYear
-              stripes={this.props.stripes}
-              mutator={this.props.mutator}
-              resources={this.props.resources}
-              {...props} />
+              stripes={stripes}
+              mutator={mutator}
+              resources={resources}
+              {...props}
+            />
             }
           />
-          <Redirect exact from={`${this.props.match.path}`} to={`${this.props.match.path}/ledger`} />
+          <Redirect exact from={`${match.path}`} to={`${match.path}/ledger`} />
         </Switch>
       </div>
-    )
+    );
   }
 }
 

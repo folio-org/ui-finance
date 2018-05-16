@@ -19,8 +19,7 @@ class FundForm extends Component {
     deleteFund: PropTypes.func,
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object,
-    isBudgetData: PropTypes.object,
-    budgetData: PropTypes.object
+    budgetData: PropTypes.arrayOf(PropTypes.object)
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -99,7 +98,8 @@ class FundForm extends Component {
   }
 
   render() {
-    const { initialValues, isBudgetData, budgetData } = this.props;
+    const { initialValues, budgetData } = this.props;
+    const isBudgetData = budgetData || false;
     const isEditPage = initialValues.id || false;
 
     return (

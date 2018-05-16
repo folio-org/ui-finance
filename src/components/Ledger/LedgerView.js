@@ -146,6 +146,7 @@ class LedgerView extends Component {
     const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
+    const isFundData = this.getFund() || false;
     const detailMenu = (
       <PaneMenu>
         <IfPermission perm="ledger.item.put">
@@ -160,9 +161,7 @@ class LedgerView extends Component {
         </IfPermission>
       </PaneMenu>
     );
-    // Connections
-    const isFundData = this.getFund() || false;
-
+    
     if (!initialValues) {
       return (
         <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
@@ -207,7 +206,6 @@ class LedgerView extends Component {
             parentMutator={this.props.parentMutator}
             dropdownFiscalyears={this.props.dropdownFiscalyears}
             fundData={this.getFund()}
-            isFundData={isFundData}
           />
         </Layer>
       </Pane>

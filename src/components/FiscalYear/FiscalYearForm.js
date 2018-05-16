@@ -15,11 +15,17 @@ import ConnectionListing from '../ConnectionListing';
 class FiscalYearForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    ledgerData: PropTypes.object,
-    budgetData: PropTypes.object,
-    isLedgerData: PropTypes.object,
-    isBudgetData: PropTypes.object,
-    deleteFiscalYear: PropTypes.object
+    deleteFiscalYear: PropTypes.object,
+    ledgerData: PropTypes.arrayOf(PropTypes.object),
+    budgetData: PropTypes.arrayOf(PropTypes.object),
+    isLedgerData: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+    ]),
+    isBudgetData: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+    ])
   }
 
   render() {

@@ -19,7 +19,14 @@ class ConnectionListing extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
+  }
+
+  dataRender(data, i) {
+    return(<li key={i}>
+      <a href={`${this.props.path}${data.id}`}>{data.name}</a>
+    </li>
+    );
   }
 
   render() {
@@ -37,13 +44,6 @@ class ConnectionListing extends Component {
         }
         <List items={items} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
       </div>
-    )
-  }
-
-  dataRender(data, i) {
-    return(<li key={i}>
-      <a href={`${this.props.path}${data.id}`}>{data.name}</a>
-    </li>
     );
   }
 }

@@ -161,7 +161,7 @@ class LedgerView extends Component {
         </IfPermission>
       </PaneMenu>
     );
-    
+
     if (!initialValues) {
       return (
         <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>

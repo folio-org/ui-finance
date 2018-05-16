@@ -85,7 +85,7 @@ class FiscalYearForm extends Component {
                     <Col xs={12}>
                       <Button type="button" onClick={() => { deleteFiscalYear(initialValues.id); }}>Remove</Button>
                     </Col>
-                  </Row>       
+                  </Row>
                 )}
               </IfPermission>
               )

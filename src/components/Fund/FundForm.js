@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
+import { Field } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import Paneset from '@folio/stripes-components/lib/Paneset';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
-import stripesForm from '@folio/stripes-form';
-import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
-import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
-import List from '@folio/stripes-components/lib/List';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import Badges from '@folio/stripes-components/lib/Badge/Badge.js'
-// Components and Utils
 import css from './css/FundForm.css';
 import { Required } from '../../Utils/Validate';
 import ConnectionListing from '../ConnectionListing';
@@ -28,65 +18,94 @@ class FundForm extends Component {
     initialValues: PropTypes.object,
     deleteFund: PropTypes.func,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    parentMutator: PropTypes.object,
+    isBudgetData: PropTypes.object,
+    budgetData: PropTypes.object
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { parentResources, parentMutator } = nextProps;
+    if (parentResources || parentResources.ledger) {
+      const ledgerDD = parentResources.ledger.records;
+      if (!_.isEqual(prevState.ledgerDD, ledgerDD)) {
+        parentMutator.queryCustom.update({ ledgerQuery: 'query=(name="*")' });
+        return { ledgerDD };
+      }
+    }
+    return false;
   }
 
   constructor(props) {
     super(props);
     this.state = {
       fundStatusDD: [
-        { label: "-- Select --", value: "" },
+        { label: '-- Select --', value: '' },
         { label: 'Active', value: 'Active' },
         { label: 'Inactive', value: 'Inactive' },
         { label: 'Pending', value: 'Pending' },
       ],
       currencyDD: [
-        { label: "-- Select --", value: "" },
+        { label: '-- Select --', value: '' },
         { label: 'Canadian Dollar', value: 'CAD' },
         { label: 'U.S. Dollar', value: 'USD' },
-      ],
-      ledger_dd: []
-    }
+      ]
+    };
     this.getLedger = this.getLedger.bind(this);
   }
 
   componentDidMount() {
     const { parentMutator } = this.props;
-    parentMutator.queryCustom.update( { 
+    parentMutator.queryCustom.update({
       budgetQuery: 'query=(name="*")',
       ledgerQuery: 'query=(name="*")'
     });
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { parentResources, parentMutator } = nextProps;
-    if  (parentResources || parentResources.ledger) {
-      let ledger_dd = parentResources.ledger.records;
-      if(!_.isEqual(prevState.ledger_dd, ledger_dd)) {
-        parentMutator.queryCustom.update( { ledgerQuery: 'query=(name="*")' });
-        return { ledger_dd };
-      }
-    }
-    return false;
-  }
-
-  componentWillUnmount(){
+  componentWillUnmount() {
     const { parentMutator } = this.props;
     parentMutator.queryCustom.update({
       ledgerQuery: 'query=(name=null)',
-      budgetQuery:`query=(fund_id=null)`,
-      ledgerIDQuery:`query=(id="*")`
+      budgetQuery: 'query=(fund_id=null)',
+      ledgerIDQuery: 'query=(id="*")'
     });
   }
 
-  render() {
-    const { initialValues } = this.props;
-    const isEditPage = initialValues.id ? true : false;
-    
+  getLedger() {
+    const { parentResources } = this.props;
+    const ledgers = (parentResources.ledger || {}).records || [];
+    if (!ledgers || ledgers.length === 0) return null;
+    const newArr = [];
+    newArr.push({ label: '-- Select a ledger --', value: '' });
+    Object.keys(ledgers).map((key) => {
+      const obj = {
+        label: ledgers[key].name,
+        value: _.toString(ledgers[key].id)
+      };
+      newArr.push(obj);
+      if (Number(key) === ledgers.length) {
+        return newArr;
+      }
+      return newArr;
+    });
+    return newArr;
+  }
+
+  budgetDataRender(data, i) {
     return (
-      <div style={{ margin: "0 auto", padding: '0' }} className={css.FundForm}>
+      <li key={i}>
+        <a href={`/finance/budget/view/${data.id}`}>{data.name}</a>
+      </li>
+    );
+  }
+
+  render() {
+    const { initialValues, isBudgetData, budgetData } = this.props;
+    const isEditPage = initialValues.id || false;
+
+    return (
+      <div style={{ margin: '0 auto', padding: '0' }} className={css.FundForm}>
         <Row>
-          <Col xs={8} style={{ margin: "0 auto", padding: '0' }}>
+          <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
               <Col xs={6}>
                 <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
@@ -109,65 +128,40 @@ class FundForm extends Component {
               <Col xs={6}>
                 <Field label="Ledger" name="ledger_id" id="ledger" component={Select} fullWidth dataOptions={this.getLedger()} />
               </Col>
-              <Col xs={6} style={{display:'none'}}>
+              <Col xs={6} style={{ display: 'none' }}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
                 <Field label="Allocation From" name="allocation_from" id="allocation_from" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
                 <Field label="Allocation To" name="allocation_to" id="allocation_to" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
               </Col>
             </Row>
-            { isEditPage && (
-            <IfPermission perm="fund.item.delete">
-              { this.props.isBudgetData ? (
-                <Row>
-                  <Col xs={12}>
-                    <hr />
-                    <ConnectionListing
-                      title={'Budget Connection'}
-                      isEmptyMessage={'"No items found"'}
-                      items={this.props.budgetData}
-                      isView={false}
-                      path={'/finance/fund/view/'}
-                    />
-                  </Col>
-                </Row>
-              ) : (
-                <Row end="xs">  
-                  <Col xs={12}>
-                    <Button type="button" onClick={() => { this.props.deleteFund(initialValues.id) }}>Remove</Button>
-                  </Col>
-                </Row>
-              )}
-             </IfPermission>
+            {
+              isEditPage && (
+              <IfPermission perm="fund.item.delete">
+                { isBudgetData ? (
+                  <Row>
+                    <Col xs={12}>
+                      <hr />
+                      <ConnectionListing
+                        title="Budget Connection"
+                        isEmptyMessage="No items found"
+                        items={budgetData}
+                        path="/finance/fund/view/"
+                        isView
+                      />
+                    </Col>
+                  </Row>
+                ) : (
+                  <Row end="xs">
+                    <Col xs={12}>
+                      <Button type="button" onClick={() => { this.props.deleteFund(initialValues.id); }}>Remove</Button>
+                    </Col>
+                  </Row>
+                )}
+              </IfPermission>
             )}
           </Col>
         </Row>
       </div>
-    ) 
-  }
-
-  getLedger() {
-    const { parentResources } = this.props;
-    const ledgers = (parentResources.ledger || {}).records || [];
-    if (!ledgers || ledgers.length === 0) return null;
-    let newArr = [];
-    newArr.push({ label: '-- Select a ledger --', value:'' });
-    Object.keys(ledgers).map((key) => {
-      let obj = {
-        label: ledgers[key].name,
-        value: _.toString(ledgers[key].id)
-      };
-      newArr.push(obj);
-      if (Number(key) === ledgers.length) {
-        return newArr;
-      }
-    });
-    return newArr;
-  }
-
-  budgetDataRender(data, i) {
-    return(<li key={i}>
-      <a href={`/finance/budget/view/${data.id}`}>{data.name}</a>
-    </li>
     );
   }
 }

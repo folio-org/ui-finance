@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Route from 'react-router-dom/Route';
-import _ from "lodash";
-import queryString from 'query-string';
-// Folio
-import Layer from '@folio/stripes-components/lib/Layer';
-import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
+import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
+import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
@@ -23,8 +18,12 @@ const filterConfig = [];
 
 class Fund extends Component {
   static propTypes = {
+    match: PropTypes.string,
+    stripes: PropTypes.object,
+    onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired
+    resources: PropTypes.object.isRequired,
+    onComponentWillUnmount: PropTypes.func
   }
 
   static manifest = Object.freeze({
@@ -108,8 +107,8 @@ class Fund extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.ledgerQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
@@ -119,12 +118,12 @@ class Fund extends Component {
       records: 'ledgers',
       path: 'ledger',
       recordsRequired: 1,
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.ledgerIDQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         },
       }
@@ -137,22 +136,17 @@ class Fund extends Component {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.queryCustom.budgetQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
     }
   });
-  
+
   constructor(props) {
     super(props);
-    const query = props.location.search ? queryString.parse(props.location.search) : {};
-    this.state = {
-      searchTerm: query.query || '',
-      sortOrder: query.sort || '',
-      filters: initialFilterState(filterConfig, query.filters),
-    };
+    this.state = {};
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
   }
@@ -164,17 +158,15 @@ class Fund extends Component {
         _path: `/finance/fund/view/${newFund.id}`,
         layer: null
       });
-    })
+    });
   }
 
   render() {
-    const props = this.props;
-    const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
-    const initialPath = (_.get(packageInfo, ['stripes', 'home']));
+    const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.toString(_.get(data, ['code'], ''))
-    }
+    };
     const packageInfoReWrite = () => {
       const path = '/finance/fund';
       packageInfo.stripes.route = path;
@@ -186,17 +178,17 @@ class Fund extends Component {
       <div style={{ width: '100%' }} className={css.panepadding}>
         <Tabs
           tabID="fund"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
+          parentResources={resources}
+          parentMutator={mutator}
         />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
-          moduleName={'fund'}
-          moduleTitle={'fund'}
+          moduleName="fund"
+          moduleTitle="fund"
           objectName="fund"
-          baseRoute={`finance/fund/`}
+          baseRoute={`${match.path}`}
           filterConfig={filterConfig}
-          visibleColumns = {['Name', 'Code', ]}
+          visibleColumns={['Name', 'Code']}
           resultsFormatter={resultsFormatter}
           initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={FundView}
@@ -209,13 +201,13 @@ class Fund extends Component {
           finishedResourceName="perms"
           viewRecordPerms="fund.item.get"
           newRecordPerms="fund.item.post,login.item.post,perms.fund.item.post"
-          parentResources={props.resources}
-          parentMutator={props.mutator}
-          detailProps={{stripes: this.props.stripes }}
-          onComponentWillUnmount={this.props.onComponentWillUnmount}
+          parentResources={resources}
+          parentMutator={mutator}
+          detailProps={{ stripes }}
+          onComponentWillUnmount={onComponentWillUnmount}
         />
       </div>
-    )
+    );
   }
 }
 

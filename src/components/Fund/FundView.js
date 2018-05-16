@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
@@ -11,88 +10,132 @@ import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import IfInterface from '@folio/stripes-components/lib/IfInterface';
-import Button from '@folio/stripes-components/lib/Button';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FundPane from './FundPane';
 import ConnectionListing from '../ConnectionListing';
 
 class FundView extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
     onCloseEdit: PropTypes.func,
-    parentResources: PropTypes.shape({}),
-    parentMutator: PropTypes.shape({}),
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      viewID: '',
-      budgetData: [],
-      ledgerID: null
-    };
-    this.getData = this.getData.bind(this);
-    this.getBudget = this.getBudget.bind(this);
-    this.connectedFundPane = this.props.stripes.connect(FundPane);
-    this.getLedger = this.getLedger.bind(this);
+    parentResources: PropTypes.object,
+    parentMutator: PropTypes.object,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string
+      })
+    }),
+    stripes: PropTypes.object,
+    location: PropTypes.object,
+    onEdit: PropTypes.func,
+    editLink: PropTypes.string,
+    onClose: PropTypes.func,
+    paneWidth: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
-    let queryData = () => {
+    const queryData = () => {
       parentMutator.queryCustom.update({
-        budgetQuery:`query=(fund_id="${id}")`,
+        budgetQuery: `query=(fund_id="${id}")`,
       });
-    }
+    };
 
-    if((parentResources || parentResources.records) && (parentResources.budget || parentResources.ledgerID)) {
+    if ((parentResources || parentResources.records) && (parentResources.budget || parentResources.ledgerID)) {
       const fund = parentResources.records.records;
       const data = fund !== null ? fund.find(u => u.id === id) : false;
 
-      if(!_.isEqual(prevState.viewID, id)) {
+      if (!_.isEqual(prevState.viewID, id)) {
         queryData();
-        return { viewID:id };
+        return { viewID: id };
       }
-      if(!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
+      if (!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
         queryData();
-        let budget = (parentResources.budget || {}).records || [];
+        const budget = (parentResources.budget || {}).records || [];
         return { budgetData: budget };
       }
-      
-      if (data) { 
+
+      if (data) {
         const ledgerID = data.ledger_id;
-        if(!_.isEqual(prevState.ledgerID, ledgerID)) {
-          parentMutator.queryCustom.update({ ledgerIDQuery: `query=(id="${ledgerID}")`});
+        if (!_.isEqual(prevState.ledgerID, ledgerID)) {
+          parentMutator.queryCustom.update({ ledgerIDQuery: `query=(id="${ledgerID}")` });
           return { ledgerID };
         }
       }
     }
     return false;
   }
-  
-  componentWillUnmount(){
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.getData = this.getData.bind(this);
+    this.getBudget = this.getBudget.bind(this);
+    this.connectedFundPane = this.props.stripes.connect(FundPane);
+    this.getLedger = this.getLedger.bind(this);
+  }
+
+  componentWillUnmount() {
     const { parentMutator } = this.props;
-    parentMutator.queryCustom.update({ budgetQuery: `query=(fund_id="null")` });
+    parentMutator.queryCustom.update({ budgetQuery: 'query=(fund_id="null")' });
+  }
+
+  getData() {
+    const { parentResources, match: { params: { id } } } = this.props;
+    const fund = (parentResources.records || {}).records || [];
+    if (!fund || fund.length === 0 || !id) return null;
+    return fund.find(u => u.id === id);
+  }
+
+  getBudget() {
+    const { parentResources } = this.props;
+    const data = (parentResources.budget || {}).records || [];
+    if (!data || data.length === 0) return null;
+    return data;
+  }
+
+  getLedger = () => {
+    const { parentResources } = this.props;
+    const data = (parentResources.ledgerID || {}).records || [];
+    if (!data || data.length === 0) return null;
+    const newData = data[0];
+    return (
+      <span>{_.get(newData, ['name'], '')}</span>
+    );
+  }
+
+  update(data) {
+    let id = data.ledger_id;
+    if (id === '' || id == null) {
+      id = null;
+    }
+
+    this.props.parentMutator.records.PUT(data).then(() => {
+      this.props.onCloseEdit();
+    });
   }
 
   render() {
+    const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const detailMenu = (<PaneMenu>
-      <IfPermission perm="fund.item.put">
-        <IconButton
-          icon="edit"
-          id="clickable-editfund"
-          style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-          onClick={this.props.onEdit}
-          href={this.props.editLink}
-          title="Edit Fund"
-        />
-      </IfPermission>
-    </PaneMenu>);
-    const isBudgetData = this.getBudget() !== null ? true : false;
-
+    const detailMenu = (
+      <PaneMenu>
+        <IfPermission perm="fund.item.put">
+          <IconButton
+            icon="edit"
+            id="clickable-editfund"
+            style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
+            onClick={this.props.onEdit}
+            href={this.props.editLink}
+            title="Edit Fund"
+          />
+        </IfPermission>
+      </PaneMenu>
+    );
+    const isBudgetData = this.getBudget() || false;
     if (!initialValues) {
       return (
         <Pane id="pane-funddetails" defaultWidth={this.props.paneWidth} paneTitle="This is fiscal year view" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
@@ -124,11 +167,11 @@ class FundView extends Component {
             <Col xs={12}>
               <hr />
               <ConnectionListing
-                title={'Budget Connection'}
-                isEmptyMessage={'"No items found"'}
+                title="Budget Connection"
+                isEmptyMessage="No items found"
                 items={this.getBudget()}
-                isView={true}
-                path={'/finance/budget/view/'}
+                path="/finance/budget/view/"
+                isView
               />
             </Col>
           }
@@ -146,42 +189,7 @@ class FundView extends Component {
           />
         </Layer>
       </Pane>
-    )
-  }
-
-  getData() {
-    const { parentResources, match: { params: { id } } } = this.props;
-    const fund = (parentResources.records || {}).records || [];
-    if (!fund || fund.length === 0 || !id) return null;
-    return fund.find(u => u.id === id);
-  }
-
-  getBudget() {
-    const { parentResources } = this.props;
-    const data = (parentResources.budget || {}).records || [];
-    if (!data || data.length === 0) return null;
-    return data;
-  }
-
-  getLedger = () => {
-    const { parentResources } = this.props;
-    const data = (parentResources.ledgerID || {}).records || [];
-    if (!data || data.length === 0) return null;
-    const newData = data[0];
-    return (
-      <span>{_.get(newData, ['name'], '')}</span>
-    )
-  }
-
-  update(data) {
-    const id = data.ledger_id;
-    if(id == ''  || id == null) {
-      data['ledger_id'] = null;
-    }
-    
-    this.props.parentMutator.records.PUT(data).then(() => {
-      this.props.onCloseEdit();
-    });
+    );
   }
 }
 

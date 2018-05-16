@@ -1,4 +1,5 @@
-import FiscalYear from './FiscalYear.js';
-import FiscalYearForm from './FiscalYearForm.js';
-import FiscalYearPane from './FiscalYearPane.js';
+import FiscalYear from './FiscalYear';
+import FiscalYearForm from './FiscalYearForm';
+import FiscalYearPane from './FiscalYearPane';
+
 export { FiscalYear, FiscalYearForm, FiscalYearPane };

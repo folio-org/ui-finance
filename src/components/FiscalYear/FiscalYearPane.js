@@ -1,16 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import transitionToParams from '@folio/stripes-components/util/transitionToParams';
-import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
 import stripesForm from '@folio/stripes-form';
-import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import TextField from '@folio/stripes-components/lib/TextField';
 // Components and Pages
 import FiscalYearForm from './FiscalYearForm';
 
@@ -53,12 +47,22 @@ class FiscalYearPane extends Component {
           title={label}
           disabled={pristine || submitting}
           onClick={handleSubmit}
-          style={{marginBottom: '0'}}
+          style={{ marginBottom: '0' }}
         >
           {label}
         </Button>
       </PaneMenu>
     );
+  }
+
+  deleteFiscalYear(ID) {
+    const { parentMutator } = this.props;
+    parentMutator.records.DELETE({ id: ID }).then(() => {
+      parentMutator.query.update({
+        _path: '/finance/fiscalyear',
+        layer: null
+      });
+    });
   }
 
   render() {
@@ -74,17 +78,7 @@ class FiscalYearPane extends Component {
           <FiscalYearForm {...this.props} deleteFiscalYear={this.deleteFiscalYear} />
         </Pane>
       </form>
-    )
-  }
-
-  deleteFiscalYear(ID) {
-    const { parentMutator } = this.props;
-    parentMutator.records.DELETE({ id: ID }).then(() => {
-      parentMutator.query.update({
-        _path: `/finance/fiscalyear`,
-        layer: null
-      });
-    });
+    );
   }
 }
 

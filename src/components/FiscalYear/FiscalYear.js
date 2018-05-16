@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Route from 'react-router-dom/Route';
-import _ from "lodash";
-import queryString from 'query-string';
-// Folio
-import Layer from '@folio/stripes-components/lib/Layer';
-import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
+import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import { filters2cql, initialFilterState, onChangeFilter as commonChangeFilter } from '@folio/stripes-components/lib/FilterGroups';
+import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
@@ -23,8 +18,12 @@ const filterConfig = [];
 
 class FiscalYear extends Component {
   static propTypes = {
+    match: PropTypes.object,
+    stripes: PropTypes.object,
+    onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired
+    resources: PropTypes.object.isRequired,
+    onComponentWillUnmount: PropTypes.func
   }
 
   static manifest = Object.freeze({
@@ -91,12 +90,12 @@ class FiscalYear extends Component {
       type: 'okapi',
       records: 'ledgers',
       path: 'ledger',
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.ledgerQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
@@ -106,26 +105,21 @@ class FiscalYear extends Component {
       type: 'okapi',
       records: 'budgets',
       path: 'budget',
-      params: { 
+      params: {
         query: (...args) => {
           const data = args[2];
           const newData = `${data.budgetQuery}`;
-          if(newData === 'undefined') return undefined;
-          let cql = `${newData} sortby name`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData} sortby name`;
           return cql;
         }
       }
     }
   });
-  
+
   constructor(props) {
     super(props);
-    const query = props.location.search ? queryString.parse(props.location.search) : {};
-    this.state = {
-      searchTerm: query.query || '',
-      sortOrder: query.sort || '',
-      filters: initialFilterState(filterConfig, query.filters),
-    };
+    this.state = {};
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
   }
@@ -137,17 +131,16 @@ class FiscalYear extends Component {
         _path: `/finance/fiscalyear/view/${newFiscalYear.id}`,
         layer: null
       });
-    })
+    });
   }
 
   render() {
-    const { onSelectRow, disableRecordCreation, onComponentWillUnmount } = this.props;
-    const initialPath = (_.get(packageInfo, ['stripes', 'home']));
+    const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
       'Code': data => _.toString(_.get(data, ['code'], '')),
       'Description': data => _.get(data, ['description'], '')
-    }
+    };
 
     const packageInfoReWrite = () => {
       const path = '/finance/fiscalyear';
@@ -165,10 +158,10 @@ class FiscalYear extends Component {
         />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
-          moduleName={'fiscal_year'}
-          moduleTitle={'fiscal_year'}
+          moduleName="fiscal_year"
+          moduleTitle="fiscal_year"
           objectName="fiscal_year"
-          baseRoute={`${this.props.match.path}`}
+          baseRoute={`${match.path}`}
           filterConfig={filterConfig}
           visibleColumns={['Name', 'Code', 'Description']}
           resultsFormatter={resultsFormatter}
@@ -183,13 +176,13 @@ class FiscalYear extends Component {
           finishedResourceName="perms"
           viewRecordPerms="fiscal_year.item.get"
           newRecordPerms="fiscal_year.item.post,login.item.post,perms.fiscal_year.item.post"
-          parentResources={this.props.resources}
-          parentMutator={this.props.mutator}
-          detailProps={{stripes: this.props.stripes }}
-          onComponentWillUnmount={this.props.onComponentWillUnmount}
+          parentResources={resources}
+          parentMutator={mutator}
+          detailProps={{ stripes }}
+          onComponentWillUnmount={onComponentWillUnmount}
         />
       </div>
-    )
+    );
   }
 }
 

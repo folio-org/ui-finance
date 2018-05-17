@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import List from '@folio/stripes-components/lib/List';
 import css from './css/ConnectionListing.css';
@@ -22,7 +23,7 @@ class ConnectionListing extends Component {
   dataRender(data, i) {
     return (
       <li key={i}>
-        <a href={`${this.props.path}${data.id}`}>{data.name}</a>
+        <Link to={`${this.props.path}${data.id}`}><span>{data.name}</span></Link>
       </li>
     );
   }

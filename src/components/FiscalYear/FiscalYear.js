@@ -165,7 +165,6 @@ class FiscalYear extends Component {
           filterConfig={filterConfig}
           visibleColumns={['Name', 'Code', 'Description']}
           resultsFormatter={resultsFormatter}
-          initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={FiscalYearView}
           onSelectRow={onSelectRow}
           onCreate={this.create}

@@ -190,7 +190,6 @@ class Fund extends Component {
           filterConfig={filterConfig}
           visibleColumns={['Name', 'Code']}
           resultsFormatter={resultsFormatter}
-          initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={FundView}
           onSelectRow={onSelectRow}
           onCreate={this.create}

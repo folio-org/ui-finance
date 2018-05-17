@@ -222,7 +222,6 @@ class Budget extends Component {
           filterConfig={filterConfig}
           visibleColumns={['Name', 'Code']}
           resultsFormatter={resultsFormatter}
-          initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={BudgetView}
           onSelectRow={onSelectRow}
           onCreate={this.create}

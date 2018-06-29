@@ -8,7 +8,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 import Tabs from '../Tabs';
-import FormatDate from '../../Utils/FormatDate';
+import { Filters, SearchableIndexes } from './LedgerFilterConfig';
 // Components and Pages
 import css from './css/Ledger.css';
 import LedgerPane from './LedgerPane';
@@ -17,7 +17,8 @@ import LedgerView from './LedgerView';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
-const filterConfig = [];
+const filterConfig = Filters();
+const searchableIndexes = SearchableIndexes;
 
 class Ledger extends Component {
   static propTypes = {
@@ -30,6 +31,7 @@ class Ledger extends Component {
   };
 
   static manifest = Object.freeze({
+    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -51,11 +53,12 @@ class Ledger extends Component {
             const resourceData = args[2];
             const sortMap = {
               'Name': 'name',
-              'Period Start': 'period_start',
-              'Period End': 'period_end'
+              'Code': 'code'
             };
+            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
+            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
 
-            let cql = `(name="${resourceData.query.query}*")`;
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -162,6 +165,18 @@ class Ledger extends Component {
     this.getFiscalYears = this.getFiscalYears.bind(this);
   }
 
+  componentWillUpdate() {
+    const fy = (this.props.resources.fiscalyear || {}).records || [];
+    if (fy && fy.length) {
+      const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');
+      const fyLength = fyFilterConfig.values.length;
+      fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
+      if (fyLength === 0) {
+        this.props.mutator.initializedFilterConfig.replace(true);
+      }
+    }
+  }
+
   create = (ledgerdata) => {
     const { mutator } = this.props;
     mutator.records.POST(ledgerdata).then(newLedger => {
@@ -170,6 +185,11 @@ class Ledger extends Component {
         layer: null
       });
     });
+  }
+
+  onChangeIndex = (e) => {
+    const qindex = e.target.value;
+    this.props.mutator.query.update({ qindex });
   }
 
   getFiscalYears() {
@@ -203,9 +223,7 @@ class Ledger extends Component {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.get(data, ['code'], ''),
-      'Period Start': data => FormatDate(_.get(data, ['period_start'], '')),
-      'Period End': data => FormatDate(_.get(data, ['period_end'], ''))
+      'Code': data => _.get(data, ['code'], '')
     };
     const getRecords = (resources || {}).records || [];
     const getFiscalYearsRecords = this.getFiscalYears();
@@ -249,6 +267,10 @@ class Ledger extends Component {
               parentMutator={mutator}
               detailProps={{ stripes, dropdownFiscalyears: getFiscalYearsRecords }}
               onComponentWillUnmount={onComponentWillUnmount}
+              searchableIndexes={searchableIndexes}
+              selectedIndex={_.get(this.props.resources.query, 'qindex')}
+              searchableIndexesPlaceholder={null}
+              onChangeIndex={this.onChangeIndex}
             />
           </Fragment>
         }

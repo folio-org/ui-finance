@@ -8,6 +8,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 import Tabs from '../Tabs';
+import { Filters, SearchableIndexes } from './budgetFilterConfig';
 // Components and Pages
 import css from './css/Budget.css';
 import BudgetPane from './BudgetPane';
@@ -15,7 +16,8 @@ import BudgetView from './BudgetView';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const filterConfig = [];
+const filterConfig = Filters();
+const searchableIndexes = SearchableIndexes;
 
 class Budget extends Component {
   static propTypes = {
@@ -28,6 +30,7 @@ class Budget extends Component {
   };
 
   static manifest = Object.freeze({
+    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -57,8 +60,10 @@ class Budget extends Component {
               Name: 'name',
               Code: 'code',
             };
+            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
+            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
 
-            let cql = `(name="${resourceData.query.query}*" or code="${resourceData.query.query}*")`;
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -96,7 +101,7 @@ class Budget extends Component {
       initialValue: {
         budgetIDQuery: 'query=(id=null)',
         fundQuery: 'query=(name=null)',
-        fiscalyearQuery: 'query=(name=null)',
+        fiscalyearQuery: 'query=(name=*)',
         fundQueryID: 'query=(id=null)',
         fiscalyearQueryID: 'query=(id=null)'
       }
@@ -183,6 +188,19 @@ class Budget extends Component {
     this.removeQueryParam = removeQueryParam.bind(this);
   }
 
+  componentWillUpdate() {
+    const fy = (this.props.resources.fiscalyear || {}).records || [];
+    if (fy && fy.length) {
+      const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');
+      const fyLength = fyFilterConfig.values.length;
+      fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
+      console.log(fyFilterConfig)
+      if (fyLength === 0) {
+        this.props.mutator.initializedFilterConfig.replace(true);
+      }
+    }
+  }
+
   create = (budgetData) => {
     const { mutator } = this.props;
     mutator.records.POST(budgetData).then(newBudget => {
@@ -194,6 +212,7 @@ class Budget extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),

@@ -41,7 +41,7 @@ class FundForm extends Component {
         { label: '-- Select --', value: '' },
         { label: 'Active', value: 'Active' },
         { label: 'Inactive', value: 'Inactive' },
-        { label: 'Pending', value: 'Pending' },
+        { label: 'Frozen', value: 'Frozen' },
       ],
       currencyDD: [
         { label: '-- Select --', value: '' },

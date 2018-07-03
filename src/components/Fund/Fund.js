@@ -7,7 +7,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 import Tabs from '../Tabs';
-import { Filters, SearchableIndexes } from './FundFilterConfig';
+import { Filters, SearchableIndexes } from './fundFilterConfig';
 // Components and Pages
 import css from './css/Fund.css';
 import FundPane from './FundPane';
@@ -29,6 +29,7 @@ class Fund extends Component {
   }
 
   static manifest = Object.freeze({
+    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -168,10 +169,17 @@ class Fund extends Component {
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
-      'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.toString(_.get(data, ['code'], '')),
-      'Fund status': data => _.get(data, ['fund_status'], ''),
+      'name': data => _.get(data, ['name'], ''),
+      'code': data => _.toString(_.get(data, ['code'], '')),
+      'fund_status': data => _.toString(_.get(data, ['fund_status'], '')),
     };
+
+    const columnMapping = {
+      'name': 'Fund',
+      'code': 'Code',
+      'fund_status': 'Fund Status',
+    };
+
     const packageInfoReWrite = () => {
       const path = '/finance/fund';
       packageInfo.stripes.route = path;
@@ -191,6 +199,7 @@ class Fund extends Component {
           moduleName="fund"
           moduleTitle="fund"
           objectName="fund"
+          columnMapping={columnMapping}
           baseRoute={`${match.path}`}
           filterConfig={filterConfig}
           visibleColumns={['name', 'code', 'fund_status']}

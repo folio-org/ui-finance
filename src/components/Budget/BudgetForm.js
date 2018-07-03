@@ -39,9 +39,9 @@ class BudgetForm extends Component {
     this.state = {
       fundStatusDD: [
         { label: '-- Select --', value: '' },
-        { label: 'Active', value: 'active' },
-        { label: 'Inactive', value: 'inactive' },
-        { label: 'Pending', value: 'pending' },
+        { label: 'Active', value: 'Active' },
+        { label: 'Inactive', value: 'Inactive' },
+        { label: 'Frozen', value: 'Frozen' },
       ]
     };
     this.getData = this.getData.bind(this);

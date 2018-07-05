@@ -18,7 +18,13 @@
     "home": "/finance",
     "hasSettings": true,
     "okapiInterfaces": {
-      "finance": "1.0"
+      "budget": "1.0",
+      "fiscal_year": "1.0",
+      "fund_distribution": "1.0",
+      "fund": "1.0",
+      "ledger": "1.0",
+      "tag": "1.0",
+      "transaction": "1.0"
     },
     "queryResource": "query",
     "icons": [

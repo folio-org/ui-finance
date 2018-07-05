@@ -41,7 +41,7 @@ class FundForm extends Component {
         { label: '-- Select --', value: '' },
         { label: 'Active', value: 'Active' },
         { label: 'Inactive', value: 'Inactive' },
-        { label: 'Pending', value: 'Pending' },
+        { label: 'Frozen', value: 'Frozen' },
       ],
       currencyDD: [
         { label: '-- Select --', value: '' },
@@ -117,16 +117,16 @@ class FundForm extends Component {
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={6} className={css.dateInputFix}>
-                <Field label="Created Date" name="created_date" id="created_date" component={Datepicker} />
+                <Field label="Created Date" name="created_date" id="created_date" validate={[Required]} component={Datepicker} />
               </Col>
               <Col xs={6}>
-                <Field label="Fund Status" name="fund_status" id="fund_status" component={Select} fullWidth dataOptions={this.state.fundStatusDD} />
+                <Field label="Fund Status" name="fund_status" id="fund_status" component={Select} validate={[Required]} dataOptions={this.state.fundStatusDD} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currencyDD} />
+                <Field label="Currency" name="currency" id="currency" component={Select} dataOptions={this.state.currencyDD} validate={[Required]} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Ledger" name="ledger_id" id="ledger" component={Select} fullWidth dataOptions={this.getLedger()} />
+                <Field label="Ledger" name="ledger_id" id="ledger" component={Select} validate={[Required]} dataOptions={this.getLedger()} fullWidth />
               </Col>
               <Col xs={6} style={{ display: 'none' }}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />

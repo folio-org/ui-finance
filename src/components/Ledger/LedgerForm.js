@@ -8,6 +8,7 @@ import TextArea from '@folio/stripes-components/lib/TextArea';
 import Select from '@folio/stripes-components/lib/Select';
 import Checkbox from '@folio/stripes-components/lib/Checkbox';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
+import { Required } from '../../Utils/Validate';
 // Components and Pages
 import ConnectionListing from '../ConnectionListing';
 
@@ -71,7 +72,7 @@ class LedgerForm extends Component {
     return (
       <Row key={index}>
         <Col xs={5}>
-          <Field name={`${elem}`} id={`${elem}.value`} component={Select} dataOptions={this.props.dropdownFiscalyears} />
+          <Field name={`${elem}`} id={`${elem}.value`} component={Select} validate={[Required]} dataOptions={this.props.dropdownFiscalyears} />
         </Col>
         <Col xs={2}>
           <Button onClick={() => fields.remove(index)} buttonStyle="danger">
@@ -100,7 +101,7 @@ class LedgerForm extends Component {
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
               <Col xs={12}>
-                <Field label="Name" name="name" id="name" component={TextField} fullWidth />
+                <Field label="Name" name="name" id="name" component={TextField} validate={[Required]} fullWidth />
               </Col>
               <Col xs={12}>
                 <Field label="Code" name="code" id="code" component={TextField} fullWidth />

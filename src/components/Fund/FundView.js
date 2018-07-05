@@ -154,13 +154,16 @@ class FundView extends Component {
             <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
-          </Col>
-          <Col xs={3}>
             <KeyValue label="Ledger" value={this.getLedger()} />
           </Col>
           <Col xs={3}>
+            <KeyValue label="Fund Status" value={_.get(initialValues, ['fund_status'], '')} />
+          </Col>
+          <Col xs={3}>
             <KeyValue label="currency" value={_.get(initialValues, ['currency'], '')} />
+          </Col>
+          <Col xs={12}>
+            <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
           </Col>
           {
             isBudgetData &&

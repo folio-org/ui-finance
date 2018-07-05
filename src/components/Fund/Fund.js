@@ -7,6 +7,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
 import packageInfo from '../../../package';
 import Tabs from '../Tabs';
+import { Filters, SearchableIndexes } from './fundFilterConfig';
 // Components and Pages
 import css from './css/Fund.css';
 import FundPane from './FundPane';
@@ -14,7 +15,8 @@ import FundView from './FundView';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const filterConfig = [];
+const filterConfig = Filters();
+const searchableIndexes = SearchableIndexes;
 
 class Fund extends Component {
   static propTypes = {
@@ -27,6 +29,7 @@ class Fund extends Component {
   }
 
   static manifest = Object.freeze({
+    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -55,10 +58,12 @@ class Fund extends Component {
             const sortMap = {
               Name: 'name',
               Code: 'code',
-              Description: 'description'
+              Fund_Status: 'fund_status'
             };
+            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
+            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
 
-            let cql = `(name="${resourceData.query.query}*" or code="${resourceData.query.query}*" or description="${resourceData.query.query}*")`;
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -164,9 +169,17 @@ class Fund extends Component {
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
-      'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.toString(_.get(data, ['code'], ''))
+      'name': data => _.get(data, ['name'], ''),
+      'code': data => _.toString(_.get(data, ['code'], '')),
+      'fund_status': data => _.toString(_.get(data, ['fund_status'], '')),
     };
+
+    const columnMapping = {
+      'name': 'Fund',
+      'code': 'Code',
+      'fund_status': 'Fund Status',
+    };
+
     const packageInfoReWrite = () => {
       const path = '/finance/fund';
       packageInfo.stripes.route = path;
@@ -186,11 +199,11 @@ class Fund extends Component {
           moduleName="fund"
           moduleTitle="fund"
           objectName="fund"
+          columnMapping={columnMapping}
           baseRoute={`${match.path}`}
           filterConfig={filterConfig}
-          visibleColumns={['Name', 'Code']}
+          visibleColumns={['name', 'code', 'fund_status']}
           resultsFormatter={resultsFormatter}
-          initialFilters={this.constructor.manifest.query.initialValue.filters}
           viewRecordComponent={FundView}
           onSelectRow={onSelectRow}
           onCreate={this.create}
@@ -205,6 +218,10 @@ class Fund extends Component {
           parentMutator={mutator}
           detailProps={{ stripes }}
           onComponentWillUnmount={onComponentWillUnmount}
+          searchableIndexes={searchableIndexes}
+          selectedIndex={_.get(this.props.resources.query, 'qindex')}
+          searchableIndexesPlaceholder={null}
+          onChangeIndex={this.onChangeIndex}
         />
       </div>
     );

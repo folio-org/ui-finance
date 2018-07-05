@@ -24,7 +24,7 @@ const SearchableIndexes = [
   { label: 'All', value: 'all', makeQuery: term => `(name="${term}*" or code="${term}*" or tags="${term}*")` },
   { label: 'Name', value: 'name', makeQuery: term => `(name="${term}*")` },
   { label: 'Code', value: 'code', makeQuery: term => `(code="${term}*")` },
-  // { label: 'Tags', value: 'tags', makeQuery: term => `(tags="${term}*")` }
+  { label: 'Tags', value: 'tags', makeQuery: term => `(tags="${term}*")` }
 ];
 
 export { Filters, SearchableIndexes };

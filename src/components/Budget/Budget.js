@@ -255,6 +255,10 @@ class Budget extends Component {
           parentMutator={mutator}
           detailProps={stripes}
           onComponentWillUnmount={onComponentWillUnmount}
+          searchableIndexes={searchableIndexes}
+          selectedIndex={_.get(this.props.resources.query, 'qindex')}
+          searchableIndexesPlaceholder={null}
+          onChangeIndex={this.onChangeIndex}
         />
       </div>
     );

@@ -13,7 +13,7 @@
   },
   "stripes": {
     "type": "app",
-    "displayName": "Finance",
+    "displayName": "ui-finance.meta.title",
     "route": "/finance",
     "home": "/finance",
     "hasSettings": true,

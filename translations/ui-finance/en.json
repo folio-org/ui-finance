@@ -1,4 +1,6 @@
 {
+  "meta.title": "Finance",
+
   "search": "Search",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
 

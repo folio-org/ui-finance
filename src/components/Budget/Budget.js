@@ -194,7 +194,6 @@ class Budget extends Component {
       const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');
       const fyLength = fyFilterConfig.values.length;
       fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
-      console.log(fyFilterConfig)
       if (fyLength === 0) {
         this.props.mutator.initializedFilterConfig.replace(true);
       }
@@ -212,7 +211,6 @@ class Budget extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),

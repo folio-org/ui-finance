@@ -176,7 +176,7 @@ class FiscalYear extends Component {
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
           viewRecordPerms="fiscal_year.item.get"
-          newRecordPerms="fiscal_year.item.post,login.item.post,perms.fiscal_year.item.post"
+          newRecordPerms="fiscal_year.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ stripes }}

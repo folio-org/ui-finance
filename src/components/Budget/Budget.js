@@ -248,7 +248,7 @@ class Budget extends Component {
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
           viewRecordPerms="budget.item.get"
-          newRecordPerms="budget.item.post,login.item.post,perms.budget.item.post"
+          newRecordPerms="budget.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={stripes}

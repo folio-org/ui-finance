@@ -213,7 +213,7 @@ class Fund extends Component {
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
           viewRecordPerms="fund.item.get"
-          newRecordPerms="fund.item.post,login.item.post,perms.fund.item.post"
+          newRecordPerms="fund.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ stripes }}

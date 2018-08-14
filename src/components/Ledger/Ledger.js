@@ -262,7 +262,7 @@ class Ledger extends Component {
               resultCountIncrement={RESULT_COUNT_INCREMENT}
               finishedResourceName="perms"
               viewRecordPerms="ledger.item.get"
-              newRecordPerms="ledger.item.post,login.item.post,perms.ledger.item.post"
+              newRecordPerms="ledger.item.post,login.item.post"
               parentResources={resources}
               parentMutator={mutator}
               detailProps={{ stripes, dropdownFiscalyears: getFiscalYearsRecords }}

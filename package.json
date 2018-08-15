@@ -14,6 +14,7 @@
   "stripes": {
     "type": "app",
     "displayName": "ui-finance.meta.title",
+    "moduleName": "Finance",
     "route": "/finance",
     "home": "/finance",
     "hasSettings": true,

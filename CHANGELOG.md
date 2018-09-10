@@ -1,5 +1,6 @@
 # Change history for ui-finance
 
-## 0.1.0 (IN PROGRESS)
+## 1.0.0
 
-* New app created with stripes-cli
+* UI crud for Finance(Ledger, Budget, Fiscal Year, Fund)
+* Implement SearchAndSort Filters(Ledger, Budget, Fiscal Year, Fund)

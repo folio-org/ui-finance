@@ -1,7 +1,7 @@
 /* global Nightmare, describe, it, before, after */
 
 module.exports.test = (uiTestCtx) => {
-  describe('Module test: ui-finance:', function() {
+  describe('Module test: ui-finance:', () => {
     const { config, helpers: { login, logout } } = uiTestCtx;
     const nightmare = new Nightmare(config.nightmare);
 
@@ -20,7 +20,7 @@ module.exports.test = (uiTestCtx) => {
           .click('#clickable-finance-module')
           .wait('#finance-module-display')
           .wait('#stripes-new-app-greeting')
-          .then(result => { done(); })
+          .then(() => { done(); })
           .catch(done);
       });
     });
@@ -41,7 +41,7 @@ module.exports.test = (uiTestCtx) => {
           .wait('a[href="/settings/finance/general"]')
           .click('a[href="/settings/finance/general"]')
           .wait('#stripes-new-app-settings-message')
-          .then(result => { done(); })
+          .then(() => { done(); })
           .catch(done);
       });
     });

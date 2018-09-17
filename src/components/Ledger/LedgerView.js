@@ -126,7 +126,11 @@ class LedgerView extends Component {
     const data = (parentResources.fiscalyearID || {}).records || [];
     if (!data || data.length === 0) return null;
     return data.map((item, i) => {
-      return (<p key={i} style={{ margin: '0 0 5px' }}>{item.name}, {item.description}</p>);
+      return (
+        <p key={i} style={{ margin: '0 0 5px' }}>
+          {`${item.name}, ${item.description}`}
+        </p>
+      );
     });
   }
 

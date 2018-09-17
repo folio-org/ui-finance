@@ -33,8 +33,8 @@ class LedgerPane extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Ledger Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+        <button type="button" id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Ledger Dialog">
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
         </button>
       </PaneMenu>
     );
@@ -71,7 +71,11 @@ class LedgerPane extends Component {
   render() {
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create ledger';
+    const paneTitle = initialValues.id ? (
+      <span>
+        {`Edit: ${_.get(initialValues, ['name'], '')}`}
+      </span>
+    ) : 'Create ledger';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updateledger', 'Update ledger') :
       this.getLastMenu('clickable-createnewledger', 'Create ledger');

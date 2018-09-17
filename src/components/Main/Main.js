@@ -14,6 +14,7 @@ class Main extends Component {
     mutator: PropTypes.object,
     resources: PropTypes.object
   }
+
   constructor(props) {
     super(props);
     this.connectedLedger = props.stripes.connect(Ledger);

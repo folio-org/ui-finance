@@ -31,8 +31,8 @@ class BudgetPane extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewbudgetdialog" onClick={onCancel} title="close" aria-label="Close New Budget Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+        <button type="button" id="clickable-closenewbudgetdialog" onClick={onCancel} title="close" aria-label="Close New Budget Dialog">
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
         </button>
       </PaneMenu>
     );
@@ -90,7 +90,11 @@ class BudgetPane extends Component {
   render() {
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create budget';
+    const paneTitle = initialValues.id ? (
+      <span>
+        {`Edit: ${_.get(initialValues, ['name'], '')}`}
+      </span>
+    ) : 'Create budget';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatebudget', 'Update budget') :
       this.getLastMenu('clickable-createnewbudget', 'Create budget');

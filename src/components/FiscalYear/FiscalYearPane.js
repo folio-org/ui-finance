@@ -30,8 +30,8 @@ class FiscalYearPane extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewfiscalyeardialog" onClick={onCancel} title="close" aria-label="Close New Fiscal Year Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+        <button type="button" id="clickable-closenewfiscalyeardialog" onClick={onCancel} title="close" aria-label="Close New Fiscal Year Dialog">
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
         </button>
       </PaneMenu>
     );
@@ -68,7 +68,11 @@ class FiscalYearPane extends Component {
   render() {
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create fiscal year';
+    const paneTitle = initialValues.id ? (
+      <span>
+        {`Edit: ${_.get(initialValues, ['name'], '')}`}
+      </span>
+    ) : 'Create fiscal year';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatefiscalyear', 'Update fiscal year') :
       this.getLastMenu('clickable-createnewfiscalyear', 'Create fiscal year');

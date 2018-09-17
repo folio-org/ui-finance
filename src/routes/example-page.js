@@ -45,7 +45,11 @@ export default class ExamplePage extends React.Component {
           {/* <GreetingModal onClose={this.onClose} open={this.state.showModal} /> */}
           <hr />
           <Headline size="small" margin="medium">More...</Headline>
-          Please refer to the <a href="https://github.com/folio-org/stripes-components/blob/master/README.md">Stripes Components README</a> for more components and examples.
+          Please refer to the
+          {' '}
+          <a href="https://github.com/folio-org/stripes-components/blob/master/README.md">Stripes Components README</a>
+          {' '}
+          for more components and examples.
         </Pane>
       </Paneset>
     );

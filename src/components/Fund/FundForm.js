@@ -158,7 +158,7 @@ class FundForm extends Component {
                   </Row>
                 )}
               </IfPermission>
-            )}
+              )}
           </Col>
         </Row>
       </div>

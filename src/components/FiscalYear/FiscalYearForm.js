@@ -33,7 +33,7 @@ class FiscalYearForm extends Component {
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
               <Col xs={12}>
-                <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
+                <Field label="Name*" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={12}>
                 <Field label="Code" name="code" id="code" component={TextField} fullWidth />
@@ -42,10 +42,10 @@ class FiscalYearForm extends Component {
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Period Begin Date" name="period_start" id="period_start" component={Datepicker} readOnly />
+                <Field label="Period Begin Date*" name="period_start" id="period_start" validate={[Required]} component={Datepicker} readOnly />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Period End Date" name="period_end" id="period_end" component={Datepicker} readOnly />
+                <Field label="Period End Date*" name="period_end" id="period_end" validate={[Required]} component={Datepicker} readOnly />
               </Col>
             </Row>
             {

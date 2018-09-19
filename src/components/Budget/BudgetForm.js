@@ -114,10 +114,10 @@ class BudgetForm extends Component {
                 <Field label="Code" name="code" id="code" component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Limit ENC Ppercent" name="limit_enc_percent" id="limit_enc_percent" component={TextField} type="number" fullWidth />
+                <Field label="Limit Encumbrance Percent" name="limit_enc_percent" id="limit_enc_percent" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Limit EXP Percent" name="limit_exp_percent" id="limit_exp_percent" component={TextField} type="number" fullWidth />
+                <Field label="Limit Expenditure Percent" name="limit_exp_percent" id="limit_exp_percent" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
                 <Field label="Allocation*" name="allocation" id="allocation" component={TextField} validate={[Required]} type="number" fullWidth />

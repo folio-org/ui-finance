@@ -34,13 +34,14 @@ class Fund extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name'
+        sort: ''
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
       records: 'funds',
+      resourceShouldRefresh: true,
       recordsRequired: '%{resultCount}',
       path: 'fund',
       perRequest: RESULT_COUNT_INCREMENT,
@@ -56,10 +57,11 @@ class Fund extends Component {
             */
             const resourceData = args[2];
             const sortMap = {
-              Name: 'name',
-              Code: 'code',
-              Fund_Status: 'fund_status'
+              'Name': 'name',
+              'Code': 'code',
+              'Fund Status': 'fund_status'
             };
+
             const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
             const searchableIndex = searchableIndexes.find(idx => idx.value === index);
 
@@ -175,7 +177,7 @@ class Fund extends Component {
     };
 
     const columnMapping = {
-      'name': 'Fund',
+      'name': 'Name',
       'code': 'Code',
       'fund_status': 'Fund Status',
     };

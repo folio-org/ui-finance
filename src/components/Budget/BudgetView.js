@@ -153,6 +153,30 @@ class BudgetView extends Component {
             <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
+            <KeyValue label="Limit Encumbrance Percent" value={_.toString(_.get(initialValues, ['limit_enc_percent'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Limit Expenditure Percent" value={_.toString(_.get(initialValues, ['limit_exp_percent'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Allocation*" value={_.toString(_.get(initialValues, ['allocation'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Awaiting Payment" value={_.toString(_.get(initialValues, ['awaiting_payment'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Available" value={_.toString(_.get(initialValues, ['available'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Encumbered" value={_.toString(_.get(initialValues, ['encumbered'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Expenditures" value={_.toString(_.get(initialValues, ['expenditures'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Over encumbrance" value={_.toString(_.get(initialValues, ['over_encumbrance'], ''))} />
+          </Col>
+          <Col xs={3}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
           <Col xs={3}>

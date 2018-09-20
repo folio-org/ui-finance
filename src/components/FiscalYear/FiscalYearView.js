@@ -142,19 +142,19 @@ class FiscalYearView extends Component {
       <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={4}>
-            <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
+            <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={4}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="period start" value={startDate} />
+            <KeyValue label="Period Begin Date" value={startDate} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="period end" value={endDate} />
+            <KeyValue label="Period End Date" value={endDate} />
           </Col>
           {
             isLedgerData &&

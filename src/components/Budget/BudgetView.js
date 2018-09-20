@@ -147,16 +147,16 @@ class BudgetView extends Component {
       <Pane id="pane-budgetdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={3}>
-            <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
+            <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="fiscal year" value={this.getFiscalYears()} />
+            <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="fund" value={this.getFund()} />
+            <KeyValue label="Fund" value={this.getFund()} />
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Budget Dialog">

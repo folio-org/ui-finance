@@ -100,10 +100,10 @@ class LedgerForm extends Component {
         <Row>
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
-              <Col xs={12}>
+              <Col xs={12} md={6}>
                 <Field label="Name" name="name" id="name" component={TextField} validate={[Required]} fullWidth />
               </Col>
-              <Col xs={12}>
+              <Col xs={12} md={6}>
                 <Field label="Code" name="code" id="code" component={TextField} fullWidth />
               </Col>
               <Col xs={12}>

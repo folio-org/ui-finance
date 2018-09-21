@@ -32,7 +32,10 @@ class FundView extends Component {
     paneWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    notesToggle: PropTypes.func,
+    tagsToggle: PropTypes.func,
+    tagsEnabled: PropTypes.bool
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -118,11 +121,32 @@ class FundView extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { stripes, location, tagsEnabled } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
+    const formatMsg = stripes.intl.formatMessage;
     const detailMenu = (
       <PaneMenu>
+        {/* {
+          tagsEnabled && 
+        } */}
+        <IconButton
+          icon="tag"
+          title={formatMsg({ id: 'ui-fund.showTags' })}
+          id="clickable-show-tags"
+
+          onClick={this.props.tagsToggle}
+          // badgeCount={tags.length}
+          // badgeCount={0}
+          aria-label={formatMsg({ id: 'ui-fund.showTags' })}
+        />
+        <IconButton
+          icon="comment"
+          id="clickable-show-notes"
+          // style={{ visibility: !fund ? 'hidden' : 'visible' }}
+          onClick={this.props.notesToggle}
+          aria-label={formatMsg({ id: 'ui-fund.showNotes' })}
+        />
         <IfPermission perm="fund.item.put">
           <IconButton
             icon="edit"

@@ -165,14 +165,14 @@ class Ledger extends Component {
     this.getFiscalYears = this.getFiscalYears.bind(this);
   }
 
-  componentWillUpdate() {
-    const fy = (this.props.resources.fiscalyear || {}).records || [];
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const fy = (nextProps.resources.fiscalyear || {}).records || [];
     if (fy && fy.length) {
       const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');
       const fyLength = fyFilterConfig.values.length;
       fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
       if (fyLength === 0) {
-        this.props.mutator.initializedFilterConfig.replace(true);
+        nextProps.mutator.initializedFilterConfig.replace(true);
       }
     }
   }

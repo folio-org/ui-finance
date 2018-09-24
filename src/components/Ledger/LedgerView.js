@@ -73,7 +73,7 @@ class LedgerView extends Component {
           return newStr;
         };
 
-        const fyID = data.fiscal_years.length > 0 ? buildQuery() : null;
+        const fyID = data.fiscal_years && data.fiscal_years.length ? buildQuery() : null;
         if (!_.isEqual(prevState.fiscalyearID, fyID)) {
           parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(${fyID})` });
           return { fiscalyearID: fyID };
@@ -151,7 +151,7 @@ class LedgerView extends Component {
     const detailMenu = (
       <PaneMenu>
         {
-          tagsEnabled && 
+          tagsEnabled &&
             <IconButton
               icon="tag"
               title="showTags"

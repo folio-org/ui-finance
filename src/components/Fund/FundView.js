@@ -114,15 +114,14 @@ class FundView extends Component {
   }
 
   render() {
-    const { stripes, location, tagsEnabled } = this.props;
+    const { location, tagsEnabled } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const formatMsg = stripes.intl.formatMessage;
     const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
         {
-          tagsEnabled && 
+          tagsEnabled &&
             <IconButton
               icon="tag"
               title="showTags"

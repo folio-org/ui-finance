@@ -120,7 +120,7 @@ class BudgetView extends Component {
     const detailMenu = (
       <PaneMenu>
         {
-          tagsEnabled && 
+          tagsEnabled &&
             <IconButton
               icon="tag"
               title="showTags"

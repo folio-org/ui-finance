@@ -165,7 +165,7 @@ class Ledger extends Component {
     this.getFiscalYears = this.getFiscalYears.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps) {
     const fy = (nextProps.resources.fiscalyear || {}).records || [];
     if (fy && fy.length) {
       const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');

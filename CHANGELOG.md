@@ -1,6 +1,7 @@
 # Change history for ui-finance
 
 ## 1.1.1
+* Implement tags in Funds. ref: UIF-18.
 * Added asterisk to required field in Budget. ref: UIF-13.
 * Added asterisk and required fiscal year start date and end date. ref: UIF-9.
 

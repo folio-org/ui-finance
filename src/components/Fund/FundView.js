@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-// Components and Pages
-import Layer from '@folio/stripes-components/lib/Layer';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
+import { withTags } from '@folio/stripes-smart-components/lib/Tags';
 import FundPane from './FundPane';
 import ConnectionListing from '../ConnectionListing';
 
@@ -125,27 +118,25 @@ class FundView extends Component {
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const formatMsg = stripes.intl.formatMessage;
+    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
-        {/* {
+        {
           tagsEnabled && 
-        } */}
-        <IconButton
-          icon="tag"
-          title={formatMsg({ id: 'ui-fund.showTags' })}
-          id="clickable-show-tags"
-
-          onClick={this.props.tagsToggle}
-          // badgeCount={tags.length}
-          // badgeCount={0}
-          aria-label={formatMsg({ id: 'ui-fund.showTags' })}
-        />
+            <IconButton
+              icon="tag"
+              title="showTags"
+              id="clickable-show-tags"
+              onClick={this.props.tagsToggle}
+              badgeCount={tags.length}
+              aria-label="showTags"
+            />
+        }
         <IconButton
           icon="comment"
           id="clickable-show-notes"
-          // style={{ visibility: !fund ? 'hidden' : 'visible' }}
           onClick={this.props.notesToggle}
-          aria-label={formatMsg({ id: 'ui-fund.showNotes' })}
+          aria-label="showNotes"
         />
         <IfPermission perm="fund.item.put">
           <IconButton
@@ -219,4 +210,5 @@ class FundView extends Component {
   }
 }
 
-export default FundView;
+
+export default withTags(FundView);

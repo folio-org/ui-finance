@@ -105,22 +105,22 @@ class BudgetForm extends Component {
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
               <Col xs={6}>
-                <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
+                <Field label="Name*" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Budget Status" name="budget_status" id="budget_status" validate={[Required]} component={Select} fullWidth dataOptions={this.state.fundStatusDD} />
+                <Field label="Budget Status*" name="budget_status" id="budget_status" validate={[Required]} component={Select} fullWidth dataOptions={this.state.fundStatusDD} />
               </Col>
               <Col xs={6}>
                 <Field label="Code" name="code" id="code" component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Limit ENC Ppercent" name="limit_enc_percent" id="limit_enc_percent" component={TextField} type="number" fullWidth />
+                <Field label="Limit Encumbrance Percent" name="limit_enc_percent" id="limit_enc_percent" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Limit EXP Percent" name="limit_exp_percent" id="limit_exp_percent" component={TextField} type="number" fullWidth />
+                <Field label="Limit Expenditure Percent" name="limit_exp_percent" id="limit_exp_percent" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Allocation" name="allocation" id="allocation" component={TextField} validate={[Required]} type="number" fullWidth />
+                <Field label="Allocation*" name="allocation" id="allocation" component={TextField} validate={[Required]} type="number" fullWidth />
               </Col>
               <Col xs={6}>
                 <Field label="Awaiting Payment" name="awaiting_payment" id="awaiting_payment" component={TextField} type="number" fullWidth />
@@ -138,10 +138,10 @@ class BudgetForm extends Component {
                 <Field label="Over encumbrance" name="over_encumbrance" id="over_encumbrance" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Fund" name="fund_id" id="fund_id" component={Select} fullWidth validate={[Required]} dataOptions={fundData} />
+                <Field label="Fund*" name="fund_id" id="fund_id" component={Select} fullWidth validate={[Required]} dataOptions={fundData} />
               </Col>
               <Col xs={6}>
-                <Field label="Fiscal Year" name="fiscal_year_id" id="fiscal_year_id" component={Select} validate={[Required]} fullWidth dataOptions={fiscalyearData} />
+                <Field label="Fiscal Year*" name="fiscal_year_id" id="fiscal_year_id" component={Select} validate={[Required]} fullWidth dataOptions={fiscalyearData} />
               </Col>
               <Col xs={6} style={{ display: 'none' }}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />

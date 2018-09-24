@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-// Components and Pages
-import Layer from '@folio/stripes-components/lib/Layer';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
+import { withTags } from '@folio/stripes-smart-components/lib/Tags';
 import LedgerPane from './LedgerPane';
 import ConnectionListing from '../ConnectionListing';
 
@@ -36,7 +29,10 @@ class LedgerView extends Component {
     paneWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    notesToggle: PropTypes.func,
+    tagsToggle: PropTypes.func,
+    tagsEnabled: PropTypes.bool
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -77,7 +73,7 @@ class LedgerView extends Component {
           return newStr;
         };
 
-        const fyID = data.fiscal_years.length > 0 ? buildQuery() : null;
+        const fyID = data.fiscal_years && data.fiscal_years.length ? buildQuery() : null;
         if (!_.isEqual(prevState.fiscalyearID, fyID)) {
           parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(${fyID})` });
           return { fiscalyearID: fyID };
@@ -147,12 +143,30 @@ class LedgerView extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, tagsEnabled } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
+    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const isFundData = this.getFund() || false;
     const detailMenu = (
       <PaneMenu>
+        {
+          tagsEnabled &&
+            <IconButton
+              icon="tag"
+              title="showTags"
+              id="clickable-show-tags"
+              onClick={this.props.tagsToggle}
+              badgeCount={tags.length}
+              aria-label="showTags"
+            />
+        }
+        <IconButton
+          icon="comment"
+          id="clickable-show-notes"
+          onClick={this.props.notesToggle}
+          aria-label="showNotes"
+        />
         <IfPermission perm="ledger.item.put">
           <IconButton
             icon="edit"
@@ -217,4 +231,4 @@ class LedgerView extends Component {
   }
 }
 
-export default LedgerView;
+export default withTags(LedgerView);

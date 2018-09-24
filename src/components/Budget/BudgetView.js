@@ -2,15 +2,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-// Components and Pages
-import Layer from '@folio/stripes-components/lib/Layer';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
+import { withTags } from '@folio/stripes-smart-components/lib/Tags';
 import BudgetPane from './BudgetPane';
 
 class BudgetView extends Component {
@@ -31,7 +24,10 @@ class BudgetView extends Component {
     paneWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    notesToggle: PropTypes.func,
+    tagsToggle: PropTypes.func,
+    tagsEnabled: PropTypes.bool
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -117,11 +113,29 @@ class BudgetView extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, tagsEnabled } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
+    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
+        {
+          tagsEnabled &&
+            <IconButton
+              icon="tag"
+              title="showTags"
+              id="clickable-show-tags"
+              onClick={this.props.tagsToggle}
+              badgeCount={tags.length}
+              aria-label="showTags"
+            />
+        }
+        <IconButton
+          icon="comment"
+          id="clickable-show-notes"
+          onClick={this.props.notesToggle}
+          aria-label="showNotes"
+        />
         <IfPermission perm="budget.item.put">
           <IconButton
             icon="edit"
@@ -147,16 +161,40 @@ class BudgetView extends Component {
       <Pane id="pane-budgetdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={3}>
-            <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
+            <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="fiscal year" value={this.getFiscalYears()} />
+            <KeyValue label="Limit Encumbrance Percent" value={_.toString(_.get(initialValues, ['limit_enc_percent'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="fund" value={this.getFund()} />
+            <KeyValue label="Limit Expenditure Percent" value={_.toString(_.get(initialValues, ['limit_exp_percent'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Allocation*" value={_.toString(_.get(initialValues, ['allocation'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Awaiting Payment" value={_.toString(_.get(initialValues, ['awaiting_payment'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Available" value={_.toString(_.get(initialValues, ['available'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Encumbered" value={_.toString(_.get(initialValues, ['encumbered'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Expenditures" value={_.toString(_.get(initialValues, ['expenditures'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Over encumbrance" value={_.toString(_.get(initialValues, ['over_encumbrance'], ''))} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label="Fund" value={this.getFund()} />
           </Col>
         </Row>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Budget Dialog">
@@ -174,4 +212,4 @@ class BudgetView extends Component {
   }
 }
 
-export default BudgetView;
+export default withTags(BudgetView);

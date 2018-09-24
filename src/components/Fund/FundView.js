@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-// Components and Pages
-import Layer from '@folio/stripes-components/lib/Layer';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
+import { withTags } from '@folio/stripes-smart-components/lib/Tags';
 import FundPane from './FundPane';
 import ConnectionListing from '../ConnectionListing';
 
@@ -32,7 +25,10 @@ class FundView extends Component {
     paneWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    notesToggle: PropTypes.func,
+    tagsToggle: PropTypes.func,
+    tagsEnabled: PropTypes.bool
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -118,11 +114,29 @@ class FundView extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, tagsEnabled } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
+    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
+        {
+          tagsEnabled &&
+            <IconButton
+              icon="tag"
+              title="showTags"
+              id="clickable-show-tags"
+              onClick={this.props.tagsToggle}
+              badgeCount={tags.length}
+              aria-label="showTags"
+            />
+        }
+        <IconButton
+          icon="comment"
+          id="clickable-show-notes"
+          onClick={this.props.notesToggle}
+          aria-label="showNotes"
+        />
         <IfPermission perm="fund.item.put">
           <IconButton
             icon="edit"
@@ -148,10 +162,10 @@ class FundView extends Component {
       <Pane id="pane-funddetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={3}>
-            <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="code" value={_.toString(_.get(initialValues, ['code'], ''))} />
+            <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Ledger" value={this.getLedger()} />
@@ -160,7 +174,7 @@ class FundView extends Component {
             <KeyValue label="Fund Status" value={_.get(initialValues, ['fund_status'], '')} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="currency" value={_.get(initialValues, ['currency'], '')} />
+            <KeyValue label="Currency" value={_.get(initialValues, ['currency'], '')} />
           </Col>
           <Col xs={12}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
@@ -195,4 +209,5 @@ class FundView extends Component {
   }
 }
 
-export default FundView;
+
+export default withTags(FundView);

@@ -113,9 +113,6 @@ class FundForm extends Component {
               <Col xs={6}>
                 <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
-              <Col xs={6}>
-                <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
-              </Col>
               <Col xs={6} className={css.dateInputFix}>
                 <Field label="Created Date" name="created_date" id="created_date" validate={[Required]} component={Datepicker} />
               </Col>
@@ -127,6 +124,9 @@ class FundForm extends Component {
               </Col>
               <Col xs={6}>
                 <Field label="Ledger" name="ledger_id" id="ledger" component={Select} validate={[Required]} dataOptions={this.getLedger()} fullWidth />
+              </Col>
+              <Col xs={12}>
+                <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={6} style={{ display: 'none' }}>
                 <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />

@@ -1,7 +1,14 @@
 # Change history for ui-finance
 
 ## 1.1.1
-* Implement tags into Ledger, Funds, Budget, Fiscal Year and. ref: UIF-17, UIF-18, UIF-19 and UIF-20.
+* Implement tags into Ledger, Funds, Budget, Fiscal Year and. Ref: UIF-17, UIF-18, UIF-19 and UIF-20.
+* Fixed column sorting. Ref: UIF-14 
+* Enabled disabled fields in budget view. Ref: UIF-23 
+* Fixed fiscal year label mis-match. Ref: UIF-15 
+* Fixed fund labels mismatch, moved description input at the bottom in fund form. Ref: UIF-4.
+* Fixed mismatch labels and align name and code field grid. Ref: UIF-5. 
+* Removed fiscal year start and end date 'readonly' attribute. Ref: UIF-22.
+* Fixes typo "Limit Encumbrance Percent" and "Limit Expenditure Percent". ref: UIF-13.
 * Added asterisk to required field in Budget. ref: UIF-13.
 * Added asterisk and required fiscal year start date and end date. ref: UIF-9.
 

@@ -24,7 +24,6 @@
       "fund_distribution": "1.0",
       "fund": "1.0",
       "ledger": "1.0",
-      "tag": "1.0",
       "transaction": "1.0"
     },
     "queryResource": "query",

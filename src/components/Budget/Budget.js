@@ -35,7 +35,7 @@ class Budget extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name',
+        sort: '',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },

@@ -175,6 +175,8 @@ class Ledger extends Component {
         nextProps.mutator.initializedFilterConfig.replace(true);
       }
     }
+
+    return null;
   }
 
   create = (ledgerdata) => {

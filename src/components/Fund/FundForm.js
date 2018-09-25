@@ -114,7 +114,7 @@ class FundForm extends Component {
                 <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6} className={css.dateInputFix}>
-                <Field label="Created Date" name="created_date" id="created_date" validate={[Required]} component={Datepicker} />
+                <Field label="Created Date" name="created_date" id="created_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
               <Col xs={6}>
                 <Field label="Fund Status" name="fund_status" id="fund_status" component={Select} validate={[Required]} dataOptions={this.state.fundStatusDD} fullWidth />

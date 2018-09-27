@@ -1,6 +1,10 @@
 # Change history for ui-finance
 
 ## 1.1.1
+* Added asterisk to Name label in ledger form. Ref: UIF-10.
+* Added asterist to all required fields in Funds. Ref: UIF-12.
+* Fixed funds date field invalid value. Ref: UIF-11.
+* Updated labels for "Allowable Encumbrance Percentage" and "Allowable Expenditure Percentage". Ref: UIF-2;
 * Implement tags into Ledger, Funds, Budget, Fiscal Year and. Ref: UIF-17, UIF-18, UIF-19 and UIF-20.
 * Fixed column sorting. Ref: UIF-14 
 * Enabled disabled fields in budget view. Ref: UIF-23 

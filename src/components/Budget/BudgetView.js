@@ -167,10 +167,10 @@ class BudgetView extends Component {
             <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Limit Encumbrance Percent" value={_.toString(_.get(initialValues, ['limit_enc_percent'], ''))} />
+            <KeyValue label="Allowable Encumbrance Percent" value={_.toString(_.get(initialValues, ['limit_enc_percent'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Limit Expenditure Percent" value={_.toString(_.get(initialValues, ['limit_exp_percent'], ''))} />
+            <KeyValue label="Allowable Expenditure Percent" value={_.toString(_.get(initialValues, ['limit_exp_percent'], ''))} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Allocation*" value={_.toString(_.get(initialValues, ['allocation'], ''))} />

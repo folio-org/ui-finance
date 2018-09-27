@@ -36,7 +36,7 @@ class Ledger extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name'
+        sort: ''
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -175,6 +175,8 @@ class Ledger extends Component {
         nextProps.mutator.initializedFilterConfig.replace(true);
       }
     }
+
+    return null;
   }
 
   create = (ledgerdata) => {

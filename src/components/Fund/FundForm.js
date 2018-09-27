@@ -108,22 +108,22 @@ class FundForm extends Component {
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
               <Col xs={6}>
-                <Field label="Name" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
+                <Field label="Name*" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Code" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
+                <Field label="Code*" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6} className={css.dateInputFix}>
-                <Field label="Created Date" name="created_date" id="created_date" validate={[Required]} component={Datepicker} />
+                <Field label="Created Date*" name="created_date" id="created_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
               <Col xs={6}>
-                <Field label="Fund Status" name="fund_status" id="fund_status" component={Select} validate={[Required]} dataOptions={this.state.fundStatusDD} fullWidth />
+                <Field label="Fund Status*" name="fund_status" id="fund_status" component={Select} validate={[Required]} dataOptions={this.state.fundStatusDD} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Currency" name="currency" id="currency" component={Select} dataOptions={this.state.currencyDD} validate={[Required]} fullWidth />
+                <Field label="Currency*" name="currency" id="currency" component={Select} dataOptions={this.state.currencyDD} validate={[Required]} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Ledger" name="ledger_id" id="ledger" component={Select} validate={[Required]} dataOptions={this.getLedger()} fullWidth />
+                <Field label="Ledger*" name="ledger_id" id="ledger" component={Select} validate={[Required]} dataOptions={this.getLedger()} fullWidth />
               </Col>
               <Col xs={12}>
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />

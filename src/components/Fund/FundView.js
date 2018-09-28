@@ -26,7 +26,6 @@ class FundView extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    notesToggle: PropTypes.func,
     tagsToggle: PropTypes.func,
     tagsEnabled: PropTypes.bool
   }
@@ -131,12 +130,6 @@ class FundView extends Component {
               aria-label="showTags"
             />
         }
-        <IconButton
-          icon="comment"
-          id="clickable-show-notes"
-          onClick={this.props.notesToggle}
-          aria-label="showNotes"
-        />
         <IfPermission perm="fund.item.put">
           <IconButton
             icon="edit"

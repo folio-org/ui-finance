@@ -42,10 +42,10 @@ class FiscalYearForm extends Component {
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Period Begin Date*" name="period_start" id="period_start" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
+                <Field label="Period Begin Date*" name="start_date" id="start_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Period End Date*" name="period_end" id="period_end" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
+                <Field label="Period End Date*" name="end_date" id="end_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
             </Row>
             {

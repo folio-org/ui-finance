@@ -141,8 +141,8 @@ class FiscalYearView extends Component {
     );
     const isLedgerData = this.getLedger() || false;
     const isBudgetData = this.getBudget() || false;
-    const startDate = FormatDate(_.get(initialValues, ['period_start'], ''));
-    const endDate = FormatDate(_.get(initialValues, ['period_end'], ''));
+    const startDate = FormatDate(_.get(initialValues, ['start_date'], ''));
+    const endDate = FormatDate(_.get(initialValues, ['end_date'], ''));
 
     if (!initialValues) {
       return (

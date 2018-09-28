@@ -27,7 +27,6 @@ class FiscalYearView extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    notesToggle: PropTypes.func,
     tagsToggle: PropTypes.func,
     tagsEnabled: PropTypes.bool
   }
@@ -121,12 +120,6 @@ class FiscalYearView extends Component {
             aria-label="showTags"
           />
         }
-        <IconButton
-          icon="comment"
-          id="clickable-show-notes"
-          onClick={this.props.notesToggle}
-          aria-label="showNotes"
-        />
         <IfPermission perm="fiscal_year.item.put">
           <IconButton
             icon="edit"

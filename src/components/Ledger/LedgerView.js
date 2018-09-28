@@ -30,7 +30,6 @@ class LedgerView extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    notesToggle: PropTypes.func,
     tagsToggle: PropTypes.func,
     tagsEnabled: PropTypes.bool
   }
@@ -161,12 +160,6 @@ class LedgerView extends Component {
               aria-label="showTags"
             />
         }
-        <IconButton
-          icon="comment"
-          id="clickable-show-notes"
-          onClick={this.props.notesToggle}
-          aria-label="showNotes"
-        />
         <IfPermission perm="ledger.item.put">
           <IconButton
             icon="edit"

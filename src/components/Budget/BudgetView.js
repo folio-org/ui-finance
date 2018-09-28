@@ -25,7 +25,6 @@ class BudgetView extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    notesToggle: PropTypes.func,
     tagsToggle: PropTypes.func,
     tagsEnabled: PropTypes.bool
   }
@@ -130,12 +129,6 @@ class BudgetView extends Component {
               aria-label="showTags"
             />
         }
-        <IconButton
-          icon="comment"
-          id="clickable-show-notes"
-          onClick={this.props.notesToggle}
-          aria-label="showNotes"
-        />
         <IfPermission perm="budget.item.put">
           <IconButton
             icon="edit"

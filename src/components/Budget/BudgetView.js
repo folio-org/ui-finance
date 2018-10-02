@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
 import { withTags } from '@folio/stripes-smart-components/lib/Tags';
 import BudgetPane from './BudgetPane';
+import BudgetOverview from './BudgetOverview';
 
 class BudgetView extends Component {
   static propTypes = {
@@ -25,8 +26,6 @@ class BudgetView extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    tagsToggle: PropTypes.func,
-    tagsEnabled: PropTypes.bool
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -112,23 +111,11 @@ class BudgetView extends Component {
   }
 
   render() {
-    const { location, tagsEnabled } = this.props;
+    const { location, stripes, parentResources, parentMutator } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
-        {
-          tagsEnabled &&
-            <IconButton
-              icon="tag"
-              title="showTags"
-              id="clickable-show-tags"
-              onClick={this.props.tagsToggle}
-              badgeCount={tags.length}
-              aria-label="showTags"
-            />
-        }
         <IfPermission perm="budget.item.put">
           <IconButton
             icon="edit"
@@ -141,6 +128,10 @@ class BudgetView extends Component {
         </IfPermission>
       </PaneMenu>
     );
+    const encPercentText = _.trim(_.toString(_.get(initialValues, ['limit_enc_percent'])));
+    const expPercentText = _.trim(_.toString(_.get(initialValues, ['limit_exp_percent'])));
+    const limitEncPercent = encPercentText.length > 0 ? encPercentText + ' %' : '';
+    const limitExpPercent = expPercentText.length > 0 ? expPercentText + ' %' : '';
 
     if (!initialValues) {
       return (
@@ -152,6 +143,7 @@ class BudgetView extends Component {
 
     return (
       <Pane id="pane-budgetdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+        <BudgetOverview stripes={stripes} parentResources={parentResources} parentMutator={parentMutator} initialValues={initialValues} />
         <Row>
           <Col xs={3}>
             <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
@@ -160,10 +152,10 @@ class BudgetView extends Component {
             <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Allowable Encumbrance Percent" value={_.toString(_.get(initialValues, ['limit_enc_percent'], ''))} />
+            <KeyValue label="Allowable Encumbrance Percent" value={limitEncPercent} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Allowable Expenditure Percent" value={_.toString(_.get(initialValues, ['limit_exp_percent'], ''))} />
+            <KeyValue label="Allowable Expenditure Percent" value={limitExpPercent} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Allocation*" value={_.toString(_.get(initialValues, ['allocation'], ''))} />

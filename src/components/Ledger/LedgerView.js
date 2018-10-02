@@ -30,8 +30,6 @@ class LedgerView extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    tagsToggle: PropTypes.func,
-    tagsEnabled: PropTypes.bool
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -142,24 +140,12 @@ class LedgerView extends Component {
   }
 
   render() {
-    const { location, tagsEnabled } = this.props;
+    const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const isFundData = this.getFund() || false;
     const detailMenu = (
       <PaneMenu>
-        {
-          tagsEnabled &&
-            <IconButton
-              icon="tag"
-              title="showTags"
-              id="clickable-show-tags"
-              onClick={this.props.tagsToggle}
-              badgeCount={tags.length}
-              aria-label="showTags"
-            />
-        }
         <IfPermission perm="ledger.item.put">
           <IconButton
             icon="edit"

@@ -1,6 +1,7 @@
 # Change history for ui-finance
 
 ## 1.1.1
+* Show percentage in Allowable Encumbrance and Expenditure.
 * Budget totals Allocated, Unavailable and Available: css theming and show calculation results. Ref: UIF-28 .
 * Change property name "period_start and period_end" to "start_date and end_date". Ref: UIF-24;
 * Added asterisk to Name label in ledger form. Ref: UIF-10.

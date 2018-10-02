@@ -114,7 +114,6 @@ class FundView extends Component {
     const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
         <IfPermission perm="fund.item.put">

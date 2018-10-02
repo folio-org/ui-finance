@@ -111,10 +111,9 @@ class BudgetView extends Component {
   }
 
   render() {
-    const { location, stripes, parentResources, parentMutator  } = this.props;
+    const { location, stripes, parentResources, parentMutator } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const detailMenu = (
       <PaneMenu>
         <IfPermission perm="budget.item.put">

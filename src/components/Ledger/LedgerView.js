@@ -143,7 +143,6 @@ class LedgerView extends Component {
     const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
     const isFundData = this.getFund() || false;
     const detailMenu = (
       <PaneMenu>

@@ -121,7 +121,7 @@ class LedgerView extends Component {
     return data.map((item, i) => {
       return (
         <p key={i} style={{ margin: '0 0 5px' }}>
-          {`${item.name}, ${item.description}`}
+          {`${item.name}`}
         </p>
       );
     });

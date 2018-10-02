@@ -205,7 +205,7 @@ class Ledger extends Component {
       newArr.push(preObj);
       // Loop through records
       Object.keys(fiscalRecords).map((key) => {
-        const name = `Name:${fiscalRecords[key].name}`;
+        const name = `${fiscalRecords[key].name}`;
         const val = fiscalRecords[key].id;
         const obj = {
           label: _.toString(name),

@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
 import { withTags } from '@folio/stripes-smart-components/lib/Tags';
 import BudgetPane from './BudgetPane';
+import BudgetOverview from './BudgetOverview';
 
 class BudgetView extends Component {
   static propTypes = {
@@ -110,7 +111,7 @@ class BudgetView extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, stripes, parentResources, parentMutator  } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const tags = ((initialValues && initialValues.tags) || {}).tagList || [];
@@ -143,6 +144,7 @@ class BudgetView extends Component {
 
     return (
       <Pane id="pane-budgetdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+        <BudgetOverview stripes={stripes} parentResources={parentResources} parentMutator={parentMutator} initialValues={initialValues} />
         <Row>
           <Col xs={3}>
             <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />

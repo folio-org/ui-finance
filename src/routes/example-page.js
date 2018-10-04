@@ -1,9 +1,6 @@
 import React from 'react';
 import Link from 'react-router-dom/Link';
-import Paneset from '@folio/stripes-components/lib/Paneset';
-import Pane from '@folio/stripes-components/lib/Pane';
-import Button from '@folio/stripes-components/lib/Button';
-import Headline from '@folio/stripes-components/lib/Headline';
+import { Button, Headline, Pane, Paneset } from '@folio/stripes/components';
 /*
   STRIPES-NEW-APP
   This page contains some simple examples to illustrate getting started

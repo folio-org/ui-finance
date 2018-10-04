@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import Button from '@folio/stripes-components/lib/Button';
-import stripesForm from '@folio/stripes-form';
+import { Button, Pane, PaneMenu } from '@folio/stripes/components';
+import stripesForm from '@folio/stripes/form';
 // Components and Pages
 import BudgetForm from './BudgetForm';
 

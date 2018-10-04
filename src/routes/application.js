@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
-import Pane from '@folio/stripes-components/lib/Pane';
-import Paneset from '@folio/stripes-components/lib/Paneset';
-
+import { Pane, Paneset } from '@folio/stripes/components';
 
 export default class Application extends React.Component {
   static propTypes = {

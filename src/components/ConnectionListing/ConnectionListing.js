@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import List from '@folio/stripes-components/lib/List';
+import { List } from '@folio/stripes/components';
 import css from './css/ConnectionListing.css';
 import cssMain from '../Main/Main.css';
 

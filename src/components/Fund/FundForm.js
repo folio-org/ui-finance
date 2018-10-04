@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import Button from '@folio/stripes-components/lib/Button';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import TextField from '@folio/stripes-components/lib/TextField';
-import TextArea from '@folio/stripes-components/lib/TextArea';
-import Select from '@folio/stripes-components/lib/Select';
-import Datepicker from '@folio/stripes-components/lib/Datepicker';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
+import {
+  Button,
+  Col,
+  Datepicker,
+  IfPermission,
+  Row,
+  Select,
+  TextArea,
+  TextField
+} from '@folio/stripes/components';
 import css from './css/FundForm.css';
 import { Required } from '../../Utils/Validate';
 import ConnectionListing from '../ConnectionListing';

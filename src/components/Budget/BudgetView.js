@@ -2,8 +2,18 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { Layer, Pane, PaneMenu, Icon, IconButton, IfPermission, KeyValue, Row, Col } from '@folio/stripes-components';
-import { withTags } from '@folio/stripes-smart-components/lib/Tags';
+import {
+  Layer,
+  Pane,
+  PaneMenu,
+  Icon,
+  IconButton,
+  IfPermission,
+  KeyValue,
+  Row,
+  Col
+} from '@folio/stripes/components';
+import { withTags } from '@folio/stripes/smart-components';
 import BudgetPane from './BudgetPane';
 import BudgetOverview from './BudgetOverview';
 

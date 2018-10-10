@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 // Folio
-import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
-import transitionToParams from '@folio/stripes-components/util/transitionToParams';
-import removeQueryParam from '@folio/stripes-components/util/removeQueryParam';
+import { SearchAndSort } from '@folio/stripes/smart-components';
+import { filters2cql } from '@folio/stripes/components';
+import transitionToParams from '../../Utils/transitionToParams';
+import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
 import Tabs from '../Tabs';
 import { Filters, SearchableIndexes } from './budgetFilterConfig';

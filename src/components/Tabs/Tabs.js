@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SegmentedControl from '@folio/stripes-components/lib/SegmentedControl';
-import Button from '@folio/stripes-components/lib/Button';
+import { Button, SegmentedControl } from '@folio/stripes/components';
 import css from './Tabs.css';
 
 class Tabs extends Component {

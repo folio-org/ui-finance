@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { Row, Col } from '@folio/stripes-components';
+import { Row, Col } from '@folio/stripes/components';
 import css from './css/BudgetOverview.css';
 
 class BudgetOverview extends Component {

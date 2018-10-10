@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import Button from '@folio/stripes-components/lib/Button';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import TextField from '@folio/stripes-components/lib/TextField';
-import TextArea from '@folio/stripes-components/lib/TextArea';
-import Datepicker from '@folio/stripes-components/lib/Datepicker';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
+import {
+  Button,
+  Col,
+  Datepicker,
+  IfPermission,
+  Row,
+  TextArea,
+  TextField
+} from '@folio/stripes/components';
+
 // Components and Utils
 import css from './css/FiscalYearForm.css';
 import { Required } from '../../Utils/Validate';

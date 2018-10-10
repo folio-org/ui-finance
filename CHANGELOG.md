@@ -1,7 +1,7 @@
 # Change history for ui-finance
 
 ## [1.1.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-10-10)
-[Full Changelog](https://github.com/folio-org/stripes-components/compare/v1.0.1...v1.1.0)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.0.1...v1.1.0)
 
 * Clean up Fiscal Year name in ledger view and ledger edit. Ref: UIF-8.
 * Show percentage in Allowable Encumbrance and Expenditure. Ref: UIF-27.

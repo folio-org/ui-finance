@@ -1,6 +1,8 @@
 # Change history for ui-finance
 
-## 1.1.1
+## [1.1.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-10-10)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.0.1...v1.1.0)
+
 * Clean up Fiscal Year name in ledger view and ledger edit. Ref: UIF-8.
 * Show percentage in Allowable Encumbrance and Expenditure. Ref: UIF-27.
 * Budget totals Allocated, Unavailable and Available: css theming and show calculation results. Ref: UIF-28.
@@ -20,6 +22,7 @@
 * Added asterisk to required field in Budget. ref: UIF-13.
 * Added asterisk and required fiscal year start date and end date. ref: UIF-9.
 * Remove notes helper app
+* Update core platform dependencies to use `stripes v1.0.0`. UIF-29
 
 ## [1.0.1](https://github.com/folio-org/ui-vendors/tree/v1.0.1) (2018-09-17)
 * Update stripes-form version. Fixes UIV-8.

@@ -131,7 +131,7 @@ class BudgetForm extends Component {
                 <Field label="Expenditures" name="expenditures" id="expenditures" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Over encumbrance" name="over_encumbrance" id="over_encumbrance" component={TextField} type="number" fullWidth />
+                <Field label="Over Encumbrance" name="over_encumbrance" id="over_encumbrance" component={TextField} type="number" fullWidth />
               </Col>
               <Col xs={6}>
                 <Field label="Fund*" name="fund_id" id="fund_id" component={Select} fullWidth validate={[Required]} dataOptions={fundData} />

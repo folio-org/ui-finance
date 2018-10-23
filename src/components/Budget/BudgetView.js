@@ -183,7 +183,7 @@ class BudgetView extends Component {
             <KeyValue label="Expenditures" value={_.toString(_.get(initialValues, ['expenditures'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Over encumbrance" value={_.toString(_.get(initialValues, ['over_encumbrance'], ''))} />
+            <KeyValue label="Over Encumbrance" value={_.toString(_.get(initialValues, ['over_encumbrance'], ''))} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />

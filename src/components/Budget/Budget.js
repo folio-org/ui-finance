@@ -100,7 +100,6 @@ class Budget extends Component {
     queryCustom: {
       initialValue: {
         budgetIDQuery: 'query=(id=null)',
-        fundQuery: 'query=(name=null)',
         fiscalyearQuery: 'query=(name=*)',
         fundQueryID: 'query=(id=null)',
         fiscalyearQueryID: 'query=(id=null)'
@@ -124,30 +123,14 @@ class Budget extends Component {
     fund: {
       type: 'okapi',
       records: 'funds',
-      path: 'fund',
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          const newData = `${data.queryCustom.fundQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
-          return cql;
-        }
-      }
+      path: 'fund?query=(name=*)&limit=200',
+      resourceShouldRefresh: true
     },
     fiscalyear: {
       type: 'okapi',
       records: 'fiscal_years',
-      path: 'fiscal_year',
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          const newData = `${data.queryCustom.fiscalyearQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
-          return cql;
-        }
-      }
+      path: 'fiscal_year?query=(name=*)&limit=200',
+      resourceShouldRefresh: true
     },
     fundID: {
       type: 'okapi',

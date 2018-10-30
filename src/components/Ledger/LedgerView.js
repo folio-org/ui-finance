@@ -181,10 +181,13 @@ class LedgerView extends Component {
       <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={4}>
-            <KeyValue label="name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="code" value={_.get(initialValues, ['code'], '')} />
+            <KeyValue label="Code" value={_.get(initialValues, ['code'], '')} />
+          </Col>
+          <Col xs={4}>
+            <KeyValue label="Status" value={_.get(initialValues, ['ledger_status'], '')} />
           </Col>
           <Col xs={4}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />

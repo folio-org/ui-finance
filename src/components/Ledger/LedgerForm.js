@@ -103,25 +103,20 @@ class LedgerForm extends Component {
         <Row>
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
-              <Col xs={12} md={6}>
+              <Col xs={12} md={4}>
                 <Field label="Name*" name="name" id="name" component={TextField} validate={[Required]} fullWidth />
               </Col>
-              <Col xs={12} md={6}>
+              <Col xs={12} md={4}>
                 <Field label="Code" name="code" id="code" component={TextField} fullWidth />
+              </Col>
+              <Col xs={12} md={4}>
+                <Field label="Status" name="ledger_status" id="ledger_status" component={Select} fullWidth dataOptions={this.state.status_dd} />
               </Col>
               <Col xs={12}>
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={12}>
                 <FieldArray label="Fiscal Year" name="fiscal_years" id="fiscal_years" component={this.renderList} />
-              </Col>
-              <Col xs={12} style={{ display: 'none' }}>
-                <Field label="Currency" name="currency" id="currency" component={Select} fullWidth dataOptions={this.state.currencyDD} disabled />
-                <Field label="Status" name="status" id="status" component={Select} fullWidth dataOptions={this.state.status_dd} disabled />
-                <Field label="Tags" name="tags" id="tags" component={TextField} fullWidth disabled />
-                <Field label="Allowable Encumbrance" name="allowable_encumbrance" id="allowable_encumbrance" component={TextField} fullWidth disabled />
-                <Field label="Allowable Expenditure:" name="allowable_expenditure" id="allowable_expenditure" component={TextField} fullWidth disabled />
-                <Field label="Freeze Activity" name="freeze_activity" id="freeze_activity" component={Checkbox} disabled />
               </Col>
             </Row>
             { isEditPage && (

@@ -3,7 +3,6 @@ import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import {
   Button,
-  Checkbox,
   Col,
   IfPermission,
   Row,

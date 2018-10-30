@@ -31,10 +31,6 @@ class LedgerForm extends Component {
     super(props);
     this.state = {
       fiscalYearDD: false,
-      currencyDD: [
-        { label: '-- Select --', value: '' },
-        { label: 'US Dollar', value: 'USD' }
-      ],
       status_dd: [
         { label: '-- Select --', value: '' },
         { label: 'Active', value: 'Active' },

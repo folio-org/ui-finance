@@ -94,22 +94,22 @@ class Ledger extends Component {
     },
     queryCustom: {
       initialValue: {
-        ledgerIDQuery: 'query=(ledger_id="null")',
-        fundQuery: 'query=(fund_id="null")',
+        ledgerIDQuery: 'query=(id="null")',
+        fundQuery: 'query=(ledger_id="null")',
         fiscalyearIDQuery: 'query=(id="null")',
-        fiscalyearsQuery: 'query=(name="*")',
+        // fiscalyearsQuery: 'query=(id="*")',
       }
     },
     ledgerID: {
       type: 'okapi',
       records: 'ledgers',
       path: 'ledger',
+      resourceShouldRefresh: true,
       recordsRequired: 1,
       params: {
         query: (...args) => {
-          const data = args[2];
-          if (`${data.queryCustom.ledgerIDQuery}` === 'undefined') return undefined;
-          const cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
+          const data = args[2].queryCustom.ledgerIDQuery;
+          const cql = `${data} sortby id`;
           return cql;
         },
       }
@@ -118,12 +118,10 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
-      recordsRequired: 1,
+      resourceShouldRefresh: true,
       params: {
         query: (...args) => {
-          const data = args[2];
-          if (`${data.queryCustom.fiscalyearsQuery}` === 'undefined') return undefined;
-          const cql = `${data.queryCustom.fiscalyearsQuery} sortby name`;
+          const cql = 'query=(id="*") sortby id';
           return cql;
         },
       }
@@ -132,7 +130,7 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'fiscal_years',
       path: 'fiscal_year',
-      recordsRequired: 1,
+      resourceShouldRefresh: true,
       params: {
         query: (...args) => {
           const data = args[2];
@@ -145,12 +143,14 @@ class Ledger extends Component {
     fund: {
       type: 'okapi',
       records: 'funds',
+      resourceShouldRefresh: true,
       path: 'fund',
       params: {
         query: (...args) => {
-          const data = args[2];
-          if (`${data.queryCustom.fundQuery}` === 'undefined') return undefined;
-          const cql = `${data.queryCustom.fundQuery} sortby name`;
+          const data = args[2].queryCustom.fundQuery;
+          const cql = `${data} sortby id`;
+          console.log("fund query");
+          console.log(cql);
           return cql;
         }
       }

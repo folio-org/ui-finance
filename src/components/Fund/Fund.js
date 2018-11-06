@@ -104,18 +104,30 @@ class Fund extends Component {
         ledgerQuery: 'query=(name="*")',
         ledgerIDQuery: 'query=(ledger_id=null)',
         budgetQuery: 'query=(fund_id="null")',
+        fundQuery: 'query=(id="null")',
+      }
+    },
+    fund: {
+      type: 'okapi',
+      records: 'funds',
+      path: 'fund',
+      resourceShouldRefresh: true,
+      recordsRequired: 1,
+      params: {
+        query: (...args) => {
+          const cql = `${args[2].queryCustom.fundQuery} sortby name`;
+          return cql;
+        }
       }
     },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
       path: 'ledger',
+      resourceShouldRefresh: true,
       params: {
         query: (...args) => {
-          const data = args[2];
-          const newData = `${data.queryCustom.ledgerQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
+          const cql = `${args[2].queryCustom.ledgerQuery} sortby name`;
           return cql;
         }
       }
@@ -124,13 +136,11 @@ class Fund extends Component {
       type: 'okapi',
       records: 'ledgers',
       path: 'ledger',
+      resourceShouldRefresh: true,
       recordsRequired: 1,
       params: {
         query: (...args) => {
-          const data = args[2];
-          const newData = `${data.queryCustom.ledgerIDQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
+          const cql = `${args[2].queryCustom.ledgerIDQuery} sortby name`;
           return cql;
         },
       }
@@ -139,12 +149,10 @@ class Fund extends Component {
       type: 'okapi',
       records: 'budgets',
       path: 'budget',
+      resourceShouldRefresh: true,
       params: {
         query: (...args) => {
-          const data = args[2];
-          const newData = `${data.queryCustom.budgetQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
+          const cql = `${args[2].queryCustom.budgetQuery} sortby name`;
           return cql;
         }
       }

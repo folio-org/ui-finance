@@ -47,19 +47,21 @@ class LedgerView extends Component {
     if (parentResources || parentResources.records || parentResources.fund || parentResources.fiscalyearID) {
       const fundData = (parentResources.fund || {}).records || [];
       const fyData = (parentResources.fiscalyearID || {}).records || [];
-      const ledgerData = (parentResources.records || {}).records || [];
-      const ledgerItem = ledgerData.find(u => u.id === id) || false;
-      const fyIDs = ledgerItem.fiscal_years;
+      const ledgerData = (parentResources.ledgerID || {}).records || [];
+      const recordsData = (parentResources.records || {}).records || [];
+      const recordsItem = recordsData.find(u => u.id === id) || ledgerData.find(u => u.id === id) || false;
+      const fyIDs = recordsItem.fiscal_years;
       // Conditions
       const isID = _.isEqual(id, state.id);
       const isFundData = _.isEqual(fundData, state.fundData);
+      const isLedgerData = _.isEqual(ledgerData, state.ledgerData);
       const isFyIDs = _.isEqual(fyIDs, state.fyIDs);
       const isFyData = _.isEqual(fyData, state.fyData);
       // Query for Fiscal year
       const buildQueryFiscalYear = () => {
         let newStr;
         const arrStore = [];
-        const fydata = ledgerItem.fiscal_years;
+        const fydata = recordsItem.fiscal_years;
         const fydataLength = fydata.length - 1;
         fydata.forEach((e, i) => {
           if (i === 0) {
@@ -74,14 +76,14 @@ class LedgerView extends Component {
         return newStr;
       };
       const fyQuery = !_.isEmpty(fyIDs) ? buildQueryFiscalYear() : null;
-      console.log(fyQuery);
       // Mutate and save to state.
-      if (!isID || !isFundData || !isFyIDs || !isFyData) {
+      if (!isID || !isFundData || !isFyIDs || !isFyData || !isLedgerData) {
         parentMutator.queryCustom.update({
           fundQuery: `query=(ledger_id="${id}*")`,
+          ledgerIDQuery: `query=(id=${id})`,
           fiscalyearIDQuery: `query=(${fyQuery})`
         });
-        return { id, fundData, fyIDs, fyData }; // Check ID
+        return { id, fundData, fyIDs, fyData, ledgerData };
       }
     }
     return false;
@@ -99,9 +101,13 @@ class LedgerView extends Component {
 
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
-    const ledgers = (parentResources.records || {}).records || [];
-    if (!ledgers || ledgers.length === 0 || !id) return null;
-    return ledgers.find(u => u.id === id);
+    const records = (parentResources.records || {}).records || [];
+    const selectData = records.length > 0 ? records : this.state.ledgerData;
+    const ledgerData = !_.isEmpty(selectData) ? selectData : [];
+    //  If no ID return null
+    if (!id) return null;
+    const data = ledgerData.find(u => u.id === id);
+    return data;
   }
 
   getFund() {

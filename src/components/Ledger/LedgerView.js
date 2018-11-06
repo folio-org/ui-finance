@@ -51,12 +51,6 @@ class LedgerView extends Component {
       const recordsData = (parentResources.records || {}).records || [];
       const recordsItem = recordsData.find(u => u.id === id) || ledgerData.find(u => u.id === id) || false;
       const fyIDs = recordsItem.fiscal_years;
-      // Conditions
-      const isID = _.isEqual(id, state.id);
-      const isFundData = _.isEqual(fundData, state.fundData);
-      const isLedgerData = _.isEqual(ledgerData, state.ledgerData);
-      const isFyIDs = _.isEqual(fyIDs, state.fyIDs);
-      const isFyData = _.isEqual(fyData, state.fyData);
       // Query for Fiscal year
       const buildQueryFiscalYear = () => {
         let newStr;
@@ -76,6 +70,12 @@ class LedgerView extends Component {
         return newStr;
       };
       const fyQuery = !_.isEmpty(fyIDs) ? buildQueryFiscalYear() : null;
+      // Conditions
+      const isID = _.isEqual(id, state.id);
+      const isFundData = _.isEqual(fundData, state.fundData);
+      const isLedgerData = _.isEqual(ledgerData, state.ledgerData);
+      const isFyIDs = _.isEqual(fyIDs, state.fyIDs);
+      const isFyData = _.isEqual(fyData, state.fyData);
       // Mutate and save to state.
       if (!isID || !isFundData || !isFyIDs || !isFyData || !isLedgerData) {
         parentMutator.queryCustom.update({

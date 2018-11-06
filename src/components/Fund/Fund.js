@@ -101,7 +101,7 @@ class Fund extends Component {
     },
     queryCustom: {
       initialValue: {
-        ledgerQuery: 'query=(name="*")',
+        ledgerQuery: 'query=(name="null")',
         ledgerIDQuery: 'query=(ledger_id=null)',
         budgetQuery: 'query=(fund_id="null")',
         fundQuery: 'query=(id="null")',
@@ -115,7 +115,9 @@ class Fund extends Component {
       recordsRequired: 1,
       params: {
         query: (...args) => {
-          const cql = `${args[2].queryCustom.fundQuery} sortby name`;
+          const data = args[2];
+          if (`${data.queryCustom.fundQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.fundQuery} sortby name`;
           return cql;
         }
       }
@@ -127,7 +129,9 @@ class Fund extends Component {
       resourceShouldRefresh: true,
       params: {
         query: (...args) => {
-          const cql = `${args[2].queryCustom.ledgerQuery} sortby name`;
+          const data = args[2];
+          if (`${data.queryCustom.ledgerQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.ledgerQuery} sortby name`;
           return cql;
         }
       }
@@ -140,7 +144,9 @@ class Fund extends Component {
       recordsRequired: 1,
       params: {
         query: (...args) => {
-          const cql = `${args[2].queryCustom.ledgerIDQuery} sortby name`;
+          const data = args[2];
+          if (`${data.queryCustom.ledgerIDQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
           return cql;
         },
       }
@@ -152,7 +158,9 @@ class Fund extends Component {
       resourceShouldRefresh: true,
       params: {
         query: (...args) => {
-          const cql = `${args[2].queryCustom.budgetQuery} sortby name`;
+          const data = args[2];
+          if (`${data.queryCustom.budgetQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.budgetQuery} sortby name`;
           return cql;
         }
       }

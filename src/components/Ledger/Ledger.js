@@ -107,8 +107,9 @@ class Ledger extends Component {
       recordsRequired: 1,
       params: {
         query: (...args) => {
-          const data = args[2].queryCustom.ledgerIDQuery;
-          const cql = `${data}`;
+          const data = args[2];
+          if (`${data.queryCustom.ledgerIDQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
           return cql;
         },
       }
@@ -132,7 +133,9 @@ class Ledger extends Component {
       resourceShouldRefresh: true,
       params: {
         query: (...args) => {
-          const cql = `${args[2].queryCustom.fiscalyearIDQuery} sortby name`;
+          const data = args[2];
+          if (`${data.queryCustom.fiscalyearIDQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
           return cql;
         }
       }
@@ -144,7 +147,9 @@ class Ledger extends Component {
       path: 'fund',
       params: {
         query: (...args) => {
-          const cql = `${args[2].queryCustom.fundQuery} sortby name`;
+          const data = args[2];
+          if (`${data.queryCustom.fundQuery}` === 'undefined') return undefined;
+          const cql = `${data.queryCustom.fundQuery} sortby name`;
           return cql;
         }
       }

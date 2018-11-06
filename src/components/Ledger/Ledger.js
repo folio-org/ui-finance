@@ -147,8 +147,7 @@ class Ledger extends Component {
       path: 'fund',
       params: {
         query: (...args) => {
-          const data = args[2].queryCustom.fundQuery;
-          const cql = `${data} sortby id`;
+          const cql = `${args[2].queryCustom.fundQuery} sortby name`;
           console.log("fund query");
           console.log(cql);
           return cql;

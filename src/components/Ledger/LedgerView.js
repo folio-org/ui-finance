@@ -50,49 +50,39 @@ class LedgerView extends Component {
       const ledgerData = (parentResources.records || {}).records || [];
       const ledgerItem = ledgerData.find(u => u.id === id) || false;
       const fyIDs = ledgerItem.fiscal_years;
+      // Conditions
       const isID = _.isEqual(id, state.id);
-
-      console.log(id);
-
-      if (!isID) return { id }; // Check ID
-      if (!isID || !_.isEqual(fundData, state.fundData)) {
-        parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id="${id}*")` });
-        console.log(fundData);
-        return { fundData };
+      const isFundData = _.isEqual(fundData, state.fundData);
+      const isFyIDs = _.isEqual(fyIDs, state.fyIDs);
+      const isFyData = _.isEqual(fyData, state.fyData);
+      // Query for Fiscal year
+      const buildQueryFiscalYear = () => {
+        let newStr;
+        const arrStore = [];
+        const fydata = ledgerItem.fiscal_years;
+        const fydataLength = fydata.length - 1;
+        fydata.forEach((e, i) => {
+          if (i === 0) {
+            arrStore.push(`id="${e}"`);
+          } else {
+            arrStore.push(` or id="${e}"`);
+          }
+          if (fydataLength === i) {
+            newStr = arrStore.join('');
+          }
+        });
+        return newStr;
+      };
+      const fyQuery = !_.isEmpty(fyIDs) ? buildQueryFiscalYear() : null;
+      console.log(fyQuery);
+      // Mutate and save to state.
+      if (!isID || !isFundData || !isFyIDs || !isFyData) {
+        parentMutator.queryCustom.update({
+          fundQuery: `query=(ledger_id="${id}*")`,
+          fiscalyearIDQuery: `query=(${fyQuery})`
+        });
+        return { id, fundData, fyIDs, fyData }; // Check ID
       }
-
-      // if (isID && !_.isEqual(fyData, state.fyData)) {
-      // }
-
-      // if ((!_.isEqual(fundData, state.fundData) && !_.isEqual(fyData, state.fyData)) || (!_.isEqual(fyIDs, state.fyIDs) && !_.isEqual(id, state.id))) {
-      //   // Mutate fund and fiscal year
-      //   parentMutator.queryCustom.update({ fundQuery: `query=(ledger_id="${id}")` });
-      //   // Build query Fiscal Year
-      //   if (!_.isEmpty(fyIDs)) {
-      //     const buildQueryFiscalYear = () => {
-      //       console.log('this run buildQueryFiscalYear()');
-      //       let newStr;
-      //       const arrStore = [];
-      //       const fydata = ledgerItem.fiscal_years;
-      //       const fydataLength = fydata.length - 1;
-      //       fydata.forEach((e, i) => {
-      //         if (i === 0) {
-      //           arrStore.push(`id="${e}"`);
-      //         } else {
-      //           arrStore.push(` or id="${e}"`);
-      //         }
-      //         if (fydataLength === i) {
-      //           newStr = arrStore.join('');
-      //         }
-      //       });
-      //       return newStr;
-      //     };
-      //     console.log(buildQueryFiscalYear());
-      //     parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(${buildQueryFiscalYear()})` });
-      //   }
-      //   console.log('update all');
-      //   return { fundData, fyData, fyIDs, id };
-      // }
     }
     return false;
   }

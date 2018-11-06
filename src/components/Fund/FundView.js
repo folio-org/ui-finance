@@ -38,32 +38,32 @@ class FundView extends Component {
     ]),
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
+  static getDerivedStateFromProps(props, state) {
+    const { parentMutator, parentResources, match: { params: { id } } } = props;
     const queryData = () => {
       parentMutator.queryCustom.update({
         budgetQuery: `query=(fund_id="${id}")`,
+        fundQuery: `query=(id="${id}")`
       });
     };
 
-    if ((parentResources || parentResources.records) && (parentResources.budget || parentResources.ledgerID)) {
-      const fund = parentResources.records.records;
-      const data = fund !== null ? fund.find(u => u.id === id) : false;
+    if ((parentResources || parentResources.records || parentResources.budget || parentResources.ledgerID || parentResources.fund)) {
+      const records = (parentResources.records || {}).records || [];
+      const fundData = (parentResources.fund || {}).records || [];
+      const budgetData = (parentResources.budget || {}).records || [];
+      const data = records.find(u => u.id === id) || fundData.find(u => u.id === id) || false;
 
-      if (!_.isEqual(prevState.viewID, id)) {
+      if (!_.isEqual(state.viewID, id) || !_.isEqual(state.budgetData, budgetData)) {
         queryData();
-        return { viewID: id };
-      }
-      if (!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
-        queryData();
-        const budget = (parentResources.budget || {}).records || [];
-        return { budgetData: budget };
+        return { viewID: id, budgetData, fundData };
       }
 
       if (data) {
         const ledgerID = data.ledger_id;
-        if (!_.isEqual(prevState.ledgerID, ledgerID)) {
-          parentMutator.queryCustom.update({ ledgerIDQuery: `query=(id="${ledgerID}")` });
+        if (!_.isEqual(state.ledgerID, ledgerID)) {
+          parentMutator.queryCustom.update({
+            ledgerIDQuery: `query=(id="${ledgerID}")`
+          });
           return { ledgerID };
         }
       }
@@ -87,9 +87,13 @@ class FundView extends Component {
 
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
-    const fund = (parentResources.records || {}).records || [];
-    if (!fund || fund.length === 0 || !id) return null;
-    return fund.find(u => u.id === id);
+    const records = (parentResources.records || {}).records || [];
+    const selectData = records.length > 0 ? records : this.state.fundData;
+    const fundData = !_.isEmpty(selectData) ? selectData : [];
+    //  If no ID return null
+    if (!id) return null;
+    const data = fundData.find(u => u.id === id);
+    return data;
   }
 
   getBudget() {

@@ -42,49 +42,48 @@ class LedgerView extends Component {
     ]),
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
-
-    const queryData = () => {
-      parentMutator.queryCustom.update({
-        fundQuery: `query=(ledger_id="${id}")`,
-        fiscalyearsQuery: 'query=(name="*")'
-      });
-    };
-
-    if (parentResources && parentResources.fund) {
-      if (!_.isEqual(prevState.viewID, id) || !_.isEqual(prevState.fundData, parentResources.fund.records)) {
-        queryData();
-        const fund = (parentResources.fund || {}).records || [];
-        return { viewID: id, fundData: fund };
-      }
-
-      const ledger = parentResources.records.records;
-      const data = ledger !== null ? ledger.find(u => u.id === id) : false;
-      if (data) {
-        const buildQuery = () => {
-          let newStr;
-          const arrStore = [];
-          const fydata = data.fiscal_years;
-          const fydataLength = fydata.length - 1;
-          fydata.forEach((e, i) => {
-            if (i === 0) {
-              arrStore.push(`id="${e}"`);
-            } else {
-              arrStore.push(` or id="${e}"`);
-            }
-            if (fydataLength === i) {
-              newStr = arrStore.join('');
-            }
-          });
-          return newStr;
-        };
-
-        const fyID = data.fiscal_years && data.fiscal_years.length ? buildQuery() : null;
-        if (!_.isEqual(prevState.fiscalyearID, fyID)) {
-          parentMutator.queryCustom.update({ fiscalyearIDQuery: `query=(${fyID})` });
-          return { fiscalyearID: fyID };
-        }
+  static getDerivedStateFromProps(props, state) {
+    const { parentMutator, parentResources, match: { params: { id } } } = props;
+    if (parentResources || parentResources.records || parentResources.fund || parentResources.fiscalyearID) {
+      const fundData = (parentResources.fund || {}).records || [];
+      const fyData = (parentResources.fiscalyearID || {}).records || [];
+      const ledgerData = (parentResources.ledgerID || {}).records || [];
+      const recordsData = (parentResources.records || {}).records || [];
+      const recordsItem = recordsData.find(u => u.id === id) || ledgerData.find(u => u.id === id) || false;
+      const fyIDs = recordsItem.fiscal_years;
+      // Conditions
+      const isID = _.isEqual(id, state.id);
+      const isFundData = _.isEqual(fundData, state.fundData);
+      const isLedgerData = _.isEqual(ledgerData, state.ledgerData);
+      const isFyIDs = _.isEqual(fyIDs, state.fyIDs);
+      const isFyData = _.isEqual(fyData, state.fyData);
+      // Query for Fiscal year
+      const buildQueryFiscalYear = () => {
+        let newStr;
+        const arrStore = [];
+        const fydata = recordsItem.fiscal_years;
+        const fydataLength = fydata.length - 1;
+        fydata.forEach((e, i) => {
+          if (i === 0) {
+            arrStore.push(`id="${e}"`);
+          } else {
+            arrStore.push(` or id="${e}"`);
+          }
+          if (fydataLength === i) {
+            newStr = arrStore.join('');
+          }
+        });
+        return newStr;
+      };
+      const fyQuery = !_.isEmpty(fyIDs) ? buildQueryFiscalYear() : null;
+      // Mutate and save to state.
+      if (!isID || !isFundData || !isFyIDs || !isFyData || !isLedgerData) {
+        parentMutator.queryCustom.update({
+          fundQuery: `query=(ledger_id="${id}*")`,
+          ledgerIDQuery: `query=(id=${id})`,
+          fiscalyearIDQuery: `query=(${fyQuery})`
+        });
+        return { id, fundData, fyIDs, fyData, ledgerData };
       }
     }
     return false;
@@ -100,21 +99,15 @@ class LedgerView extends Component {
     this.getData = this.getData.bind(this);
   }
 
-  componentWillUnmount() {
-    const { parentMutator } = this.props;
-    parentMutator.queryCustom.update({
-      ledgerIDQuery: 'query=(ledger_id=null)',
-      fundQuery: 'query=(ledger_id=null)',
-      fiscalyearIDQuery: 'query=(fiscal_years=null)',
-      fiscalyearsQuery: 'query=(name=null)'
-    });
-  }
-
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
-    const ledgers = (parentResources.records || {}).records || [];
-    if (!ledgers || ledgers.length === 0 || !id) return null;
-    return ledgers.find(u => u.id === id);
+    const records = (parentResources.records || {}).records || [];
+    const selectData = records.length > 0 ? records : this.state.ledgerData;
+    const ledgerData = !_.isEmpty(selectData) ? selectData : [];
+    //  If no ID return null
+    if (!id) return null;
+    const data = ledgerData.find(u => u.id === id);
+    return data;
   }
 
   getFund() {

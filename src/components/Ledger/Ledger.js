@@ -120,7 +120,7 @@ class Ledger extends Component {
       path: 'fiscal_year',
       resourceShouldRefresh: true,
       params: {
-        query: (...args) => {
+        query: () => {
           const cql = 'query=(id="*") sortby id';
           return cql;
         },

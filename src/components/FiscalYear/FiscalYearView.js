@@ -142,7 +142,9 @@ class FiscalYearView extends Component {
     if (!initialValues) {
       return (
         <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle="This is fiscal year view" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
-          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+          <div style={{ paddingTop: '1rem' }}>
+            <Icon icon="spinner-ellipsis" width="100px" />
+          </div>
         </Pane>
       );
     }

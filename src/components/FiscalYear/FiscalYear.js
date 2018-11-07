@@ -20,8 +20,6 @@ const searchableIndexes = SearchableIndexes;
 
 class FiscalYear extends Component {
   static propTypes = {
-    parentResources: PropTypes.object,
-    parentMutator: PropTypes.object,
     match: PropTypes.object,
     stripes: PropTypes.object,
     onSelectRow: PropTypes.func,
@@ -99,7 +97,6 @@ class FiscalYear extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
-          console.log(data.fiscalyearQuery);
           const newData = `${data.fiscalyearQuery}`;
           if (newData === 'undefined') return undefined;
           const cql = `${newData}`;
@@ -140,10 +137,6 @@ class FiscalYear extends Component {
       }
     }
   });
-
-  static getDerivedStateFromProps(props, state) {
-    const { parentMutator, parentResources, match: { params: { id } } } = props;   
-  }
 
   constructor(props) {
     super(props);

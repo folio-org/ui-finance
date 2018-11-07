@@ -87,10 +87,28 @@ class FiscalYear extends Component {
         staticFallback: { params: {} },
       },
     },
+    fiscalyearQuery: { initialValue: 'query=(id=null)' },
+    fiscalyear: {
+      type: 'okapi',
+      records: 'fiscal_years',
+      path: 'fiscal_year',
+      resourceShouldRefresh: true,
+      recordsRequired: 1,
+      params: {
+        query: (...args) => {
+          const data = args[2];
+          const newData = `${data.fiscalyearQuery}`;
+          if (newData === 'undefined') return undefined;
+          const cql = `${newData}`;
+          return cql;
+        }
+      }
+    },
     ledgerQuery: { initialValue: 'query=(fiscal_years=null)' },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
+      resourceShouldRefresh: true,
       path: 'ledger',
       params: {
         query: (...args) => {
@@ -106,6 +124,7 @@ class FiscalYear extends Component {
     budget: {
       type: 'okapi',
       records: 'budgets',
+      resourceShouldRefresh: true,
       path: 'budget',
       params: {
         query: (...args) => {

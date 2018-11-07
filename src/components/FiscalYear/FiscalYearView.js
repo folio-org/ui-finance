@@ -42,6 +42,7 @@ class FiscalYearView extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     const queryData = () => {
+      parentMutator.fiscalyearQuery.replace(`query=(id="${id}")`);
       parentMutator.ledgerQuery.replace(`query=(fiscal_years="${id}")`);
       parentMutator.budgetQuery.replace(`query=(fiscal_year_id="${id}")`);
     };
@@ -50,7 +51,8 @@ class FiscalYearView extends Component {
       queryData();
       const ledger = (parentResources.ledger || {}).records || [];
       const budget = (parentResources.budget || {}).records || [];
-      return { viewID: id, ledgerData: ledger, budgetData: budget };
+      const fiscalyear = (parentResources.fiscalyear || {}).records || [];
+      return { viewID: id, ledgerData: ledger, budgetData: budget, fiscalyearData: fiscalyear };
     }
 
     if (parentResources || (parentResources.ledger && parentResources.budget)) {
@@ -85,9 +87,13 @@ class FiscalYearView extends Component {
 
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
-    const fiscalyear = (parentResources.records || {}).records || [];
-    if (!fiscalyear || fiscalyear.length === 0 || !id) return null;
-    return fiscalyear.find(u => u.id === id);
+    const records = (parentResources.fiscalyear || {}).records || [];
+    const selectData = records.length > 0 ? records : this.state.fiscalyearData;
+    const fiscalyearData = !_.isEmpty(selectData) ? selectData : [];
+    //  If no ID return null
+    if (!id) return null;
+    const data = fiscalyearData.find(u => u.id === id);
+    return data;
   }
 
   getLedger() {

@@ -72,15 +72,6 @@ class BudgetView extends Component {
     this.connectedBudgetPane = this.props.stripes.connect(BudgetPane);
   }
 
-  componentWillUnmount() {
-    const { parentMutator } = this.props;
-    parentMutator.queryCustom.update({
-      budgetIDQuery: 'query=(id=null)',
-      fundQueryID: 'query=(id=null)',
-      fiscalyearQueryID: 'query=(id=null)',
-    });
-  }
-
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
     const budget = (parentResources.records || {}).records || [];

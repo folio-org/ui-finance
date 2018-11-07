@@ -41,9 +41,10 @@ class BudgetView extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     if (parentResources && (parentResources.fundID || parentResources.fiscalyearID)) {
-      if (!_.isEqual(prevState.viewID, id)) {
+      const budgetData = (parentResources.budgetID || {}).records || [];
+      if (!_.isEqual(prevState.viewID, id) || !_.isEqual(budgetData, prevState.budgetData)) {
         parentMutator.queryCustom.update({ budgetIDQuery: `query=(id="${id}")` });
-        return { viewID: id };
+        return { viewID: id, budgetData };
       }
 
       const budget = parentResources.records.records;
@@ -72,20 +73,14 @@ class BudgetView extends Component {
     this.connectedBudgetPane = this.props.stripes.connect(BudgetPane);
   }
 
-  componentWillUnmount() {
-    const { parentMutator } = this.props;
-    parentMutator.queryCustom.update({
-      budgetIDQuery: 'query=(id=null)',
-      fundQueryID: 'query=(id=null)',
-      fiscalyearQueryID: 'query=(id=null)',
-    });
-  }
-
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
-    const budget = (parentResources.records || {}).records || [];
-    if (!budget || budget.length === 0 || !id) return null;
-    return budget.find(u => u.id === id);
+    const records = (parentResources.records || {}).records || [];
+    const selectData = records.length > 0 ? records : this.state.budgetData;
+    const budgetData = !_.isEmpty(selectData) ? selectData : [];
+    if (!id) return null;
+    const data = budgetData.find(u => u.id === id);
+    return data;
   }
 
   getFiscalYears = () => {

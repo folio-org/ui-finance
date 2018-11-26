@@ -1,6 +1,6 @@
 {
     "search": "بحث",
-    "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
+    "resultCount": "تم العثور على {count, number} {count, plural, one { تسجيلة } other { تسجيلات }}",
     "data.contactTypes.email": "البريد الإلكتروني",
     "data.contactTypes.mail": "البريد (العنوان الرئيسي)",
     "data.contactTypes.textMessage": "رسالة نصية",
@@ -124,7 +124,7 @@
     "data.countries.PRK": "كوريا الشمالية",
     "data.countries.KOR": "كوريا الجنوبية",
     "data.countries.KWT": "الكويت",
-    "data.countries.KGZ": "قرغيزستان",
+    "data.countries.KGZ": "قيرغيزستان",
     "data.countries.LAO": "جمهورية لاو الديمقراطية الشعبية",
     "data.countries.LVA": "لاتفيا",
     "data.countries.LBN": "لبنان",

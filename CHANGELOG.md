@@ -1,7 +1,16 @@
 # Change history for ui-finance
 
+## [1.2.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-12-6)
+* Fiscal year edit data. Ref: UIF-42.
+* Fixed api call error in Fund and ledger. Ref: UIF-41.
+* Updated fund edit and view data. Ref: UIF-40.
+* Fixed ledger edit data. Ref: UIF-39.
+* Added back ledger status to ledger form and ledger view, removed unused fields. Ref: UIF-10.
+* Increase fund and fiscal year query limit to 200. Ref: UIF-25.
+* Capitalized label firstletter. Ref: UIF-5.
+
 ## [1.1.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-10-10)
-[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.0.1...v1.1.0)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.0.1)
 
 * Clean up Fiscal Year name in ledger view and ledger edit. Ref: UIF-8.
 * Show percentage in Allowable Encumbrance and Expenditure. Ref: UIF-27.

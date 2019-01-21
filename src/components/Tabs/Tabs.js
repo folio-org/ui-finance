@@ -42,15 +42,13 @@ class Tabs extends Component {
 
   handleActive(id) {
     const isActive = this.state.activeTab === id ? 'primary' : 'default';
-    console.log(isActive);
     return isActive;
   }
 
   render() {
-    const isLedger = this.state.activeTab === 'ledger' ? 'primary' : 'default';
     return (
       <div className={css.SegControl}>
-        <ButtonGroup activeId={this.state.activeTab} onActivate={this.handleClick}>
+        <ButtonGroup>
           <Button
             id="ledger"
             onClick={() => this.handleClick('ledger')}
@@ -75,7 +73,7 @@ class Tabs extends Component {
           <Button
             id="fiscalyear"
             onClick={() => this.handleClick('fiscalyear')}
-            buttonStyle={this.handleActive('fiscalyear)')}
+            buttonStyle={this.handleActive('fiscalyear')}
           >
             Fiscal Year
           </Button>

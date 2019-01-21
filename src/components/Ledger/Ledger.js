@@ -234,6 +234,7 @@ class Ledger extends Component {
       packageInfo.stripes.home = path;
       return packageInfo;
     };
+    const getHelperResourcePath = () => 'Yoh man';
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
@@ -272,6 +273,7 @@ class Ledger extends Component {
               selectedIndex={_.get(this.props.resources.query, 'qindex')}
               searchableIndexesPlaceholder={null}
               onChangeIndex={this.onChangeIndex}
+              getHelperResourcePath={getHelperResourcePath()}
             />
           </Fragment>
         }

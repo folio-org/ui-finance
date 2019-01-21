@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, SegmentedControl } from '@folio/stripes/components';
+import { ButtonGroup, Button } from '@folio/stripes/components';
 import css from './Tabs.css';
 
 class Tabs extends Component {
@@ -17,7 +17,8 @@ class Tabs extends Component {
     this.state = {
       activeTab: ''
     };
-    this.handleActivate = this.handleActivate.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleActive = this.handleActive.bind(this);
     this.setTabID = this.setTabID.bind(this);
   }
 
@@ -34,20 +35,51 @@ class Tabs extends Component {
     return false;
   }
 
-  handleActivate({ id }) {
+  handleClick(id) {
     const { parentMutator } = this.props;
     parentMutator.query.update({ _path: `/finance/${id}`, layer: 'null' });
   }
 
+  handleActive(id) {
+    const isActive = this.state.activeTab === id ? 'primary' : 'default';
+    console.log(isActive);
+    return isActive;
+  }
+
   render() {
+    const isLedger = this.state.activeTab === 'ledger' ? 'primary' : 'default';
     return (
       <div className={css.SegControl}>
-        <SegmentedControl activeId={this.state.activeTab} onActivate={this.handleActivate}>
-          <Button id="ledger">Ledger</Button>
-          <Button id="fund">Fund</Button>
-          <Button id="budget">Budget</Button>
-          <Button id="fiscalyear">Fiscal Year</Button>
-        </SegmentedControl>
+        <ButtonGroup activeId={this.state.activeTab} onActivate={this.handleClick}>
+          <Button
+            id="ledger"
+            onClick={() => this.handleClick('ledger')}
+            buttonStyle={this.handleActive('ledger')}
+          >
+            Ledger
+          </Button>
+          <Button
+            id="fund"
+            onClick={() => this.handleClick('fund')}
+            buttonStyle={this.handleActive('fund')}
+          >
+            Fund
+          </Button>
+          <Button
+            id="budget"
+            onClick={() => this.handleClick('budget')}
+            buttonStyle={this.handleActive('budget')}
+          >
+            Budget
+          </Button>
+          <Button
+            id="fiscalyear"
+            onClick={() => this.handleClick('fiscalyear')}
+            buttonStyle={this.handleActive('fiscalyear)')}
+          >
+            Fiscal Year
+          </Button>
+        </ButtonGroup>
       </div>
     );
   }

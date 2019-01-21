@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Pane, PaneMenu } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import LedgerForm from './LedgerForm';
+import css from './css/LedgerPane.css';
 
 class LedgerPane extends Component {
   static propTypes = {
@@ -32,7 +33,7 @@ class LedgerPane extends Component {
     return (
       <PaneMenu>
         <button type="button" id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Ledger Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
+          <span className={css.closeIcon}>&times;</span>
         </button>
       </PaneMenu>
     );

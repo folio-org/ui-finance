@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Pane, PaneMenu } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import css from './css/FiscalYearPane.css';
 // Components and Pages
 import FiscalYearForm from './FiscalYearForm';
 
@@ -29,7 +30,7 @@ class FiscalYearPane extends Component {
     return (
       <PaneMenu>
         <button type="button" id="clickable-closenewfiscalyeardialog" onClick={onCancel} title="close" aria-label="Close New Fiscal Year Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
+          <span className={css.closeIcon}>&times;</span>
         </button>
       </PaneMenu>
     );

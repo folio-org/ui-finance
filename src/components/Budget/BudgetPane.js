@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Pane, PaneMenu } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import css from './css/BudgetPane.css';
 // Components and Pages
 import BudgetForm from './BudgetForm';
 
@@ -30,7 +31,7 @@ class BudgetPane extends Component {
     return (
       <PaneMenu>
         <button type="button" id="clickable-closenewbudgetdialog" onClick={onCancel} title="close" aria-label="Close New Budget Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
+          <span className={css.closeIcon}>&times;</span>
         </button>
       </PaneMenu>
     );

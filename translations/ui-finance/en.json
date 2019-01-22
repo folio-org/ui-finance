@@ -253,5 +253,18 @@
   "data.countries.ESH": "Western Sahara",
   "data.countries.YEM": "Yemen",
   "data.countries.ZMB": "Zambia",
-  "data.countries.ZWE": "Zimbabwe"
+  "data.countries.ZWE": "Zimbabwe",
+
+  "fiscalyear.btnEdit": "Edit Fiscal Year",
+  "fiscalyear.paneTitle": "This is fiscal year view",
+  "fiscalyear.name": "Name",
+  "fiscalyear.code": "Code",
+  "fiscalyear.description": "Description",
+  "fiscalyear.periodBeginDate": "Period Begin Date",
+  "fiscalyear.periodEndDate": "Period End Date",
+  "fiscalyear.ledgerConnection": "Ledger Connection",
+  "fiscalyear.noItemsFound": "No Items Found",
+  "fiscalyear.budgetConnection": "Budget Connection",
+  "fiscalyear.EditFiscalYearDialog": "Edit Fiscal Year Dialog"
+
 }

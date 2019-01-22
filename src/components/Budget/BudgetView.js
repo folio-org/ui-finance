@@ -154,6 +154,9 @@ class BudgetView extends Component {
             <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={3}>
+            <KeyValue label="Budget Status" value={_.toString(_.get(initialValues, ['budget_status'], ''))} />
+          </Col>
+          <Col xs={3}>
             <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={3}>

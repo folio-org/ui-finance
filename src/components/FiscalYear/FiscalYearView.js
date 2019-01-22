@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { FormattedDate, FormattedMessage } from 'react-intl';
 import {
   Layer,
   Pane,
@@ -16,7 +17,6 @@ import {
 import { withTags } from '@folio/stripes/smart-components';
 import FiscalYearPane from './FiscalYearPane';
 import ConnectionListing from '../ConnectionListing';
-import FormatDate from '../../Utils/FormatDate';
 
 class FiscalYearView extends Component {
   static propTypes = {
@@ -129,19 +129,16 @@ class FiscalYearView extends Component {
             style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
             onClick={this.props.onEdit}
             href={this.props.editLink}
-            title="Edit Fiscal Year"
+            title={<FormattedMessage id="ui-finance.fiscalyear.btnEdit" />}
           />
         </IfPermission>
       </PaneMenu>
     );
     const isLedgerData = this.getLedger() || false;
     const isBudgetData = this.getBudget() || false;
-    const startDate = FormatDate(_.get(initialValues, ['start_date'], ''));
-    const endDate = FormatDate(_.get(initialValues, ['end_date'], ''));
-
     if (!initialValues) {
       return (
-        <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle="This is fiscal year view" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+        <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle={<FormattedMessage id="ui-finance.fiscalyear.paneTitle" />} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
           <div style={{ paddingTop: '1rem' }}>
             <Icon icon="spinner-ellipsis" width="100px" />
           </div>
@@ -153,27 +150,31 @@ class FiscalYearView extends Component {
       <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={4}>
-            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.name" />} value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
+            <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.code" />} value={_.toString(_.get(initialValues, ['code'], ''))} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />
+            <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.description" />} value={_.get(initialValues, ['description'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="Period Begin Date" value={startDate} />
+            <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.periodBeginDate" />}>
+              <FormattedDate value={initialValues.start_date} />
+            </KeyValue>
           </Col>
           <Col xs={4}>
-            <KeyValue label="Period End Date" value={endDate} />
+            <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.periodEndDate" />}>
+              <FormattedDate value={initialValues.end_date} />
+            </KeyValue>
           </Col>
           {
             isLedgerData &&
             <Col xs={12}>
               <hr />
               <ConnectionListing
-                title="Ledger Connection"
-                isEmptyMessage="No items found"
+                title={<FormattedMessage id="ui-finance.fiscalyear.ledgerConnection" />}
+                isEmptyMessage={<FormattedMessage id="ui-finance.fiscalyear.noItemsFound" />}
                 items={this.getLedger()}
                 path="/finance/fiscalyear/view/"
                 isView
@@ -185,8 +186,8 @@ class FiscalYearView extends Component {
             <Col xs={12}>
               <hr />
               <ConnectionListing
-                title="Budget Connection"
-                isEmptyMessage="No items found"
+                title={<FormattedMessage id="ui-finance.fiscalyear.budgetConnection" />}
+                isEmptyMessage={<FormattedMessage id="ui-finance.fiscalyear.noItemsFound" />}
                 items={this.getBudget()}
                 path="/finance/budget/view/"
                 isView
@@ -194,7 +195,7 @@ class FiscalYearView extends Component {
             </Col>
           }
         </Row>
-        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Fiscal Year Dialog">
+        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label={<FormattedMessage id="ui-finance.fiscalyear.EditFiscalYearDialog" />}>
           <this.connectedFiscalYearPane
             stripes={this.props.stripes}
             initialValues={initialValues}

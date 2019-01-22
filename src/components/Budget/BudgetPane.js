@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Pane, PaneMenu } from '@folio/stripes/components';
+import { Button, Pane, PaneMenu, IconButton } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
-import css from './css/BudgetPane.css';
 // Components and Pages
 import BudgetForm from './BudgetForm';
 
@@ -27,12 +26,17 @@ class BudgetPane extends Component {
   }
 
   getAddFirstMenu() {
-    const { onCancel } = this.props;
+    const { onCancel, initialValues } = this.props;
+    const ttl = initialValues.id ? 'Edit' : 'New';
     return (
       <PaneMenu>
-        <button type="button" id="clickable-closenewbudgetdialog" onClick={onCancel} title="close" aria-label="Close New Budget Dialog">
-          <span className={css.closeIcon}>&times;</span>
-        </button>
+        <IconButton
+          icon="times"
+          id="clickable-closedialog"
+          onClick={onCancel}
+          title="Close"
+          aria-label={`Close ${ttl} Budget Dialog`}
+        />
       </PaneMenu>
     );
   }

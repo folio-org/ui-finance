@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Pane, PaneMenu } from '@folio/stripes/components';
+import { Button, Pane, PaneMenu, IconButton } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import LedgerForm from './LedgerForm';
-import css from './css/LedgerPane.css';
 
 class LedgerPane extends Component {
   static propTypes = {
@@ -29,12 +28,17 @@ class LedgerPane extends Component {
   }
 
   getAddFirstMenu() {
-    const { onCancel } = this.props;
+    const { onCancel, initialValues } = this.props;
+    const ttl = initialValues.id ? 'Edit' : 'New';
     return (
       <PaneMenu>
-        <button type="button" id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Ledger Dialog">
-          <span className={css.closeIcon}>&times;</span>
-        </button>
+        <IconButton
+          icon="times"
+          id="clickable-closedialog"
+          onClick={onCancel}
+          title="Close"
+          aria-label={`Close ${ttl} Ledger Dialog`}
+        />
       </PaneMenu>
     );
   }

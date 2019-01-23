@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 // Folio
+import { FormattedMessage } from 'react-intl';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import { filters2cql } from '@folio/stripes/components';
 import transitionToParams from '../../Utils/transitionToParams';
@@ -234,7 +235,10 @@ class Ledger extends Component {
       packageInfo.stripes.home = path;
       return packageInfo;
     };
-    const getHelperResourcePath = () => 'Yoh man';
+    const columnMapping = {
+      'name': <FormattedMessage id="ui-finance.ledger.name" />,
+      'code': <FormattedMessage id="ui-finance.ledger.code" />,
+    };
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
@@ -251,9 +255,10 @@ class Ledger extends Component {
               moduleName={packageInfo.name.replace(/.*\//, '')}
               moduleTitle="ledger"
               objectName="ledger"
+              columnMapping={columnMapping}
               baseRoute={`${match.path}`}
               filterConfig={filterConfig}
-              visibleColumns={['Name', 'Code']}
+              visibleColumns={['name', 'code']}
               resultsFormatter={resultsFormatter}
               viewRecordComponent={LedgerView}
               onSelectRow={onSelectRow}
@@ -273,7 +278,6 @@ class Ledger extends Component {
               selectedIndex={_.get(this.props.resources.query, 'qindex')}
               searchableIndexesPlaceholder={null}
               onChangeIndex={this.onChangeIndex}
-              getHelperResourcePath={getHelperResourcePath()}
             />
           </Fragment>
         }

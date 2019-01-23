@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { FormattedMessage } from 'react-intl';
 import { IfPermission } from '@folio/stripes/core';
 import {
   Layer,
@@ -174,24 +175,24 @@ class LedgerView extends Component {
       <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
         <Row>
           <Col xs={4}>
-            <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
+            <KeyValue label={<FormattedMessage id="ui-finance.ledger.name" />} value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="Code" value={_.get(initialValues, ['code'], '')} />
+            <KeyValue label={<FormattedMessage id="ui-finance.ledger.code" />} value={_.get(initialValues, ['code'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="Status" value={_.get(initialValues, ['ledger_status'], '')} />
+            <KeyValue label={<FormattedMessage id="ui-finance.ledger.status" />} value={_.get(initialValues, ['ledger_status'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />
+            <KeyValue label={<FormattedMessage id="ui-finance.ledger.fiscalyear" />} value={this.getFiscalYears()} />
           </Col>
           {
             isFundData &&
             <Col xs={12}>
               <hr />
               <ConnectionListing
-                title="Fund Connection"
-                isEmptyMessage="No items found"
+                title={<FormattedMessage id="ui-finance.ledger.fundConnection" />}
+                isEmptyMessage={<FormattedMessage id="ui-finance.ledger.noItemsFound" />}
                 items={this.getFund()}
                 path="/finance/fund/view/"
                 isView
@@ -199,7 +200,7 @@ class LedgerView extends Component {
             </Col>
           }
         </Row>
-        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Ledger Dialog">
+        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label={<FormattedMessage id="ui-finance.ledger.editLayerDialog" />}>
           <this.connectedLedgerPane
             stripes={this.props.stripes}
             initialValues={initialValues}

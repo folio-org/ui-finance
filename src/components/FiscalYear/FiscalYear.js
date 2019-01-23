@@ -184,7 +184,7 @@ class FiscalYear extends Component {
           objectName="fiscal_year"
           baseRoute={`${match.path}`}
           filterConfig={filterConfig}
-          visibleColumns={['Name', 'Code', 'Description']}
+          visibleColumns={['name', 'code', 'description']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={FiscalYearView}
           onSelectRow={onSelectRow}

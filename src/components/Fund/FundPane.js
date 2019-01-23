@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Pane, PaneMenu } from '@folio/stripes/components';
+import { IconButton, Button, Pane, PaneMenu } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import FundForm from './FundForm';
 
@@ -24,12 +24,17 @@ class FundPane extends Component {
   }
 
   getAddFirstMenu() {
-    const { onCancel } = this.props;
+    const { onCancel, initialValues } = this.props;
+    const ttl = initialValues.id ? 'Edit' : 'New';
     return (
       <PaneMenu>
-        <button type="button" id="clickable-closenewfunddialog" onClick={onCancel} title="close" aria-label="Close New Fund Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
-        </button>
+        <IconButton
+          icon="times"
+          id="clickable-closedialog"
+          onClick={onCancel}
+          title="Close"
+          aria-label={`Close ${ttl} Fund Dialog`}
+        />
       </PaneMenu>
     );
   }

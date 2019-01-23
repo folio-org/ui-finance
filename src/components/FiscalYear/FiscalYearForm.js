@@ -40,7 +40,7 @@ class FiscalYearForm extends Component {
                 <Field label="Name*" name="name" id="name" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Code" name="code" id="code" component={TextField} fullWidth />
+                <Field label="Abbreviation" name="code" id="code" component={TextField} fullWidth />
               </Col>
               <Col xs={12}>
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Button,
   Col,
   Datepicker,
-  IfPermission,
   Row,
   Select,
   TextArea,

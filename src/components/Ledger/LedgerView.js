@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Layer,
   Pane,
   PaneMenu,
   Icon,
   IconButton,
-  IfPermission,
   KeyValue,
   Row,
   Col

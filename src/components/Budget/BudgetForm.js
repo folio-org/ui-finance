@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { Button, Col, IfPermission, Row, Select, TextField } from '@folio/stripes/components';
+import { IfPermission } from '@folio/stripes/core';
+import { Button, Col, Row, Select, TextField } from '@folio/stripes/components';
 // Components and Utils
 import css from './css/BudgetForm.css';
 import { Required } from '../../Utils/Validate';

@@ -272,7 +272,7 @@
   "fiscalyear.btnEdit": "Edit Fiscal Year",
   "fiscalyear.paneTitle": "This is fiscal year view",
   "fiscalyear.name": "Name",
-  "fiscalyear.code": "Code",
+  "fiscalyear.code": "Abbreviation",
   "fiscalyear.description": "Description",
   "fiscalyear.periodBeginDate": "Period Begin Date",
   "fiscalyear.periodEndDate": "Period End Date",

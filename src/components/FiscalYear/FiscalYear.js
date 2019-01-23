@@ -170,6 +170,12 @@ class FiscalYear extends Component {
       return packageInfo;
     };
 
+    const columnMapping = {
+      'name': 'Name',
+      'code': 'Abbreviation',
+      'description': 'Description',
+    };
+
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
         <Tabs
@@ -182,6 +188,7 @@ class FiscalYear extends Component {
           moduleName="fiscal_year"
           moduleTitle="fiscal_year"
           objectName="fiscal_year"
+          columnMapping={columnMapping}
           baseRoute={`${match.path}`}
           filterConfig={filterConfig}
           visibleColumns={['name', 'code', 'description']}

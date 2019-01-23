@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { IfPermission } from '@folio/stripes/core';
 import {
   Button,
@@ -51,7 +52,9 @@ class LedgerForm extends Component {
     return (
       <Row>
         <Col xs={12} md={6}>
-          <h6 style={{ marginTop: '0' }}>Fiscal Years</h6>
+          <p style={{ marginTop: '0', marginBottom: '3px' }}>
+            {<FormattedMessage id="ui-finance.ledger.fiscalyear" />}
+          </p>
         </Col>
         <Col xs={12}>
           {fields.length === 0 &&
@@ -99,19 +102,19 @@ class LedgerForm extends Component {
           <Col xs={8} style={{ margin: '0 auto', padding: '0' }}>
             <Row>
               <Col xs={12} md={4}>
-                <Field label="Name*" name="name" id="name" component={TextField} validate={[Required]} fullWidth />
+                <Field label={(<FormattedMessage id="ui-finance.ledger.name">{item => item + '*'}</FormattedMessage>)} name="name" id="name" component={TextField} validate={[Required]} fullWidth />
               </Col>
               <Col xs={12} md={4}>
-                <Field label="Code" name="code" id="code" component={TextField} fullWidth />
+                <Field label={<FormattedMessage id="ui-finance.ledger.code" />} name="code" id="code" component={TextField} fullWidth />
               </Col>
               <Col xs={12} md={4}>
-                <Field label="Status" name="ledger_status" id="ledger_status" component={Select} fullWidth dataOptions={this.state.status_dd} />
+                <Field label={<FormattedMessage id="ui-finance.ledger.status" />} name="ledger_status" id="ledger_status" component={Select} fullWidth dataOptions={this.state.status_dd} />
               </Col>
               <Col xs={12}>
-                <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
+                <Field label={<FormattedMessage id="ui-finance.ledger.description" />} name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={12}>
-                <FieldArray label="Fiscal Year" name="fiscal_years" id="fiscal_years" component={this.renderList} />
+                <FieldArray name="fiscal_years" id="fiscal_years" component={this.renderList} />
               </Col>
             </Row>
             { isEditPage && (
@@ -121,8 +124,8 @@ class LedgerForm extends Component {
                     <Col xs={12}>
                       <hr />
                       <ConnectionListing
-                        title="Fund Connection"
-                        isEmptyMessage="No items found"
+                        title={<FormattedMessage id="ui-finance.ledger.fundConnection" />}
+                        isEmptyMessage={<FormattedMessage id="ui-finance.ledger.noItemsFound" />}
                         items={fundData}
                         path="/finance/fund/view/"
                         isView

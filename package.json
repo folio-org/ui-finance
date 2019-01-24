@@ -302,6 +302,7 @@
         "permissionName": "finance.module.all",
         "displayName": "All finance-module perms",
         "description": "All permissions for the finance module",
+        "visible": true,
         "subPermissions": [
           "budget.all",
           "fiscal_year.all",
@@ -310,6 +311,14 @@
           "ledger.all",
           "tag.all",
           "transaction.all"
+        ]
+      },
+      {
+        "permissionName": "settings.finance.enabled",
+        "displayName": "Settings (Finance): Display list of settings for Finance",
+        "visible": true,
+        "subPermissions": [
+          "settings.enabled"
         ]
       }
     ]

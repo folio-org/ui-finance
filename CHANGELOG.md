@@ -1,9 +1,14 @@
 # Change history for ui-finance
 
+## 1.3.0 (IN PROGRESS)
+
+* Upgrade to stripes v2.0.0.
+
 ## [1.2.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-12-6)
+
 * Fiscal year edit data. Ref: UIF-42.
 * Fixed api call error in Fund and ledger. Ref: UIF-41.
-* Updated fund edit and view data. Ref: UIF-40. 
+* Updated fund edit and view data. Ref: UIF-40.
 * Fixed ledger edit data. Ref: UIF-39.
 * Added back ledger status to ledger form and ledger view, removed unused fields. Ref: UIF-10.
 * Increase fund and fiscal year query limit to 200. Ref: UIF-25.

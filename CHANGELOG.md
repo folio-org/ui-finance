@@ -1,10 +1,12 @@
 # Change history for ui-finance
 
-## 1.3.0 (IN PROGRESS)
+## [1.3.0](https://github.com/folio-org/ui-finance/tree/v1.3.0) (2019-01-25)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.2.0...v1.3.0)
 
 * Upgrade to stripes v2.0.0.
 
-## [1.2.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-12-6)
+## [1.2.0](https://github.com/folio-org/ui-finance/tree/v1.2.0) (2018-12-06)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.1.0...v1.2.0)
 
 * Fiscal year edit data. Ref: UIF-42.
 * Fixed api call error in Fund and ledger. Ref: UIF-41.
@@ -15,7 +17,7 @@
 * Capitalized label firstletter. Ref: UIF-5.
 
 ## [1.1.0](https://github.com/folio-org/ui-finance/tree/v1.1.0) (2018-10-10)
-[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.0.1)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.0.1...v1.1.0)
 
 * Clean up Fiscal Year name in ledger view and ledger edit. Ref: UIF-8.
 * Show percentage in Allowable Encumbrance and Expenditure. Ref: UIF-27.
@@ -42,5 +44,5 @@
 * Update stripes-form version. Fixes UIV-8.
 
 ## 1.0.0
-* UI crud for Finance(Ledger, Budget, Fiscal Year, Fund)
-* Implement SearchAndSort Filters(Ledger, Budget, Fiscal Year, Fund)
+* UI crud for Finance (Ledger, Budget, Fiscal Year, Fund)
+* Implement SearchAndSort Filters (Ledger, Budget, Fiscal Year, Fund)

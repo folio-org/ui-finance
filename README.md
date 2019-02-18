@@ -1,10 +1,12 @@
 # ui-finance
 
-The ui-finance allows for the management of ledgers, funds, and budgets in FOLIO. It includes a dashboard that provides a snapshot of your account totals for the current fiscal year across ledgers and funds.
-
 Copyright (C) 2017-2019 The Open Library Foundation.
 
 This software is distributed under the terms of the Apache License, Version 2.0. See the file "[LICENSE](LICENSE)"  for more information.
+
+## Introduction
+
+The ui-finance allows for the management of ledgers, funds, and budgets in FOLIO. It includes a dashboard that provides a snapshot of your account totals for the current fiscal year across ledgers and funds.
 
 ## Prerequisites
 

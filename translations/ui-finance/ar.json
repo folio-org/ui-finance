@@ -258,7 +258,7 @@
     "fiscalyear.description": "الوصف",
     "fiscalyear.periodBeginDate": "تاريخ بداية الفترة",
     "fiscalyear.periodEndDate": "تاريخ انتهاء الفترة",
-    "fiscalyear.ledgerConnection": "ربط الدفتر",
+    "fiscalyear.ledgerConnection": "ربط الدفتر المالي",
     "fiscalyear.noItemsFound": "لم يتم العثور على مواد",
     "fiscalyear.budgetConnection": "ربط الميزانية ",
     "fiscalyear.EditFiscalYearDialog": "المربع الحواري لتحرير السنة المالية",
@@ -274,5 +274,5 @@
     "ledger.noItemsFound": "لم يتم العثور على مواد",
     "ledger.createLedger": "إنشاء دفتر",
     "ledger.updateLedger": "إنشاء دفتر",
-    "ledger.editLayerDialog": "المربع الحواري لتحرير الدفتر"
+    "ledger.editLayerDialog": "المربع الحواري لتحرير الدفتر المالي"
 }

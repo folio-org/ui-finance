@@ -1,9 +1,9 @@
 {
-    "search": "Search",
+    "search": "Buscar",
     "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
     "data.contactTypes.email": "Email",
-    "data.contactTypes.mail": "Mail (Primary Address)",
-    "data.contactTypes.textMessage": "Text Message",
+    "data.contactTypes.mail": "Correo (dirección principal)",
+    "data.contactTypes.textMessage": "Mensaje de texto",
     "data.countries.AFG": "Afghanistan",
     "data.countries.ALA": "ALA Aland Islands",
     "data.countries.ALB": "Albania",

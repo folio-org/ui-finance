@@ -272,7 +272,9 @@
     "ledger.close": "Close",
     "ledger.fundConnection": "Fund Connection",
     "ledger.noItemsFound": "No Items Found",
-    "ledger.createLedger": "Create Ledger",
-    "ledger.updateLedger": "Create Ledger",
-    "ledger.editLayerDialog": "Edit Ledger Dialog"
+    "ledger.editLayerDialog": "Edit Ledger Dialog",
+    "ledger.save": "Save",
+    "fiscalYear.save": "Save",
+    "budget.save": "Save",
+    "fund.save": "Save"
 }

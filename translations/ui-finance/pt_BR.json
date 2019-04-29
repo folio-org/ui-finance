@@ -272,7 +272,9 @@
     "ledger.close": "Fechar",
     "ledger.fundConnection": "Conexão do fundo",
     "ledger.noItemsFound": "Nenhum item encontrado",
-    "ledger.createLedger": "Criar livro-caixa",
-    "ledger.updateLedger": "Criar livro-caixa",
-    "ledger.editLayerDialog": "Editar caixa de diálogo do livro-caixa"
+    "ledger.editLayerDialog": "Editar caixa de diálogo do livro-caixa",
+    "ledger.save": "Salvar",
+    "fiscalYear.save": "Salvar",
+    "budget.save": "Salvar",
+    "fund.save": "Salvar"
 }

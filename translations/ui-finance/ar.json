@@ -272,7 +272,9 @@
     "ledger.close": "غلق",
     "ledger.fundConnection": "ربط الميزانية ",
     "ledger.noItemsFound": "لم يتم العثور على مواد",
-    "ledger.createLedger": "إنشاء دفتر",
-    "ledger.updateLedger": "إنشاء دفتر",
-    "ledger.editLayerDialog": "المربع الحواري لتحرير الدفتر المالي"
+    "ledger.editLayerDialog": "المربع الحواري لتحرير الدفتر المالي",
+    "ledger.save": "حفظ",
+    "fiscalYear.save": "حفظ",
+    "budget.save": "حفظ",
+    "fund.save": "حفظ"
 }

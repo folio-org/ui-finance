@@ -85,8 +85,8 @@ class LedgerPane extends Component {
       </span>
     ) : 'Create ledger';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updateledger', <FormattedMessage id="ui-finance.ledger.updateLedger" />) :
-      this.getLastMenu('clickable-createnewledger', <FormattedMessage id="ui-finance.ledger.createLedger" />);
+      this.getLastMenu('clickable-updateledger', <FormattedMessage id="ui-finance.ledger.save" />) :
+      this.getLastMenu('clickable-createnewledger', <FormattedMessage id="ui-finance.ledger.save" />);
 
     return (
       <form id="form-ledger">

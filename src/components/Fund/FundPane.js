@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, Button, Pane, PaneMenu } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import { FormattedMessage } from 'react-intl';
 import FundForm from './FundForm';
 
 class FundPane extends Component {
@@ -76,8 +77,8 @@ class FundPane extends Component {
       </span>
     ) : 'Create fund';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updatefund', 'Update fund') :
-      this.getLastMenu('clickable-createnewfund', 'Create fund');
+      this.getLastMenu('clickable-updatefund', <FormattedMessage id="ui-finance.fund.save" />) :
+      this.getLastMenu('clickable-createnewfund', <FormattedMessage id="ui-finance.fund.save" />);
     return (
       <form id="form-fund">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Pane, PaneMenu, IconButton } from '@folio/stripes/components';
+import { FormattedMessage } from 'react-intl';
 import stripesForm from '@folio/stripes/form';
 // Components and Pages
 import BudgetForm from './BudgetForm';
@@ -99,8 +100,8 @@ class BudgetPane extends Component {
       </span>
     ) : 'Create budget';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updatebudget', 'Update budget') :
-      this.getLastMenu('clickable-createnewbudget', 'Create budget');
+      this.getLastMenu('clickable-updatebudget', <FormattedMessage id="ui-finance.budget.save" />) :
+      this.getLastMenu('clickable-createnewbudget', <FormattedMessage id="ui-finance.budget.save" />);
     return (
       <form id="form-budget">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>

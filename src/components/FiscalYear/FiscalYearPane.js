@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Pane, PaneMenu, IconButton } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import { FormattedMessage } from 'react-intl';
 // Components and Pages
 import FiscalYearForm from './FiscalYearForm';
 
@@ -77,8 +78,8 @@ class FiscalYearPane extends Component {
       </span>
     ) : 'Create fiscal year';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updatefiscalyear', 'Update fiscal year') :
-      this.getLastMenu('clickable-createnewfiscalyear', 'Create fiscal year');
+      this.getLastMenu('clickable-updatefiscalyear', <FormattedMessage id="ui-finance.fiscalYear.save" />) :
+      this.getLastMenu('clickable-createnewfiscalyear', <FormattedMessage id="ui-finance.fiscalYear.save" />);
     return (
       <form id="form-fiscalyear">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>

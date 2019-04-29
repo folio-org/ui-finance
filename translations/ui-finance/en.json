@@ -265,8 +265,7 @@
   "ledger.close": "Close",
   "ledger.fundConnection": "Fund Connection",
   "ledger.noItemsFound": "No Items Found",
-  "ledger.createLedger": "Create Ledger",
-  "ledger.updateLedger": "Create Ledger",
+  "ledger.save": "Save",
   "ledger.editLayerDialog": "Edit Ledger Dialog",
 
   "fiscalyear.btnEdit": "Edit Fiscal Year",
@@ -279,6 +278,10 @@
   "fiscalyear.ledgerConnection": "Ledger Connection",
   "fiscalyear.noItemsFound": "No Items Found",
   "fiscalyear.budgetConnection": "Budget Connection",
-  "fiscalyear.EditFiscalYearDialog": "Edit Fiscal Year Dialog"
+  "fiscalyear.EditFiscalYearDialog": "Edit Fiscal Year Dialog",
+  "fiscalYear.save": "Save",
 
+  "budget.save": "Save",
+
+  "fund.save": "Save"
 }

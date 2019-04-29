@@ -272,7 +272,9 @@
     "ledger.close": "Fechar",
     "ledger.fundConnection": "Conexão do fundo",
     "ledger.noItemsFound": "Não foram encontrados itens",
-    "ledger.createLedger": "Criar Livro de registo",
-    "ledger.updateLedger": "Criar Livro de registo",
-    "ledger.editLayerDialog": "Editar caixa de diálogo do livro de registo"
+    "ledger.editLayerDialog": "Editar caixa de diálogo do livro de registo",
+    "ledger.save": "Save",
+    "fiscalYear.save": "Save",
+    "budget.save": "Save",
+    "fund.save": "Save"
 }

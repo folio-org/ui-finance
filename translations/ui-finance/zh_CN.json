@@ -272,7 +272,9 @@
     "ledger.close": "关闭",
     "ledger.fundConnection": "资金连接",
     "ledger.noItemsFound": "未找到任何项目",
-    "ledger.createLedger": "创建分类帐",
-    "ledger.updateLedger": "创建分类帐",
-    "ledger.editLayerDialog": "编辑分类帐对话框"
+    "ledger.editLayerDialog": "编辑分类帐对话框",
+    "ledger.save": "Save",
+    "fiscalYear.save": "Save",
+    "budget.save": "Save",
+    "fund.save": "Save"
 }

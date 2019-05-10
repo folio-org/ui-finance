@@ -1,5 +1,10 @@
 # Change history for ui-finance
 
+## [1.4.1](https://github.com/folio-org/ui-finance/tree/v1.4.1) (2019-05-10)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.4.0...v1.4.1)
+
+* bump version in package.json
+
 ## [1.4.0](https://github.com/folio-org/ui-finance/tree/v1.4.0) (2019-05-10)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.3.0...v1.4.0)
 

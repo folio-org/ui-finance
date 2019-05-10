@@ -1,5 +1,10 @@
 # Change history for ui-finance
 
+## [1.4.0](https://github.com/folio-org/ui-finance/tree/v1.4.0) (2019-05-10)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.3.0...v1.4.0)
+
+* UIF-64 Change Create/Update Finance buttons to `Save`.
+
 ## [1.3.0](https://github.com/folio-org/ui-finance/tree/v1.3.0) (2019-01-25)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.2.0...v1.3.0)
 

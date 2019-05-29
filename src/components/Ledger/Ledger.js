@@ -5,6 +5,12 @@ import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import { filters2cql } from '@folio/stripes/components';
+
+import {
+  FISCAL_YEARS_API,
+  LEDGERS_API,
+  FUNDS_API,
+} from '../../common/const';
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
@@ -46,7 +52,7 @@ class Ledger extends Component {
       clear: true,
       records: 'ledgers',
       recordsRequired: '%{resultCount}',
-      path: 'ledger',
+      path: LEDGERS_API,
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -96,14 +102,14 @@ class Ledger extends Component {
     queryCustom: {
       initialValue: {
         ledgerIDQuery: 'query=(id="null")',
-        fundQuery: 'query=(ledger_id="null")',
+        fundQuery: 'query=(ledgerId="null")',
         fiscalyearIDQuery: 'query=(id="null")',
       }
     },
     ledgerID: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger',
+      path: LEDGERS_API,
       resourceShouldRefresh: true,
       recordsRequired: 1,
       params: {
@@ -117,8 +123,8 @@ class Ledger extends Component {
     },
     fiscalyear: {
       type: 'okapi',
-      records: 'fiscal_years',
-      path: 'fiscal_year',
+      records: 'fiscalYears',
+      path: FISCAL_YEARS_API,
       resourceShouldRefresh: true,
       params: {
         query: () => {
@@ -129,8 +135,8 @@ class Ledger extends Component {
     },
     fiscalyearID: {
       type: 'okapi',
-      records: 'fiscal_years',
-      path: 'fiscal_year',
+      records: 'fiscalYears',
+      path: FISCAL_YEARS_API,
       resourceShouldRefresh: true,
       params: {
         query: (...args) => {
@@ -145,7 +151,7 @@ class Ledger extends Component {
       type: 'okapi',
       records: 'funds',
       resourceShouldRefresh: true,
-      path: 'fund',
+      path: FUNDS_API,
       params: {
         query: (...args) => {
           const data = args[2];
@@ -168,7 +174,7 @@ class Ledger extends Component {
   static getDerivedStateFromProps(nextProps) {
     const fy = (nextProps.resources.fiscalyear || {}).records || [];
     if (fy && fy.length) {
-      const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');
+      const fyFilterConfig = filterConfig.find(group => group.name === 'fiscalYears');
       const fyLength = fyFilterConfig.values.length;
       fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
       if (fyLength === 0) {
@@ -268,8 +274,8 @@ class Ledger extends Component {
               initialResultCount={INITIAL_RESULT_COUNT}
               resultCountIncrement={RESULT_COUNT_INCREMENT}
               finishedResourceName="perms"
-              viewRecordPerms="ledger.item.get"
-              newRecordPerms="ledger.item.post,login.item.post"
+              viewRecordPerms="finance-storage.ledgers.item.get"
+              newRecordPerms="finance-storage.ledgers.item.post,login.item.post"
               parentResources={resources}
               parentMutator={mutator}
               detailProps={{ stripes, dropdownFiscalyears: getFiscalYearsRecords }}

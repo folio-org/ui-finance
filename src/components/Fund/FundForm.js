@@ -16,6 +16,16 @@ import css from './css/FundForm.css';
 import { Required } from '../../Utils/Validate';
 import ConnectionListing from '../ConnectionListing';
 
+const fundStatusDD = [
+  { label: '-- Select --', value: '' },
+  { label: 'Active', value: 'Active' },
+  { label: 'Inactive', value: 'Inactive' },
+  { label: 'Frozen', value: 'Frozen' },
+];
+const acquisitionsUnitDD = [
+  { value: '', label: 'No unit' },
+];
+
 class FundForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
@@ -39,19 +49,8 @@ class FundForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      fundStatusDD: [
-        { label: '-- Select --', value: '' },
-        { label: 'Active', value: 'Active' },
-        { label: 'Inactive', value: 'Inactive' },
-        { label: 'Frozen', value: 'Frozen' },
-      ],
-      currencyDD: [
-        { label: '-- Select --', value: '' },
-        { label: 'Canadian Dollar', value: 'CAD' },
-        { label: 'U.S. Dollar', value: 'USD' },
-      ]
-    };
+
+    this.state = {};
     this.getLedger = this.getLedger.bind(this);
   }
 
@@ -67,7 +66,7 @@ class FundForm extends Component {
     const { parentMutator } = this.props;
     parentMutator.queryCustom.update({
       ledgerQuery: 'query=(name=null)',
-      budgetQuery: 'query=(fund_id=null)',
+      budgetQuery: 'query=(fundId=null)',
       ledgerIDQuery: 'query=(id="*")'
     });
   }
@@ -117,29 +116,42 @@ class FundForm extends Component {
                 <Field label="Code*" name="code" id="code" validate={[Required]} component={TextField} fullWidth />
               </Col>
               <Col xs={6} className={css.dateInputFix}>
-                <Field label="Created Date*" name="created_date" id="created_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
+                <Field
+                  component={TextField}
+                  label="External account No*"
+                  name="externalAccountNo"
+                  id="externalAccountNo"
+                  validate={[Required]}
+                />
               </Col>
               <Col xs={6}>
-                <Field label="Fund Status*" name="fund_status" id="fund_status" component={Select} validate={[Required]} dataOptions={this.state.fundStatusDD} fullWidth />
+                <Field label="Fund Status*" name="fundStatus" id="fundStatus" component={Select} validate={[Required]} dataOptions={fundStatusDD} fullWidth />
               </Col>
               <Col xs={6}>
-                <Field label="Currency*" name="currency" id="currency" component={Select} dataOptions={this.state.currencyDD} validate={[Required]} fullWidth />
+                <Field
+                  label="Acquisitions unit"
+                  name="acquisitionsUnit"
+                  id="acquisitionsUnit"
+                  component={Select}
+                  dataOptions={acquisitionsUnitDD}
+                  fullWidth
+                />
               </Col>
               <Col xs={6}>
-                <Field label="Ledger*" name="ledger_id" id="ledger" component={Select} validate={[Required]} dataOptions={this.getLedger()} fullWidth />
+                <Field label="Ledger*" name="ledgerId" id="ledger" component={Select} validate={[Required]} dataOptions={this.getLedger()} fullWidth />
               </Col>
               <Col xs={12}>
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={6} style={{ display: 'none' }}>
-                <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
-                <Field label="Allocation From" name="allocation_from" id="allocation_from" component={Select} fullWidth dataOptions={this.state.allocation_from} disabled />
-                <Field label="Allocation To" name="allocation_to" id="allocation_to" component={Select} fullWidth dataOptions={this.state.allocation_to} disabled />
+                <Field label="Tags" name="tags" id="tags" component={Select} fullWidth dataOptions={this.state.allocationTo} disabled />
+                <Field label="Allocation From" name="allocationFrom" id="allocationFrom" component={Select} fullWidth dataOptions={this.state.allocationFrom} disabled />
+                <Field label="Allocation To" name="allocationTo" id="allocationTo" component={Select} fullWidth dataOptions={this.state.allocationTo} disabled />
               </Col>
             </Row>
             {
               isEditPage && (
-              <IfPermission perm="fund.item.delete">
+              <IfPermission perm="finance-storage.funds.item.delete">
                 { isBudgetData ? (
                   <Row>
                     <Col xs={12}>

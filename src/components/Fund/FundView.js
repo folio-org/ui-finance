@@ -42,7 +42,7 @@ class FundView extends Component {
     const { parentMutator, parentResources, match: { params: { id } } } = props;
     const queryData = () => {
       parentMutator.queryCustom.update({
-        budgetQuery: `query=(fund_id="${id}")`,
+        budgetQuery: `query=(fundId="${id}")`,
         fundQuery: `query=(id="${id}")`
       });
     };
@@ -59,7 +59,7 @@ class FundView extends Component {
       }
 
       if (data) {
-        const ledgerID = data.ledger_id;
+        const ledgerID = data.ledgerId;
         if (!_.isEqual(state.ledgerID, ledgerID)) {
           parentMutator.queryCustom.update({
             ledgerIDQuery: `query=(id="${ledgerID}")`
@@ -82,7 +82,7 @@ class FundView extends Component {
 
   componentWillUnmount() {
     const { parentMutator } = this.props;
-    parentMutator.queryCustom.update({ budgetQuery: 'query=(fund_id="null")' });
+    parentMutator.queryCustom.update({ budgetQuery: 'query=(fundId="null")' });
   }
 
   getData() {
@@ -114,7 +114,7 @@ class FundView extends Component {
   }
 
   update(data) {
-    let id = data.ledger_id;
+    let id = data.ledgerId;
     if (id === '' || id == null) {
       id = null;
     }
@@ -130,7 +130,7 @@ class FundView extends Component {
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (
       <PaneMenu>
-        <IfPermission perm="fund.item.put">
+        <IfPermission perm="finance-storage.funds.item.put">
           <IconButton
             icon="edit"
             id="clickable-editfund"
@@ -164,10 +164,10 @@ class FundView extends Component {
             <KeyValue label="Ledger" value={this.getLedger()} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Fund Status" value={_.get(initialValues, ['fund_status'], '')} />
+            <KeyValue label="Fund Status" value={_.get(initialValues, ['fundStatus'], '')} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Currency" value={_.get(initialValues, ['currency'], '')} />
+            <KeyValue label="External account No" value={_.get(initialValues, ['externalAccountNo'], '')} />
           </Col>
           <Col xs={12}>
             <KeyValue label="Description" value={_.get(initialValues, ['description'], '')} />

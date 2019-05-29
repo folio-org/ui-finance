@@ -4,6 +4,12 @@ import _ from 'lodash';
 // Folio
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import { filters2cql } from '@folio/stripes/components';
+
+import {
+  BUDGETS_API,
+  FISCAL_YEARS_API,
+  FUNDS_API,
+} from '../../common/const';
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
@@ -43,7 +49,7 @@ class Budget extends Component {
       type: 'okapi',
       records: 'budgets',
       recordsRequired: '%{resultCount}',
-      path: 'budget',
+      path: BUDGETS_API,
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -108,7 +114,7 @@ class Budget extends Component {
     budgetID: {
       type: 'okapi',
       records: 'budgets',
-      path: 'budget',
+      path: BUDGETS_API,
       recordsRequired: 1,
       params: {
         query: (...args) => {
@@ -123,19 +129,27 @@ class Budget extends Component {
     fund: {
       type: 'okapi',
       records: 'funds',
-      path: 'fund?query=(name=*)&limit=200',
+      path: FUNDS_API,
+      params: {
+        query: '(name=*)',
+      },
+      perRequest: 200,
       resourceShouldRefresh: true
     },
     fiscalyear: {
       type: 'okapi',
-      records: 'fiscal_years',
-      path: 'fiscal_year?query=(name=*)&limit=200',
+      records: 'fiscalYears',
+      path: FISCAL_YEARS_API,
+      params: {
+        query: '(name=*)',
+      },
+      perRequest: 200,
       resourceShouldRefresh: true
     },
     fundID: {
       type: 'okapi',
       records: 'funds',
-      path: 'fund',
+      path: FUNDS_API,
       recordsRequired: 1,
       params: {
         query: (...args) => {
@@ -149,8 +163,8 @@ class Budget extends Component {
     },
     fiscalyearID: {
       type: 'okapi',
-      records: 'fiscal_years',
-      path: 'fiscal_year',
+      records: 'fiscalYears',
+      path: FISCAL_YEARS_API,
       recordsRequired: 1,
       params: {
         query: (...args) => {
@@ -174,7 +188,7 @@ class Budget extends Component {
   static getDerivedStateFromProps(nextProps) {
     const fy = (nextProps.resources.fiscalyear || {}).records || [];
     if (fy && fy.length) {
-      const fyFilterConfig = filterConfig.find(group => group.name === 'fiscal_years');
+      const fyFilterConfig = filterConfig.find(group => group.name === 'fiscalYears');
       const fyLength = fyFilterConfig.values.length;
       fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
       if (fyLength === 0) {
@@ -232,8 +246,8 @@ class Budget extends Component {
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
-          viewRecordPerms="budget.item.get"
-          newRecordPerms="budget.item.post,login.item.post"
+          viewRecordPerms="finance-storage.budgets.item.get"
+          newRecordPerms="finance-storage.budgets.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={stripes}

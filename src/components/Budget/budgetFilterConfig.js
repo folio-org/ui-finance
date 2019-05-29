@@ -7,14 +7,14 @@ const Filters = () => {
   return [
     {
       label: 'Budget Status',
-      name: 'budget_status',
-      cql: 'budget_status',
+      name: 'budgetStatus',
+      cql: 'budgetStatus',
       values: ['Active', 'Inactive', 'Frozen']
     },
     {
       label: 'Fiscal Year(s)',
-      name: 'fiscal_years',
-      cql: 'fiscal_year_id',
+      name: 'fiscalYears',
+      cql: 'fiscalYearId',
       values: []
     },
     {

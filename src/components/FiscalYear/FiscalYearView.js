@@ -43,8 +43,8 @@ class FiscalYearView extends Component {
     const { parentMutator, parentResources, match: { params: { id } } } = nextProps;
     const queryData = () => {
       parentMutator.fiscalyearQuery.replace(`query=(id="${id}")`);
-      parentMutator.ledgerQuery.replace(`query=(fiscal_years="${id}")`);
-      parentMutator.budgetQuery.replace(`query=(fiscal_year_id="${id}")`);
+      parentMutator.ledgerQuery.replace(`query=(fiscalYears="${id}")`);
+      parentMutator.budgetQuery.replace(`query=(fiscalYearId="${id}")`);
     };
 
     if (!_.isEqual(prevState.viewID, id)) {
@@ -57,12 +57,12 @@ class FiscalYearView extends Component {
 
     if (parentResources || (parentResources.ledger && parentResources.budget)) {
       if (!_.isEqual(prevState.ledgerData, parentResources.ledger.records)) {
-        parentMutator.ledgerQuery.replace(`query=(fiscal_years="${id}")`);
+        parentMutator.ledgerQuery.replace(`query=(fiscalYears="${id}")`);
         const ledger = (parentResources.ledger || {}).records || [];
         return { ledgerData: ledger };
       }
       if (!_.isEqual(prevState.budgetData, parentResources.budget.records)) {
-        parentMutator.budgetQuery.replace(`query=(fiscal_year_id="${id}")`);
+        parentMutator.budgetQuery.replace(`query=(fiscalYearId="${id}")`);
         const budget = (parentResources.budget || {}).records || [];
         return { budgetData: budget };
       }
@@ -81,8 +81,8 @@ class FiscalYearView extends Component {
 
   componentWillUnmount() {
     const { parentMutator } = this.props;
-    parentMutator.ledgerQuery.replace('query=(fiscal_years=null)');
-    parentMutator.budgetQuery.replace('query=(fiscal_year_id=null)');
+    parentMutator.ledgerQuery.replace('query=(fiscalYears=null)');
+    parentMutator.budgetQuery.replace('query=(fiscalYearId=null)');
   }
 
   getData() {
@@ -122,7 +122,7 @@ class FiscalYearView extends Component {
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (
       <PaneMenu>
-        <IfPermission perm="fiscal_year.item.put">
+        <IfPermission perm="finance-storage.fiscal-years.item.put">
           <IconButton
             icon="edit"
             id="clickable-editfiscalyear"
@@ -160,12 +160,12 @@ class FiscalYearView extends Component {
           </Col>
           <Col xs={4}>
             <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.periodBeginDate" />}>
-              <FormattedDate value={initialValues.start_date} />
+              <FormattedDate value={initialValues.startDate} />
             </KeyValue>
           </Col>
           <Col xs={4}>
             <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.periodEndDate" />}>
-              <FormattedDate value={initialValues.end_date} />
+              <FormattedDate value={initialValues.endDate} />
             </KeyValue>
           </Col>
           {

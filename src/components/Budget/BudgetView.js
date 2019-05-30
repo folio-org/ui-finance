@@ -50,8 +50,8 @@ class BudgetView extends Component {
       const budget = parentResources.records.records;
       const data = budget !== null ? budget.find(u => u.id === id) : false;
       if (data) {
-        const fundID = data.fund_id;
-        const fyID = data.fiscal_year_id;
+        const fundID = data.fundId;
+        const fyID = data.fiscalYearId;
         if (!_.isEqual(prevState.fundID, fundID) || !_.isEqual(prevState.fyID, fyID)) {
           parentMutator.queryCustom.update({
             fundQueryID: `query=(id="${fundID}")`,
@@ -102,13 +102,13 @@ class BudgetView extends Component {
   }
 
   update(data) {
-    const fiscalID = data.fiscal_year_id;
-    const fundID = data.fund_id;
+    const fiscalID = data.fiscalYearId;
+    const fundID = data.fundId;
     if (fiscalID === '' || fiscalID == null) {
-      data.fiscal_year_id = null;
+      data.fiscalYearId = null;
     }
     if (fundID === '' || fundID == null) {
-      data.fund_id = null;
+      data.fundId = null;
     }
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCloseEdit();
@@ -121,7 +121,7 @@ class BudgetView extends Component {
     const query = location.search ? queryString.parse(location.search) : {};
     const detailMenu = (
       <PaneMenu>
-        <IfPermission perm="budget.item.put">
+        <IfPermission perm="finance-storage.budgets.item.put">
           <IconButton
             icon="edit"
             id="clickable-editbudget"
@@ -133,8 +133,8 @@ class BudgetView extends Component {
         </IfPermission>
       </PaneMenu>
     );
-    const encPercentText = _.trim(_.toString(_.get(initialValues, ['limit_enc_percent'])));
-    const expPercentText = _.trim(_.toString(_.get(initialValues, ['limit_exp_percent'])));
+    const encPercentText = _.trim(_.toString(_.get(initialValues, ['limitEncPercent'])));
+    const expPercentText = _.trim(_.toString(_.get(initialValues, ['limitExpPercent'])));
     const limitEncPercent = encPercentText.length > 0 ? encPercentText + ' %' : '';
     const limitExpPercent = expPercentText.length > 0 ? expPercentText + ' %' : '';
 
@@ -154,7 +154,7 @@ class BudgetView extends Component {
             <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Budget Status" value={_.toString(_.get(initialValues, ['budget_status'], ''))} />
+            <KeyValue label="Budget Status" value={_.toString(_.get(initialValues, ['budgetStatus'], ''))} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Code" value={_.toString(_.get(initialValues, ['code'], ''))} />
@@ -169,7 +169,7 @@ class BudgetView extends Component {
             <KeyValue label="Allocation*" value={_.toString(_.get(initialValues, ['allocation'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Awaiting Payment" value={_.toString(_.get(initialValues, ['awaiting_payment'], ''))} />
+            <KeyValue label="Awaiting Payment" value={_.toString(_.get(initialValues, ['awaitingPayment'], ''))} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Available" value={_.toString(_.get(initialValues, ['available'], ''))} />
@@ -181,7 +181,7 @@ class BudgetView extends Component {
             <KeyValue label="Expenditures" value={_.toString(_.get(initialValues, ['expenditures'], ''))} />
           </Col>
           <Col xs={3}>
-            <KeyValue label="Over Encumbrance" value={_.toString(_.get(initialValues, ['over_encumbrance'], ''))} />
+            <KeyValue label="Over Encumbrance" value={_.toString(_.get(initialValues, ['overEncumbrance'], ''))} />
           </Col>
           <Col xs={3}>
             <KeyValue label="Fiscal Year" value={this.getFiscalYears()} />

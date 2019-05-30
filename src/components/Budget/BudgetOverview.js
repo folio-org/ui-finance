@@ -18,7 +18,7 @@ class BudgetOverview extends Component {
   render() {
     const { initialValues } = this.props;
     const allocation = Number(_.get(initialValues, ['allocation'], ''));
-    const awaitingPayment = Number(_.get(initialValues, ['awaiting_payment'], ''));
+    const awaitingPayment = Number(_.get(initialValues, ['awaitingPayment'], ''));
     const encumbered = Number(_.get(initialValues, ['encumbered'], ''));
     const unavailableSlot = Number(awaitingPayment + encumbered).toFixed(2);
     const availableSlot = Number((allocation - awaitingPayment) - encumbered).toFixed(2);

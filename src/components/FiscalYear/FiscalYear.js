@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import { filters2cql } from '@folio/stripes/components';
+
+import {
+  FISCAL_YEARS_API,
+  LEDGERS_API,
+  BUDGETS_API,
+} from '../../common/const';
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
@@ -39,9 +46,9 @@ class FiscalYear extends Component {
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
-      records: 'fiscal_years',
+      records: 'fiscalYears',
       recordsRequired: '%{resultCount}',
-      path: 'fiscal_year',
+      path: FISCAL_YEARS_API,
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -90,8 +97,8 @@ class FiscalYear extends Component {
     fiscalyearQuery: { initialValue: 'query=(id=null)' },
     fiscalyear: {
       type: 'okapi',
-      records: 'fiscal_years',
-      path: 'fiscal_year',
+      records: 'fiscalYears',
+      path: FISCAL_YEARS_API,
       resourceShouldRefresh: true,
       recordsRequired: 1,
       params: {
@@ -104,12 +111,12 @@ class FiscalYear extends Component {
         }
       }
     },
-    ledgerQuery: { initialValue: 'query=(fiscal_years=null)' },
+    ledgerQuery: { initialValue: 'query=(fiscalYears=null)' },
     ledger: {
       type: 'okapi',
       records: 'ledgers',
       resourceShouldRefresh: true,
-      path: 'ledger',
+      path: LEDGERS_API,
       params: {
         query: (...args) => {
           const data = args[2];
@@ -120,12 +127,12 @@ class FiscalYear extends Component {
         }
       }
     },
-    budgetQuery: { initialValue: 'query=(fund_id=null)' },
+    budgetQuery: { initialValue: 'query=(fundId=null)' },
     budget: {
       type: 'okapi',
       records: 'budgets',
       resourceShouldRefresh: true,
-      path: 'budget',
+      path: BUDGETS_API,
       params: {
         query: (...args) => {
           const data = args[2];
@@ -201,8 +208,8 @@ class FiscalYear extends Component {
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
-          viewRecordPerms="fiscal_year.item.get"
-          newRecordPerms="fiscal_year.item.post,login.item.post"
+          viewRecordPerms="finance-storage.fiscal-years.item.get"
+          newRecordPerms="finance-storage.fiscal-years.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ stripes }}

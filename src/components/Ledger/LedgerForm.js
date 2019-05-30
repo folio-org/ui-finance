@@ -108,17 +108,17 @@ class LedgerForm extends Component {
                 <Field label={<FormattedMessage id="ui-finance.ledger.code" />} name="code" id="code" component={TextField} fullWidth />
               </Col>
               <Col xs={12} md={4}>
-                <Field label={<FormattedMessage id="ui-finance.ledger.status" />} name="ledger_status" id="ledger_status" component={Select} fullWidth dataOptions={this.state.status_dd} />
+                <Field label={<FormattedMessage id="ui-finance.ledger.status" />} name="ledgerStatus" id="ledgerStatus" component={Select} fullWidth dataOptions={this.state.status_dd} />
               </Col>
               <Col xs={12}>
                 <Field label={<FormattedMessage id="ui-finance.ledger.description" />} name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={12}>
-                <FieldArray name="fiscal_years" id="fiscal_years" component={this.renderList} />
+                <FieldArray name="fiscalYears" id="fiscalYears" component={this.renderList} />
               </Col>
             </Row>
             { isEditPage && (
-              <IfPermission perm="ledger.item.delete">
+              <IfPermission perm="finance-storage.ledgers.item.delete">
                 { isFundData ? (
                   <Row>
                     <Col xs={12}>

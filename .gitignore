@@ -60,3 +60,7 @@ typings/
 # lock files
 package-lock.json
 yarn.lock
+
+# Stripescli
+.stripesclirc
+stripes.config.js.local

@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import { filters2cql } from '@folio/stripes/components';
+
+import {
+  BUDGETS_API,
+  LEDGERS_API,
+  FUNDS_API,
+} from '../../common/const';
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
@@ -43,7 +49,7 @@ class Fund extends Component {
       records: 'funds',
       resourceShouldRefresh: true,
       recordsRequired: '%{resultCount}',
-      path: 'fund',
+      path: FUNDS_API,
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -59,7 +65,7 @@ class Fund extends Component {
             const sortMap = {
               'Name': 'name',
               'Code': 'code',
-              'Fund Status': 'fund_status'
+              'Fund Status': 'fundStatus'
             };
 
             const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
@@ -102,15 +108,15 @@ class Fund extends Component {
     queryCustom: {
       initialValue: {
         ledgerQuery: 'query=(name="null")',
-        ledgerIDQuery: 'query=(ledger_id=null)',
-        budgetQuery: 'query=(fund_id="null")',
+        ledgerIDQuery: 'query=(ledgerId=null)',
+        budgetQuery: 'query=(fundId="null")',
         fundQuery: 'query=(id="null")',
       }
     },
     fund: {
       type: 'okapi',
       records: 'funds',
-      path: 'fund',
+      path: FUNDS_API,
       resourceShouldRefresh: true,
       recordsRequired: 1,
       params: {
@@ -125,7 +131,7 @@ class Fund extends Component {
     ledger: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger',
+      path: LEDGERS_API,
       resourceShouldRefresh: true,
       params: {
         query: (...args) => {
@@ -139,7 +145,7 @@ class Fund extends Component {
     ledgerID: {
       type: 'okapi',
       records: 'ledgers',
-      path: 'ledger',
+      path: LEDGERS_API,
       resourceShouldRefresh: true,
       recordsRequired: 1,
       params: {
@@ -154,7 +160,7 @@ class Fund extends Component {
     budget: {
       type: 'okapi',
       records: 'budgets',
-      path: 'budget',
+      path: BUDGETS_API,
       resourceShouldRefresh: true,
       params: {
         query: (...args) => {
@@ -189,13 +195,13 @@ class Fund extends Component {
     const resultsFormatter = {
       'name': data => _.get(data, ['name'], ''),
       'code': data => _.toString(_.get(data, ['code'], '')),
-      'fund_status': data => _.toString(_.get(data, ['fund_status'], '')),
+      'fundStatus': data => _.toString(_.get(data, ['fundStatus'], '')),
     };
 
     const columnMapping = {
       'name': 'Name',
       'code': 'Code',
-      'fund_status': 'Fund Status',
+      'fundStatus': 'Fund Status',
     };
 
     const packageInfoReWrite = () => {
@@ -220,7 +226,7 @@ class Fund extends Component {
           columnMapping={columnMapping}
           baseRoute={`${match.path}`}
           filterConfig={filterConfig}
-          visibleColumns={['name', 'code', 'fund_status']}
+          visibleColumns={['name', 'code', 'fundStatus']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={FundView}
           onSelectRow={onSelectRow}
@@ -230,8 +236,8 @@ class Fund extends Component {
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
-          viewRecordPerms="fund.item.get"
-          newRecordPerms="fund.item.post,login.item.post"
+          viewRecordPerms="finance-storage.funds.item.get"
+          newRecordPerms="finance-storage.funds.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ stripes }}

@@ -7,8 +7,8 @@ const Filters = () => {
   return [
     {
       label: 'Fiscal Year(s)',
-      name: 'fiscal_years',
-      cql: 'fiscal_years',
+      name: 'fiscalYears',
+      cql: 'fiscalYears',
       values: []
     },
     {

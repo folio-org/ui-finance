@@ -46,15 +46,15 @@ class FiscalYearForm extends Component {
                 <Field label="Description" name="description" id="description" component={TextArea} fullWidth />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Period Begin Date*" name="start_date" id="start_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
+                <Field label="Period Begin Date*" name="startDate" id="startDate" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
               <Col xs={12} md={6}>
-                <Field label="Period End Date*" name="end_date" id="end_date" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
+                <Field label="Period End Date*" name="endDate" id="endDate" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
             </Row>
             {
               isEditPage && (
-              <IfPermission perm="fiscal_ year.item.delete">
+              <IfPermission perm="finance-storage.fiscal-years.item.delete">
                 { isDataAvail ? (
                   <Row>
                     {

@@ -7,8 +7,8 @@ const Filters = () => {
   return [
     {
       label: 'Fund Status',
-      name: 'fund_status',
-      cql: 'fund_status',
+      name: 'fundStatus',
+      cql: 'fundStatus',
       values: ['Active', 'Inactive', 'Frozen']
     },
     {

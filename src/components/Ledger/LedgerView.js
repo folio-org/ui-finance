@@ -51,12 +51,12 @@ class LedgerView extends Component {
       const ledgerData = (parentResources.ledgerID || {}).records || [];
       const recordsData = (parentResources.records || {}).records || [];
       const recordsItem = recordsData.find(u => u.id === id) || ledgerData.find(u => u.id === id) || false;
-      const fyIDs = recordsItem.fiscal_years;
+      const fyIDs = recordsItem.fiscalYears;
       // Query for Fiscal year
       const buildQueryFiscalYear = () => {
         let newStr;
         const arrStore = [];
-        const fydata = recordsItem.fiscal_years;
+        const fydata = recordsItem.fiscalYears;
         const fydataLength = fydata.length - 1;
         fydata.forEach((e, i) => {
           if (i === 0) {
@@ -80,7 +80,7 @@ class LedgerView extends Component {
       // Mutate and save to state.
       if (!isID || !isFundData || !isFyIDs || !isFyData || !isLedgerData) {
         parentMutator.queryCustom.update({
-          fundQuery: `query=(ledger_id="${id}*")`,
+          fundQuery: `query=(ledgerId="${id}*")`,
           ledgerIDQuery: `query=(id=${id})`,
           fiscalyearIDQuery: `query=(${fyQuery})`
         });
@@ -150,7 +150,7 @@ class LedgerView extends Component {
     const isFundData = this.getFund() || false;
     const detailMenu = (
       <PaneMenu>
-        <IfPermission perm="ledger.item.put">
+        <IfPermission perm="finance-storage.ledgers.item.put">
           <IconButton
             icon="edit"
             id="clickable-editledger"
@@ -181,7 +181,7 @@ class LedgerView extends Component {
             <KeyValue label={<FormattedMessage id="ui-finance.ledger.code" />} value={_.get(initialValues, ['code'], '')} />
           </Col>
           <Col xs={4}>
-            <KeyValue label={<FormattedMessage id="ui-finance.ledger.status" />} value={_.get(initialValues, ['ledger_status'], '')} />
+            <KeyValue label={<FormattedMessage id="ui-finance.ledger.status" />} value={_.get(initialValues, ['ledgerStatus'], '')} />
           </Col>
           <Col xs={4}>
             <KeyValue label={<FormattedMessage id="ui-finance.ledger.fiscalyear" />} value={this.getFiscalYears()} />

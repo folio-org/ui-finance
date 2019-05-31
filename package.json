@@ -19,6 +19,7 @@
     "home": "/finance",
     "hasSettings": true,
     "okapiInterfaces": {
+      "configuration": "2.0",
       "finance-storage.budgets": "1.0",
       "finance-storage.fiscal-years": "1.0",
       "finance-storage.funds": "1.0",
@@ -47,11 +48,20 @@
         ]
       },
       {
+        "permissionName": "ui-finance.third-party-services",
+        "displayName": "Finance: Permissions required to call services apart from mod-finance",
+        "description": "",
+        "subPermissions": [
+          "configuration.entries.collection.get"
+        ]
+      },
+      {
         "permissionName": "ui-finance.view",
         "displayName": "Finance: View ledgers, funds, budgets and fiscal years",
         "description": "",
         "visible": true,
         "subPermissions": [
+          "ui-finance.third-party-services",
           "finance-storage.budgets.collection.get",
           "finance-storage.budgets.item.get",
           "finance-storage.fiscal-years.collection.get",
@@ -68,6 +78,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "ui-finance.third-party-services",
           "finance-storage.budgets.all",
           "finance-storage.fiscal-years.all",
           "finance-storage.funds.all",

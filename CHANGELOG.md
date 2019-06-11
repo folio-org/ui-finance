@@ -1,5 +1,10 @@
 # Change history for ui-finance
 
+## [1.5.0](https://github.com/folio-org/ui-finance/tree/v1.5.0) (2019-06-11)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.4.1...v1.5.0)
+* [UIF-67](https://issues.folio.org/browse/UIF-67) Setting visible Finance permissions has no effect
+* [UIF-66](https://issues.folio.org/browse/UIF-66) Finance schema fields and endpoints updates
+
 ## [1.4.1](https://github.com/folio-org/ui-finance/tree/v1.4.1) (2019-05-10)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.4.0...v1.4.1)
 

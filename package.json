@@ -12,17 +12,16 @@
     "node": ">=8.9.4"
   },
   "stripes": {
-    "type": "app",
+    "actsAs": ["app", "settings"],
     "displayName": "ui-finance.meta.title",
     "moduleName": "Finance",
     "route": "/finance",
     "home": "/finance",
-    "hasSettings": true,
     "okapiInterfaces": {
       "configuration": "2.0",
       "finance-storage.budgets": "1.0",
       "finance-storage.fiscal-years": "1.0",
-      "finance-storage.funds": "1.0",
+      "finance-storage.funds": "1.0 2.0",
       "finance-storage.ledgers": "1.0"
     },
     "queryResource": "query",

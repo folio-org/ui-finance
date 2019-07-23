@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -21,7 +21,7 @@
       "configuration": "2.0",
       "finance-storage.budgets": "1.0",
       "finance-storage.fiscal-years": "1.0",
-      "finance-storage.funds": "1.0 2.0",
+      "finance-storage.funds": "2.0",
       "finance-storage.ledgers": "1.0"
     },
     "queryResource": "query",

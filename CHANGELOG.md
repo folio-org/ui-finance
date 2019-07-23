@@ -1,5 +1,10 @@
 # Change history for ui-finance
 
+## [1.6.0](https://github.com/folio-org/ui-finance/tree/v1.6.0) (2019-07-23)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.5.0...v1.6.0)
+
+* Okapi interface `finance-storage.funds` was updated to 2.0;
+
 ## [1.5.0](https://github.com/folio-org/ui-finance/tree/v1.5.0) (2019-06-11)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.4.1...v1.5.0)
 * [UIF-67](https://issues.folio.org/browse/UIF-67) Setting visible Finance permissions has no effect

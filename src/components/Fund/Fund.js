@@ -212,7 +212,11 @@ class Fund extends Component {
     };
 
     return (
-      <div style={{ width: '100%' }} className={css.panepadding}>
+      <div
+        style={{ width: '100%' }}
+        className={css.panepadding}
+        data-test-funds-list
+      >
         <Tabs
           tabID="fund"
           parentResources={resources}

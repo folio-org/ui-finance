@@ -6,7 +6,6 @@ import { IfPermission } from '@folio/stripes/core';
 import {
   Button,
   Col,
-  Datepicker,
   Row,
   Select,
   TextArea,

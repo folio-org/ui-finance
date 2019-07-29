@@ -259,7 +259,7 @@
     "fiscalyear.periodBeginDate": "期间开始日期",
     "fiscalyear.periodEndDate": "期间开始日期",
     "fiscalyear.ledgerConnection": "分类帐连接",
-    "fiscalyear.noItemsFound": "未找到任何项目",
+    "fiscalyear.noItemsFound": "未找到单件",
     "fiscalyear.budgetConnection": "预算连接",
     "fiscalyear.EditFiscalYearDialog": "编辑会计年度对话框",
     "ledger.name": "名称",
@@ -271,10 +271,10 @@
     "ledger.new": "+新建",
     "ledger.close": "关闭",
     "ledger.fundConnection": "资金连接",
-    "ledger.noItemsFound": "未找到任何项目",
+    "ledger.noItemsFound": "未找到单件",
     "ledger.editLayerDialog": "编辑分类帐对话框",
-    "ledger.save": "Save",
-    "fiscalYear.save": "Save",
-    "budget.save": "Save",
-    "fund.save": "Save"
+    "ledger.save": "保存",
+    "fiscalYear.save": "保存",
+    "budget.save": "保存",
+    "fund.save": "保存"
 }

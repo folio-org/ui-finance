@@ -13,7 +13,6 @@ import {
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
-import Tabs from '../Tabs';
 import { Filters, SearchableIndexes } from './budgetFilterConfig';
 // Components and Pages
 import css from './css/Budget.css';
@@ -224,11 +223,6 @@ class Budget extends Component {
 
     return (
       <div style={{ width: '100%' }} className={css.panepadding}>
-        <Tabs
-          tabID="budget"
-          parentResources={resources}
-          parentMutator={mutator}
-        />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName="budget"

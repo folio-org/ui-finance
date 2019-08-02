@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { IfPermission } from '@folio/stripes/core';
+
 import {
   Layer,
   Pane,
-  PaneMenu,
+  MenuSection,
   Icon,
-  IconButton,
   KeyValue,
   Row,
-  Col
+  Col,
+  ConfirmationModal,
 } from '@folio/stripes/components';
 import { withTags } from '@folio/stripes/smart-components';
+
+import {
+  DetailsEditAction,
+  DetailsRemoveAction,
+} from '../../common/DetailsActions';
+
 import FundPane from './FundPane';
 import ConnectionListing from '../ConnectionListing';
 
@@ -30,7 +37,6 @@ class FundView extends Component {
     stripes: PropTypes.object,
     location: PropTypes.object,
     onEdit: PropTypes.func,
-    editLink: PropTypes.string,
     onClose: PropTypes.func,
     paneWidth: PropTypes.oneOfType([
       PropTypes.string,
@@ -73,7 +79,9 @@ class FundView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isRemoveConfirmationVisible: false,
+    };
     this.getData = this.getData.bind(this);
     this.getBudget = this.getBudget.bind(this);
     this.connectedFundPane = this.props.stripes.connect(FundPane);
@@ -113,6 +121,10 @@ class FundView extends Component {
     );
   }
 
+  toggleRemoveConfirmation = () => this.setState((state) => {
+    return { isRemoveConfirmationVisible: !state.isRemoveConfirmationVisible };
+  });
+
   update(data) {
     let id = data.ledgerId;
     if (id === '' || id == null) {
@@ -124,35 +136,66 @@ class FundView extends Component {
     });
   }
 
+  remove = () => {
+    const { parentMutator } = this.props;
+    const fund = this.getData();
+
+    this.toggleRemoveConfirmation();
+    parentMutator.records.DELETE(fund).then(() => {
+      parentMutator.query.update({
+        _path: '/finance/fund',
+        layer: null,
+      });
+    });
+  };
+
+  renderActionMenu = ({ onToggle }) => {
+    return (
+      <MenuSection id="fund-details-actions">
+        <DetailsEditAction
+          perm="finance-storage.funds.item.put"
+          onEdit={this.props.onEdit}
+          toggleActionMenu={onToggle}
+        />
+        <DetailsRemoveAction
+          perm="finance-storage.funds.item.delete"
+          toggleActionMenu={onToggle}
+          onRemove={this.toggleRemoveConfirmation}
+          disabled={Boolean(this.getBudget())}
+        />
+      </MenuSection>
+    );
+  };
+
   render() {
+    const { isRemoveConfirmationVisible } = this.state;
     const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const detailMenu = (
-      <PaneMenu>
-        <IfPermission perm="finance-storage.funds.item.put">
-          <IconButton
-            icon="edit"
-            id="clickable-editfund"
-            style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-            onClick={this.props.onEdit}
-            href={this.props.editLink}
-            title="Edit Fund"
-          />
-        </IfPermission>
-      </PaneMenu>
-    );
     const isBudgetData = this.getBudget() || false;
     if (!initialValues) {
       return (
-        <Pane id="pane-funddetails" defaultWidth={this.props.paneWidth} paneTitle="This is fiscal year view" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+        <Pane
+          id="pane-funddetails"
+          defaultWidth={this.props.paneWidth}
+          paneTitle="Fund"
+          dismissible
+          onClose={this.props.onClose}
+        >
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
     }
 
     return (
-      <Pane id="pane-funddetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+      <Pane
+        id="pane-funddetails"
+        defaultWidth={this.props.paneWidth}
+        paneTitle={_.get(initialValues, ['name'], '')}
+        actionMenu={this.renderActionMenu}
+        dismissible
+        onClose={this.props.onClose}
+      >
         <Row>
           <Col xs={3}>
             <KeyValue label="Name" value={_.get(initialValues, ['name'], '')} />
@@ -197,6 +240,18 @@ class FundView extends Component {
             budgetData={this.getBudget()}
           />
         </Layer>
+
+        {isRemoveConfirmationVisible && (
+          <ConfirmationModal
+            id="fund-remove-confirmation"
+            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+            heading={<FormattedMessage id="ui-finance.fund.remove.heading" />}
+            message={<FormattedMessage id="ui-finance.fund.remove.message" />}
+            onCancel={this.toggleRemoveConfirmation}
+            onConfirm={this.remove}
+            open
+          />
+        )}
       </Pane>
     );
   }

@@ -9,10 +9,11 @@ import {
   LEDGERS_API,
   FUNDS_API,
 } from '../../common/const';
+import FinanceNavigation from '../../common/FinanceNavigation';
+
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
-import Tabs from '../Tabs';
 import { Filters, SearchableIndexes } from './fundFilterConfig';
 // Components and Pages
 import css from './css/Fund.css';
@@ -190,6 +191,10 @@ class Fund extends Component {
     });
   }
 
+  renderNavigation = () => (
+    <FinanceNavigation />
+  );
+
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
@@ -217,11 +222,6 @@ class Fund extends Component {
         className={css.panepadding}
         data-test-funds-list
       >
-        <Tabs
-          tabID="fund"
-          parentResources={resources}
-          parentMutator={mutator}
-        />
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName="fund"
@@ -250,6 +250,7 @@ class Fund extends Component {
           selectedIndex={_.get(this.props.resources.query, 'qindex')}
           searchableIndexesPlaceholder={null}
           onChangeIndex={this.onChangeIndex}
+          renderNavigation={this.renderNavigation}
         />
       </div>
     );

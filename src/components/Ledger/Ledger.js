@@ -11,10 +11,11 @@ import {
   LEDGERS_API,
   FUNDS_API,
 } from '../../common/const';
+import FinanceNavigation from '../../common/FinanceNavigation';
+
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
-import Tabs from '../Tabs';
 import { Filters, SearchableIndexes } from './LedgerFilterConfig';
 // Components and Pages
 import css from './css/Ledger.css';
@@ -227,6 +228,10 @@ class Ledger extends Component {
     return newArr;
   }
 
+  renderNavigation = () => (
+    <FinanceNavigation />
+  );
+
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
@@ -251,11 +256,6 @@ class Ledger extends Component {
         {
           getRecords &&
           <Fragment>
-            <Tabs
-              tabID="ledger"
-              parentResources={resources}
-              parentMutator={mutator}
-            />
             <SearchAndSort
               packageInfo={packageInfoReWrite()}
               moduleName={packageInfo.name.replace(/.*\//, '')}
@@ -284,6 +284,7 @@ class Ledger extends Component {
               selectedIndex={_.get(this.props.resources.query, 'qindex')}
               searchableIndexesPlaceholder={null}
               onChangeIndex={this.onChangeIndex}
+              renderNavigation={this.renderNavigation}
             />
           </Fragment>
         }

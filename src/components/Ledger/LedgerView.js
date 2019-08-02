@@ -3,18 +3,23 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { FormattedMessage } from 'react-intl';
-import { IfPermission } from '@folio/stripes/core';
 import {
   Layer,
   Pane,
-  PaneMenu,
+  MenuSection,
   Icon,
-  IconButton,
   KeyValue,
   Row,
-  Col
+  Col,
+  ConfirmationModal,
 } from '@folio/stripes/components';
 import { withTags } from '@folio/stripes/smart-components';
+
+import {
+  DetailsEditAction,
+  DetailsRemoveAction,
+} from '../../common/DetailsActions';
+
 import LedgerPane from './LedgerPane';
 import ConnectionListing from '../ConnectionListing';
 
@@ -25,7 +30,6 @@ class LedgerView extends Component {
     parentMutator: PropTypes.shape({}),
     location: PropTypes.object,
     onEdit: PropTypes.func,
-    editLink: PropTypes.string,
     onClose: PropTypes.func,
     dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -92,7 +96,9 @@ class LedgerView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isRemoveConfirmationVisible: false,
+    };
     this.getFiscalYears = this.getFiscalYears.bind(this);
     this.connectedLedgerPane = this.props.stripes.connect(LedgerPane);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
@@ -131,6 +137,10 @@ class LedgerView extends Component {
     });
   }
 
+  toggleRemoveConfirmation = () => this.setState((state) => {
+    return { isRemoveConfirmationVisible: !state.isRemoveConfirmationVisible };
+  });
+
   update(ledgerdata) {
     const { parentMutator } = this.props;
     parentMutator.records.PUT(ledgerdata).then(() => {
@@ -138,41 +148,72 @@ class LedgerView extends Component {
     });
   }
 
+  remove = () => {
+    const { parentMutator } = this.props;
+    const ledger = this.getData();
+
+    this.toggleRemoveConfirmation();
+    parentMutator.records.DELETE(ledger).then(() => {
+      parentMutator.query.update({
+        _path: '/finance/ledger',
+        layer: null,
+      });
+    });
+  };
+
   onUpdateFilter(data) {
     const { parentMutator } = this.props;
     parentMutator.tableQuery.update({ filter: data });
   }
 
+  renderActionMenu = ({ onToggle }) => {
+    return (
+      <MenuSection id="finance-storage.ledgers.item.put">
+        <DetailsEditAction
+          perm="finance-storage.ledgers.item.put"
+          onEdit={this.props.onEdit}
+          toggleActionMenu={onToggle}
+        />
+        <DetailsRemoveAction
+          perm="finance-storage.ledgers.item.delete"
+          toggleActionMenu={onToggle}
+          onRemove={this.toggleRemoveConfirmation}
+          disabled={Boolean(this.getFund())}
+        />
+      </MenuSection>
+    );
+  };
+
   render() {
+    const { isRemoveConfirmationVisible } = this.state;
     const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const isFundData = this.getFund() || false;
-    const detailMenu = (
-      <PaneMenu>
-        <IfPermission perm="finance-storage.ledgers.item.put">
-          <IconButton
-            icon="edit"
-            id="clickable-editledger"
-            style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-            onClick={this.props.onEdit}
-            href={this.props.editLink}
-            title="Edit Ledger"
-          />
-        </IfPermission>
-      </PaneMenu>
-    );
 
     if (!initialValues) {
       return (
-        <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+        <Pane
+          id="pane-ledgerdetails"
+          defaultWidth={this.props.paneWidth}
+          paneTitle="Details"
+          dismissible
+          onClose={this.props.onClose}
+        >
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
     }
 
     return (
-      <Pane id="pane-ledgerdetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+      <Pane
+        id="pane-ledgerdetails"
+        defaultWidth={this.props.paneWidth}
+        actionMenu={this.renderActionMenu}
+        paneTitle={_.get(initialValues, ['name'], '')}
+        dismissible
+        onClose={this.props.onClose}
+      >
         <Row>
           <Col xs={4}>
             <KeyValue label={<FormattedMessage id="ui-finance.ledger.name" />} value={_.get(initialValues, ['name'], '')} />
@@ -212,6 +253,18 @@ class LedgerView extends Component {
             fundData={this.getFund()}
           />
         </Layer>
+
+        {isRemoveConfirmationVisible && (
+          <ConfirmationModal
+            id="ledger-remove-confirmation"
+            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+            heading={<FormattedMessage id="ui-finance.ledger.remove.heading" />}
+            message={<FormattedMessage id="ui-finance.ledger.remove.message" />}
+            onCancel={this.toggleRemoveConfirmation}
+            onConfirm={this.remove}
+            open
+          />
+        )}
       </Pane>
     );
   }

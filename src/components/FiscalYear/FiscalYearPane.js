@@ -20,11 +20,6 @@ class FiscalYearPane extends Component {
     parentMutator: PropTypes.object
   }
 
-  constructor(props) {
-    super(props);
-    this.deleteFiscalYear = this.deleteFiscalYear.bind(this);
-  }
-
   getAddFirstMenu() {
     const { onCancel, initialValues } = this.props;
     const ttl = initialValues.id ? 'Edit' : 'New';
@@ -59,16 +54,6 @@ class FiscalYearPane extends Component {
     );
   }
 
-  deleteFiscalYear(ID) {
-    const { parentMutator } = this.props;
-    parentMutator.records.DELETE({ id: ID }).then(() => {
-      parentMutator.query.update({
-        _path: '/finance/fiscalyear',
-        layer: null
-      });
-    });
-  }
-
   render() {
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
@@ -83,7 +68,7 @@ class FiscalYearPane extends Component {
     return (
       <form id="form-fiscalyear">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <FiscalYearForm {...this.props} deleteFiscalYear={this.deleteFiscalYear} />
+          <FiscalYearForm {...this.props} />
         </Pane>
       </form>
     );

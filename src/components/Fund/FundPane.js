@@ -19,11 +19,6 @@ class FundPane extends Component {
     parentMutator: PropTypes.object
   }
 
-  constructor(props) {
-    super(props);
-    this.deleteFund = this.deleteFund.bind(this);
-  }
-
   getAddFirstMenu() {
     const { onCancel, initialValues } = this.props;
     const ttl = initialValues.id ? 'Edit' : 'New';
@@ -58,16 +53,6 @@ class FundPane extends Component {
     );
   }
 
-  deleteFund(ID) {
-    const { parentMutator } = this.props;
-    parentMutator.records.DELETE({ id: ID }).then(() => {
-      parentMutator.query.update({
-        _path: '/finance/fund',
-        layer: null
-      });
-    });
-  }
-
   render() {
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
@@ -82,7 +67,7 @@ class FundPane extends Component {
     return (
       <form id="form-fund">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <FundForm {...this.props} {...this.props} deleteFund={this.deleteFund} />
+          <FundForm {...this.props} {...this.props} />
         </Pane>
       </form>
     );

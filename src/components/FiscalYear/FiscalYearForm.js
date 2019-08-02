@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import { IfPermission } from '@folio/stripes/core';
 import {
-  Button,
   Col,
   Datepicker,
   Row,
@@ -19,17 +17,15 @@ import ConnectionListing from '../ConnectionListing';
 class FiscalYearForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    deleteFiscalYear: PropTypes.object,
     ledgerData: PropTypes.arrayOf(PropTypes.object),
     budgetData: PropTypes.arrayOf(PropTypes.object)
   }
 
   render() {
-    const { initialValues, ledgerData, budgetData, deleteFiscalYear } = this.props;
+    const { initialValues, ledgerData, budgetData } = this.props;
     const isEditPage = initialValues.id || false;
     const isLedgerData = ledgerData !== null ? ledgerData : false;
     const isBudgetData = budgetData !== null ? budgetData : false;
-    const isDataAvail = ledgerData || budgetData;
 
     return (
       <div className={css.FiscalYearForm}>
@@ -52,46 +48,38 @@ class FiscalYearForm extends Component {
                 <Field label="Period End Date*" name="endDate" id="endDate" validate={[Required]} dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} />
               </Col>
             </Row>
+
             {
-              isEditPage && (
-              <IfPermission perm="finance-storage.fiscal-years.item.delete">
-                { isDataAvail ? (
-                  <Row>
-                    {
-                      isLedgerData &&
-                      <Col xs={12}>
-                        <hr />
-                        <ConnectionListing
-                          title="Ledger Connection"
-                          isEmptyMessage="No items found"
-                          items={ledgerData}
-                          path="/finance/ledger/view/"
-                          isView
-                        />
-                      </Col>
-                    }
-                    {
-                      isBudgetData &&
-                      <Col xs={12}>
-                        <hr />
-                        <ConnectionListing
-                          title="Budget Connection"
-                          isEmptyMessage="No items found"
-                          items={budgetData}
-                          path="/finance/budget/view/"
-                          isView
-                        />
-                      </Col>
-                    }
-                  </Row>
-                ) : (
-                  <Row end="xs">
-                    <Col xs={12}>
-                      <Button type="button" onClick={() => { deleteFiscalYear(initialValues.id); }}>Remove</Button>
-                    </Col>
-                  </Row>
-                )}
-              </IfPermission>
+              isEditPage && isLedgerData && (
+                <Row>
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title="Ledger Connection"
+                      isEmptyMessage="No items found"
+                      items={ledgerData}
+                      path="/finance/ledger/view/"
+                      isView
+                    />
+                  </Col>
+                </Row>
+              )
+            }
+
+            {
+              isEditPage && isBudgetData && (
+                <Row>
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title="Budget Connection"
+                      isEmptyMessage="No items found"
+                      items={budgetData}
+                      path="/finance/budget/view/"
+                      isView
+                    />
+                  </Col>
+                </Row>
               )
             }
           </Col>

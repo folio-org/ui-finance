@@ -22,12 +22,14 @@ const FinanceNavigation = ({ history, match: { path } }) => {
       <Button
         onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
+        data-test-finance-navigation-fiscalyear
       >
         <FormattedMessage id="ui-finance.fiscalyear" />
       </Button>
       <Button
         onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.LEDGER)}
+        data-test-finance-navigation-ledger
       >
         <FormattedMessage id="ui-finance.ledger" />
       </Button>
@@ -42,6 +44,7 @@ const FinanceNavigation = ({ history, match: { path } }) => {
       <Button
         onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FUND)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FUND)}
+        data-test-finance-navigation-fund
       >
         <FormattedMessage id="ui-finance.fund" />
       </Button>

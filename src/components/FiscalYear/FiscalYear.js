@@ -189,7 +189,11 @@ class FiscalYear extends Component {
     };
 
     return (
-      <div style={{ width: '100%' }} className={css.panepadding}>
+      <div
+        data-test-fiscalyear-list
+        style={{ width: '100%' }}
+        className={css.panepadding}
+      >
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName="fiscal_year"

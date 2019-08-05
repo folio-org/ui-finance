@@ -252,7 +252,11 @@ class Ledger extends Component {
     };
 
     return (
-      <div style={{ width: '100%' }} className={css.panepadding}>
+      <div
+        data-test-ledgers-list
+        style={{ width: '100%' }}
+        className={css.panepadding}
+      >
         {
           getRecords &&
           <Fragment>

@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { IfPermission } from '@folio/stripes/core';
 import {
-  Button,
   Col,
   Row,
   Select,
@@ -28,7 +26,6 @@ const acquisitionsUnitDD = [
 class FundForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    deleteFund: PropTypes.func,
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object,
     budgetData: PropTypes.arrayOf(PropTypes.object)
@@ -148,31 +145,23 @@ class FundForm extends Component {
                 <Field label="Allocation To" name="allocationTo" id="allocationTo" component={Select} fullWidth dataOptions={this.state.allocationTo} disabled />
               </Col>
             </Row>
+
             {
-              isEditPage && (
-              <IfPermission perm="finance-storage.funds.item.delete">
-                { isBudgetData ? (
-                  <Row>
-                    <Col xs={12}>
-                      <hr />
-                      <ConnectionListing
-                        title="Budget Connection"
-                        isEmptyMessage="No items found"
-                        items={budgetData}
-                        path="/finance/fund/view/"
-                        isView
-                      />
-                    </Col>
-                  </Row>
-                ) : (
-                  <Row end="xs">
-                    <Col xs={12}>
-                      <Button type="button" onClick={() => { this.props.deleteFund(initialValues.id); }}>Remove</Button>
-                    </Col>
-                  </Row>
-                )}
-              </IfPermission>
-              )}
+              isEditPage && isBudgetData && (
+                <Row>
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title="Budget Connection"
+                      isEmptyMessage="No items found"
+                      items={budgetData}
+                      path="/finance/budget/view/"
+                      isView
+                    />
+                  </Col>
+                </Row>
+              )
+            }
           </Col>
         </Row>
       </div>

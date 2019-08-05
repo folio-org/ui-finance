@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { IfPermission } from '@folio/stripes/core';
+
 import {
   Button,
   Col,
@@ -11,6 +11,7 @@ import {
   TextArea,
   TextField
 } from '@folio/stripes/components';
+
 import { Required } from '../../Utils/Validate';
 // Components and Pages
 import ConnectionListing from '../ConnectionListing';
@@ -18,7 +19,6 @@ import ConnectionListing from '../ConnectionListing';
 class LedgerForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    deleteLedger: PropTypes.func,
     dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired
@@ -117,30 +117,23 @@ class LedgerForm extends Component {
                 <FieldArray name="fiscalYears" id="fiscalYears" component={this.renderList} />
               </Col>
             </Row>
-            { isEditPage && (
-              <IfPermission perm="finance-storage.ledgers.item.delete">
-                { isFundData ? (
-                  <Row>
-                    <Col xs={12}>
-                      <hr />
-                      <ConnectionListing
-                        title={<FormattedMessage id="ui-finance.ledger.fundConnection" />}
-                        isEmptyMessage={<FormattedMessage id="ui-finance.ledger.noItemsFound" />}
-                        items={fundData}
-                        path="/finance/fund/view/"
-                        isView
-                      />
-                    </Col>
-                  </Row>
-                ) : (
-                  <Row end="xs">
-                    <Col xs={12}>
-                      <Button type="button" onClick={() => { this.props.deleteLedger(initialValues.id); }}>Remove</Button>
-                    </Col>
-                  </Row>
-                )}
-              </IfPermission>
-            )}
+
+            {
+              isEditPage && isFundData && (
+                <Row>
+                  <Col xs={12}>
+                    <hr />
+                    <ConnectionListing
+                      title={<FormattedMessage id="ui-finance.ledger.fundConnection" />}
+                      isEmptyMessage={<FormattedMessage id="ui-finance.ledger.noItemsFound" />}
+                      items={fundData}
+                      path="/finance/fund/view/"
+                      isView
+                    />
+                  </Col>
+                </Row>
+              )
+            }
           </Col>
         </Row>
       </div>

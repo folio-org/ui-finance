@@ -3,18 +3,23 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { IfPermission } from '@folio/stripes/core';
 import {
   Layer,
   Pane,
-  PaneMenu,
+  MenuSection,
   Icon,
-  IconButton,
   KeyValue,
   Row,
-  Col
+  Col,
+  ConfirmationModal,
 } from '@folio/stripes/components';
 import { withTags } from '@folio/stripes/smart-components';
+
+import {
+  DetailsEditAction,
+  DetailsRemoveAction,
+} from '../../common/DetailsActions';
+
 import FiscalYearPane from './FiscalYearPane';
 import ConnectionListing from '../ConnectionListing';
 
@@ -31,7 +36,6 @@ class FiscalYearView extends Component {
     stripes: PropTypes.object,
     location: PropTypes.object,
     onEdit: PropTypes.func,
-    editLink: PropTypes.string,
     onClose: PropTypes.func,
     paneWidth: PropTypes.oneOfType([
       PropTypes.string,
@@ -72,7 +76,9 @@ class FiscalYearView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isRemoveConfirmationVisible: false,
+    };
     this.getData = this.getData.bind(this);
     this.getLedger = this.getLedger.bind(this);
     this.getBudget = this.getBudget.bind(this);
@@ -110,35 +116,64 @@ class FiscalYearView extends Component {
     return budget;
   }
 
+  toggleRemoveConfirmation = () => this.setState((state) => {
+    return { isRemoveConfirmationVisible: !state.isRemoveConfirmationVisible };
+  });
+
   update(data) {
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCloseEdit();
     });
   }
 
+  remove = () => {
+    const { parentMutator } = this.props;
+    const fiscalYear = this.getData();
+
+    this.toggleRemoveConfirmation();
+    parentMutator.records.DELETE(fiscalYear).then(() => {
+      parentMutator.query.update({
+        _path: '/finance/fiscalyear',
+        layer: null,
+      });
+    });
+  };
+
+  renderActionMenu = ({ onToggle }) => {
+    return (
+      <MenuSection id="fiscalyear-details-actions">
+        <DetailsEditAction
+          perm="finance-storage.fiscal-years.item.put"
+          onEdit={this.props.onEdit}
+          toggleActionMenu={onToggle}
+        />
+        <DetailsRemoveAction
+          perm="finance-storage.fiscal-years.item.delete"
+          toggleActionMenu={onToggle}
+          onRemove={this.toggleRemoveConfirmation}
+          disabled={Boolean(this.getLedger()) || Boolean(this.getBudget())}
+        />
+      </MenuSection>
+    );
+  };
+
   render() {
+    const { isRemoveConfirmationVisible } = this.state;
     const { location } = this.props;
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
-    const detailMenu = (
-      <PaneMenu>
-        <IfPermission perm="finance-storage.fiscal-years.item.put">
-          <IconButton
-            icon="edit"
-            id="clickable-editfiscalyear"
-            style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-            onClick={this.props.onEdit}
-            href={this.props.editLink}
-            title={<FormattedMessage id="ui-finance.fiscalyear.btnEdit" />}
-          />
-        </IfPermission>
-      </PaneMenu>
-    );
+
     const isLedgerData = this.getLedger() || false;
     const isBudgetData = this.getBudget() || false;
     if (!initialValues) {
       return (
-        <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle={<FormattedMessage id="ui-finance.fiscalyear.paneTitle" />} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+        <Pane
+          id="pane-fiscalyeardetails"
+          defaultWidth={this.props.paneWidth}
+          paneTitle={<FormattedMessage id="ui-finance.fiscalyear.paneTitle" />}
+          dismissible
+          onClose={this.props.onClose}
+        >
           <div style={{ paddingTop: '1rem' }}>
             <Icon icon="spinner-ellipsis" width="100px" />
           </div>
@@ -147,7 +182,14 @@ class FiscalYearView extends Component {
     }
 
     return (
-      <Pane id="pane-fiscalyeardetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={detailMenu} dismissible onClose={this.props.onClose}>
+      <Pane
+        id="pane-fiscalyeardetails"
+        defaultWidth={this.props.paneWidth}
+        actionMenu={this.renderActionMenu}
+        paneTitle={_.get(initialValues, ['name'], '')}
+        dismissible
+        onClose={this.props.onClose}
+      >
         <Row>
           <Col xs={4}>
             <KeyValue label={<FormattedMessage id="ui-finance.fiscalyear.name" />} value={_.get(initialValues, ['name'], '')} />
@@ -207,6 +249,18 @@ class FiscalYearView extends Component {
             budgetData={this.getBudget()}
           />
         </Layer>
+
+        {isRemoveConfirmationVisible && (
+          <ConfirmationModal
+            id="fiscal-year-remove-confirmation"
+            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+            heading={<FormattedMessage id="ui-finance.fiscalyear.remove.heading" />}
+            message={<FormattedMessage id="ui-finance.fiscalyear.remove.message" />}
+            onCancel={this.toggleRemoveConfirmation}
+            onConfirm={this.remove}
+            open
+          />
+        )}
       </Pane>
     );
   }

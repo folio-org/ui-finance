@@ -10,10 +10,11 @@ import {
   LEDGERS_API,
   BUDGETS_API,
 } from '../../common/const';
+import FinanceNavigation from '../../common/FinanceNavigation';
+
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
-import Tabs from '../Tabs';
 import { Filters, SearchableIndexes } from './fiscalYearFilterConfig';
 // Components and Pages
 import css from './css/FiscalYear.css';
@@ -162,6 +163,10 @@ class FiscalYear extends Component {
     });
   }
 
+  renderNavigation = () => (
+    <FinanceNavigation />
+  );
+
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
@@ -184,12 +189,11 @@ class FiscalYear extends Component {
     };
 
     return (
-      <div style={{ width: '100%' }} className={css.panepadding}>
-        <Tabs
-          tabID="fiscalyear"
-          parentResources={this.props.resources}
-          parentMutator={this.props.mutator}
-        />
+      <div
+        data-test-fiscalyear-list
+        style={{ width: '100%' }}
+        className={css.panepadding}
+      >
         <SearchAndSort
           packageInfo={packageInfoReWrite()}
           moduleName="fiscal_year"
@@ -218,6 +222,7 @@ class FiscalYear extends Component {
           selectedIndex={_.get(this.props.resources.query, 'qindex')}
           searchableIndexesPlaceholder={null}
           onChangeIndex={this.onChangeIndex}
+          renderNavigation={this.renderNavigation}
         />
       </div>
     );

@@ -23,11 +23,6 @@ class LedgerPane extends Component {
     }))
   }
 
-  constructor(props) {
-    super(props);
-    this.deleteLedger = this.deleteLedger.bind(this);
-  }
-
   getAddFirstMenu() {
     const { onCancel, initialValues } = this.props;
     const ttl = initialValues.id ? <FormattedMessage id="ui-finance.ledger.edit" /> : <FormattedMessage id="ui-finance.ledger.new" />;
@@ -62,16 +57,6 @@ class LedgerPane extends Component {
     );
   }
 
-  deleteLedger(ID) {
-    const { parentMutator } = this.props;
-    parentMutator.records.DELETE({ id: ID }).then(() => {
-      parentMutator.query.update({
-        _path: '/finance/ledger',
-        layer: null
-      });
-    });
-  }
-
   render() {
     const { initialValues } = this.props;
     const firstMenu = this.getAddFirstMenu();
@@ -91,7 +76,7 @@ class LedgerPane extends Component {
     return (
       <form id="form-ledger">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <LedgerForm {...this.props} deleteLedger={this.deleteLedger} />
+          <LedgerForm {...this.props} />
         </Pane>
       </form>
     );

@@ -276,5 +276,18 @@
     "ledger.save": "Salvar",
     "fiscalYear.save": "Salvar",
     "budget.save": "Salvar",
-    "fund.save": "Salvar"
+    "fund.save": "Salvar",
+    "ledger": "Contabilidade",
+    "ledger.remove.heading": "Excluir contabilidade",
+    "ledger.remove.message": "Tem certeza de que deseja excluir a contabilidade?",
+    "fiscalyear": "Ano fiscal",
+    "fiscalyear.remove.heading": "Excluir ano fiscal",
+    "fiscalyear.remove.message": "Tem certeza de que deseja excluir o ano fiscal?",
+    "fund": "Fundo",
+    "fund.remove.heading": "Excluir fundo",
+    "fund.remove.message": "Tem certeza de que deseja excluir o fundo?",
+    "group": "Grupo",
+    "actions.edit": "Editar",
+    "actions.remove": "Excluir",
+    "actions.remove.confirm": "Excluir"
 }

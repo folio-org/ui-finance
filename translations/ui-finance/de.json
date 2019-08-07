@@ -1,6 +1,6 @@
 {
     "search": "Suche",
-    "resultCount": "Gefunden {count, number} {count, plural, one {Aufzeichnung} other {Aufzeichnungen}}",
+    "resultCount": "{count, number} {count, plural, one {Datensatz} other {Datensätze}} gefunden",
     "data.contactTypes.email": "E-Mail",
     "data.contactTypes.mail": "Post (Primäre Adresse)",
     "data.contactTypes.textMessage": "SMS",
@@ -276,5 +276,18 @@
     "ledger.save": "Save",
     "fiscalYear.save": "Save",
     "budget.save": "Save",
-    "fund.save": "Save"
+    "fund.save": "Save",
+    "ledger": "Ledger",
+    "ledger.remove.heading": "Delete ledger",
+    "ledger.remove.message": "Are you sure you want to delete ledger?",
+    "fiscalyear": "Fiscal year",
+    "fiscalyear.remove.heading": "Delete fiscal year",
+    "fiscalyear.remove.message": "Are you sure you want to delete fiscal year?",
+    "fund": "Fund",
+    "fund.remove.heading": "Delete fund",
+    "fund.remove.message": "Are you sure you want to delete fund?",
+    "group": "Group",
+    "actions.edit": "Edit",
+    "actions.remove": "Delete",
+    "actions.remove.confirm": "Delete"
 }

@@ -1,6 +1,6 @@
 {
     "search": "بحث",
-    "resultCount": "تم العثور على {count, number} {count, plural, one { تسجيلة } other { تسجيلات }}",
+    "resultCount": "تم العثور على {count, number} {count, plural, one { تسجيلة } other { تسجيلة }}",
     "data.contactTypes.email": "البريد الإلكتروني",
     "data.contactTypes.mail": "البريد (العنوان الرئيسي)",
     "data.contactTypes.textMessage": "رسالة نصية",
@@ -276,5 +276,18 @@
     "ledger.save": "حفظ",
     "fiscalYear.save": "حفظ",
     "budget.save": "حفظ",
-    "fund.save": "حفظ"
+    "fund.save": "حفظ",
+    "ledger": "الدفتر",
+    "ledger.remove.heading": "حذف الدفتر",
+    "ledger.remove.message": "هل أنت متأكد من أنك تريد حذف الدفتر؟",
+    "fiscalyear": "السنة المالية",
+    "fiscalyear.remove.heading": "حذف السنة المالية",
+    "fiscalyear.remove.message": "هل أنت متأكد من أنك تريد حذف السنة المالية؟",
+    "fund": "التمويل",
+    "fund.remove.heading": "حذف التمويل",
+    "fund.remove.message": "هل أنت متأكد من أنك تريد حذف التمويل؟",
+    "group": "المجموعة",
+    "actions.edit": "تحرير",
+    "actions.remove": "حذف",
+    "actions.remove.confirm": "حذف"
 }

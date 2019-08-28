@@ -1,6 +1,6 @@
-import Fund from './Fund';
+import FundsList from './FundsList';
 import FundForm from './FundForm';
 import FundPane from './FundPane';
 import FundView from './FundView';
 
-export { Fund, FundForm, FundPane, FundView };
+export { FundsList, FundForm, FundPane, FundView };

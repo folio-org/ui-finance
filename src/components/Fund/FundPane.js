@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import { IconButton, Button, Pane, PaneMenu } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import { FormattedMessage } from 'react-intl';
-import FundForm from './FundForm';
+// import FundForm from './FundForm';
 
 class FundPane extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
-    onSave: PropTypes.func,
+    // onSave: PropTypes.func,
     onCancel: PropTypes.func,
-    onRemove: PropTypes.func,
+    // onRemove: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    // parentResources: PropTypes.object,
+    // parentMutator: PropTypes.object
   }
 
   getAddFirstMenu() {
@@ -67,7 +67,7 @@ class FundPane extends Component {
     return (
       <form id="form-fund">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>
-          <FundForm {...this.props} {...this.props} />
+          {/* <FundForm {...this.props} {...this.props} /> */}
         </Pane>
       </form>
     );

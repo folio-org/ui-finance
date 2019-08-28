@@ -287,7 +287,7 @@
     "fund.remove.heading": "Delete fund",
     "fund.remove.message": "Are you sure you want to delete fund?",
     "group": "Group",
-    "actions.edit": "Edit",
-    "actions.remove": "Delete",
-    "actions.remove.confirm": "Delete"
+    "actions.edit": "Modifica",
+    "actions.remove": "Elimina",
+    "actions.remove.confirm": "Elimina"
 }

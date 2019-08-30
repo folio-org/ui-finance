@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 // Components and Pages
 import Ledger from '../Ledger';
 import FiscalYear from '../FiscalYear/FiscalYear';
-import Fund from '../Fund/Fund';
+import { FundsList } from '../Fund';
 import Budget from '../Budget/Budget';
 
 class Main extends Component {
@@ -19,8 +19,7 @@ class Main extends Component {
     super(props);
     this.connectedLedger = props.stripes.connect(Ledger);
     this.connectedFiscalYear = props.stripes.connect(FiscalYear);
-    this.connectedFund = props.stripes.connect(Fund);
-    this.connectedBudget = props.stripes.connect(Budget);
+    this.connectedFundsList = props.stripes.connect(FundsList);
     this.connectedBudget = props.stripes.connect(Budget);
   }
 
@@ -41,12 +40,15 @@ class Main extends Component {
           />
           <Route
             path={`${match.path}/fund`}
-            render={props => <this.connectedFund
-              stripes={stripes}
-              mutator={mutator}
-              resources={resources}
-              {...props}
-            />
+            render={
+              props => (
+                <this.connectedFundsList
+                  stripes={stripes}
+                  mutator={mutator}
+                  resources={resources}
+                  {...props}
+                />
+              )
             }
           />
           <Route

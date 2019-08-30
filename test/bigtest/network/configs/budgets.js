@@ -1,9 +1,12 @@
 import { BUDGETS_API } from '../../../../src/common/const';
 
-// TODO: replace me with groups
 const configBudgets = server => {
-  server.get(BUDGETS_API, () => {
-    return [];
+  server.get(BUDGETS_API, (schema) => {
+    return schema.budgets.all();
+  });
+
+  server.get(`${BUDGETS_API}/:id`, (schema, request) => {
+    return schema.budgets.find(request.params.id).attrs;
   });
 };
 

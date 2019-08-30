@@ -25,6 +25,7 @@ import {
 } from '../../../common/DetailsActions';
 import {
   acqUnitsResource,
+  budgetsResource,
   fundResource,
   fundsResource,
   fundTypesResource,
@@ -35,8 +36,10 @@ import {
   expandAll,
   toggleSection,
 } from '../../../common/utils';
+import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundDetails from './FundDetails';
+import BudgetDetails from '../BudgetDetails/BudgetDetails';
 
 const FundDetailsContainer = ({
   match: { params },
@@ -53,6 +56,7 @@ const FundDetailsContainer = ({
     mutator.allocatedTo.reset();
     mutator.group.reset();
     mutator.acqUnits.reset();
+    mutator.budgets.reset();
 
     mutator.fund.GET().then(response => {
       const {
@@ -105,6 +109,7 @@ const FundDetailsContainer = ({
     });
 
     mutator.group.GET();
+    mutator.budgets.GET();
   }, [params.id]);
 
   const [sections, setSections] = useState({});
@@ -115,12 +120,18 @@ const FundDetailsContainer = ({
   const allocatedFrom = get(resources, ['allocatedFrom', 'records'], []).map(f => f.name).join(', ');
   const allocatedTo = get(resources, ['allocatedTo', 'records'], []).map(f => f.name).join(', ');
   const acqUnits = get(resources, ['acqUnits', 'records'], []).map(u => u.name).join(', ');
+  const budgets = get(resources, ['budgets', 'records'], []);
+  const activeBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.ACTIVE);
+  const plannedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.PLANNED);
+  const closedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.CLOSED);
+
   const isLoading = (
     !get(resources, ['fund', 'hasLoaded']) &&
     !get(resources, ['ledger', 'hasLoaded']) &&
     !get(resources, ['allocatedFrom', 'hasLoaded']) &&
     !get(resources, ['allocatedTo', 'hasLoaded']) &&
-    !get(resources, ['acqUnits', 'hasLoaded'])
+    !get(resources, ['acqUnits', 'hasLoaded']) &&
+    !get(resources, ['budgets', 'hasLoaded'])
   );
 
 
@@ -138,6 +149,15 @@ const FundDetailsContainer = ({
         />
       </MenuSection>
     ),
+    [],
+  );
+
+  const openBudget = useCallback(
+    (e, budget) => {
+      const _path = `/finance/budget/${budget.id}/view`;
+
+      mutator.query.update({ _path });
+    },
     [],
   );
 
@@ -201,17 +221,35 @@ const FundDetailsContainer = ({
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.currentBudget.title" />}
           id={SECTIONS_FUND.CURRENT_BUDGET}
-        />
+        >
+          <BudgetDetails
+            budgets={activeBudgets}
+            currency={ledger.currency}
+            openBudget={openBudget}
+          />
+        </Accordion>
 
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.plannedBudget.title" />}
           id={SECTIONS_FUND.PLANNED_BUDGET}
-        />
+        >
+          <BudgetDetails
+            budgets={plannedBudgets}
+            currency={ledger.currency}
+            openBudget={openBudget}
+          />
+        </Accordion>
 
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.previousBudgets.title" />}
           id={SECTIONS_FUND.PREVIOUS_BUDGETS}
-        />
+        >
+          <BudgetDetails
+            budgets={closedBudgets}
+            currency={ledger.currency}
+            openBudget={openBudget}
+          />
+        </Accordion>
       </AccordionSet>
     </Pane>
   );
@@ -257,7 +295,18 @@ FundDetailsContainer.manifest = Object.freeze({
     ...acqUnitsResource,
     accumulate: true,
     fetch: false,
-  }
+  },
+  budgets: {
+    ...budgetsResource,
+    GET: {
+      params: {
+        query: 'fundId==:{id}',
+      },
+    },
+    accumulate: true,
+    fetch: false,
+  },
+  query: {},
 });
 
 FundDetailsContainer.propTypes = {

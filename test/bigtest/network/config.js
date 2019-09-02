@@ -3,6 +3,7 @@ import configBudgets from './configs/budgets';
 import configFiscalYears from './configs/fiscalYears';
 import configFunds from './configs/funds';
 import configLedgers from './configs/ledgers';
+import configGroups from './configs/groups';
 
 export default function config() {
   configAcquisitionsUnits(this);
@@ -10,4 +11,5 @@ export default function config() {
   configFiscalYears(this);
   configFunds(this);
   configLedgers(this);
+  configGroups(this);
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -17,7 +17,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import { LoadingPane } from '@folio/stripes-acq-components';
+import {
+  LoadingPane,
+  useAccordionToggle,
+} from '@folio/stripes-acq-components';
 
 import {
   DetailsEditAction,
@@ -32,16 +35,13 @@ import {
   groupsResource,
   ledgersResource,
 } from '../../../common/resources';
-import {
-  expandAll,
-  toggleSection,
-} from '../../../common/utils';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundDetails from './FundDetails';
 import BudgetDetails from '../BudgetDetails/BudgetDetails';
 
 const FundDetailsContainer = ({
+  history,
   match: { params },
   mutator,
   onClose,
@@ -112,7 +112,7 @@ const FundDetailsContainer = ({
     mutator.budgets.GET();
   }, [params.id]);
 
-  const [sections, setSections] = useState({});
+  const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   const fund = get(resources, ['fund', 'records', 0], {});
   const ledger = get(resources, ['ledger', 'records', 0], {});
@@ -154,9 +154,9 @@ const FundDetailsContainer = ({
 
   const openBudget = useCallback(
     (e, budget) => {
-      const _path = `/finance/budget/${budget.id}/view`;
+      const path = `/finance/budget/${budget.id}/view`;
 
-      mutator.query.update({ _path });
+      history.push(path);
     },
     [],
   );
@@ -194,13 +194,13 @@ const FundDetailsContainer = ({
         <Col xs={12}>
           <ExpandAllButton
             accordionStatus={sections}
-            onToggle={(allSections) => expandAll(allSections, setSections)}
+            onToggle={expandAll}
           />
         </Col>
       </Row>
       <AccordionSet
         accordionStatus={sections}
-        onToggle={({ id }) => toggleSection(id, setSections)}
+        onToggle={toggleSection}
       >
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.information.title" />}
@@ -310,6 +310,7 @@ FundDetailsContainer.manifest = Object.freeze({
 });
 
 FundDetailsContainer.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,

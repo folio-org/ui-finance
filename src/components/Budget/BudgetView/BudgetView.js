@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -10,17 +10,14 @@ import {
   ExpandAllButton,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
+import { useAccordionToggle } from '@folio/stripes-acq-components';
 
-import {
-  expandAll,
-  toggleSection,
-} from '../../../common/utils';
 import { SECTIONS_BUDGET } from '../constants';
 import BudgetSummary from './BudgetSummary';
 import BudgetInformation from './BudgetInformation';
 
 const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
-  const [sections, setSections] = useState({});
+  const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   return (
     <Fragment>
@@ -28,13 +25,13 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
         <Col xs={12}>
           <ExpandAllButton
             accordionStatus={sections}
-            onToggle={(allSections) => expandAll(allSections, setSections)}
+            onToggle={expandAll}
           />
         </Col>
       </Row>
       <AccordionSet
         accordionStatus={sections}
-        onToggle={({ id }) => toggleSection(id, setSections)}
+        onToggle={toggleSection}
       >
         <Accordion
           label={<FormattedMessage id="ui-finance.budget.summary.title" />}
@@ -50,9 +47,15 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
           id={SECTIONS_BUDGET.INFORMATION}
         >
           <BudgetInformation
-            budget={budget}
+            allowableEncumbrance={budget.allowableEncumbrance}
+            allowableExpenditure={budget.allowableExpenditure}
+            awaitingPayment={budget.awaitingPayment}
+            budgetStatus={budget.budgetStatus}
+            encumbered={budget.encumbered}
+            expenditures={budget.expenditures}
             fiscalEnd={fiscalEnd}
             fiscalStart={fiscalStart}
+            name={budget.name}
           />
         </Accordion>
       </AccordionSet>

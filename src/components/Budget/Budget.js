@@ -8,11 +8,12 @@ import BudgetView from './BudgetView/BudgetViewContainer';
 const Budget = ({ match: { path } }) => (
   <Switch>
     <Route
-      path={`${path}:budgetId/view`}
+      path={`${path}/:budgetId/view`}
       render={
-        props => (
+        ({ history, match }) => (
           <BudgetView
-            {...props}
+            history={history}
+            match={match}
           />
         )
       }

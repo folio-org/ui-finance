@@ -12,12 +12,22 @@ import {
   FolioFormattedDate,
 } from '@folio/stripes-acq-components';
 
-const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
+const BudgetInformation = ({
+  allowableEncumbrance,
+  allowableExpenditure,
+  awaitingPayment,
+  budgetStatus,
+  encumbered,
+  expenditures,
+  fiscalEnd,
+  fiscalStart,
+  name,
+}) => (
   <Row>
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.name" />}
-        value={budget.name}
+        value={name}
       />
     </Col>
 
@@ -36,7 +46,7 @@ const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.status" />}
-        value={budget.budgetStatus}
+        value={budgetStatus}
       />
     </Col>
 
@@ -59,14 +69,14 @@ const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.allowableExpenditure" />}
-        value={budget.allowableExpenditure}
+        value={allowableExpenditure}
       />
     </Col>
 
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.allowableEncumbrance" />}
-        value={budget.allowableEncumbrance}
+        value={allowableEncumbrance}
       />
     </Col>
 
@@ -75,7 +85,7 @@ const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
         label={<FormattedMessage id="ui-finance.budget.encumbered" />}
       >
         <AmountWithCurrencyField
-          amount={budget.encumbered}
+          amount={encumbered}
         />
       </KeyValue>
     </Col>
@@ -85,7 +95,7 @@ const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
         label={<FormattedMessage id="ui-finance.budget.awaitingPayment" />}
       >
         <AmountWithCurrencyField
-          amount={budget.awaitingPayment}
+          amount={awaitingPayment}
         />
       </KeyValue>
     </Col>
@@ -95,7 +105,7 @@ const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
         label={<FormattedMessage id="ui-finance.budget.expended" />}
       >
         <AmountWithCurrencyField
-          amount={budget.expenditures}
+          amount={expenditures}
         />
       </KeyValue>
     </Col>
@@ -121,15 +131,27 @@ const BudgetInformation = ({ budget, fiscalStart, fiscalEnd }) => (
 );
 
 BudgetInformation.propTypes = {
-  budget: PropTypes.object,
+  allowableEncumbrance: PropTypes.number,
+  allowableExpenditure: PropTypes.number,
+  awaitingPayment: PropTypes.number,
+  budgetStatus: PropTypes.string,
+  encumbered: PropTypes.number,
+  expenditures: PropTypes.number,
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
+  name: PropTypes.string,
 };
 
 BudgetInformation.defaultProps = {
-  budget: {},
+  allowableEncumbrance: 0,
+  allowableExpenditure: 0,
+  awaitingPayment: 0,
+  budgetStatus: '',
+  encumbered: 0,
+  expenditures: 0,
   fiscalEnd: '',
   fiscalStart: '',
+  name: '',
 };
 
 export default BudgetInformation;

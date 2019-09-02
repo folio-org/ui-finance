@@ -6,7 +6,9 @@ const configBudgets = server => {
   });
 
   server.get(`${BUDGETS_API}/:id`, (schema, request) => {
-    return schema.budgets.find(request.params.id).attrs;
+    return request.params.id
+      ? schema.budgets.find(request.params.id).attrs
+      : null;
   });
 };
 

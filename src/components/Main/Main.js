@@ -51,7 +51,7 @@ class Main extends Component {
             }
           />
           <Route
-            path={`${match.path}/budget/`}
+            path={`${match.path}/budget`}
             render={
               props => (
                 <Budget

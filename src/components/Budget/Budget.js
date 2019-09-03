@@ -4,6 +4,7 @@ import Route from 'react-router-dom/Route';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import BudgetView from './BudgetView/BudgetViewContainer';
+import BudgetForm from './BudgetForm/BudgetFormContainer';
 
 const Budget = ({ match: { path } }) => (
   <Switch>
@@ -12,6 +13,17 @@ const Budget = ({ match: { path } }) => (
       render={
         ({ history, match }) => (
           <BudgetView
+            history={history}
+            match={match}
+          />
+        )
+      }
+    />
+    <Route
+      path={`${path}/:budgetId/edit`}
+      render={
+        ({ history, match }) => (
+          <BudgetForm
             history={history}
             match={match}
           />

@@ -1,20 +1,15 @@
-import { get } from 'lodash';
-
 import { baseManifest } from '@folio/stripes-acq-components';
 
 import { FISCAL_YEARS_API } from '../const';
 
+// eslint-disable-next-line import/prefer-default-export
 export const fiscalYearsResource = {
   ...baseManifest,
   path: FISCAL_YEARS_API,
   records: 'fiscalYears',
 };
 
-export const fiscalYearByIdResource = {
+export const fiscalYearResource = {
   ...baseManifest,
-  path: (queryParams, pathComponents, resourceData, logger, props) => {
-    const fiscalYearId = get(props, ['resources', 'budget', 'records', 0, 'fiscalYearId']);
-
-    return fiscalYearId ? `${FISCAL_YEARS_API}/${fiscalYearId}` : null;
-  },
+  path: `${FISCAL_YEARS_API}/:{id}`
 };

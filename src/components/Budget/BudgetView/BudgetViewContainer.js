@@ -19,8 +19,9 @@ import { LoadingPane } from '@folio/stripes-acq-components';
 
 import {
   budgetResource,
-  fiscalYearByIdResource,
+  fiscalYearResource,
 } from '../../../common/resources';
+import { FISCAL_YEARS_API } from '../../../common/const';
 import BudgetView from './BudgetView';
 
 const renderActionMenu = () => (
@@ -94,7 +95,14 @@ const BudgetViewContainer = ({ history, resources }) => {
 
 BudgetViewContainer.manifest = Object.freeze({
   budget: budgetResource,
-  fiscalYear: fiscalYearByIdResource,
+  fiscalYear: {
+    ...fiscalYearResource,
+    path: (queryParams, pathComponents, resourceData, logger, props) => {
+      const fiscalYearId = get(props, ['resources', 'budget', 'records', 0, 'fiscalYearId']);
+
+      return fiscalYearId ? `${FISCAL_YEARS_API}/${fiscalYearId}` : null;
+    },
+  },
 });
 
 BudgetViewContainer.propTypes = {

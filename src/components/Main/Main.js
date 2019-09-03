@@ -54,12 +54,7 @@ class Main extends Component {
             path={`${match.path}/budget`}
             render={
               props => (
-                <Budget
-                  stripes={stripes}
-                  mutator={mutator}
-                  resources={resources}
-                  {...props}
-                />
+                <Budget match={props.match} />
               )
             }
           />

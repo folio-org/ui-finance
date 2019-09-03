@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -17,7 +17,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import { LoadingPane } from '@folio/stripes-acq-components';
+import {
+  LoadingPane,
+  useAccordionToggle,
+} from '@folio/stripes-acq-components';
 
 import {
   DetailsEditAction,
@@ -25,20 +28,20 @@ import {
 } from '../../../common/DetailsActions';
 import {
   acqUnitsResource,
+  budgetsResource,
   fundResource,
   fundsResource,
   fundTypesResource,
   groupsResource,
   ledgersResource,
 } from '../../../common/resources';
-import {
-  expandAll,
-  toggleSection,
-} from '../../../common/utils';
+import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundDetails from './FundDetails';
+import BudgetDetails from '../BudgetDetails/BudgetDetails';
 
 const FundDetailsContainer = ({
+  history,
   match: { params },
   mutator,
   onClose,
@@ -53,6 +56,7 @@ const FundDetailsContainer = ({
     mutator.allocatedTo.reset();
     mutator.group.reset();
     mutator.acqUnits.reset();
+    mutator.budgets.reset();
 
     mutator.fund.GET().then(response => {
       const {
@@ -105,9 +109,10 @@ const FundDetailsContainer = ({
     });
 
     mutator.group.GET();
+    mutator.budgets.GET();
   }, [params.id]);
 
-  const [sections, setSections] = useState({});
+  const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   const fund = get(resources, ['fund', 'records', 0], {});
   const ledger = get(resources, ['ledger', 'records', 0], {});
@@ -115,12 +120,18 @@ const FundDetailsContainer = ({
   const allocatedFrom = get(resources, ['allocatedFrom', 'records'], []).map(f => f.name).join(', ');
   const allocatedTo = get(resources, ['allocatedTo', 'records'], []).map(f => f.name).join(', ');
   const acqUnits = get(resources, ['acqUnits', 'records'], []).map(u => u.name).join(', ');
+  const budgets = get(resources, ['budgets', 'records'], []);
+  const activeBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.ACTIVE);
+  const plannedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.PLANNED);
+  const closedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.CLOSED);
+
   const isLoading = (
     !get(resources, ['fund', 'hasLoaded']) &&
     !get(resources, ['ledger', 'hasLoaded']) &&
     !get(resources, ['allocatedFrom', 'hasLoaded']) &&
     !get(resources, ['allocatedTo', 'hasLoaded']) &&
-    !get(resources, ['acqUnits', 'hasLoaded'])
+    !get(resources, ['acqUnits', 'hasLoaded']) &&
+    !get(resources, ['budgets', 'hasLoaded'])
   );
 
 
@@ -138,6 +149,15 @@ const FundDetailsContainer = ({
         />
       </MenuSection>
     ),
+    [],
+  );
+
+  const openBudget = useCallback(
+    (e, budget) => {
+      const path = `/finance/budget/${budget.id}/view`;
+
+      history.push(path);
+    },
     [],
   );
 
@@ -174,13 +194,13 @@ const FundDetailsContainer = ({
         <Col xs={12}>
           <ExpandAllButton
             accordionStatus={sections}
-            onToggle={(allSections) => expandAll(allSections, setSections)}
+            onToggle={expandAll}
           />
         </Col>
       </Row>
       <AccordionSet
         accordionStatus={sections}
-        onToggle={({ id }) => toggleSection(id, setSections)}
+        onToggle={toggleSection}
       >
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.information.title" />}
@@ -201,17 +221,35 @@ const FundDetailsContainer = ({
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.currentBudget.title" />}
           id={SECTIONS_FUND.CURRENT_BUDGET}
-        />
+        >
+          <BudgetDetails
+            budgets={activeBudgets}
+            currency={ledger.currency}
+            openBudget={openBudget}
+          />
+        </Accordion>
 
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.plannedBudget.title" />}
           id={SECTIONS_FUND.PLANNED_BUDGET}
-        />
+        >
+          <BudgetDetails
+            budgets={plannedBudgets}
+            currency={ledger.currency}
+            openBudget={openBudget}
+          />
+        </Accordion>
 
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.previousBudgets.title" />}
           id={SECTIONS_FUND.PREVIOUS_BUDGETS}
-        />
+        >
+          <BudgetDetails
+            budgets={closedBudgets}
+            currency={ledger.currency}
+            openBudget={openBudget}
+          />
+        </Accordion>
       </AccordionSet>
     </Pane>
   );
@@ -257,10 +295,22 @@ FundDetailsContainer.manifest = Object.freeze({
     ...acqUnitsResource,
     accumulate: true,
     fetch: false,
-  }
+  },
+  budgets: {
+    ...budgetsResource,
+    GET: {
+      params: {
+        query: 'fundId==:{id}',
+      },
+    },
+    accumulate: true,
+    fetch: false,
+  },
+  query: {},
 });
 
 FundDetailsContainer.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,

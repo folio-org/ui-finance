@@ -20,7 +20,6 @@ class Main extends Component {
     this.connectedLedger = props.stripes.connect(Ledger);
     this.connectedFiscalYear = props.stripes.connect(FiscalYear);
     this.connectedFundsList = props.stripes.connect(FundsList);
-    this.connectedBudget = props.stripes.connect(Budget);
   }
 
   render() {
@@ -53,12 +52,10 @@ class Main extends Component {
           />
           <Route
             path={`${match.path}/budget`}
-            render={props => <this.connectedBudget
-              stripes={stripes}
-              mutator={mutator}
-              resources={resources}
-              {...props}
-            />
+            render={
+              props => (
+                <Budget match={props.match} />
+              )
             }
           />
           <Route

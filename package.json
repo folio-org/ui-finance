@@ -114,6 +114,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "lodash": "^4.17.5",
+    "moment": "^2.22.2",
     "prop-types": "^15.5.10",
     "query-string": "^6.1.0",
     "react-router-dom": "^4.1.1",

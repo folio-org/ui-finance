@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
-// Components and Pages
+
+import {
+  GROUPS_ROUTE
+} from '../../common/const';
+
 import Ledger from '../Ledger';
 import FiscalYear from '../FiscalYear/FiscalYear';
 import { FundsList } from '../Fund';
 import Budget from '../Budget/Budget';
+import Groups from '../../Groups';
 
 class Main extends Component {
   static propTypes = {
@@ -57,6 +62,10 @@ class Main extends Component {
                 <Budget match={props.match} />
               )
             }
+          />
+          <Route
+            path={GROUPS_ROUTE}
+            component={Groups}
           />
           <Route
             path={`${match.path}/fiscalyear`}

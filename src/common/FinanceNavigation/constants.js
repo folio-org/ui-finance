@@ -2,6 +2,6 @@
 export const FINANCE_NAVIGATION_TABS = {
   FISCAL_YAER: 'fiscalyear',
   LEDGER: 'ledger',
-  GROUP: 'group',
+  GROUPS: 'groups',
   FUND: 'fund',
 };

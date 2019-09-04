@@ -1,10 +1,6 @@
 import {
   interactor,
   isPresent,
-  is,
-  property,
-  collection,
-  clickable,
 } from '@bigtest/interactor';
 import Button from '../common/Button';
 

@@ -26,6 +26,4 @@ export default interactor(class BudgetEdit {
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
   }
-
-
 });

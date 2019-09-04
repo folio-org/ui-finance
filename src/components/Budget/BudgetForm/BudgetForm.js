@@ -5,18 +5,24 @@ import { get } from 'lodash';
 
 import {
   Button,
-  Col,
   Icon,
   Paneset,
   MenuSection,
   Pane,
   PaneMenu,
+  AccordionSet,
+  Accordion,
+  Col,
   Row,
+  ExpandAllButton,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import { ViewMetaData } from '@folio/stripes/smart-components';
+import { useAccordionToggle } from '@folio/stripes-acq-components';
 
-import BudgetFormFields from './BudgetFormFields';
-import { BUDGET_FORM } from '../constants';
+import { BUDGET_FORM, SECTIONS_BUDGET } from '../constants';
+import BudgetSummary from '../BudgetView/BudgetSummary';
+import BudgetInformationFields from './BudgetInformationFields';
 
 const getLastMenu = (handleSubmit, pristine, submitting) => {
   return (
@@ -43,8 +49,10 @@ const BudgetForm = ({
   submitting,
   onClose,
 }) => {
+  const [expandAll, sections, toggleSection] = useAccordionToggle();
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const fiscalYear = get(parentResources, ['fiscalYear', 'records', 0], {});
+  const { periodStart, periodEnd } = fiscalYear;
 
   const renderActionMenu = () => (
     <MenuSection id="budget-actions">
@@ -80,11 +88,37 @@ const BudgetForm = ({
               md={8}
               mdOffset={2}
             >
-              <BudgetFormFields
-                budget={initialValues}
-                fiscalStart={fiscalYear.periodStart}
-                fiscalEnd={fiscalYear.periodEnd}
-              />
+              <Row end="xs">
+                <Col xs={12}>
+                  <ExpandAllButton
+                    accordionStatus={sections}
+                    onToggle={expandAll}
+                  />
+                </Col>
+              </Row>
+              <AccordionSet
+                accordionStatus={sections}
+                onToggle={toggleSection}
+              >
+                <Accordion
+                  label={<FormattedMessage id="ui-finance.budget.summary.title" />}
+                  id={SECTIONS_BUDGET.SUMMARY}
+                >
+                  {initialValues.metadata && <ViewMetaData metadata={initialValues.metadata} />}
+                  <BudgetSummary
+                    budget={initialValues}
+                  />
+                </Accordion>
+                <Accordion
+                  label={<FormattedMessage id="ui-finance.budget.information.title" />}
+                  id={SECTIONS_BUDGET.INFORMATION}
+                >
+                  <BudgetInformationFields
+                    fiscalEnd={periodEnd}
+                    fiscalStart={periodStart}
+                  />
+                </Accordion>
+              </AccordionSet>
             </Col>
           </Row>
         </Pane>

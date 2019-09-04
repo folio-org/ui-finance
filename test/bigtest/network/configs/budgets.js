@@ -10,6 +10,8 @@ const configBudgets = server => {
       ? schema.budgets.find(request.params.id).attrs
       : null;
   });
+
+  server.put(`${BUDGETS_API}/:id`, () => null);
 };
 
 export default configBudgets;

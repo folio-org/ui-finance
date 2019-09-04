@@ -24,19 +24,22 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
   const budget = get(resources, ['budget', 'records', 0]);
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
 
-  const saveBudget = useCallback(async (formValue) => {
-    const saveMethod = formValue.id ? 'PUT' : 'POST';
-    const { name } = formValue;
+  const saveBudget = useCallback(
+    async (formValue) => {
+      const saveMethod = formValue.id ? 'PUT' : 'POST';
+      const { name } = formValue;
 
-    try {
-      await mutator.budget[saveMethod](formValue);
-      showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
-      history.goBack();
-    } catch (e) {
-      showCallout('ui-finance.budget.hasBeenNotSaved', 'error', { name });
-    }
-  }, [history, mutator]);
-  
+      try {
+        await mutator.budget[saveMethod](formValue);
+        showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
+        history.goBack();
+      } catch (e) {
+        showCallout('ui-finance.budget.hasBeenNotSaved', 'error', { name });
+      }
+    },
+    [history, mutator]
+  );
+
   if (isLoading) {
     return (
       <Paneset>

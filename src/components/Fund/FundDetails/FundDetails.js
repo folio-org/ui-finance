@@ -81,7 +81,7 @@ const FundDetails = ({
       <Col xs={3}>
         <KeyValue
           label={<FormattedMessage id="ui-finance.fund.information.externalAccount" />}
-          value={fund.externalAccount}
+          value={fund.externalAccountNo}
         />
       </Col>
     </Row>

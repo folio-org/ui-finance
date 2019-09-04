@@ -58,7 +58,7 @@ const BudgetForm = ({
     <MenuSection id="budget-actions">
       <Button
         buttonStyle="dropdownItem"
-        data-test-edit-budget-button
+        data-test-remove-budget-button
       >
         <Icon
           size="small"
@@ -136,8 +136,6 @@ BudgetForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   onClose: PropTypes.bool.isRequired,
 };
-
-BudgetForm.defaultProps = {};
 
 export default stripesForm({
   form: BUDGET_FORM,

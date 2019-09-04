@@ -63,7 +63,7 @@ const BudgetForm = ({
   );
 
   return (
-    <form>
+    <form id="budget-edit-form">
       <Paneset>
         <Pane
           actionMenu={renderActionMenu}

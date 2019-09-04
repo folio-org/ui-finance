@@ -11,10 +11,7 @@ import {
   Datepicker,
 } from '@folio/stripes/components';
 import {
-  FieldDatepicker,
   FieldSelect,
-  TIMEZONE,
-  DATE_FORMAT,
 } from '@folio/stripes-acq-components';
 import { BUDGET_STATUSES_OPTIONS } from '../constants';
 
@@ -33,17 +30,8 @@ const BudgetInformationFields = ({
     </Col>
 
     <Col xs={3}>
-      <Field
-        component={TextField}
-        label={<FormattedMessage id="ui-finance.budget.code" />}
-        name="code"
-      />
-    </Col>
-
-    <Col xs={3}>
-      <FieldDatepicker
+      <Datepicker
         label={<FormattedMessage id="ui-finance.budget.allocationDate" />}
-        name="allocationDate"
         disabled
       />
     </Col>
@@ -61,9 +49,6 @@ const BudgetInformationFields = ({
     <Col xs={3}>
       <Datepicker
         label={<FormattedMessage id="ui-finance.budget.fiscalStart" />}
-        name="fiscalStart"
-        dateFormat={DATE_FORMAT}
-        timeZone={TIMEZONE}
         value={fiscalStart}
         disabled
       />
@@ -72,9 +57,6 @@ const BudgetInformationFields = ({
     <Col xs={3}>
       <Datepicker
         label={<FormattedMessage id="ui-finance.budget.fiscalEnd" />}
-        name="fiscalStart"
-        dateFormat={DATE_FORMAT}
-        timeZone={TIMEZONE}
         value={fiscalEnd}
         disabled
       />
@@ -126,14 +108,6 @@ const BudgetInformationFields = ({
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.transactions" />}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <Field
-        component={TextField}
-        label={<FormattedMessage id="ui-finance.budget.description" />}
-        name="description"
       />
     </Col>
   </Row>

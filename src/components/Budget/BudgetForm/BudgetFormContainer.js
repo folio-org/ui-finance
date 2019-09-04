@@ -34,7 +34,7 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
         showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
         history.goBack();
       } catch (e) {
-        showCallout('ui-finance.budget.hasBeenNotSaved', 'error', { name });
+        showCallout('ui-finance.budget.hasNotBeenSaved', 'error', { name });
       }
     },
     [history, mutator]

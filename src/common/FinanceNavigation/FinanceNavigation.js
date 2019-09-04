@@ -33,14 +33,13 @@ const FinanceNavigation = ({ history, match: { path } }) => {
       >
         <FormattedMessage id="ui-finance.ledger" />
       </Button>
-      {/*
-        <Button
-          onClick={() => goToTab(FINANCE_NAVIGATION_TABS.GROUP)}
-          buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.GROUP)}
-        >
-          <FormattedMessage id="ui-finance.group" />
-        </Button>
-      */}
+      <Button
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.GROUPS)}
+        buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.GROUPS)}
+        data-test-finance-navigation-group
+      >
+        <FormattedMessage id="ui-finance.group" />
+      </Button>
       <Button
         onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FUND)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FUND)}

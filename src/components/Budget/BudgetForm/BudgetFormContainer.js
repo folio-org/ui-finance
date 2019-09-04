@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
@@ -7,7 +7,10 @@ import {
   Paneset,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
-import { LoadingPane } from '@folio/stripes-acq-components';
+import {
+  LoadingPane,
+  useShowToast,
+} from '@folio/stripes-acq-components';
 
 import {
   budgetResource,
@@ -17,16 +20,23 @@ import { FISCAL_YEARS_API } from '../../../common/const';
 import BudgetForm from './BudgetForm';
 
 const BudgetFormContainer = ({ history, resources, mutator }) => {
+  const showCallout = useShowToast();
   const budget = get(resources, ['budget', 'records', 0]);
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
 
-  const saveBudget = async (formValue) => {
+  const saveBudget = useCallback(async (formValue) => {
     const saveMethod = formValue.id ? 'PUT' : 'POST';
+    const { name } = formValue;
 
-    await mutator.budget[saveMethod](formValue);
-    history.goBack();
-  };
-
+    try {
+      await mutator.budget[saveMethod](formValue);
+      showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
+      history.goBack();
+    } catch (e) {
+      showCallout('ui-finance.budget.hasBeenNotSaved', 'error', { name });
+    }
+  }, [history, mutator]);
+  
   if (isLoading) {
     return (
       <Paneset>

@@ -311,6 +311,8 @@
   "budget.summary.title": "Budget summary",
   "budget.transactions": "Transactions",
   "budget.unavailable": "Unavailable",
+  "budget.hasBeenSaved": "Budget <b>{name}</b> has been saved",
+  "budget.hasBeenNotSaved": "Budget <b>{name}</b> has been not saved",
 
   "fund.budget.allocated": "Allocated",
   "fund.budget.available": "Available",

@@ -34,22 +34,23 @@ const BudgetAddModal = ({ history, mutator, resources, onClose, fund, budgetStat
 
         history.push(path);
       } catch (e) {
+        console.log(e);
         showCallout('ui-finance.budget.hasNotBeenCreated', 'error');
       }
     },
     [history, fiscalYears, fund, mutator]
   );
 
-  const BudgetModalLabel = budgetStatus === BUDGET_STATUSES.ACTIVE
+  const budgetModalLabel = budgetStatus === BUDGET_STATUSES.ACTIVE
     ? <FormattedMessage id="ui-finance.fund.currentBudget.title" />
-    : <FormattedMessage id="ui-finance.fund.planedBudget.title" />;
+    : <FormattedMessage id="ui-finance.fund.plannedBudget.title" />;
 
   return (
     <BudgetAddModalForm
       initialValues={{
         budgetStatus,
       }}
-      label={BudgetModalLabel}
+      label={budgetModalLabel}
       fiscalYears={fiscalYears}
       onClose={onClose}
       onSubmit={createBudget}

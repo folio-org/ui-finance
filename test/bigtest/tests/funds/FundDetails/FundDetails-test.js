@@ -3,13 +3,11 @@ import { expect } from 'chai';
 
 import setupApplication from '../../../helpers/setup-application';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
-import BudgetDetailsInteractor from '../../../interactors/budgets/BudgetDetails';
 
 describe('Funds details', () => {
   setupApplication();
 
   const fundDetails = new FundDetailsInteractor();
-  const budgetDetails = new BudgetDetailsInteractor();
 
   beforeEach(async function () {
     const fund = this.server.create('fund');

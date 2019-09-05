@@ -19,6 +19,12 @@ const configBudgets = server => {
 
     return null;
   });
+
+  server.post(BUDGETS_API, (schema, request) => {
+    const attrs = JSON.parse(request.requestBody) || {};
+
+    return schema.budgets.create(attrs);
+  });
 };
 
 export default configBudgets;

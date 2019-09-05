@@ -39,7 +39,7 @@ const BudgetInformationFields = ({
     <Col xs={3}>
       <FieldSelect
         dataOptions={BUDGET_STATUSES_OPTIONS}
-        id="invoice-status"
+        id="budget-status"
         label={<FormattedMessage id="ui-finance.budget.status" />}
         name="budgetStatus"
         required

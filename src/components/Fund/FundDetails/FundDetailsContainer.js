@@ -164,7 +164,7 @@ const FundDetailsContainer = ({
   );
 
   const addBudgetButton = useCallback((status, count) => {
-    return count === 0 && (
+    return !count && (
       <Button
         data-test-add-budget-button
         onClick={() => toggleAddBudget(status)}

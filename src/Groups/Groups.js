@@ -7,10 +7,15 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import GroupsList from './GroupsList';
+import EditGroup from './EditGroup';
 
 const Groups = ({ match }) => {
   return (
     <Switch>
+      <Route
+        path={`${match.url}/edit/:id`}
+        component={EditGroup}
+      />
       <Route
         path={match.url}
         component={GroupsList}

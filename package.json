@@ -18,6 +18,7 @@
     "route": "/finance",
     "home": "/finance",
     "okapiInterfaces": {
+      "acquisitions-units": "1.0",
       "configuration": "2.0",
       "finance-storage.budgets": "1.0",
       "finance-storage.fiscal-years": "1.0",
@@ -56,7 +57,7 @@
       },
       {
         "permissionName": "ui-finance.view",
-        "displayName": "Finance: View ledgers, funds, budgets and fiscal years",
+        "displayName": "Finance: View groups, ledgers, funds, budgets and fiscal years",
         "description": "",
         "visible": true,
         "subPermissions": [
@@ -68,7 +69,9 @@
           "finance-storage.funds.collection.get",
           "finance-storage.funds.item.get",
           "finance-storage.ledgers.collection.get",
-          "finance-storage.ledgers.item.get"
+          "finance-storage.ledgers.item.get",
+          "finance-storage.groups.collection.get",
+          "finance-storage.groups.item.get"
         ]
       },
       {
@@ -81,7 +84,26 @@
           "finance-storage.budgets.all",
           "finance-storage.fiscal-years.all",
           "finance-storage.funds.all",
-          "finance-storage.ledgers.all"
+          "finance-storage.ledgers.all",
+          "finance-storage.groups.all"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.acq.unit.assignment.assign",
+        "displayName": "Finance: Assign acquisition units to new item",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.acquisitions-units-assignments.assign"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.acq.unit.assignment.manage",
+        "displayName": "Finance: Manage acquisition units",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.acquisitions-units-assignments.manage"
         ]
       }
     ]

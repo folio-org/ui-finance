@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { GROUPS_ROUTE } from '../../../../../src/common/const';
+import { GROUP_VIEW_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import GroupDetailsInteractor from '../../../interactors/groups/GroupDetailsInteractor';
@@ -14,7 +14,7 @@ describe('Group details', () => {
   beforeEach(async function () {
     const group = this.server.create('group');
 
-    this.visit(`${GROUPS_ROUTE}/view/${group.id}`);
+    this.visit(`${GROUP_VIEW_ROUTE}${group.id}`);
     await groupDetails.whenLoaded();
   });
 

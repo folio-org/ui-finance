@@ -10,6 +10,16 @@ const configGroups = server => {
 
     return schemaGroup.attrs;
   });
+
+  server.post(GROUPS_API, (schema, request) => {
+    const attrs = JSON.parse(request.requestBody) || {};
+
+    return schema.groups.create(attrs).attrs;
+  });
+
+  server.put(`${GROUPS_API}/:id`, () => null);
+
+  server.delete(`${GROUPS_API}/:id`, 'group');
 };
 
 export default configGroups;

@@ -255,6 +255,8 @@
   "data.countries.ZMB": "Zambia",
   "data.countries.ZWE": "Zimbabwe",
 
+  "save": "Save",
+
   "ledger": "Ledger",
   "ledger.name": "Name",
   "ledger.code": "Abbreviation",
@@ -369,6 +371,15 @@
   "groups.item.information.unavailable": "Unavailable",
   "groups.item.information.available": "Available",
   "groups.item.information.description": "Description",
+
+  "groups.actions.remove.heading": "Delete group",
+  "groups.actions.remove.message": "Are you sure you want to delete group?",
+  "groups.actions.save.success": "Group has been saved",
+  "groups.actions.save.error": "Group has not been saved",
+
+  "groups.form.title.create": "Create group",
+  "groups.form.title.edit": "Edit group",
+
 
   "actions.edit": "Edit",
   "actions.remove": "Delete",

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -7,14 +8,18 @@ import {
   makeQueryFunction,
 } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
+import { useShowToast } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../../package';
 import {
   GROUPS_API,
   GROUPS_ROUTE,
+  GROUP_VIEW_ROUTE,
 } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
+
 import GroupDetails from '../GroupDetails';
+import GroupForm from '../GroupForm';
 
 const groupsPackageInfo = {
   ...packageInfo,
@@ -42,7 +47,29 @@ const GroupsList = ({
   resources,
   mutator,
   stripes,
+  history,
 }) => {
+  const showToast = useShowToast();
+
+  const onCreate = useCallback(
+    async (group) => {
+      try {
+        const savedGroup = await mutator.records.POST(group);
+
+        showToast('ui-finance.groups.actions.save.success');
+        history.push(`${GROUP_VIEW_ROUTE}${savedGroup.id}?layer=view`);
+
+        return savedGroup;
+      } catch (response) {
+        showToast('ui-finance.groups.actions.save.error', 'error');
+
+        return { id: 'Unable to create group' };
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, mutator.records],
+  );
+
   return (
     <div data-test-groups-list>
       <SearchAndSort
@@ -51,11 +78,13 @@ const GroupsList = ({
         baseRoute={groupsPackageInfo.stripes.route}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
+        editRecordComponent={GroupForm}
+        onCreate={onCreate}
         viewRecordComponent={GroupDetails}
         visibleColumns={visibleColumns}
         columnMapping={columnMapping}
-        viewRecordPerms="invoice.invoices.item.get"
-        newRecordPerms="invoice.invoices.item.post"
+        viewRecordPerms="finance-storage.groups.item.get"
+        newRecordPerms="finance-storage.groups.item.post"
         parentResources={resources}
         parentMutator={mutator}
         stripes={stripes}
@@ -94,6 +123,7 @@ GroupsList.propTypes = {
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default stripesConnect(GroupsList);

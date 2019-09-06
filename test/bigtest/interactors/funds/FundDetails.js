@@ -4,7 +4,6 @@ import {
   isPresent,
   collection,
   clickable,
-  Interactor
 } from '@bigtest/interactor';
 import Button from '../common/Button';
 

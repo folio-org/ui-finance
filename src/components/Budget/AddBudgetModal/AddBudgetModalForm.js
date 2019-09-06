@@ -13,7 +13,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import { FieldSelect } from '@folio/stripes-acq-components';
-import { ADD_BUDGET_MODAL_FORM, BUDGET_STATUSES_OPTIONS } from '../../Budget/constants';
+import { ADD_BUDGET_MODAL_FORM, BUDGET_STATUSES_OPTIONS } from '../constants';
 
 const footer = (onClose, onSave) => (
   <ModalFooter>

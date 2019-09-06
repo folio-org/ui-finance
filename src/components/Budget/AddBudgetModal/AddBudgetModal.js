@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -6,23 +6,26 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { useShowToast } from '@folio/stripes-acq-components';
 import { stripesConnect } from '@folio/stripes/core';
 
-import BudgetAddModalForm from './BudgetAddModalForm';
+import BudgetAddModalForm from './AddBudgetModalForm';
 import {
   budgetResource,
   fiscalYearsResource
 } from '../../../common/resources';
 import getFiscalYearsForSelect from '../../../Utils/getFiscalYearsForSelect';
-import { BUDGET_STATUSES } from '../../Budget/constants';
+import { BUDGET_STATUSES } from '../constants';
 
-
-const BudgetAddModal = ({ history, mutator, resources, onClose, fund, budgetStatus }) => {
+const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStatus }) => {
   const showCallout = useShowToast();
-  const fiscalYears = getFiscalYearsForSelect(resources);
+  const fiscalYears = useMemo(() => getFiscalYearsForSelect(resources), [resources.fiscalYears]);
+
+  const getFiscalYear = useCallback((formValue) => {
+    return fiscalYears.find(year => year.value === formValue.fiscalYearId);
+  }, [fiscalYears]);
 
   const createBudget = useCallback(
     async (formValue) => {
       try {
-        const fiscalYear = fiscalYears.find(year => year.value === formValue.fiscalYearId);
+        const fiscalYear = getFiscalYear(formValue);
         const budget = await mutator.budget.POST({
           ...formValue,
           fundId: fund.id,
@@ -37,7 +40,7 @@ const BudgetAddModal = ({ history, mutator, resources, onClose, fund, budgetStat
         showCallout('ui-finance.budget.hasNotBeenCreated', 'error');
       }
     },
-    [history, fiscalYears, fund, mutator]
+    [history, getFiscalYear, fund, mutator]
   );
 
   const budgetModalLabel = budgetStatus === BUDGET_STATUSES.ACTIVE
@@ -57,7 +60,7 @@ const BudgetAddModal = ({ history, mutator, resources, onClose, fund, budgetStat
   );
 };
 
-BudgetAddModal.manifest = Object.freeze({
+AddBudgetModal.manifest = Object.freeze({
   fiscalYears: fiscalYearsResource,
   budget: {
     ...budgetResource,
@@ -66,7 +69,7 @@ BudgetAddModal.manifest = Object.freeze({
   }
 });
 
-BudgetAddModal.propTypes = {
+AddBudgetModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   fund: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
@@ -75,4 +78,4 @@ BudgetAddModal.propTypes = {
   budgetStatus: PropTypes.string,
 };
 
-export default stripesConnect(BudgetAddModal);
+export default stripesConnect(AddBudgetModal);

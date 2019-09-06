@@ -39,7 +39,7 @@ import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundDetails from './FundDetails';
 import BudgetDetails from '../BudgetDetails/BudgetDetails';
-import BudgetAddModal from '../BudgetAddModal/BudgetAddModal';
+import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
 
 const FundDetailsContainer = ({
   history,
@@ -114,7 +114,7 @@ const FundDetailsContainer = ({
   }, [params.id]);
 
   const [expandAll, sections, toggleSection] = useAccordionToggle();
-  const [isOpenAddBudgetStatus, toggleAddBudget] = useState(false);
+  const [budgetStatusModal, setBudgetStatusModal] = useState('');
 
   const fund = get(resources, ['fund', 'records', 0], {});
   const ledger = get(resources, ['ledger', 'records', 0], {});
@@ -167,7 +167,7 @@ const FundDetailsContainer = ({
     return !count && (
       <Button
         data-test-add-budget-button
-        onClick={() => toggleAddBudget(status)}
+        onClick={() => setBudgetStatusModal(status)}
       >
         <FormattedMessage id="ui-finance.budget.button.new" />
       </Button>
@@ -266,10 +266,10 @@ const FundDetailsContainer = ({
           />
         </Accordion>
       </AccordionSet>
-      {isOpenAddBudgetStatus && (
-        <BudgetAddModal
-          budgetStatus={isOpenAddBudgetStatus}
-          onClose={() => toggleAddBudget('')}
+      {budgetStatusModal && (
+        <AddBudgetModal
+          budgetStatus={budgetStatusModal}
+          onClose={() => setBudgetStatusModal('')}
           fund={fund}
           history={history}
         />

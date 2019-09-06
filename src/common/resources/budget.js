@@ -11,4 +11,7 @@ export const budgetsResource = {
 export const budgetResource = {
   ...baseManifest,
   path: `${BUDGETS_API}/:{budgetId}`,
+  POST: {
+    path: BUDGETS_API,
+  }
 };

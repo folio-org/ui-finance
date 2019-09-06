@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -39,6 +39,7 @@ import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundDetails from './FundDetails';
 import BudgetDetails from '../BudgetDetails/BudgetDetails';
+import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
 
 const FundDetailsContainer = ({
   history,
@@ -113,6 +114,7 @@ const FundDetailsContainer = ({
   }, [params.id]);
 
   const [expandAll, sections, toggleSection] = useAccordionToggle();
+  const [budgetStatusModal, setBudgetStatusModal] = useState('');
 
   const fund = get(resources, ['fund', 'records', 0], {});
   const ledger = get(resources, ['ledger', 'records', 0], {});
@@ -160,6 +162,17 @@ const FundDetailsContainer = ({
     },
     [],
   );
+
+  const addBudgetButton = useCallback((status, count) => {
+    return !count && (
+      <Button
+        data-test-add-budget-button
+        onClick={() => setBudgetStatusModal(status)}
+      >
+        <FormattedMessage id="ui-finance.budget.button.new" />
+      </Button>
+    );
+  }, []);
 
   const lastMenu = (
     <PaneMenu>
@@ -220,6 +233,7 @@ const FundDetailsContainer = ({
 
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.currentBudget.title" />}
+          displayWhenOpen={addBudgetButton(BUDGET_STATUSES.ACTIVE, activeBudgets.length)}
           id={SECTIONS_FUND.CURRENT_BUDGET}
         >
           <BudgetDetails
@@ -231,6 +245,7 @@ const FundDetailsContainer = ({
 
         <Accordion
           label={<FormattedMessage id="ui-finance.fund.plannedBudget.title" />}
+          displayWhenOpen={addBudgetButton(BUDGET_STATUSES.PLANNED, plannedBudgets.length)}
           id={SECTIONS_FUND.PLANNED_BUDGET}
         >
           <BudgetDetails
@@ -251,6 +266,14 @@ const FundDetailsContainer = ({
           />
         </Accordion>
       </AccordionSet>
+      {budgetStatusModal && (
+        <AddBudgetModal
+          budgetStatus={budgetStatusModal}
+          onClose={() => setBudgetStatusModal('')}
+          fund={fund}
+          history={history}
+        />
+      )}
     </Pane>
   );
 };

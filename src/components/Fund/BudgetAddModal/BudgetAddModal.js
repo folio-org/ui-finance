@@ -34,7 +34,6 @@ const BudgetAddModal = ({ history, mutator, resources, onClose, fund, budgetStat
 
         history.push(path);
       } catch (e) {
-        console.log(e);
         showCallout('ui-finance.budget.hasNotBeenCreated', 'error');
       }
     },

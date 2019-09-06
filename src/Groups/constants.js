@@ -8,3 +8,20 @@ export const GROUP_ACCORDTION = {
 export const GROUP_ACCORDTION_LABELS = {
   [GROUP_ACCORDTION.information]: <FormattedMessage id="ui-finance.groups.item.information" />,
 };
+
+export const GROUP_STATUS = {
+  active: 'Active',
+  frozen: 'Frozen',
+  inactive: 'Inactive',
+};
+
+export const GROUP_STATUS_LABEL = {
+  [GROUP_STATUS.active]: <FormattedMessage id="ui-finance.groups.status.active" />,
+  [GROUP_STATUS.frozen]: <FormattedMessage id="ui-finance.groups.status.frozen" />,
+  [GROUP_STATUS.inactive]: <FormattedMessage id="ui-finance.groups.status.inactive" />,
+};
+
+export const GROUP_STATUS_OPTIONS = Object.values(GROUP_STATUS).map(status => ({
+  label: GROUP_STATUS_LABEL[status],
+  value: status,
+}));

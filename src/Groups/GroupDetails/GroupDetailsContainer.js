@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 
+import { stripesConnect } from '@folio/stripes/core';
 import {
   DATE_FORMAT,
   LoadingPane,
 } from '@folio/stripes-acq-components';
 
+import {
+  GROUP_EDIT_ROUTE,
+  GROUPS_ROUTE,
+} from '../../common/const';
 import {
   groupByUrlIdResource,
   fiscalYearsResource,
@@ -21,15 +26,36 @@ const GroupDetailsContainer = ({
   mutator,
   resources,
   match,
+  history,
   onClose,
 }) => {
+  const groupId = match.params.id;
+  const group = get(resources, ['groupDetails', 'records', '0']);
+
   useEffect(
     () => {
+      mutator.groupDetails.reset();
+      mutator.currentFiscalYears.reset();
       mutator.groupDetails.GET();
       mutator.currentFiscalYears.GET();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [match.id]
+    [groupId]
+  );
+
+  const editGroup = useCallback(
+    () => {
+      history.push(`${GROUP_EDIT_ROUTE}${groupId}`);
+    },
+    [history, groupId],
+  );
+
+  const removeGroup = useCallback(
+    () => {
+      mutator.groupDetails.DELETE(group)
+        .then(() => history.push(GROUPS_ROUTE));
+    },
+    [history, group, mutator.groupDetails],
   );
 
   const isLoading = !(
@@ -41,7 +67,6 @@ const GroupDetailsContainer = ({
     return <LoadingPane onClose={onClose} />;
   }
 
-  const group = get(resources, ['groupDetails', 'records', '0']);
   const fiscalYears = get(resources, ['currentFiscalYears', 'records'], [])
     .map(({ code: fyCode }) => fyCode).join(', ');
 
@@ -50,6 +75,8 @@ const GroupDetailsContainer = ({
       group={group}
       fiscalYears={fiscalYears}
       onClose={onClose}
+      editGroup={editGroup}
+      removeGroup={removeGroup}
     />
   );
 };
@@ -78,7 +105,8 @@ GroupDetailsContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default withRouter(GroupDetailsContainer);
+export default withRouter(stripesConnect(GroupDetailsContainer));

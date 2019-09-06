@@ -5,6 +5,7 @@ import { GROUPS_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import GroupsListInteractor from '../../../interactors/groups/GroupsListInteractor';
+import GroupFormInteractor from '../../../interactors/groups/GroupFormInteractor';
 
 const GROUPS_COUNT = 15;
 
@@ -38,6 +39,19 @@ describe('Groups list', () => {
       expect(groupsList.navigation.fiscalYearNavBtn.isPrimary).to.be.false;
       expect(groupsList.navigation.fundsNavBtn.isPrimary).to.be.false;
       expect(groupsList.navigation.ledgersNavBtn.isPrimary).to.be.false;
+    });
+  });
+
+  describe('New action', () => {
+    const groupForm = new GroupFormInteractor();
+
+    beforeEach(async function () {
+      await groupsList.newGroupButton.click();
+      await groupForm.whenLoaded();
+    });
+
+    it('should navigate to group form after click', () => {
+      expect(groupForm.isVisible).to.be.true;
     });
   });
 });

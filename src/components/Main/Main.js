@@ -8,7 +8,7 @@ import {
 
 import Ledger from '../Ledger';
 import FiscalYear from '../FiscalYear/FiscalYear';
-import { FundsList } from '../Fund';
+import FundsList from '../Fund';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
 

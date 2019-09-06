@@ -17,8 +17,12 @@ import packageInfo from '../../../package';
 import { Filters, SearchableIndexes } from './fundFilterConfig';
 // Components and Pages
 import css from './css/Fund.css';
-import FundPane from './FundPane';
+import FundForm from './FundForm/FundForm';
 import Fund from './Fund';
+import {
+  ledgersResource,
+  fundTypesResource,
+} from '../../common/resources';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -65,6 +69,8 @@ class FundsList extends Component {
         staticFallback: { params: {} },
       },
     },
+    ledgers: ledgersResource,
+    fundTypes: fundTypesResource,
   });
 
   constructor(props) {
@@ -128,7 +134,7 @@ class FundsList extends Component {
           viewRecordComponent={Fund}
           onSelectRow={onSelectRow}
           onCreate={this.create}
-          editRecordComponent={FundPane}
+          editRecordComponent={FundForm}
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}

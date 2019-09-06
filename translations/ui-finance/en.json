@@ -320,6 +320,8 @@
   "fund.budget.name": "Name",
   "fund.budget.unavailable": "Unavailable",
   "fund.currentBudget.title": "Current budget",
+  "fund.hasBeenSaved": "Fund has been saved",
+  "fund.hasNotBeenSaved": "Fund has not been saved",
   "fund.information.acqUnits": "Acquisition units",
   "fund.information.code": "Code",
   "fund.information.currency": "Currency",
@@ -333,13 +335,16 @@
   "fund.information.transferFrom": "Transfer from",
   "fund.information.transferTo": "Transfer to",
   "fund.information.type": "Type",
+  "fund.paneTitle.create": "Create fund",
   "fund.plannedBudget.title": "Planned budget",
   "fund.previousBudgets.title": "Previous budgets",
-  "fund": "Fund",
-
-  "fund.save": "Save",
   "fund.remove.heading": "Delete fund",
   "fund.remove.message": "Are you sure you want to delete fund?",
+  "fund.save": "Save",
+  "fund.status.active": "Active",
+  "fund.status.frozen": "Frozen",
+  "fund.status.inactive": "Inactive",
+  "fund": "Fund",
 
   "group": "Group",
 

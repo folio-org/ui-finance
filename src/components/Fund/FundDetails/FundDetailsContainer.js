@@ -35,10 +35,10 @@ import {
   groupsResource,
   ledgersResource,
 } from '../../../common/resources';
+import ConnectionListing from '../../ConnectionListing';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundDetails from './FundDetails';
-import BudgetDetails from '../BudgetDetails/BudgetDetails';
 import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
 
 const FundDetailsContainer = ({
@@ -111,6 +111,7 @@ const FundDetailsContainer = ({
 
     mutator.group.GET();
     mutator.budgets.GET();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   const [expandAll, sections, toggleSection] = useAccordionToggle();
@@ -236,10 +237,10 @@ const FundDetailsContainer = ({
           displayWhenOpen={addBudgetButton(BUDGET_STATUSES.ACTIVE, activeBudgets.length)}
           id={SECTIONS_FUND.CURRENT_BUDGET}
         >
-          <BudgetDetails
-            budgets={activeBudgets}
+          <ConnectionListing
+            items={activeBudgets}
             currency={ledger.currency}
-            openBudget={openBudget}
+            openItem={openBudget}
           />
         </Accordion>
 
@@ -248,10 +249,10 @@ const FundDetailsContainer = ({
           displayWhenOpen={addBudgetButton(BUDGET_STATUSES.PLANNED, plannedBudgets.length)}
           id={SECTIONS_FUND.PLANNED_BUDGET}
         >
-          <BudgetDetails
-            budgets={plannedBudgets}
+          <ConnectionListing
+            items={plannedBudgets}
             currency={ledger.currency}
-            openBudget={openBudget}
+            openItem={openBudget}
           />
         </Accordion>
 
@@ -259,10 +260,10 @@ const FundDetailsContainer = ({
           label={<FormattedMessage id="ui-finance.fund.previousBudgets.title" />}
           id={SECTIONS_FUND.PREVIOUS_BUDGETS}
         >
-          <BudgetDetails
-            budgets={closedBudgets}
+          <ConnectionListing
+            items={closedBudgets}
             currency={ledger.currency}
-            openBudget={openBudget}
+            openItem={openBudget}
           />
         </Accordion>
       </AccordionSet>

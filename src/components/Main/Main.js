@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
 import {
-  GROUPS_ROUTE
+  GROUPS_ROUTE,
+  FISCAL_YEAR_ROUTE,
 } from '../../common/const';
 
 import Ledger from '../Ledger';
-import FiscalYear from '../FiscalYear/FiscalYear';
 import FundsList from '../Fund';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
+import FiscalYear from '../FiscalYear/FiscalYear';
 
 class Main extends Component {
   static propTypes = {
@@ -23,7 +24,6 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.connectedLedger = props.stripes.connect(Ledger);
-    this.connectedFiscalYear = props.stripes.connect(FiscalYear);
     this.connectedFundsList = props.stripes.connect(FundsList);
   }
 
@@ -68,14 +68,8 @@ class Main extends Component {
             component={Groups}
           />
           <Route
-            path={`${match.path}/fiscalyear`}
-            render={props => <this.connectedFiscalYear
-              stripes={stripes}
-              mutator={mutator}
-              resources={resources}
-              {...props}
-            />
-            }
+            path={FISCAL_YEAR_ROUTE}
+            component={FiscalYear}
           />
           <Redirect exact from={`${match.path}`} to={`${match.path}/ledger`} />
         </Switch>

@@ -7,7 +7,7 @@ import {
 import FinanceNavigationInteractor from '../common/FinanceNavigation';
 
 export default interactor(class FiscalYearListInteractor {
-  static defaultScope = '[data-test-fiscalyear-list]';
+  static defaultScope = '[data-test-fiscal-years-list]';
 
   fiscalYears = collection('[role=row] a');
   navigation = new FinanceNavigationInteractor();

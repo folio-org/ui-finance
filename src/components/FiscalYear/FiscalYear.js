@@ -1,232 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-
-import { SearchAndSort } from '@folio/stripes/smart-components';
-import { filters2cql } from '@folio/stripes/components';
-
+import React from 'react';
 import {
-  FISCAL_YEARS_API,
-  LEDGERS_API,
-  BUDGETS_API,
-} from '../../common/const';
-import FinanceNavigation from '../../common/FinanceNavigation';
+  Route,
+  Switch,
+  withRouter,
+} from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
-import transitionToParams from '../../Utils/transitionToParams';
-import removeQueryParam from '../../Utils/removeQueryParam';
-import packageInfo from '../../../package';
-import { Filters, SearchableIndexes } from './fiscalYearFilterConfig';
-// Components and Pages
-import css from './css/FiscalYear.css';
-import FiscalYearPane from './FiscalYearPane';
-import FiscalYearView from './FiscalYearView';
+import FiscalYearsList from './FiscalYearsList';
 
-const INITIAL_RESULT_COUNT = 30;
-const RESULT_COUNT_INCREMENT = 30;
-const filterConfig = Filters();
-const searchableIndexes = SearchableIndexes;
-
-class FiscalYear extends Component {
-  static propTypes = {
-    match: PropTypes.object,
-    stripes: PropTypes.object,
-    onSelectRow: PropTypes.func,
-    mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-    onComponentWillUnmount: PropTypes.func
-  }
-
-  static manifest = Object.freeze({
-    query: {
-      initialValue: {
-        query: '',
-        filters: '',
-        sort: ''
-      },
-    },
-    resultCount: { initialValue: INITIAL_RESULT_COUNT },
-    records: {
-      type: 'okapi',
-      records: 'fiscalYears',
-      recordsRequired: '%{resultCount}',
-      path: FISCAL_YEARS_API,
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const sortMap = {
-              Name: 'name',
-              Code: 'code',
-              Description: 'description'
-            };
-
-            let cql = `(name="${resourceData.query.query}*" or code="${resourceData.query.query}*" or description="${resourceData.query.query}*")`;
-            const filterCql = filters2cql(filterConfig, resourceData.query.filters);
-            if (filterCql) {
-              if (cql) {
-                cql = `(${cql}) and ${filterCql}`;
-              } else {
-                cql = filterCql;
-              }
-            }
-
-            const { sort } = resourceData.query;
-            if (sort) {
-              const sortIndexes = sort.split(',').map((sort1) => {
-                let reverse = false;
-                if (sort1.startsWith('-')) {
-                  // eslint-disable-next-line no-param-reassign
-                  sort1 = sort1.substr(1);
-                  reverse = true;
-                }
-                let sortIndex = sortMap[sort1] || sort1;
-                if (reverse) {
-                  sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
-                }
-                return sortIndex;
-              });
-
-              cql += ` sortby ${sortIndexes.join(' ')}`;
-            }
-            return cql;
-          },
-        },
-        staticFallback: { params: {} },
-      },
-    },
-    fiscalyearQuery: { initialValue: 'query=(id=null)' },
-    fiscalyear: {
-      type: 'okapi',
-      records: 'fiscalYears',
-      path: FISCAL_YEARS_API,
-      resourceShouldRefresh: true,
-      recordsRequired: 1,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          const newData = `${data.fiscalyearQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData}`;
-          return cql;
-        }
-      }
-    },
-    ledgerQuery: { initialValue: 'query=(fiscalYears=null)' },
-    ledger: {
-      type: 'okapi',
-      records: 'ledgers',
-      resourceShouldRefresh: true,
-      path: LEDGERS_API,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          const newData = `${data.ledgerQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
-          return cql;
-        }
-      }
-    },
-    budgetQuery: { initialValue: 'query=(fundId=null)' },
-    budget: {
-      type: 'okapi',
-      records: 'budgets',
-      resourceShouldRefresh: true,
-      path: BUDGETS_API,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-          const newData = `${data.budgetQuery}`;
-          if (newData === 'undefined') return undefined;
-          const cql = `${newData} sortby name`;
-          return cql;
-        }
-      }
-    }
-  });
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.transitionToParams = transitionToParams.bind(this);
-    this.removeQueryParam = removeQueryParam.bind(this);
-  }
-
-  create = (fiscalyeardata) => {
-    const { mutator } = this.props;
-    mutator.records.POST(fiscalyeardata).then(newFiscalYear => {
-      mutator.query.update({
-        _path: `/finance/fiscalyear/view/${newFiscalYear.id}`,
-        layer: null
-      });
-    });
-  }
-
-  renderNavigation = () => (
-    <FinanceNavigation />
+const FiscalYear = ({ match }) => {
+  return (
+    <Switch>
+      <Route
+        path={match.url}
+        component={FiscalYearsList}
+      />
+    </Switch>
   );
+};
 
-  render() {
-    const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
-    const resultsFormatter = {
-      'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.toString(_.get(data, ['code'], '')),
-      'Description': data => _.get(data, ['description'], '')
-    };
+FiscalYear.propTypes = {
+  match: ReactRouterPropTypes.match.isRequired,
+};
 
-    const packageInfoReWrite = () => {
-      const path = '/finance/fiscalyear';
-      packageInfo.stripes.route = path;
-      packageInfo.stripes.home = path;
-      return packageInfo;
-    };
-
-    const columnMapping = {
-      'name': 'Name',
-      'code': 'Abbreviation',
-      'description': 'Description',
-    };
-
-    return (
-      <div
-        data-test-fiscalyear-list
-        style={{ width: '100%' }}
-        className={css.panepadding}
-      >
-        <SearchAndSort
-          packageInfo={packageInfoReWrite()}
-          moduleName="fiscal_year"
-          moduleTitle="fiscal_year"
-          objectName="fiscal_year"
-          columnMapping={columnMapping}
-          baseRoute={`${match.path}`}
-          filterConfig={filterConfig}
-          visibleColumns={['name', 'code', 'description']}
-          resultsFormatter={resultsFormatter}
-          viewRecordComponent={FiscalYearView}
-          onSelectRow={onSelectRow}
-          onCreate={this.create}
-          editRecordComponent={FiscalYearPane}
-          newRecordInitialValues={{}}
-          initialResultCount={INITIAL_RESULT_COUNT}
-          resultCountIncrement={RESULT_COUNT_INCREMENT}
-          finishedResourceName="perms"
-          viewRecordPerms="finance-storage.fiscal-years.item.get"
-          newRecordPerms="finance-storage.fiscal-years.item.post,login.item.post"
-          parentResources={resources}
-          parentMutator={mutator}
-          detailProps={{ stripes }}
-          onComponentWillUnmount={onComponentWillUnmount}
-          searchableIndexes={searchableIndexes}
-          selectedIndex={_.get(this.props.resources.query, 'qindex')}
-          searchableIndexesPlaceholder={null}
-          onChangeIndex={this.onChangeIndex}
-          renderNavigation={this.renderNavigation}
-        />
-      </div>
-    );
-  }
-}
-
-export default FiscalYear;
+export default withRouter(FiscalYear);

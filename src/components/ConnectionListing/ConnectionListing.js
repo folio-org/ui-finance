@@ -1,50 +1,69 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { List } from '@folio/stripes/components';
-import css from './css/ConnectionListing.css';
-import cssMain from '../Main/Main.css';
+import { FormattedMessage } from 'react-intl';
 
-class ConnectionListing extends Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    isView: PropTypes.bool.isRequired,
-    isEmptyMessage: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.object),
-    path: PropTypes.string
-  }
+import { MultiColumnList } from '@folio/stripes/components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const visibleColumns = ['name', 'code', 'allocated', 'unavailable', 'available'];
+const columnMapping = {
+  name: <FormattedMessage id="ui-finance.item.name" />,
+  code: <FormattedMessage id="ui-finance.item.code" />,
+  allocated: <FormattedMessage id="ui-finance.item.allocated" />,
+  unavailable: <FormattedMessage id="ui-finance.item.unavailable" />,
+  available: <FormattedMessage id="ui-finance.item.available" />,
+};
+const columnWidths = {
+  name: '20%',
+  code: '20%',
+  allocated: '20%',
+  unavailable: '20%',
+  available: '20%',
+};
 
-  dataRender(data, i) {
-    return (
-      <li key={i}>
-        <Link to={`${this.props.path}${data.id}`}><span>{data.name}</span></Link>
-      </li>
-    );
-  }
+const ConnectionListing = ({ items, currency, openItem }) => {
+  const resultsFormatter = {
+    allocated: item => (
+      <AmountWithCurrencyField
+        amount={item.allocated}
+        currency={currency}
+      />
+    ),
+    unavailable: item => (
+      <AmountWithCurrencyField
+        amount={item.unavailable}
+        currency={currency}
+      />
+    ),
+    available: item => (
+      <AmountWithCurrencyField
+        amount={item.available}
+        currency={currency}
+      />
+    ),
+  };
 
-  render() {
-    const { title, description, items } = this.props;
-    const itemFormatter = (item, i) => (this.dataRender(item, i));
-    const isEmptyMessage = this.props.isEmptyMessage;
-    const isView = this.props.isView ? cssMain.listLabel : cssMain.listLabelEdit;
-    const isDescription = description || false;
-    return (
-      <div className={css.list}>
-        <span className={isView}>{title}</span>
-        {
-          isDescription &&
-          <div className="label">{description}</div>
-        }
-        <List items={items} itemFormatter={itemFormatter} isEmptyMessage={isEmptyMessage} />
-      </div>
-    );
-  }
-}
+  return (
+    <MultiColumnList
+      columnMapping={columnMapping}
+      columnWidths={columnWidths}
+      contentData={items}
+      formatter={resultsFormatter}
+      onRowClick={openItem}
+      visibleColumns={visibleColumns}
+    />
+  );
+};
+
+ConnectionListing.propTypes = {
+  openItem: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object),
+  currency: PropTypes.string,
+};
+
+ConnectionListing.defaultProps = {
+  items: [],
+  currency: '',
+};
 
 export default ConnectionListing;

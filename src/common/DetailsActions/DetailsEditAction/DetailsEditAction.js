@@ -8,7 +8,7 @@ import {
   Button,
 } from '@folio/stripes/components';
 
-const DetailsEdittAction = ({ perm, onEdit, toggleActionMenu }) => {
+const DetailsEditAction = ({ perm, onEdit, toggleActionMenu }) => {
   return (
     <IfPermission perm={perm}>
       <Button
@@ -30,10 +30,10 @@ const DetailsEdittAction = ({ perm, onEdit, toggleActionMenu }) => {
   );
 };
 
-DetailsEdittAction.propTypes = {
+DetailsEditAction.propTypes = {
   perm: PropTypes.string.isRequired,
   onEdit: PropTypes.func.isRequired,
   toggleActionMenu: PropTypes.func.isRequired,
 };
 
-export default DetailsEdittAction;
+export default DetailsEditAction;

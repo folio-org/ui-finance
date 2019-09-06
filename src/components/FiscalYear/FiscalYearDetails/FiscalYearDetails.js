@@ -55,13 +55,13 @@ const FiscalYearDetails = ({
         />
         <DetailsRemoveAction
           perm="finance-storage.fiscal-years.item.delete"
-          onRemove={onRemove}
-          toggleActionMenu={toggleRemoveConfirmation}
+          onRemove={toggleRemoveConfirmation}
+          toggleActionMenu={onToggle}
           disabled={Boolean(funds.length || ledgers.length || groups.length)}
         />
       </MenuSection>
     ),
-    [],
+    [onEdit, toggleRemoveConfirmation],
   );
 
   const lastMenu = (

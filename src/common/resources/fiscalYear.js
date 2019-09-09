@@ -1,8 +1,12 @@
 import { baseManifest } from '@folio/stripes-acq-components';
 
-import { FISCAL_YEARS_API } from '../const';
+import {
+  FISCAL_YEAR_FUNDS_API,
+  FISCAL_YEAR_GROUPS_API,
+  FISCAL_YEAR_LEDGERS_API,
+  FISCAL_YEARS_API,
+} from '../const';
 
-// eslint-disable-next-line import/prefer-default-export
 export const fiscalYearsResource = {
   ...baseManifest,
   path: FISCAL_YEARS_API,
@@ -12,4 +16,28 @@ export const fiscalYearsResource = {
 export const fiscalYearResource = {
   ...baseManifest,
   path: `${FISCAL_YEARS_API}/:{id}`
+};
+
+export const fiscalYearFundsResource = {
+  ...baseManifest,
+  path: FISCAL_YEAR_FUNDS_API,
+  records: 'funds',
+  accumulate: true,
+  fetch: false,
+};
+
+export const fiscalYearLedgersResource = {
+  ...baseManifest,
+  path: FISCAL_YEAR_LEDGERS_API,
+  records: 'ledgers',
+  accumulate: true,
+  fetch: false,
+};
+
+export const fiscalYearGroupsResource = {
+  ...baseManifest,
+  path: FISCAL_YEAR_GROUPS_API,
+  records: 'groups',
+  accumulate: true,
+  fetch: false,
 };

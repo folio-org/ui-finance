@@ -112,7 +112,7 @@ const FundForm = ({
   const filter = (filterText, list) => {
     const renderedItems = filterText
       ? funds
-        .filter(fund => fund.name.includes(filterText))
+        .filter(fund => fund.name.toLowerCase().includes(filterText.toLowerCase()))
         .map(({ id }) => id)
       : list;
 

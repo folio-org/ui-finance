@@ -5,6 +5,7 @@ import {
   SearchAndSort,
   makeQueryFunction,
 } from '@folio/stripes/smart-components';
+import { stripesConnect } from '@folio/stripes/core';
 
 import {
   FUNDS_API,
@@ -156,4 +157,4 @@ class FundsList extends Component {
   }
 }
 
-export default FundsList;
+export default stripesConnect(FundsList);

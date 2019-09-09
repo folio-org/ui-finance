@@ -22,8 +22,6 @@ class Finance extends React.Component {
     super(props, context);
 
     this.callout = React.createRef();
-
-    this.connectedApp = props.stripes.connect(Main);
   }
 
   render() {
@@ -36,7 +34,7 @@ class Finance extends React.Component {
           <Switch>
             <Route
               path={`${this.props.match.path}`}
-              render={() => <this.connectedApp {...this.props} />}
+              render={() => <Main {...this.props} />}
             />
             <Route component={() => { this.NoMatch(); }} />
           </Switch>

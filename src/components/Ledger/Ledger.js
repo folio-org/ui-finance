@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import { filters2cql } from '@folio/stripes/components';
+import { stripesConnect } from '@folio/stripes/core';
 
 import {
   FISCAL_YEARS_API,
@@ -297,4 +298,4 @@ class Ledger extends Component {
   }
 }
 
-export default Ledger;
+export default stripesConnect(Ledger);

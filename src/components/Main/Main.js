@@ -41,7 +41,7 @@ const Main = ({ match }) => {
       </Switch>
     </div>
   );
-}
+};
 
 Main.propTypes = {
   match: PropTypes.object,

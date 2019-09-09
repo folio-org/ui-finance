@@ -124,6 +124,10 @@ const LedgerView = ({
             description={ledger.description}
             acqUnitIds={ledger.acqUnitIds}
             fiscalYear={fiscalYear}
+            available={ledger.available}
+            allocated={ledger.allocated}
+            unavailable={ledger.unavailable}
+            currency={ledger.currency}
           />
         </Accordion>
       </AccordionSet>

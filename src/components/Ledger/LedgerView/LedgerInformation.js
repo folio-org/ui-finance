@@ -13,7 +13,19 @@ import {
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
-const LedgerInformation = ({ metadata, name, code, fiscalYear, status, description, acqUnitIds }) => {
+const LedgerInformation = ({
+  acqUnitIds,
+  allocated,
+  available,
+  code,
+  currency,
+  description,
+  fiscalYear,
+  metadata,
+  name,
+  status,
+  unavailable,
+}) => {
   return (
     <Fragment>
       <ViewMetaData metadata={metadata} />
@@ -65,7 +77,8 @@ const LedgerInformation = ({ metadata, name, code, fiscalYear, status, descripti
             label={<FormattedMessage id="ui-finance.ledger.allocated" />}
           >
             <AmountWithCurrencyField
-              amount={0}
+              amount={allocated}
+              currency={currency}
             />
           </KeyValue>
         </Col>
@@ -76,7 +89,8 @@ const LedgerInformation = ({ metadata, name, code, fiscalYear, status, descripti
         >
           <KeyValue label={<FormattedMessage id="ui-finance.ledger.unavailable" />}>
             <AmountWithCurrencyField
-              amount={0}
+              amount={unavailable}
+              currency={currency}
             />
           </KeyValue>
         </Col>
@@ -87,7 +101,8 @@ const LedgerInformation = ({ metadata, name, code, fiscalYear, status, descripti
         >
           <KeyValue label={<FormattedMessage id="ui-finance.ledger.available" />}>
             <AmountWithCurrencyField
-              amount={0}
+              amount={available}
+              currency={currency}
             />
           </KeyValue>
         </Col>
@@ -108,6 +123,10 @@ const LedgerInformation = ({ metadata, name, code, fiscalYear, status, descripti
 };
 
 LedgerInformation.propTypes = {
+  allocated: PropTypes.number,
+  available: PropTypes.number,
+  unavailable: PropTypes.number,
+  currency: PropTypes.string,
   metadata: PropTypes.object,
   name: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,

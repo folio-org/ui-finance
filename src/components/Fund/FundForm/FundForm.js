@@ -8,6 +8,7 @@ import {
 import {
   find,
   get,
+  sortBy,
 } from 'lodash';
 
 import { stripesShape } from '@folio/stripes/core';
@@ -77,20 +78,20 @@ const FundForm = ({
     [],
   );
 
-  const funds = get(parentResources, ['records', 'records'], []);
-  const fundTypes = get(parentResources, ['fundTypes', 'records'], []).map(
+  const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
+  const fundTypes = sortBy(get(parentResources, ['fundTypes', 'records'], []).map(
     ({ name, id }) => ({
       label: name,
       value: id
     })
-  );
-  const ledgers = get(parentResources, ['ledgers', 'records'], []).map(
+  ), 'label');
+  const ledgers = sortBy(get(parentResources, ['ledgers', 'records'], []).map(
     ({ name, id, currency }) => ({
       label: name,
       value: id,
       currency,
     })
-  );
+  ), 'label');
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const paneTitle = initialValues.id
     ? initialValues.name

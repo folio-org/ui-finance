@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { MultiColumnList } from '@folio/stripes/components';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
-const visibleColumns = ['name', 'code', 'allocated', 'unavailable', 'available'];
+const defaultColumns = ['name', 'code', 'allocated', 'unavailable', 'available'];
 const columnMapping = {
   name: <FormattedMessage id="ui-finance.item.name" />,
   code: <FormattedMessage id="ui-finance.item.code" />,
@@ -21,7 +21,7 @@ const columnWidths = {
   available: '20%',
 };
 
-const ConnectionListing = ({ items, currency, openItem }) => {
+const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   const resultsFormatter = {
     allocated: item => (
       <AmountWithCurrencyField
@@ -59,11 +59,13 @@ ConnectionListing.propTypes = {
   openItem: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
+  visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 ConnectionListing.defaultProps = {
   items: [],
   currency: '',
+  visibleColumns: defaultColumns,
 };
 
 export default ConnectionListing;

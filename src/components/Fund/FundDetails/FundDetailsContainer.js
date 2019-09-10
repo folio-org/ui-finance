@@ -127,6 +127,7 @@ const FundDetailsContainer = ({
   const activeBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.ACTIVE);
   const plannedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.PLANNED);
   const closedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.CLOSED);
+  const budgetColumns = ['name', 'allocated', 'unavailable', 'available'];
 
   const isLoading = (
     !get(resources, ['fund', 'hasLoaded']) &&
@@ -241,6 +242,7 @@ const FundDetailsContainer = ({
             items={activeBudgets}
             currency={ledger.currency}
             openItem={openBudget}
+            visibleColumns={budgetColumns}
           />
         </Accordion>
 
@@ -253,6 +255,7 @@ const FundDetailsContainer = ({
             items={plannedBudgets}
             currency={ledger.currency}
             openItem={openBudget}
+            visibleColumns={budgetColumns}
           />
         </Accordion>
 
@@ -264,6 +267,7 @@ const FundDetailsContainer = ({
             items={closedBudgets}
             currency={ledger.currency}
             openItem={openBudget}
+            visibleColumns={budgetColumns}
           />
         </Accordion>
       </AccordionSet>

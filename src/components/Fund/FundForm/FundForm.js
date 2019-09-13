@@ -79,19 +79,19 @@ const FundForm = ({
   );
 
   const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
-  const fundTypes = sortBy(get(parentResources, ['fundTypes', 'records'], []).map(
+  const fundTypes = get(parentResources, ['fundTypes', 'records'], []).map(
     ({ name, id }) => ({
       label: name,
       value: id
     })
-  ), 'label');
-  const ledgers = sortBy(get(parentResources, ['ledgers', 'records'], []).map(
+  );
+  const ledgers = get(parentResources, ['ledgers', 'records'], []).map(
     ({ name, id, currency }) => ({
       label: name,
       value: id,
       currency,
     })
-  ), 'label');
+  );
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const paneTitle = initialValues.id
     ? initialValues.name

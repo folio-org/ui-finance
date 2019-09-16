@@ -4,6 +4,7 @@ import configFiscalYears from './configs/fiscalYears';
 import configFunds from './configs/funds';
 import configLedgers from './configs/ledgers';
 import configGroups from './configs/groups';
+import configTransactions from './configs/transactions';
 
 export default function config() {
   configAcquisitionsUnits(this);
@@ -12,4 +13,5 @@ export default function config() {
   configFunds(this);
   configLedgers(this);
   configGroups(this);
+  configTransactions(this);
 }

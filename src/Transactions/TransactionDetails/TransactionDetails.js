@@ -62,7 +62,7 @@ const TransactionDetails = ({
             fromFundName={fromFundName}
             metadata={transaction.metadata}
             source={transaction.source}
-            tags={transaction.tags.tagList}
+            tags={transaction.tags}
             toFundName={toFundName}
             transactionType={transaction.transactionType}
           />

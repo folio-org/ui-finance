@@ -40,9 +40,6 @@ const TransactionDetailsContainer = ({
 
           const fundsQuery = [fromFundId, toFundId].map(fundId => `id == ${fundId}`).join(' OR ');
           mutator.transactionFunds.GET({ params: { query: fundsQuery } });
-        })
-        .catch(() => {
-          history.goBack();
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

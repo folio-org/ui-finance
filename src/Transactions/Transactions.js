@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { Paneset } from '@folio/stripes/components';
+
 import TransactionDetails from './TransactionDetails';
 
 const Transactions = ({ match }) => {
@@ -13,7 +15,11 @@ const Transactions = ({ match }) => {
     <Switch>
       <Route
         path={`${match.url}/view/:id`}
-        component={TransactionDetails}
+        render={routerProps => (
+          <Paneset>
+            <TransactionDetails {...routerProps} />
+          </Paneset>
+        )}
       />
     </Switch>
   );

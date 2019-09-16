@@ -107,7 +107,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.tags" />}
-            value={tags}
+            value={tags.tagList}
           />
         </Col>
 
@@ -137,7 +137,8 @@ TransactionInformation.propTypes = {
 
 TransactionInformation.defaultProps = {
   description: '',
-  tags: [],
+  metadata: {},
+  tags: { tagList: [] },
 };
 
 export default TransactionInformation;

@@ -18,6 +18,12 @@ const configTransactions = server => {
 
     return transactionSchema.attrs;
   });
+
+  server.post(TRANSACTIONS_API, (schema, request) => {
+    const attrs = JSON.parse(request.requestBody) || {};
+
+    return schema.transactions.create(attrs);
+  });
 };
 
 export default configTransactions;

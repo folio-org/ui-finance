@@ -1,12 +1,23 @@
 import {
+  Interactor,
   interactor,
   isPresent,
 } from '@bigtest/interactor';
 import Button from '../common/Button';
 
-export default interactor(class BudgetDetails {
+@interactor class AddTransferModal {
+  static defaultScope = '#add-transfer-modal';
+  cancelButton = new Button('[data-test-add-transfer-cancel]');
+  saveButton = new Button('[data-test-add-transfer-save]');
+  transferTo = new Interactor('select[name=toFundId]');
+  amount = new Interactor('input[name=amount]');
+}
+
+export default interactor(class BudgetDetailsInteractor {
   static defaultScope = '#pane-budget';
 
+  addTransferButton = new Button('[data-test-add-transfer-button]');
+  addTransferModal = new AddTransferModal();
   closePane = new Button('[icon=times]');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');

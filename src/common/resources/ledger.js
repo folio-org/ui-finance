@@ -5,6 +5,9 @@ import { LEDGERS_API } from '../const';
 export const ledgersResource = {
   ...baseManifest,
   path: LEDGERS_API,
+  params : {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'ledgers',
 };
 

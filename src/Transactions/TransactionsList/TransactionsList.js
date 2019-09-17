@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+import { get, sortBy } from 'lodash';
 
 import {
   Paneset,
@@ -65,7 +65,7 @@ const getResultsFormatter = (funds) => {
     fromFundId: item => fundsMap[item.fromFundId],
     toFundId: item => fundsMap[item.toFundId],
     source: item => <FormattedMessage id={`ui-finance.transaction.source.${item.source}`} />,
-    tagsList: item => get(item, 'tags.tagList', []).join(', '),
+    tagsList: item => sortBy(get(item, 'tags.tagList', [])).join(', '),
   });
 };
 
@@ -114,7 +114,7 @@ const TransactionsList = ({
           changeSearch={changeSearch}
           searchQuery={searchQuery}
           isLoading={isLoadingTransactions}
-          areaLabelId="search.transactions"
+          ariaLabelId="ui-finance.search.transactions"
         />
 
         <ResetButton
@@ -135,7 +135,6 @@ const TransactionsList = ({
       >
         <MultiColumnList
           id="transactions-list"
-          ariaLabel="Transactions"
           totalCount={transactionsCount}
           contentData={transactions}
           formatter={resultsFormatter}

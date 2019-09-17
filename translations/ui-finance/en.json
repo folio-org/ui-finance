@@ -396,6 +396,7 @@
   "item.name": "Name",
   "item.unavailable": "Unavailable",
 
+  "transactions.search": "Search transactions",
   "transaction.amount": "Amount",
   "transaction.button.cancel": "Cancel",
   "transaction.button.confirm": "Confirm",

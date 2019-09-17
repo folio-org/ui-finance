@@ -11,6 +11,7 @@ import Ledger from '../Ledger';
 import FundsList from '../Fund';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
+import Transactions from '../../Transactions';
 import FiscalYear from '../FiscalYear/FiscalYear';
 
 const Main = ({ match }) => {
@@ -36,6 +37,10 @@ const Main = ({ match }) => {
         <Route
           path={FISCAL_YEAR_ROUTE}
           component={FiscalYear}
+        />
+        <Route
+          path={`${match.path}/:budgetId/transactions`}
+          component={Transactions}
         />
         <Redirect exact from={`${match.path}`} to={`${match.path}/ledger`} />
       </Switch>

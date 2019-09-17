@@ -3,6 +3,8 @@ import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import Transactions from '../../Transactions';
+
 import BudgetView from './BudgetView/BudgetViewContainer';
 import BudgetForm from './BudgetForm/BudgetFormContainer';
 
@@ -29,6 +31,10 @@ const Budget = ({ match: { path } }) => (
           />
         )
       }
+    />
+    <Route
+      path={`${path}/:budgetId/transactions`}
+      component={Transactions}
     />
   </Switch>
 );

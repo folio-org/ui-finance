@@ -6,20 +6,14 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { Paneset } from '@folio/stripes/components';
-
-import TransactionDetails from './TransactionDetails';
+import TransactionsList from './TransactionsList';
 
 const Transactions = ({ match }) => {
   return (
     <Switch>
       <Route
-        path={`${match.url}/view/:id`}
-        render={routerProps => (
-          <Paneset>
-            <TransactionDetails {...routerProps} />
-          </Paneset>
-        )}
+        path={match.path}
+        component={TransactionsList}
       />
     </Switch>
   );

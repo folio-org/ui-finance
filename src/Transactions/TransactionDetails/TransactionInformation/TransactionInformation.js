@@ -130,7 +130,7 @@ TransactionInformation.propTypes = {
   fromFundName: PropTypes.string,
   metadata: PropTypes.object,
   source: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string),
+  tags: PropTypes.arrayOf(PropTypes.object),
   toFundName: PropTypes.string,
   transactionType: PropTypes.string.isRequired,
 };

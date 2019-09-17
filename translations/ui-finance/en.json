@@ -325,6 +325,7 @@
   "budget.status.planned": "Planned",
   "budget.summary.title": "Budget summary",
   "budget.transactions": "Transactions",
+  "budget.transactions.view": "View transactions",
   "budget.unavailable": "Unavailable",
   "budget.hasBeenCreated": "<b>{name}</b> was successfully <b>created</b> for the fund <b>{fundName}</b>",
   "budget.hasNotBeenCreated": "Budget has not been created",
@@ -395,6 +396,7 @@
   "item.name": "Name",
   "item.unavailable": "Unavailable",
 
+  "transactions.search": "Search transactions",
   "transaction.amount": "Amount",
   "transaction.button.cancel": "Cancel",
   "transaction.button.confirm": "Confirm",

@@ -5,15 +5,14 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import {
   GROUPS_ROUTE,
   FISCAL_YEAR_ROUTE,
-  TRANSACTIONS_ROUTE,
 } from '../../common/const';
 
 import Ledger from '../Ledger';
 import FundsList from '../Fund';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
-import FiscalYear from '../FiscalYear/FiscalYear';
 import Transactions from '../../Transactions';
+import FiscalYear from '../FiscalYear/FiscalYear';
 
 const Main = ({ match }) => {
   return (
@@ -40,7 +39,7 @@ const Main = ({ match }) => {
           component={FiscalYear}
         />
         <Route
-          path={TRANSACTIONS_ROUTE}
+          path={`${match.path}/:budgetId/transactions`}
           component={Transactions}
         />
         <Redirect exact from={`${match.path}`} to={`${match.path}/ledger`} />

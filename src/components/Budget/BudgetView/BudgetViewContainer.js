@@ -25,7 +25,7 @@ import {
   fiscalYearResource,
 } from '../../../common/resources';
 import { FISCAL_YEARS_API } from '../../../common/const';
-import TransferAddModal from '../../Transactions/Transfer';
+import TransferAddModal from '../../../Transactions/Transfer';
 import BudgetView from './BudgetView';
 
 const BudgetViewContainer = ({ history, resources }) => {

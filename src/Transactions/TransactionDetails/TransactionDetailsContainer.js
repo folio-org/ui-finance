@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -12,21 +12,33 @@ import {
 import {
   fiscalYearResource,
   fundsResource,
-  transactionsResource,
   transactionByUrlIdResource,
 } from '../../common/resources';
-import { FISCAL_YEARS_API } from '../../common/const';
+import {
+  BUDGET_ROUTE,
+  BUDGET_TRANSACTIONS_ROUTE,
+  FISCAL_YEARS_API,
+} from '../../common/const';
 import TransactionDetails from './TransactionDetails';
 
 const TransactionDetailsContainer = ({
   history,
   match,
+  location,
   mutator,
   resources,
 }) => {
   const transactionId = match.params.id;
   const transaction = get(resources, ['transactionDetails', 'records', '0']);
-  const onClose = history.goBack;
+  const onClose = useCallback(
+    () => {
+      history.push({
+        pathname: `${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_TRANSACTIONS_ROUTE}`,
+        search: location.search,
+      });
+    },
+    [location.search, match.params.budgetId, history],
+  );
 
   useEffect(
     () => {
@@ -79,7 +91,6 @@ TransactionDetailsContainer.manifest = Object.freeze({
     fetch: false,
     accumulate: true,
   },
-  transactions: transactionsResource,
   fiscalYearId: {},
   transactionDetails: {
     ...transactionByUrlIdResource,
@@ -96,6 +107,7 @@ TransactionDetailsContainer.manifest = Object.freeze({
 TransactionDetailsContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
 };

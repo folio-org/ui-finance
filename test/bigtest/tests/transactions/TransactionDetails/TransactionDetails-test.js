@@ -1,7 +1,10 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { TRANSACTION_VIEW_ROUTE } from '../../../../../src/common/const';
+import {
+  BUDGET_ROUTE,
+  BUDGET_TRANSACTIONS_ROUTE,
+} from '../../../../../src/common/const';
 import setupApplication from '../../../helpers/setup-application';
 import TransactionDetailsInteractor from '../../../interactors/transactions/TransactionDetailsInteractor';
 
@@ -11,11 +14,13 @@ describe('Transaction details', () => {
   const details = new TransactionDetailsInteractor();
 
   beforeEach(async function () {
+    const budget = this.server.create('budget');
     const fiscalYear = this.server.create('fiscalYear');
     const transaction = this.server.create('transaction', {
       fiscalYearId: fiscalYear.id,
     });
-    this.visit(`${TRANSACTION_VIEW_ROUTE}${transaction.id}`);
+
+    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}${transaction.id}/view`);
     await details.whenLoaded();
   });
 

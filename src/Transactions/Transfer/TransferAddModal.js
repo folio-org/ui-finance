@@ -15,7 +15,7 @@ import {
   budgetResource,
   fundsResource,
   transactionResource,
-} from '../../../common/resources';
+} from '../../common/resources';
 import {
   TRANSACTION_SOURCE,
   TRANSACTION_TYPES,

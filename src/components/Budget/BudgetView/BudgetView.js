@@ -56,6 +56,7 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
             fiscalEnd={fiscalEnd}
             fiscalStart={fiscalStart}
             name={budget.name}
+            id={budget.id}
           />
         </Accordion>
       </AccordionSet>

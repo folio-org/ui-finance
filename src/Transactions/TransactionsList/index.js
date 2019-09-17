@@ -1,1 +1,1 @@
-export { default } from './TransactionsList';
+export { default } from './TransactionsListContainer';

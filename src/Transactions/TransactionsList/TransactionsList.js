@@ -1,16 +1,21 @@
-import React, { useCallback } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
-import withRouter from 'react-router-dom/withRouter';
+import {
+  Route,
+  withRouter,
+} from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
 import {
   Paneset,
   MultiColumnList,
 } from '@folio/stripes/components';
 import {
-  baseManifest,
   FolioFormattedTime,
   AmountWithCurrencyField,
   FiltersPane,
@@ -19,51 +24,62 @@ import {
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
-  buildFilterQuery,
-  buildSortingQuery,
-  connectQuery,
 } from '@folio/stripes-acq-components';
 
 import {
-  budgetResource,
-} from '../../common/resources';
+  BUDGET_ROUTE,
+  BUDGET_TRANSACTIONS_ROUTE,
+} from '../../common/const';
+import TransactionDetails from '../TransactionDetails';
 
 import TransactionsFilters from './TransactionsFilters';
 
-const INITIAL_RESULT_COUNT = 30;
-const RESULT_COUNT_INCREMENT = 30;
-
+const resultsPaneTitle = <FormattedMessage id="ui-finance.budget.transactions" />;
 const visibleColumns = ['transactionDate', 'transactionType', 'amount', 'fromFundId', 'toFundId', 'source', 'tagsList'];
+const sortableFields = ['transactionDate', 'transactionType', 'amount', 'source'];
 const columnMapping = {
-  transactionDate: 'Transaction date',
-  transactionType: 'Type',
-  amount: 'Amount',
-  fromFundId: 'From',
-  toFundId: 'To',
-  source: 'Source',
-  tagsList: 'Tags',
+  transactionDate: <FormattedMessage id="ui-finance.transaction.date" />,
+  transactionType: <FormattedMessage id="ui-finance.transaction.type" />,
+  amount: <FormattedMessage id="ui-finance.transaction.amount" />,
+  fromFundId: <FormattedMessage id="ui-finance.transaction.from" />,
+  toFundId: <FormattedMessage id="ui-finance.transaction.to" />,
+  source: <FormattedMessage id="ui-finance.transaction.source" />,
+  tagsList: <FormattedMessage id="ui-finance.transaction.tags" />,
 };
-const resultsFormatter = {
-  transactionDate: item => <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />,
-  amount: item => (
-    <AmountWithCurrencyField
-      amount={item.amount}
-      currency={item.currency}
-    />
-  ),
-  tagsList: item => get(item, 'tags.tagList', []).join(', '),
+const getResultsFormatter = (funds) => {
+  const fundsMap = funds.reduce((acc, fund) => {
+    acc[fund.id] = fund.code;
+
+    return acc;
+  }, {});
+
+  return ({
+    transactionDate: item => <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />,
+    transactionType: item => <FormattedMessage id={`ui-finance.transaction.type.${item.transactionType}`} />,
+    amount: item => (
+      <AmountWithCurrencyField
+        amount={item.amount}
+        currency={item.currency}
+      />
+    ),
+    fromFundId: item => fundsMap[item.fromFundId],
+    toFundId: item => fundsMap[item.toFundId],
+    source: item => <FormattedMessage id={`ui-finance.transaction.source.${item.source}`} />,
+    tagsList: item => get(item, 'tags.tagList', []).join(', '),
+  });
 };
 
-const TransactionsList = ({ mutator, resources, history, location }) => {
-  const resetData = useCallback(
-    () => mutator.resultCount.replace(INITIAL_RESULT_COUNT),
-    [mutator.resultCount]
-  );
-  const onNeedMore = useCallback(
-    () => mutator.resultCount.replace(resources.resultCount + RESULT_COUNT_INCREMENT),
-    [mutator.resultCount, resources.resultCount],
-  );
-
+const TransactionsList = ({
+  onNeedMoreData,
+  resetData,
+  funds,
+  transactionsCount,
+  isLoadingTransactions,
+  transactions,
+  history,
+  location,
+  match,
+}) => {
   const [
     filters,
     searchQuery,
@@ -76,16 +92,19 @@ const TransactionsList = ({ mutator, resources, history, location }) => {
     sortingField,
     sortingDirection,
     changeSorting,
-  ] = useLocationSorting(location, history, resetData);
+  ] = useLocationSorting(location, history, resetData, sortableFields);
 
   const selectedItem = useCallback(
-    (item) => console.log(item),
-    [],
+    (e, meta) => {
+      history.push({
+        pathname: `${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_TRANSACTIONS_ROUTE}${meta.id}/view`,
+        search: location.search,
+      });
+    },
+    [history, match.params.budgetId, location.search],
   );
 
-  const count = get(resources, 'transactions.other.totalRecords');
-  const contentData = get(resources, 'transactions.records', []);
-  const isLoading = get(resources, 'transactions.isPending', true);
+  const resultsFormatter = useMemo(() => getResultsFormatter(funds), [funds]);
 
   return (
     <Paneset>
@@ -94,7 +113,7 @@ const TransactionsList = ({ mutator, resources, history, location }) => {
           applySearch={applySearch}
           changeSearch={changeSearch}
           searchQuery={searchQuery}
-          isLoading={isLoading}
+          isLoading={isLoadingTransactions}
           areaLabelId="search.transactions"
         />
 
@@ -111,76 +130,53 @@ const TransactionsList = ({ mutator, resources, history, location }) => {
       </FiltersPane>
 
       <ResultsPane
-        title="Results"
-        count={count}
+        title={resultsPaneTitle}
+        count={transactionsCount}
       >
         <MultiColumnList
-          id="transactions"
-          ariaLabel="arai label"
-          totalCount={count}
-          contentData={contentData}
+          id="transactions-list"
+          ariaLabel="Transactions"
+          totalCount={transactionsCount}
+          contentData={transactions}
           formatter={resultsFormatter}
           visibleColumns={visibleColumns}
           columnMapping={columnMapping}
-          loading={isLoading}
+          loading={isLoadingTransactions}
           autosize
           virtualize
-          onNeedMoreData={onNeedMore}
+          onNeedMoreData={onNeedMoreData}
           onRowClick={selectedItem}
           sortOrder={sortingField}
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
         />
       </ResultsPane>
+
+      <Route
+        path={`${match.path}/:id/view`}
+        component={TransactionDetails}
+      />
     </Paneset>
   );
 };
 
-TransactionsList.manifest = Object.freeze({
-  resultCount: { initialValue: INITIAL_RESULT_COUNT },
-  budget: budgetResource,
-  transactions: {
-    ...baseManifest,
-    path: (queryParams, pathComponents, resourceData, logger, props) => {
-      const budget = get(props, ['resources', 'budget', 'records', 0]);
-
-      if (budget) {
-        return 'finance-storage/transactions';
-      }
-
-      return null;
-    },
-    records: 'transactions',
-    perRequest: RESULT_COUNT_INCREMENT,
-    recordsRequired: '%{resultCount}',
-    GET: {
-      params: {
-        query: (queryParams, pathComponents, resourceValues) => {
-          const budget = get(resourceValues, ['budget', 'records', 0]);
-
-          if (!budget) return null;
-
-          const fundId = budget.fundId;
-          const fiscalYearId = budget.fiscalYearId;
-          const requiredFilterQuery =
-            `(fiscalYearId=${fiscalYearId} and (fromFundId=${fundId} or toFundId=${fundId}))`;
-          const filterQuery = buildFilterQuery(queryParams, (query) => `(id=${query}* or amount=${query}*)`);
-
-          return connectQuery(
-            filterQuery ? `${requiredFilterQuery} and ${filterQuery}` : requiredFilterQuery,
-            buildSortingQuery(queryParams),
-          );
-        },
-      }
-    }
-  },
-});
-
 TransactionsList.propTypes = {
-  resources: PropTypes.object.isRequired,
-  mutator: PropTypes.object.isRequired,
+  onNeedMoreData: PropTypes.func.isRequired,
+  resetData: PropTypes.func.isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object),
+  transactionsCount: PropTypes.number,
+  isLoadingTransactions: PropTypes.bool,
+  transactions: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
 };
 
-export default withRouter(stripesConnect(TransactionsList));
+TransactionsList.defaultProps = {
+  transactionsCount: 0,
+  isLoadingTransactions: false,
+  transactions: [],
+  funds: [],
+};
+
+export default withRouter(TransactionsList);

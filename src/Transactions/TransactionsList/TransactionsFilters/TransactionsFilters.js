@@ -9,17 +9,13 @@ import {
   AcqCheckboxFilter,
 } from '@folio/stripes-acq-components';
 
+import {
+  TRANSACTION_TYPE_OPTIONS,
+} from '../../constants';
+
 const FILTERS = {
   TRANSACTION_TYPE: 'transactionType',
 };
-
-const TRANSACTION_TYPE_OPTIONS = [
-  { label: 'Allocation', value: 'Allocation' },
-  { label: 'Credit', value: 'Credit' },
-  { label: 'Payment', value: 'Payment' },
-  { label: 'Transfer', value: 'Transfer' },
-  { label: 'Encumbrance', value: 'Encumbrance' },
-];
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
@@ -38,7 +34,7 @@ const TransactionsFilters = ({
         <AcqCheckboxFilter
           id={FILTERS.TRANSACTION_TYPE}
           activeFilters={activeFilters[FILTERS.TRANSACTION_TYPE]}
-          labelId="ui-invoice.invoice.paymentMethod"
+          labelId="ui-finance.transaction.type"
           name={FILTERS.TRANSACTION_TYPE}
           onChange={adaptedApplyFilters}
           options={TRANSACTION_TYPE_OPTIONS}

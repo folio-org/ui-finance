@@ -5,7 +5,6 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import {
   GROUPS_ROUTE,
   FISCAL_YEAR_ROUTE,
-  TRANSACTIONS_ROUTE,
 } from '../../common/const';
 
 import Ledger from '../Ledger';

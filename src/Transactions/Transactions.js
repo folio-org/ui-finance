@@ -8,7 +8,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import TransactionsList from './TransactionsList';
 
-const Groups = ({ match }) => {
+const Transactions = ({ match }) => {
   return (
     <Switch>
       <Route
@@ -19,8 +19,8 @@ const Groups = ({ match }) => {
   );
 };
 
-Groups.propTypes = {
+Transactions.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
 };
 
-export default withRouter(Groups);
+export default withRouter(Transactions);

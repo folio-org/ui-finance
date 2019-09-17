@@ -33,12 +33,6 @@ const BudgetInformation = ({
 
     <Col xs={3}>
       <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.code" />}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.allocationDate" />}
       />
     </Col>
@@ -113,12 +107,6 @@ const BudgetInformation = ({
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.actionsRequired" />}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.description" />}
       />
     </Col>
 

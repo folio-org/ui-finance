@@ -5,3 +5,6 @@ export const FISCAL_YEAR_ROUTE = '/finance/fiscalyear';
 export const LEDGERS_ROUTE = '/finance/ledger';
 export const LEDGER_VIEW_ROUTE = `${LEDGERS_ROUTE}/view/`;
 export const LEDGER_EDIT_ROUTE = `${LEDGERS_ROUTE}/edit/`;
+export const BUDGET_ROUTE = '/finance/budget/';
+export const BUDGET_VIEW_ROUTE = '/view/';
+export const BUDGET_TRANSACTIONS_ROUTE = '/transactions/';

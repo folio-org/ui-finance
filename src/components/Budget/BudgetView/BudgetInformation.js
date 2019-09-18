@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import {
   Col,
@@ -12,6 +13,11 @@ import {
   FolioFormattedDate,
 } from '@folio/stripes-acq-components';
 
+import {
+  BUDGET_ROUTE,
+  BUDGET_TRANSACTIONS_ROUTE,
+} from '../../../common/const';
+
 const BudgetInformation = ({
   allowableEncumbrance,
   allowableExpenditure,
@@ -22,18 +28,13 @@ const BudgetInformation = ({
   fiscalEnd,
   fiscalStart,
   name,
+  id,
 }) => (
   <Row>
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.name" />}
         value={name}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.code" />}
       />
     </Col>
 
@@ -118,14 +119,12 @@ const BudgetInformation = ({
 
     <Col xs={3}>
       <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.description" />}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.transactions" />}
-      />
+      >
+        <Link to={`${BUDGET_ROUTE}${id}${BUDGET_TRANSACTIONS_ROUTE}`}>
+          <FormattedMessage id="ui-finance.budget.transactions.view" />
+        </Link>
+      </KeyValue>
     </Col>
   </Row>
 );
@@ -140,6 +139,7 @@ BudgetInformation.propTypes = {
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string,
 };
 
 BudgetInformation.defaultProps = {

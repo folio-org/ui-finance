@@ -8,6 +8,7 @@ import {
 import {
   find,
   get,
+  sortBy,
 } from 'lodash';
 
 import { stripesShape } from '@folio/stripes/core';
@@ -77,7 +78,7 @@ const FundForm = ({
     [],
   );
 
-  const funds = get(parentResources, ['records', 'records'], []);
+  const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
   const fundTypes = get(parentResources, ['fundTypes', 'records'], []).map(
     ({ name, id }) => ({
       label: name,

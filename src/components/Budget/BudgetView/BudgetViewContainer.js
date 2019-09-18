@@ -15,19 +15,25 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
-import { LoadingPane } from '@folio/stripes-acq-components';
+import {
+  LoadingPane,
+  useModalToggle,
+} from '@folio/stripes-acq-components';
 
 import {
   budgetResource,
   fiscalYearResource,
 } from '../../../common/resources';
 import { FISCAL_YEARS_API } from '../../../common/const';
+import TransferAddModal from '../../../Transactions/Transfer';
 import BudgetView from './BudgetView';
 
 const BudgetViewContainer = ({ history, resources }) => {
   const budget = get(resources, ['budget', 'records', 0]);
   const fiscalYear = get(resources, ['fiscalYear', 'records', 0], {});
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
+
+  const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
 
   const editBudget = useCallback(
     () => {
@@ -57,6 +63,15 @@ const BudgetViewContainer = ({ history, resources }) => {
 
   const lastMenu = (
     <PaneMenu>
+      <Button
+        marginBottom0
+        buttonStyle="primary"
+        data-test-add-transfer-button
+        onClick={toggleTransferModal}
+      >
+        <FormattedMessage id="ui-finance.transaction.button.transfer" />
+      </Button>
+
       <Button
         marginBottom0
         buttonStyle="primary"
@@ -100,6 +115,13 @@ const BudgetViewContainer = ({ history, resources }) => {
           </Col>
         </Row>
       </Pane>
+      {isTransferModalOpened && (
+        <TransferAddModal
+          budgetName={budget.name}
+          fiscalYearId={fiscalYear.id}
+          onClose={toggleTransferModal}
+        />
+      )}
     </Paneset>
   );
 };

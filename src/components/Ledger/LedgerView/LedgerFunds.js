@@ -18,7 +18,7 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
 
       history.push(path);
     },
-    [],
+    [history],
   );
 
   const buildQuery = useMemo(() => {
@@ -39,7 +39,7 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
         query: buildQuery,
       }
     });
-  }, [buildQuery]);
+  }, [buildQuery, mutator.groupFundFiscalYears]);
 
   const fundFiscalYears = get(resources, ['groupFundFiscalYears', 'records'], []);
 

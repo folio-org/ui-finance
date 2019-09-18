@@ -18,7 +18,7 @@ import {
 import {
   ledgerByUrlIdResource,
   fiscalYearsResource,
-  fundsResource, budgetsResource,
+  fundsResource,
 } from '../../../common/resources';
 
 import LedgerView from './LedgerView';

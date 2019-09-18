@@ -117,6 +117,7 @@ const BudgetViewContainer = ({ history, resources }) => {
       </Pane>
       {isTransferModalOpened && (
         <TransferAddModal
+          fundId={budget.fundId}
           budgetName={budget.name}
           fiscalYearId={fiscalYear.id}
           onClose={toggleTransferModal}

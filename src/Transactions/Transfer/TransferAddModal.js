@@ -25,6 +25,7 @@ import TransferAddModalForm from './TransferAddModalForm';
 const TransferAddModal = ({
   budgetName,
   fiscalYearId,
+  fundId,
   mutator,
   onClose,
   resources,
@@ -66,9 +67,11 @@ const TransferAddModal = ({
 
   return (
     <TransferAddModalForm
+      fundId={fundId}
       funds={funds}
       onClose={onClose}
       onSubmit={saveTransfer}
+      store={stripes.store}
     />
   );
 };
@@ -85,6 +88,7 @@ TransferAddModal.manifest = Object.freeze({
 TransferAddModal.propTypes = {
   budgetName: PropTypes.string.isRequired,
   fiscalYearId: PropTypes.string.isRequired,
+  fundId: PropTypes.string.isRequired,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,

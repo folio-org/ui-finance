@@ -34,6 +34,7 @@ import LedgerFunds from './LedgerFunds';
 const LedgerView = ({
   ledger,
   fiscalYear,
+  fiscalYears,
   onClose,
   editLedger,
   removeLedger,
@@ -138,6 +139,7 @@ const LedgerView = ({
         >
           <LedgerFunds
             funds={funds}
+            fiscalYears={fiscalYears}
             currency={ledger.currency}
           />
         </Accordion>
@@ -164,6 +166,7 @@ LedgerView.propTypes = {
   removeLedger: PropTypes.func.isRequired,
   ledger: PropTypes.object.isRequired,
   fiscalYear: PropTypes.string.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object).isRequired,
   funds: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

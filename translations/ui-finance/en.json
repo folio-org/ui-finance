@@ -282,6 +282,7 @@
   "ledger.status.active": "Active",
   "ledger.status.frozen": "Frozen",
   "ledger.status.inactive": "Inactive",
+  "ledger.fund": "Fund",
 
   "fiscalyear": "Fiscal year",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

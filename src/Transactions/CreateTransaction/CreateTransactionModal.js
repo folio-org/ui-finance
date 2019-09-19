@@ -88,6 +88,7 @@ const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, d
       </Button>
     </ModalFooter>
   );
+
   return (
     <Modal
       id="add-transfer-modal"

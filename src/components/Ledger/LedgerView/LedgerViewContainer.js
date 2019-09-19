@@ -95,9 +95,9 @@ LedgerViewContainer.manifest = Object.freeze({
     ...fundsResource,
     GET: {
       params: {
-        query: 'query=(ledgerId=":{id}")'
-      }
-    }
+        query: 'query=(ledgerId=":{id}")',
+      },
+    },
   },
   currentFiscalYears: {
     ...fiscalYearsResource,

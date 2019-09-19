@@ -14,7 +14,7 @@ import Button from '../common/Button';
     link: clickable(),
     values: collection('[class*=mclCell---]', {
       value: text(),
-    })
+    }),
   });
 }
 

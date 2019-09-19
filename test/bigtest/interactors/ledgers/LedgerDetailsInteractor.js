@@ -1,5 +1,6 @@
 import {
   clickable,
+  text,
   collection,
   interactor,
   isPresent,
@@ -11,6 +12,9 @@ import Button from '../common/Button';
 
   list = collection('[class*=mclRow---]', {
     link: clickable(),
+    values: collection('[class*=mclCell---]', {
+      value: text(),
+    })
   });
 }
 

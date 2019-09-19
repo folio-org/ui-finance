@@ -22,14 +22,13 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
   );
 
   const buildQuery = useMemo(() => {
-    const fundIds = funds.map(fund => `fundId="${fund.id}"`);
     const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId="${fiscalYear.id}"`);
 
-    if (fundIds.length && fiscalYears.length) {
+    if (fiscalYears.length) {
       return `query=((${fiscalYearsIds.join(' or ')}))`;
     }
     return null;
-  }, [fiscalYears, funds]);
+  }, [fiscalYears]);
 
   useEffect(() => {
     mutator.groupFundFiscalYears.reset();

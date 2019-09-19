@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
 import {
@@ -18,12 +19,12 @@ import {
 } from '../../common/resources';
 import {
   TRANSACTION_SOURCE,
-  TRANSACTION_TYPES,
 } from '../constants';
-import TransferAddModalForm from './TransferAddModalForm';
+import CreateTransactionModal from './CreateTransactionModal';
 
-const TransferAddModal = ({
+const CreateTransactionContainer = ({
   budgetName,
+  transactionType,
   fiscalYearId,
   fundId,
   mutator,
@@ -33,7 +34,9 @@ const TransferAddModal = ({
 }) => {
   const showCallout = useShowToast();
 
-  const saveTransfer = useCallback(
+  const transactionTypeKey = transactionType.toLowerCase();
+
+  const saveTransaction = useCallback(
     async (formValue) => {
       const { locale, currency } = stripes;
 
@@ -42,18 +45,18 @@ const TransferAddModal = ({
           ...formValue,
           fiscalYearId,
           currency,
-          transactionType: TRANSACTION_TYPES.transfer,
+          transactionType,
           source: TRANSACTION_SOURCE.user,
         });
 
         const { amount } = transfer;
-        showCallout('ui-finance.transaction.transfer.hasBeenCreated', 'success', {
+        showCallout(`ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`, 'success', {
           amount: getAmountWithCurrency(locale, currency, amount),
           budgetName,
         });
         onClose();
       } catch (e) {
-        showCallout('ui-finance.transaction.transfer.hasNotBeenCreated', 'error', {
+        showCallout(`ui-finance.transaction.${transactionTypeKey}.hasNotBeenCreated`, 'error', {
           amount: getAmountWithCurrency(locale, currency, formValue.amount),
           budgetName,
         });
@@ -66,17 +69,18 @@ const TransferAddModal = ({
   const funds = get(resources, ['funds', 'records'], []).map(f => ({ label: f.name, value: f.id }));
 
   return (
-    <TransferAddModalForm
+    <CreateTransactionModal
       fundId={fundId}
       funds={funds}
       onClose={onClose}
-      onSubmit={saveTransfer}
+      onSubmit={saveTransaction}
       store={stripes.store}
+      title={<FormattedMessage id={`ui-finance.transaction.${transactionTypeKey}.title`} />}
     />
   );
 };
 
-TransferAddModal.manifest = Object.freeze({
+CreateTransactionContainer.manifest = Object.freeze({
   funds: fundsResource,
   budget: budgetResource,
   transaction: {
@@ -85,8 +89,9 @@ TransferAddModal.manifest = Object.freeze({
   },
 });
 
-TransferAddModal.propTypes = {
+CreateTransactionContainer.propTypes = {
   budgetName: PropTypes.string.isRequired,
+  transactionType: PropTypes.string.isRequired,
   fiscalYearId: PropTypes.string.isRequired,
   fundId: PropTypes.string.isRequired,
   mutator: PropTypes.object.isRequired,
@@ -95,4 +100,4 @@ TransferAddModal.propTypes = {
   stripes: stripesShape.isRequired,
 };
 
-export default stripesConnect(TransferAddModal);
+export default stripesConnect(CreateTransactionContainer);

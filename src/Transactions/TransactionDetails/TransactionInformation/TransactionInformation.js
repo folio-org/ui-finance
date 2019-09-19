@@ -107,7 +107,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.tags" />}
-            value={tags.tagList}
+            value={tags.tagList.join(', ')}
           />
         </Col>
 

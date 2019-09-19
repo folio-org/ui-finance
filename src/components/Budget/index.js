@@ -1,5 +1,4 @@
 import Budget from './Budget';
-import BudgetForm from './BudgetForm';
-import BudgetPane from './BudgetPane';
 
-export { Budget, BudgetForm, BudgetPane };
+// eslint-disable-next-line import/prefer-default-export
+export { Budget };

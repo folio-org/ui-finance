@@ -50,6 +50,7 @@ const CreateTransactionContainer = ({
         });
 
         const { amount } = transfer;
+
         showCallout(`ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`, 'success', {
           amount: getAmountWithCurrency(locale, currency, amount),
           budgetName,
@@ -63,7 +64,7 @@ const CreateTransactionContainer = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetName, fiscalYearId, mutator]
+    [budgetName, fiscalYearId, mutator],
   );
 
   const funds = get(resources, ['funds', 'records'], []).map(f => ({ label: f.name, value: f.id }));

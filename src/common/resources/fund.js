@@ -13,7 +13,7 @@ export const fundResource = {
 export const fundTypesResource = {
   ...baseManifest,
   path: FUND_TYPES_API,
-  params : {
+  params: {
     query: 'cql.allRecords=1 sortby name',
   },
   records: 'fundTypes',
@@ -22,7 +22,7 @@ export const fundTypesResource = {
 export const fundsResource = {
   ...baseManifest,
   path: FUNDS_API,
-  params : {
+  params: {
     query: 'cql.allRecords=1 sortby name',
   },
   records: 'funds',

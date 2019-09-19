@@ -13,21 +13,25 @@ class BudgetForm extends Component {
     initialValues: PropTypes.object,
     deleteBudget: PropTypes.func,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    parentMutator: PropTypes.object,
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { parentResources } = nextProps;
+
     if (parentResources || (parentResources.fund && parentResources.fiscalyear)) {
       const fundDD = parentResources.fund.records;
+
       if (!_.isEqual(prevState.fundDD, fundDD)) {
         return { fundDD };
       }
       const fiscalyearDD = parentResources.fiscalyear.records;
+
       if (!_.isEqual(prevState.fiscalyearDD, fiscalyearDD)) {
         return { fiscalyearDD };
       }
     }
+
     return false;
   }
 
@@ -39,35 +43,39 @@ class BudgetForm extends Component {
         { label: 'Active', value: 'Active' },
         { label: 'Inactive', value: 'Inactive' },
         { label: 'Frozen', value: 'Frozen' },
-      ]
+      ],
     };
     this.getData = this.getData.bind(this);
   }
 
   componentDidMount() {
     const { parentMutator } = this.props;
+
     parentMutator.queryCustom.update({
       fundQuery: 'query=(name="*")',
-      fiscalyearQuery: 'query=(name="*")'
+      fiscalyearQuery: 'query=(name="*")',
     });
   }
 
   componentWillUnmount() {
     const { parentMutator } = this.props;
+
     parentMutator.queryCustom.update({
       fundQuery: 'query=(name=null)',
       fiscalyearQuery: 'query=(name=null)',
       fundQueryID: 'query=(id=null)',
-      fiscalyearQueryID: 'query=(id=null)'
+      fiscalyearQueryID: 'query=(id=null)',
     });
   }
 
   getData(resourceName) {
     const { parentResources } = this.props;
     const records = (parentResources[`${resourceName}`] || {}).records || [];
+
     if (!records || records.length === 0) return null;
     const newArr = [];
     let preObj = {};
+
     // Loop through records
     if (resourceName === 'fund') {
       preObj = { label: '-- Select a Fund --', value: '' };
@@ -79,14 +87,17 @@ class BudgetForm extends Component {
     Object.keys(records).map((key) => {
       const obj = {
         label: _.toString(records[key].name),
-        value: _.toString(records[key].id)
+        value: _.toString(records[key].id),
       };
+
       newArr.push(obj);
       if (Number(key) === (records.length - 1)) {
         return newArr;
       }
+
       return newArr;
     });
+
     return newArr;
   }
 

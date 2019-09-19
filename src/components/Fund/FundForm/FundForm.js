@@ -75,22 +75,22 @@ const FundForm = ({
     (e, selectedLedgerId) => (
       dispatch(change('ledgerId', selectedLedgerId))
     ),
-    [],
+    [change, dispatch],
   );
 
   const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
   const fundTypes = get(parentResources, ['fundTypes', 'records'], []).map(
     ({ name, id }) => ({
       label: name,
-      value: id
-    })
+      value: id,
+    }),
   );
   const ledgers = get(parentResources, ['ledgers', 'records'], []).map(
     ({ name, id, currency }) => ({
       label: name,
       value: id,
       currency,
-    })
+    }),
   );
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const paneTitle = initialValues.id
@@ -119,7 +119,6 @@ const FundForm = ({
 
     return { renderedItems };
   };
-
 
   return (
     <form>

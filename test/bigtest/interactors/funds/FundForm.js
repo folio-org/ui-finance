@@ -13,7 +13,6 @@ export default interactor(class FundFormInteractor {
   externalAccountNo = fillable('input[name="externalAccountNo"]');
   saveButton = new Button('[data-test-button-save-fund]');
 
-
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);

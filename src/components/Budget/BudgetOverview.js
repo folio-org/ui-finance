@@ -6,9 +6,8 @@ import css from './css/BudgetOverview.css';
 
 class BudgetOverview extends Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
   }
-
 
   constructor(props) {
     super(props);
@@ -22,7 +21,6 @@ class BudgetOverview extends Component {
     const encumbered = Number(_.get(initialValues, ['encumbered'], ''));
     const unavailableSlot = Number(awaitingPayment + encumbered).toFixed(2);
     const availableSlot = Number((allocation - awaitingPayment) - encumbered).toFixed(2);
-
 
     return (
       <div className={css.BudgetOverview}>

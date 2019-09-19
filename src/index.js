@@ -1,3 +1,4 @@
+/* eslint-disable filenames/match-exported */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-router-dom/Switch';
@@ -28,6 +29,7 @@ class Finance extends React.Component {
     if (this.props.showSettings) {
       return <Settings {...this.props} />;
     }
+
     return (
       <Fragment>
         <ToastContext.Provider value={this.callout}>

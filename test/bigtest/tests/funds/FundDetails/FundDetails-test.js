@@ -46,6 +46,7 @@ describe('Funds details', () => {
 
   describe('click on add new budget', () => {
     let fiscalYears = [];
+
     beforeEach(async function () {
       fiscalYears = this.server.createList('fiscalYear', 3);
       await fundDetails.addBudgetButton.click();

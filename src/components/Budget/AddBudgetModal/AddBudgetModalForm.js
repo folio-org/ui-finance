@@ -12,7 +12,10 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { FieldSelect } from '@folio/stripes-acq-components';
+import {
+  FieldSelect,
+  selectOptionsShape,
+} from '@folio/stripes-acq-components';
 import { ADD_BUDGET_MODAL_FORM, BUDGET_STATUSES_OPTIONS } from '../constants';
 
 const footer = (onClose, onSave) => (
@@ -92,7 +95,7 @@ const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
 BudgetAddModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  fiscalYears: PropTypes.arrayOf(PropTypes.object),
+  fiscalYears: selectOptionsShape,
   label: PropTypes.object,
 };
 

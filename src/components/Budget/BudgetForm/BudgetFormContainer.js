@@ -37,7 +37,7 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
         showCallout('ui-finance.budget.hasNotBeenSaved', 'error', { name });
       }
     },
-    [history, mutator]
+    [history, mutator.budget, showCallout],
   );
 
   if (isLoading) {

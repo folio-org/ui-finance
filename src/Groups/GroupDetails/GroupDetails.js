@@ -55,7 +55,7 @@ const GroupDetails = ({
         </MenuSection>
       );
     },
-    [editGroup, toggleRemoveConfirmation]
+    [editGroup, toggleRemoveConfirmation],
   );
 
   const onRemove = useCallback(

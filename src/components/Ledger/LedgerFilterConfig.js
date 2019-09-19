@@ -9,14 +9,14 @@ const Filters = () => {
       label: 'Fiscal Year(s)',
       name: 'fiscalYears',
       cql: 'fiscalYears',
-      values: []
+      values: [],
     },
     {
       label: 'Tags',
       name: 'tags',
       cql: 'tags',
-      values: []
-    }
+      values: [],
+    },
   ];
 };
 

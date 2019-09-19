@@ -1,7 +1,10 @@
 import { get } from 'lodash';
 
-export default (resources) => get(resources, ['fiscalYears', 'records'], []).map(({ name, code, id }) => ({
-  label: code,
-  value: id,
-  code,
-}));
+function getFiscalYearsForSelect(resources) {
+  return get(resources, ['fiscalYears', 'records'], []).map(({ code, id }) => ({
+    label: code,
+    value: id,
+  }));
+}
+
+export default getFiscalYearsForSelect;

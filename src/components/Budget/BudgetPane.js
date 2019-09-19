@@ -17,7 +17,7 @@ class BudgetPane extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    parentMutator: PropTypes.object,
   }
 
   constructor(props) {
@@ -29,6 +29,7 @@ class BudgetPane extends Component {
   getAddFirstMenu() {
     const { onCancel, initialValues } = this.props;
     const ttl = initialValues.id ? 'Edit' : 'New';
+
     return (
       <PaneMenu>
         <IconButton
@@ -44,6 +45,7 @@ class BudgetPane extends Component {
 
   getLastMenu(id, label) {
     const { pristine, submitting, handleSubmit } = this.props;
+
     return (
       <PaneMenu>
         <Button
@@ -64,29 +66,34 @@ class BudgetPane extends Component {
     const newArr = [];
     const fiscalRecords = (this.props.parentResources || {}).fiscalyear.records || [];
     const arrLength = fiscalRecords.length - 1;
+
     if (fiscalRecords != null) {
       Object.keys(fiscalRecords).map((key) => {
         const name = `Code: ${fiscalRecords[key].code}, Name:${fiscalRecords[key].name}`;
         const val = fiscalRecords[key].id;
+
         newArr.push({
           label: name.toString(),
-          value: val.toString()
+          value: val.toString(),
         });
         if (Number(key) === arrLength) {
           return newArr;
         }
+
         return newArr;
       });
     }
+
     return newArr;
   }
 
   deleteBudget(ID) {
     const { parentMutator } = this.props;
+
     parentMutator.records.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
         _path: '/finance/budget',
-        layer: null
+        layer: null,
       });
     });
   }
@@ -102,6 +109,7 @@ class BudgetPane extends Component {
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatebudget', <FormattedMessage id="ui-finance.budget.save" />) :
       this.getLastMenu('clickable-createnewbudget', <FormattedMessage id="ui-finance.budget.save" />);
+
     return (
       <form id="form-budget">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>

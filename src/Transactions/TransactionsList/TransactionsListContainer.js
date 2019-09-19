@@ -39,7 +39,7 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
   );
   const resetData = useCallback(
     () => mutator.resultCount.replace(INITIAL_RESULT_COUNT),
-    [mutator.resultCount]
+    [mutator.resultCount],
   );
   const closePane = useCallback(
     () => {
@@ -51,6 +51,7 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
   const isLoading = !(
     get(resources, ['budget', 'hasLoaded']) && get(resources, ['fundsTransactionsList', 'hasLoaded'])
   );
+
   if (isLoading) {
     return (
       <Paneset>
@@ -119,8 +120,8 @@ TransactionsListContainer.manifest = Object.freeze({
             buildSortingQuery(queryParams),
           );
         },
-      }
-    }
+      },
+    },
   },
 });
 

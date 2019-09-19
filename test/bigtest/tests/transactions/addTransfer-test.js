@@ -25,6 +25,7 @@ describe('Add transfer', () => {
 
   describe('click on add new transfer', () => {
     let funds = [];
+
     beforeEach(async function () {
       funds = this.server.createList('fund', 2);
       await budgetDetails.addTransferButton.click();
@@ -56,6 +57,7 @@ describe('Add transfer', () => {
 
     describe('create new transfer', () => {
       const AMOUNT = 100;
+
       beforeEach(async function () {
         await budgetDetails.addTransferModal.transferTo.select(funds[1].name);
         await budgetDetails.addTransferModal.amount.fill(AMOUNT);

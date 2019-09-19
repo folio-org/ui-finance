@@ -13,5 +13,5 @@ export const budgetResource = {
   path: `${BUDGETS_API}/:{budgetId}`,
   POST: {
     path: BUDGETS_API,
-  }
+  },
 };

@@ -17,7 +17,6 @@ describe('Fund create', () => {
       ledgerId: ledger.id,
     });
 
-
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();
     await fundDetails.actions.editFund.click();

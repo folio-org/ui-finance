@@ -35,7 +35,7 @@ const FiscalYearDetailsContainer = ({
       mutator.groups.GET();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [match.params.id]
+    [match.params.id],
   );
 
   const fiscalYear = get(resources, ['fiscalYear', 'records', '0']);
@@ -46,7 +46,7 @@ const FiscalYearDetailsContainer = ({
 
       history.push(path);
     },
-    [],
+    [history],
   );
 
   const openGroup = useCallback(

@@ -7,7 +7,7 @@ export const transactionResource = {
   path: `${TRANSACTIONS_API}/:{id}`,
   POST: {
     path: TRANSACTIONS_API,
-  }
+  },
 };
 
 export const transactionsResource = {

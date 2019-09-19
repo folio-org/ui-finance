@@ -61,7 +61,7 @@ const LedgerView = ({
         </MenuSection>
       );
     },
-    [editLedger, toggleRemoveConfirmation]
+    [editLedger, toggleRemoveConfirmation],
   );
 
   const onRemove = useCallback(

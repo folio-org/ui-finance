@@ -7,7 +7,7 @@ import {
   NameField,
   ExpendedField,
   EncumberedField,
-  AwaitingPaymentField
+  AwaitingPaymentField,
 } from './BudgetEditFields';
 
 export default interactor(class BudgetEdit {

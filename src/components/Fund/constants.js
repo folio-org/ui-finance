@@ -5,7 +5,7 @@ export const SECTIONS_FUND = {
   INFORMATION: 'information',
   CURRENT_BUDGET: 'currentBudget',
   PLANNED_BUDGET: 'plannedBudget',
-  PREVIOUS_BUDGETS: 'previousBudgets'
+  PREVIOUS_BUDGETS: 'previousBudgets',
 };
 
 export const FUND_FORM = 'fundForm';

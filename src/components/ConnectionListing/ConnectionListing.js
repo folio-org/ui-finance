@@ -13,13 +13,6 @@ const columnMapping = {
   unavailable: <FormattedMessage id="ui-finance.item.unavailable" />,
   available: <FormattedMessage id="ui-finance.item.available" />,
 };
-const columnWidths = {
-  name: '20%',
-  code: '20%',
-  allocated: '20%',
-  unavailable: '20%',
-  available: '20%',
-};
 
 const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   const resultsFormatter = {
@@ -46,7 +39,6 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   return (
     <MultiColumnList
       columnMapping={columnMapping}
-      columnWidths={columnWidths}
       contentData={items}
       formatter={resultsFormatter}
       onRowClick={openItem}

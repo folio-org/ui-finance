@@ -22,10 +22,10 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-const TRANSFER_FORM = 'transferForm';
+const TRANSACTION_FORM = 'transactionForm';
 
-const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dispatch, change }) => {
-  const formValues = getFormValues(TRANSFER_FORM)(store.getState()) || {};
+const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, dispatch, change, title }) => {
+  const formValues = getFormValues(TRANSACTION_FORM)(store.getState()) || {};
   const transferFrom = formValues.fromFundId;
   const transferTo = formValues.toFundId;
   const hasToFundIdProperty = 'toFundId' in formValues;
@@ -91,7 +91,7 @@ const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dis
   return (
     <Modal
       id="add-transfer-modal"
-      label={<FormattedMessage id="ui-finance.transaction.transfer.title" />}
+      label={title}
       footer={footer}
       open
     >
@@ -100,7 +100,7 @@ const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dis
           <Col xs>
             <FieldSelect
               dataOptions={optionsFrom}
-              label={<FormattedMessage id="ui-finance.transaction.transferFrom" />}
+              label={<FormattedMessage id="ui-finance.transaction.from" />}
               name="fromFundId"
               onChange={selectFromFund}
               required={isTransferFromReqired}
@@ -111,7 +111,7 @@ const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dis
           <Col xs>
             <FieldSelect
               dataOptions={optionsTo}
-              label={<FormattedMessage id="ui-finance.transaction.transferTo" />}
+              label={<FormattedMessage id="ui-finance.transaction.to" />}
               name="toFundId"
               onChange={selectToFund}
               required
@@ -133,7 +133,7 @@ const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dis
 
           <Col xs>
             <FieldTags
-              formName={TRANSFER_FORM}
+              formName={TRANSACTION_FORM}
               name="tags.tagList"
             />
           </Col>
@@ -152,7 +152,7 @@ const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dis
   );
 };
 
-TransferAddModalForm.propTypes = {
+CreateTransactionModal.propTypes = {
   change: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   fundId: PropTypes.string.isRequired,
@@ -160,12 +160,13 @@ TransferAddModalForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
+  title: PropTypes.node.isRequired,
 };
 
-TransferAddModalForm.defaultProps = {
+CreateTransactionModal.defaultProps = {
   funds: [],
 };
 
 export default stripesForm({
-  form: TRANSFER_FORM,
-})(TransferAddModalForm);
+  form: TRANSACTION_FORM,
+})(CreateTransactionModal);

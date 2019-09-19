@@ -24,8 +24,12 @@ import {
   budgetResource,
   fiscalYearResource,
 } from '../../../common/resources';
-import { FISCAL_YEARS_API } from '../../../common/const';
-import TransferAddModal from '../../../Transactions/Transfer';
+import {
+  FISCAL_YEARS_API,
+  TRANSACTION_TYPES,
+} from '../../../common/const';
+import CreateTransaction from '../../../Transactions/CreateTransaction';
+
 import BudgetView from './BudgetView';
 
 const BudgetViewContainer = ({ history, resources }) => {
@@ -34,6 +38,7 @@ const BudgetViewContainer = ({ history, resources }) => {
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
 
   const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
+  const [isAllocateModalOpened, toggleAllocateModal] = useModalToggle();
 
   const editBudget = useCallback(
     () => {
@@ -58,6 +63,22 @@ const BudgetViewContainer = ({ history, resources }) => {
           <FormattedMessage id="ui-finance.actions.edit" />
         </Icon>
       </Button>
+
+      <Button
+        buttonStyle="dropdownItem"
+        data-test-add-allocation-menu-button
+        onClick={toggleAllocateModal}
+      >
+        <FormattedMessage id="ui-finance.transaction.allocate" />
+      </Button>
+
+      <Button
+        buttonStyle="dropdownItem"
+        data-test-add-transfer-menu-button
+        onClick={toggleTransferModal}
+      >
+        <FormattedMessage id="ui-finance.transaction.button.transfer" />
+      </Button>
     </MenuSection>
   );
 
@@ -65,7 +86,16 @@ const BudgetViewContainer = ({ history, resources }) => {
     <PaneMenu>
       <Button
         marginBottom0
-        buttonStyle="primary"
+        buttonStyle="default"
+        data-test-add-allocation-button
+        onClick={toggleAllocateModal}
+      >
+        <FormattedMessage id="ui-finance.transaction.allocate" />
+      </Button>
+
+      <Button
+        marginBottom0
+        buttonStyle="default"
         data-test-add-transfer-button
         onClick={toggleTransferModal}
       >
@@ -115,12 +145,24 @@ const BudgetViewContainer = ({ history, resources }) => {
           </Col>
         </Row>
       </Pane>
+
       {isTransferModalOpened && (
-        <TransferAddModal
+        <CreateTransaction
           fundId={budget.fundId}
           budgetName={budget.name}
+          transactionType={TRANSACTION_TYPES.transfer}
           fiscalYearId={fiscalYear.id}
           onClose={toggleTransferModal}
+        />
+      )}
+
+      {isAllocateModalOpened && (
+        <CreateTransaction
+          fundId={budget.fundId}
+          budgetName={budget.name}
+          transactionType={TRANSACTION_TYPES.allocation}
+          fiscalYearId={fiscalYear.id}
+          onClose={toggleAllocateModal}
         />
       )}
     </Paneset>

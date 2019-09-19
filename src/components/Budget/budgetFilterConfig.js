@@ -9,20 +9,20 @@ const Filters = () => {
       label: 'Budget Status',
       name: 'budgetStatus',
       cql: 'budgetStatus',
-      values: ['Active', 'Inactive', 'Frozen']
+      values: ['Active', 'Inactive', 'Frozen'],
     },
     {
       label: 'Fiscal Year(s)',
       name: 'fiscalYears',
       cql: 'fiscalYearId',
-      values: []
+      values: [],
     },
     {
       label: 'Tags',
       name: 'tags',
       cql: 'tags',
-      values: []
-    }
+      values: [],
+    },
   ];
 };
 

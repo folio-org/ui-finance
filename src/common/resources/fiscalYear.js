@@ -16,7 +16,7 @@ export const fiscalYearsResource = {
 
 export const fiscalYearResource = {
   ...baseManifest,
-  path: `${FISCAL_YEARS_API}/:{id}`
+  path: `${FISCAL_YEARS_API}/:{id}`,
 };
 
 export const fiscalYearFundsResource = {

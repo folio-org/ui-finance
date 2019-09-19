@@ -9,14 +9,14 @@ import { stripesConnect } from '@folio/stripes/core';
 import BudgetAddModalForm from './AddBudgetModalForm';
 import {
   budgetResource,
-  fiscalYearsResource
+  fiscalYearsResource,
 } from '../../../common/resources';
 import getFiscalYearsForSelect from '../../../Utils/getFiscalYearsForSelect';
 import { BUDGET_STATUSES } from '../constants';
 
 const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStatus }) => {
   const showCallout = useShowToast();
-  const fiscalYears = useMemo(() => getFiscalYearsForSelect(resources), [resources.fiscalYears]);
+  const fiscalYears = useMemo(() => getFiscalYearsForSelect(resources), [resources]);
 
   const getFiscalYear = useCallback((formValue) => {
     return fiscalYears.find(year => year.value === formValue.fiscalYearId);
@@ -32,6 +32,7 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
           name: `${fund.code}-${fiscalYear.code}`,
         });
         const { name, id } = budget;
+
         showCallout('ui-finance.budget.hasBeenCreated', 'success', { name, fundName: fund.name });
         const path = `/finance/budget/${id}/view`;
 
@@ -40,7 +41,7 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
         showCallout('ui-finance.budget.hasNotBeenCreated', 'error');
       }
     },
-    [history, getFiscalYear, fund, mutator]
+    [getFiscalYear, mutator.budget, fund.id, fund.code, fund.name, showCallout, history],
   );
 
   const budgetModalLabel = budgetStatus === BUDGET_STATUSES.ACTIVE
@@ -66,7 +67,7 @@ AddBudgetModal.manifest = Object.freeze({
     ...budgetResource,
     fetch: false,
     accumulate: true,
-  }
+  },
 });
 
 AddBudgetModal.propTypes = {

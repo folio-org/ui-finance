@@ -40,7 +40,7 @@ const GroupDetailsContainer = ({
       mutator.currentFiscalYears.GET();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [groupId]
+    [groupId],
   );
 
   const editGroup = useCallback(
@@ -98,7 +98,7 @@ GroupDetailsContainer.manifest = Object.freeze({
         },
       },
     },
-  }
+  },
 });
 
 GroupDetailsContainer.propTypes = {

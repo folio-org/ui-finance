@@ -138,7 +138,6 @@ const FundDetailsContainer = ({
     !get(resources, ['budgets', 'hasLoaded'])
   );
 
-
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <MenuSection id="fund-details-actions">
@@ -153,7 +152,7 @@ const FundDetailsContainer = ({
         />
       </MenuSection>
     ),
-    [],
+    [onEdit],
   );
 
   const openBudget = useCallback(
@@ -162,7 +161,7 @@ const FundDetailsContainer = ({
 
       history.push(path);
     },
-    [],
+    [history],
   );
 
   const addBudgetButton = useCallback((status, count) => {

@@ -8,7 +8,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Paneset } from '@folio/stripes/components';
 import {
   useShowToast,
-  LoadingPane
+  LoadingPane,
 } from '@folio/stripes-acq-components';
 
 import { GROUP_VIEW_ROUTE } from '../../common/const';
@@ -24,7 +24,7 @@ const EditGroup = ({ resources, mutator, match, history }) => {
       mutator.groupEdit.GET();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [groupId]
+    [groupId],
   );
 
   const showToast = useShowToast();

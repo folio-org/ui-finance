@@ -9,7 +9,7 @@ import {
   Row,
   Select,
   TextArea,
-  TextField
+  TextField,
 } from '@folio/stripes/components';
 
 import { Required } from '../../Utils/Validate';
@@ -21,10 +21,10 @@ class LedgerForm extends Component {
     initialValues: PropTypes.object,
     dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
+      value: PropTypes.string.isRequired,
     })),
     parentMutator: PropTypes.object,
-    fundData: PropTypes.arrayOf(PropTypes.object)
+    fundData: PropTypes.arrayOf(PropTypes.object),
   }
 
   constructor(props) {
@@ -45,6 +45,7 @@ class LedgerForm extends Component {
 
   componentDidMount() {
     const { parentMutator } = this.props;
+
     parentMutator.queryCustom.update({ fiscalyearsQuery: 'query=(name="*")' });
   }
 
@@ -96,6 +97,7 @@ class LedgerForm extends Component {
     const { initialValues, fundData } = this.props;
     const isEditPage = initialValues.id || false;
     const isFundData = fundData !== null ? fundData : false;
+
     return (
       <div>
         <Row>

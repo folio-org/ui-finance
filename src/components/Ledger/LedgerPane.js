@@ -19,13 +19,14 @@ class LedgerPane extends Component {
     parentMutator: PropTypes.object,
     dropdownFiscalyears: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    }))
+      value: PropTypes.string.isRequired,
+    })),
   }
 
   getAddFirstMenu() {
     const { onCancel, initialValues } = this.props;
     const ttl = initialValues.id ? <FormattedMessage id="ui-finance.ledger.edit" /> : <FormattedMessage id="ui-finance.ledger.new" />;
+
     return (
       <PaneMenu>
         <IconButton
@@ -41,6 +42,7 @@ class LedgerPane extends Component {
 
   getLastMenu(id, label) {
     const { pristine, submitting, handleSubmit } = this.props;
+
     return (
       <PaneMenu>
         <Button
@@ -64,7 +66,7 @@ class LedgerPane extends Component {
       <span>
         {(
           <FormattedMessage id="ui-finance.ledger.edit">
-            { item => `${item}: ${_.get(initialValues, ['name'], '')}` }
+            {item => `${item}: ${_.get(initialValues, ['name'], '')}`}
           </FormattedMessage>
         )}
       </span>

@@ -17,12 +17,13 @@ class FiscalYearPane extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    parentMutator: PropTypes.object,
   }
 
   getAddFirstMenu() {
     const { onCancel, initialValues } = this.props;
     const ttl = initialValues.id ? 'Edit' : 'New';
+
     return (
       <PaneMenu>
         <IconButton
@@ -38,6 +39,7 @@ class FiscalYearPane extends Component {
 
   getLastMenu(id, label) {
     const { pristine, submitting, handleSubmit } = this.props;
+
     return (
       <PaneMenu>
         <Button
@@ -65,6 +67,7 @@ class FiscalYearPane extends Component {
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatefiscalyear', <FormattedMessage id="ui-finance.fiscalYear.save" />) :
       this.getLastMenu('clickable-createnewfiscalyear', <FormattedMessage id="ui-finance.fiscalYear.save" />);
+
     return (
       <form id="form-fiscalyear">
         <Pane defaultWidth="100%" firstMenu={firstMenu} lastMenu={lastMenu} paneTitle={paneTitle}>

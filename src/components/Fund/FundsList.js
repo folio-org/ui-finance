@@ -37,7 +37,7 @@ class FundsList extends Component {
     onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
-    onComponentWillUnmount: PropTypes.func
+    onComponentWillUnmount: PropTypes.func,
   }
 
   static manifest = Object.freeze({
@@ -46,7 +46,7 @@ class FundsList extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: ''
+        sort: '',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -83,10 +83,11 @@ class FundsList extends Component {
 
   create = (fundData) => {
     const { mutator } = this.props;
+
     mutator.records.POST(fundData).then(newFund => {
       mutator.query.update({
         _path: `/finance/fund/view/${newFund.id}`,
-        layer: null
+        layer: null,
       });
     });
   }
@@ -111,8 +112,10 @@ class FundsList extends Component {
 
     const packageInfoReWrite = () => {
       const path = '/finance/fund';
+
       packageInfo.stripes.route = path;
       packageInfo.stripes.home = path;
+
       return packageInfo;
     };
 

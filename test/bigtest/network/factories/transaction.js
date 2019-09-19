@@ -15,5 +15,5 @@ export default Factory.extend({
       'tag 1',
       'tag 3',
     ],
-  }
+  },
 });

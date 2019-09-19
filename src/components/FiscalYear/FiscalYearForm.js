@@ -6,7 +6,7 @@ import {
   Datepicker,
   Row,
   TextArea,
-  TextField
+  TextField,
 } from '@folio/stripes/components';
 
 // Components and Utils
@@ -18,7 +18,7 @@ class FiscalYearForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     ledgerData: PropTypes.arrayOf(PropTypes.object),
-    budgetData: PropTypes.arrayOf(PropTypes.object)
+    budgetData: PropTypes.arrayOf(PropTypes.object),
   }
 
   render() {

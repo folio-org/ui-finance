@@ -141,7 +141,7 @@ GroupForm.propTypes = {
 };
 
 GroupForm.defaultProps = {
-  initialValues: {}
+  initialValues: {},
 };
 
 export default stripesForm({

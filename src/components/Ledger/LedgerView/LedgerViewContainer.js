@@ -41,7 +41,7 @@ const LedgerViewContainer = ({
       mutator.currentFiscalYears.GET();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ledgerId]
+    [ledgerId],
   );
 
   const editLedger = useCallback(
@@ -111,7 +111,7 @@ LedgerViewContainer.manifest = Object.freeze({
         },
       },
     },
-  }
+  },
 });
 
 LedgerViewContainer.propTypes = {

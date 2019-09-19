@@ -36,7 +36,7 @@ class Ledger extends Component {
     onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
-    onComponentWillUnmount: PropTypes.func
+    onComponentWillUnmount: PropTypes.func,
   };
 
   static manifest = Object.freeze({
@@ -45,7 +45,7 @@ class Ledger extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: ''
+        sort: '',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -62,13 +62,14 @@ class Ledger extends Component {
             const resourceData = args[2];
             const sortMap = {
               'Name': 'name',
-              'Code': 'code'
+              'Code': 'code',
             };
             const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
             const searchableIndex = searchableIndexes.find(idx => idx.value === index);
 
             let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
+
             if (filterCql) {
               if (cql) {
                 cql = `(${cql}) and ${filterCql}`;
@@ -78,23 +79,28 @@ class Ledger extends Component {
             }
 
             const { sort } = resourceData.query;
+
             if (sort) {
               const sortIndexes = sort.split(',').map((sort1) => {
                 let reverse = false;
+
                 if (sort1.startsWith('-')) {
                   // eslint-disable-next-line no-param-reassign
                   sort1 = sort1.substr(1);
                   reverse = true;
                 }
                 let sortIndex = sortMap[sort1] || sort1;
+
                 if (reverse) {
                   sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
                 }
+
                 return sortIndex;
               });
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
+
             return cql;
           },
         },
@@ -106,7 +112,7 @@ class Ledger extends Component {
         ledgerIDQuery: 'query=(id="null")',
         fundQuery: 'query=(ledgerId="null")',
         fiscalyearIDQuery: 'query=(id="null")',
-      }
+      },
     },
     ledgerID: {
       type: 'okapi',
@@ -117,11 +123,13 @@ class Ledger extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
+
           if (`${data.queryCustom.ledgerIDQuery}` === 'undefined') return undefined;
           const cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
+
           return cql;
         },
-      }
+      },
     },
     fiscalyear: {
       type: 'okapi',
@@ -131,9 +139,10 @@ class Ledger extends Component {
       params: {
         query: () => {
           const cql = 'query=(id="*") sortby id';
+
           return cql;
         },
-      }
+      },
     },
     fiscalyearID: {
       type: 'okapi',
@@ -143,11 +152,13 @@ class Ledger extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
+
           if (`${data.queryCustom.fiscalyearIDQuery}` === 'undefined') return undefined;
           const cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
+
           return cql;
-        }
-      }
+        },
+      },
     },
     fund: {
       type: 'okapi',
@@ -157,12 +168,14 @@ class Ledger extends Component {
       params: {
         query: (...args) => {
           const data = args[2];
+
           if (`${data.queryCustom.fundQuery}` === 'undefined') return undefined;
           const cql = `${data.queryCustom.fundQuery} sortby name`;
+
           return cql;
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   constructor(props) {
@@ -175,9 +188,11 @@ class Ledger extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     const fy = (nextProps.resources.fiscalyear || {}).records || [];
+
     if (fy && fy.length) {
       const fyFilterConfig = filterConfig.find(group => group.name === 'fiscalYears');
       const fyLength = fyFilterConfig.values.length;
+
       fyFilterConfig.values = fy.map(rec => ({ name: rec.name, cql: rec.id }));
       if (fyLength === 0) {
         nextProps.mutator.initializedFilterConfig.replace(true);
@@ -189,27 +204,32 @@ class Ledger extends Component {
 
   create = (ledgerdata) => {
     const { mutator } = this.props;
+
     mutator.records.POST(ledgerdata).then(newLedger => {
       mutator.query.update({
         _path: `/finance/ledger/view/${newLedger.id}`,
-        layer: null
+        layer: null,
       });
     });
   }
 
   onChangeIndex = (e) => {
     const qindex = e.target.value;
+
     this.props.mutator.query.update({ qindex });
   }
 
   getFiscalYears() {
     const newArr = [];
     const fiscalRecords = (this.props.resources.fiscalyear || {}).records || [];
+
     if (!fiscalRecords || fiscalRecords.length === 0) return null;
     const arrLength = fiscalRecords.length - 1;
+
     if (fiscalRecords != null) {
       // Loop through records
       const preObj = { label: 'Select a Fiscal Year', value: '' };
+
       newArr.push(preObj);
       // Loop through records
       Object.keys(fiscalRecords).map((key) => {
@@ -217,15 +237,18 @@ class Ledger extends Component {
         const val = fiscalRecords[key].id;
         const obj = {
           label: _.toString(name),
-          value: _.toString(val)
+          value: _.toString(val),
         };
+
         newArr.push(obj);
         if (Number(key) === arrLength) {
           return newArr;
         }
+
         return newArr;
       });
     }
+
     return newArr;
   }
 
@@ -237,14 +260,16 @@ class Ledger extends Component {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
     const resultsFormatter = {
       'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.get(data, ['code'], '')
+      'Code': data => _.get(data, ['code'], ''),
     };
     const getRecords = (resources || {}).records || [];
     const getFiscalYearsRecords = this.getFiscalYears();
     const packageInfoReWrite = () => {
       const path = '/finance/ledger';
+
       packageInfo.stripes.route = path;
       packageInfo.stripes.home = path;
+
       return packageInfo;
     };
     const columnMapping = {

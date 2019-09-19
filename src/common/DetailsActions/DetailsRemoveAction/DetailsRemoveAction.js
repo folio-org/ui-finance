@@ -14,7 +14,7 @@ const DetailsRemoveAction = ({ disabled, perm, onRemove, toggleActionMenu }) => 
       onRemove();
       toggleActionMenu();
     },
-    [onRemove, toggleActionMenu]
+    [onRemove, toggleActionMenu],
   );
 
   return (

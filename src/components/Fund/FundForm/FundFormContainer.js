@@ -30,7 +30,7 @@ const FundFormContainer = ({ resources, mutator, onCloseEdit, stripes, parentRes
           showCallout('ui-finance.fund.hasNotBeenSaved', 'error');
         });
     },
-    [],
+    [mutator.fund, onCloseEdit, showCallout],
   );
 
   const fund = get(resources, ['fund', 'records', 0]);

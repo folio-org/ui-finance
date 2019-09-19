@@ -20,6 +20,7 @@ describe('Transactions list', () => {
   beforeEach(async function () {
     const fiscalYear = this.server.create('fiscalYear');
     const budget = this.server.create('budget');
+
     this.server.createList('transaction', TRANSACTIONS_COUNT, {
       fiscalYearId: fiscalYear.id,
     });

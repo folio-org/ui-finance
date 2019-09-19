@@ -61,7 +61,7 @@ const FiscalYearDetails = ({
         />
       </MenuSection>
     ),
-    [onEdit, toggleRemoveConfirmation],
+    [funds.length, groups.length, ledgers.length, onEdit, toggleRemoveConfirmation],
   );
 
   const lastMenu = (

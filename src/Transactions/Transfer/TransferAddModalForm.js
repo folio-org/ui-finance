@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import {
+  Field,
+  getFormValues,
+} from 'redux-form';
 
 import stripesForm from '@folio/stripes/form';
 import {
@@ -21,7 +24,53 @@ import {
 
 const TRANSFER_FORM = 'transferForm';
 
-const TransferAddModalForm = ({ handleSubmit, onClose, funds }) => {
+const TransferAddModalForm = ({ fundId, handleSubmit, onClose, funds, store, dispatch, change }) => {
+  const formValues = getFormValues(TRANSFER_FORM)(store.getState()) || {};
+  const transferFrom = formValues.fromFundId;
+  const transferTo = formValues.toFundId;
+  const hasToFundIdProperty = 'toFundId' in formValues;
+  const hasFromFundIdProperty = 'fromFundId' in formValues;
+  const isTransferFromReqired = hasToFundIdProperty ? transferTo !== fundId : false;
+  const validateTransferFrom = isTransferFromReqired ? { validate: validateRequired } : {};
+
+  const optionsFrom = (
+    (!hasToFundIdProperty ||
+    formValues.toFundId === fundId)
+      ? funds
+      : funds.filter(f => f.value === fundId)
+  );
+
+  const optionsTo = (
+    (!hasFromFundIdProperty ||
+    formValues.fromFundId === fundId)
+      ? funds
+      : funds.filter(f => f.value === fundId)
+  );
+
+  const selectFromFund = useCallback(
+    (e, id) => {
+      dispatch(change('fromFundId', id));
+
+      if (transferFrom !== fundId) {
+        dispatch(change('toFundId', fundId));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fundId, transferFrom],
+  );
+
+  const selectToFund = useCallback(
+    (e, id) => {
+      dispatch(change('toFundId', id));
+
+      if (transferTo !== fundId) {
+        dispatch(change('fromFundId', fundId));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fundId, transferTo],
+  );
+
   const footer = (
     <ModalFooter>
       <Button
@@ -50,17 +99,21 @@ const TransferAddModalForm = ({ handleSubmit, onClose, funds }) => {
         <Row>
           <Col xs>
             <FieldSelect
-              dataOptions={funds}
+              dataOptions={optionsFrom}
               label={<FormattedMessage id="ui-finance.transaction.transferFrom" />}
               name="fromFundId"
+              onChange={selectFromFund}
+              required={isTransferFromReqired}
+              {...validateTransferFrom}
             />
           </Col>
 
           <Col xs>
             <FieldSelect
-              dataOptions={funds}
+              dataOptions={optionsTo}
               label={<FormattedMessage id="ui-finance.transaction.transferTo" />}
               name="toFundId"
+              onChange={selectToFund}
               required
               validate={validateRequired}
             />
@@ -100,8 +153,12 @@ const TransferAddModalForm = ({ handleSubmit, onClose, funds }) => {
 };
 
 TransferAddModalForm.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  fundId: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  store: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
 };
 

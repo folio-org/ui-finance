@@ -10,6 +10,7 @@ import Button from '../common/Button';
   cancelButton = new Button('[data-test-add-transfer-cancel]');
   saveButton = new Button('[data-test-add-transfer-save]');
   transferTo = new Interactor('select[name=toFundId]');
+  transferFrom = new Interactor('select[name=fromFundId]');
   amount = new Interactor('input[name=amount]');
 }
 

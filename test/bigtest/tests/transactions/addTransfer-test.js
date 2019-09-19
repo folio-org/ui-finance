@@ -34,9 +34,28 @@ describe('Add transfer', () => {
       expect(budgetDetails.addTransferModal.isPresent).to.be.true;
     });
 
+    describe('fill transfer to field', () => {
+      beforeEach(async function () {
+        await budgetDetails.addTransferModal.transferTo.select(funds[1].name);
+      });
+
+      it('transfer from field is prepopulated', () => {
+        expect(budgetDetails.addTransferModal.transferFrom.value).to.be.not.equal('');
+      });
+    });
+
+    describe('fill transfer from field', () => {
+      beforeEach(async function () {
+        await budgetDetails.addTransferModal.transferFrom.select(funds[1].name);
+      });
+
+      it('transfer to field is prepopulated', () => {
+        expect(budgetDetails.addTransferModal.transferTo.value).to.be.not.equal('');
+      });
+    });
+
     describe('create new transfer', () => {
       const AMOUNT = 100;
-
       beforeEach(async function () {
         await budgetDetails.addTransferModal.transferTo.select(funds[1].name);
         await budgetDetails.addTransferModal.amount.fill(AMOUNT);

@@ -4,6 +4,7 @@ import {
   FISCAL_YEAR_FUNDS_API,
   FISCAL_YEAR_GROUPS_API,
   FISCAL_YEAR_LEDGERS_API,
+  GROUP_FUND_FISCAL_YEARS_API,
   FISCAL_YEARS_API,
 } from '../const';
 
@@ -38,6 +39,14 @@ export const fiscalYearGroupsResource = {
   ...baseManifest,
   path: FISCAL_YEAR_GROUPS_API,
   records: 'groups',
+  accumulate: true,
+  fetch: false,
+};
+
+export const groupFundFiscalYears = {
+  ...baseManifest,
+  path: GROUP_FUND_FISCAL_YEARS_API,
+  records: 'groupFundFiscalYears',
   accumulate: true,
   fetch: false,
 };

@@ -18,6 +18,7 @@ import {
 import {
   ledgerByUrlIdResource,
   fiscalYearsResource,
+  fundsResource,
 } from '../../../common/resources';
 
 import LedgerView from './LedgerView';
@@ -60,6 +61,7 @@ const LedgerViewContainer = ({
 
   const isLoading = !(
     get(resources, ['ledgerDetails', 'hasLoaded']) &&
+    get(resources, ['funds', 'hasLoaded']) &&
     get(resources, ['currentFiscalYears', 'hasLoaded'])
   );
 
@@ -67,16 +69,19 @@ const LedgerViewContainer = ({
     return <LoadingPane onClose={onClose} />;
   }
 
-  const fiscalYear = get(resources, ['currentFiscalYears', 'records'], [])
-    .map(({ code: fyCode }) => fyCode).join(', ');
+  const fiscalYears = get(resources, ['currentFiscalYears', 'records'], []);
+  const fiscalYear = fiscalYears.map(({ code: fyCode }) => fyCode).join(', ');
+  const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <LedgerView
       ledger={ledger}
       fiscalYear={fiscalYear}
+      fiscalYears={fiscalYears}
       onClose={onClose}
       editLedger={editLedger}
       removeLedger={removeLedger}
+      funds={funds}
     />
   );
 };
@@ -85,6 +90,14 @@ LedgerViewContainer.manifest = Object.freeze({
   ledgerDetails: {
     ...ledgerByUrlIdResource,
     accumulate: true,
+  },
+  funds: {
+    ...fundsResource,
+    GET: {
+      params: {
+        query: 'query=(ledgerId=":{id}")'
+      }
+    }
   },
   currentFiscalYears: {
     ...fiscalYearsResource,

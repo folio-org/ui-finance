@@ -29,13 +29,16 @@ import {
   LEDGER_ACCORDTION_LABELS,
 } from '../constants';
 import LedgerInformation from './LedgerInformation';
+import LedgerFunds from './LedgerFunds';
 
 const LedgerView = ({
   ledger,
   fiscalYear,
+  fiscalYears,
   onClose,
   editLedger,
   removeLedger,
+  funds,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
@@ -130,6 +133,16 @@ const LedgerView = ({
             currency={ledger.currency}
           />
         </Accordion>
+        <Accordion
+          id={LEDGER_ACCORDTION.fund}
+          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.fund]}
+        >
+          <LedgerFunds
+            funds={funds}
+            fiscalYears={fiscalYears}
+            currency={ledger.currency}
+          />
+        </Accordion>
       </AccordionSet>
 
       {isRemoveConfirmation && (
@@ -153,6 +166,8 @@ LedgerView.propTypes = {
   removeLedger: PropTypes.func.isRequired,
   ledger: PropTypes.object.isRequired,
   fiscalYear: PropTypes.string.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object).isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default LedgerView;

@@ -1,6 +1,7 @@
 export const ACQUISITIONS_UNITS_API = 'acquisitions-units/units';
 export const BUDGETS_API = 'finance-storage/budgets';
 export const FISCAL_YEARS_API = 'finance-storage/fiscal-years';
+export const GROUP_FUND_FISCAL_YEARS_API = 'finance-storage/group-fund-fiscal-years';
 export const FUND_TYPES_API = 'finance-storage/fund-types';
 export const FISCAL_YEAR_FUNDS_API = 'finance/fiscal-years/:{id}/funds';
 export const FISCAL_YEAR_GROUPS_API = 'finance/fiscal-years/:{id}/groups';

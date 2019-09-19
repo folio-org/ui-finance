@@ -410,5 +410,10 @@
     "transaction.type.Transfer": "Transfer",
     "transaction.type": "Type",
     "budget.transactions.view": "View transactions",
-    "transactions.search": "Search transactions"
+    "transactions.search": "Search transactions",
+    "transaction.allocate": "Allocate",
+    "transaction.allocation.title": "Allocation",
+    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
+    "transaction.allocation.hasNotBeenCreated": "{amount} was not successfully allocated to the budget {budgetName}",
+    "ledger.fund": "Fund"
 }

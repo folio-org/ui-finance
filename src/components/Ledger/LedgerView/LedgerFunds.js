@@ -10,7 +10,6 @@ import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import ConnectionListing from '../../ConnectionListing';
 import { groupFundFiscalYears } from '../../../common/resources';
 
-
 const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources }) => {
   const openFund = useCallback(
     (e, fund) => {
@@ -27,6 +26,7 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
     if (fiscalYears.length) {
       return `query=((${fiscalYearsIds.join(' or ')}))`;
     }
+
     return null;
   }, [fiscalYears]);
 
@@ -36,7 +36,7 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
       params: {
         limit: LIMIT_MAX,
         query: buildQuery,
-      }
+      },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildQuery]);
@@ -47,12 +47,14 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
 
   const fundsToDisplay = funds.map(fund => {
     const groupFundFiscalYear = groupedFundFiscalYears[fund.id];
+
     if (!groupFundFiscalYear) return fund;
 
     const sum = groupFundFiscalYear.reduce((result, item) => {
       Object.keys(result).forEach(key => {
         if (item[key]) result[key] += item[key];
       });
+
       return result;
     }, { available: 0, allocated: 0, unavailable: 0 });
 

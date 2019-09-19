@@ -25,7 +25,7 @@ describe('Ledger details', () => {
       fiscalYearId: fiscalYear.id,
       ledgerId: ledger.id,
       fundId: funds[0].id,
-      available: 1000
+      available: 1000,
     });
 
     this.visit(`${LEDGER_VIEW_ROUTE}${ledger.id}`);

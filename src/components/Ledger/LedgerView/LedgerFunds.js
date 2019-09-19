@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
+import { get, groupBy } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
@@ -26,7 +26,7 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
     const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId="${fiscalYear.id}"`);
 
     if (fundIds.length && fiscalYears.length) {
-      return `query=((${fundIds.join(' or ')}) AND (${fiscalYearsIds.join(' or ')}))`;
+      return `query=((${fiscalYearsIds.join(' or ')}))`;
     }
     return null;
   }, [fiscalYears, funds]);
@@ -39,20 +39,24 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
         query: buildQuery,
       }
     });
-  }, [buildQuery, mutator.groupFundFiscalYears]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buildQuery]);
 
   const fundFiscalYears = get(resources, ['groupFundFiscalYears', 'records'], []);
 
+  const groupedFundFiscalYears = groupBy(fundFiscalYears, 'fundId');
+
   const fundsToDisplay = funds.map(fund => {
-    const sum = fundFiscalYears.filter(item => item.fundId === fund.id)
-      .reduce((result, item) => {
-        const { available = 0, allocated = 0, unavailable = 0 } = item;
-        return {
-          available: available + result.available,
-          allocated: allocated + result.allocated,
-          unavailable: unavailable + result.unavailable,
-        };
-      }, { available: 0, allocated: 0, unavailable: 0 });
+    const groupFundFiscalYear = groupedFundFiscalYears[fund.id];
+    if (!groupFundFiscalYear) return fund;
+
+    const sum = groupFundFiscalYear.reduce((result, item) => {
+      Object.keys(result).forEach(key => {
+        if (item[key]) result[key] += item[key];
+      });
+      return result;
+    }, { available: 0, allocated: 0, unavailable: 0 });
+
     return { ...sum, ...fund };
   });
 

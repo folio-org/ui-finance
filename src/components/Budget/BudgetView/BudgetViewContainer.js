@@ -49,7 +49,8 @@ const BudgetViewContainer = ({ history, resources }) => {
     [history, budget],
   );
 
-  const renderActionMenu = () => (
+  // eslint-disable-next-line react/prop-types
+  const renderActionMenu = ({ onToggle }) => (
     <MenuSection id="budget-actions">
       <Button
         buttonStyle="dropdownItem"
@@ -67,7 +68,10 @@ const BudgetViewContainer = ({ history, resources }) => {
       <Button
         buttonStyle="dropdownItem"
         data-test-add-allocation-menu-button
-        onClick={toggleAllocateModal}
+        onClick={() => {
+          onToggle();
+          toggleAllocateModal();
+        }}
       >
         <FormattedMessage id="ui-finance.transaction.allocate" />
       </Button>
@@ -75,7 +79,10 @@ const BudgetViewContainer = ({ history, resources }) => {
       <Button
         buttonStyle="dropdownItem"
         data-test-add-transfer-menu-button
-        onClick={toggleTransferModal}
+        onClick={() => {
+          onToggle();
+          toggleTransferModal();
+        }}
       >
         <FormattedMessage id="ui-finance.transaction.button.transfer" />
       </Button>

@@ -35,8 +35,10 @@ const LedgerViewContainer = ({
 
   useEffect(
     () => {
+      mutator.funds.reset();
       mutator.ledgerDetails.reset();
       mutator.currentFiscalYears.reset();
+      mutator.funds.GET();
       mutator.ledgerDetails.GET();
       mutator.currentFiscalYears.GET();
     },
@@ -95,9 +97,10 @@ LedgerViewContainer.manifest = Object.freeze({
     ...fundsResource,
     GET: {
       params: {
-        query: 'query=(ledgerId=":{id}")',
+        query: 'ledgerId=":{id}"',
       },
     },
+    accumulate: true,
   },
   currentFiscalYears: {
     ...fiscalYearsResource,

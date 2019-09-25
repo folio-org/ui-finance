@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
+
 import {
   SearchAndSort,
   makeQueryFunction,
@@ -29,6 +31,7 @@ const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = Filters();
 const searchableIndexes = SearchableIndexes;
+const title = <FormattedMessage id="ui-finance.fund" />;
 
 class FundsList extends Component {
   static propTypes = {
@@ -130,6 +133,7 @@ class FundsList extends Component {
           moduleName="fund"
           moduleTitle="fund"
           objectName="fund"
+          title={title}
           columnMapping={columnMapping}
           baseRoute={`${match.path}`}
           filterConfig={filterConfig}

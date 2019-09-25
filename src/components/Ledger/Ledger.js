@@ -26,6 +26,7 @@ import LedgerView from './LedgerView';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
+const title = <FormattedMessage id="ui-finance.ledger" />;
 const filterConfig = Filters();
 const searchableIndexes = SearchableIndexes;
 
@@ -291,6 +292,7 @@ class Ledger extends Component {
               moduleName={packageInfo.name.replace(/.*\//, '')}
               moduleTitle="ledger"
               objectName="ledger"
+              title={title}
               columnMapping={columnMapping}
               baseRoute={`${match.path}`}
               filterConfig={filterConfig}

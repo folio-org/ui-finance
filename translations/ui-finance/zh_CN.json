@@ -1,6 +1,6 @@
 {
     "search": "搜索",
-    "resultCount": "{count, number} {count, plural, one {已找到记录} other {已找到记录}}",
+    "resultCount": "{count, number} {count, plural, one {记录找到} other {记录找到}}",
     "data.contactTypes.email": "电子邮件",
     "data.contactTypes.mail": "邮件（主要地址）",
     "data.contactTypes.textMessage": "短信",

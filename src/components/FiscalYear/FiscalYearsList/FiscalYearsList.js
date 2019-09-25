@@ -28,6 +28,7 @@ const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const FILTER_CONFIG = [];
 
+const title = <FormattedMessage id="ui-finance.fiscalyear" />;
 const visibleColumns = ['name', 'code', 'description'];
 const columnMapping = {
   name: <FormattedMessage id="ui-finance.fiscalYear.list.name" />,
@@ -49,6 +50,7 @@ const FiscalYearsList = ({
         packageInfo={fiscalYearsPackageInfo}
         objectName="fiscalYear"
         baseRoute={fiscalYearsPackageInfo.stripes.route}
+        title={title}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
         viewRecordComponent={FiscalYearDetails}

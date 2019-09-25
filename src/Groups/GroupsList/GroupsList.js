@@ -33,6 +33,7 @@ const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const FILTER_CONFIG = [];
 
+const title = <FormattedMessage id="ui-finance.group" />;
 const visibleColumns = ['name', 'code'];
 const columnMapping = {
   name: <FormattedMessage id="ui-finance.groups.list.name" />,
@@ -76,6 +77,7 @@ const GroupsList = ({
         packageInfo={groupsPackageInfo}
         objectName="group"
         baseRoute={groupsPackageInfo.stripes.route}
+        title={title}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
         editRecordComponent={GroupForm}

@@ -283,6 +283,10 @@
   "ledger.status.frozen": "Frozen",
   "ledger.status.inactive": "Inactive",
   "ledger.fund": "Fund",
+  "ledger.search.keyword": "All",
+  "ledger.search.name": "Name",
+  "ledger.search.code": "Code",
+  "ledger.acqUnits": "Acquisition units",
 
   "fiscalyear": "Fiscal year",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

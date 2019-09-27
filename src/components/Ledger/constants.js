@@ -11,6 +11,11 @@ export const LEDGER_ACCORDTION_LABELS = {
   [LEDGER_ACCORDTION.fund]: <FormattedMessage id="ui-finance.ledger.fund" />,
 };
 
+export const LEDGER_FILTERS = {
+  STATUS: 'ledgerStatus',
+  ACQUISITIONS_UNIT: 'acqUnitIds',
+};
+
 export const LEDGER_STATUS = {
   active: 'Active',
   frozen: 'Frozen',

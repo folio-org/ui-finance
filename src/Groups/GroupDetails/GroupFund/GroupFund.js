@@ -31,6 +31,7 @@ const GroupFund = ({ history, funds, currency, mutator, fiscalYears, groupId, re
       currency={currency}
       parentMutator={mutator}
       history={history}
+      parentResources={resources}
       query={buildQuery}
     />
   );

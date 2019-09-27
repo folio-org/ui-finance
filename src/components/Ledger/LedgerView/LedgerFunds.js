@@ -31,6 +31,7 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
       currency={currency}
       parentMutator={mutator}
       history={history}
+      parentResources={resources}
       query={buildQuery}
     />
   );

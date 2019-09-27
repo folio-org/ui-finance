@@ -17,7 +17,8 @@ import {
 } from '../../common/const';
 import {
   groupByUrlIdResource,
-  fiscalYearsResource, fundsResource,
+  fiscalYearsResource,
+  fundsResource,
 } from '../../common/resources';
 
 import GroupDetails from './GroupDetails';

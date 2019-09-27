@@ -415,5 +415,13 @@
     "transaction.allocation.title": "تخصيص",
     "transaction.allocation.hasBeenCreated": "تم تخصيص {amount} بنجاح للميزانية {budgetName}",
     "transaction.allocation.hasNotBeenCreated": "لم يتم تخصيص {amount} بنجاح للميزانية {budgetName}",
-    "ledger.fund": "تمويل"
+    "ledger.fund": "تمويل",
+    "ledger.search.keyword": "الكل",
+    "ledger.search.name": "الاسم",
+    "ledger.search.code": "رمز",
+    "ledger.acqUnits": "وحدات التزويد",
+    "fiscalYear.search.keyword": "الكل",
+    "fiscalYear.search.name": "الاسم",
+    "fiscalYear.search.code": "رمز",
+    "fiscalYear.filters.acqUnits": "وحدات التزويد"
 }

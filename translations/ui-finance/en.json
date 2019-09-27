@@ -374,7 +374,9 @@
   "fund": "Fund",
 
   "group": "Group",
+  "groups.acqUnits": "Acquisition units",
 
+  "groups.status": "Status",
   "groups.status.active": "Active",
   "groups.status.frozen": "Frozen",
   "groups.status.inactive": "Inactive",
@@ -400,6 +402,10 @@
 
   "groups.form.title.create": "Create group",
   "groups.form.title.edit": "Edit group",
+
+  "groups.search.keyword": "All",
+  "groups.search.name": "Name",
+  "groups.search.code": "Code",
 
   "item.allocated": "Allocated",
   "item.available": "Available",

@@ -27,3 +27,8 @@ export const GROUP_STATUS_OPTIONS = Object.values(GROUP_STATUS).map(status => ({
   label: GROUP_STATUS_LABEL[status],
   value: status,
 }));
+
+export const GROUPS_FILTERS = {
+  STATUS: 'status',
+  ACQUISITIONS_UNIT: 'acqUnitIds',
+};

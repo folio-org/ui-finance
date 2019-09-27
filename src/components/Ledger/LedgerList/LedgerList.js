@@ -185,12 +185,6 @@ class LedgerList extends Component {
     });
   }
 
-  onChangeIndex = (e) => {
-    const qindex = e.target.value;
-
-    this.props.mutator.query.update({ qindex });
-  }
-
   getFiscalYears() {
     const newArr = [];
     const fiscalRecords = (this.props.resources.fiscalyear || {}).records || [];

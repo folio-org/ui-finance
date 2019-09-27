@@ -29,6 +29,7 @@ import {
   LEDGER_ACCORDTION_LABELS,
 } from '../constants';
 import LedgerInformation from './LedgerInformation';
+import LedgerGroups from './LedgerGroups';
 import LedgerFunds from './LedgerFunds';
 
 const LedgerView = ({
@@ -130,6 +131,15 @@ const LedgerView = ({
             available={ledger.available}
             allocated={ledger.allocated}
             unavailable={ledger.unavailable}
+            currency={ledger.currency}
+          />
+        </Accordion>
+        <Accordion
+          id={LEDGER_ACCORDTION.group}
+          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.group]}
+        >
+          <LedgerGroups
+            funds={funds}
             currency={ledger.currency}
           />
         </Accordion>

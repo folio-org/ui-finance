@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const TRANSACTION_TYPES = {
   allocation: 'Allocation',
   credit: 'Credit',
@@ -6,3 +5,5 @@ export const TRANSACTION_TYPES = {
   payment: 'Payment',
   transfer: 'Transfer',
 };
+
+export const CHUNK_LIMIT = 25;

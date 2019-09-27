@@ -10,20 +10,20 @@ import { groupFundFiscalYears } from '../../../common/resources';
 import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 import { getFundsToDisplay } from '../../../Utils/getFundToDisplay';
 
-const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources }) => {
+const GroupFund = ({ history, funds, currency, mutator, fiscalYears, groupId, resources }) => {
   const buildQuery = useMemo(() => {
     const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId="${fiscalYear.id}"`);
 
     if (fiscalYears.length) {
-      return `query=((${fiscalYearsIds.join(' or ')}))`;
+      return `query=((${fiscalYearsIds.join(' or ')}) AND groupId="${groupId}")`;
     }
 
     return null;
-  }, [fiscalYears]);
+  }, [fiscalYears, groupId]);
 
   const fundFiscalYears = get(resources, ['groupFundFiscalYears', 'records'], []);
 
-  const fundsToDisplay = getFundsToDisplay(funds, fundFiscalYears);
+  const fundsToDisplay = getFundsToDisplay(funds, fundFiscalYears).filter(fund => fund.available !== undefined);
 
   return (
     <RelatedFunds
@@ -36,7 +36,8 @@ const LedgerFunds = ({ history, funds, currency, mutator, fiscalYears, resources
   );
 };
 
-LedgerFunds.propTypes = {
+GroupFund.propTypes = {
+  groupId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
@@ -45,14 +46,14 @@ LedgerFunds.propTypes = {
   currency: PropTypes.string,
 };
 
-LedgerFunds.defaultProps = {
+GroupFund.defaultProps = {
   funds: [],
   fiscalYears: [],
   currency: '',
 };
 
-LedgerFunds.manifest = Object.freeze({
+GroupFund.manifest = Object.freeze({
   groupFundFiscalYears,
 });
 
-export default withRouter(stripesConnect(LedgerFunds));
+export default withRouter(stripesConnect(GroupFund));

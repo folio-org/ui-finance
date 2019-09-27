@@ -26,10 +26,14 @@ import {
   GROUP_ACCORDTION_LABELS,
 } from '../constants';
 import GroupInformation from './GroupInformation';
+import { LEDGER_ACCORDTION, LEDGER_ACCORDTION_LABELS } from '../../components/Ledger/constants';
+import GroupFund from './GroupFund';
 
 const GroupDetails = ({
   group,
+  fiscalYear,
   fiscalYears,
+  funds,
   onClose,
   editGroup,
   removeGroup,
@@ -99,7 +103,17 @@ const GroupDetails = ({
             status={group.status}
             description={group.description}
             acqUnitIds={group.acqUnitIds}
+            fiscalYear={fiscalYear}
+          />
+        </Accordion>
+        <Accordion
+          id={GROUP_ACCORDTION.fund}
+          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.fund]}
+        >
+          <GroupFund
+            funds={funds}
             fiscalYears={fiscalYears}
+            groupId={group.id}
           />
         </Accordion>
       </AccordionSet>
@@ -124,7 +138,14 @@ GroupDetails.propTypes = {
   editGroup: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  fiscalYears: PropTypes.string.isRequired,
+  fiscalYear: PropTypes.string.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
+  funds: PropTypes.arrayOf(PropTypes.object),
+};
+
+GroupDetails.defaultProps = {
+  fiscalYears: [],
+  funds: [],
 };
 
 export default GroupDetails;

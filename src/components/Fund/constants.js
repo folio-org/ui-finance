@@ -21,3 +21,10 @@ export const FUND_STATUSES_OPTIONS = [
   { label: <FormattedMessage id="ui-finance.fund.status.inactive" />, value: FUND_STATUSES.INACTIVE },
   { label: <FormattedMessage id="ui-finance.fund.status.frozen" />, value: FUND_STATUSES.FROZEN },
 ];
+
+export const FUND_FILTERS = {
+  LEDGER: 'ledgerId',
+  STATUS: 'fundStatus',
+  TYPE: 'fundTypeId',
+  ACQUISITIONS_UNIT: 'acqUnitIds',
+};

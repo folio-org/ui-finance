@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 import { get } from 'lodash';
 
 import {
@@ -8,6 +12,12 @@ import {
   makeQueryFunction,
 } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
+import {
+  baseManifest,
+  changeSearchIndex,
+  getActiveFilters,
+  handleFilterChange,
+} from '@folio/stripes-acq-components';
 
 import {
   FUNDS_API,
@@ -17,25 +27,28 @@ import FinanceNavigation from '../../common/FinanceNavigation';
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
-import { Filters, SearchableIndexes } from './fundFilterConfig';
-// Components and Pages
-import css from './css/Fund.css';
-import FundForm from './FundForm/FundForm';
-import Fund from './Fund';
 import {
   ledgersResource,
   fundTypesResource,
 } from '../../common/resources';
+import FundListFilters from './FundListFilters';
+import { filterConfig } from './FundListFilterConfig';
+import {
+  searchableIndexes,
+  fundSearchTemplate,
+} from './FundListSearchConfig';
+import css from './css/Fund.css';
+import FundForm from './FundForm/FundForm';
+import Fund from './Fund';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const filterConfig = Filters();
-const searchableIndexes = SearchableIndexes;
 const title = <FormattedMessage id="ui-finance.fund" />;
 
 class FundsList extends Component {
   static propTypes = {
     match: PropTypes.object,
+    intl: intlShape.isRequired,
     stripes: PropTypes.object,
     onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,
@@ -44,7 +57,6 @@ class FundsList extends Component {
   }
 
   static manifest = Object.freeze({
-    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -54,18 +66,17 @@ class FundsList extends Component {
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
-      type: 'okapi',
+      ...baseManifest,
       clear: true,
       records: 'funds',
       recordsRequired: '%{resultCount}',
       path: FUNDS_API,
       perRequest: RESULT_COUNT_INCREMENT,
-      throwErrors: false,
       GET: {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(name="%{query.query}*")',
+            fundSearchTemplate,
             {},
             filterConfig,
           ),
@@ -82,6 +93,9 @@ class FundsList extends Component {
     this.state = {};
     this.transitionToParams = transitionToParams.bind(this);
     this.removeQueryParam = removeQueryParam.bind(this);
+    this.getActiveFilters = getActiveFilters.bind(this);
+    this.handleFilterChange = handleFilterChange.bind(this);
+    this.changeSearchIndex = changeSearchIndex.bind(this);
   }
 
   create = (fundData) => {
@@ -98,6 +112,25 @@ class FundsList extends Component {
   renderNavigation = () => (
     <FinanceNavigation />
   );
+
+  getTranslateSearchableIndexes() {
+    const { intl: { formatMessage } } = this.props;
+
+    return searchableIndexes.map(index => {
+      const label = formatMessage({ id: `ui-finance.fund.search.${index.label}` });
+
+      return { ...index, label };
+    });
+  }
+
+  renderFilters = (onChange) => {
+    return (
+      <FundListFilters
+        activeFilters={this.getActiveFilters()}
+        onChange={onChange}
+      />
+    );
+  };
 
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
@@ -136,7 +169,6 @@ class FundsList extends Component {
           title={title}
           columnMapping={columnMapping}
           baseRoute={`${match.path}`}
-          filterConfig={filterConfig}
           visibleColumns={['name', 'code', 'fundStatus']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Fund}
@@ -153,15 +185,17 @@ class FundsList extends Component {
           parentMutator={mutator}
           detailProps={{ stripes }}
           onComponentWillUnmount={onComponentWillUnmount}
-          searchableIndexes={searchableIndexes}
-          selectedIndex={get(this.props.resources.query, 'qindex')}
           searchableIndexesPlaceholder={null}
-          onChangeIndex={this.onChangeIndex}
           renderNavigation={this.renderNavigation}
+          searchableIndexes={this.getTranslateSearchableIndexes()}
+          selectedIndex={get(resources.query, 'qindex')}
+          onChangeIndex={this.changeSearchIndex}
+          renderFilters={this.renderFilters}
+          onFilterChange={this.handleFilterChange}
         />
       </div>
     );
   }
 }
 
-export default stripesConnect(FundsList);
+export default stripesConnect(injectIntl(FundsList));

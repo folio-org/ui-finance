@@ -18,6 +18,7 @@ import {
 import {
   groupByUrlIdResource,
   fiscalYearsResource,
+  fundsResource,
 } from '../../common/resources';
 
 import GroupDetails from './GroupDetails';
@@ -69,11 +70,15 @@ const GroupDetailsContainer = ({
 
   const fiscalYears = get(resources, ['currentFiscalYears', 'records'], [])
     .map(({ code: fyCode }) => fyCode).join(', ');
+  const fiscalYearsRecords = get(resources, ['currentFiscalYears', 'records'], []);
+  const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <GroupDetails
       group={group}
       fiscalYears={fiscalYears}
+      fiscalYearsRecords={fiscalYearsRecords}
+      funds={funds}
       onClose={onClose}
       editGroup={editGroup}
       removeGroup={removeGroup}
@@ -86,6 +91,7 @@ GroupDetailsContainer.manifest = Object.freeze({
     ...groupByUrlIdResource,
     accumulate: true,
   },
+  funds: fundsResource,
   currentFiscalYears: {
     ...fiscalYearsResource,
     accumulate: true,

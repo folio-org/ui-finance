@@ -3,10 +3,12 @@ import { FormattedMessage } from 'react-intl';
 
 export const GROUP_ACCORDTION = {
   information: 'information',
+  fund: 'fund',
 };
 
 export const GROUP_ACCORDTION_LABELS = {
   [GROUP_ACCORDTION.information]: <FormattedMessage id="ui-finance.groups.item.information" />,
+  [GROUP_ACCORDTION.fund]: <FormattedMessage id="ui-finance.groups.item.fund" />,
 };
 
 export const GROUP_STATUS = {

@@ -391,6 +391,7 @@
   "groups.item.information.unavailable": "Unavailable",
   "groups.item.information.available": "Available",
   "groups.item.information.description": "Description",
+  "groups.item.fund": "Fund",
 
   "groups.actions.remove.heading": "Delete group",
   "groups.actions.remove.message": "Are you sure you want to delete group?",

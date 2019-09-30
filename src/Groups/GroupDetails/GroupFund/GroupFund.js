@@ -1,37 +1,39 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+
 import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
-const LedgerFunds = ({ funds, currency, fiscalYears }) => {
+const GroupFund = ({ funds, currency, fiscalYears, groupId }) => {
   const buildQuery = useMemo(() => {
     const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId="${fiscalYear.id}"`);
 
     if (fiscalYears.length) {
-      return `query=((${fiscalYearsIds.join(' or ')}))`;
+      return `query=((${fiscalYearsIds.join(' or ')}) AND groupId="${groupId}")`;
     }
 
     return null;
-  }, [fiscalYears]);
+  }, [fiscalYears, groupId]);
 
   return (
     <RelatedFunds
-      funds={funds}
       currency={currency}
+      funds={funds}
       query={buildQuery}
     />
   );
 };
 
-LedgerFunds.propTypes = {
+GroupFund.propTypes = {
+  groupId: PropTypes.string.isRequired,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
   funds: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
 };
 
-LedgerFunds.defaultProps = {
+GroupFund.defaultProps = {
   funds: [],
   fiscalYears: [],
   currency: '',
 };
 
-export default LedgerFunds;
+export default GroupFund;

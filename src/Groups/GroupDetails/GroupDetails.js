@@ -26,10 +26,13 @@ import {
   GROUP_ACCORDTION_LABELS,
 } from '../constants';
 import GroupInformation from './GroupInformation';
+import GroupFund from './GroupFund';
 
 const GroupDetails = ({
   group,
   fiscalYears,
+  fiscalYearsRecords,
+  funds,
   onClose,
   editGroup,
   removeGroup,
@@ -102,6 +105,16 @@ const GroupDetails = ({
             fiscalYears={fiscalYears}
           />
         </Accordion>
+        <Accordion
+          id={GROUP_ACCORDTION.fund}
+          label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
+        >
+          <GroupFund
+            funds={funds}
+            fiscalYears={fiscalYearsRecords}
+            groupId={group.id}
+          />
+        </Accordion>
       </AccordionSet>
 
       {isRemoveConfirmation && (
@@ -125,6 +138,13 @@ GroupDetails.propTypes = {
   removeGroup: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   fiscalYears: PropTypes.string.isRequired,
+  fiscalYearsRecords: PropTypes.arrayOf(PropTypes.object),
+  funds: PropTypes.arrayOf(PropTypes.object),
+};
+
+GroupDetails.defaultProps = {
+  fiscalYearsRecords: [],
+  funds: [],
 };
 
 export default GroupDetails;

@@ -68,16 +68,16 @@ const GroupDetailsContainer = ({
     return <LoadingPane onClose={onClose} />;
   }
 
-  const fiscalYear = get(resources, ['currentFiscalYears', 'records'], [])
+  const fiscalYears = get(resources, ['currentFiscalYears', 'records'], [])
     .map(({ code: fyCode }) => fyCode).join(', ');
-  const fiscalYears = get(resources, ['currentFiscalYears', 'records'], []);
+  const fiscalYearsRecords = get(resources, ['currentFiscalYears', 'records'], []);
   const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <GroupDetails
       group={group}
-      fiscalYear={fiscalYear}
       fiscalYears={fiscalYears}
+      fiscalYearsRecords={fiscalYearsRecords}
       funds={funds}
       onClose={onClose}
       editGroup={editGroup}

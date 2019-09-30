@@ -20,7 +20,7 @@ const GroupInformation = ({
   status,
   description,
   acqUnitIds,
-  fiscalYear,
+  fiscalYears,
 }) => {
   return (
     <Fragment>
@@ -55,7 +55,7 @@ const GroupInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.groups.item.information.fiscalYear" />}
-            value={fiscalYear}
+            value={fiscalYears}
           />
         </Col>
 
@@ -131,7 +131,7 @@ GroupInformation.propTypes = {
   status: PropTypes.string.isRequired,
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
-  fiscalYear: PropTypes.string.isRequired,
+  fiscalYears: PropTypes.string.isRequired,
 };
 
 GroupInformation.defaultProps = {

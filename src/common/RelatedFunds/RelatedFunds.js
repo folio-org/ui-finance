@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
+
+import { stripesConnect } from '@folio/stripes/core';
 
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import { Icon } from '@folio/stripes/components';
 
 import ConnectionListing from '../../components/ConnectionListing';
+import { groupFundFiscalYears } from '../resources';
+import { getFundsToDisplay } from '../utils/getFundToDisplay';
 
-const RelatedFunds = ({ parentMutator, parentResources, query, history, fundsToDisplay, currency }) => {
+const RelatedFunds = ({ mutator, resources, query, history, currency, funds }) => {
   const openFund = useCallback(
     (e, fund) => {
       const path = `/finance/fund/view/${fund.id}`;
@@ -19,8 +24,8 @@ const RelatedFunds = ({ parentMutator, parentResources, query, history, fundsToD
   );
 
   useEffect(() => {
-    parentMutator.groupFundFiscalYears.reset();
-    parentMutator.groupFundFiscalYears.GET({
+    mutator.groupFundFiscalYears.reset();
+    mutator.groupFundFiscalYears.GET({
       params: {
         limit: LIMIT_MAX,
         query,
@@ -30,7 +35,7 @@ const RelatedFunds = ({ parentMutator, parentResources, query, history, fundsToD
   }, [query]);
 
   const isLoading = !(
-    get(parentResources, ['groupFundFiscalYears', 'hasLoaded'])
+    get(resources, ['groupFundFiscalYears', 'hasLoaded'])
   );
 
   if (isLoading) {
@@ -41,6 +46,10 @@ const RelatedFunds = ({ parentMutator, parentResources, query, history, fundsToD
       />
     );
   }
+
+  const fundFiscalYears = get(resources, ['groupFundFiscalYears', 'records'], []);
+
+  const fundsToDisplay = getFundsToDisplay(funds, fundFiscalYears).filter(fund => fund.available !== undefined);
 
   return (
     <ConnectionListing
@@ -53,17 +62,21 @@ const RelatedFunds = ({ parentMutator, parentResources, query, history, fundsToD
 
 RelatedFunds.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
-  parentMutator: PropTypes.object.isRequired,
-  parentResources: PropTypes.object.isRequired,
-  fundsToDisplay: PropTypes.arrayOf(PropTypes.object),
+  mutator: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
   query: PropTypes.string,
 };
 
 RelatedFunds.defaultProps = {
-  fundsToDisplay: [],
+  funds: [],
   query: null,
   currency: '',
 };
 
-export default RelatedFunds;
+RelatedFunds.manifest = Object.freeze({
+  groupFundFiscalYears,
+});
+
+export default withRouter(stripesConnect(RelatedFunds));

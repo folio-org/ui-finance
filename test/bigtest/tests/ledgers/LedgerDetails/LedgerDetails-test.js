@@ -37,7 +37,7 @@ describe('Ledger details', () => {
   });
 
   it('funds list should be display', () => {
-    expect(ledgerDetails.funds.list().length).to.be.equal(5);
+    expect(ledgerDetails.funds.list().length).to.be.equal(1);
   });
 
   it('fund unavaliable value should be equal $1,000.00', () => {

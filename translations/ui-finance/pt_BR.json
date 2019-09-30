@@ -415,5 +415,13 @@
     "transaction.allocation.title": "Alocação",
     "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
     "transaction.allocation.hasNotBeenCreated": "{amount} was not successfully allocated to the budget {budgetName}",
-    "ledger.fund": "Fundo"
+    "ledger.fund": "Fundo",
+    "ledger.search.keyword": "All",
+    "ledger.search.name": "Name",
+    "ledger.search.code": "Code",
+    "ledger.acqUnits": "Acquisition units",
+    "fiscalYear.search.keyword": "All",
+    "fiscalYear.search.name": "Name",
+    "fiscalYear.search.code": "Code",
+    "fiscalYear.filters.acqUnits": "Acquisition units"
 }

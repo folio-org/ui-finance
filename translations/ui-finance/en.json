@@ -287,6 +287,7 @@
   "ledger.search.name": "Name",
   "ledger.search.code": "Code",
   "ledger.acqUnits": "Acquisition units",
+  "ledger.group": "Group",
 
   "fiscalyear": "Fiscal year",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",
@@ -306,6 +307,10 @@
   "fiscalYear.list.abbreviation": "Abbreviation",
   "fiscalYear.list.description": "Description",
   "fiscalYear.list.name": "Name",
+  "fiscalYear.search.keyword": "All",
+  "fiscalYear.search.name": "Name",
+  "fiscalYear.search.code": "Code",
+  "fiscalYear.filters.acqUnits": "Acquisition units",
   "fiscalYear.save": "Save",
 
   "budget.actionsRequired": "Actions required",

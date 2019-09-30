@@ -415,5 +415,13 @@
     "transaction.allocation.title": "Asignación",
     "transaction.allocation.hasBeenCreated": "{amount} se asignó correctamente al presupuesto {budgetName}",
     "transaction.allocation.hasNotBeenCreated": "{amount} no se asignó correctamente al presupuesto {budgetName}",
-    "ledger.fund": "Fondo"
+    "ledger.fund": "Fondo",
+    "ledger.search.keyword": "All",
+    "ledger.search.name": "Name",
+    "ledger.search.code": "Code",
+    "ledger.acqUnits": "Acquisition units",
+    "fiscalYear.search.keyword": "All",
+    "fiscalYear.search.name": "Name",
+    "fiscalYear.search.code": "Code",
+    "fiscalYear.filters.acqUnits": "Acquisition units"
 }

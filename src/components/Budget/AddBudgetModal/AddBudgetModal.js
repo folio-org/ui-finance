@@ -29,7 +29,7 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
         const budget = await mutator.budget.POST({
           ...formValue,
           fundId: fund.id,
-          name: `${fund.code}-${fiscalYear.code}`,
+          name: `${fund.code}-${fiscalYear.label}`,
         });
         const { name, id } = budget;
 

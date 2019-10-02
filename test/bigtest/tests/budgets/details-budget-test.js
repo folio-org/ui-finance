@@ -7,11 +7,13 @@ import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
 import BudgetEdetailsInteractor from '../../interactors/budgets/BudgetDetails';
+import FundDetailsInteractor from '../../interactors/funds/FundDetails';
 
 describe('Budget details', () => {
   setupApplication();
 
   const budgetDetails = new BudgetEdetailsInteractor();
+  const fundDetails = new FundDetailsInteractor();
 
   beforeEach(async function () {
     const fund = this.server.create('budget');
@@ -26,5 +28,16 @@ describe('Budget details', () => {
 
   it('shows budget details', () => {
     expect(budgetDetails.isPresent).to.be.true;
+  });
+
+  describe('close budget details', () => {
+    beforeEach(async function () {
+      await budgetDetails.closePane.click();
+    });
+
+    it('closes budget details', () => {
+      expect(budgetDetails.isPresent).to.be.false;
+      expect(fundDetails.isPresent).to.be.true;
+    });
   });
 });

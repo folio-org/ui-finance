@@ -49,6 +49,15 @@ const BudgetViewContainer = ({ history, resources }) => {
     [history, budget],
   );
 
+  const goToFundDetails = useCallback(
+    () => {
+      const path = `/finance/fund/view/${budget.fundId}`;
+
+      history.push(path);
+    },
+    [history, budget],
+  );
+
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = ({ onToggle }) => (
     <MenuSection id="budget-actions">
@@ -122,7 +131,7 @@ const BudgetViewContainer = ({ history, resources }) => {
   if (isLoading) {
     return (
       <Paneset>
-        <LoadingPane onClose={history.goBack} />
+        <LoadingPane onClose={goToFundDetails} />
       </Paneset>
     );
   }
@@ -135,7 +144,7 @@ const BudgetViewContainer = ({ history, resources }) => {
         dismissible
         id="pane-budget"
         lastMenu={lastMenu}
-        onClose={history.goBack}
+        onClose={goToFundDetails}
         paneTitle={budget.name}
       >
         <Row>

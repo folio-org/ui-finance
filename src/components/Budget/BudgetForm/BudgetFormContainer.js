@@ -24,6 +24,15 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
   const budget = get(resources, ['budget', 'records', 0]);
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
 
+  const goToBudgetView = useCallback(
+    () => {
+      const path = `finance/budget/${budget.id}/view`;
+
+      history.push(path);
+    },
+    [history, budget],
+  );
+
   const saveBudget = useCallback(
     async (formValue) => {
       const saveMethod = formValue.id ? 'PUT' : 'POST';
@@ -32,18 +41,18 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
       try {
         await mutator.budget[saveMethod](formValue);
         showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
-        history.goBack();
+        goToBudgetView();
       } catch (e) {
         showCallout('ui-finance.budget.hasNotBeenSaved', 'error', { name });
       }
     },
-    [history, mutator.budget, showCallout],
+    [mutator.budget, showCallout, goToBudgetView],
   );
 
   if (isLoading) {
     return (
       <Paneset>
-        <LoadingPane onClose={history.goBack} />
+        <LoadingPane onClose={goToBudgetView} />
       </Paneset>
     );
   }
@@ -53,7 +62,7 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
       initialValues={budget}
       parentResources={resources}
       onSubmit={saveBudget}
-      onClose={history.goBack}
+      onClose={goToBudgetView}
     />
   );
 };

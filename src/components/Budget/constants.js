@@ -9,10 +9,10 @@ export const BUDGET_STATUSES = {
 };
 
 export const BUDGET_STATUSES_OPTIONS = [
-  { label: 'ui-finance.budget.status.active', value: BUDGET_STATUSES.ACTIVE },
-  { label: 'ui-finance.budget.status.closed', value: BUDGET_STATUSES.CLOSED },
-  { label: 'ui-finance.budget.status.frozen', value: BUDGET_STATUSES.FROZEN },
-  { label: 'ui-finance.budget.status.planned', value: BUDGET_STATUSES.PLANNED },
+  { labelId: 'ui-finance.budget.status.active', value: BUDGET_STATUSES.ACTIVE },
+  { labelId: 'ui-finance.budget.status.closed', value: BUDGET_STATUSES.CLOSED },
+  { labelId: 'ui-finance.budget.status.frozen', value: BUDGET_STATUSES.FROZEN },
+  { labelId: 'ui-finance.budget.status.planned', value: BUDGET_STATUSES.PLANNED },
 ];
 
 export const SECTIONS_BUDGET = {

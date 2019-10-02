@@ -15,6 +15,7 @@ import {
 import {
   FieldSelect,
   selectOptionsShape,
+  validateRequired,
 } from '@folio/stripes-acq-components';
 import { ADD_BUDGET_MODAL_FORM, BUDGET_STATUSES_OPTIONS } from '../constants';
 
@@ -51,6 +52,7 @@ const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
             label={<FormattedMessage id="ui-finance.budget.fiscalYear" />}
             name="fiscalYearId"
             required
+            validate={validateRequired}
           />
         </Col>
         <Col xs>
@@ -60,6 +62,7 @@ const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
             label={<FormattedMessage id="ui-finance.budget.status" />}
             name="budgetStatus"
             required
+            validate={validateRequired}
           />
         </Col>
       </Row>
@@ -85,6 +88,9 @@ const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
             component={TextField}
             label={<FormattedMessage id="ui-finance.budget.allocated" />}
             name="allocated"
+            type="number"
+            required
+            validate={validateRequired}
           />
         </Col>
       </Row>

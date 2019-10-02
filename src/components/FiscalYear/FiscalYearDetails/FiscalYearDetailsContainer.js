@@ -4,7 +4,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 
-import { LoadingPane } from '@folio/stripes-acq-components';
+import {
+  LoadingPane,
+  useShowToast,
+} from '@folio/stripes-acq-components';
 
 import {
   fiscalYearResource,
@@ -12,6 +15,10 @@ import {
   fiscalYearGroupsResource,
   fiscalYearFundsResource,
 } from '../../../common/resources';
+import {
+  FISCAL_YEAR_ROUTE,
+  FISCAL_YEAR_EDIT_ROUTE,
+} from '../../../common/const';
 import FiscalYearDetails from './FiscalYearDetails';
 
 const FiscalYearDetailsContainer = ({
@@ -19,9 +26,10 @@ const FiscalYearDetailsContainer = ({
   resources,
   match,
   onClose,
-  onEdit,
   history,
 }) => {
+  const fiscalYearId = match.params.id;
+
   useEffect(
     () => {
       mutator.fiscalYear.reset();
@@ -35,10 +43,18 @@ const FiscalYearDetailsContainer = ({
       mutator.groups.GET();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [match.params.id],
+    [fiscalYearId],
   );
 
   const fiscalYear = get(resources, ['fiscalYear', 'records', '0']);
+  const showToast = useShowToast();
+
+  const editFiscalYear = useCallback(
+    () => {
+      history.push(`${FISCAL_YEAR_EDIT_ROUTE}${fiscalYearId}`);
+    },
+    [history, fiscalYearId],
+  );
 
   const openLedger = useCallback(
     (e, ledger) => {
@@ -72,8 +88,15 @@ const FiscalYearDetailsContainer = ({
   const removeFiscalYear = useCallback(
     () => {
       mutator.fiscalYear.DELETE(fiscalYear)
-        .then(() => history.goBack());
+        .then(() => {
+          showToast('ui-finance.fiscalYear.actions.remove.success');
+          history.push(FISCAL_YEAR_ROUTE);
+        })
+        .catch(() => {
+          showToast('ui-finance.fiscalYear.actions.remove.error', 'error');
+        });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [history, fiscalYear, mutator.fiscalYear],
   );
 
@@ -99,7 +122,7 @@ const FiscalYearDetailsContainer = ({
       groups={groups}
       ledgers={ledgers}
       onClose={onClose}
-      onEdit={onEdit}
+      onEdit={editFiscalYear}
       onRemove={removeFiscalYear}
       openFund={openFund}
       openGroup={openGroup}
@@ -124,7 +147,6 @@ FiscalYearDetailsContainer.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
 };
 

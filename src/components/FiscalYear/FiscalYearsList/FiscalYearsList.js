@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   FormattedMessage,
   injectIntl,
@@ -12,19 +13,24 @@ import {
   makeQueryFunction,
 } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
+import { Callout } from '@folio/stripes/components';
 import {
+  baseManifest,
   changeSearchIndex,
   getActiveFilters,
   handleFilterChange,
+  showToast,
 } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../../../package';
 import {
   FISCAL_YEARS_API,
   FISCAL_YEAR_ROUTE,
+  FISCAL_YEAR_VIEW_ROUTE,
 } from '../../../common/const';
 import FinanceNavigation from '../../../common/FinanceNavigation';
 import FiscalYearDetails from '../FiscalYearDetails';
+import FiscalYearForm from '../FiscalYearForm';
 
 import FiscalYearListFilters from './FiscalYearListFilters';
 import { filterConfig } from './FiscalYearListFilterConfig';
@@ -64,6 +70,25 @@ class FiscalYearsList extends Component {
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
     this.changeSearchIndex = changeSearchIndex.bind(this);
+    this.callout = React.createRef();
+    this.showToast = showToast.bind(this);
+  }
+
+  onCreate = async (fiscalYear) => {
+    const { history, mutator } = this.props;
+
+    try {
+      const savedFiscalYear = await mutator.records.POST(fiscalYear);
+
+      this.showToast('ui-finance.fiscalYear.actions.save.success');
+      history.push(`${FISCAL_YEAR_VIEW_ROUTE}${savedFiscalYear.id}?layer=view`);
+
+      return savedFiscalYear;
+    } catch (response) {
+      this.showToast('ui-finance.fiscalYear.actions.save.error', 'error');
+
+      return { id: 'Unable to create fiscal year' };
+    }
   }
 
   getTranslateSearchableIndexes() {
@@ -100,6 +125,8 @@ class FiscalYearsList extends Component {
           title={title}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
+          editRecordComponent={FiscalYearForm}
+          onCreate={this.onCreate}
           viewRecordComponent={FiscalYearDetails}
           visibleColumns={visibleColumns}
           columnMapping={columnMapping}
@@ -115,6 +142,7 @@ class FiscalYearsList extends Component {
           renderFilters={this.renderFilters}
           onFilterChange={this.handleFilterChange}
         />
+        <Callout ref={this.callout} />
       </div>
     );
   }
@@ -130,13 +158,12 @@ FiscalYearsList.manifest = Object.freeze({
   },
   resultCount: { initialValue: INITIAL_RESULT_COUNT },
   records: {
-    type: 'okapi',
+    ...baseManifest,
     clear: true,
     records: 'fiscalYears',
     recordsRequired: '%{resultCount}',
     path: FISCAL_YEARS_API,
     perRequest: RESULT_COUNT_INCREMENT,
-    throwErrors: false,
     GET: {
       params: {
         query: makeQueryFunction(
@@ -152,9 +179,10 @@ FiscalYearsList.manifest = Object.freeze({
 });
 
 FiscalYearsList.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  intl: intlShape.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default stripesConnect(injectIntl(FiscalYearsList));

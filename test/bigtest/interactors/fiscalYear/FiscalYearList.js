@@ -4,6 +4,7 @@ import {
   isPresent,
 } from '@bigtest/interactor';
 
+import Button from '../common/Button';
 import FinanceNavigationInteractor from '../common/FinanceNavigation';
 
 export default interactor(class FiscalYearListInteractor {
@@ -11,6 +12,7 @@ export default interactor(class FiscalYearListInteractor {
 
   fiscalYears = collection('[role=row] a');
   navigation = new FinanceNavigationInteractor();
+  newButton = new Button('#clickable-newfiscalYear');
 
   isLoaded = isPresent('#pane-results');
   whenLoaded() {

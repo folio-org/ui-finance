@@ -7,3 +7,6 @@ export const TRANSACTION_TYPES = {
 };
 
 export const CHUNK_LIMIT = 25;
+
+export const CREATE_UNITS_PERM = 'finance.acquisitions-units-assignments.assign';
+export const MANAGE_UNITS_PERM = 'finance.acquisitions-units-assignments.manage';

@@ -1,9 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import {
-  Field,
-} from 'redux-form';
+import { Field } from 'redux-form';
 
 import stripesForm from '@folio/stripes/form';
 import {
@@ -16,28 +14,27 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
-  FieldSelection,
+  FieldDatepicker,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
-} from '../../common/const';
-import { GROUP_STATUS_OPTIONS } from '../constants';
+} from '../../../common/const';
+import { FISCAL_YEAR_FORM } from '../constants';
 
-const GROUP_FORM = 'groupForm';
-
-const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
-const EDIT_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.edit" />;
+const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
+const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
 
 const getLastMenu = (handleSubmit, pristine, submitting) => {
   return (
     <PaneMenu>
       <Button
-        data-test-button-save-group
+        data-test-button-save-fiscal-year
         marginBottom0
         buttonStyle="primary"
         onClick={handleSubmit}
@@ -50,7 +47,7 @@ const getLastMenu = (handleSubmit, pristine, submitting) => {
   );
 };
 
-const GroupForm = ({
+const FiscalYearForm = ({
   onCancel,
   initialValues,
   handleSubmit,
@@ -59,6 +56,7 @@ const GroupForm = ({
 }) => {
   const isEditMode = Boolean(initialValues.id);
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
+  const metadata = initialValues.metadata;
 
   return (
     <form>
@@ -66,18 +64,23 @@ const GroupForm = ({
         <Pane
           defaultWidth="fill"
           dismissible
-          id="pane-group-form"
+          id="pane-fiscal-year-form"
           onClose={onCancel}
           lastMenu={lastMenu}
-          paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
+          paneTitle={isEditMode ? EDIT_FISCAL_YEAR_TITLE : CREATE_FISCAL_YEAR_TITLE}
         >
           <Row>
-            <Col xs={12} md={8} mdOffset={2}>
+            <Col
+              xs={12}
+              md={8}
+              mdOffset={2}
+            >
+              {metadata && <ViewMetaData metadata={metadata} />}
               <Row>
-                <Col xs={3}>
+                <Col xs={4}>
                   <Field
                     component={TextField}
-                    label={<FormattedMessage id="ui-finance.groups.item.information.name" />}
+                    label={<FormattedMessage id="ui-finance.fiscalYear.information.name" />}
                     name="name"
                     type="text"
                     required
@@ -85,10 +88,10 @@ const GroupForm = ({
                   />
                 </Col>
 
-                <Col xs={3}>
+                <Col xs={4}>
                   <Field
                     component={TextField}
-                    label={<FormattedMessage id="ui-finance.groups.item.information.code" />}
+                    label={<FormattedMessage id="ui-finance.fiscalYear.information.abbreviation" />}
                     name="code"
                     type="text"
                     required
@@ -96,18 +99,7 @@ const GroupForm = ({
                   />
                 </Col>
 
-                <Col xs={3}>
-                  <FieldSelection
-                    dataOptions={GROUP_STATUS_OPTIONS}
-                    id="group-status"
-                    label={<FormattedMessage id="ui-finance.groups.item.information.status" />}
-                    name="status"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
-
-                <Col xs={3}>
+                <Col xs={4}>
                   <AcqUnitsField
                     name="acqUnitIds"
                     perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
@@ -116,10 +108,28 @@ const GroupForm = ({
                   />
                 </Col>
 
-                <Col xs={6}>
+                <Col xs={4}>
+                  <FieldDatepicker
+                    labelId="ui-finance.fiscalYear.information.periodStart"
+                    name="periodStart"
+                    required
+                    validate={validateRequired}
+                  />
+                </Col>
+
+                <Col xs={4}>
+                  <FieldDatepicker
+                    labelId="ui-finance.fiscalYear.information.periodEnd"
+                    name="periodEnd"
+                    required
+                    validate={validateRequired}
+                  />
+                </Col>
+
+                <Col xs={12}>
                   <Field
                     component={TextArea}
-                    label={<FormattedMessage id="ui-finance.groups.item.information.description" />}
+                    label={<FormattedMessage id="ui-finance.fiscalYear.information.description" />}
                     name="description"
                     type="text"
                   />
@@ -133,7 +143,7 @@ const GroupForm = ({
   );
 };
 
-GroupForm.propTypes = {
+FiscalYearForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -141,11 +151,11 @@ GroupForm.propTypes = {
   initialValues: PropTypes.object,
 };
 
-GroupForm.defaultProps = {
+FiscalYearForm.defaultProps = {
   initialValues: {},
 };
 
 export default stripesForm({
-  form: GROUP_FORM,
+  form: FISCAL_YEAR_FORM,
   navigationCheck: true,
-})(GroupForm);
+})(FiscalYearForm);

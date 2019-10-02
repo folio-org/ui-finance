@@ -55,7 +55,7 @@ const title = <FormattedMessage id="ui-finance.fiscalyear" />;
 const visibleColumns = ['name', 'code', 'description'];
 const columnMapping = {
   name: <FormattedMessage id="ui-finance.fiscalYear.list.name" />,
-  code: <FormattedMessage id="ui-finance.fiscalYear.list.abbreviation" />,
+  code: <FormattedMessage id="ui-finance.fiscalYear.list.code" />,
   description: <FormattedMessage id="ui-finance.fiscalYear.list.description" />,
 };
 

@@ -18,6 +18,11 @@ export const filterConfig = [
     values: [],
   },
   {
+    name: FUND_FILTERS.GROUP,
+    cql: `groupFundFY.${FUND_FILTERS.GROUP}`,
+    values: [],
+  },
+  {
     name: FUND_FILTERS.ACQUISITIONS_UNIT,
     cql: FUND_FILTERS.ACQUISITIONS_UNIT,
     values: [],

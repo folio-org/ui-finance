@@ -7,6 +7,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   acqUnitsResource,
   fundTypesResource,
+  groupsResource,
   ledgersResource,
 } from '../../../common/resources';
 import FundListFilters from './FundListFilters';
@@ -15,12 +16,14 @@ const FundListFiltersContainer = ({ resources, activeFilters, onChange }) => {
   const acqUnits = get(resources, 'acqUnits.records', []);
   const ledgers = get(resources, 'ledgers.records', []).map(({ id, name }) => ({ label: name, value: id }));
   const fundTypes = get(resources, 'fundTypes.records', []).map(({ id, name }) => ({ label: name, value: id }));
+  const groups = get(resources, 'groups.records', []).map(({ id, name }) => ({ label: name, value: id }));
 
   return (
     <FundListFilters
       acqUnits={acqUnits}
       activeFilters={activeFilters}
       fundTypes={fundTypes}
+      groups={groups}
       ledgers={ledgers}
       onChange={onChange}
     />
@@ -29,8 +32,9 @@ const FundListFiltersContainer = ({ resources, activeFilters, onChange }) => {
 
 FundListFiltersContainer.manifest = Object.freeze({
   acqUnits: acqUnitsResource,
-  ledgers: ledgersResource,
   fundTypes: fundTypesResource,
+  groups: groupsResource,
+  ledgers: ledgersResource,
 });
 
 FundListFiltersContainer.propTypes = {

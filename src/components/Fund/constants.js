@@ -26,5 +26,6 @@ export const FUND_FILTERS = {
   LEDGER: 'ledgerId',
   STATUS: 'fundStatus',
   TYPE: 'fundTypeId',
+  GROUP: 'groupId',
   ACQUISITIONS_UNIT: 'acqUnitIds',
 };

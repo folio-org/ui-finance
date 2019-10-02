@@ -348,6 +348,7 @@
   "fund.budget.name": "Name",
   "fund.currentBudget.title": "Current budget",
   "fund.filters.acqUnits": "Acquisition units",
+  "fund.filters.group": "Group",
   "fund.filters.ledger": "Ledger",
   "fund.filters.status": "Status",
   "fund.filters.type": "Type",

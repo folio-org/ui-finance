@@ -19,6 +19,7 @@ const FundListFilters = ({
   acqUnits,
   activeFilters,
   fundTypes,
+  groups,
   ledgers,
   onChange,
 }) => {
@@ -46,6 +47,13 @@ const FundListFilters = ({
         onChange={onChange}
         options={fundTypes}
       />
+      <SelectionFilter
+        activeFilters={activeFilters[FUND_FILTERS.GROUP]}
+        labelId="ui-finance.fund.filters.group"
+        name={FUND_FILTERS.GROUP}
+        onChange={onChange}
+        options={groups}
+      />
       <AcqUnitFilter
         id={FUND_FILTERS.ACQUISITIONS_UNIT}
         activeFilters={activeFilters[FUND_FILTERS.ACQUISITIONS_UNIT]}
@@ -63,12 +71,14 @@ FundListFilters.propTypes = {
   onChange: PropTypes.func.isRequired,
   acqUnits: acqUnitsShape,
   fundTypes: selectOptionsShape,
+  groups: selectOptionsShape,
   ledgers: selectOptionsShape,
 };
 
 FundListFilters.defaultProps = {
   acqUnits: [],
   fundTypes: [],
+  groups: [],
   ledgers: [],
 };
 

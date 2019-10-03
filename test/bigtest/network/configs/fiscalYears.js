@@ -1,21 +1,20 @@
+import {
+  createGetAll,
+  createGetById,
+  createPost,
+  createPut,
+} from '@folio/stripes-acq-components/test/bigtest/network/configs';
+
 import { FISCAL_YEARS_API } from '../../../../src/common/const';
 
+const SCHEMA_NAME = 'fiscalYears';
+
 const configFiscalYears = server => {
-  server.get(FISCAL_YEARS_API, (schema) => {
-    return schema.fiscalYears.all();
-  });
-
-  server.get(`${FISCAL_YEARS_API}/:id`, (schema, request) => {
-    return schema.fiscalYears.find(request.params.id).attrs;
-  });
-
-  server.put(`${FISCAL_YEARS_API}/:id`, () => null);
-
-  server.post(FISCAL_YEARS_API, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody) || {};
-
-    return schema.fiscalYears.create(attrs).attrs;
-  });
+  server.get(FISCAL_YEARS_API, createGetAll(SCHEMA_NAME));
+  server.get(`${FISCAL_YEARS_API}/:id`, createGetById(SCHEMA_NAME));
+  server.post(FISCAL_YEARS_API, createPost(SCHEMA_NAME));
+  server.put(`${FISCAL_YEARS_API}/:id`, createPut(SCHEMA_NAME));
+  server.delete(`${FISCAL_YEARS_API}/:id`, createGetById(SCHEMA_NAME));
 };
 
 export default configFiscalYears;

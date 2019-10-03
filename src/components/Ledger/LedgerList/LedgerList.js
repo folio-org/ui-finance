@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   FormattedMessage,
   injectIntl,
@@ -13,9 +14,11 @@ import {
 } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  baseManifest,
   changeSearchIndex,
   getActiveFilters,
   handleFilterChange,
+  showToast,
 } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../../../package';
@@ -23,10 +26,12 @@ import {
   FISCAL_YEARS_API,
   LEDGERS_API,
   FUNDS_API,
+  LEDGERS_ROUTE,
+  LEDGER_VIEW_ROUTE,
 } from '../../../common/const';
 import FinanceNavigation from '../../../common/FinanceNavigation';
 
-import LedgerPane from '../LedgerPane';
+import LedgerForm from '../LedgerForm';
 import LedgerView from '../LedgerView';
 
 import LedgerListFilters from './LedgerListFilters';
@@ -40,8 +45,8 @@ const ledgerPackageInfo = {
   ...packageInfo,
   stripes: {
     ...packageInfo.stripes,
-    route: '/finance/ledger',
-    home: '/finance/ledger',
+    route: LEDGERS_ROUTE,
+    home: LEDGERS_ROUTE,
   },
 };
 
@@ -63,6 +68,7 @@ class LedgerList extends Component {
     onSelectRow: PropTypes.func,
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
   };
 
   static manifest = Object.freeze({
@@ -75,7 +81,7 @@ class LedgerList extends Component {
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
-      type: 'okapi',
+      ...baseManifest,
       clear: true,
       records: 'ledgers',
       recordsRequired: '%{resultCount}',
@@ -101,7 +107,7 @@ class LedgerList extends Component {
       },
     },
     ledgerID: {
-      type: 'okapi',
+      ...baseManifest,
       records: 'ledgers',
       path: LEDGERS_API,
       resourceShouldRefresh: true,
@@ -118,7 +124,7 @@ class LedgerList extends Component {
       },
     },
     fiscalyear: {
-      type: 'okapi',
+      ...baseManifest,
       records: 'fiscalYears',
       path: FISCAL_YEARS_API,
       resourceShouldRefresh: true,
@@ -131,7 +137,7 @@ class LedgerList extends Component {
       },
     },
     fiscalyearID: {
-      type: 'okapi',
+      ...baseManifest,
       records: 'fiscalYears',
       path: FISCAL_YEARS_API,
       resourceShouldRefresh: true,
@@ -147,7 +153,7 @@ class LedgerList extends Component {
       },
     },
     fund: {
-      type: 'okapi',
+      ...baseManifest,
       records: 'funds',
       resourceShouldRefresh: true,
       path: FUNDS_API,
@@ -168,21 +174,28 @@ class LedgerList extends Component {
     super(props);
 
     this.getFiscalYears = this.getFiscalYears.bind(this);
-
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
     this.changeSearchIndex = changeSearchIndex.bind(this);
+    this.callout = React.createRef();
+    this.showToast = showToast.bind(this);
   }
 
-  create = (ledgerdata) => {
-    const { mutator } = this.props;
+  create = async (ledgerdata) => {
+    const { history, mutator } = this.props;
 
-    mutator.records.POST(ledgerdata).then(newLedger => {
-      mutator.query.update({
-        _path: `/finance/ledger/view/${newLedger.id}`,
-        layer: null,
-      });
-    });
+    try {
+      const savedLedger = await mutator.records.POST(ledgerdata);
+
+      this.showToast('ui-finance.ledger.actions.save.success');
+      history.push(`${LEDGER_VIEW_ROUTE}${savedLedger.id}?layer=view`);
+
+      return savedLedger;
+    } catch (response) {
+      this.showToast('ui-finance.ledger.actions.save.error', 'error');
+
+      return { id: 'Unable to create ledger' };
+    }
   }
 
   getFiscalYears() {
@@ -264,7 +277,7 @@ class LedgerList extends Component {
           viewRecordComponent={LedgerView}
           onSelectRow={onSelectRow}
           onCreate={this.create}
-          editRecordComponent={LedgerPane}
+          editRecordComponent={LedgerForm}
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}

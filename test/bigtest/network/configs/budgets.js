@@ -1,30 +1,19 @@
+import {
+  createGetAll,
+  createGetById,
+  createPost,
+  createPut,
+} from '@folio/stripes-acq-components/test/bigtest/network/configs';
+
 import { BUDGETS_API } from '../../../../src/common/const';
 
+const SCHEMA_NAME = 'budgets';
+
 const configBudgets = server => {
-  server.get(BUDGETS_API, (schema) => {
-    return schema.budgets.all();
-  });
-
-  server.get(`${BUDGETS_API}/:id`, (schema, request) => {
-    return request.params.id
-      ? schema.budgets.find(request.params.id).attrs
-      : null;
-  });
-
-  server.put(`${BUDGETS_API}/:id`, (schema, request) => {
-    const id = request.params.id;
-    const attrs = JSON.parse(request.requestBody);
-
-    schema.budgets.find(id).update(attrs);
-
-    return null;
-  });
-
-  server.post(BUDGETS_API, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody) || {};
-
-    return schema.budgets.create(attrs);
-  });
+  server.get(BUDGETS_API, createGetAll(SCHEMA_NAME));
+  server.get(`${BUDGETS_API}/:id`, createGetById(SCHEMA_NAME));
+  server.post(BUDGETS_API, createPost(SCHEMA_NAME));
+  server.put(`${BUDGETS_API}/:id`, createPut(SCHEMA_NAME));
 };
 
 export default configBudgets;

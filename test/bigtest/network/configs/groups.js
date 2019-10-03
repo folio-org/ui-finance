@@ -1,25 +1,20 @@
+import {
+  createGetAll,
+  createGetById,
+  createPost,
+  createPut,
+} from '@folio/stripes-acq-components/test/bigtest/network/configs';
+
 import { GROUPS_API } from '../../../../src/common/const';
 
+const SCHEMA_NAME = 'groups';
+
 const configGroups = server => {
-  server.get(GROUPS_API, (schema) => {
-    return schema.groups.all();
-  });
-
-  server.get(`${GROUPS_API}/:id`, (schema, request) => {
-    const schemaGroup = schema.groups.find(request.params.id) || {};
-
-    return schemaGroup.attrs;
-  });
-
-  server.post(GROUPS_API, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody) || {};
-
-    return schema.groups.create(attrs).attrs;
-  });
-
-  server.put(`${GROUPS_API}/:id`, () => null);
-
-  server.delete(`${GROUPS_API}/:id`, 'group');
+  server.get(GROUPS_API, createGetAll(SCHEMA_NAME));
+  server.get(`${GROUPS_API}/:id`, createGetById(SCHEMA_NAME));
+  server.post(GROUPS_API, createPost(SCHEMA_NAME));
+  server.put(`${GROUPS_API}/:id`, createPut(SCHEMA_NAME));
+  server.delete(`${GROUPS_API}/:id`, createGetById(SCHEMA_NAME));
 };
 
 export default configGroups;

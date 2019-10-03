@@ -1,1 +1,1 @@
-export { default } from './LedgerList';
+export { default } from './Ledger';

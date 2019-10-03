@@ -9,6 +9,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   DATE_FORMAT,
   LoadingPane,
+  useShowToast,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -46,6 +47,8 @@ const LedgerViewContainer = ({
     [ledgerId],
   );
 
+  const showToast = useShowToast();
+
   const editLedger = useCallback(
     () => {
       history.push(`${LEDGER_EDIT_ROUTE}${ledgerId}`);
@@ -56,8 +59,15 @@ const LedgerViewContainer = ({
   const removeLedger = useCallback(
     () => {
       mutator.ledgerDetails.DELETE(ledger)
-        .then(() => history.push(LEDGERS_ROUTE));
+        .then(() => {
+          showToast('ui-finance.ledger.actions.remove.success');
+          history.push(LEDGERS_ROUTE);
+        })
+        .catch(() => {
+          showToast('ui-finance.ledger.actions.remove.error', 'error');
+        });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [history, ledger, mutator.ledgerDetails],
   );
 

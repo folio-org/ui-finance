@@ -91,7 +91,7 @@ const FiscalYearForm = ({
                 <Col xs={4}>
                   <Field
                     component={TextField}
-                    label={<FormattedMessage id="ui-finance.fiscalYear.information.abbreviation" />}
+                    label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
                     name="code"
                     type="text"
                     required

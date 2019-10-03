@@ -42,7 +42,7 @@ const FiscalYearInformation = ({
           xs={3}
         >
           <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.abbreviation" />}
+            label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
             value={code}
           />
         </Col>

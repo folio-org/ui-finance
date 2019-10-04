@@ -11,7 +11,7 @@ import { Icon } from '@folio/stripes/components';
 
 import ConnectionListing from '../../components/ConnectionListing';
 import { groupFundFiscalYears } from '../resources';
-import { getFundsToDisplay } from '../utils/getFundToDisplay';
+import { getFundsToDisplay } from '../utils';
 
 const RelatedFunds = ({ mutator, resources, query, history, currency, funds }) => {
   const openFund = useCallback(

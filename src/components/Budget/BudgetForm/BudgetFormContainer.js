@@ -26,7 +26,7 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
 
   const goToBudgetView = useCallback(
     () => {
-      const path = `finance/budget/${budget.id}/view`;
+      const path = `/finance/budget/${budget.id}/view`;
 
       history.push(path);
     },

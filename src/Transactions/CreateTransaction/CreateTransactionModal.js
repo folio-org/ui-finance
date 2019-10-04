@@ -22,6 +22,8 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
+import { validateFund } from '../../common/utils';
+
 const TRANSACTION_FORM = 'transactionForm';
 
 const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, dispatch, change, title }) => {
@@ -50,10 +52,6 @@ const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, d
   const selectFromFund = useCallback(
     (e, id) => {
       dispatch(change('fromFundId', id));
-
-      if (transferFrom !== fundId) {
-        dispatch(change('toFundId', fundId));
-      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fundId, transferFrom],
@@ -62,10 +60,6 @@ const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, d
   const selectToFund = useCallback(
     (e, id) => {
       dispatch(change('toFundId', id));
-
-      if (transferTo !== fundId) {
-        dispatch(change('fromFundId', fundId));
-      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fundId, transferTo],
@@ -116,7 +110,7 @@ const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, d
               name="toFundId"
               onChange={selectToFund}
               required
-              validate={validateRequired}
+              validate={[validateRequired, validateFund]}
             />
           </Col>
         </Row>

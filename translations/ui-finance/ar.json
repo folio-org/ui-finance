@@ -436,13 +436,13 @@
     "fiscalYear.actions.save.success": "تم حفظ السنة المالية",
     "fiscalYear.form.title.create": "إنشاء سنة مالية",
     "fiscalYear.form.title.edit": "تحرير السنة المالية",
-    "fiscalYear.information.code": "Code",
-    "fiscalYear.list.code": "Code",
-    "ledger.actions.remove.error": "Ledger has not been deleted",
-    "ledger.actions.remove.success": "Ledger has been deleted",
-    "ledger.actions.save.error": "Ledger has not been saved",
-    "ledger.actions.save.success": "Ledger has been saved",
-    "ledger.form.title.create": "Create ledger",
-    "ledger.form.title.edit": "Edit ledger",
-    "transaction.fundValidation": "Transfers (allocations) can not be made from a budget to itself"
+    "fiscalYear.information.code": "رمز",
+    "fiscalYear.list.code": "رمز",
+    "ledger.actions.remove.error": "لم يتم حذف الدفتر",
+    "ledger.actions.remove.success": "تم حذف الدفتر",
+    "ledger.actions.save.error": "لم يتم حفظ الدفتر",
+    "ledger.actions.save.success": "تم حفظ الدفتر",
+    "ledger.form.title.create": "إنشاء دفتر",
+    "ledger.form.title.edit": "تحرير الدفتر",
+    "transaction.fundValidation": "لا يمكن إجراء التحويلات (المخصصات) من ميزانية لنفسها"
 }

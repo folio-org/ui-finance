@@ -5,7 +5,10 @@ import {
   injectIntl,
   intlShape,
 } from 'react-intl';
-import { get } from 'lodash';
+import {
+  get,
+  keyBy,
+} from 'lodash';
 
 import {
   SearchAndSort,
@@ -44,6 +47,13 @@ import Fund from './Fund';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const title = <FormattedMessage id="ui-finance.fund" />;
+const columnMapping = {
+  name: <FormattedMessage id="ui-finance.fund.list.name" />,
+  code: <FormattedMessage id="ui-finance.fund.list.code" />,
+  fundStatus: <FormattedMessage id="ui-finance.fund.list.status" />,
+  ledger: <FormattedMessage id="ui-finance.fund.list.ledger" />,
+};
+const visibleColumns = ['name', 'code', 'fundStatus', 'ledger'];
 
 class FundsList extends Component {
   static propTypes = {
@@ -134,16 +144,9 @@ class FundsList extends Component {
 
   render() {
     const { onSelectRow, onComponentWillUnmount, resources, mutator, match, stripes } = this.props;
+    const ledgers = keyBy(get(resources, ['ledgers', 'records'], []), 'id');
     const resultsFormatter = {
-      'name': data => get(data, ['name'], ''),
-      'code': data => get(data, ['code'], ''),
-      'fundStatus': data => get(data, ['fundStatus'], ''),
-    };
-
-    const columnMapping = {
-      'name': 'Name',
-      'code': 'Code',
-      'fundStatus': 'Fund Status',
+      ledger: ({ ledgerId }) => get(ledgers[ledgerId], 'name'),
     };
 
     const packageInfoReWrite = () => {
@@ -169,7 +172,7 @@ class FundsList extends Component {
           title={title}
           columnMapping={columnMapping}
           baseRoute={`${match.path}`}
-          visibleColumns={['name', 'code', 'fundStatus']}
+          visibleColumns={visibleColumns}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Fund}
           onSelectRow={onSelectRow}

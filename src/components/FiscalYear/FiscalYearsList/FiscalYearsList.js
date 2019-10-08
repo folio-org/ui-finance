@@ -153,7 +153,7 @@ FiscalYearsList.manifest = Object.freeze({
     initialValue: {
       query: '',
       filters: '',
-      sort: '',
+      sort: 'name',
     },
   },
   resultCount: { initialValue: INITIAL_RESULT_COUNT },

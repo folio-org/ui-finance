@@ -76,7 +76,7 @@ class LedgerList extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: '',
+        sort: 'name',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },

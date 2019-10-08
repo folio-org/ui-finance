@@ -12,7 +12,7 @@ import { FINANCE_NAVIGATION_TABS } from './constants';
 
 const FinanceNavigation = ({ history, match: { path } }) => {
   const getTabStyle = tabId => (path.includes(`/finance/${tabId}`) ? 'primary' : 'default');
-  const goToTab = tabId => history.push(`/finance/${tabId}`);
+  const goToTab = tabId => history.push(`/finance/${tabId}?sort=name`);
 
   return (
     <ButtonGroup

@@ -41,7 +41,7 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
       try {
         await mutator.budget[saveMethod](formValue);
         showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
-        goToBudgetView();
+        setTimeout(() => goToBudgetView(), 0);
       } catch (e) {
         showCallout('ui-finance.budget.hasNotBeenSaved', 'error', { name });
       }

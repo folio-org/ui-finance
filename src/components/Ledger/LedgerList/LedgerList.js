@@ -13,6 +13,7 @@ import {
   makeQueryFunction,
 } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
+import { Callout } from '@folio/stripes/components';
 import {
   baseManifest,
   changeSearchIndex,
@@ -46,7 +47,6 @@ const ledgerPackageInfo = {
   stripes: {
     ...packageInfo.stripes,
     route: LEDGERS_ROUTE,
-    home: LEDGERS_ROUTE,
   },
 };
 
@@ -62,7 +62,6 @@ const columnMapping = {
 
 class LedgerList extends Component {
   static propTypes = {
-    match: PropTypes.object,
     stripes: PropTypes.object,
     intl: intlShape.isRequired,
     onSelectRow: PropTypes.func,
@@ -259,7 +258,6 @@ class LedgerList extends Component {
       onSelectRow,
       resources,
       mutator,
-      match,
       stripes,
     } = this.props;
     const getFiscalYearsRecords = this.getFiscalYears();
@@ -269,7 +267,7 @@ class LedgerList extends Component {
         <SearchAndSort
           packageInfo={ledgerPackageInfo}
           objectName="ledger"
-          baseRoute={`${match.path}`}
+          baseRoute={ledgerPackageInfo.stripes.route}
           title={title}
           columnMapping={columnMapping}
           visibleColumns={visibleColumns}
@@ -293,6 +291,7 @@ class LedgerList extends Component {
           onChangeIndex={this.changeSearchIndex}
           renderNavigation={this.renderNavigation}
         />
+        <Callout ref={this.callout} />
       </div>
     );
   }

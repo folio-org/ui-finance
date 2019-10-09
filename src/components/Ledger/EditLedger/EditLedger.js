@@ -52,7 +52,7 @@ const EditLedger = ({ resources, mutator, match, history }) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closeEdit, mutator.fiscalYearEdit],
+    [closeEdit, mutator.ledgerEdit],
   );
 
   const isLoading = !get(resources, ['ledgerEdit', 'hasLoaded']);

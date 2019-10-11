@@ -100,7 +100,7 @@ const GroupForm = ({
                   <FieldSelection
                     dataOptions={GROUP_STATUS_OPTIONS}
                     id="group-status"
-                    label={<FormattedMessage id="ui-finance.groups.item.information.status" />}
+                    labelId="ui-finance.groups.item.information.status"
                     name="status"
                     required
                     validate={validateRequired}

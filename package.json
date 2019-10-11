@@ -146,8 +146,5 @@
     "@folio/stripes": "^2.9.0",
     "react": "*",
     "react-router-dom": "^5.0.1"
-  },
-  "resolutions" : {
-    "@folio/stripes-connect": "~5.3.0"
   }
 }

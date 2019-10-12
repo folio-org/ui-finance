@@ -190,7 +190,7 @@ const FundForm = ({
                     >
                       <FieldSelection
                         dataOptions={ledgers}
-                        label={<FormattedMessage id="ui-finance.fund.information.ledger" />}
+                        labelId="ui-finance.fund.information.ledger"
                         onChange={selectLedger}
                         name="ledgerId"
                         required
@@ -204,7 +204,7 @@ const FundForm = ({
                     >
                       <FieldSelection
                         dataOptions={FUND_STATUSES_OPTIONS}
-                        label={<FormattedMessage id="ui-finance.fund.information.status" />}
+                        labelId="ui-finance.fund.information.status"
                         name="fundStatus"
                         required
                         validate={validateRequired}
@@ -231,7 +231,7 @@ const FundForm = ({
                     >
                       <FieldSelection
                         dataOptions={fundTypes}
-                        label={<FormattedMessage id="ui-finance.fund.information.type" />}
+                        labelId="ui-finance.fund.information.type"
                         name="fundTypeId"
                       />
                     </Col>

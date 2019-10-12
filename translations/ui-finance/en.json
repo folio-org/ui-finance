@@ -442,7 +442,7 @@
   "transaction.description": "Description",
   "transaction.fiscalYear": "Fiscal year",
   "transaction.from": "From",
-  "transaction.fundValidation": "Transfers (allocations) can not be made from a budget to itself",
+  "transaction.fundValidation": "Transfers and allocations can not be made from one budget to that same budget",
   "transaction.information": "Information",
   "transaction.source.Credit": "Credit",
   "transaction.source.Manual": "Manual",

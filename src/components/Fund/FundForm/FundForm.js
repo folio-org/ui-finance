@@ -231,7 +231,7 @@ const FundForm = ({
                     >
                       <FieldSelection
                         dataOptions={fundTypes}
-                        label="ui-finance.fund.information.type"
+                        labelId="ui-finance.fund.information.type"
                         name="fundTypeId"
                       />
                     </Col>

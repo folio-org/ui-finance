@@ -444,5 +444,9 @@
     "ledger.actions.save.success": "Ledger has been saved",
     "ledger.form.title.create": "Create ledger",
     "ledger.form.title.edit": "Edit ledger",
-    "transaction.fundValidation": "Transfers (allocations) can not be made from a budget to itself"
+    "transaction.fundValidation": "Transfers and allocations can not be made from one budget to that same budget",
+    "fund.list.code": "Code",
+    "fund.list.ledger": "Ledger",
+    "fund.list.name": "Name",
+    "fund.list.status": "Status"
 }

@@ -444,5 +444,9 @@
     "ledger.actions.save.success": "تم حفظ الدفتر",
     "ledger.form.title.create": "إنشاء دفتر",
     "ledger.form.title.edit": "تحرير الدفتر",
-    "transaction.fundValidation": "لا يمكن إجراء التحويلات (المخصصات) من ميزانية لنفسها"
+    "transaction.fundValidation": "لا يمكن إجراء التحويلات (المخصصات) من ميزانية لنفسها",
+    "fund.list.code": "رمز",
+    "fund.list.ledger": "دفتر",
+    "fund.list.name": "الاسم",
+    "fund.list.status": "الحالة"
 }

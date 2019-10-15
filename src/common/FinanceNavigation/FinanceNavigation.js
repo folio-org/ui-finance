@@ -1,5 +1,5 @@
 import React from 'react';
-import withRouter from 'react-router-dom/withRouter';
+import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 

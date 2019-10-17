@@ -29,3 +29,5 @@ export const FUND_FILTERS = {
   GROUP: 'groupId',
   ACQUISITIONS_UNIT: 'acqUnitIds',
 };
+
+export const FUND_GROUPS_FIELD_NAME = 'groups';

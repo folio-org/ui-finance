@@ -32,13 +32,16 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
+import { FieldFundGroups } from '../FundGroups';
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
 } from '../../../common/const';
 import {
-  SECTIONS_FUND,
+  FUND_FORM,
+  FUND_GROUPS_FIELD_NAME,
   FUND_STATUSES_OPTIONS,
+  SECTIONS_FUND,
 } from '../constants';
 import {
   fetchFundsByCode,
@@ -267,6 +270,12 @@ const FundForm = ({
                         isFinal
                         preselectedUnits={initialValues.acqUnitIds}
                       />
+                    </Col>
+                    <Col
+                      data-test-col-group
+                      xs={3}
+                    >
+                      <FieldFundGroups name={FUND_GROUPS_FIELD_NAME} />
                     </Col>
                   </Row>
 

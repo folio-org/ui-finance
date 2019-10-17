@@ -9,6 +9,8 @@ import {
 } from '@folio/stripes/components';
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
+import { ViewFundGroups } from '../FundGroups';
+
 const FundDetails = ({
   acqUnitIds,
   allocatedFrom,
@@ -57,9 +59,7 @@ const FundDetails = ({
         />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.group" />}
-        />
+        <ViewFundGroups fundId={fund.id} />
       </Col>
       <Col xs={3}>
         <AcqUnitsView units={acqUnitIds} />

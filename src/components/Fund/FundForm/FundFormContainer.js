@@ -8,12 +8,18 @@ import { withRouter } from 'react-router-dom';
 import { stripesConnect } from '@folio/stripes/core';
 import { ConfirmationModal, Layer } from '@folio/stripes/components';
 import {
+  LIMIT_MAX,
   LoadingPane,
   useShowToast,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { fundResource } from '../../../common/resources';
+import {
+  fundResource,
+  groupFundFiscalYears,
+  groupsResource,
+} from '../../../common/resources';
+import { FUND_GROUPS_FIELD_NAME } from '../constants';
 import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
 
@@ -78,8 +84,8 @@ const FundFormContainer = ({
     }
   };
 
-  const fund = get(resources, ['fund', 'records', 0, 'fund']) || {};
-  const isLoading = id && !get(resources, ['fund', 'hasLoaded']);
+  const fund = get(resources, 'fund.records.0') || {};
+  const isLoading = id && !(get(resources, ['fund', 'hasLoaded']) && get(resources, 'gffy.hasLoaded'));
   const isLoadingNode = <LoadingPane onClose={closeScreen} />;
 
   if (isLoading) {
@@ -135,6 +141,8 @@ FundFormContainer.manifest = Object.freeze({
     fetch: false,
     clientGeneratePk: false,
   },
+  gffy: groupFundFiscalYears,
+  groupsDict: groupsResource,
 });
 
 FundFormContainer.propTypes = {

@@ -1,5 +1,8 @@
 # Change history for ui-finance
 
+## [1.7.0] (IN PROGRESS)
+* [UIF-119](https://issues.folio.org/browse/UIF-119) Update the success toast when budget is created/updated
+
 ## [1.6.0](https://github.com/folio-org/ui-finance/tree/v1.6.0) (2019-07-23)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.5.0...v1.6.0)
 

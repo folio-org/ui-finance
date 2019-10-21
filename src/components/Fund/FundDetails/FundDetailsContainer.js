@@ -27,7 +27,6 @@ import {
   DetailsRemoveAction,
 } from '../../../common/DetailsActions';
 import {
-  acqUnitsResource,
   budgetsResource,
   fundResource,
   fundsResource,
@@ -56,7 +55,6 @@ const FundDetailsContainer = ({
     mutator.allocatedFrom.reset();
     mutator.allocatedTo.reset();
     mutator.group.reset();
-    mutator.acqUnits.reset();
     mutator.budgets.reset();
 
     mutator.fund.GET().then(response => {
@@ -65,7 +63,6 @@ const FundDetailsContainer = ({
         fundTypeId,
         allocatedFromIds,
         allocatedToIds,
-        acqUnitIds,
       } = response;
 
       if (fundTypeId) {
@@ -99,14 +96,6 @@ const FundDetailsContainer = ({
           },
         });
       }
-
-      if (acqUnitIds.length) {
-        mutator.acqUnits.GET({
-          params: {
-            query: acqUnitIds.map(id => `id==${id}`).join(' or '),
-          },
-        });
-      }
     });
 
     mutator.group.GET();
@@ -122,7 +111,6 @@ const FundDetailsContainer = ({
   const fundType = get(resources, ['fundType', 'records', 0, 'name'], '');
   const allocatedFrom = get(resources, ['allocatedFrom', 'records'], []).map(f => f.name).join(', ');
   const allocatedTo = get(resources, ['allocatedTo', 'records'], []).map(f => f.name).join(', ');
-  const acqUnits = get(resources, ['acqUnits', 'records'], []).map(u => u.name).join(', ');
   const budgets = get(resources, ['budgets', 'records'], []);
   const activeBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.ACTIVE);
   const plannedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.PLANNED);
@@ -134,7 +122,6 @@ const FundDetailsContainer = ({
     !get(resources, ['ledger', 'hasLoaded']) &&
     !get(resources, ['allocatedFrom', 'hasLoaded']) &&
     !get(resources, ['allocatedTo', 'hasLoaded']) &&
-    !get(resources, ['acqUnits', 'hasLoaded']) &&
     !get(resources, ['budgets', 'hasLoaded'])
   );
 
@@ -222,7 +209,7 @@ const FundDetailsContainer = ({
         >
           {fund.metadata && <ViewMetaData metadata={fund.metadata} />}
           <FundDetails
-            acqUnits={acqUnits}
+            acqUnitIds={fund.acqUnitIds}
             allocatedFrom={allocatedFrom}
             allocatedTo={allocatedTo}
             currency={ledger.currency}
@@ -315,11 +302,6 @@ FundDetailsContainer.manifest = Object.freeze({
         query: 'fundId==:{id}',
       },
     },
-    accumulate: true,
-    fetch: false,
-  },
-  acqUnits: {
-    ...acqUnitsResource,
     accumulate: true,
     fetch: false,
   },

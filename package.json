@@ -111,7 +111,7 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output ./output",
-    "test": "stripes test nightmare; stripes test karma",
+    "test": "stripes test karma",
     "lint": "eslint ."
   },
   "devDependencies": {

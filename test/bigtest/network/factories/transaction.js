@@ -1,7 +1,7 @@
 import { Factory, faker } from '@bigtest/mirage';
 
 export default Factory.extend({
-  amount: faker.finance.amount,
+  amount: () => Number(faker.finance.amount),
   currency: 'USD',
   description: faker.random.word,
   fiscalYearId: faker.random.uuid,

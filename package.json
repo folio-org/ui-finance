@@ -22,8 +22,8 @@
       "configuration": "2.0",
       "finance-storage.budgets": "1.0",
       "finance-storage.fiscal-years": "1.0",
-      "finance-storage.funds": "2.0",
-      "finance-storage.ledgers": "1.0"
+      "finance-storage.ledgers": "1.0",
+      "finance.funds": "1.0"
     },
     "queryResource": "query",
     "icons": [

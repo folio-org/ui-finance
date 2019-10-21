@@ -7,9 +7,10 @@ import {
   Row,
   KeyValue,
 } from '@folio/stripes/components';
+import { AcqUnitsView } from '@folio/stripes-acq-components';
 
 const FundDetails = ({
-  acqUnits,
+  acqUnitIds,
   allocatedFrom,
   allocatedTo,
   currency,
@@ -61,10 +62,7 @@ const FundDetails = ({
         />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.acqUnits" />}
-          value={acqUnits}
-        />
+        <AcqUnitsView units={acqUnitIds} />
       </Col>
       <Col xs={3}>
         <KeyValue
@@ -97,7 +95,7 @@ const FundDetails = ({
 );
 
 FundDetails.propTypes = {
-  acqUnits: PropTypes.string,
+  acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   allocatedFrom: PropTypes.string,
   allocatedTo: PropTypes.string,
   currency: PropTypes.string,
@@ -107,7 +105,7 @@ FundDetails.propTypes = {
 };
 
 FundDetails.defaultProps = {
-  acqUnits: '',
+  acqUnitIds: [],
   allocatedFrom: '',
   allocatedTo: '',
   currency: '',

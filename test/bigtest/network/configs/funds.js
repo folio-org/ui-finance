@@ -4,8 +4,7 @@ import {
   createPost,
   createPut,
 } from '@folio/stripes-acq-components/test/bigtest/network/configs';
-
-import { FUNDS_API } from '../../../../src/common/const';
+import { FUNDS_API } from '@folio/stripes-acq-components';
 
 const SCHEMA_NAME = 'funds';
 

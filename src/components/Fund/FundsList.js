@@ -18,15 +18,12 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   baseManifest,
   changeSearchIndex,
+  FUNDS_API,
   getActiveFilters,
   handleFilterChange,
 } from '@folio/stripes-acq-components';
 
-import {
-  FUNDS_API,
-} from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
-
 import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';

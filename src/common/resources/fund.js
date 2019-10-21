@@ -1,7 +1,10 @@
-import { baseManifest } from '@folio/stripes-acq-components';
+import {
+  baseManifest,
+  FUNDS_API,
+  fundsManifest,
+} from '@folio/stripes-acq-components';
 
 import {
-  FUNDS_API,
   FUND_TYPES_API,
 } from '../const';
 
@@ -19,11 +22,4 @@ export const fundTypesResource = {
   records: 'fundTypes',
 };
 
-export const fundsResource = {
-  ...baseManifest,
-  path: FUNDS_API,
-  params: {
-    query: 'cql.allRecords=1 sortby name',
-  },
-  records: 'funds',
-};
+export const fundsResource = fundsManifest;

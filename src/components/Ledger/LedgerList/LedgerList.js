@@ -17,6 +17,7 @@ import { Callout } from '@folio/stripes/components';
 import {
   baseManifest,
   changeSearchIndex,
+  FUNDS_API,
   getActiveFilters,
   handleFilterChange,
   showToast,
@@ -26,7 +27,6 @@ import packageInfo from '../../../../package';
 import {
   FISCAL_YEARS_API,
   LEDGERS_API,
-  FUNDS_API,
   LEDGERS_ROUTE,
   LEDGER_VIEW_ROUTE,
 } from '../../../common/const';

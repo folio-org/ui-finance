@@ -28,12 +28,17 @@ import {
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
+  AcqUnitsField,
   FieldMultiSelection,
   FieldSelection,
   useAccordionToggle,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
+import {
+  CREATE_UNITS_PERM,
+  MANAGE_UNITS_PERM,
+} from '../../../common/const';
 import {
   FUND_FORM,
   SECTIONS_FUND,
@@ -119,6 +124,8 @@ const FundForm = ({
 
     return { renderedItems };
   };
+
+  const isEditMode = Boolean(initialValues.id);
 
   return (
     <form>
@@ -233,6 +240,15 @@ const FundForm = ({
                         dataOptions={fundTypes}
                         labelId="ui-finance.fund.information.type"
                         name="fundTypeId"
+                      />
+                    </Col>
+
+                    <Col data-test-col-fund-form-acq-units xs={3}>
+                      <AcqUnitsField
+                        name="acqUnitIds"
+                        perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                        isEdit={isEditMode}
+                        preselectedUnits={initialValues.acqUnitIds}
                       />
                     </Col>
                   </Row>

@@ -19,12 +19,23 @@ describe('Ledgers list', () => {
     await ledgersList.whenLoaded();
   });
 
-  it('shows the list of ledger items', () => {
-    expect(ledgersList.isPresent).to.be.true;
+  it('is no results message label present', () => {
+    expect(ledgersList.isNoResultsMessageLabelPresent).to.be.true;
   });
 
-  it('renders row for each ledger from the response', () => {
-    expect(ledgersList.ledgers().length).to.be.equal(LEDGERS_COUNT);
+  describe('search by something', function () {
+    beforeEach(async function () {
+      await ledgersList.fillSearchField('test');
+      await ledgersList.clickSearch();
+    });
+
+    it('shows the list of ledger items', () => {
+      expect(ledgersList.isPresent).to.be.true;
+    });
+
+    it('renders row for each ledger from the response', () => {
+      expect(ledgersList.ledgers().length).to.be.equal(LEDGERS_COUNT);
+    });
   });
 
   describe('Navigation', () => {

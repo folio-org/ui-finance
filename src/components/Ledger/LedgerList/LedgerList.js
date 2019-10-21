@@ -93,6 +93,7 @@ class LedgerList extends Component {
             ledgersSearchTemplate,
             {},
             filterConfig,
+            2,
           ),
         },
         staticFallback: { params: {} },

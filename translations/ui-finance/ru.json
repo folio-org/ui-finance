@@ -338,7 +338,7 @@
     "groups.form.title.create": "Создать группу",
     "groups.form.title.edit": "Редактировать группу",
     "budget.fiscalYear": "Финансовый год",
-    "budget.hasBeenCreated": "<b>{name}</b> was successfully <b>created</b> for the fund <b>{fundName}</b>",
+    "budget.hasBeenCreated": "Budget <b>{name}</b> successfully <b>created</b> for fund <b>{fundName}</b>",
     "budget.hasNotBeenCreated": "Budget has not been created",
     "budget.hasNotBeenSaved": "Бюджет <b> {name} </b> не был сохранен",
     "budget.button.new": "Новый",

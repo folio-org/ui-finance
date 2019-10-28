@@ -17,7 +17,16 @@ import { fundResource } from '../../../common/resources';
 import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
 
-const FundFormContainer = ({ resources, mutator, onCloseEdit, parentResources, parentMutator, onCancel, match, onSubmit }) => {
+const FundFormContainer = ({
+  match,
+  mutator,
+  onCancel,
+  onCloseEdit,
+  onSubmit,
+  parentMutator,
+  parentResources,
+  resources,
+}) => {
   const showCallout = useShowToast();
   const { params: { id } } = match;
 

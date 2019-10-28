@@ -39,8 +39,10 @@ describe('Fund create', () => {
 
   describe('save and close fund form', () => {
     beforeEach(async function () {
-      await fundForm.externalAccountNo('12345');
+      await fundForm.externalAccountNo.fillAndBlur('12345');
+      await fundForm.description.focus();
       await fundForm.saveButton.click();
+      await fundDetails.whenLoaded();
     });
 
     it('closes fund form', () => {

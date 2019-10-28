@@ -1,24 +1,21 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import {
-  Field,
-  getFormValues,
-} from 'redux-form';
+import { Field } from 'react-final-form';
 import {
   find,
   get,
   sortBy,
 } from 'lodash';
 
-import { stripesShape } from '@folio/stripes/core';
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Accordion,
   AccordionSet,
   Button,
   Col,
   ExpandAllButton,
+  KeyValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -29,8 +26,8 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
-  FieldMultiSelection,
-  FieldSelection,
+  FieldMultiSelectionFinal as FieldMultiSelection,
+  FieldSelectionFinal as FieldSelection,
   useAccordionToggle,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -40,10 +37,13 @@ import {
   MANAGE_UNITS_PERM,
 } from '../../../common/const';
 import {
-  FUND_FORM,
   SECTIONS_FUND,
   FUND_STATUSES_OPTIONS,
 } from '../constants';
+import {
+  fetchFundsByCode,
+  fetchFundsByNameAndLedger,
+} from './fetchFunds';
 
 const getLastMenu = (handleSubmit, pristine, submitting) => {
   return (
@@ -64,25 +64,16 @@ const getLastMenu = (handleSubmit, pristine, submitting) => {
 const itemToString = item => item;
 
 const FundForm = ({
-  change,
-  dispatch,
   handleSubmit,
   initialValues,
   onCancel,
   parentResources,
   pristine,
-  stripes,
   submitting,
+  values: formValues,
+  parentMutator: { fundsByName },
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
-
-  const selectLedger = useCallback(
-    (e, selectedLedgerId) => (
-      dispatch(change('ledgerId', selectedLedgerId))
-    ),
-    [change, dispatch],
-  );
-
   const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
   const fundTypes = get(parentResources, ['fundTypes', 'records'], []).map(
     ({ name, id }) => ({
@@ -90,6 +81,35 @@ const FundForm = ({
       value: id,
     }),
   );
+
+  const validateFundName = async value => {
+    const isRequired = validateRequired(value);
+
+    if (isRequired) {
+      return isRequired;
+    }
+
+    const existingFunds = await fetchFundsByNameAndLedger(fundsByName, formValues.id, value, formValues.ledgerId);
+
+    if (existingFunds.length) return <FormattedMessage id="ui-finance.fund.name.isInUse" />;
+
+    return undefined;
+  };
+
+  const validateFundCode = async value => {
+    const isRequired = validateRequired(value);
+
+    if (isRequired) {
+      return isRequired;
+    }
+
+    const existingFunds = await fetchFundsByCode(fundsByName, formValues.id, value);
+
+    if (existingFunds.length) return <FormattedMessage id="ui-finance.fund.code.isInUse" />;
+
+    return undefined;
+  };
+
   const ledgers = get(parentResources, ['ledgers', 'records'], []).map(
     ({ name, id, currency }) => ({
       label: name,
@@ -97,12 +117,12 @@ const FundForm = ({
       currency,
     }),
   );
+
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const paneTitle = initialValues.id
     ? initialValues.name
     : <FormattedMessage id="ui-finance.fund.paneTitle.create" />;
   const metadata = initialValues.metadata;
-  const formValues = getFormValues(FUND_FORM)(stripes.store.getState());
   const selectedLedger = find(ledgers, ['value', formValues.ledgerId]);
   const fundCurrency = get(selectedLedger, 'currency', '');
   const fundOptions = funds.map(({ id }) => id);
@@ -173,7 +193,7 @@ const FundForm = ({
                         name="name"
                         type="text"
                         required
-                        validate={validateRequired}
+                        validate={validateFundName}
                       />
                     </Col>
 
@@ -187,7 +207,7 @@ const FundForm = ({
                         name="code"
                         type="text"
                         required
-                        validate={validateRequired}
+                        validate={validateFundCode}
                       />
                     </Col>
 
@@ -198,10 +218,8 @@ const FundForm = ({
                       <FieldSelection
                         dataOptions={ledgers}
                         labelId="ui-finance.fund.information.ledger"
-                        onChange={selectLedger}
                         name="ledgerId"
                         required
-                        validate={validateRequired}
                       />
                     </Col>
 
@@ -224,11 +242,9 @@ const FundForm = ({
                       data-test-col-currency
                       xs={3}
                     >
-                      <Field
-                        component={TextField}
+                      <KeyValue
                         label={<FormattedMessage id="ui-finance.fund.information.currency" />}
                         value={fundCurrency}
-                        disabled
                       />
                     </Col>
 
@@ -248,6 +264,7 @@ const FundForm = ({
                         name="acqUnitIds"
                         perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
                         isEdit={isEditMode}
+                        isFinal
                         preselectedUnits={initialValues.acqUnitIds}
                       />
                     </Col>
@@ -320,22 +337,22 @@ const FundForm = ({
 };
 
 FundForm.propTypes = {
-  change: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
+  parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
-  stripes: stripesShape.isRequired,
   submitting: PropTypes.bool.isRequired,
-  initialValues: PropTypes.object,
+  values: PropTypes.object.isRequired,
 };
 
 FundForm.defaultProps = {
   initialValues: {},
 };
 
-export default stripesForm({
-  form: FUND_FORM,
+export default stripesFinalForm({
   navigationCheck: true,
+  subscription: { values: true },
+  validateOnBlur: true,
 })(FundForm);

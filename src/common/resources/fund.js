@@ -11,6 +11,9 @@ import {
 export const fundResource = {
   ...baseManifest,
   path: `${FUNDS_API}/:{id}`,
+  POST: {
+    path: FUNDS_API,
+  },
 };
 
 export const fundTypesResource = {

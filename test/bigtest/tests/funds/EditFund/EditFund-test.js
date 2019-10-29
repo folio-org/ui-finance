@@ -20,6 +20,7 @@ describe('Fund create', () => {
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();
     await fundDetails.actions.editFund.click();
+    await fundForm.whenLoaded();
   });
 
   it('displays an edit fund form', () => {
@@ -40,14 +41,12 @@ describe('Fund create', () => {
   describe('save and close fund form', () => {
     beforeEach(async function () {
       await fundForm.externalAccountNo.fillAndBlur('12345');
-      await fundForm.description.focus();
       await fundForm.saveButton.click();
-      await fundDetails.whenLoaded();
     });
 
-    it('closes fund form', () => {
-      expect(fundForm.isPresent).to.be.false;
-      expect(fundDetails.isPresent).to.be.true;
+    it('fund form is still presented, since validation errors', () => {
+      expect(fundForm.isPresent).to.be.true;
+      expect(fundDetails.isPresent).to.be.false;
     });
   });
 });

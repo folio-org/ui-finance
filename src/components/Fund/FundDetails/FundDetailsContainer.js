@@ -10,6 +10,7 @@ import {
   AccordionSet,
   Button,
   Col,
+  ConfirmationModal,
   ExpandAllButton,
   MenuSection,
   Pane,
@@ -20,6 +21,8 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   LoadingPane,
   useAccordionToggle,
+  useModalToggle,
+  useShowToast,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -34,6 +37,7 @@ import {
   groupsResource,
   ledgersResource,
 } from '../../../common/resources';
+import { FUNDS_ROUTE } from '../../../common/const';
 import ConnectionListing from '../../ConnectionListing';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
@@ -103,6 +107,8 @@ const FundDetailsContainer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
+  const showToast = useShowToast();
+  const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
 
@@ -125,6 +131,29 @@ const FundDetailsContainer = ({
     !get(resources, ['budgets', 'hasLoaded'])
   );
 
+  const removeFund = useCallback(
+    () => {
+      mutator.fund.DELETE(fund)
+        .then(() => {
+          showToast('ui-finance.fund.actions.remove.success');
+          history.push(FUNDS_ROUTE);
+        })
+        .catch(() => {
+          showToast('ui-finance.fund.actions.remove.error', 'error');
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, fund, mutator.fund],
+  );
+
+  const onRemove = useCallback(
+    () => {
+      toggleRemoveConfirmation();
+      removeFund();
+    },
+    [removeFund, toggleRemoveConfirmation],
+  );
+
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <MenuSection id="fund-details-actions">
@@ -136,10 +165,11 @@ const FundDetailsContainer = ({
         <DetailsRemoveAction
           perm="finance-storage.funds.item.delete"
           toggleActionMenu={onToggle}
+          onRemove={toggleRemoveConfirmation}
         />
       </MenuSection>
     ),
-    [onEdit],
+    [onEdit, toggleRemoveConfirmation],
   );
 
   const openBudget = useCallback(
@@ -263,6 +293,17 @@ const FundDetailsContainer = ({
           onClose={() => setBudgetStatusModal('')}
           fund={fund}
           history={history}
+        />
+      )}
+      {isRemoveConfirmation && (
+        <ConfirmationModal
+          id="fund-remove-confirmation"
+          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+          heading={<FormattedMessage id="ui-finance.fund.remove.heading" />}
+          message={<FormattedMessage id="ui-finance.fund.remove.message" />}
+          onCancel={toggleRemoveConfirmation}
+          onConfirm={onRemove}
+          open
         />
       )}
     </Pane>

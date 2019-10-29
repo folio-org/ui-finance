@@ -10,6 +10,7 @@ import Button from '../common/Button';
 @interactor class Actions {
   static defaultScope = '#fund-details-actions';
   editFund = new Interactor('[data-test-details-edit-action]');
+  deleteFund = new Interactor('[data-test-details-remove-action]');
 }
 @interactor class CurrentBudgetAccordion {
   static defaultScope = '#currentBudget';
@@ -17,6 +18,12 @@ import Button from '../common/Button';
   list = collection('[class*=mclRow---]', {
     link: clickable(),
   });
+}
+
+@interactor class FundRemoveConfirmationModal {
+  static defaultScope = '#fund-remove-confirmation';
+
+  removeButton = new Button('[data-test-confirmation-modal-confirm-button]')
 }
 
 @interactor class AddBudgetModal {
@@ -37,6 +44,7 @@ export default interactor(class FundDetailsInteractor {
   addBudgetButton = new Button('[data-test-add-budget-button]');
   addBudgetModal = new AddBudgetModal();
   closePane = new Button('[icon=times]');
+  fundRemoveConfirmationModal = new FundRemoveConfirmationModal();
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

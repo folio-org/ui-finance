@@ -9,6 +9,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   DATE_FORMAT,
   LoadingPane,
+  useShowToast,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -32,6 +33,7 @@ const GroupDetailsContainer = ({
 }) => {
   const groupId = match.params.id;
   const group = get(resources, ['groupDetails', 'records', '0']);
+  const showToast = useShowToast();
 
   useEffect(
     () => {
@@ -54,8 +56,15 @@ const GroupDetailsContainer = ({
   const removeGroup = useCallback(
     () => {
       mutator.groupDetails.DELETE(group)
-        .then(() => history.push(GROUPS_ROUTE));
+        .then(() => {
+          showToast('ui-finance.groups.actions.remove.success');
+          history.push(GROUPS_ROUTE);
+        })
+        .catch(() => {
+          showToast('ui-finance.groups.actions.remove.error', 'error');
+        });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [history, group, mutator.groupDetails],
   );
 

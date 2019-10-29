@@ -32,6 +32,7 @@ import {
   ledgersResource,
   fundTypesResource,
 } from '../../common/resources';
+import { FUNDS_ROUTE } from '../../common/const';
 import FundListFilters from './FundListFilters';
 import { filterConfig } from './FundListFilterConfig';
 import {
@@ -151,7 +152,7 @@ class FundsList extends Component {
     };
 
     const packageInfoReWrite = () => {
-      const path = '/finance/fund';
+      const path = FUNDS_ROUTE;
 
       packageInfo.stripes.route = path;
       packageInfo.stripes.home = path;

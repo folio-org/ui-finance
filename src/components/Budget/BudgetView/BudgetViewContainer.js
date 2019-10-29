@@ -36,6 +36,7 @@ const BudgetViewContainer = ({ history, resources }) => {
   const budget = get(resources, ['budget', 'records', 0]);
   const fiscalYear = get(resources, ['fiscalYear', 'records', 0], {});
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
+  const paneTitle = get(budget, 'name');
 
   const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
   const [isAllocateModalOpened, toggleAllocateModal] = useModalToggle();
@@ -145,7 +146,7 @@ const BudgetViewContainer = ({ history, resources }) => {
         id="pane-budget"
         lastMenu={lastMenu}
         onClose={goToFundDetails}
-        paneTitle={budget.name}
+        paneTitle={paneTitle}
       >
         <Row>
           <Col

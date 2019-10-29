@@ -83,10 +83,10 @@ const FundForm = ({
   );
 
   const validateFundName = async value => {
-    const isRequired = validateRequired(value);
+    const errorRequired = validateRequired(value);
 
-    if (isRequired) {
-      return isRequired;
+    if (errorRequired) {
+      return errorRequired;
     }
 
     const existingFunds = await fetchFundsByNameAndLedger(fundsByName, formValues.id, value, formValues.ledgerId);
@@ -97,10 +97,10 @@ const FundForm = ({
   };
 
   const validateFundCode = async value => {
-    const isRequired = validateRequired(value);
+    const errorRequired = validateRequired(value);
 
-    if (isRequired) {
-      return isRequired;
+    if (errorRequired) {
+      return errorRequired;
     }
 
     const existingFunds = await fetchFundsByCode(fundsByName, formValues.id, value);

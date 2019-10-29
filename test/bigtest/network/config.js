@@ -12,6 +12,7 @@ import configGroupFundFiscalYears from './configs/groupFundFiscalYears';
 import configGroups from './configs/groups';
 import configLedgers from './configs/ledgers';
 import configTransactions from './configs/transactions';
+import configFundTypes from './configs/fundTypes';
 
 export default function config() {
   configBudgets(this);
@@ -25,4 +26,5 @@ export default function config() {
   configUnits(this);
   configTags(this);
   configUsers(this);
+  configFundTypes(this);
 }

@@ -1,72 +1,148 @@
-import React, { useCallback } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import { FormattedMessage } from 'react-intl';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router';
 
-import {
-  stripesConnect,
-  stripesShape,
-} from '@folio/stripes/core';
-import { Layer } from '@folio/stripes/components';
+import { stripesConnect } from '@folio/stripes/core';
+import { ConfirmationModal, Layer } from '@folio/stripes/components';
 import {
   LoadingPane,
   useShowToast,
+  useModalToggle,
 } from '@folio/stripes-acq-components';
 
 import { fundResource } from '../../../common/resources';
 import FundForm from './FundForm';
+import { fetchFundsByName } from './fetchFunds';
 
-const FundFormContainer = ({ resources, mutator, onCloseEdit, stripes, parentResources }) => {
+const FundFormContainer = ({
+  match,
+  mutator,
+  onCancel,
+  onCloseEdit,
+  onSubmit,
+  parentMutator,
+  parentResources,
+  resources,
+}) => {
   const showCallout = useShowToast();
-  const saveFund = useCallback(
-    (formValues) => {
-      const saveMethod = formValues.id ? 'PUT' : 'POST';
+  const { params: { id } } = match;
 
-      mutator.fund[saveMethod](formValues)
-        .then(() => {
-          showCallout('ui-finance.fund.hasBeenSaved', 'success');
-          onCloseEdit();
-        })
-        .catch(() => {
-          showCallout('ui-finance.fund.hasNotBeenSaved', 'error');
-        });
+  useEffect(
+    () => {
+      if (id) {
+        mutator.fund.reset();
+        mutator.fund.GET();
+      }
     },
-    [mutator.fund, onCloseEdit, showCallout],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id],
   );
+  const [isNotUniqueNameOpen, toggleNotUniqueName] = useModalToggle();
+  const [forceSaveValues, setForceSaveValues] = useState();
+  const closeScreen = onCancel || onCloseEdit;
+  const isCreate = !id;
 
-  const fund = get(resources, ['fund', 'records', 0]);
-  const isLoading = !get(resources, ['fund', 'hasLoaded']);
+  // eslint-disable-next-line consistent-return
+  const saveFund = async (formValues) => {
+    const saveMethod = formValues.id ? 'PUT' : 'POST';
+
+    if (!forceSaveValues) {
+      const existingFunds = await fetchFundsByName(
+        parentMutator.fundsByName, formValues.id, formValues.name, formValues.ledgerId,
+      );
+
+      if (existingFunds.length) {
+        toggleNotUniqueName();
+        setForceSaveValues(formValues);
+
+        return {};
+      }
+    }
+
+    try {
+      const savedFund = await mutator.fund[saveMethod](formValues);
+
+      showCallout('ui-finance.fund.hasBeenSaved', 'success');
+      if (isCreate) {
+        onSubmit(savedFund);
+      } else {
+        setTimeout(onCloseEdit);
+      }
+    } catch (e) {
+      showCallout('ui-finance.fund.hasNotBeenSaved', 'error');
+    }
+  };
+
+  const fund = get(resources, ['fund', 'records', 0]) || {};
+  const isLoading = id && !get(resources, ['fund', 'hasLoaded']);
+  const isLoadingNode = <LoadingPane onClose={closeScreen} />;
 
   if (isLoading) {
-    return (
-      <Layer isOpen>
-        <LoadingPane onClose={onCloseEdit} />
-      </Layer>
-    );
+    return isCreate
+      ? isLoadingNode
+      : (
+        <Layer isOpen>
+          {isLoadingNode}
+        </Layer>
+      );
   }
 
-  return (
-    <Layer isOpen>
+  const formNode = (
+    <Fragment>
       <FundForm
         initialValues={fund}
-        onCancel={onCloseEdit}
+        onCancel={onCancel || onCloseEdit}
         onSubmit={saveFund}
         parentResources={parentResources}
-        stripes={stripes}
+        parentMutator={parentMutator}
       />
-    </Layer>
+      {
+        isNotUniqueNameOpen && (
+          <ConfirmationModal
+            id="fund-name-is-not-unique-confirmation"
+            heading={<FormattedMessage id="ui-finance.fund.actions.nameIsNotUnique.confirmation.heading" />}
+            message={<FormattedMessage id="ui-finance.fund.actions.nameIsNotUnique.confirmation.message" />}
+            onCancel={() => {
+              toggleNotUniqueName();
+              setForceSaveValues(null);
+            }}
+            onConfirm={() => saveFund(forceSaveValues)}
+            open
+          />
+        )
+      }
+    </Fragment>
   );
+
+  return isCreate
+    ? formNode
+    : (
+      <Layer isOpen>
+        {formNode}
+      </Layer>
+    );
 };
 
 FundFormContainer.manifest = Object.freeze({
-  fund: fundResource,
+  fund: {
+    ...fundResource,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 FundFormContainer.propTypes = {
+  match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
-  onCloseEdit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  onCloseEdit: PropTypes.func,
+  onSubmit: PropTypes.func,
+  parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
-  stripes: stripesShape.isRequired,
 };
 
-export default stripesConnect(FundFormContainer);
+export default withRouter(stripesConnect(FundFormContainer));

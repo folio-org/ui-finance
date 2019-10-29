@@ -19,6 +19,7 @@ import {
   baseManifest,
   changeSearchIndex,
   FUNDS_API,
+  fundsManifest,
   getActiveFilters,
   handleFilterChange,
 } from '@folio/stripes-acq-components';
@@ -38,7 +39,7 @@ import {
   fundSearchTemplate,
 } from './FundListSearchConfig';
 import css from './css/Fund.css';
-import FundForm from './FundForm/FundForm';
+import FundForm from './FundForm';
 import Fund from './Fund';
 
 const INITIAL_RESULT_COUNT = 30;
@@ -93,6 +94,11 @@ class FundsList extends Component {
     },
     ledgers: ledgersResource,
     fundTypes: fundTypesResource,
+    fundsByName: {
+      ...fundsManifest,
+      accumulate: true,
+      fetch: false,
+    },
   });
 
   constructor(props) {
@@ -105,14 +111,12 @@ class FundsList extends Component {
     this.changeSearchIndex = changeSearchIndex.bind(this);
   }
 
-  create = (fundData) => {
+  create = (newFund) => {
     const { mutator } = this.props;
 
-    mutator.records.POST(fundData).then(newFund => {
-      mutator.query.update({
-        _path: `/finance/fund/view/${newFund.id}`,
-        layer: null,
-      });
+    mutator.query.update({
+      _path: `/finance/fund/view/${newFund.id}`,
+      layer: null,
     });
   }
 

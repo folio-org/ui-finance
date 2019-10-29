@@ -466,5 +466,9 @@
 
   "actions.edit": "Edit",
   "actions.remove": "Delete",
-  "actions.remove.confirm": "Delete"
+  "actions.remove.confirm": "Delete",
+  "fund.name.isInUse": "This Fund name is already in use.",
+  "fund.code.isInUse": "This Fund code is already in use.",
+  "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",
+  "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?"
 }

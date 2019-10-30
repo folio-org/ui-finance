@@ -349,6 +349,8 @@
   "budget.button.new": "New",
   "budget.button.cancel": "Cancel",
 
+  "fund.actions.remove.error": "Fund has not been deleted",
+  "fund.actions.remove.success": "Fund has been deleted",
   "fund.budget.code": "Code",
   "fund.budget.name": "Name",
   "fund.currentBudget.title": "Current budget",
@@ -412,10 +414,12 @@
   "groups.item.information.description": "Description",
   "groups.item.fund": "Fund",
 
+  "groups.actions.remove.error": "Group has not been deleted",
   "groups.actions.remove.heading": "Delete group",
   "groups.actions.remove.message": "Are you sure you want to delete group?",
-  "groups.actions.save.success": "Group has been saved",
+  "groups.actions.remove.success": "Group has been deleted",
   "groups.actions.save.error": "Group has not been saved",
+  "groups.actions.save.success": "Group has been saved",
 
   "groups.form.title.create": "Create group",
   "groups.form.title.edit": "Edit group",

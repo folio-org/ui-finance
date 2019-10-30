@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../../../helpers/setup-application';
 import FundFormInteractor from '../../../interactors/funds/FundForm';
 import FundsListInteractor from '../../../interactors/funds/FundsList';
+import { FUNDS_ROUTE } from '../../../../../src/common/const';
 
 describe('Fund create', () => {
   setupApplication();
@@ -13,7 +14,7 @@ describe('Fund create', () => {
 
   beforeEach(async function () {
     this.server.createList('fund', 2);
-    this.visit('/finance/fund');
+    this.visit(FUNDS_ROUTE);
     await fundsList.whenLoaded();
     await fundsList.newButton.click();
   });

@@ -456,5 +456,7 @@
     "fund.actions.remove.error": "O fundo não foi excluído",
     "fund.actions.remove.success": "O fundo foi excluído",
     "groups.actions.remove.error": "O grupo não foi excluído",
-    "groups.actions.remove.success": "O grupo foi excluído"
+    "groups.actions.remove.success": "O grupo foi excluído",
+    "saveAndClose": "Salvar e fechar",
+    "close": "Fechar"
 }

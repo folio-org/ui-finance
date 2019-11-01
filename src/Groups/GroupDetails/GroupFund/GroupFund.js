@@ -5,10 +5,10 @@ import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
 const GroupFund = ({ funds, currency, fiscalYears, groupId }) => {
   const buildQuery = useMemo(() => {
-    const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId="${fiscalYear.id}"`);
+    const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId=="${fiscalYear.id}"`);
 
     if (fiscalYears.length) {
-      return `query=((${fiscalYearsIds.join(' or ')}) AND groupId="${groupId}")`;
+      return `query=((${fiscalYearsIds.join(' or ')}) AND groupId=="${groupId}")`;
     }
 
     return null;

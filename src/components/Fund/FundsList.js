@@ -184,8 +184,8 @@ class FundsList extends Component {
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           finishedResourceName="perms"
-          viewRecordPerms="finance-storage.funds.item.get"
-          newRecordPerms="finance-storage.funds.item.post,login.item.post"
+          viewRecordPerms="finance.funds.item.get"
+          newRecordPerms="finance.funds.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ stripes }}

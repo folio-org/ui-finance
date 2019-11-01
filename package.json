@@ -23,10 +23,12 @@
     "okapiInterfaces": {
       "acquisitions-units": "1.0",
       "configuration": "2.0",
-      "finance-storage.budgets": "1.0",
-      "finance-storage.fiscal-years": "1.0",
-      "finance-storage.ledgers": "1.0",
-      "finance.funds": "1.0"
+      "finance.budgets": "1.0",
+      "finance.fiscal-years": "1.0",
+      "finance.fund-types": "1.0",
+      "finance.funds": "1.0",
+      "finance.group-fund-fiscal-years": "1.0",
+      "finance.ledgers": "1.0"
     },
     "queryResource": "query",
     "icons": [
@@ -65,14 +67,17 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.third-party-services",
-          "finance-storage.budgets.collection.get",
-          "finance-storage.budgets.item.get",
-          "finance-storage.fiscal-years.collection.get",
-          "finance-storage.fiscal-years.item.get",
-          "finance-storage.funds.collection.get",
-          "finance-storage.funds.item.get",
-          "finance-storage.ledgers.collection.get",
-          "finance-storage.ledgers.item.get",
+          "finance.budgets.collection.get",
+          "finance.budgets.item.get",
+          "finance.fiscal-years.collection.get",
+          "finance.fiscal-years.item.get",
+          "finance.fund-types.collection.get",
+          "finance.fund-types.item.get",
+          "finance.funds.collection.get",
+          "finance.funds.item.get",
+          "finance.ledgers.collection.get",
+          "finance.ledgers.item.get",
+          "finance.group-fund-fiscal-years.collection.get",
           "finance-storage.groups.collection.get",
           "finance-storage.groups.item.get"
         ]
@@ -84,10 +89,12 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.third-party-services",
-          "finance-storage.budgets.all",
-          "finance-storage.fiscal-years.all",
-          "finance-storage.funds.all",
-          "finance-storage.ledgers.all",
+          "finance.budgets.all",
+          "finance.fiscal-years.all",
+          "finance.fund-types.all",
+          "finance.funds.all",
+          "finance.ledgers.all",
+          "finance.group-fund-fiscal-years.all",
           "finance-storage.groups.all"
         ]
       },

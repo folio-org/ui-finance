@@ -4,7 +4,7 @@ import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
 const LedgerFunds = ({ funds, currency, fiscalYears }) => {
   const buildQuery = useMemo(() => {
-    const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId="${fiscalYear.id}"`);
+    const fiscalYearsIds = fiscalYears.map(fiscalYear => `fiscalYearId=="${fiscalYear.id}"`);
 
     if (fiscalYears.length) {
       return `query=((${fiscalYearsIds.join(' or ')}))`;

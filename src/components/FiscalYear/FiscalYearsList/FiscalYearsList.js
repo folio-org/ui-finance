@@ -130,8 +130,8 @@ class FiscalYearsList extends Component {
           viewRecordComponent={FiscalYearDetails}
           visibleColumns={visibleColumns}
           columnMapping={columnMapping}
-          viewRecordPerms="finance-storage.fiscal-years.item.get"
-          newRecordPerms="finance-storage.fiscal-years.item.post"
+          viewRecordPerms="finance.fiscal-years.item.get"
+          newRecordPerms="finance.fiscal-years.item.post"
           parentResources={resources}
           parentMutator={mutator}
           filterConfig={FILTER_CONFIG}

@@ -129,11 +129,7 @@ class LedgerList extends Component {
       path: FISCAL_YEARS_API,
       resourceShouldRefresh: true,
       params: {
-        query: () => {
-          const cql = 'query=(id="*") sortby id';
-
-          return cql;
-        },
+        query: 'cql.allRecords=1 sortby name',
       },
     },
     fiscalyearID: {
@@ -280,8 +276,8 @@ class LedgerList extends Component {
           newRecordInitialValues={{}}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
-          viewRecordPerms="finance-storage.ledgers.item.get"
-          newRecordPerms="finance-storage.ledgers.item.post,login.item.post"
+          viewRecordPerms="finance.ledgers.item.get"
+          newRecordPerms="finance.ledgers.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ stripes, dropdownFiscalyears: getFiscalYearsRecords }}

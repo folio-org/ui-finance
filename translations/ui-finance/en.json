@@ -256,6 +256,8 @@
   "data.countries.ZWE": "Zimbabwe",
 
   "save": "Save",
+  "saveAndClose": "Save & Close",
+  "close": "Close",
 
   "ledger.acqUnits": "Acquisition units",
   "ledger.actions.remove.error": "Ledger has not been deleted",

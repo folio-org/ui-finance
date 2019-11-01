@@ -448,5 +448,13 @@
     "fund.list.code": "Code",
     "fund.list.ledger": "Ledger",
     "fund.list.name": "Name",
-    "fund.list.status": "狀態"
+    "fund.list.status": "狀態",
+    "fund.name.isInUse": "This Fund name is already in use.",
+    "fund.code.isInUse": "This Fund code is already in use.",
+    "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",
+    "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?",
+    "fund.actions.remove.error": "Fund has not been deleted",
+    "fund.actions.remove.success": "Fund has been deleted",
+    "groups.actions.remove.error": "Group has not been deleted",
+    "groups.actions.remove.success": "Group has been deleted"
 }

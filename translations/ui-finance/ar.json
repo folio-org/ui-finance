@@ -448,5 +448,13 @@
     "fund.list.code": "رمز",
     "fund.list.ledger": "دفتر",
     "fund.list.name": "الاسم",
-    "fund.list.status": "الحالة"
+    "fund.list.status": "الحالة",
+    "fund.name.isInUse": "اسم هذا التمويل قيد الاستخدام بالفعل.",
+    "fund.code.isInUse": "كود هذا التمويل قيد الاستخدام بالفعل.",
+    "fund.actions.nameIsNotUnique.confirmation.heading": "حفظ التمويل",
+    "fund.actions.nameIsNotUnique.confirmation.message": "تحذير: أنت على وشك إضافة تمويل بحمل نفس اسم تمويل حالي. هل ترغب في استكمال هذا الإجراء؟",
+    "fund.actions.remove.error": "لم يتم حذف التمويل",
+    "fund.actions.remove.success": "تم حذف التمويل",
+    "groups.actions.remove.error": "لم يتم حذف المجموعة",
+    "groups.actions.remove.success": "تم حذف المجموعة"
 }

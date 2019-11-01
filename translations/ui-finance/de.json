@@ -456,5 +456,7 @@
     "fund.actions.remove.error": "Fund has not been deleted",
     "fund.actions.remove.success": "Fund has been deleted",
     "groups.actions.remove.error": "Group has not been deleted",
-    "groups.actions.remove.success": "Group has been deleted"
+    "groups.actions.remove.success": "Group has been deleted",
+    "saveAndClose": "Save & Close",
+    "close": "Close"
 }

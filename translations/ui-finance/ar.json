@@ -456,5 +456,7 @@
     "fund.actions.remove.error": "لم يتم حذف التمويل",
     "fund.actions.remove.success": "تم حذف التمويل",
     "groups.actions.remove.error": "لم يتم حذف المجموعة",
-    "groups.actions.remove.success": "تم حذف المجموعة"
+    "groups.actions.remove.success": "تم حذف المجموعة",
+    "saveAndClose": "Save & Close",
+    "close": "Close"
 }

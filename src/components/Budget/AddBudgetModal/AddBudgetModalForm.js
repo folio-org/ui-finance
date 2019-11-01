@@ -14,9 +14,10 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldSelect,
-  selectOptionsShape,
   validateRequired,
 } from '@folio/stripes-acq-components';
+
+import { FiscalYearField } from '../../../common/FiscalYearField';
 import { ADD_BUDGET_MODAL_FORM, BUDGET_STATUSES_OPTIONS } from '../constants';
 
 const footer = (onClose, onSave) => (
@@ -37,7 +38,7 @@ const footer = (onClose, onSave) => (
   </ModalFooter>
 );
 
-const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
+const BudgetAddModal = ({ handleSubmit, onClose, label }) => (
   <Modal
     id="add-budget-modal"
     label={label}
@@ -47,12 +48,9 @@ const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
     <form>
       <Row>
         <Col xs>
-          <FieldSelect
-            dataOptions={fiscalYears}
-            label={<FormattedMessage id="ui-finance.budget.fiscalYear" />}
+          <FiscalYearField
             name="fiscalYearId"
             required
-            validate={validateRequired}
           />
         </Col>
         <Col xs>
@@ -101,12 +99,7 @@ const BudgetAddModal = ({ handleSubmit, onClose, fiscalYears, label }) => (
 BudgetAddModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  fiscalYears: selectOptionsShape,
   label: PropTypes.object,
-};
-
-BudgetAddModal.defaultProps = {
-  fiscalYears: [],
 };
 
 export default stripesForm({

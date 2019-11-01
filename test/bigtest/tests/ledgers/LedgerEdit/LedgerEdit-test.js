@@ -16,8 +16,10 @@ describe('Ledger edit', () => {
   const ledgersList = new LesdgersListInteractor();
 
   beforeEach(async function () {
+    const fiscalYear = this.server.create('fiscalYear');
     const ledger = this.server.create('ledger', {
       name: TEST_VALUE_NAME,
+      fiscalYearOneId: fiscalYear.id,
     });
 
     this.visit(`${LEDGER_EDIT_ROUTE}${ledger.id}`);

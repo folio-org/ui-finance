@@ -54,7 +54,6 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
         budgetStatus,
       }}
       label={budgetModalLabel}
-      fiscalYears={fiscalYears}
       onClose={onClose}
       onSubmit={createBudget}
     />

@@ -49,12 +49,12 @@ const FiscalYearDetails = ({
     ({ onToggle }) => (
       <MenuSection id="fiscal-year-details-actions">
         <DetailsEditAction
-          perm="finance-storage.fiscal-years.item.put"
+          perm="finance.fiscal-years.item.put"
           onEdit={onEdit}
           toggleActionMenu={onToggle}
         />
         <DetailsRemoveAction
-          perm="finance-storage.fiscal-years.item.delete"
+          perm="finance.fiscal-years.item.delete"
           onRemove={toggleRemoveConfirmation}
           toggleActionMenu={onToggle}
           disabled={Boolean(funds.length || ledgers.length || groups.length)}

@@ -50,12 +50,12 @@ const LedgerView = ({
       return (
         <MenuSection id="ledger-details-actions">
           <DetailsEditAction
-            perm="finance-storage.ledgers.item.put"
+            perm="finance.ledgers.item.put"
             onEdit={editLedger}
             toggleActionMenu={onToggle}
           />
           <DetailsRemoveAction
-            perm="finance-storage.ledgers.item.delete"
+            perm="finance.ledgers.item.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
           />
@@ -75,7 +75,7 @@ const LedgerView = ({
 
   const lastMenu = (
     <PaneMenu>
-      <IfPermission perm="finance-storage.ledgers.item.put">
+      <IfPermission perm="finance.ledgers.item.put">
         <FormattedMessage id="ui-finance.ledger.editAriaLabel">
           {ariaLabel => (
             <Button

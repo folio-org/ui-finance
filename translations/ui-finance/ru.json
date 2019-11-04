@@ -186,7 +186,7 @@
     "data.countries.QAT": "Qatar",
     "data.countries.REU": "Réunion",
     "data.countries.ROU": "Romania",
-    "data.countries.RUS": "Russian Federation",
+    "data.countries.RUS": "Россия",
     "data.countries.RWA": "Rwanda",
     "data.countries.BLM": "Saint-Barthélemy",
     "data.countries.SHN": "Saint Helena",
@@ -238,7 +238,7 @@
     "data.countries.UKR": "Ukraine",
     "data.countries.ARE": "United Arab Emirates",
     "data.countries.GBR": "United Kingdom",
-    "data.countries.USA": "United States",
+    "data.countries.USA": "Соединенные Штаты Америки (США)",
     "data.countries.URY": "Uruguay",
     "data.countries.UZB": "Uzbekistan",
     "data.countries.VUT": "Vanuatu",
@@ -449,7 +449,7 @@
     "fund.list.ledger": "Ledger",
     "fund.list.name": "Название",
     "fund.list.status": "Статус",
-    "fund.name.isInUse": "This Fund name is already in use.",
+    "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
     "fund.code.isInUse": "This Fund code is already in use.",
     "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",
     "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?",
@@ -457,6 +457,6 @@
     "fund.actions.remove.success": "Fund has been deleted",
     "groups.actions.remove.error": "Group has not been deleted",
     "groups.actions.remove.success": "Group has been deleted",
-    "saveAndClose": "Save & Close",
-    "close": "Close"
+    "saveAndClose": "Сохранить и закрыть",
+    "close": "Закрыть"
 }

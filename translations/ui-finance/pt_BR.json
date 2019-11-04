@@ -449,7 +449,7 @@
     "fund.list.ledger": "Contabilidade",
     "fund.list.name": "Nome",
     "fund.list.status": "Status",
-    "fund.name.isInUse": "Este nome do fundo já está em uso.",
+    "fund.name.isInUse": "Este nome do fundo já está em uso no contabilidade selecionada.",
     "fund.code.isInUse": "Este código de fundo já está em uso.",
     "fund.actions.nameIsNotUnique.confirmation.heading": "Salvar fundo",
     "fund.actions.nameIsNotUnique.confirmation.message": "Aviso: Você está prestes a adicionar um fundo com o mesmo nome que um fundo existente. Deseja manter esta ação?",

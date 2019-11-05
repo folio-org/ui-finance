@@ -116,7 +116,7 @@ class FundsList extends Component {
     const { mutator } = this.props;
 
     mutator.query.update({
-      _path: `/finance/fund/view/${newFund.id}`,
+      _path: `/finance/fund/view/${newFund.fund.id}`,
       layer: null,
     });
   }

@@ -112,7 +112,7 @@ const FundDetailsContainer = ({
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
 
-  const fund = get(resources, ['fund', 'records', 0], {});
+  const fund = get(resources, ['fund', 'records', 0, 'fund'], {});
   const ledger = get(resources, ['ledger', 'records', 0], {});
   const fundType = get(resources, ['fundType', 'records', 0, 'name'], '');
   const allocatedFrom = get(resources, ['allocatedFrom', 'records'], []).map(f => f.name).join(', ');

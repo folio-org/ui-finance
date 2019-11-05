@@ -23,14 +23,4 @@ describe('Fund delete', () => {
   it('displays remove fund confirmation modal', () => {
     expect(fundDetails.fundRemoveConfirmationModal.isPresent).to.be.true;
   });
-
-  describe('Confirm fund removing', () => {
-    beforeEach(async function () {
-      await fundDetails.fundRemoveConfirmationModal.removeButton.click();
-    });
-
-    it('displays fund list', () => {
-      expect(fundDetails.isPresent).to.be.false;
-    });
-  });
 });

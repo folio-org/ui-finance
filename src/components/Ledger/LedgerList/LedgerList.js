@@ -6,7 +6,7 @@ import {
   intlShape,
 } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, toString } from 'lodash';
+import { get } from 'lodash';
 
 import {
   SearchAndSort,
@@ -17,7 +17,6 @@ import { Callout } from '@folio/stripes/components';
 import {
   baseManifest,
   changeSearchIndex,
-  FUNDS_API,
   getActiveFilters,
   handleFilterChange,
   showToast,
@@ -25,10 +24,11 @@ import {
 
 import packageInfo from '../../../../package';
 import {
-  FISCAL_YEARS_API,
+  FISCAL_YEAR_ROUTE,
+  LEDGER_VIEW_ROUTE,
   LEDGERS_API,
   LEDGERS_ROUTE,
-  LEDGER_VIEW_ROUTE,
+  NO_ID,
 } from '../../../common/const';
 import FinanceNavigation from '../../../common/FinanceNavigation';
 
@@ -68,6 +68,7 @@ class LedgerList extends Component {
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
   };
 
   static manifest = Object.freeze({
@@ -99,77 +100,11 @@ class LedgerList extends Component {
         staticFallback: { params: {} },
       },
     },
-    queryCustom: {
-      initialValue: {
-        ledgerIDQuery: 'query=(id="null")',
-        fundQuery: 'query=(ledgerId="null")',
-        fiscalyearIDQuery: 'query=(id="null")',
-      },
-    },
-    ledgerID: {
-      ...baseManifest,
-      records: 'ledgers',
-      path: LEDGERS_API,
-      resourceShouldRefresh: true,
-      recordsRequired: 1,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-
-          if (`${data.queryCustom.ledgerIDQuery}` === 'undefined') return undefined;
-          const cql = `${data.queryCustom.ledgerIDQuery} sortby name`;
-
-          return cql;
-        },
-      },
-    },
-    fiscalyear: {
-      ...baseManifest,
-      records: 'fiscalYears',
-      path: FISCAL_YEARS_API,
-      resourceShouldRefresh: true,
-      params: {
-        query: 'cql.allRecords=1 sortby name',
-      },
-    },
-    fiscalyearID: {
-      ...baseManifest,
-      records: 'fiscalYears',
-      path: FISCAL_YEARS_API,
-      resourceShouldRefresh: true,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-
-          if (`${data.queryCustom.fiscalyearIDQuery}` === 'undefined') return undefined;
-          const cql = `${data.queryCustom.fiscalyearIDQuery} sortby name`;
-
-          return cql;
-        },
-      },
-    },
-    fund: {
-      ...baseManifest,
-      records: 'funds',
-      resourceShouldRefresh: true,
-      path: FUNDS_API,
-      params: {
-        query: (...args) => {
-          const data = args[2];
-
-          if (`${data.queryCustom.fundQuery}` === 'undefined') return undefined;
-          const cql = `${data.queryCustom.fundQuery} sortby name`;
-
-          return cql;
-        },
-      },
-    },
   });
 
   constructor(props) {
     super(props);
 
-    this.getFiscalYears = this.getFiscalYears.bind(this);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
     this.changeSearchIndex = changeSearchIndex.bind(this);
@@ -192,39 +127,6 @@ class LedgerList extends Component {
 
       return { id: 'Unable to create ledger' };
     }
-  }
-
-  getFiscalYears() {
-    const newArr = [];
-    const fiscalRecords = (this.props.resources.fiscalyear || {}).records || [];
-
-    if (!fiscalRecords || fiscalRecords.length === 0) return null;
-    const arrLength = fiscalRecords.length - 1;
-
-    if (fiscalRecords != null) {
-      // Loop through records
-      const preObj = { label: 'Select a Fiscal Year', value: '' };
-
-      newArr.push(preObj);
-      // Loop through records
-      Object.keys(fiscalRecords).map((key) => {
-        const name = `${fiscalRecords[key].name}`;
-        const val = fiscalRecords[key].id;
-        const obj = {
-          label: toString(name),
-          value: toString(val),
-        };
-
-        newArr.push(obj);
-        if (Number(key) === arrLength) {
-          return newArr;
-        }
-
-        return newArr;
-      });
-    }
-
-    return newArr;
   }
 
   renderNavigation = () => (
@@ -250,14 +152,25 @@ class LedgerList extends Component {
     });
   }
 
+  goToCreateFY = () => {
+    this.props.history.push({
+      pathname: FISCAL_YEAR_ROUTE,
+      search: '?layer=create',
+      state: { ledgerId: NO_ID },
+    });
+  };
+
   render() {
     const {
+      location,
+      mutator,
       onSelectRow,
       resources,
-      mutator,
       stripes,
     } = this.props;
-    const getFiscalYearsRecords = this.getFiscalYears();
+
+    const fiscalYearOneId = get(location, 'state.fiscalYearOneId');
+    const newLedgerValues = fiscalYearOneId ? { fiscalYearOneId } : {};
 
     return (
       <div data-test-ledgers-list>
@@ -273,14 +186,14 @@ class LedgerList extends Component {
           onSelectRow={onSelectRow}
           onCreate={this.create}
           editRecordComponent={LedgerForm}
-          newRecordInitialValues={{}}
+          newRecordInitialValues={newLedgerValues}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}
           viewRecordPerms="finance.ledgers.item.get"
           newRecordPerms="finance.ledgers.item.post,login.item.post"
           parentResources={resources}
           parentMutator={mutator}
-          detailProps={{ stripes, dropdownFiscalyears: getFiscalYearsRecords }}
+          detailProps={{ stripes, goToCreateFY: this.goToCreateFY }}
           renderFilters={this.renderFilters}
           onFilterChange={this.handleFilterChange}
           searchableIndexes={this.getTranslateSearchableIndexes()}

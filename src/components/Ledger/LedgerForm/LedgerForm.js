@@ -50,7 +50,7 @@ const getPaneFooter = (handleSubmit, pristine, submitting, onCancel) => {
       data-test-button-save-ledger
       type="submit"
       buttonStyle="primary mega"
-      disabled={pristine || submitting}
+      disabled={submitting}
       onClick={handleSubmit}
     >
       <FormattedMessage id="ui-finance.saveAndClose" />
@@ -66,9 +66,10 @@ const getPaneFooter = (handleSubmit, pristine, submitting, onCancel) => {
 };
 
 const LedgerForm = ({
-  onCancel,
-  initialValues,
+  goToCreateFY,
   handleSubmit,
+  initialValues,
+  onCancel,
   pristine,
   submitting,
 }) => {
@@ -122,6 +123,12 @@ const LedgerForm = ({
                     name="fiscalYearOneId"
                     required
                   />
+                  <Button
+                    buttonStyle="link bottomMargin0"
+                    onClick={goToCreateFY}
+                  >
+                    <FormattedMessage id="ui-finance.ledger.createNewFY" />
+                  </Button>
                 </Col>
 
                 <Col data-test-col-ledger-form-status xs={3}>
@@ -162,11 +169,12 @@ const LedgerForm = ({
 };
 
 LedgerForm.propTypes = {
-  onCancel: PropTypes.func.isRequired,
+  goToCreateFY: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
+  onCancel: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  initialValues: PropTypes.object,
 };
 
 LedgerForm.defaultProps = {

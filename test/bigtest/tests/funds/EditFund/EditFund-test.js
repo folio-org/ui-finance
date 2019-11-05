@@ -5,7 +5,7 @@ import setupApplication from '../../../helpers/setup-application';
 import FundFormInteractor from '../../../interactors/funds/FundForm';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 
-describe('Fund create', () => {
+describe('Fund edit', () => {
   setupApplication();
 
   const fundForm = new FundFormInteractor();

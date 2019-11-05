@@ -32,8 +32,8 @@ const FundFormContainer = ({
 
   useEffect(
     () => {
+      mutator.fund.reset();
       if (id) {
-        mutator.fund.reset();
         mutator.fund.GET();
       }
     },
@@ -62,8 +62,10 @@ const FundFormContainer = ({
       }
     }
 
+    const fundData = { fund: formValues };
+
     try {
-      const savedFund = await mutator.fund[saveMethod](formValues);
+      const savedFund = await mutator.fund[saveMethod](fundData);
 
       showCallout('ui-finance.fund.hasBeenSaved', 'success');
       if (isCreate) {
@@ -76,7 +78,7 @@ const FundFormContainer = ({
     }
   };
 
-  const fund = get(resources, ['fund', 'records', 0]) || {};
+  const fund = get(resources, ['fund', 'records', 0, 'fund']) || {};
   const isLoading = id && !get(resources, ['fund', 'hasLoaded']);
   const isLoadingNode = <LoadingPane onClose={closeScreen} />;
 
@@ -131,6 +133,7 @@ FundFormContainer.manifest = Object.freeze({
     ...fundResource,
     accumulate: true,
     fetch: false,
+    clientGeneratePk: false,
   },
 });
 

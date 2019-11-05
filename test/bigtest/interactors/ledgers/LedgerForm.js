@@ -17,6 +17,7 @@ export default interactor(class LedgerFormInteractor {
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   saveButton = new Interactor('[data-test-button-save-ledger]');
+  createFYButton = new Button('[data-test-ledger-create-fy]');
   closePane = new Button('[icon=times]');
 
   name = new Interactor('input[name="name"]');

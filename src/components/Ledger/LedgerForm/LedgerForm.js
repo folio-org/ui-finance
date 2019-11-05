@@ -125,6 +125,7 @@ const LedgerForm = ({
                   />
                   <Button
                     buttonStyle="link bottomMargin0"
+                    data-test-ledger-create-fy
                     onClick={goToCreateFY}
                   >
                     <FormattedMessage id="ui-finance.ledger.createNewFY" />

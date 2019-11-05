@@ -61,4 +61,14 @@ describe('Ledger create', () => {
       expect(ledgersList.isPresent).to.be.true;
     });
   });
+
+  describe('Click on create fiscal year button', () => {
+    beforeEach(async function () {
+      await ledgerForm.createFYButton.click();
+    });
+
+    it('should  close form', () => {
+      expect(ledgerForm.isPresent).to.be.false;
+    });
+  });
 });

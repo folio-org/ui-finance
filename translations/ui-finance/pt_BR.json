@@ -458,5 +458,7 @@
     "groups.actions.remove.error": "O grupo não foi excluído",
     "groups.actions.remove.success": "O grupo foi excluído",
     "saveAndClose": "Salvar e fechar",
-    "close": "Fechar"
+    "close": "Fechar",
+    "budget.status.inactive": "Inactive",
+    "ledger.createNewFY": "New fiscal year"
 }

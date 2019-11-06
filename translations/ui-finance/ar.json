@@ -458,5 +458,7 @@
     "groups.actions.remove.error": "لم يتم حذف المجموعة",
     "groups.actions.remove.success": "تم حذف المجموعة",
     "saveAndClose": "حفظ وإغلاق",
-    "close": "إغلاق"
+    "close": "إغلاق",
+    "budget.status.inactive": "Inactive",
+    "ledger.createNewFY": "New fiscal year"
 }

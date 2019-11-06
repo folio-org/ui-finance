@@ -8,13 +8,14 @@ import getFiscalYearsForSelect from '../../Utils/getFiscalYearsForSelect';
 
 import FiscalYearField from './FiscalYearField';
 
-function FiscalYearFieldContainer({ resources, mutator, stripes, ...rest }) {
+function FiscalYearFieldContainer({ resources, name, required }) {
   const fiscalYears = getFiscalYearsForSelect(resources);
 
   return (
     <FiscalYearField
       dataOptions={fiscalYears}
-      {...rest}
+      name={name}
+      required={required}
     />
   );
 }
@@ -24,9 +25,13 @@ FiscalYearFieldContainer.manifest = Object.freeze({
 });
 
 FiscalYearFieldContainer.propTypes = {
-  mutator: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  required: PropTypes.bool,
   resources: PropTypes.object.isRequired,
-  stripes: PropTypes.object.isRequired,
+};
+
+FiscalYearFieldContainer.defaultProps = {
+  required: false,
 };
 
 export default stripesConnect(FiscalYearFieldContainer);

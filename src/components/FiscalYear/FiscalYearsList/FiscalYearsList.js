@@ -24,9 +24,12 @@ import {
 
 import packageInfo from '../../../../package';
 import {
-  FISCAL_YEARS_API,
   FISCAL_YEAR_ROUTE,
   FISCAL_YEAR_VIEW_ROUTE,
+  FISCAL_YEARS_API,
+  LEDGER_EDIT_ROUTE,
+  LEDGERS_ROUTE,
+  NO_ID,
 } from '../../../common/const';
 import FinanceNavigation from '../../../common/FinanceNavigation';
 import FiscalYearDetails from '../FiscalYearDetails';
@@ -74,21 +77,37 @@ class FiscalYearsList extends Component {
     this.showToast = showToast.bind(this);
   }
 
-  onCreate = async (fiscalYear) => {
-    const { history, mutator } = this.props;
+  onCreate = (fiscalYear) => {
+    const { history, location, mutator } = this.props;
+    const ledgerId = get(location, 'state.ledgerId');
 
-    try {
-      const savedFiscalYear = await mutator.records.POST(fiscalYear);
+    return mutator.records.POST(fiscalYear)
+      .then(savedFiscalYear => {
+        this.showToast('ui-finance.fiscalYear.actions.save.success');
+        let params = {
+          pathname: `${FISCAL_YEAR_VIEW_ROUTE}${savedFiscalYear.id}`,
+          search: '?layer=view',
+        };
 
-      this.showToast('ui-finance.fiscalYear.actions.save.success');
-      history.push(`${FISCAL_YEAR_VIEW_ROUTE}${savedFiscalYear.id}?layer=view`);
+        if (ledgerId) {
+          params = ledgerId === NO_ID
+            ? {
+              pathname: LEDGERS_ROUTE,
+              search: '?layer=create',
+              state: { fiscalYearOneId: savedFiscalYear.id },
+            }
+            : {
+              pathname: `${LEDGER_EDIT_ROUTE}${ledgerId}`,
+              search: '',
+              state: { fiscalYearOneId: savedFiscalYear.id },
+            };
+        }
 
-      return savedFiscalYear;
-    } catch (response) {
-      this.showToast('ui-finance.fiscalYear.actions.save.error', 'error');
-
-      return { id: 'Unable to create fiscal year' };
-    }
+        history.push(params);
+      })
+      .catch(() => {
+        this.showToast('ui-finance.fiscalYear.actions.save.error', 'error');
+      });
   }
 
   getTranslateSearchableIndexes() {
@@ -181,6 +200,7 @@ FiscalYearsList.manifest = Object.freeze({
 FiscalYearsList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   intl: intlShape.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
 };

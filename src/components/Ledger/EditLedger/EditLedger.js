@@ -11,11 +11,14 @@ import {
   useShowToast,
 } from '@folio/stripes-acq-components';
 
-import { LEDGER_VIEW_ROUTE } from '../../../common/const';
+import {
+  FISCAL_YEAR_ROUTE,
+  LEDGER_VIEW_ROUTE,
+} from '../../../common/const';
 import { ledgerByUrlIdResource } from '../../../common/resources';
 import LedgerForm from '../LedgerForm';
 
-const EditLedger = ({ resources, mutator, match, history }) => {
+const EditLedger = ({ resources, mutator, match, history, location }) => {
   const ledgerId = match.params.id;
 
   useEffect(
@@ -55,8 +58,18 @@ const EditLedger = ({ resources, mutator, match, history }) => {
     [closeEdit, mutator.ledgerEdit],
   );
 
+  const goToCreateFY = useCallback(() => {
+    history.push({
+      pathname: FISCAL_YEAR_ROUTE,
+      search: '?layer=create',
+      state: { ledgerId },
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ledgerId]);
+
   const isLoading = !get(resources, ['ledgerEdit', 'hasLoaded']);
   const ledger = get(resources, ['ledgerEdit', 'records', '0']);
+  const fiscalYearOneId = get(location, 'state.fiscalYearOneId');
 
   if (isLoading) {
     return (
@@ -66,11 +79,14 @@ const EditLedger = ({ resources, mutator, match, history }) => {
     );
   }
 
+  if (fiscalYearOneId) ledger.fiscalYearOneId = fiscalYearOneId;
+
   return (
     <LedgerForm
+      goToCreateFY={goToCreateFY}
       initialValues={ledger}
-      onSubmit={saveLedger}
       onCancel={closeEdit}
+      onSubmit={saveLedger}
     />
   );
 };
@@ -87,6 +103,7 @@ EditLedger.propTypes = {
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default withRouter(stripesConnect(EditLedger));

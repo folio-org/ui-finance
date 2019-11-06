@@ -339,6 +339,7 @@
   "budget.status.active": "Active",
   "budget.status.closed": "Closed",
   "budget.status.frozen": "Frozen",
+  "budget.status.inactive": "Inactive",
   "budget.status.planned": "Planned",
   "budget.summary.title": "Budget summary",
   "budget.transactions": "Transactions",

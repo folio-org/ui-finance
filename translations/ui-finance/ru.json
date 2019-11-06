@@ -458,5 +458,7 @@
     "groups.actions.remove.error": "Group has not been deleted",
     "groups.actions.remove.success": "Group has been deleted",
     "saveAndClose": "Сохранить и закрыть",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "budget.status.inactive": "Inactive",
+    "ledger.createNewFY": "New fiscal year"
 }

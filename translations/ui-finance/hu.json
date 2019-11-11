@@ -347,7 +347,7 @@
     "ledger.information": "Ledger information",
     "ledger.unavailable": "Unavailable",
     "ledger.available": "Available",
-    "ledger.fiscalYear": "Fiscal year",
+    "ledger.fiscalYear": "Fiscal year one",
     "ledger.currentFiscalYear": "Current fiscal year",
     "ledger.editAriaLabel": "Edit ledger",
     "ledger.status.active": "Active",

@@ -100,7 +100,7 @@
       },
       {
         "permissionName": "ui-finance.acq.unit.assignment.assign",
-        "displayName": "Finance: Assign acquisition units to new item",
+        "displayName": "Finance: Assign acquisition units to new record",
         "description": "",
         "visible": true,
         "subPermissions": [

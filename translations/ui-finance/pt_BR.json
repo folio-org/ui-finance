@@ -347,7 +347,7 @@
     "ledger.information": "Informações contábeis",
     "ledger.unavailable": "Indisponível",
     "ledger.available": "Disponível",
-    "ledger.fiscalYear": "Ano fiscal",
+    "ledger.fiscalYear": "Ano fiscal um",
     "ledger.currentFiscalYear": "Ano fiscal atual",
     "ledger.editAriaLabel": "Editar contabilidade",
     "ledger.status.active": "Ativo",
@@ -459,6 +459,6 @@
     "groups.actions.remove.success": "O grupo foi excluído",
     "saveAndClose": "Salvar e fechar",
     "close": "Fechar",
-    "budget.status.inactive": "Inactive",
-    "ledger.createNewFY": "New fiscal year"
+    "budget.status.inactive": "Inativo",
+    "ledger.createNewFY": "Novo ano fiscal"
 }

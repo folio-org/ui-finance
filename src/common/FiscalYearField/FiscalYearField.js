@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import {
   FieldSelect,
@@ -8,7 +7,6 @@ import {
 function FiscalYearField(props) {
   return (
     <FieldSelect
-      label={<FormattedMessage id="ui-finance.budget.fiscalYear" />}
       {...props}
     />
   );

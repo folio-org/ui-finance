@@ -120,6 +120,7 @@ const LedgerForm = ({
 
                 <Col xs>
                   <FiscalYearField
+                    label={<FormattedMessage id="ui-finance.ledger.fiscalYear" />}
                     name="fiscalYearOneId"
                     required
                   />

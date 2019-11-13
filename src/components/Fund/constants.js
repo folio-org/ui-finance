@@ -8,8 +8,6 @@ export const SECTIONS_FUND = {
   PREVIOUS_BUDGETS: 'previousBudgets',
 };
 
-export const FUND_FORM = 'fundForm';
-
 export const FUND_STATUSES = {
   ACTIVE: 'Active',
   INACTIVE: 'Inactive',
@@ -29,5 +27,3 @@ export const FUND_FILTERS = {
   GROUP: 'groupId',
   ACQUISITIONS_UNIT: 'acqUnitIds',
 };
-
-export const FUND_GROUPS_FIELD_NAME = 'groups';

@@ -8,7 +8,6 @@ import {
 import {
   get,
   keyBy,
-  omit,
 } from 'lodash';
 
 import {
@@ -30,9 +29,8 @@ import transitionToParams from '../../Utils/transitionToParams';
 import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
 import {
-  fundTypesResource,
-  groupFundFiscalYears,
   ledgersResource,
+  fundTypesResource,
 } from '../../common/resources';
 import { FUNDS_ROUTE } from '../../common/const';
 import FundListFilters from './FundListFilters';
@@ -43,7 +41,6 @@ import {
 } from './FundListSearchConfig';
 import FundForm from './FundForm';
 import Fund from './Fund';
-import { FUND_GROUPS_FIELD_NAME } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -102,7 +99,6 @@ class FundsList extends Component {
       accumulate: true,
       fetch: false,
     },
-    gffy: groupFundFiscalYears,
   });
 
   constructor(props) {

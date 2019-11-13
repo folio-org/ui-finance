@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import {
+  find,
+  get,
+  map,
+} from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 
 import { groupsResource } from '../../../../common/resources';
 import FieldFundGroups from './FieldFundGroups';
+
+const itemToString = item => item;
 
 function FieldFundGroupsContainer({ name, resources }) {
   const isLoading = !get(resources, 'groupsDict.hasLoaded');
@@ -13,15 +19,33 @@ function FieldFundGroupsContainer({ name, resources }) {
   if (isLoading) return null;
 
   const groupsDict = get(resources, 'groupsDict.records') || [];
-  const groupOptions = groupsDict.map((group) => ({
-    label: group.name,
-    value: group.id,
-  }));
+  const groupOptions = map(groupsDict, 'id');
+
+  const formatter = ({ option }) => {
+    const item = find(groupsDict, { id: option }) || option;
+
+    if (!item) return option;
+
+    return item.name;
+  };
+
+  const filter = (filterText, list) => {
+    const renderedItems = filterText
+      ? groupsDict
+        .filter(group => group.name.toLowerCase().includes(filterText.toLowerCase()))
+        .map(({ id }) => id)
+      : list;
+
+    return { renderedItems };
+  };
 
   return (
     <FieldFundGroups
       name={name}
       dataOptions={groupOptions}
+      itemToString={itemToString}
+      formatter={formatter}
+      filter={filter}
     />
   );
 }

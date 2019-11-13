@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldMultiSelection } from '@folio/stripes-acq-components';
+import { FieldMultiSelectionFinal } from '@folio/stripes-acq-components';
 
 function FieldFundGroups(props) {
   return (
-    <FieldMultiSelection
+    <FieldMultiSelectionFinal
       label={<FormattedMessage id="ui-finance.fund.information.group" />}
       {...props}
     />

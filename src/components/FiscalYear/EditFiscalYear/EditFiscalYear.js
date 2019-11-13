@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
+import { SubmissionError } from 'redux-form';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Paneset } from '@folio/stripes/components';
@@ -50,9 +51,19 @@ const EditFiscalYear = ({ resources, mutator, match, history }) => {
 
         return savedFiscalYear;
       } catch (response) {
-        showToast('ui-finance.fiscalYear.actions.save.error', 'error');
+        let errorCode = null;
 
-        return { id: 'Unable to edit fiscal year' };
+        try {
+          const responseJson = await response.json();
+
+          errorCode = get(responseJson, 'errors.0.code', 'general');
+        } catch (parsingException) {
+          errorCode = 'general';
+        }
+        showToast(`ui-finance.fiscalYear.actions.save.error.${errorCode}`, 'error');
+        throw new SubmissionError({
+          _error: 'FY was not saved',
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -7,6 +7,7 @@ import {
   intlShape,
 } from 'react-intl';
 import { get } from 'lodash';
+import { SubmissionError } from 'redux-form';
 
 import {
   SearchAndSort,
@@ -105,8 +106,21 @@ class FiscalYearsList extends Component {
 
         history.push(params);
       })
-      .catch(() => {
-        this.showToast('ui-finance.fiscalYear.actions.save.error', 'error');
+      .catch(async (response) => {
+        let errorCode = null;
+
+        try {
+          const responseJson = await response.json();
+
+          errorCode = get(responseJson, 'errors.0.code', 'general');
+        } catch (parsingException) {
+          errorCode = 'general';
+        }
+        this.showToast(`ui-finance.fiscalYear.actions.save.error.${errorCode}`, 'error');
+
+        return new SubmissionError({
+          _error: 'FY was not saved',
+        });
       });
   }
 

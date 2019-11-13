@@ -432,7 +432,6 @@
     "fund.filters.group": "Grupo",
     "fiscalYear.actions.remove.success": "O ano fiscal foi excluído",
     "fiscalYear.actions.remove.error": "O ano fiscal não foi excluído",
-    "fiscalYear.actions.save.error": "O ano fiscal não foi salvo",
     "fiscalYear.actions.save.success": "O ano fiscal foi salvo",
     "fiscalYear.form.title.create": "Criar ano fiscal",
     "fiscalYear.form.title.edit": "Editar ano fiscal",
@@ -460,5 +459,7 @@
     "saveAndClose": "Salvar e fechar",
     "close": "Fechar",
     "budget.status.inactive": "Inativo",
-    "ledger.createNewFY": "Novo ano fiscal"
+    "ledger.createNewFY": "Novo ano fiscal",
+    "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
+    "fiscalYear.actions.save.error.general": "Fiscal year has not been saved"
 }

@@ -432,7 +432,6 @@
     "fund.filters.group": "组",
     "fiscalYear.actions.remove.success": "财务年度已删除",
     "fiscalYear.actions.remove.error": "财务年度尚未删除",
-    "fiscalYear.actions.save.error": "财务年度尚未保存",
     "fiscalYear.actions.save.success": "财务年度已保存",
     "fiscalYear.form.title.create": "创建财务年度",
     "fiscalYear.form.title.edit": "编辑财务年度",
@@ -460,5 +459,7 @@
     "saveAndClose": "Save & Close",
     "close": "Close",
     "budget.status.inactive": "Inactive",
-    "ledger.createNewFY": "New fiscal year"
+    "ledger.createNewFY": "New fiscal year",
+    "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
+    "fiscalYear.actions.save.error.general": "Fiscal year has not been saved"
 }

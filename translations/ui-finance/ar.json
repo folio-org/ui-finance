@@ -432,7 +432,6 @@
     "fund.filters.group": "مجموعة",
     "fiscalYear.actions.remove.success": "تم حذف السنة المالية",
     "fiscalYear.actions.remove.error": "لم يتم حذف السنة المالية",
-    "fiscalYear.actions.save.error": "لم يتم حفظ السنة المالية",
     "fiscalYear.actions.save.success": "تم حفظ السنة المالية",
     "fiscalYear.form.title.create": "إنشاء سنة مالية",
     "fiscalYear.form.title.edit": "تحرير السنة المالية",
@@ -460,5 +459,7 @@
     "saveAndClose": "حفظ وإغلاق",
     "close": "إغلاق",
     "budget.status.inactive": "غير نشط",
-    "ledger.createNewFY": "سنة مالية جديدة"
+    "ledger.createNewFY": "سنة مالية جديدة",
+    "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
+    "fiscalYear.actions.save.error.general": "Fiscal year has not been saved"
 }

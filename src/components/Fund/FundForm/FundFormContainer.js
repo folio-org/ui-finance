@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { ConfirmationModal, Layer } from '@folio/stripes/components';

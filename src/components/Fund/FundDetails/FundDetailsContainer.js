@@ -63,10 +63,12 @@ const FundDetailsContainer = ({
 
     mutator.fund.GET().then(response => {
       const {
-        ledgerId,
-        fundTypeId,
-        allocatedFromIds,
-        allocatedToIds,
+        fund: {
+          ledgerId,
+          fundTypeId,
+          allocatedFromIds,
+          allocatedToIds,
+        },
       } = response;
 
       if (fundTypeId) {

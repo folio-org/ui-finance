@@ -296,7 +296,7 @@
   "fiscalYear.actions.remove.success": "Fiscal year has been deleted",
   "fiscalYear.actions.remove.error": "Fiscal year has not been deleted",
   "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
-  "fiscalYear.actions.save.error.general": "Fiscal year has not been saved",
+  "fiscalYear.actions.save.error.genericError": "Fiscal year has not been saved",
   "fiscalYear.actions.save.success": "Fiscal year has been saved",
   "fiscalYear.details.fund": "Fund",
   "fiscalYear.details.group": "Group",

@@ -112,9 +112,9 @@ class FiscalYearsList extends Component {
         try {
           const responseJson = await response.json();
 
-          errorCode = get(responseJson, 'errors.0.code', 'general');
+          errorCode = get(responseJson, 'errors.0.code', 'genericError');
         } catch (parsingException) {
-          errorCode = 'general';
+          errorCode = 'genericError';
         }
         this.showToast(`ui-finance.fiscalYear.actions.save.error.${errorCode}`, 'error');
 

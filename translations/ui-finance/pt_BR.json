@@ -460,6 +460,6 @@
     "close": "Fechar",
     "budget.status.inactive": "Inativo",
     "ledger.createNewFY": "Novo ano fiscal",
-    "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
-    "fiscalYear.actions.save.error.general": "Fiscal year has not been saved"
+    "fiscalYear.actions.save.error.-1": "Ano fiscal O formato do código deve ser um Alfa seguido de um numérico de quatro dígitos. Por exemplo. Exemplo AF2020",
+    "fiscalYear.actions.save.error.genericError": "Fiscal year has not been saved"
 }

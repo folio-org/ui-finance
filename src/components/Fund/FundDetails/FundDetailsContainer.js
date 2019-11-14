@@ -4,7 +4,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  stripesShape,
+} from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -51,6 +54,7 @@ const FundDetailsContainer = ({
   onClose,
   onEdit,
   resources,
+  stripes,
 }) => {
   useEffect(() => {
     mutator.fund.reset();
@@ -128,6 +132,7 @@ const FundDetailsContainer = ({
   const plannedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.PLANNED);
   const closedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.CLOSED);
   const budgetColumns = ['name', 'allocated', 'unavailable', 'available'];
+  const currency = ledger.currency || stripes.currency;
 
   const isLoading = (
     !get(resources, ['fund', 'hasLoaded']) &&
@@ -250,7 +255,7 @@ const FundDetailsContainer = ({
             acqUnitIds={fund.acqUnitIds}
             allocatedFrom={allocatedFrom}
             allocatedTo={allocatedTo}
-            currency={ledger.currency}
+            currency={currency}
             fund={fund}
             fundType={fundType}
             ledgerName={ledger.name}
@@ -265,7 +270,7 @@ const FundDetailsContainer = ({
         >
           <ConnectionListing
             items={activeBudgets}
-            currency={ledger.currency}
+            currency={currency}
             openItem={openBudget}
             visibleColumns={budgetColumns}
           />
@@ -278,7 +283,7 @@ const FundDetailsContainer = ({
         >
           <ConnectionListing
             items={plannedBudgets}
-            currency={ledger.currency}
+            currency={currency}
             openItem={openBudget}
             visibleColumns={budgetColumns}
           />
@@ -290,7 +295,7 @@ const FundDetailsContainer = ({
         >
           <ConnectionListing
             items={closedBudgets}
-            currency={ledger.currency}
+            currency={currency}
             openItem={openBudget}
             visibleColumns={budgetColumns}
           />
@@ -375,6 +380,7 @@ FundDetailsContainer.propTypes = {
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
 export default stripesConnect(FundDetailsContainer);

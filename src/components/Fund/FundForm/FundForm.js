@@ -73,6 +73,7 @@ const FundForm = ({
   submitting,
   values: formValues,
   parentMutator: { fundsByName },
+  systemCurrency,
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
@@ -127,7 +128,7 @@ const FundForm = ({
     : <FormattedMessage id="ui-finance.fund.paneTitle.create" />;
   const metadata = initialValues.fund.metadata;
   const selectedLedger = find(ledgers, ['value', fundLedgerId]);
-  const fundCurrency = get(selectedLedger, 'currency', '');
+  const fundCurrency = get(selectedLedger, 'currency') || systemCurrency;
   const fundOptions = funds.map(({ id }) => id);
 
   const formatter = ({ option }) => {
@@ -354,6 +355,7 @@ FundForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,  // current form values
+  systemCurrency: PropTypes.string,
 };
 
 FundForm.defaultProps = {

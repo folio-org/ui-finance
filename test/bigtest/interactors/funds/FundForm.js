@@ -10,8 +10,8 @@ export default interactor(class FundFormInteractor {
   static defaultScope = '#pane-fund-form';
 
   closePane = new Button('[icon=times]');
-  externalAccountNo = new TextFieldInteractor('input[name="externalAccountNo"]');
-  description = new TextFieldInteractor('[name="description"]');
+  externalAccountNo = new TextFieldInteractor('input[name="fund.externalAccountNo"]');
+  description = new TextFieldInteractor('[name="fund.description"]');
   saveButton = new Button('[data-test-button-save-fund]');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');

@@ -114,7 +114,11 @@ const FundDetailsContainer = ({
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
 
-  const fund = get(resources, ['fund', 'records', 0, 'fund'], {});
+  const compositeFund = get(resources, ['fund', 'records', 0]) || {
+    fund: {},
+    groupIds: [],
+  };
+  const fund = compositeFund.fund;
   const ledger = get(resources, ['ledger', 'records', 0], {});
   const fundType = get(resources, ['fundType', 'records', 0, 'name'], '');
   const allocatedFrom = get(resources, ['allocatedFrom', 'records'], []).map(f => f.name).join(', ');
@@ -135,7 +139,7 @@ const FundDetailsContainer = ({
 
   const removeFund = useCallback(
     () => {
-      mutator.fund.DELETE(fund)
+      mutator.fund.DELETE({ id: fund.id })
         .then(() => {
           showToast('ui-finance.fund.actions.remove.success');
           history.push(FUNDS_ROUTE);
@@ -145,7 +149,7 @@ const FundDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, fund, mutator.fund],
+    [history, fund.id],
   );
 
   const onRemove = useCallback(
@@ -184,14 +188,16 @@ const FundDetailsContainer = ({
   );
 
   const addBudgetButton = useCallback((status, count) => {
-    return !count && (
-      <Button
-        data-test-add-budget-button
-        onClick={() => setBudgetStatusModal(status)}
-      >
-        <FormattedMessage id="ui-finance.budget.button.new" />
-      </Button>
-    );
+    return !count
+      ? (
+        <Button
+          data-test-add-budget-button
+          onClick={() => setBudgetStatusModal(status)}
+        >
+          <FormattedMessage id="ui-finance.budget.button.new" />
+        </Button>
+      )
+      : null;
   }, []);
 
   const lastMenu = (
@@ -248,6 +254,7 @@ const FundDetailsContainer = ({
             fund={fund}
             fundType={fundType}
             ledgerName={ledger.name}
+            groupIds={compositeFund.groupIds}
           />
         </Accordion>
 

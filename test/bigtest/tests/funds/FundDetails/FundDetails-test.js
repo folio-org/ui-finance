@@ -10,7 +10,10 @@ describe('Funds details', () => {
   const fundDetails = new FundDetailsInteractor();
 
   beforeEach(async function () {
-    const fund = this.server.create('fund');
+    const group = this.server.create('group');
+    const fund = this.server.create('fund', {
+      groupIds: [group.id],
+    });
 
     this.server.create('budget', {
       fundId: fund.id,

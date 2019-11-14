@@ -39,7 +39,6 @@ import {
   searchableIndexes,
   fundSearchTemplate,
 } from './FundListSearchConfig';
-import css from './css/Fund.css';
 import FundForm from './FundForm';
 import Fund from './Fund';
 
@@ -163,7 +162,6 @@ class FundsList extends Component {
     return (
       <div
         style={{ width: '100%' }}
-        className={css.panepadding}
         data-test-funds-list
       >
         <SearchAndSort

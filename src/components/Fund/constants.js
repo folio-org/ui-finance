@@ -8,8 +8,6 @@ export const SECTIONS_FUND = {
   PREVIOUS_BUDGETS: 'previousBudgets',
 };
 
-export const FUND_FORM = 'fundForm';
-
 export const FUND_STATUSES = {
   ACTIVE: 'Active',
   INACTIVE: 'Inactive',

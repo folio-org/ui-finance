@@ -9,6 +9,8 @@ import {
 } from '@folio/stripes/components';
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
+import { ViewFundGroups } from '../FundGroups';
+
 const FundDetails = ({
   acqUnitIds,
   allocatedFrom,
@@ -16,6 +18,7 @@ const FundDetails = ({
   currency,
   fund,
   fundType,
+  groupIds,
   ledgerName,
 }) => (
   <Fragment>
@@ -57,9 +60,7 @@ const FundDetails = ({
         />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.group" />}
-        />
+        <ViewFundGroups groupIds={groupIds} />
       </Col>
       <Col xs={3}>
         <AcqUnitsView units={acqUnitIds} />
@@ -101,6 +102,7 @@ FundDetails.propTypes = {
   currency: PropTypes.string,
   fund: PropTypes.object,
   fundType: PropTypes.string,
+  groupIds: PropTypes.arrayOf(PropTypes.string),
   ledgerName: PropTypes.string,
 };
 
@@ -111,6 +113,7 @@ FundDetails.defaultProps = {
   currency: '',
   fund: {},
   fundType: '',
+  groupIds: [],
   ledgerName: '',
 };
 

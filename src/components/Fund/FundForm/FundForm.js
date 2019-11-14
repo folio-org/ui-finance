@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
@@ -32,13 +32,14 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
+import { FieldFundGroups } from '../FundGroups';
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
 } from '../../../common/const';
 import {
-  SECTIONS_FUND,
   FUND_STATUSES_OPTIONS,
+  SECTIONS_FUND,
 } from '../constants';
 import {
   fetchFundsByCode,
@@ -81,34 +82,36 @@ const FundForm = ({
       value: id,
     }),
   );
+  const fundId = initialValues.fund.id;
+  const fundLedgerId = get(formValues, 'fund.ledgerId');
 
-  const validateFundName = async value => {
+  const validateFundName = useCallback(async value => {
     const errorRequired = validateRequired(value);
 
     if (errorRequired) {
       return errorRequired;
     }
 
-    const existingFunds = await fetchFundsByNameAndLedger(fundsByName, formValues.id, value, formValues.ledgerId);
+    const existingFunds = await fetchFundsByNameAndLedger(fundsByName, fundId, value, fundLedgerId);
 
     if (existingFunds.length) return <FormattedMessage id="ui-finance.fund.name.isInUse" />;
 
     return undefined;
-  };
+  }, [fundId, fundLedgerId, fundsByName]);
 
-  const validateFundCode = async value => {
+  const validateFundCode = useCallback(async value => {
     const errorRequired = validateRequired(value);
 
     if (errorRequired) {
       return errorRequired;
     }
 
-    const existingFunds = await fetchFundsByCode(fundsByName, formValues.id, value);
+    const existingFunds = await fetchFundsByCode(fundsByName, fundId, value);
 
     if (existingFunds.length) return <FormattedMessage id="ui-finance.fund.code.isInUse" />;
 
     return undefined;
-  };
+  }, [fundId, fundsByName]);
 
   const ledgers = get(parentResources, ['ledgers', 'records'], []).map(
     ({ name, id, currency }) => ({
@@ -119,11 +122,11 @@ const FundForm = ({
   );
 
   const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
-  const paneTitle = initialValues.id
-    ? initialValues.name
+  const paneTitle = fundId
+    ? initialValues.fund.name
     : <FormattedMessage id="ui-finance.fund.paneTitle.create" />;
-  const metadata = initialValues.metadata;
-  const selectedLedger = find(ledgers, ['value', formValues.ledgerId]);
+  const metadata = initialValues.fund.metadata;
+  const selectedLedger = find(ledgers, ['value', fundLedgerId]);
   const fundCurrency = get(selectedLedger, 'currency', '');
   const fundOptions = funds.map(({ id }) => id);
 
@@ -145,7 +148,7 @@ const FundForm = ({
     return { renderedItems };
   };
 
-  const isEditMode = Boolean(initialValues.id);
+  const isEditMode = Boolean(fundId);
 
   return (
     <form>
@@ -157,7 +160,7 @@ const FundForm = ({
           lastMenu={lastMenu}
           onClose={onCancel}
           paneTitle={paneTitle}
-          paneSub={initialValues.code}
+          paneSub={initialValues.fund.code}
         >
           <Row>
             <Col
@@ -190,7 +193,7 @@ const FundForm = ({
                       <Field
                         component={TextField}
                         label={<FormattedMessage id="ui-finance.fund.information.name" />}
-                        name="name"
+                        name="fund.name"
                         type="text"
                         required
                         validate={validateFundName}
@@ -204,7 +207,7 @@ const FundForm = ({
                       <Field
                         component={TextField}
                         label={<FormattedMessage id="ui-finance.fund.information.code" />}
-                        name="code"
+                        name="fund.code"
                         type="text"
                         required
                         validate={validateFundCode}
@@ -218,7 +221,7 @@ const FundForm = ({
                       <FieldSelection
                         dataOptions={ledgers}
                         labelId="ui-finance.fund.information.ledger"
-                        name="ledgerId"
+                        name="fund.ledgerId"
                         required
                       />
                     </Col>
@@ -230,7 +233,7 @@ const FundForm = ({
                       <FieldSelection
                         dataOptions={FUND_STATUSES_OPTIONS}
                         labelId="ui-finance.fund.information.status"
-                        name="fundStatus"
+                        name="fund.fundStatus"
                         required
                         validate={validateRequired}
                       />
@@ -255,18 +258,24 @@ const FundForm = ({
                       <FieldSelection
                         dataOptions={fundTypes}
                         labelId="ui-finance.fund.information.type"
-                        name="fundTypeId"
+                        name="fund.fundTypeId"
                       />
                     </Col>
 
                     <Col data-test-col-fund-form-acq-units xs={3}>
                       <AcqUnitsField
-                        name="acqUnitIds"
+                        name="fund.acqUnitIds"
                         perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
                         isEdit={isEditMode}
                         isFinal
-                        preselectedUnits={initialValues.acqUnitIds}
+                        preselectedUnits={initialValues.fund.acqUnitIds}
                       />
+                    </Col>
+                    <Col
+                      data-test-col-group
+                      xs={3}
+                    >
+                      <FieldFundGroups name="groupIds" />
                     </Col>
                   </Row>
 
@@ -278,7 +287,7 @@ const FundForm = ({
                       <FieldMultiSelection
                         dataOptions={fundOptions}
                         label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
-                        name="allocatedFromIds"
+                        name="fund.allocatedFromIds"
                         itemToString={itemToString}
                         formatter={formatter}
                         filter={filter}
@@ -292,7 +301,7 @@ const FundForm = ({
                       <FieldMultiSelection
                         dataOptions={fundOptions}
                         label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
-                        name="allocatedToIds"
+                        name="fund.allocatedToIds"
                         itemToString={itemToString}
                         formatter={formatter}
                         filter={filter}
@@ -306,7 +315,7 @@ const FundForm = ({
                       <Field
                         component={TextField}
                         label={<FormattedMessage id="ui-finance.fund.information.externalAccount" />}
-                        name="externalAccountNo"
+                        name="fund.externalAccountNo"
                         type="text"
                         required
                         validate={validateRequired}
@@ -321,7 +330,7 @@ const FundForm = ({
                       <Field
                         component={TextArea}
                         label={<FormattedMessage id="ui-finance.fund.information.description" />}
-                        name="description"
+                        name="fund.description"
                         type="text"
                       />
                     </Col>
@@ -338,17 +347,20 @@ const FundForm = ({
 
 FundForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.object,
+  initialValues: PropTypes.object,  // composite fund
   onCancel: PropTypes.func.isRequired,
   parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  values: PropTypes.object.isRequired,
+  values: PropTypes.object.isRequired,  // current form values
 };
 
 FundForm.defaultProps = {
-  initialValues: {},
+  initialValues: {
+    fund: {},
+    groupIds: [],
+  },
 };
 
 export default stripesFinalForm({

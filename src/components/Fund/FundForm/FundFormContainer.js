@@ -13,7 +13,9 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { fundResource } from '../../../common/resources';
+import {
+  fundResource,
+} from '../../../common/resources';
 import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
 
@@ -47,11 +49,11 @@ const FundFormContainer = ({
 
   // eslint-disable-next-line consistent-return
   const saveFund = async (formValues) => {
-    const saveMethod = formValues.id ? 'PUT' : 'POST';
+    const saveMethod = formValues.fund.id ? 'PUT' : 'POST';
 
     if (!forceSaveValues) {
       const existingFunds = await fetchFundsByName(
-        parentMutator.fundsByName, formValues.id, formValues.name, formValues.ledgerId,
+        parentMutator.fundsByName, formValues.fund.id, formValues.fund.name, formValues.fund.ledgerId,
       );
 
       if (existingFunds.length) {
@@ -62,10 +64,8 @@ const FundFormContainer = ({
       }
     }
 
-    const fundData = { fund: formValues };
-
     try {
-      const savedFund = await mutator.fund[saveMethod](fundData);
+      const savedFund = await mutator.fund[saveMethod](formValues);
 
       showCallout('ui-finance.fund.hasBeenSaved', 'success');
       if (isCreate) {
@@ -78,7 +78,7 @@ const FundFormContainer = ({
     }
   };
 
-  const fund = get(resources, ['fund', 'records', 0, 'fund']) || {};
+  const fund = get(resources, 'fund.records.0');
   const isLoading = id && !get(resources, ['fund', 'hasLoaded']);
   const isLoadingNode = <LoadingPane onClose={closeScreen} />;
 

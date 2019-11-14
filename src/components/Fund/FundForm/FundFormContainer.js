@@ -5,7 +5,10 @@ import { FormattedMessage } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  stripesShape,
+} from '@folio/stripes/core';
 import { ConfirmationModal, Layer } from '@folio/stripes/components';
 import {
   LoadingPane,
@@ -28,6 +31,7 @@ const FundFormContainer = ({
   parentMutator,
   parentResources,
   resources,
+  stripes,
 }) => {
   const showCallout = useShowToast();
   const { params: { id } } = match;
@@ -100,6 +104,7 @@ const FundFormContainer = ({
         onSubmit={saveFund}
         parentResources={parentResources}
         parentMutator={parentMutator}
+        systemCurrency={stripes.currency}
       />
       {
         isNotUniqueNameOpen && (
@@ -146,6 +151,7 @@ FundFormContainer.propTypes = {
   parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
 export default withRouter(stripesConnect(FundFormContainer));

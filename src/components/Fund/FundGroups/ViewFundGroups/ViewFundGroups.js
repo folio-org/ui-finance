@@ -11,7 +11,7 @@ function ViewFundGroups({ groups }) {
     <KeyValue label={label}>
       {
         groups.map((group, idx) => (
-          <React.Fragment>
+          <React.Fragment key={group.id}>
             {group.name}
             {idx !== groups.length - 1 ? ', ' : ''}
           </React.Fragment>

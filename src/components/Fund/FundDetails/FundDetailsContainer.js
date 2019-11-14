@@ -188,14 +188,16 @@ const FundDetailsContainer = ({
   );
 
   const addBudgetButton = useCallback((status, count) => {
-    return !count && (
-      <Button
-        data-test-add-budget-button
-        onClick={() => setBudgetStatusModal(status)}
-      >
-        <FormattedMessage id="ui-finance.budget.button.new" />
-      </Button>
-    );
+    return !count
+      ? (
+        <Button
+          data-test-add-budget-button
+          onClick={() => setBudgetStatusModal(status)}
+        >
+          <FormattedMessage id="ui-finance.budget.button.new" />
+        </Button>
+      )
+      : null;
   }, []);
 
   const lastMenu = (

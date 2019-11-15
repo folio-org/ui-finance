@@ -1,6 +1,6 @@
 {
     "search": "Cerca",
-    "resultCount": "{count, number} {count, plural, un {record trovato} altri {record trovati}}",
+    "resultCount": "{count, number} {count, plural, one {record trovato} other {record trovati}}",
     "data.contactTypes.email": "Email",
     "data.contactTypes.mail": "Mail (indirizzo principale)",
     "data.contactTypes.textMessage": "Messaggio di testo",
@@ -461,5 +461,7 @@
     "budget.status.inactive": "Inactive",
     "ledger.createNewFY": "New fiscal year",
     "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
-    "fiscalYear.actions.save.error.genericError": "Fiscal year has not been saved"
+    "fiscalYear.actions.save.error.genericError": "Fiscal year has not been saved",
+    "fund.actions.save.error.genericError": "Fund has not been saved",
+    "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger"
 }

@@ -356,6 +356,8 @@
 
   "fund.actions.remove.error": "Fund has not been deleted",
   "fund.actions.remove.success": "Fund has been deleted",
+  "fund.actions.save.error.genericError": "Fund has not been saved",
+  "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger",
   "fund.budget.code": "Code",
   "fund.budget.name": "Name",
   "fund.currentBudget.title": "Current budget",

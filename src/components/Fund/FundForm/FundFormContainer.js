@@ -1,9 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
+import { FORM_ERROR } from 'final-form';
 
 import {
   stripesConnect,
@@ -11,9 +16,10 @@ import {
 } from '@folio/stripes/core';
 import { ConfirmationModal, Layer } from '@folio/stripes/components';
 import {
+  ERROR_CODE_GENERIC,
   LoadingPane,
-  useShowToast,
   useModalToggle,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -23,6 +29,7 @@ import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
 
 const FundFormContainer = ({
+  intl,
   match,
   mutator,
   onCancel,
@@ -33,7 +40,7 @@ const FundFormContainer = ({
   resources,
   stripes,
 }) => {
-  const showCallout = useShowToast();
+  const showCallout = useShowCallout();
   const { params: { id } } = match;
 
   useEffect(
@@ -71,14 +78,35 @@ const FundFormContainer = ({
     try {
       const savedFund = await mutator.fund[saveMethod](formValues);
 
-      showCallout('ui-finance.fund.hasBeenSaved', 'success');
+      showCallout({ messageId: 'ui-finance.fund.hasBeenSaved', type: 'success' });
       if (isCreate) {
         onSubmit(savedFund);
       } else {
         setTimeout(onCloseEdit);
       }
     } catch (e) {
-      showCallout('ui-finance.fund.hasNotBeenSaved', 'error');
+      let errorCode = null;
+
+      try {
+        const responseJson = await e.json();
+
+        errorCode = get(responseJson, 'errors.0.code', ERROR_CODE_GENERIC);
+      } catch (parsingException) {
+        errorCode = ERROR_CODE_GENERIC;
+      }
+      const message = (
+        <FormattedMessage
+          id={`ui-finance.fund.actions.save.error.${errorCode}`}
+          defaultMessage={intl.formatMessage({ id: `ui-finance.fund.actions.save.error.${ERROR_CODE_GENERIC}` })}
+        />
+      );
+
+      showCallout({
+        message,
+        type: 'error',
+      });
+
+      return { [FORM_ERROR]: 'FY was not saved' };
     }
   };
 
@@ -143,6 +171,7 @@ FundFormContainer.manifest = Object.freeze({
 });
 
 FundFormContainer.propTypes = {
+  intl: intlShape.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   onCancel: PropTypes.func,
@@ -154,4 +183,4 @@ FundFormContainer.propTypes = {
   stripes: stripesShape.isRequired,
 };
 
-export default withRouter(stripesConnect(FundFormContainer));
+export default withRouter(stripesConnect(injectIntl(FundFormContainer)));

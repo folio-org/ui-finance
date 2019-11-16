@@ -155,8 +155,7 @@ class LedgerList extends Component {
   goToCreateFY = () => {
     this.props.history.push({
       pathname: FISCAL_YEAR_ROUTE,
-      search: '?layer=create',
-      state: { ledgerId: NO_ID },
+      search: `?layer=create&ledgerId=${NO_ID}`,
     });
   };
 

@@ -11,7 +11,7 @@ import {
   budgetResource,
   fiscalYearsResource,
 } from '../../../common/resources';
-import getFiscalYearsForSelect from '../../../Utils/getFiscalYearsForSelect';
+import { getFiscalYearsForSelect } from '../../../common/utils';
 import { BUDGET_STATUSES } from '../constants';
 
 const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStatus }) => {

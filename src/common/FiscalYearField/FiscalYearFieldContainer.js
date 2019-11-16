@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { stripesConnect } from '@folio/stripes/core';
 
 import { fiscalYearsResource } from '../resources';
-import getFiscalYearsForSelect from '../../Utils/getFiscalYearsForSelect';
+import { getFiscalYearsForSelect } from '../utils';
 
 import FiscalYearField from './FiscalYearField';
 

@@ -25,8 +25,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import FinanceNavigation from '../../common/FinanceNavigation';
-import transitionToParams from '../../Utils/transitionToParams';
-import removeQueryParam from '../../Utils/removeQueryParam';
 import packageInfo from '../../../package';
 import {
   ledgersResource,
@@ -104,8 +102,6 @@ class FundsList extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.transitionToParams = transitionToParams.bind(this);
-    this.removeQueryParam = removeQueryParam.bind(this);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
     this.changeSearchIndex = changeSearchIndex.bind(this);

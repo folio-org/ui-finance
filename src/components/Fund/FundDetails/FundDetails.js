@@ -10,16 +10,15 @@ import {
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
 import { ViewFundGroups } from '../FundGroups';
+import AllocatedFunds from '../AllocatedFunds';
+import FundLedger from '../FundLedger';
+import FundType from '../FundType';
 
 const FundDetails = ({
   acqUnitIds,
-  allocatedFrom,
-  allocatedTo,
   currency,
   fund,
-  fundType,
   groupIds,
-  ledgerName,
 }) => (
   <Fragment>
     <Row>
@@ -36,10 +35,7 @@ const FundDetails = ({
         />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.ledger" />}
-          value={ledgerName}
-        />
+        <FundLedger ledgerId={fund.ledgerId} />
       </Col>
       <Col xs={3}>
         <KeyValue
@@ -54,10 +50,7 @@ const FundDetails = ({
         />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.type" />}
-          value={fundType}
-        />
+        <FundType fundTypeId={fund.fundTypeId} />
       </Col>
       <Col xs={3}>
         <ViewFundGroups groupIds={groupIds} />
@@ -66,15 +59,15 @@ const FundDetails = ({
         <AcqUnitsView units={acqUnitIds} />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
-          value={allocatedFrom}
+        <AllocatedFunds
+          fundIds={fund.allocatedFromIds}
+          labelId="ui-finance.fund.information.transferFrom"
         />
       </Col>
       <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
-          value={allocatedTo}
+        <AllocatedFunds
+          fundIds={fund.allocatedToIds}
+          labelId="ui-finance.fund.information.transferTo"
         />
       </Col>
       <Col xs={3}>
@@ -97,24 +90,16 @@ const FundDetails = ({
 
 FundDetails.propTypes = {
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
-  allocatedFrom: PropTypes.string,
-  allocatedTo: PropTypes.string,
   currency: PropTypes.string,
   fund: PropTypes.object,
-  fundType: PropTypes.string,
   groupIds: PropTypes.arrayOf(PropTypes.string),
-  ledgerName: PropTypes.string,
 };
 
 FundDetails.defaultProps = {
   acqUnitIds: [],
-  allocatedFrom: '',
-  allocatedTo: '',
   currency: '',
   fund: {},
-  fundType: '',
   groupIds: [],
-  ledgerName: '',
 };
 
 export default FundDetails;

@@ -11,9 +11,9 @@ describe('Fund delete', () => {
 
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
-    const fund = this.server.create('fund', {
-      ledgerId: ledger.id,
-    });
+    const fund = this.server.create('fund');
+
+    fund.fund.ledgerId = ledger.id;
 
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();

@@ -462,6 +462,6 @@
     "ledger.createNewFY": "Novo ano fiscal",
     "fiscalYear.actions.save.error.-1": "Ano fiscal O formato do código deve ser um Alfa seguido de um numérico de quatro dígitos. Por exemplo. Exemplo AF2020",
     "fiscalYear.actions.save.error.genericError": "O ano fiscal não foi salvo",
-    "fund.actions.save.error.genericError": "Fund has not been saved",
-    "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger"
+    "fund.actions.save.error.genericError": "O fundo não foi salvo",
+    "fund.actions.save.error.fiscalYearsNotFound": "Não é possível encontrar o ano fiscal atual para a contabilidade especificada"
 }

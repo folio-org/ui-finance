@@ -61,8 +61,7 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
   const goToCreateFY = useCallback(() => {
     history.push({
       pathname: FISCAL_YEAR_ROUTE,
-      search: '?layer=create',
-      state: { ledgerId },
+      search: `?layer=create&ledgerId=${ledgerId}`,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ledgerId]);

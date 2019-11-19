@@ -8,6 +8,7 @@ import {
 } from 'react-intl';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
+import queryString from 'query-string';
 
 import {
   SearchAndSort,
@@ -80,7 +81,7 @@ class FiscalYearsList extends Component {
 
   onCreate = (fiscalYear) => {
     const { history, location, mutator } = this.props;
-    const ledgerId = get(location, 'state.ledgerId');
+    const { ledgerId } = queryString.parse(location.search);
 
     return mutator.records.POST(fiscalYear)
       .then(savedFiscalYear => {

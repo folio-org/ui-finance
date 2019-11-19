@@ -58,7 +58,6 @@ const FundTypeSettings = ({
       stripes={stripes}
       resources={resources}
       mutator={mutator}
-      dataKey={undefined}
       baseUrl={FUND_TYPES_API}
       records="fundTypes"
       label={intl.formatMessage({ id: 'ui-finance.fundType.label.plural' })}

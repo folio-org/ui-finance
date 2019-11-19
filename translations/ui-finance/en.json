@@ -475,6 +475,12 @@
   "transaction.type": "Type",
   "transactions.search": "Search transactions",
 
+  "fundType.label": "Fund type",
+  "fundType.label.plural": "Fund types",
+  "fundType.name": "Name",
+
+  "settings.fundTypes.title": "Fund types",
+
   "actions.edit": "Edit",
   "actions.remove": "Delete",
   "actions.remove.confirm": "Delete",

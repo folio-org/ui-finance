@@ -27,4 +27,9 @@ export const filterConfig = [
     cql: FUND_FILTERS.ACQUISITIONS_UNIT,
     values: [],
   },
+  {
+    name: FUND_FILTERS.TAGS,
+    cql: 'tags.tagList',
+    values: [],
+  },
 ];

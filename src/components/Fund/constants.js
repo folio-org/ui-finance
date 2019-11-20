@@ -26,4 +26,5 @@ export const FUND_FILTERS = {
   TYPE: 'fundTypeId',
   GROUP: 'groupId',
   ACQUISITIONS_UNIT: 'acqUnitIds',
+  TAGS: 'tags',
 };

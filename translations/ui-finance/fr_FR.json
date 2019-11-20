@@ -1,6 +1,6 @@
 {
     "search": "Search",
-    "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
+    "resultCount": "{count, number} {count, plural, one { enregistrement trouvé } other { enregistrements trouvés }}",
     "data.contactTypes.email": "Email",
     "data.contactTypes.mail": "Mail (Primary Address)",
     "data.contactTypes.textMessage": "Text Message",
@@ -69,7 +69,7 @@
     "data.countries.DJI": "Djibouti",
     "data.countries.DMA": "Dominica",
     "data.countries.DOM": "Dominican Republic",
-    "data.countries.ECU": "Ecuador",
+    "data.countries.ECU": "Équateur",
     "data.countries.EGY": "Egypt",
     "data.countries.SLV": "El Salvador",
     "data.countries.GNQ": "Equatorial Guinea",

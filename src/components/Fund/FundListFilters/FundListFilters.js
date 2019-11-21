@@ -6,6 +6,7 @@ import {
   AcqCheckboxFilter,
   AcqUnitFilter,
   acqUnitsShape,
+  AcqTagsFilter,
   SelectionFilter,
   selectOptionsShape,
 } from '@folio/stripes-acq-components';
@@ -61,6 +62,12 @@ const FundListFilters = ({
         name={FUND_FILTERS.ACQUISITIONS_UNIT}
         onChange={onChange}
         acqUnits={acqUnits}
+      />
+      <AcqTagsFilter
+        activeFilters={activeFilters[FUND_FILTERS.TAGS]}
+        id={FUND_FILTERS.TAGS}
+        name={FUND_FILTERS.TAGS}
+        onChange={onChange}
       />
     </AccordionSet>
   );

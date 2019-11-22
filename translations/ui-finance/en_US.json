@@ -463,5 +463,9 @@
     "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
     "fiscalYear.actions.save.error.genericError": "Fiscal year has not been saved",
     "fund.actions.save.error.genericError": "Fund has not been saved",
-    "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger"
+    "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger",
+    "fundType.label": "Fund type",
+    "fundType.label.plural": "Fund types",
+    "fundType.name": "Name",
+    "settings.fundTypes.title": "Fund types"
 }

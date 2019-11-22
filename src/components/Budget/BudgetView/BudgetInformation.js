@@ -68,17 +68,15 @@ const BudgetInformation = ({
     </Col>
 
     <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.allowableExpenditure" />}
-        value={allowableExpenditure}
-      />
+      <KeyValue label={<FormattedMessage id="ui-finance.budget.allowableExpenditure" />}>
+        {`${allowableExpenditure}%`}
+      </KeyValue>
     </Col>
 
     <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.allowableEncumbrance" />}
-        value={allowableEncumbrance}
-      />
+      <KeyValue label={<FormattedMessage id="ui-finance.budget.allowableEncumbrance" />}>
+        {`${allowableEncumbrance}%`}
+      </KeyValue>
     </Col>
 
     <Col xs={3}>

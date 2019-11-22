@@ -463,5 +463,9 @@
     "fiscalYear.actions.save.error.-1": "يجب أن يكون تنسيق رمز السنة المالية أبجديًا متبوعًا بأربعة أرقام. مثال:ExampleFY2020",
     "fiscalYear.actions.save.error.genericError": "لم يتم حفظ السنة المالية",
     "fund.actions.save.error.genericError": "لم يتم حفظ التمويل",
-    "fund.actions.save.error.fiscalYearsNotFound": "لا يمكن العثور على السنة المالية للدفتر المحدد"
+    "fund.actions.save.error.fiscalYearsNotFound": "لا يمكن العثور على السنة المالية للدفتر المحدد",
+    "fundType.label": "نوع التمويل",
+    "fundType.label.plural": "أنواع التمويل",
+    "fundType.name": "الاسم",
+    "settings.fundTypes.title": "أنواع التمويل"
 }

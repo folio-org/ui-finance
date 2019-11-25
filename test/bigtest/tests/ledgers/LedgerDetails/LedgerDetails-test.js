@@ -15,7 +15,7 @@ describe('Ledger details', () => {
 
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
-    const fiscalYear = this.server.create('fiscalYear');
+    const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
 
     const funds = this.server.createList('fund', 5, {
       ledgerId: ledger.id,

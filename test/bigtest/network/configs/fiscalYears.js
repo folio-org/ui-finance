@@ -7,7 +7,7 @@ import {
 
 import { FISCAL_YEARS_API } from '../../../../src/common/const';
 
-const SCHEMA_NAME = 'fiscalYears';
+export const SCHEMA_NAME = 'fiscalYears';
 
 const configFiscalYears = server => {
   server.get(FISCAL_YEARS_API, createGetAll(SCHEMA_NAME));

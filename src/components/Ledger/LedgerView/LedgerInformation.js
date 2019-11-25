@@ -20,7 +20,7 @@ const LedgerInformation = ({
   code,
   currency,
   description,
-  fiscalYear,
+  fiscalYearCode,
   metadata,
   name,
   status,
@@ -56,7 +56,7 @@ const LedgerInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.ledger.currentFiscalYear" />}
-            value={fiscalYear}
+            value={fiscalYearCode}
           />
         </Col>
 
@@ -133,7 +133,7 @@ LedgerInformation.propTypes = {
   status: PropTypes.string,
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
-  fiscalYear: PropTypes.string.isRequired,
+  fiscalYearCode: PropTypes.string,
 };
 
 export default LedgerInformation;

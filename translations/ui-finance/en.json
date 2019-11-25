@@ -264,6 +264,8 @@
   "ledger.actions.remove.success": "Ledger has been deleted",
   "ledger.actions.save.error": "Ledger has not been saved",
   "ledger.actions.save.success": "Ledger has been saved",
+  "ledger.actions.load.error": "Failed to load ledger data",
+  "ledger.actions.load.error.noFiscalYear": "No current fiscal year found",
   "ledger.allocated": "Allocated",
   "ledger.available": "Available",
   "ledger.description": "Description",

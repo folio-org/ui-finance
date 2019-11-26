@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -6,6 +6,7 @@ import {
   Row,
   Col,
   KeyValue,
+  Select,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
@@ -24,7 +25,18 @@ const GroupInformation = ({
   allocated,
   unavailable,
   available,
+  selectedFiscalYearId,
+  setSelectedFY,
 }) => {
+  const fiscalYearsOptions = fiscalYears.map(fy => ({
+    label: fy.code,
+    value: fy.id,
+  }));
+  const selectFY = useCallback(({ target: { value } }) => {
+    setSelectedFY(fiscalYears.find(fy => fy.id === value) || {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setSelectedFY, selectedFiscalYearId]);
+
   return (
     <Fragment>
       {
@@ -56,9 +68,11 @@ const GroupInformation = ({
           data-test-group-information-fiscal-year
           xs={3}
         >
-          <KeyValue
+          <Select
+            dataOptions={fiscalYearsOptions}
             label={<FormattedMessage id="ui-finance.groups.item.information.fiscalYear" />}
-            value={fiscalYears}
+            value={selectedFiscalYearId}
+            onChange={selectFY}
           />
         </Col>
 
@@ -134,10 +148,12 @@ GroupInformation.propTypes = {
   status: PropTypes.string.isRequired,
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
-  fiscalYears: PropTypes.string.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
   allocated: PropTypes.number,
   unavailable: PropTypes.number,
   available: PropTypes.number,
+  selectedFiscalYearId: PropTypes.string.isRequired,
+  setSelectedFY: PropTypes.func.isRequired,
 };
 
 GroupInformation.defaultProps = {
@@ -146,6 +162,7 @@ GroupInformation.defaultProps = {
   allocated: 0,
   unavailable: 0,
   available: 0,
+  fiscalYears: [],
 };
 
 export default GroupInformation;

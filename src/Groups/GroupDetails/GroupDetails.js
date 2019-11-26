@@ -30,6 +30,7 @@ import GroupFund from './GroupFund';
 
 const GroupDetails = ({
   group,
+  groupSummary,
   fiscalYears,
   fiscalYearsRecords,
   funds,
@@ -103,6 +104,9 @@ const GroupDetails = ({
             description={group.description}
             acqUnitIds={group.acqUnitIds}
             fiscalYears={fiscalYears}
+            allocated={groupSummary.allocated}
+            unavailable={groupSummary.unavailable}
+            available={groupSummary.available}
           />
         </Accordion>
         <Accordion
@@ -137,12 +141,18 @@ GroupDetails.propTypes = {
   editGroup: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
+  groupSummary: PropTypes.shape({
+    allocated: PropTypes.number,
+    unavailable: PropTypes.number,
+    available: PropTypes.number,
+  }),
   fiscalYears: PropTypes.string.isRequired,
   fiscalYearsRecords: PropTypes.arrayOf(PropTypes.object),
   funds: PropTypes.arrayOf(PropTypes.object),
 };
 
 GroupDetails.defaultProps = {
+  groupSummary: {},
   fiscalYearsRecords: [],
   funds: [],
 };

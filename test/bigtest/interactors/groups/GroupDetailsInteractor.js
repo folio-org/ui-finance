@@ -2,6 +2,7 @@ import {
   interactor,
   Interactor,
   isPresent,
+  attribute,
 } from '@bigtest/interactor';
 import Button from '../common/Button';
 
@@ -23,6 +24,11 @@ export default interactor(class GroupDetailsInteractor {
   closePane = new Button('[icon=times]');
   actions = new Actions();
   groupRemoveConfirmationModal = new GroupRemoveConfirmationModal();
+
+  groupAllocatedValue = attribute(
+    '[data-test-group-information-allocated]',
+    'data-test-group-information-allocated',
+  );
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

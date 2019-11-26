@@ -21,6 +21,9 @@ const GroupInformation = ({
   description,
   acqUnitIds,
   fiscalYears,
+  allocated,
+  unavailable,
+  available,
 }) => {
   return (
     <Fragment>
@@ -71,14 +74,14 @@ const GroupInformation = ({
         </Col>
 
         <Col
-          data-test-group-information-allocated
+          data-test-group-information-allocated={allocated}
           xs={3}
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.groups.item.information.allocated" />}
           >
             <AmountWithCurrencyField
-              amount={0}
+              amount={allocated}
             />
           </KeyValue>
         </Col>
@@ -91,7 +94,7 @@ const GroupInformation = ({
             label={<FormattedMessage id="ui-finance.groups.item.information.unavailable" />}
           >
             <AmountWithCurrencyField
-              amount={0}
+              amount={unavailable}
             />
           </KeyValue>
         </Col>
@@ -104,7 +107,7 @@ const GroupInformation = ({
             label={<FormattedMessage id="ui-finance.groups.item.information.available" />}
           >
             <AmountWithCurrencyField
-              amount={0}
+              amount={available}
             />
           </KeyValue>
         </Col>
@@ -132,11 +135,17 @@ GroupInformation.propTypes = {
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   fiscalYears: PropTypes.string.isRequired,
+  allocated: PropTypes.number,
+  unavailable: PropTypes.number,
+  available: PropTypes.number,
 };
 
 GroupInformation.defaultProps = {
   description: '',
   acqUnitIds: [],
+  allocated: 0,
+  unavailable: 0,
+  available: 0,
 };
 
 export default GroupInformation;

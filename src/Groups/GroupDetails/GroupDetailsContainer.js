@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -20,8 +20,10 @@ import {
   groupByUrlIdResource,
   fiscalYearsResource,
   fundsResource,
+  groupSummariesResource,
 } from '../../common/resources';
 
+import { getGroupSummary } from './utils';
 import GroupDetails from './GroupDetails';
 
 const GroupDetailsContainer = ({
@@ -32,15 +34,34 @@ const GroupDetailsContainer = ({
   onClose,
 }) => {
   const groupId = match.params.id;
-  const group = get(resources, ['groupDetails', 'records', '0']);
+  const [groupData, setGroupData] = useState({ isLoading: true });
   const showToast = useShowToast();
 
   useEffect(
     () => {
-      mutator.groupDetails.reset();
-      mutator.currentFiscalYears.reset();
-      mutator.groupDetails.GET();
-      mutator.currentFiscalYears.GET();
+      const groupDetailsPromise = mutator.groupDetails.GET();
+      const currentFiscalYearPromise = mutator.currentFiscalYears.GET();
+
+      Promise.all([groupDetailsPromise, currentFiscalYearPromise])
+        .then(responses => {
+          const groupDetails = responses[0];
+          const currentFiscalYears = responses[1];
+
+          setGroupData(prevGroupData => ({
+            ...prevGroupData,
+            groupDetails,
+            currentFiscalYears,
+          }));
+
+          return getGroupSummary(mutator.groupSummaries, groupId, get(currentFiscalYears, [0, 'id']));
+        })
+        .then(groupSummary => {
+          setGroupData(prevGroupData => ({
+            ...prevGroupData,
+            groupSummary,
+            isLoading: false,
+          }));
+        });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [groupId],
@@ -55,7 +76,7 @@ const GroupDetailsContainer = ({
 
   const removeGroup = useCallback(
     () => {
-      mutator.groupDetails.DELETE(group)
+      mutator.groupDetails.DELETE(groupData.groupDetails)
         .then(() => {
           showToast('ui-finance.groups.actions.remove.success');
           history.push(GROUPS_ROUTE);
@@ -65,28 +86,23 @@ const GroupDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, group, mutator.groupDetails],
+    [history, groupData.groupDetails],
   );
 
-  const isLoading = !(
-    get(resources, ['groupDetails', 'hasLoaded']) &&
-    get(resources, ['currentFiscalYears', 'hasLoaded'])
-  );
-
-  if (isLoading) {
+  if (groupData.isLoading) {
     return <LoadingPane onClose={onClose} />;
   }
 
-  const fiscalYears = get(resources, ['currentFiscalYears', 'records'], [])
+  const fiscalYears = (groupData.currentFiscalYears || [])
     .map(({ code: fyCode }) => fyCode).join(', ');
-  const fiscalYearsRecords = get(resources, ['currentFiscalYears', 'records'], []);
   const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <GroupDetails
-      group={group}
+      group={groupData.groupDetails}
+      groupSummary={groupData.groupSummary}
       fiscalYears={fiscalYears}
-      fiscalYearsRecords={fiscalYearsRecords}
+      fiscalYearsRecords={groupData.currentFiscalYears}
       funds={funds}
       onClose={onClose}
       editGroup={editGroup}
@@ -101,6 +117,7 @@ GroupDetailsContainer.manifest = Object.freeze({
     accumulate: true,
   },
   funds: fundsResource,
+  groupSummaries: groupSummariesResource,
   currentFiscalYears: {
     ...fiscalYearsResource,
     accumulate: true,

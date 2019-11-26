@@ -1,15 +1,15 @@
 import { groupBy } from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getFundsToDisplay = (funds, fundFiscalYears) => {
-  const groupedFundFiscalYears = groupBy(fundFiscalYears, 'fundId');
+export const getFundsToDisplay = (funds, budgets) => {
+  const groupedBudgetByFund = groupBy(budgets, 'fundId');
 
   return funds.map(fund => {
-    const groupFundFiscalYear = groupedFundFiscalYears[fund.id];
+    const budget = groupedBudgetByFund[fund.id];
 
-    if (!groupFundFiscalYear) return fund;
+    if (!budget) return fund;
 
-    const sum = groupFundFiscalYear.reduce((result, item) => {
+    const sum = budget.reduce((result, item) => {
       Object.keys(result).forEach(key => {
         if (item[key]) result[key] += item[key];
       });

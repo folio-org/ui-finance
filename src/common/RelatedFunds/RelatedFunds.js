@@ -9,7 +9,9 @@ import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import { Icon } from '@folio/stripes/components';
 
 import ConnectionListing from '../../components/ConnectionListing';
-import { groupFundFiscalYears } from '../resources';
+import {
+  budgetsResource,
+} from '../resources';
 import { getFundsToDisplay } from '../utils';
 
 const RelatedFunds = ({ mutator, query, history, currency, funds }) => {
@@ -22,26 +24,26 @@ const RelatedFunds = ({ mutator, query, history, currency, funds }) => {
     [history],
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [fundFiscalYears, setFundFiscalYears] = useState([]);
+  const [budgets, setBudgets] = useState([]);
 
   useEffect(() => {
     if (query) {
       setIsLoading(true);
-      mutator.groupFundFiscalYears.GET({
+      mutator.relatedBudgets.GET({
         params: {
           limit: LIMIT_MAX,
           query,
         },
       })
-        .then(setFundFiscalYears)
+        .then(setBudgets)
         .catch(() => {
-          setFundFiscalYears([]);
+          setBudgets([]);
         })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
-      setFundFiscalYears([]);
+      setBudgets([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
@@ -55,7 +57,7 @@ const RelatedFunds = ({ mutator, query, history, currency, funds }) => {
     );
   }
 
-  const fundsToDisplay = getFundsToDisplay(funds, fundFiscalYears).filter(fund => fund.available !== undefined);
+  const fundsToDisplay = getFundsToDisplay(funds, budgets).filter(fund => fund.available !== undefined);
 
   return (
     <ConnectionListing
@@ -80,7 +82,11 @@ RelatedFunds.defaultProps = {
 };
 
 RelatedFunds.manifest = Object.freeze({
-  groupFundFiscalYears,
+  relatedBudgets: {
+    ...budgetsResource,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 export default withRouter(stripesConnect(RelatedFunds));

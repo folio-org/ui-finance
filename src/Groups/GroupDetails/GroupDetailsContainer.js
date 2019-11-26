@@ -21,6 +21,7 @@ import {
   fiscalYearsResource,
   fundsResource,
   groupSummariesResource,
+  groupFundFiscalYears,
 } from '../../common/resources';
 
 import { getGroupSummary } from './utils';
@@ -34,33 +35,42 @@ const GroupDetailsContainer = ({
   onClose,
 }) => {
   const groupId = match.params.id;
-  const [groupData, setGroupData] = useState({ isLoading: true });
+  const [groupData, setGroupData] = useState({});
+  const [selectedFY, setSelectedFY] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowToast();
 
   useEffect(
     () => {
+      setIsLoading(true);
       const groupDetailsPromise = mutator.groupDetails.GET();
-      const currentFiscalYearPromise = mutator.currentFiscalYears.GET();
+      const groupFiscalYearsPromise = mutator.groupFiscalYears.GET();
 
-      Promise.all([groupDetailsPromise, currentFiscalYearPromise])
+      Promise.all([groupDetailsPromise, groupFiscalYearsPromise])
         .then(responses => {
           const groupDetails = responses[0];
-          const currentFiscalYears = responses[1];
+          const groupFiscalYears = responses[1];
 
           setGroupData(prevGroupData => ({
             ...prevGroupData,
             groupDetails,
-            currentFiscalYears,
+            groupFiscalYears,
           }));
+          setSelectedFY(groupFiscalYears[0] || {});
 
-          return getGroupSummary(mutator.groupSummaries, groupId, get(currentFiscalYears, [0, 'id']));
+          return getGroupSummary(mutator.groupSummaries, groupId, get(groupFiscalYears, [0, 'id']));
         })
         .then(groupSummary => {
           setGroupData(prevGroupData => ({
             ...prevGroupData,
             groupSummary,
-            isLoading: false,
           }));
+        })
+        .catch(() => {
+          showToast('ui-finance.groups.actions.load.error', 'error');
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,24 +99,23 @@ const GroupDetailsContainer = ({
     [history, groupData.groupDetails],
   );
 
-  if (groupData.isLoading) {
+  if (isLoading) {
     return <LoadingPane onClose={onClose} />;
   }
 
-  const fiscalYears = (groupData.currentFiscalYears || [])
-    .map(({ code: fyCode }) => fyCode).join(', ');
   const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <GroupDetails
       group={groupData.groupDetails}
       groupSummary={groupData.groupSummary}
-      fiscalYears={fiscalYears}
-      fiscalYearsRecords={groupData.currentFiscalYears}
+      fiscalYearsRecords={groupData.groupFiscalYears}
       funds={funds}
       onClose={onClose}
       editGroup={editGroup}
       removeGroup={removeGroup}
+      selectedFY={selectedFY}
+      setSelectedFY={setSelectedFY}
     />
   );
 };
@@ -118,16 +127,13 @@ GroupDetailsContainer.manifest = Object.freeze({
   },
   funds: fundsResource,
   groupSummaries: groupSummariesResource,
-  currentFiscalYears: {
+  groupFiscalYears: {
     ...fiscalYearsResource,
     accumulate: true,
+    fetch: false,
     GET: {
       params: {
-        query: () => {
-          const currentDate = moment.utc().format(DATE_FORMAT);
-
-          return `(periodEnd>=${currentDate} and periodStart<=${currentDate})`;
-        },
+        query: '(groupFundFY.groupId==":{id}")',
       },
     },
   },

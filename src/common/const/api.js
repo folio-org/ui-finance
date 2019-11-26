@@ -9,3 +9,4 @@ export const FISCAL_YEAR_LEDGERS_API = 'finance/fiscal-years/:{id}/ledgers';
 export const GROUPS_API = 'finance-storage/groups';
 export const LEDGERS_API = 'finance/ledgers';
 export const TRANSACTIONS_API = 'finance-storage/transactions';
+export const LEDGER_CURRENT_FISCAL_YEAR_API = `${LEDGERS_API}/:{id}/current-fiscal-year`;

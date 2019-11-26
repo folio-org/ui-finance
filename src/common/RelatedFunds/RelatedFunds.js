@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -13,7 +12,7 @@ import ConnectionListing from '../../components/ConnectionListing';
 import { groupFundFiscalYears } from '../resources';
 import { getFundsToDisplay } from '../utils';
 
-const RelatedFunds = ({ mutator, resources, query, history, currency, funds }) => {
+const RelatedFunds = ({ mutator, query, history, currency, funds }) => {
   const openFund = useCallback(
     (e, fund) => {
       const path = `/finance/fund/view/${fund.id}`;
@@ -22,21 +21,30 @@ const RelatedFunds = ({ mutator, resources, query, history, currency, funds }) =
     },
     [history],
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [fundFiscalYears, setFundFiscalYears] = useState([]);
 
   useEffect(() => {
-    mutator.groupFundFiscalYears.reset();
-    mutator.groupFundFiscalYears.GET({
-      params: {
-        limit: LIMIT_MAX,
-        query,
-      },
-    });
+    if (query) {
+      setIsLoading(true);
+      mutator.groupFundFiscalYears.GET({
+        params: {
+          limit: LIMIT_MAX,
+          query,
+        },
+      })
+        .then(setFundFiscalYears)
+        .catch(() => {
+          setFundFiscalYears([]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setFundFiscalYears([]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
-
-  const isLoading = !(
-    get(resources, ['groupFundFiscalYears', 'hasLoaded'])
-  );
 
   if (isLoading) {
     return (
@@ -46,8 +54,6 @@ const RelatedFunds = ({ mutator, resources, query, history, currency, funds }) =
       />
     );
   }
-
-  const fundFiscalYears = get(resources, ['groupFundFiscalYears', 'records'], []);
 
   const fundsToDisplay = getFundsToDisplay(funds, fundFiscalYears).filter(fund => fund.available !== undefined);
 
@@ -63,7 +69,6 @@ const RelatedFunds = ({ mutator, resources, query, history, currency, funds }) =
 RelatedFunds.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   mutator: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
   query: PropTypes.string,
@@ -72,7 +77,6 @@ RelatedFunds.propTypes = {
 RelatedFunds.defaultProps = {
   funds: [],
   query: null,
-  currency: '',
 };
 
 RelatedFunds.manifest = Object.freeze({

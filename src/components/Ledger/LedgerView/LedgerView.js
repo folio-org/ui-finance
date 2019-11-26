@@ -35,7 +35,6 @@ import LedgerFunds from './LedgerFunds';
 const LedgerView = ({
   ledger,
   fiscalYear,
-  fiscalYears,
   onClose,
   editLedger,
   removeLedger,
@@ -127,7 +126,7 @@ const LedgerView = ({
             status={ledger.ledgerStatus}
             description={ledger.description}
             acqUnitIds={ledger.acqUnitIds}
-            fiscalYear={fiscalYear}
+            fiscalYearCode={fiscalYear.code}
             available={ledger.available}
             allocated={ledger.allocated}
             unavailable={ledger.unavailable}
@@ -149,7 +148,7 @@ const LedgerView = ({
         >
           <LedgerFunds
             funds={funds}
-            fiscalYears={fiscalYears}
+            fiscalYearId={fiscalYear.id}
             currency={ledger.currency}
           />
         </Accordion>
@@ -174,10 +173,15 @@ LedgerView.propTypes = {
   onClose: PropTypes.func.isRequired,
   editLedger: PropTypes.func.isRequired,
   removeLedger: PropTypes.func.isRequired,
-  ledger: PropTypes.object.isRequired,
-  fiscalYear: PropTypes.string.isRequired,
-  fiscalYears: PropTypes.arrayOf(PropTypes.object).isRequired,
-  funds: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ledger: PropTypes.object,
+  fiscalYear: PropTypes.object,
+  funds: PropTypes.arrayOf(PropTypes.object),
+};
+
+LedgerView.defaultProps = {
+  fiscalYear: {},
+  funds: [],
+  ledger: {},
 };
 
 export default LedgerView;

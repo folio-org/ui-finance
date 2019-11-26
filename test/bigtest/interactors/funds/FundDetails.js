@@ -5,7 +5,9 @@ import {
   collection,
   clickable,
 } from '@bigtest/interactor';
+
 import Button from '../common/Button';
+import TagsAction from '../common/tags/TagsAction';
 
 @interactor class Actions {
   static defaultScope = '#fund-details-actions';
@@ -45,6 +47,7 @@ export default interactor(class FundDetailsInteractor {
   addBudgetModal = new AddBudgetModal();
   closePane = new Button('[icon=times]');
   fundRemoveConfirmationModal = new FundRemoveConfirmationModal();
+  tagsAction = new TagsAction('[icon=tag]');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

@@ -16,7 +16,10 @@ describe('Budget details', () => {
   const fundDetails = new FundDetailsInteractor();
 
   beforeEach(async function () {
-    const fund = this.server.create('budget');
+    const ledger = this.server.create('ledger');
+    const fund = this.server.create('fund');
+
+    fund.fund.ledgerId = ledger.id;
 
     const budget = this.server.create('budget', {
       fundId: fund.id,

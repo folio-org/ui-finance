@@ -21,9 +21,8 @@ describe('Ledger details', () => {
       ledgerId: ledger.id,
     });
 
-    this.server.create('groupFundFiscalYear', {
+    this.server.create('budget', {
       fiscalYearId: fiscalYear.id,
-      ledgerId: ledger.id,
       fundId: funds[0].id,
       available: 1000,
     });

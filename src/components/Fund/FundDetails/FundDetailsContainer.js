@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -23,6 +23,8 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   LoadingPane,
+  Tags,
+  TagsBadge,
   useAccordionToggle,
   useModalToggle,
   useShowToast,
@@ -32,20 +34,13 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../../common/DetailsActions';
-import {
-  budgetsResource,
-  fundResource,
-  fundsResource,
-  fundTypesResource,
-  groupsResource,
-  ledgersResource,
-} from '../../../common/resources';
+import { fundResource } from '../../../common/resources';
 import { FUNDS_ROUTE } from '../../../common/const';
-import ConnectionListing from '../../ConnectionListing';
+import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
+import FundBudgets from '../FundBudgets';
 import FundDetails from './FundDetails';
-import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
 
 const FundDetailsContainer = ({
   history,
@@ -53,94 +48,33 @@ const FundDetailsContainer = ({
   mutator,
   onClose,
   onEdit,
-  resources,
-  stripes,
+  stripes: { currency },
 }) => {
-  useEffect(() => {
-    mutator.fund.reset();
-    mutator.fundType.reset();
-    mutator.ledger.reset();
-    mutator.allocatedFrom.reset();
-    mutator.allocatedTo.reset();
-    mutator.group.reset();
-    mutator.budgets.reset();
+  const [compositeFund, setCompositeFund] = useState({ fund: {}, groupIds: [] });
+  const [isLoading, setIsLoading] = useState(true);
 
-    mutator.fund.GET().then(response => {
-      const {
-        fund: {
-          ledgerId,
-          fundTypeId,
-          allocatedFromIds,
-          allocatedToIds,
-        },
-      } = response;
-
-      if (fundTypeId) {
-        mutator.fundType.GET({
-          params: {
-            query: `id==${fundTypeId}`,
-          },
-        });
-      }
-
-      if (ledgerId) {
-        mutator.ledger.GET({
-          params: {
-            query: `id==${ledgerId}`,
-          },
-        });
-      }
-
-      if (allocatedFromIds.length) {
-        mutator.allocatedFrom.GET({
-          params: {
-            query: allocatedFromIds.map(fundId => `id==${fundId}`).join(' or '),
-          },
-        });
-      }
-
-      if (allocatedToIds.length) {
-        mutator.allocatedTo.GET({
-          params: {
-            query: allocatedToIds.map(fundId => `id==${fundId}`).join(' or '),
-          },
-        });
-      }
-    });
-
-    mutator.group.GET();
-    mutator.budgets.GET();
+  const fetchFund = useCallback(
+    () => {
+      setIsLoading(true);
+      mutator.fund.GET()
+        .then(response => setCompositeFund(response))
+        .catch(() => setCompositeFund({ fund: {}, groupIds: [] }))
+        .finally(() => setIsLoading(false));
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
+    [params.id],
+  );
+
+  useEffect(fetchFund, [params.id]);
 
   const showToast = useShowToast();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
+  const [isTagsPaneOpened, setIsTagsPaneOpened] = useState(false);
 
-  const compositeFund = get(resources, ['fund', 'records', 0]) || {
-    fund: {},
-    groupIds: [],
-  };
   const fund = compositeFund.fund;
-  const ledger = get(resources, ['ledger', 'records', 0], {});
-  const fundType = get(resources, ['fundType', 'records', 0, 'name'], '');
-  const allocatedFrom = get(resources, ['allocatedFrom', 'records'], []).map(f => f.name).join(', ');
-  const allocatedTo = get(resources, ['allocatedTo', 'records'], []).map(f => f.name).join(', ');
-  const budgets = get(resources, ['budgets', 'records'], []);
-  const activeBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.ACTIVE);
-  const plannedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.PLANNED);
-  const closedBudgets = budgets.filter(b => b.budgetStatus === BUDGET_STATUSES.CLOSED);
-  const budgetColumns = ['name', 'allocated', 'unavailable', 'available'];
-  const currency = ledger.currency || stripes.currency;
-
-  const isLoading = (
-    !get(resources, ['fund', 'hasLoaded']) &&
-    !get(resources, ['ledger', 'hasLoaded']) &&
-    !get(resources, ['allocatedFrom', 'hasLoaded']) &&
-    !get(resources, ['allocatedTo', 'hasLoaded']) &&
-    !get(resources, ['budgets', 'hasLoaded'])
-  );
+  const tags = get(fund, ['tags', 'tagList'], []);
 
   const removeFund = useCallback(
     () => {
@@ -165,6 +99,16 @@ const FundDetailsContainer = ({
     [removeFund, toggleRemoveConfirmation],
   );
 
+  const updateFundTagList = async (updatedFund) => {
+    await mutator.fund.PUT({
+      ...compositeFund,
+      fund: updatedFund,
+    });
+    fetchFund();
+  };
+
+  const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
+
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <MenuSection id="fund-details-actions">
@@ -183,26 +127,8 @@ const FundDetailsContainer = ({
     [onEdit, toggleRemoveConfirmation],
   );
 
-  const openBudget = useCallback(
-    (e, budget) => {
-      const path = `/finance/budget/${budget.id}/view`;
-
-      history.push(path);
-    },
-    [history],
-  );
-
-  const addBudgetButton = useCallback((status, count) => {
-    return !count
-      ? (
-        <Button
-          data-test-add-budget-button
-          onClick={() => setBudgetStatusModal(status)}
-        >
-          <FormattedMessage id="ui-finance.budget.button.new" />
-        </Button>
-      )
-      : null;
+  const openNewBudgetModal = useCallback((status) => {
+    setBudgetStatusModal(status);
   }, []);
 
   const lastMenu = (
@@ -214,6 +140,10 @@ const FundDetailsContainer = ({
       >
         <FormattedMessage id="ui-finance.actions.edit" />
       </Button>
+      <TagsBadge
+        tagsToggle={toggleTagsPane}
+        tagsQuantity={tags.length}
+      />
     </PaneMenu>
   );
 
@@ -224,103 +154,102 @@ const FundDetailsContainer = ({
   }
 
   return (
-    <Pane
-      actionMenu={renderActionMenu}
-      defaultWidth="fill"
-      dismissible
-      id="pane-fund-details"
-      lastMenu={lastMenu}
-      onClose={onClose}
-      paneSub={fund.code}
-      paneTitle={fund.name}
-    >
-      <Row end="xs">
-        <Col xs={12}>
-          <ExpandAllButton
-            accordionStatus={sections}
-            onToggle={expandAll}
-          />
-        </Col>
-      </Row>
-      <AccordionSet
-        accordionStatus={sections}
-        onToggle={toggleSection}
+    <Fragment>
+      <Pane
+        actionMenu={renderActionMenu}
+        defaultWidth="fill"
+        dismissible
+        id="pane-fund-details"
+        lastMenu={lastMenu}
+        onClose={onClose}
+        paneSub={fund.code}
+        paneTitle={fund.name}
       >
-        <Accordion
-          label={<FormattedMessage id="ui-finance.fund.information.title" />}
-          id={SECTIONS_FUND.INFORMATION}
+        <Row end="xs">
+          <Col xs={12}>
+            <ExpandAllButton
+              accordionStatus={sections}
+              onToggle={expandAll}
+            />
+          </Col>
+        </Row>
+        <AccordionSet
+          accordionStatus={sections}
+          onToggle={toggleSection}
         >
-          {fund.metadata && <ViewMetaData metadata={fund.metadata} />}
-          <FundDetails
-            acqUnitIds={fund.acqUnitIds}
-            allocatedFrom={allocatedFrom}
-            allocatedTo={allocatedTo}
+          <Accordion
+            label={<FormattedMessage id="ui-finance.fund.information.title" />}
+            id={SECTIONS_FUND.INFORMATION}
+          >
+            <ViewMetaData metadata={fund.metadata} />
+            <FundDetails
+              acqUnitIds={fund.acqUnitIds}
+              currency={currency}
+              fund={fund}
+              groupIds={compositeFund.groupIds}
+            />
+          </Accordion>
+
+          <FundBudgets
+            budgetStatus={BUDGET_STATUSES.ACTIVE}
+            fundId={fund.id}
             currency={currency}
+            history={history}
+            sectionId={SECTIONS_FUND.CURRENT_BUDGET}
+            labelId="ui-finance.fund.currentBudget.title"
+            hasNewBudgetButton
+            openNewBudgetModal={openNewBudgetModal}
+          />
+
+          <FundBudgets
+            budgetStatus={BUDGET_STATUSES.PLANNED}
+            fundId={fund.id}
+            currency={currency}
+            history={history}
+            sectionId={SECTIONS_FUND.PLANNED_BUDGET}
+            labelId="ui-finance.fund.plannedBudget.title"
+            hasNewBudgetButton
+            openNewBudgetModal={openNewBudgetModal}
+          />
+
+          <FundBudgets
+            budgetStatus={BUDGET_STATUSES.CLOSED}
+            fundId={fund.id}
+            currency={currency}
+            history={history}
+            sectionId={SECTIONS_FUND.PREVIOUS_BUDGETS}
+            labelId="ui-finance.fund.previousBudgets.title"
+            hasNewBudgetButton={false}
+          />
+        </AccordionSet>
+        {budgetStatusModal && (
+          <AddBudgetModal
+            budgetStatus={budgetStatusModal}
+            onClose={() => setBudgetStatusModal('')}
             fund={fund}
-            fundType={fundType}
-            ledgerName={ledger.name}
-            groupIds={compositeFund.groupIds}
+            history={history}
           />
-        </Accordion>
-
-        <Accordion
-          label={<FormattedMessage id="ui-finance.fund.currentBudget.title" />}
-          displayWhenOpen={addBudgetButton(BUDGET_STATUSES.ACTIVE, activeBudgets.length)}
-          id={SECTIONS_FUND.CURRENT_BUDGET}
-        >
-          <ConnectionListing
-            items={activeBudgets}
-            currency={currency}
-            openItem={openBudget}
-            visibleColumns={budgetColumns}
+        )}
+        {isRemoveConfirmation && (
+          <ConfirmationModal
+            id="fund-remove-confirmation"
+            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+            heading={<FormattedMessage id="ui-finance.fund.remove.heading" />}
+            message={<FormattedMessage id="ui-finance.fund.remove.message" />}
+            onCancel={toggleRemoveConfirmation}
+            onConfirm={onRemove}
+            open
           />
-        </Accordion>
-
-        <Accordion
-          label={<FormattedMessage id="ui-finance.fund.plannedBudget.title" />}
-          displayWhenOpen={addBudgetButton(BUDGET_STATUSES.PLANNED, plannedBudgets.length)}
-          id={SECTIONS_FUND.PLANNED_BUDGET}
-        >
-          <ConnectionListing
-            items={plannedBudgets}
-            currency={currency}
-            openItem={openBudget}
-            visibleColumns={budgetColumns}
-          />
-        </Accordion>
-
-        <Accordion
-          label={<FormattedMessage id="ui-finance.fund.previousBudgets.title" />}
-          id={SECTIONS_FUND.PREVIOUS_BUDGETS}
-        >
-          <ConnectionListing
-            items={closedBudgets}
-            currency={currency}
-            openItem={openBudget}
-            visibleColumns={budgetColumns}
-          />
-        </Accordion>
-      </AccordionSet>
-      {budgetStatusModal && (
-        <AddBudgetModal
-          budgetStatus={budgetStatusModal}
-          onClose={() => setBudgetStatusModal('')}
-          fund={fund}
-          history={history}
+        )}
+      </Pane>
+      {isTagsPaneOpened && (
+        <Tags
+          putMutator={updateFundTagList}
+          recordObj={fund}
+          onClose={toggleTagsPane}
         />
       )}
-      {isRemoveConfirmation && (
-        <ConfirmationModal
-          id="fund-remove-confirmation"
-          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
-          heading={<FormattedMessage id="ui-finance.fund.remove.heading" />}
-          message={<FormattedMessage id="ui-finance.fund.remove.message" />}
-          onCancel={toggleRemoveConfirmation}
-          onConfirm={onRemove}
-          open
-        />
-      )}
-    </Pane>
+    </Fragment>
   );
 };
 
@@ -330,47 +259,6 @@ FundDetailsContainer.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
-  allocatedFrom: {
-    ...fundsResource,
-    accumulate: true,
-    fetch: false,
-  },
-  allocatedTo: {
-    ...fundsResource,
-    accumulate: true,
-    fetch: false,
-  },
-  fundType: {
-    ...fundTypesResource,
-    accumulate: true,
-    fetch: false,
-  },
-  ledger: {
-    ...ledgersResource,
-    accumulate: true,
-    fetch: false,
-  },
-  group: {
-    ...groupsResource,
-    GET: {
-      params: {
-        query: 'fundId==:{id}',
-      },
-    },
-    accumulate: true,
-    fetch: false,
-  },
-  budgets: {
-    ...budgetsResource,
-    GET: {
-      params: {
-        query: 'fundId==:{id}',
-      },
-    },
-    accumulate: true,
-    fetch: false,
-  },
-  query: {},
 });
 
 FundDetailsContainer.propTypes = {
@@ -379,7 +267,6 @@ FundDetailsContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
 };
 

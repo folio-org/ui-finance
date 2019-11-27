@@ -467,5 +467,9 @@
     "fundType.label": "Tipo de fundo",
     "fundType.label.plural": "Tipos de fundos",
     "fundType.name": "Nome",
-    "settings.fundTypes.title": "Tipos de fundos"
+    "settings.fundTypes.title": "Tipos de fundos",
+    "ledger.actions.load.error": "Falha ao carregar os dados da contabilidade",
+    "ledger.actions.load.error.noFiscalYear": "Nenhum ano fiscal atual encontrado",
+    "groups.actions.load.error": "Falha ao carregar o grupo de dados",
+    "groups.actions.load.summary.error": "Failed to load group summary"
 }

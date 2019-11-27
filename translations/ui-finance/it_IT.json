@@ -313,7 +313,7 @@
     "groups.item.information": "Group information",
     "groups.item.information.name": "Nome",
     "groups.item.information.code": "Code",
-    "groups.item.information.fiscalYear": "Current fiscal year",
+    "groups.item.information.fiscalYear": "Fiscal year",
     "groups.item.information.status": "Stato",
     "groups.item.information.allocated": "Allocated",
     "groups.item.information.unavailable": "Unavailable",
@@ -464,8 +464,12 @@
     "fiscalYear.actions.save.error.genericError": "Fiscal year has not been saved",
     "fund.actions.save.error.genericError": "Fund has not been saved",
     "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger",
-    "fundType.label": "Fund type",
-    "fundType.label.plural": "Fund types",
-    "fundType.name": "Name",
-    "settings.fundTypes.title": "Fund types"
+    "fundType.label": "Tipologia fondi",
+    "fundType.label.plural": "Tipologia fondi",
+    "fundType.name": "Nome",
+    "settings.fundTypes.title": "Tipologia fondi",
+    "ledger.actions.load.error": "Impossibile caricare i dati di contabilità generale",
+    "ledger.actions.load.error.noFiscalYear": "Nessun anno fiscale corrente trovato",
+    "groups.actions.load.error": "Failed to load group data",
+    "groups.actions.load.summary.error": "Failed to load group summary"
 }

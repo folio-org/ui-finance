@@ -467,5 +467,9 @@
     "fundType.label": "نوع التمويل",
     "fundType.label.plural": "أنواع التمويل",
     "fundType.name": "الاسم",
-    "settings.fundTypes.title": "أنواع التمويل"
+    "settings.fundTypes.title": "أنواع التمويل",
+    "ledger.actions.load.error": "فشل تحميل بيانات الدفتر",
+    "ledger.actions.load.error.noFiscalYear": "لم يتم العثور على سنة مالية حالية",
+    "groups.actions.load.error": "فشل تحميل بيانات المجموعة",
+    "groups.actions.load.summary.error": "فشل تحميل ملخص المجموعة"
 }

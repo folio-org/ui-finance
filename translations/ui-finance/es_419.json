@@ -467,5 +467,9 @@
     "fundType.label": "Fund type",
     "fundType.label.plural": "Fund types",
     "fundType.name": "Nombre",
-    "settings.fundTypes.title": "Fund types"
+    "settings.fundTypes.title": "Fund types",
+    "ledger.actions.load.error": "Failed to load ledger data",
+    "ledger.actions.load.error.noFiscalYear": "No current fiscal year found",
+    "groups.actions.load.error": "Failed to load group data",
+    "groups.actions.load.summary.error": "Failed to load group summary"
 }

@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
-import moment from 'moment';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  DATE_FORMAT,
   LoadingPane,
   useShowToast,
 } from '@folio/stripes-acq-components';
@@ -21,7 +19,6 @@ import {
   fiscalYearsResource,
   fundsResource,
   groupSummariesResource,
-  groupFundFiscalYears,
 } from '../../common/resources';
 
 import { getGroupSummary } from './utils';
@@ -99,6 +96,25 @@ const GroupDetailsContainer = ({
     [history, groupData.groupDetails],
   );
 
+  const selectFY = useCallback(
+    (newSelectedFY) => {
+      setSelectedFY(newSelectedFY);
+
+      getGroupSummary(mutator.groupSummaries, groupId, newSelectedFY.id)
+        .then(groupSummary => {
+          setGroupData(prevGroupData => ({
+            ...prevGroupData,
+            groupSummary,
+          }));
+        })
+        .catch(() => {
+          showToast('ui-finance.groups.actions.load.summary.error', 'error');
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [groupId],
+  );
+
   if (isLoading) {
     return <LoadingPane onClose={onClose} />;
   }
@@ -115,7 +131,7 @@ const GroupDetailsContainer = ({
       editGroup={editGroup}
       removeGroup={removeGroup}
       selectedFY={selectedFY}
-      setSelectedFY={setSelectedFY}
+      onSelectFY={selectFY}
     />
   );
 };

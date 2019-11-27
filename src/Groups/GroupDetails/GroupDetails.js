@@ -37,7 +37,7 @@ const GroupDetails = ({
   editGroup,
   removeGroup,
   selectedFY,
-  setSelectedFY,
+  onSelectFY,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
@@ -109,7 +109,7 @@ const GroupDetails = ({
             unavailable={groupSummary.unavailable}
             available={groupSummary.available}
             selectedFiscalYearId={selectedFY.id}
-            setSelectedFY={setSelectedFY}
+            onSelectFY={onSelectFY}
           />
         </Accordion>
         <Accordion
@@ -152,7 +152,7 @@ GroupDetails.propTypes = {
   fiscalYearsRecords: PropTypes.arrayOf(PropTypes.object),
   funds: PropTypes.arrayOf(PropTypes.object),
   selectedFY: PropTypes.object.isRequired,
-  setSelectedFY: PropTypes.func.isRequired,
+  onSelectFY: PropTypes.func.isRequired,
 };
 
 GroupDetails.defaultProps = {

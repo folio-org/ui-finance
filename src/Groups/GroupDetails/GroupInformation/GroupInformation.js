@@ -68,12 +68,13 @@ const GroupInformation = ({
           data-test-group-information-fiscal-year
           xs={3}
         >
-          <Select
-            dataOptions={fiscalYearsOptions}
-            label={<FormattedMessage id="ui-finance.groups.item.information.fiscalYear" />}
-            value={selectedFiscalYearId}
-            onChange={selectFY}
-          />
+          <KeyValue label={<FormattedMessage id="ui-finance.groups.item.information.fiscalYear" />}>
+            <Select
+              dataOptions={fiscalYearsOptions}
+              onChange={selectFY}
+              value={selectedFiscalYearId}
+            />
+          </KeyValue>
         </Col>
 
         <Col

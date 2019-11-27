@@ -66,7 +66,7 @@ const itemToString = item => item;
 
 const FundForm = ({
   handleSubmit,
-  initialValues,
+  form,
   onCancel,
   parentResources,
   pristine,
@@ -83,6 +83,10 @@ const FundForm = ({
       value: id,
     }),
   );
+  const initialValues = get(form.getState(), 'initialValues', {
+    fund: {},
+    groupIds: [],
+  });
   const fundId = initialValues.fund.id;
   const fundLedgerId = get(formValues, 'fund.ledgerId');
 
@@ -348,21 +352,14 @@ const FundForm = ({
 
 FundForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.object,  // composite fund
+  form: PropTypes.object,  // form object to get initialValues with composite fund
   onCancel: PropTypes.func.isRequired,
   parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  values: PropTypes.object.isRequired,  // current form values
+  values: PropTypes.object.isRequired,  // current form values with composite fund
   systemCurrency: PropTypes.string,
-};
-
-FundForm.defaultProps = {
-  initialValues: {
-    fund: {},
-    groupIds: [],
-  },
 };
 
 export default stripesFinalForm({

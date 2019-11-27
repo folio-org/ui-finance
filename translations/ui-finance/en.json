@@ -430,6 +430,7 @@
   "groups.actions.save.error": "Group has not been saved",
   "groups.actions.save.success": "Group has been saved",
   "groups.actions.load.error": "Failed to load group data",
+  "groups.actions.load.summary.error": "Failed to load group summary",
 
   "groups.form.title.create": "Create group",
   "groups.form.title.edit": "Edit group",

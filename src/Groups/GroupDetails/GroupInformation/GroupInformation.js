@@ -26,16 +26,16 @@ const GroupInformation = ({
   unavailable,
   available,
   selectedFiscalYearId,
-  setSelectedFY,
+  onSelectFY,
 }) => {
   const fiscalYearsOptions = fiscalYears.map(fy => ({
     label: fy.code,
     value: fy.id,
   }));
   const selectFY = useCallback(({ target: { value } }) => {
-    setSelectedFY(fiscalYears.find(fy => fy.id === value) || {});
+    onSelectFY(fiscalYears.find(fy => fy.id === value) || {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSelectedFY, selectedFiscalYearId]);
+  }, [onSelectFY, selectedFiscalYearId]);
 
   return (
     <Fragment>
@@ -153,7 +153,7 @@ GroupInformation.propTypes = {
   unavailable: PropTypes.number,
   available: PropTypes.number,
   selectedFiscalYearId: PropTypes.string.isRequired,
-  setSelectedFY: PropTypes.func.isRequired,
+  onSelectFY: PropTypes.func.isRequired,
 };
 
 GroupInformation.defaultProps = {

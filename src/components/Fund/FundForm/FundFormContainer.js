@@ -37,17 +37,24 @@ const FundFormContainer = ({
   onSubmit,
   parentMutator,
   parentResources,
-  resources,
   stripes,
 }) => {
   const showCallout = useShowCallout();
   const { params: { id } } = match;
+  const [fund, setFund] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     () => {
-      mutator.fund.reset();
       if (id) {
-        mutator.fund.GET();
+        setIsLoading(true);
+        mutator.fund.GET()
+          .then(setFund)
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } else {
+        setFund(undefined);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,8 +117,6 @@ const FundFormContainer = ({
     }
   };
 
-  const fund = get(resources, 'fund.records.0');
-  const isLoading = id && !get(resources, ['fund', 'hasLoaded']);
   const isLoadingNode = <LoadingPane onClose={closeScreen} />;
 
   if (isLoading) {

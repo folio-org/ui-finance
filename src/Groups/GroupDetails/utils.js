@@ -12,7 +12,7 @@ export const getGroupSummary = (groupSummariesMutator, groupId, fiscalYearId) =>
 
   return groupSummariesMutator.GET({
     params: {
-      query: `(groupFundFY.groupId=${groupId} or groupId=${groupId}) and fiscalYearId=${fiscalYearId}`,
+      query: `(groupFundFY.groupId==${groupId} or groupId==${groupId}) and fiscalYearId==${fiscalYearId}`,
     },
   })
     .then(groupSummaries => {

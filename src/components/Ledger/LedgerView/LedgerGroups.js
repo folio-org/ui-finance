@@ -14,11 +14,14 @@ import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import {
   groupFundFiscalYears,
   groupsResource,
+  groupSummariesResource,
 } from '../../../common/resources';
 import { CHUNK_LIMIT } from '../../../common/const';
 import ConnectionListing from '../../ConnectionListing';
 
-const LedgerGroups = ({ history, funds, currency, mutator }) => {
+import { getLedgerGroupsSummary } from './utils';
+
+const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearId }) => {
   const fundIds = funds.map(fund => `fundId="${fund.id}"`);
   const chunkedFundIds = chunk(fundIds, CHUNK_LIMIT).map(arr => arr.join(' or '));
   const [groups, setGroups] = useState([]);
@@ -27,6 +30,7 @@ const LedgerGroups = ({ history, funds, currency, mutator }) => {
   useEffect(() => {
     if (funds.length) {
       setIsLoading(true);
+
       Promise.all(
         chunkedFundIds.map(fundIdsQuery => (
           mutator.groupFundFYByFundId.GET({
@@ -36,15 +40,28 @@ const LedgerGroups = ({ history, funds, currency, mutator }) => {
             },
           })
         )),
-      ).then(response => {
-        const groupIds = uniqBy(response.flat(), 'groupId').map(item => `id="${item.groupId}"`);
-        const query = groupIds.length ? `(${groupIds.join(' or ')}) sortby name` : null;
+      )
+        .then(response => {
+          const groupIds = uniqBy(response.flat(), 'groupId').map(item => `id="${item.groupId}"`);
+          const query = groupIds.length ? `(${groupIds.join(' or ')}) sortby name` : null;
 
-        mutator.groups.GET({ params: { query } }).then(relatedGroups => {
-          setGroups(relatedGroups);
-          setIsLoading(false);
-        });
-      });
+          const relatedGroupsPromise = mutator.groups.GET({ params: { query } });
+          const ledgerGroupSummariesPromise = getLedgerGroupsSummary(
+            mutator.ledgerGroupSummaries, ledgerId, fiscalYearId,
+          );
+
+          return Promise.all([relatedGroupsPromise, ledgerGroupSummariesPromise]);
+        })
+        .then(([relatedGroups, ledgerGroupSummaries]) => {
+          setGroups(relatedGroups.map(relatedGroup => ({
+            ...relatedGroup,
+            ...(ledgerGroupSummaries[relatedGroup.id] || {}),
+          })));
+        })
+        .catch(() => {
+          setGroups([]);
+        })
+        .finally(() => setIsLoading(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [funds]);
@@ -81,6 +98,8 @@ LedgerGroups.propTypes = {
   mutator: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
+  ledgerId: PropTypes.string.isRequired,
+  fiscalYearId: PropTypes.string,
 };
 
 LedgerGroups.defaultProps = {
@@ -93,6 +112,7 @@ LedgerGroups.manifest = Object.freeze({
     ...groupsResource,
     accumulate: true,
   },
+  ledgerGroupSummaries: groupSummariesResource,
 });
 
 export default withRouter(stripesConnect(LedgerGroups));

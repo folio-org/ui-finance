@@ -140,6 +140,8 @@ const LedgerView = ({
           <LedgerGroups
             funds={funds}
             currency={ledger.currency}
+            ledgerId={ledger.id}
+            fiscalYearId={fiscalYear.id}
           />
         </Accordion>
         <Accordion

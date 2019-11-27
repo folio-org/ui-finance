@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { MultiColumnList } from '@folio/stripes/components';
+import {
+  Icon,
+  Layout,
+  MultiColumnList,
+} from '@folio/stripes/components';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 const defaultColumns = ['name', 'code', 'allocated', 'unavailable', 'available'];
@@ -37,13 +41,20 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   };
 
   return (
-    <MultiColumnList
-      columnMapping={columnMapping}
-      contentData={items}
-      formatter={resultsFormatter}
-      onRowClick={openItem}
-      visibleColumns={visibleColumns}
-    />
+    <Fragment>
+      <MultiColumnList
+        columnMapping={columnMapping}
+        contentData={items}
+        formatter={resultsFormatter}
+        onRowClick={openItem}
+        visibleColumns={visibleColumns}
+      />
+      <Layout className="textCentered">
+        <Icon icon="end-mark">
+          <FormattedMessage id="stripes-components.endOfList" />
+        </Icon>
+      </Layout>
+    </Fragment>
   );
 };
 

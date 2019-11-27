@@ -184,7 +184,6 @@ FundFormContainer.propTypes = {
   onSubmit: PropTypes.func,
   parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
 };
 

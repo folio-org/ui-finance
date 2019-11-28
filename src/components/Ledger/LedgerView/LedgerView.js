@@ -152,6 +152,7 @@ const LedgerView = ({
             funds={funds}
             fiscalYearId={fiscalYear.id}
             currency={ledger.currency}
+            ledgerId={ledger.id}
           />
         </Accordion>
       </AccordionSet>

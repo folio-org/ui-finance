@@ -12,10 +12,13 @@ import {
   stripesShape,
 } from '@folio/stripes/core';
 
+import { TRANSACTION_TYPES } from '../../common/const';
 import {
+  allocationsResource,
   budgetResource,
+  encumbrancesResource,
   fundsResource,
-  transactionResource,
+  transfersResource,
 } from '../../common/resources';
 import {
   TRANSACTION_SOURCE,
@@ -39,9 +42,10 @@ const CreateTransactionContainer = ({
   const saveTransaction = useCallback(
     async (formValue) => {
       const { locale, currency } = stripes;
+      const mutatorObject = mutator[transactionType];
 
       try {
-        const transfer = await mutator.transaction.POST({
+        const transfer = await mutatorObject.POST({
           ...formValue,
           fiscalYearId,
           currency,
@@ -64,7 +68,7 @@ const CreateTransactionContainer = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetName, fiscalYearId, mutator],
+    [budgetName, fiscalYearId],
   );
 
   const funds = get(resources, ['funds', 'records'], []).map(f => ({ label: f.name, value: f.id }));
@@ -84,10 +88,9 @@ const CreateTransactionContainer = ({
 CreateTransactionContainer.manifest = Object.freeze({
   funds: fundsResource,
   budget: budgetResource,
-  transaction: {
-    ...transactionResource,
-    fetch: false,
-  },
+  [TRANSACTION_TYPES.allocation]: allocationsResource,
+  [TRANSACTION_TYPES.encumbrance]: encumbrancesResource,
+  [TRANSACTION_TYPES.transfer]: transfersResource,
 });
 
 CreateTransactionContainer.propTypes = {

@@ -21,14 +21,20 @@
     "route": "/finance",
     "home": "/finance",
     "okapiInterfaces": {
-      "acquisitions-units": "1.0",
+      "acquisitions-units": "1.1",
       "configuration": "2.0",
       "finance.budgets": "1.0",
       "finance.fiscal-years": "1.0",
       "finance.fund-types": "1.0",
       "finance.funds": "1.0",
+      "finance.group-fiscal-year-summaries": "1.0",
       "finance.group-fund-fiscal-years": "1.0",
-      "finance.ledgers": "1.0"
+      "finance.groups": "1.0",
+      "finance.ledgers": "1.0",
+      "finance.order-transaction-summaries": "1.0",
+      "finance.transactions": "1.0",
+      "tags": "1.0",
+      "users": "15.0"
     },
     "queryResource": "query",
     "icons": [
@@ -57,7 +63,11 @@
         "displayName": "Finance: Permissions required to call services apart from mod-finance",
         "description": "",
         "subPermissions": [
-          "configuration.entries.collection.get"
+          "acquisitions-units.memberships.collection.get",
+          "acquisitions-units.units.collection.get",
+          "configuration.entries.collection.get",
+          "tags.collection.get",
+          "users.collection.get"
         ]
       },
       {
@@ -66,7 +76,6 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-finance.third-party-services",
           "finance.budgets.collection.get",
           "finance.budgets.item.get",
           "finance.fiscal-years.collection.get",
@@ -75,11 +84,15 @@
           "finance.fund-types.item.get",
           "finance.funds.collection.get",
           "finance.funds.item.get",
+          "finance.group-fiscal-year-summaries.collection.get",
+          "finance.group-fund-fiscal-years.collection.get",
+          "finance.groups.collection.get",
+          "finance.groups.item.get",
           "finance.ledgers.collection.get",
           "finance.ledgers.item.get",
-          "finance.group-fund-fiscal-years.collection.get",
-          "finance-storage.groups.collection.get",
-          "finance-storage.groups.item.get"
+          "finance.transactions.collection.get",
+          "finance.transactions.item.get",
+          "ui-finance.third-party-services"
         ]
       },
       {
@@ -88,14 +101,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-finance.third-party-services",
-          "finance.budgets.all",
-          "finance.fiscal-years.all",
-          "finance.fund-types.all",
-          "finance.funds.all",
-          "finance.ledgers.all",
-          "finance.group-fund-fiscal-years.all",
-          "finance-storage.groups.all"
+          "finance.all",
+          "ui-finance.third-party-services"
         ]
       },
       {
@@ -157,6 +164,9 @@
     "react-final-form": "^6.3.0",
     "react-intl": "^2.4.0",
     "redux-form": "^7.4.2"
+  },
+  "resolutions": {
+    "fake-xml-http-request": "2.0.0"
   },
   "peerDependencies": {
     "@folio/stripes": "^2.9.0",

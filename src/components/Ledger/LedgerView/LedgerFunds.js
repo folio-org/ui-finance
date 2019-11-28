@@ -2,14 +2,14 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
-const LedgerFunds = ({ funds, currency, fiscalYearId }) => {
+const LedgerFunds = ({ funds, currency, fiscalYearId, ledgerId }) => {
   const buildQuery = useMemo(() => {
-    if (fiscalYearId) {
-      return `query=(fiscalYearId=="${fiscalYearId}")`;
+    if (fiscalYearId && ledgerId) {
+      return `query=(fiscalYearId=="${fiscalYearId}" AND fund.ledgerId=="${ledgerId}")`;
     }
 
     return null;
-  }, [fiscalYearId]);
+  }, [fiscalYearId, ledgerId]);
 
   return (
     <RelatedFunds
@@ -24,6 +24,7 @@ LedgerFunds.propTypes = {
   fiscalYearId: PropTypes.string,
   funds: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
+  ledgerId: PropTypes.string,
 };
 
 LedgerFunds.defaultProps = {

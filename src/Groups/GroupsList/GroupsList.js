@@ -164,8 +164,8 @@ class GroupsList extends Component {
           viewRecordComponent={GroupDetails}
           visibleColumns={visibleColumns}
           columnMapping={columnMapping}
-          viewRecordPerms="finance-storage.groups.item.get"
-          newRecordPerms="finance-storage.groups.item.post"
+          viewRecordPerms="finance.groups.item.get"
+          newRecordPerms="finance.groups.item.post"
           parentResources={resources}
           parentMutator={mutator}
           stripes={stripes}

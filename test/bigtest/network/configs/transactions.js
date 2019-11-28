@@ -1,11 +1,20 @@
 import { Response } from '@bigtest/mirage';
+import {
+  createGetAll,
+  createPost,
+} from '@folio/stripes-acq-components/test/bigtest/network/configs/utils';
 
-import { TRANSACTIONS_API } from '../../../../src/common/const';
+import {
+  ALLOCATIONS_API,
+  ENCUMBRANCES_API,
+  TRANSACTIONS_API,
+  TRANSFERS_API,
+} from '../../../../src/common/const';
+
+const TRANSACTIONS_SCHEMA_NAME = 'transactions';
 
 const configTransactions = server => {
-  server.get(TRANSACTIONS_API, (schema) => {
-    return schema.transactions.all();
-  });
+  server.get(TRANSACTIONS_API, createGetAll(TRANSACTIONS_SCHEMA_NAME));
 
   server.get(`${TRANSACTIONS_API}/:id`, (schema, request) => {
     const transactionSchema = schema.transactions.find(request.params.id);
@@ -19,11 +28,11 @@ const configTransactions = server => {
     return transactionSchema.attrs;
   });
 
-  server.post(TRANSACTIONS_API, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody) || {};
+  server.post(TRANSFERS_API, createPost(TRANSACTIONS_SCHEMA_NAME));
 
-    return schema.transactions.create(attrs);
-  });
+  server.post(ALLOCATIONS_API, createPost(TRANSACTIONS_SCHEMA_NAME));
+
+  server.post(ENCUMBRANCES_API, createPost(TRANSACTIONS_SCHEMA_NAME));
 };
 
 export default configTransactions;

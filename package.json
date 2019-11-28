@@ -84,6 +84,7 @@
           "finance.fund-types.item.get",
           "finance.funds.collection.get",
           "finance.funds.item.get",
+          "finance.group-fiscal-year-summaries.collection.get",
           "finance.group-fund-fiscal-years.collection.get",
           "finance.groups.collection.get",
           "finance.groups.item.get",

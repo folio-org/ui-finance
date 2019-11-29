@@ -34,6 +34,8 @@ const FiscalYearDetailsContainer = ({
   useEffect(
     () => {
       setIsLoading(true);
+      setFiscalYear({});
+      setFunds([]);
       mutator.fiscalYear.GET()
         .then(fy => {
           setFiscalYear(fy);

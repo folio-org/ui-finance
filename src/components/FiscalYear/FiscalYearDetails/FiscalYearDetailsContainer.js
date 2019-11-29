@@ -1,19 +1,17 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
 
 import {
+  LIMIT_MAX,
   LoadingPane,
   useShowToast,
 } from '@folio/stripes-acq-components';
 
 import {
   fiscalYearResource,
-  fiscalYearLedgersResource,
-  fiscalYearGroupsResource,
-  fiscalYearFundsResource,
+  fundsResource,
 } from '../../../common/resources';
 import {
   FISCAL_YEAR_ROUTE,
@@ -23,31 +21,41 @@ import FiscalYearDetails from './FiscalYearDetails';
 
 const FiscalYearDetailsContainer = ({
   mutator,
-  resources,
   match,
   onClose,
   history,
 }) => {
   const fiscalYearId = match.params.id;
+  const [fiscalYear, setFiscalYear] = useState({});
+  const [funds, setFunds] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const showToast = useShowToast();
 
   useEffect(
     () => {
-      mutator.fiscalYear.reset();
-      mutator.ledgers.reset();
-      mutator.funds.reset();
-      mutator.groups.reset();
+      setIsLoading(true);
+      mutator.fiscalYear.GET()
+        .then(fy => {
+          setFiscalYear(fy);
 
-      mutator.fiscalYear.GET();
-      mutator.ledgers.GET();
-      mutator.funds.GET();
-      mutator.groups.GET();
+          const fyFundsPromise = mutator.fyFunds.GET({
+            params: {
+              query: `budget.fiscalYearId=${fy.id}`,
+              limit: LIMIT_MAX,
+            },
+          });
+
+          return fy.id ? fyFundsPromise : [];
+        })
+        .then(response => setFunds(response))
+        .catch(() => {
+          showToast('ui-finance.fiscalYear.actions.load.error', 'error');
+        })
+        .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fiscalYearId],
   );
-
-  const fiscalYear = get(resources, ['fiscalYear', 'records', '0']);
-  const showToast = useShowToast();
 
   const editFiscalYear = useCallback(
     () => {
@@ -75,16 +83,6 @@ const FiscalYearDetailsContainer = ({
     [],
   );
 
-  const openFund = useCallback(
-    (e, fund) => {
-      const path = `/finance/fund/${fund.id}/view`;
-
-      history.push(path);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
   const removeFiscalYear = useCallback(
     () => {
       mutator.fiscalYear.DELETE(fiscalYear)
@@ -100,31 +98,17 @@ const FiscalYearDetailsContainer = ({
     [history, fiscalYear, mutator.fiscalYear],
   );
 
-  const isLoading = !(
-    // get(resources, ['ledgers', 'hasLoaded']) &&
-    // get(resources, ['funds', 'hasLoaded']) &&
-    // get(resources, ['groups', 'hasLoaded']) &&
-    get(resources, ['fiscalYear', 'hasLoaded'])
-  );
-
   if (isLoading) {
     return <LoadingPane onClose={onClose} />;
   }
-
-  const ledgers = get(resources, ['ledgers', 'records'], []);
-  const groups = get(resources, ['groups', 'records'], []);
-  const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <FiscalYearDetails
       fiscalYear={fiscalYear}
       funds={funds}
-      groups={groups}
-      ledgers={ledgers}
       onClose={onClose}
       onEdit={editFiscalYear}
       onRemove={removeFiscalYear}
-      openFund={openFund}
       openGroup={openGroup}
       openLedger={openLedger}
     />
@@ -137,9 +121,11 @@ FiscalYearDetailsContainer.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
-  ledgers: fiscalYearLedgersResource,
-  groups: fiscalYearGroupsResource,
-  funds: fiscalYearFundsResource,
+  fyFunds: {
+    ...fundsResource,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 FiscalYearDetailsContainer.propTypes = {
@@ -147,7 +133,6 @@ FiscalYearDetailsContainer.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  resources: PropTypes.object.isRequired,
 };
 
 export default withRouter(FiscalYearDetailsContainer);

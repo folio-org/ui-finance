@@ -293,6 +293,7 @@
   "ledger": "Ledger",
   "ledger.createNewFY": "New fiscal year",
 
+  "fiscalYear.actions.load.error": "Failed to load fiscal year data",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",
   "fiscalYear.actions.remove.message":"Are you sure you want to delete Fiscal year",
   "fiscalYear.actions.remove.success": "Fiscal year has been deleted",

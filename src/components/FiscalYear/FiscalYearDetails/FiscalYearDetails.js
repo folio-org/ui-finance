@@ -29,6 +29,7 @@ import {
   FISCAL_YEAR_ACCORDION_LABELS,
 } from '../constants';
 import FiscalYearInformation from './FiscalYearInformation';
+import FiscalYearFunds from './FiscalYearFunds';
 
 const FiscalYearDetails = ({
   fiscalYear,
@@ -40,7 +41,6 @@ const FiscalYearDetails = ({
   onRemove,
   openLedger,
   openGroup,
-  openFund,
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -140,10 +140,10 @@ const FiscalYearDetails = ({
           id={FISCAL_YEAR_ACCORDION.fund}
           label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.fund]}
         >
-          <ConnectionListing
-            items={funds}
+          <FiscalYearFunds
             currency={fiscalYear.currency}
-            openItem={openFund}
+            fiscalYearId={fiscalYear.id}
+            funds={funds}
           />
         </Accordion>
       </AccordionSet>
@@ -168,7 +168,6 @@ FiscalYearDetails.propTypes = {
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  openFund: PropTypes.func.isRequired,
   openGroup: PropTypes.func.isRequired,
   openLedger: PropTypes.func.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),

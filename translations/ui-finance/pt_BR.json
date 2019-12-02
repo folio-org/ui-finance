@@ -313,7 +313,7 @@
     "groups.item.information": "Informações do grupo",
     "groups.item.information.name": "Nome",
     "groups.item.information.code": "Código",
-    "groups.item.information.fiscalYear": "Ano fiscal atual",
+    "groups.item.information.fiscalYear": "Ano fiscal",
     "groups.item.information.status": "Status",
     "groups.item.information.allocated": "Alocado",
     "groups.item.information.unavailable": "Indisponível",
@@ -471,5 +471,6 @@
     "ledger.actions.load.error": "Falha ao carregar os dados da contabilidade",
     "ledger.actions.load.error.noFiscalYear": "Nenhum ano fiscal atual encontrado",
     "groups.actions.load.error": "Falha ao carregar o grupo de dados",
-    "groups.actions.load.summary.error": "Failed to load group summary"
+    "groups.actions.load.summary.error": "Falha ao carregar o resumo do grupo",
+    "fiscalYear.actions.load.error": "Falha ao carregar os dados do ano fiscal"
 }

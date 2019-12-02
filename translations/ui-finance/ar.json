@@ -471,5 +471,6 @@
     "ledger.actions.load.error": "فشل تحميل بيانات الدفتر",
     "ledger.actions.load.error.noFiscalYear": "لم يتم العثور على سنة مالية حالية",
     "groups.actions.load.error": "فشل تحميل بيانات المجموعة",
-    "groups.actions.load.summary.error": "فشل تحميل ملخص المجموعة"
+    "groups.actions.load.summary.error": "فشل تحميل ملخص المجموعة",
+    "fiscalYear.actions.load.error": "فشل تحميل بيانات السنة المالية"
 }

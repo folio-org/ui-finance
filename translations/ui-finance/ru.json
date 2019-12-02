@@ -1,5 +1,5 @@
 {
-    "search": "Search",
+    "search": "Поиск",
     "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
     "data.contactTypes.email": "Электронная почта",
     "data.contactTypes.mail": "Mail (Primary Address)",
@@ -257,7 +257,7 @@
     "ledger.description": "Описание",
     "ledger.edit": "Редактировать",
     "fiscalYear.save": "Сохранить",
-    "budget.save": "Save",
+    "budget.save": "Сохранить",
     "fund.save": "Сохранить",
     "ledger": "Ledger",
     "ledger.remove.heading": "Delete ledger",
@@ -303,8 +303,8 @@
     "budget.summary.title": "Бюджетная сводка",
     "budget.transactions": "Транзакции",
     "budget.unavailable": "Недоступен",
-    "fund.budget.code": "Code",
-    "fund.budget.name": "Name",
+    "fund.budget.code": "Код",
+    "fund.budget.name": "Название",
     "groups.status.active": "Active",
     "groups.status.frozen": "Frozen",
     "groups.status.inactive": "Inactive",
@@ -339,7 +339,7 @@
     "groups.form.title.edit": "Редактировать группу",
     "budget.fiscalYear": "Финансовый год",
     "budget.hasBeenCreated": "Budget <b>{name}</b> successfully <b>created</b> for fund <b>{fundName}</b>",
-    "budget.hasNotBeenCreated": "Budget has not been created",
+    "budget.hasNotBeenCreated": "Бюджет не был создан",
     "budget.hasNotBeenSaved": "Бюджет <b> {name} </b> не был сохранен",
     "budget.button.new": "Новый",
     "budget.button.cancel": "Отмена",
@@ -455,7 +455,7 @@
     "fund.actions.remove.error": "Fund has not been deleted",
     "fund.actions.remove.success": "Fund has been deleted",
     "groups.actions.remove.error": "Group has not been deleted",
-    "groups.actions.remove.success": "Group has been deleted",
+    "groups.actions.remove.success": "Группа была удалена",
     "saveAndClose": "Сохранить и закрыть",
     "close": "Закрыть",
     "budget.status.inactive": "Неактивный",
@@ -471,5 +471,6 @@
     "ledger.actions.load.error": "Failed to load ledger data",
     "ledger.actions.load.error.noFiscalYear": "No current fiscal year found",
     "groups.actions.load.error": "Failed to load group data",
-    "groups.actions.load.summary.error": "Failed to load group summary"
+    "groups.actions.load.summary.error": "Failed to load group summary",
+    "fiscalYear.actions.load.error": "Failed to load fiscal year data"
 }

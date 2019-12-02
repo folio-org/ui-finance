@@ -338,7 +338,7 @@
     "groups.form.title.create": "Create group",
     "groups.form.title.edit": "Edit group",
     "budget.fiscalYear": "Fiscal year",
-    "budget.hasBeenCreated": "Budget <b>{name}</b> successfully <b>created</b> for fund <b>{fundName}</b>",
+    "budget.hasBeenCreated": "Budget <b> {name} </b> è stato <b> creato </b> per il fondo <b> {fundName} </b>",
     "budget.hasNotBeenCreated": "Budget has not been created",
     "budget.hasNotBeenSaved": "Budget <b>{name}</b> has not been saved",
     "budget.button.new": "Nuovo",
@@ -471,5 +471,6 @@
     "ledger.actions.load.error": "Impossibile caricare i dati di contabilità generale",
     "ledger.actions.load.error.noFiscalYear": "Nessun anno fiscale corrente trovato",
     "groups.actions.load.error": "Failed to load group data",
-    "groups.actions.load.summary.error": "Failed to load group summary"
+    "groups.actions.load.summary.error": "Failed to load group summary",
+    "fiscalYear.actions.load.error": "Failed to load fiscal year data"
 }

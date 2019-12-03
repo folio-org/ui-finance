@@ -165,9 +165,6 @@
     "react-intl": "^2.4.0",
     "redux-form": "^7.4.2"
   },
-  "resolutions": {
-    "fake-xml-http-request": "2.0.0"
-  },
   "peerDependencies": {
     "@folio/stripes": "^2.9.0",
     "react": "*",

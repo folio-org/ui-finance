@@ -1,11 +1,6 @@
 <!--
   If you have a relevant JIRA issue number, please put it in the issue title.
   Example: MODORDERS-70 Orders schema updates
-
-  TL;DR
-    - https://www.youtube.com/watch?v=5aHmO_S8FQ4
-    - http://www.olitreadwell.com/2016/05/22/how-to-write-great-pull-requests/
-    - https://www.atlassian.com/blog/git/written-unwritten-guide-pull-requests
 -->
 
 ## Purpose
@@ -14,7 +9,7 @@
   to provide to the reviewer and to future readers than the cause
   that gave rise to this pull request. Be careful to avoid circular
   statements like "the purpose is to update the schema." and
-  instead provide an explanation like "there is more data to be provided and stored for Purchase Orders 
+  instead provide an explanation like "there is more data to be provided and stored for Purchase Orders
   which is currently missing in the schema"
 
   The purpose may seem self-evident to you now, but the standard to
@@ -52,19 +47,15 @@
 
 ## Pre-Merge Checklist
 Before merging this PR, please go through the following list and take appropriate actions.
-
+- [ ] I've added appropriate record to the CHANGELOG.md
 - Does this PR meet or exceed the expected quality standards?
   - [ ] Code coverage on new code is 80% or greater
   - [ ] Duplications on new code is 3% or less
   - [ ] There are no major code smells or security issues
 - Does this introduce breaking changes?
-  - [ ] Were any API paths or methods changed, added or removed?
-  - [ ] Were there any schema changes?
-  - [ ] Did any of the interface versions change?
-  - [ ] Were permissions changed, added, or removed?
-  - [ ] Are there new interface dependencies?
-  - [ ] There are no breaking changes in this PR.
-  
+  - [ ] If any API-related changes - okapi interfaces and permissions are reviewed/changed correspondingly
+  - [*] There are no breaking changes in this PR.
+
 If there are breaking changes, please **STOP** and consider the following:
 
 - What other modules will these changes impact?
@@ -72,11 +63,11 @@ If there are breaking changes, please **STOP** and consider the following:
   - [ ] If not, please create them
   - [ ] Do they contain the appropriate level of detail?  Which endpoints/schemas changed, etc.
   - [ ] Do they have all they appropriate links to blocked/related issues?
-- Are the JIRAs under active development?  
+- Are the JIRAs under active development?
   - [ ] If not, contact the project's PO and make sure they're aware of the urgency.
 - Do PRs exist for these changes?
   - [ ] If so, have they been approved?
 
-Ideally all of the PRs involved in breaking changes would be merged in the same day to avoid breaking the folio-testing environment.  Communication is paramount if that is to be achieved, especially as the number of intermodule and inter-team dependencies increase.  
+Ideally all of the PRs involved in breaking changes would be merged in the same day to avoid breaking the folio-testing environment.  Communication is paramount if that is to be achieved, especially as the number of intermodule and inter-team dependencies increase.
 
 While it's helpful for reviewers to help identify potential problems, ensuring that it's safe to merge is ultimately the responsibility of the PR assignee.

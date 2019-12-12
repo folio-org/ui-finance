@@ -325,6 +325,7 @@
   "fiscalYear.search.name": "Name",
   "fiscalyear": "Fiscal year",
 
+  "budget.actions.load.error": "Failed to load budget data",
   "budget.actionsRequired": "Actions required",
   "budget.allocated": "Allocated",
   "budget.allocationDate": "Allocation date",

@@ -12,10 +12,19 @@ describe('Fund edit', () => {
   const fundDetails = new FundDetailsInteractor();
 
   beforeEach(async function () {
+    const group = this.server.create('group');
     const ledger = this.server.create('ledger');
-    const fund = this.server.create('fund');
+    const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
+    const fund = this.server.create('fund', {
+      groupIds: [group.id],
+    });
 
     fund.fund.ledgerId = ledger.id;
+
+    this.server.create('budget', {
+      fundId: fund.id,
+      fiscalYearId: fiscalYear.id,
+    });
 
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();

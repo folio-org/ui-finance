@@ -12,6 +12,7 @@ describe('Funds details', () => {
   beforeEach(async function () {
     const group = this.server.create('group');
     const ledger = this.server.create('ledger');
+    const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
     const fund = this.server.create('fund', {
       groupIds: [group.id],
     });
@@ -20,6 +21,7 @@ describe('Funds details', () => {
 
     this.server.create('budget', {
       fundId: fund.id,
+      fiscalYearId: fiscalYear.id,
     });
 
     this.visit(`/finance/fund/view/${fund.id}`);
@@ -45,7 +47,7 @@ describe('Funds details', () => {
       await fundDetails.currentBudget.list(0).link();
     });
 
-    it('redirects to selected budget view page', () => {
+    it('redirects to current budget view page', () => {
       expect(fundDetails.isPresent).to.be.false;
     });
   });

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../../../helpers/setup-application';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 
-describe('Create budget', () => {
+describe('Create current budget', () => {
   setupApplication();
 
   const fundDetails = new FundDetailsInteractor();

@@ -40,6 +40,7 @@ import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundBudgets from '../FundBudgets';
+import FundCurrentBudget from '../FundCurrentBudget';
 import FundDetails from './FundDetails';
 
 const FundDetailsContainer = ({
@@ -190,7 +191,7 @@ const FundDetailsContainer = ({
             />
           </Accordion>
 
-          <FundBudgets
+          <FundCurrentBudget
             budgetStatus={BUDGET_STATUSES.ACTIVE}
             fundId={fund.id}
             currency={currency}
@@ -199,6 +200,7 @@ const FundDetailsContainer = ({
             labelId="ui-finance.fund.currentBudget.title"
             hasNewBudgetButton
             openNewBudgetModal={openNewBudgetModal}
+            ledgerId={fund.ledgerId}
           />
 
           <FundBudgets

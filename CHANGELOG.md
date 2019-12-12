@@ -1,5 +1,11 @@
 # Change history for ui-finance
 
+## [1.7.1](https://github.com/folio-org/ui-finance/tree/v1.7.1) (in progress)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.0...v1.7.1)
+
+### Bug fixes
+* [UIF-154](https://issues.folio.org/browse/UIF-154) Displaying multiple current budgets at once
+
 ## [1.7.0](https://github.com/folio-org/ui-finance/tree/v1.7.0) (2019-12-04)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.6.0...v1.7.0)
 

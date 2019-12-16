@@ -472,5 +472,6 @@
     "ledger.actions.load.error.noFiscalYear": "Nessun anno fiscale corrente trovato",
     "groups.actions.load.error": "Failed to load group data",
     "groups.actions.load.summary.error": "Failed to load group summary",
-    "fiscalYear.actions.load.error": "Impossibile caricare i dati dell'anno fiscale"
+    "fiscalYear.actions.load.error": "Impossibile caricare i dati dell'anno fiscale",
+    "budget.actions.load.error": "Failed to load budget data"
 }

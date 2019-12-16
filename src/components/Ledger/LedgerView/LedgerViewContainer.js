@@ -36,7 +36,6 @@ const LedgerViewContainer = ({
     () => {
       Promise.all([
         mutator.funds.GET(),
-        mutator.ledgerDetails.GET(),
         mutator.ledgerCurrentFiscalYear.GET()
           .catch(() => {
             showToast('ui-finance.ledger.actions.load.error.noFiscalYear', 'error');
@@ -44,6 +43,16 @@ const LedgerViewContainer = ({
             return {};
           }),
       ])
+        .then(([fundsResponse, currentFiscalYearResponse]) => {
+          const { id: fyID } = currentFiscalYearResponse;
+          const ledgerPromise = mutator.ledgerDetails.GET({
+            params: {
+              fiscalYear: fyID,
+            },
+          });
+
+          return Promise.all([fundsResponse, ledgerPromise, currentFiscalYearResponse]);
+        })
         .then(([fundsResponse, ledgerResponse, currentFiscalYearResponse]) => {
           setLedgerData({
             funds: fundsResponse,

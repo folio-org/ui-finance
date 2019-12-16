@@ -472,5 +472,6 @@
     "ledger.actions.load.error.noFiscalYear": "No current fiscal year found",
     "groups.actions.load.error": "Failed to load group data",
     "groups.actions.load.summary.error": "Failed to load group summary",
-    "fiscalYear.actions.load.error": "会計年度データを読み込めませんでした"
+    "fiscalYear.actions.load.error": "会計年度データを読み込めませんでした",
+    "budget.actions.load.error": "Failed to load budget data"
 }

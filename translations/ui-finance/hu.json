@@ -472,5 +472,6 @@
     "ledger.actions.load.error.noFiscalYear": "No current fiscal year found",
     "groups.actions.load.error": "Failed to load group data",
     "groups.actions.load.summary.error": "Failed to load group summary",
-    "fiscalYear.actions.load.error": "Failed to load fiscal year data"
+    "fiscalYear.actions.load.error": "Failed to load fiscal year data",
+    "budget.actions.load.error": "Failed to load budget data"
 }

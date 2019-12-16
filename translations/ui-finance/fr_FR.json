@@ -472,5 +472,6 @@
     "ledger.actions.load.error.noFiscalYear": "Aucun exercice en cours trouvé",
     "groups.actions.load.error": "Impossible de charger les données du groupe",
     "groups.actions.load.summary.error": "Échec du chargement du résumé du groupe",
-    "fiscalYear.actions.load.error": "Échec du chargement des données de l'exercice fiscal"
+    "fiscalYear.actions.load.error": "Échec du chargement des données de l'exercice fiscal",
+    "budget.actions.load.error": "Failed to load budget data"
 }

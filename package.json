@@ -55,7 +55,8 @@
         "displayName": "Settings (Finance): Display list of settings for Finance",
         "visible": true,
         "subPermissions": [
-          "settings.enabled"
+          "settings.enabled",
+          "finance.fund-types.all"
         ]
       },
       {

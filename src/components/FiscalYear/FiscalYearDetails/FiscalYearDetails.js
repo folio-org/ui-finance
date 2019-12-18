@@ -23,6 +23,9 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../../common/DetailsActions';
+import {
+  calculateTotals,
+} from '../../../common/utils';
 import ConnectionListing from '../../ConnectionListing';
 import {
   FISCAL_YEAR_ACCORDION,
@@ -30,17 +33,17 @@ import {
 } from '../constants';
 import FiscalYearInformation from './FiscalYearInformation';
 import FiscalYearFunds from './FiscalYearFunds';
+import FiscalYearGroups from './FiscalYearGroups';
 
 const FiscalYearDetails = ({
   fiscalYear,
   funds,
-  groups,
+  groupSummaries,
   ledgers,
   onClose,
   onEdit,
   onRemove,
   openLedger,
-  openGroup,
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -57,11 +60,10 @@ const FiscalYearDetails = ({
           perm="finance.fiscal-years.item.delete"
           onRemove={toggleRemoveConfirmation}
           toggleActionMenu={onToggle}
-          disabled={Boolean(funds.length || ledgers.length || groups.length)}
         />
       </MenuSection>
     ),
-    [funds.length, groups.length, ledgers.length, onEdit, toggleRemoveConfirmation],
+    [onEdit, toggleRemoveConfirmation],
   );
 
   const lastMenu = (
@@ -75,6 +77,8 @@ const FiscalYearDetails = ({
       </Button>
     </PaneMenu>
   );
+
+  const fiscalYearTotals = calculateTotals(groupSummaries);
 
   return (
     <Pane
@@ -111,6 +115,10 @@ const FiscalYearDetails = ({
             name={fiscalYear.name}
             periodEnd={fiscalYear.periodEnd}
             periodStart={fiscalYear.periodStart}
+            currency={fiscalYear.currency}
+            allocated={fiscalYearTotals.allocated}
+            available={fiscalYearTotals.available}
+            unavailable={fiscalYearTotals.unavailable}
           />
         </Accordion>
 
@@ -129,10 +137,9 @@ const FiscalYearDetails = ({
           id={FISCAL_YEAR_ACCORDION.group}
           label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.group]}
         >
-          <ConnectionListing
-            items={groups}
-            currency={fiscalYear.currency}
-            openItem={openGroup}
+          <FiscalYearGroups
+            fiscalYear={fiscalYear}
+            groupSummaries={groupSummaries}
           />
         </Accordion>
 
@@ -168,16 +175,14 @@ FiscalYearDetails.propTypes = {
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  openGroup: PropTypes.func.isRequired,
   openLedger: PropTypes.func.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
-  groups: PropTypes.arrayOf(PropTypes.object),
+  groupSummaries: PropTypes.arrayOf(PropTypes.object),
   ledgers: PropTypes.arrayOf(PropTypes.object),
 };
 
 FiscalYearDetails.defaultProps = {
   funds: [],
-  groups: [],
   ledgers: [],
 };
 

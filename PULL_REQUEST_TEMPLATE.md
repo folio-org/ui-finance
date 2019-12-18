@@ -30,13 +30,13 @@
  developers *work* with your solution in the future.
 -->
 
-#### TODOS and Open Questions
 <!-- OPTIONAL
+#### TODOS and Open Questions
 - [ ] Use GitHub checklists. When solved, check the box and explain the answer.
 -->
 
-## Learning
 <!-- OPTIONAL
+## Learning
   Help out not only your reviewer, but also your fellow developer!
   Sometimes there are key pieces of information that you used to come up
   with your solution. Don't let all that hard work go to waste! A
@@ -54,7 +54,7 @@ Before merging this PR, please go through the following list and take appropriat
   - [ ] There are no major code smells or security issues
 - Does this introduce breaking changes?
   - [ ] If any API-related changes - okapi interfaces and permissions are reviewed/changed correspondingly
-  - [*] There are no breaking changes in this PR.
+  - [ ] There are no breaking changes in this PR.
 
 If there are breaking changes, please **STOP** and consider the following:
 

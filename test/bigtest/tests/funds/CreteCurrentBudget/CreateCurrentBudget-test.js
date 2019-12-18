@@ -18,6 +18,7 @@ describe('Create current budget', () => {
 
     fund.fund.ledgerId = ledger.id;
 
+    this.server.create('fiscalYear', { id: ledger.id });
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();
   });
@@ -27,11 +28,8 @@ describe('Create current budget', () => {
   });
 
   describe('click on add new budget', () => {
-    let fiscalYears = [];
-
     beforeEach(async function () {
-      fiscalYears = this.server.createList('fiscalYear', 3);
-      await fundDetails.addBudgetButton.click();
+      await fundDetails.currentBudget.addBudgetButton.click();
     });
 
     it('open add budget modal', () => {
@@ -44,7 +42,6 @@ describe('Create current budget', () => {
       const TEST_ALLOCATED = 1000000;
 
       beforeEach(async function () {
-        await fundDetails.addBudgetModal.fiscalYearId.select(fiscalYears[0].code);
         await fundDetails.addBudgetModal.allowableExpenditure.fill(TEST_ALLOWABLE_EXPENDITURE);
         await fundDetails.addBudgetModal.allowableEncumbrance.fill(TEST_ALLOWABLE_ENCUMBRANCE);
         await fundDetails.addBudgetModal.allocated.fill(TEST_ALLOCATED);

@@ -38,7 +38,7 @@ const footer = (onClose, onSave) => (
   </ModalFooter>
 );
 
-const BudgetAddModal = ({ handleSubmit, onClose, label }) => (
+const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
   <Modal
     id="add-budget-modal"
     label={label}
@@ -51,6 +51,7 @@ const BudgetAddModal = ({ handleSubmit, onClose, label }) => (
           <FiscalYearField
             name="fiscalYearId"
             required
+            disabled={disabled}
           />
         </Col>
         <Col xs>
@@ -96,12 +97,13 @@ const BudgetAddModal = ({ handleSubmit, onClose, label }) => (
   </Modal>
 );
 
-BudgetAddModal.propTypes = {
+BudgetAddModalForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   label: PropTypes.object,
+  disabled: PropTypes.bool,
 };
 
 export default stripesForm({
   form: ADD_BUDGET_MODAL_FORM,
-})(BudgetAddModal);
+})(BudgetAddModalForm);

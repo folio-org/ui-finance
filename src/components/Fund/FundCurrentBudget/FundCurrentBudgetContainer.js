@@ -68,7 +68,7 @@ const FundCurrentBudgetContainer = ({
     return hasNewBudgetButton && !count
       ? (
         <Button
-          data-test-add-budget-button
+          data-test-add-current-budget-button
           onClick={() => openNewBudgetModal(status)}
         >
           <FormattedMessage id="ui-finance.budget.button.new" />

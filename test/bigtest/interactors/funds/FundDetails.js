@@ -14,12 +14,15 @@ import TagsAction from '../common/tags/TagsAction';
   editFund = new Interactor('[data-test-details-edit-action]');
   deleteFund = new Interactor('[data-test-details-remove-action]');
 }
+
 @interactor class CurrentBudgetAccordion {
   static defaultScope = '#currentBudget';
 
   list = collection('[class*=mclRow---]', {
     link: clickable(),
   });
+
+  addBudgetButton = new Button('[data-test-add-current-budget-button]');
 }
 
 @interactor class FundRemoveConfirmationModal {
@@ -43,7 +46,6 @@ export default interactor(class FundDetailsInteractor {
 
   actions = new Actions();
   currentBudget = new CurrentBudgetAccordion();
-  addBudgetButton = new Button('[data-test-add-budget-button]');
   addBudgetModal = new AddBudgetModal();
   closePane = new Button('[icon=times]');
   fundRemoveConfirmationModal = new FundRemoveConfirmationModal();

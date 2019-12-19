@@ -36,7 +36,7 @@ import {
 } from '../../../common/DetailsActions';
 import { fundResource } from '../../../common/resources';
 import { FUNDS_ROUTE } from '../../../common/const';
-import AddBudgetModal from '../../Budget/AddBudgetModal/AddBudgetModal';
+import AddBudgetModal from '../../Budget/AddBudgetModal';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 import FundBudgets from '../FundBudgets';
@@ -230,6 +230,7 @@ const FundDetailsContainer = ({
             onClose={() => setBudgetStatusModal('')}
             fund={fund}
             history={history}
+            ledgerId={fund.ledgerId}
           />
         )}
         {isRemoveConfirmation && (

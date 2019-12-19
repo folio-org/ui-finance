@@ -18,7 +18,15 @@ describe('Ledger details', () => {
     const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
 
     const funds = this.server.createList('fund', 5, {
-      ledgerId: ledger.id,
+      fund: {
+        ledgerId: ledger.id,
+        id() {
+          return Math.random();
+        },
+        fundStatus: 'Active',
+        name: 'test fund',
+        code: 'TEST_CODE',
+      },
     });
 
     this.server.create('budget', {

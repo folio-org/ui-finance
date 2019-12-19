@@ -32,7 +32,7 @@ const FiscalYearGroups = ({
 
       mutator.fiscalYearGroups.GET({
         params: {
-          query: `groupFundFY.fiscalYearId == ${fiscalYear.id}`,
+          query: `groupFundFY.fiscalYearId == ${fiscalYear.id} sortby name`,
           limit: LIMIT_MAX,
         },
       })

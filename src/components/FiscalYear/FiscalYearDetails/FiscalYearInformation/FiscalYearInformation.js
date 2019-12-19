@@ -150,7 +150,6 @@ FiscalYearInformation.propTypes = {
 FiscalYearInformation.defaultProps = {
   acqUnitIds: [],
   description: '',
-  currency: '',
   allocated: 0,
   unavailable: 0,
   available: 0,

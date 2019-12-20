@@ -22,6 +22,10 @@ const FiscalYearInformation = ({
   name,
   periodEnd,
   periodStart,
+  currency,
+  allocated,
+  available,
+  unavailable,
 }) => {
   return (
     <Fragment>
@@ -76,7 +80,10 @@ const FiscalYearInformation = ({
           <KeyValue
             label={<FormattedMessage id="ui-finance.fiscalYear.information.allocated" />}
           >
-            <AmountWithCurrencyField />
+            <AmountWithCurrencyField
+              amount={allocated}
+              currency={currency}
+            />
           </KeyValue>
         </Col>
 
@@ -87,7 +94,10 @@ const FiscalYearInformation = ({
           <KeyValue
             label={<FormattedMessage id="ui-finance.fiscalYear.information.unavailable" />}
           >
-            <AmountWithCurrencyField />
+            <AmountWithCurrencyField
+              amount={unavailable}
+              currency={currency}
+            />
           </KeyValue>
         </Col>
 
@@ -98,7 +108,10 @@ const FiscalYearInformation = ({
           <KeyValue
             label={<FormattedMessage id="ui-finance.fiscalYear.information.available" />}
           >
-            <AmountWithCurrencyField />
+            <AmountWithCurrencyField
+              amount={available}
+              currency={currency}
+            />
           </KeyValue>
         </Col>
 
@@ -128,11 +141,18 @@ FiscalYearInformation.propTypes = {
   name: PropTypes.string.isRequired,
   periodEnd: PropTypes.string.isRequired,
   periodStart: PropTypes.string.isRequired,
+  currency: PropTypes.string,
+  allocated: PropTypes.number,
+  unavailable: PropTypes.number,
+  available: PropTypes.number,
 };
 
 FiscalYearInformation.defaultProps = {
   acqUnitIds: [],
   description: '',
+  allocated: 0,
+  unavailable: 0,
+  available: 0,
 };
 
 export default FiscalYearInformation;

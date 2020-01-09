@@ -473,5 +473,5 @@
     "groups.actions.load.error": "加载组数据失败",
     "groups.actions.load.summary.error": "加载组概要失败",
     "fiscalYear.actions.load.error": "无法加载财务年度数据",
-    "budget.actions.load.error": "Failed to load budget data"
+    "budget.actions.load.error": "无法加载预算数据"
 }

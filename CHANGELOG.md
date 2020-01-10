@@ -7,6 +7,9 @@
 * [UIF-157](https://issues.folio.org/browse/UIF-157) Update create current budget
 * [UIF-148](https://issues.folio.org/browse/UIF-148) Update Fiscal year record view to display group and related totals for that year
 
+### Bug fixes
+* [UIF-164](https://issues.folio.org/browse/UIF-164) Search option “All” for fiscal year does not include Code
+
 ## [1.7.1](https://github.com/folio-org/ui-finance/tree/v1.7.1) (2019-12-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.0...v1.7.1)
 

@@ -52,7 +52,7 @@
       },
       {
         "permissionName": "settings.finance.enabled",
-        "displayName": "Settings (Finance): Display list of settings for Finance",
+        "displayName": "Settings (Finance): Can view and edit settings",
         "visible": true,
         "subPermissions": [
           "settings.enabled",

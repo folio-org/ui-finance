@@ -4,6 +4,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
 
 ### Stories
+* [UIF-172](https://issues.folio.org/browse/UIF-172) Update settings permission label
 * [UIF-157](https://issues.folio.org/browse/UIF-157) Update create current budget
 * [UIF-148](https://issues.folio.org/browse/UIF-148) Update Fiscal year record view to display group and related totals for that year
 

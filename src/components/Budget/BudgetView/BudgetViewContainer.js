@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -32,10 +32,35 @@ import CreateTransaction from '../../../Transactions/CreateTransaction';
 
 import BudgetView from './BudgetView';
 
-const BudgetViewContainer = ({ history, resources }) => {
-  const budget = get(resources, ['budget', 'records', 0]);
-  const fiscalYear = get(resources, ['fiscalYear', 'records', 0], {});
-  const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
+const BudgetViewContainer = ({ history, match, mutator }) => {
+  const budgetId = match.params.id;
+  const [budget, setBudget] = useState({});
+  const [fiscalYear, setFiscalYear] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(
+    () => {
+      setIsLoading(true);
+      setBudget({});
+      setFiscalYear({});
+
+      mutator.budgetById.GET()
+        .then(budgetResponse => {
+          setBudget(budgetResponse);
+
+          return mutator.budgetFiscalYear.GET({
+            path: `${FISCAL_YEARS_API}/${budgetResponse.fiscalYearId}`,
+          });
+        })
+        .then(fyResponse => {
+          setFiscalYear(fyResponse);
+        })
+        .finally(() => setIsLoading(false));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [budgetId],
+  );
+
   const paneTitle = get(budget, 'name');
 
   const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
@@ -187,20 +212,22 @@ const BudgetViewContainer = ({ history, resources }) => {
 };
 
 BudgetViewContainer.manifest = Object.freeze({
-  budget: budgetResource,
-  fiscalYear: {
+  budgetById: {
+    ...budgetResource,
+    accumulate: true,
+    fetch: false,
+  },
+  budgetFiscalYear: {
     ...fiscalYearResource,
-    path: (queryParams, pathComponents, resourceData, logger, props) => {
-      const fiscalYearId = get(props, ['resources', 'budget', 'records', 0, 'fiscalYearId']);
-
-      return fiscalYearId ? `${FISCAL_YEARS_API}/${fiscalYearId}` : null;
-    },
+    accumulate: true,
+    fetch: false,
   },
 });
 
 BudgetViewContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
-  resources: PropTypes.object.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  mutator: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(BudgetViewContainer);

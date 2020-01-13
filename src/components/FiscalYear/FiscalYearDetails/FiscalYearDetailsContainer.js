@@ -46,7 +46,7 @@ const FiscalYearDetailsContainer = ({
       const groupSummariesPromise = mutator.fyGroupSummaries.GET({
         params: {
           query: `fiscalYearId=${fiscalYearId}`,
-          limit: LIMIT_MAX,
+          limit: `${LIMIT_MAX}`,
         },
       });
       const ledgersPromise = mutator.fyLedgers.GET();
@@ -60,7 +60,7 @@ const FiscalYearDetailsContainer = ({
           const fyFundsPromise = mutator.fyFunds.GET({
             params: {
               query: `budget.fiscalYearId=${fy.id}`,
-              limit: LIMIT_MAX,
+              limit: `${LIMIT_MAX}`,
             },
           });
 
@@ -143,6 +143,7 @@ FiscalYearDetailsContainer.manifest = Object.freeze({
     fetch: false,
     params: {
       fiscalYear: ':{id}',
+      limit: `${LIMIT_MAX}`,
       query: 'cql.allRecords=1 sortby name',
     },
   },

@@ -6,22 +6,24 @@ import {
 import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
-import BudgetEdetailsInteractor from '../../interactors/budgets/BudgetDetails';
+import BudgetDetailsInteractor from '../../interactors/budgets/BudgetDetails';
 import FundDetailsInteractor from '../../interactors/funds/FundDetails';
 
 describe('Budget details', () => {
   setupApplication();
 
-  const budgetDetails = new BudgetEdetailsInteractor();
+  const budgetDetails = new BudgetDetailsInteractor();
   const fundDetails = new FundDetailsInteractor();
 
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
     const fund = this.server.create('fund');
+    const fiscalYear = this.server.create('fiscalYear');
 
     fund.fund.ledgerId = ledger.id;
 
     const budget = this.server.create('budget', {
+      fiscalYearId: fiscalYear.id,
       fundId: fund.id,
     });
 

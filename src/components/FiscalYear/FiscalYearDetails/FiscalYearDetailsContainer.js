@@ -13,6 +13,7 @@ import {
   fiscalYearResource,
   fundsResource,
   groupSummariesResource,
+  ledgersResource,
 } from '../../../common/resources';
 import {
   FISCAL_YEAR_ROUTE,
@@ -30,6 +31,7 @@ const FiscalYearDetailsContainer = ({
   const [fiscalYear, setFiscalYear] = useState({});
   const [funds, setFunds] = useState([]);
   const [groupSummaries, setGroupSummaries] = useState([]);
+  const [ledgers, setLedgers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowToast();
 
@@ -44,19 +46,21 @@ const FiscalYearDetailsContainer = ({
       const groupSummariesPromise = mutator.fyGroupSummaries.GET({
         params: {
           query: `fiscalYearId=${fiscalYearId}`,
-          limit: LIMIT_MAX,
+          limit: `${LIMIT_MAX}`,
         },
       });
+      const ledgersPromise = mutator.fyLedgers.GET();
 
-      Promise.all([fiscalYearPromise, groupSummariesPromise])
-        .then(([fy, groupSummariesResponse]) => {
+      Promise.all([fiscalYearPromise, groupSummariesPromise, ledgersPromise])
+        .then(([fy, groupSummariesResponse, ledgersResponse]) => {
           setFiscalYear(fy);
           setGroupSummaries(groupSummariesResponse);
+          setLedgers(ledgersResponse);
 
           const fyFundsPromise = mutator.fyFunds.GET({
             params: {
               query: `budget.fiscalYearId=${fy.id}`,
-              limit: LIMIT_MAX,
+              limit: `${LIMIT_MAX}`,
             },
           });
 
@@ -116,6 +120,7 @@ const FiscalYearDetailsContainer = ({
       onEdit={editFiscalYear}
       onRemove={removeFiscalYear}
       openLedger={openLedger}
+      ledgers={ledgers}
     />
   );
 };
@@ -132,6 +137,16 @@ FiscalYearDetailsContainer.manifest = Object.freeze({
     fetch: false,
   },
   fyGroupSummaries: groupSummariesResource,
+  fyLedgers: {
+    ...ledgersResource,
+    accumulate: true,
+    fetch: false,
+    params: {
+      fiscalYear: ':{id}',
+      limit: `${LIMIT_MAX}`,
+      query: 'cql.allRecords=1 sortby name',
+    },
+  },
 });
 
 FiscalYearDetailsContainer.propTypes = {

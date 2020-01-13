@@ -14,7 +14,7 @@ describe('Budget edit', () => {
   const budgetDetails = new BudgetEdetailsInteractor();
 
   beforeEach(async function () {
-    const fund = this.server.create('budget');
+    const fund = this.server.create('fund');
 
     const budget = this.server.create('budget', {
       fundId: fund.id,

@@ -64,7 +64,7 @@ describe('Fund details tags', () => {
 
     describe('delete tag from the list', () => {
       beforeEach(async function () {
-        await tagsPane.selectedTags.list(0).deleteTag();
+        await tagsPane.selectedTags.list(0).deleteTag().timeout(7000);
       });
 
       it('should delete one tag', () => {

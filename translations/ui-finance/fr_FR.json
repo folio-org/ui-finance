@@ -473,5 +473,5 @@
     "groups.actions.load.error": "Impossible de charger les données du groupe",
     "groups.actions.load.summary.error": "Échec du chargement du résumé du groupe",
     "fiscalYear.actions.load.error": "Échec du chargement des données de l'exercice fiscal",
-    "budget.actions.load.error": "Failed to load budget data"
+    "budget.actions.load.error": "Echec du chargement des données budgétaires"
 }

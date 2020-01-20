@@ -22,6 +22,7 @@ import {
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
+  baseManifest,
   LoadingPane,
   Tags,
   TagsBadge,
@@ -35,13 +36,16 @@ import {
   DetailsRemoveAction,
 } from '../../../common/DetailsActions';
 import { fundResource } from '../../../common/resources';
-import { FUNDS_ROUTE } from '../../../common/const';
+import {
+  FUNDS_ROUTE,
+  LEDGERS_API,
+} from '../../../common/const';
 import AddBudgetModal from '../../Budget/AddBudgetModal';
-import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
-import FundBudgets from '../FundBudgets';
 import FundCurrentBudget from '../FundCurrentBudget';
 import FundDetails from './FundDetails';
+import FundPlannedBudgetsContainer from '../FundPlannedBudgets';
+import FundPreviousBudgetsContainer from '../FundPreviousBudgets';
 
 const FundDetailsContainer = ({
   history,
@@ -53,12 +57,20 @@ const FundDetailsContainer = ({
 }) => {
   const [compositeFund, setCompositeFund] = useState({ fund: {}, groupIds: [] });
   const [isLoading, setIsLoading] = useState(true);
+  const [currentFY, setCurrentFY] = useState();
 
   const fetchFund = useCallback(
     () => {
       setIsLoading(true);
       mutator.fund.GET()
-        .then(response => setCompositeFund(response))
+        .then(fundResponse => {
+          setCompositeFund(fundResponse);
+
+          return mutator.fundCurrentFY.GET({
+            path: `${LEDGERS_API}/${fundResponse.fund.ledgerId}/current-fiscal-year`,
+          });
+        })
+        .then(setCurrentFY)
         .catch(() => setCompositeFund({ fund: {}, groupIds: [] }))
         .finally(() => setIsLoading(false));
     },
@@ -191,38 +203,32 @@ const FundDetailsContainer = ({
             />
           </Accordion>
 
-          <FundCurrentBudget
-            budgetStatus={BUDGET_STATUSES.ACTIVE}
-            fundId={fund.id}
-            currency={currency}
-            history={history}
-            sectionId={SECTIONS_FUND.CURRENT_BUDGET}
-            labelId="ui-finance.fund.currentBudget.title"
-            hasNewBudgetButton
-            openNewBudgetModal={openNewBudgetModal}
-            ledgerId={fund.ledgerId}
-          />
-
-          <FundBudgets
-            budgetStatus={BUDGET_STATUSES.PLANNED}
-            fundId={fund.id}
-            currency={currency}
-            history={history}
-            sectionId={SECTIONS_FUND.PLANNED_BUDGET}
-            labelId="ui-finance.fund.plannedBudget.title"
-            hasNewBudgetButton
-            openNewBudgetModal={openNewBudgetModal}
-          />
-
-          <FundBudgets
-            budgetStatus={BUDGET_STATUSES.CLOSED}
-            fundId={fund.id}
-            currency={currency}
-            history={history}
-            sectionId={SECTIONS_FUND.PREVIOUS_BUDGETS}
-            labelId="ui-finance.fund.previousBudgets.title"
-            hasNewBudgetButton={false}
-          />
+          {currentFY && (
+            <FundCurrentBudget
+              currency={currency}
+              currentFY={currentFY}
+              fundId={fund.id}
+              history={history}
+              openNewBudgetModal={openNewBudgetModal}
+            />
+          )}
+          {currentFY && (
+            <FundPlannedBudgetsContainer
+              currency={currency}
+              currentFY={currentFY}
+              fundId={fund.id}
+              history={history}
+              openNewBudgetModal={openNewBudgetModal}
+            />
+          )}
+          {currentFY && (
+            <FundPreviousBudgetsContainer
+              currency={currency}
+              currentFY={currentFY}
+              fundId={fund.id}
+              history={history}
+            />
+          )}
         </AccordionSet>
         {budgetStatusModal && (
           <AddBudgetModal
@@ -259,6 +265,11 @@ const FundDetailsContainer = ({
 FundDetailsContainer.manifest = Object.freeze({
   fund: {
     ...fundResource,
+    accumulate: true,
+    fetch: false,
+  },
+  fundCurrentFY: {
+    ...baseManifest,
     accumulate: true,
     fetch: false,
   },

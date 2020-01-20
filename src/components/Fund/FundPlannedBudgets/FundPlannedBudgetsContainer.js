@@ -9,37 +9,45 @@ import {
   Button,
   Icon,
 } from '@folio/stripes/components';
+import { useShowToast } from '@folio/stripes-acq-components';
 
 import { budgetsResource } from '../../../common/resources';
-import FundBudgets from './FundBudgets';
+import FundBudgets from '../FundBudgets';
+import { BUDGET_STATUSES } from '../../Budget/constants';
+import { SECTIONS_FUND } from '../constants';
 
-const FundBudgetsContainer = ({
-  budgetStatus,
+const FundPlannedBudgetsContainer = ({
   currency,
   fundId,
-  hasNewBudgetButton,
   history,
-  labelId,
   mutator,
   openNewBudgetModal,
-  sectionId,
+  currentFY,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [budgets, setBudgets] = useState([]);
+  const [plannedBudgets, setPlannedBudgets] = useState([]);
+  const showToast = useShowToast();
 
   useEffect(() => {
     setIsLoading(true);
-    mutator.budgets.GET()
-      .then(b => setBudgets(b))
-      .catch(() => setBudgets([]))
+    setPlannedBudgets([]);
+    mutator.fundPlannedBudgets.GET({
+      params: {
+        query: `fundId=${fundId} and fiscalYear.periodStart > ${currentFY.periodStart}`,
+      },
+    })
+      .then(setPlannedBudgets)
+      .catch(() => {
+        showToast('ui-finance.budget.actions.load.error', 'error');
+      })
       .finally(() => setIsLoading(false));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [fundId]);
+  [currentFY, fundId]);
 
   const openBudget = useCallback(
-    (e, budget) => {
-      const path = `/finance/budget/${budget.id}/view`;
+    (e, { id }) => {
+      const path = `/finance/budget/${id}/view`;
 
       history.push(path);
     },
@@ -47,23 +55,23 @@ const FundBudgetsContainer = ({
   );
 
   const addBudgetButton = useCallback((status, count) => {
-    return hasNewBudgetButton && !count
+    return !count
       ? (
         <Button
-          data-test-add-budget-button
+          data-test-add-planned-budget-button
           onClick={() => openNewBudgetModal(status)}
         >
           <FormattedMessage id="ui-finance.budget.button.new" />
         </Button>
       )
       : null;
-  }, [hasNewBudgetButton, openNewBudgetModal]);
+  }, [openNewBudgetModal]);
 
   if (isLoading) {
     return (
       <Accordion
-        label={<FormattedMessage id={labelId} />}
-        id={sectionId}
+        label={<FormattedMessage id="ui-finance.fund.plannedBudget.title" />}
+        id={SECTIONS_FUND.PLANNED_BUDGET}
       >
         <Icon icon="spinner-ellipsis" />
       </Accordion>
@@ -73,39 +81,31 @@ const FundBudgetsContainer = ({
   return (
     <FundBudgets
       addBudgetButton={addBudgetButton}
-      budgets={budgets}
-      budgetStatus={budgetStatus}
+      budgets={plannedBudgets}
+      budgetStatus={BUDGET_STATUSES.PLANNED}
       currency={currency}
-      labelId={labelId}
+      labelId="ui-finance.fund.plannedBudget.title"
       openBudget={openBudget}
-      sectionId={sectionId}
+      sectionId={SECTIONS_FUND.PLANNED_BUDGET}
     />
   );
 };
 
-FundBudgetsContainer.manifest = Object.freeze({
-  budgets: {
+FundPlannedBudgetsContainer.manifest = Object.freeze({
+  fundPlannedBudgets: {
     ...budgetsResource,
-    GET: {
-      params: {
-        query: 'fundId==!{fundId} and budgetStatus==!{budgetStatus}',
-      },
-    },
     accumulate: true,
     fetch: false,
   },
 });
 
-FundBudgetsContainer.propTypes = {
-  budgetStatus: PropTypes.string.isRequired,
+FundPlannedBudgetsContainer.propTypes = {
   currency: PropTypes.string.isRequired,
+  currentFY: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
-  hasNewBudgetButton: PropTypes.bool.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
-  labelId: PropTypes.string.isRequired,
   mutator: PropTypes.object.isRequired,
   openNewBudgetModal: PropTypes.func.isRequired,
-  sectionId: PropTypes.string.isRequired,
 };
 
-export default stripesConnect(FundBudgetsContainer);
+export default stripesConnect(FundPlannedBudgetsContainer);

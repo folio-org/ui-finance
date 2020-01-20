@@ -6,39 +6,35 @@ import { FormattedMessage } from 'react-intl';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   Accordion,
-  Button,
   Icon,
 } from '@folio/stripes/components';
-import {
-  useShowToast,
-} from '@folio/stripes-acq-components';
+import { useShowToast } from '@folio/stripes-acq-components';
 
 import { budgetsResource } from '../../../common/resources';
 import FundBudgets from '../FundBudgets';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import { SECTIONS_FUND } from '../constants';
 
-const FundCurrentBudgetContainer = ({
+const FundPreviousBudgetsContainer = ({
   currency,
-  currentFY,
   fundId,
   history,
   mutator,
-  openNewBudgetModal,
+  currentFY,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [budget, setBudget] = useState([]);
+  const [previousBudgets, setPreviousBudgets] = useState([]);
   const showToast = useShowToast();
 
   useEffect(() => {
     setIsLoading(true);
-    setBudget([]);
-    mutator.currentBudget.GET({
+    setPreviousBudgets([]);
+    mutator.fundPreviousBudgets.GET({
       params: {
-        query: `fundId=${fundId} and fiscalYearId=${currentFY.id}`,
+        query: `fundId==${fundId} and fiscalYear.periodStart < ${currentFY.periodStart}`,
       },
     })
-      .then(b => setBudget(b))
+      .then(setPreviousBudgets)
       .catch(() => {
         showToast('ui-finance.budget.actions.load.error', 'error');
       })
@@ -56,24 +52,11 @@ const FundCurrentBudgetContainer = ({
     [history],
   );
 
-  const addBudgetButton = useCallback((status, count) => {
-    return !count
-      ? (
-        <Button
-          data-test-add-current-budget-button
-          onClick={() => openNewBudgetModal(status)}
-        >
-          <FormattedMessage id="ui-finance.budget.button.new" />
-        </Button>
-      )
-      : null;
-  }, [openNewBudgetModal]);
-
   if (isLoading) {
     return (
       <Accordion
-        label={<FormattedMessage id="ui-finance.fund.currentBudget.title" />}
-        id={SECTIONS_FUND.CURRENT_BUDGET}
+        label={<FormattedMessage id="ui-finance.fund.previousBudgets.title" />}
+        id={SECTIONS_FUND.PREVIOUS_BUDGETS}
       >
         <Icon icon="spinner-ellipsis" />
       </Accordion>
@@ -82,32 +65,30 @@ const FundCurrentBudgetContainer = ({
 
   return (
     <FundBudgets
-      addBudgetButton={addBudgetButton}
-      budgets={budget}
-      budgetStatus={BUDGET_STATUSES.ACTIVE}
+      budgets={previousBudgets}
+      budgetStatus={BUDGET_STATUSES.CLOSED}
       currency={currency}
-      labelId="ui-finance.fund.currentBudget.title"
+      labelId="ui-finance.fund.previousBudgets.title"
       openBudget={openBudget}
-      sectionId={SECTIONS_FUND.CURRENT_BUDGET}
+      sectionId={SECTIONS_FUND.PREVIOUS_BUDGETS}
     />
   );
 };
 
-FundCurrentBudgetContainer.manifest = Object.freeze({
-  currentBudget: {
+FundPreviousBudgetsContainer.manifest = Object.freeze({
+  fundPreviousBudgets: {
     ...budgetsResource,
     accumulate: true,
     fetch: false,
   },
 });
 
-FundCurrentBudgetContainer.propTypes = {
+FundPreviousBudgetsContainer.propTypes = {
   currency: PropTypes.string.isRequired,
   currentFY: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   mutator: PropTypes.object.isRequired,
-  openNewBudgetModal: PropTypes.func.isRequired,
 };
 
-export default stripesConnect(FundCurrentBudgetContainer);
+export default stripesConnect(FundPreviousBudgetsContainer);

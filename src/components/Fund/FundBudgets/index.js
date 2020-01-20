@@ -1,1 +1,1 @@
-export { default } from './FundBudgetsContainer';
+export { default } from './FundBudgets';

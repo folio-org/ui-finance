@@ -42,6 +42,7 @@ FundBudgets.propTypes = {
 };
 
 FundBudgets.defaultProps = {
+  addBudgetButton: () => null,
   budgets: [],
 };
 

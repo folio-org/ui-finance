@@ -18,13 +18,14 @@ describe('Budget details', () => {
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
     const fund = this.server.create('fund');
-    const fiscalYear = this.server.create('fiscalYear');
+    const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
 
     fund.fund.ledgerId = ledger.id;
+    fund.fund.id = fund.id;
 
     const budget = this.server.create('budget', {
       fiscalYearId: fiscalYear.id,
-      fundId: fund.id,
+      fundId: fund.fund.id,
     });
 
     this.visit(`finance/budget/${budget.id}/view`);

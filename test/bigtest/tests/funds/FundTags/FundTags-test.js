@@ -15,7 +15,9 @@ describe('Fund details tags', () => {
     const ledger = this.server.create('ledger');
     const fund = this.server.create('fund');
 
+    this.server.create('fiscalYear', { id: ledger.id });
     fund.fund.ledgerId = ledger.id;
+    fund.fund.id = fund.id;
 
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();

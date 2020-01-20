@@ -12,15 +12,20 @@ const FundLedgerContainer = ({ ledgerId, mutator }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ledgerName, setLedgerName] = useState('');
 
-  useEffect(() => {
-    setIsLoading(true);
-    mutator.ledger.GET()
-      .then(ledger => setLedgerName(ledger.name))
-      .catch(() => setLedgerName(''))
-      .finally(() => setIsLoading(false));
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [ledgerId]);
+  useEffect(
+    () => {
+      setIsLoading(true);
+      setLedgerName('');
+
+      if (ledgerId) {
+        mutator.ledger.GET()
+          .then(ledger => setLedgerName(ledger.name))
+          .finally(() => setIsLoading(false));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [ledgerId],
+  );
 
   if (isLoading) {
     return (<Icon icon="spinner-ellipsis" />);
@@ -41,7 +46,7 @@ FundLedgerContainer.manifest = Object.freeze({
 });
 
 FundLedgerContainer.propTypes = {
-  ledgerId: PropTypes.string.isRequired,
+  ledgerId: PropTypes.string,
   mutator: PropTypes.object.isRequired,
 };
 

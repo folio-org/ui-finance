@@ -25,18 +25,18 @@ const FundPlannedBudgetsContainer = ({
   currentFY,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [budget, setBudget] = useState([]);
+  const [plannedBudgets, setPlannedBudgets] = useState([]);
   const showToast = useShowToast();
 
   useEffect(() => {
     setIsLoading(true);
-    setBudget([]);
+    setPlannedBudgets([]);
     mutator.fundPlannedBudgets.GET({
       params: {
         query: `fundId=${fundId} and fiscalYear.periodStart > ${currentFY.periodStart}`,
       },
     })
-      .then(b => setBudget(b))
+      .then(setPlannedBudgets)
       .catch(() => {
         showToast('ui-finance.budget.actions.load.error', 'error');
       })
@@ -81,7 +81,7 @@ const FundPlannedBudgetsContainer = ({
   return (
     <FundBudgets
       addBudgetButton={addBudgetButton}
-      budgets={budget}
+      budgets={plannedBudgets}
       budgetStatus={BUDGET_STATUSES.PLANNED}
       currency={currency}
       labelId="ui-finance.fund.plannedBudget.title"

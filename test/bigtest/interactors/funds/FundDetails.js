@@ -25,6 +25,16 @@ import TagsAction from '../common/tags/TagsAction';
   addBudgetButton = new Button('[data-test-add-current-budget-button]');
 }
 
+@interactor class PlannedBudgetAccordion {
+  static defaultScope = '#plannedBudget';
+
+  list = collection('[class*=mclRow---]', {
+    link: clickable(),
+  });
+
+  addBudgetButton = new Button('[data-test-add-planned-budget-button]');
+}
+
 @interactor class FundRemoveConfirmationModal {
   static defaultScope = '#fund-remove-confirmation';
 
@@ -46,6 +56,7 @@ export default interactor(class FundDetailsInteractor {
 
   actions = new Actions();
   currentBudget = new CurrentBudgetAccordion();
+  plannedBudget = new PlannedBudgetAccordion();
   addBudgetModal = new AddBudgetModal();
   closePane = new Button('[icon=times]');
   fundRemoveConfirmationModal = new FundRemoveConfirmationModal();

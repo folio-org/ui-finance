@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -16,44 +16,60 @@ import {
   fiscalYearsResource,
 } from '../../../common/resources';
 import { LEDGERS_API } from '../../../common/const';
-import { getFiscalYearsForSelect } from '../../../common/utils';
+import { mapFiscalYearsToOptions } from '../../../common/utils';
 import { BUDGET_STATUSES } from '../constants';
 
-const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStatus, ledgerId }) => {
+// `FYoptions` here is expected as an array sorted by `periodStart`
+const getPlannedFYId = (currentFYId, FYoptions = []) => {
+  const currentFYindex = FYoptions.findIndex(d => d.value === currentFYId);
+
+  return currentFYindex !== -1 && FYoptions[currentFYindex + 1]
+    ? FYoptions[currentFYindex + 1].value
+    : '';
+};
+
+const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentFYId, setCurrentFYId] = useState('');
+  const [fiscalYearsOptions, setFiscalYearsOptions] = useState();
   const showCallout = useShowToast();
   const isCurrentBudget = budgetStatus === BUDGET_STATUSES.ACTIVE;
 
   useEffect(() => {
-    if (isCurrentBudget) {
-      setIsLoading(true);
-      setCurrentFYId('');
-      mutator.currentFiscalYear.GET()
-        .then(({ id }) => setCurrentFYId(id))
-        .catch(() => {
-          showCallout('ui-finance.fiscalYear.actions.load.error', 'error');
-        })
-        .finally(() => setIsLoading(false));
-    }
+    mutator.fiscalYears.GET()
+      .then(fiscalYearsResponse => setFiscalYearsOptions(mapFiscalYearsToOptions(fiscalYearsResponse)))
+      .catch(() => setFiscalYearsOptions([]));
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setCurrentFYId('');
+    mutator.currentFiscalYear.GET()
+      .then(({ id }) => setCurrentFYId(id))
+      .catch(() => {
+        showCallout('ui-finance.fiscalYear.actions.load.error', 'error');
+      })
+      .finally(() => setIsLoading(false));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [ledgerId]);
 
-  const fiscalYears = useMemo(() => getFiscalYearsForSelect(resources), [resources]);
+  const getFiscalYearOption = useCallback((fiscalYearId) => {
+    return fiscalYearsOptions.find(year => year.value === fiscalYearId);
+  }, [fiscalYearsOptions]);
 
-  const getFiscalYear = useCallback((formValue) => {
-    return fiscalYears.find(year => year.value === formValue.fiscalYearId);
-  }, [fiscalYears]);
+  const _getPlannedFYId = useCallback(getPlannedFYId, [currentFYId, fiscalYearsOptions]);
 
   const createBudget = useCallback(
     async (formValue) => {
       try {
-        const fiscalYear = getFiscalYear(formValue);
+        const fiscalYearOption = getFiscalYearOption(formValue.fiscalYearId);
         const budget = await mutator.budget.POST({
           ...formValue,
           fundId: fund.id,
-          name: `${fund.code}-${fiscalYear.label}`,
+          name: `${fund.code}-${fiscalYearOption.label}`,
         });
         const { name, id } = budget;
 
@@ -65,7 +81,8 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
         showCallout('ui-finance.budget.hasNotBeenCreated', 'error');
       }
     },
-    [getFiscalYear, mutator.budget, fund.id, fund.code, fund.name, showCallout, history],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getFiscalYearOption, fund.id, fund.code, fund.name, history],
   );
 
   const budgetModalLabel = isCurrentBudget
@@ -73,7 +90,7 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
     : <FormattedMessage id="ui-finance.fund.plannedBudget.title" />;
 
   const initialValues = {
-    fiscalYearId: isCurrentBudget ? currentFYId : '',
+    fiscalYearId: isCurrentBudget ? currentFYId : _getPlannedFYId(currentFYId, fiscalYearsOptions),
     budgetStatus,
   };
 
@@ -87,13 +104,20 @@ const AddBudgetModal = ({ history, mutator, resources, onClose, fund, budgetStat
       label={budgetModalLabel}
       onClose={onClose}
       onSubmit={createBudget}
-      disabled={isCurrentBudget}
+      disabled
     />
   );
 };
 
 AddBudgetModal.manifest = Object.freeze({
-  fiscalYears: fiscalYearsResource,
+  fiscalYears: {
+    ...fiscalYearsResource,
+    accumulate: true,
+    fetch: false,
+    params: {
+      query: 'cql.allRecords=1 sortby periodStart',
+    },
+  },
   budget: {
     ...budgetResource,
     fetch: false,
@@ -112,7 +136,6 @@ AddBudgetModal.propTypes = {
   fund: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   mutator: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
   budgetStatus: PropTypes.string,
   ledgerId: PropTypes.string,
 };

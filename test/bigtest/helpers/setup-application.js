@@ -4,6 +4,8 @@ import prefixKeys from '@folio/stripes-acq-components/test/bigtest/helpers/prefi
 
 import mirageOptions from '../network';
 
+mirageOptions.serverType = 'miragejs';
+
 export default function setupApplication({
   scenarios,
   hasAllPerms = true,

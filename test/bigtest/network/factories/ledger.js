@@ -1,4 +1,5 @@
-import { Factory, faker } from '@bigtest/mirage';
+import { Factory } from 'miragejs';
+import faker from 'faker';
 
 import { LEDGER_STATUS } from '../../../../src/components/Ledger/constants';
 

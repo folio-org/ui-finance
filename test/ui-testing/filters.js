@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-redeclare
 /* global describe it before after Nightmare */
 
 module.exports.test = function uiTest(uiTestCtx) {

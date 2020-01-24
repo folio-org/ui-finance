@@ -8,6 +8,7 @@ import {
   Icon,
   Modal,
   ModalFooter,
+  Spinner,
 } from '@folio/stripes/components';
 import {
   baseManifest,
@@ -91,7 +92,7 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
   );
 
   if (isLoading) {
-    return (<Icon icon="spinner-ellipsis" />);
+    return <Spinner />;
   }
 
   const budgetModalLabel = isCurrentBudget

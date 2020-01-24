@@ -3,7 +3,13 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { Icon } from '@folio/stripes/components';
+import {
+  Button,
+  Icon,
+  Modal,
+  ModalFooter,
+  Spinner,
+} from '@folio/stripes/components';
 import {
   baseManifest,
   useShowToast,
@@ -85,18 +91,50 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
     [getFiscalYearOption, fund.id, fund.code, fund.name, history],
   );
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   const budgetModalLabel = isCurrentBudget
     ? <FormattedMessage id="ui-finance.fund.currentBudget.title" />
     : <FormattedMessage id="ui-finance.fund.plannedBudget.title" />;
 
+  const plannedFYId = _getPlannedFYId(currentFYId, fiscalYearsOptions);
+
+  if (!isCurrentBudget && !plannedFYId) {
+    const footer = (
+      <ModalFooter>
+        <Button
+          data-test-confirmation-modal-cancel-button
+          buttonStyle="primary"
+          id="clickable-modal-no-upcoming-fy-cancel"
+          onClick={onClose}
+        >
+          <FormattedMessage id="stripes-components.cancel" />
+        </Button>
+      </ModalFooter>
+    );
+
+    return (
+      <Modal
+        id="modal-no-upcoming-fy"
+        label={<FormattedMessage id="ui-finance.fund.plannedBudget.noUpcomingFY.label" />}
+        open
+        scope="module"
+        size="small"
+        footer={footer}
+      >
+        <p style={{ margin: 0 }}>
+          <FormattedMessage id="ui-finance.fund.plannedBudget.noUpcomingFY.message" />
+        </p>
+      </Modal>
+    );
+  }
+
   const initialValues = {
-    fiscalYearId: isCurrentBudget ? currentFYId : _getPlannedFYId(currentFYId, fiscalYearsOptions),
+    fiscalYearId: isCurrentBudget ? currentFYId : plannedFYId,
     budgetStatus,
   };
-
-  if (isLoading) {
-    return (<Icon icon="spinner-ellipsis" />);
-  }
 
   return (
     <BudgetAddModalForm

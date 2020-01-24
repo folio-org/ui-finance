@@ -390,6 +390,8 @@
   "fund.list.name": "Name",
   "fund.list.status": "Status",
   "fund.paneTitle.create": "Create fund",
+  "fund.plannedBudget.noUpcomingFY.label": "No upcoming fiscal year found",
+  "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger.",
   "fund.plannedBudget.title": "Planned budget",
   "fund.previousBudgets.title": "Previous budgets",
   "fund.remove.heading": "Delete fund",

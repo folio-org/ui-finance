@@ -474,6 +474,6 @@
     "groups.actions.load.summary.error": "Failed to load group summary",
     "fiscalYear.actions.load.error": "Impossibile caricare i dati dell'anno fiscale",
     "budget.actions.load.error": "Impossibile caricare i dati di budget",
-    "fund.plannedBudget.noUpcomingFY.label": "No upcoming fiscal year found",
-    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger."
+    "fund.plannedBudget.noUpcomingFY.label": "Nessun anno fiscale in arrivo trovato",
+    "fund.plannedBudget.noUpcomingFY.message": "Non è possibile creare un budget pianificato finché non è previsto un anno fiscale in arrivo nella serie degli anni fiscali associata alla contabilità generale."
 }

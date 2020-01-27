@@ -473,5 +473,7 @@
     "groups.actions.load.error": "Error al cargar datos del grupo",
     "groups.actions.load.summary.error": "No se pudo cargar el resumen del grupo",
     "fiscalYear.actions.load.error": "Error al cargar datos del año fiscal",
-    "budget.actions.load.error": "Error al cargar los datos del presupuesto"
+    "budget.actions.load.error": "Error al cargar los datos del presupuesto",
+    "fund.plannedBudget.noUpcomingFY.label": "No upcoming fiscal year found",
+    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger."
 }

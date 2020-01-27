@@ -473,5 +473,7 @@
     "groups.actions.load.error": "Falha ao carregar o grupo de dados",
     "groups.actions.load.summary.error": "Falha ao carregar o resumo do grupo",
     "fiscalYear.actions.load.error": "Falha ao carregar os dados do ano fiscal",
-    "budget.actions.load.error": "Falha ao carregar os dados do orçamento"
+    "budget.actions.load.error": "Falha ao carregar os dados do orçamento",
+    "fund.plannedBudget.noUpcomingFY.label": "Nenhum ano fiscal encontrado",
+    "fund.plannedBudget.noUpcomingFY.message": "Você não pode criar um orçamento planejado até que exista um próximo ano fiscal da série do ano fiscal associado a contabilidade."
 }

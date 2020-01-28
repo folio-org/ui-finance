@@ -11,4 +11,4 @@ const keywordIndex = {
 };
 
 export const searchableIndexes = [keywordIndex, ...indexes.map(index => ({ label: index, value: index }))];
-export const ledgersSearchTemplate = generateQueryTemplate(['name', 'description']);
+export const ledgersSearchTemplate = generateQueryTemplate(indexes);

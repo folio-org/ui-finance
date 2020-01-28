@@ -11,6 +11,7 @@
 * [UIF-148](https://issues.folio.org/browse/UIF-148) Update Fiscal year record view to display group and related totals for that year
 
 ### Bug fixes
+* [UIF-165](https://issues.folio.org/browse/UIF-164) Search option “All” for ledger does not include Code
 * [UIF-160](https://issues.folio.org/browse/UIF-160) Default results display on the start page for ledgers (inconsistency with fiscal year/group/fund)
 * [UIF-163](https://issues.folio.org/browse/UIF-163) Search option “All” for fund groups does not include Code
 * [UIF-164](https://issues.folio.org/browse/UIF-164) Search option “All” for fiscal year does not include Code

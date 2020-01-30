@@ -4,6 +4,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
 
 ### Stories
+* [UIF-156](https://issues.folio.org/browse/UIF-156) TECH-DEBT refactor Fiscal years list to not use SearchAndSort
 * [UIF-158](https://issues.folio.org/browse/UIF-158) Update create planned budget
 * [UIF-161](https://issues.folio.org/browse/UIF-161) Not displaying active budgets for fiscal years other than current fiscal year
 * [UIF-172](https://issues.folio.org/browse/UIF-172) Update settings permission label

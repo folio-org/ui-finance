@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
+import { stripesConnect } from '@folio/stripes/core';
 import {
   LIMIT_MAX,
   LoadingPane,
@@ -14,17 +15,16 @@ import {
   fundsResource,
   groupSummariesResource,
   ledgersResource,
-} from '../../../common/resources';
+} from '../../common/resources';
 import {
   FISCAL_YEAR_ROUTE,
-  FISCAL_YEAR_EDIT_ROUTE,
-} from '../../../common/const';
+} from '../../common/const';
 import FiscalYearDetails from './FiscalYearDetails';
 
 const FiscalYearDetailsContainer = ({
   mutator,
   match,
-  onClose,
+  location,
   history,
 }) => {
   const fiscalYearId = match.params.id;
@@ -76,11 +76,26 @@ const FiscalYearDetailsContainer = ({
     [fiscalYearId],
   );
 
+  const closePane = useCallback(
+    () => {
+      history.push({
+        pathname: FISCAL_YEAR_ROUTE,
+        search: location.search,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search],
+  );
+
   const editFiscalYear = useCallback(
     () => {
-      history.push(`${FISCAL_YEAR_EDIT_ROUTE}${fiscalYearId}`);
+      history.push({
+        pathname: `${FISCAL_YEAR_ROUTE}/${fiscalYearId}/edit`,
+        search: location.search,
+      });
     },
-    [history, fiscalYearId],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fiscalYearId, location.search],
   );
 
   const openLedger = useCallback(
@@ -97,18 +112,18 @@ const FiscalYearDetailsContainer = ({
       mutator.fiscalYear.DELETE(fiscalYear)
         .then(() => {
           showToast('ui-finance.fiscalYear.actions.remove.success');
-          history.push(FISCAL_YEAR_ROUTE);
+          closePane();
         })
         .catch(() => {
           showToast('ui-finance.fiscalYear.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, fiscalYear, mutator.fiscalYear],
+    [closePane, fiscalYear],
   );
 
   if (isLoading) {
-    return <LoadingPane onClose={onClose} />;
+    return <LoadingPane onClose={closePane} />;
   }
 
   return (
@@ -116,7 +131,7 @@ const FiscalYearDetailsContainer = ({
       fiscalYear={fiscalYear}
       groupSummaries={groupSummaries}
       funds={funds}
-      onClose={onClose}
+      onClose={closePane}
       onEdit={editFiscalYear}
       onRemove={removeFiscalYear}
       openLedger={openLedger}
@@ -152,8 +167,8 @@ FiscalYearDetailsContainer.manifest = Object.freeze({
 FiscalYearDetailsContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
-export default withRouter(FiscalYearDetailsContainer);
+export default withRouter(stripesConnect(FiscalYearDetailsContainer));

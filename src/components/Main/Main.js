@@ -12,7 +12,7 @@ import FundsList from '../Fund';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
 import Transactions from '../../Transactions';
-import FiscalYear from '../FiscalYear/FiscalYear';
+import { FiscalYears } from '../../FiscalYears';
 
 const Main = ({ match }) => {
   return (
@@ -36,7 +36,7 @@ const Main = ({ match }) => {
         />
         <Route
           path={FISCAL_YEAR_ROUTE}
-          component={FiscalYear}
+          component={FiscalYears}
         />
         <Route
           path={`${match.path}/:budgetId/transactions`}

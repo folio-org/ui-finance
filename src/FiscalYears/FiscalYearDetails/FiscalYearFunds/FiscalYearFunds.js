@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import RelatedFunds from '../../../../common/RelatedFunds/RelatedFunds';
+import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
 const FiscalYearFunds = ({ funds, currency, fiscalYearId }) => {
   const buildQuery = useMemo(() => {

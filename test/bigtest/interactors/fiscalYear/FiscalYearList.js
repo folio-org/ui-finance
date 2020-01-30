@@ -10,11 +10,11 @@ import FinanceNavigationInteractor from '../common/FinanceNavigation';
 export default interactor(class FiscalYearListInteractor {
   static defaultScope = '[data-test-fiscal-years-list]';
 
-  fiscalYears = collection('[role=row] a');
+  fiscalYears = collection('[role=group] [role=row]');
   navigation = new FinanceNavigationInteractor();
-  newButton = new Button('#clickable-newfiscalYear');
+  newButton = new Button('#clickable-newFiscalYear');
 
-  isLoaded = isPresent('#pane-results');
+  isLoaded = isPresent('#fiscal-years-list');
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
   }

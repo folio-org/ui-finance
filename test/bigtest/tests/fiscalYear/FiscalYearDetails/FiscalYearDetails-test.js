@@ -1,6 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { FISCAL_YEAR_ROUTE } from '../../../../../src/common/const';
+
 import setupApplication from '../../../helpers/setup-application';
 import FiscalYearDetailsInteractor from '../../../interactors/fiscalYear/FiscalYearDetails';
 
@@ -12,7 +14,7 @@ describe('Fiscal year details', () => {
   beforeEach(async function () {
     const fiscalYear = this.server.create('fiscalYear');
 
-    this.visit(`/finance/fiscalyear/view/${fiscalYear.id}`);
+    this.visit(`${FISCAL_YEAR_ROUTE}/${fiscalYear.id}/view`);
     await fiscalYearDetails.whenLoaded();
   });
 

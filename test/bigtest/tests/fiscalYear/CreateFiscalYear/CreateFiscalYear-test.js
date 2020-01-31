@@ -1,6 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { FISCAL_YEAR_ROUTE } from '../../../../../src/common/const';
+
 import setupApplication from '../../../helpers/setup-application';
 import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
 import FiscalYearListInteractor from '../../../interactors/fiscalYear/FiscalYearList';
@@ -13,7 +15,7 @@ describe('Fiscal year create form', () => {
 
   beforeEach(async function () {
     this.server.createList('fiscalYear', 2);
-    this.visit('/finance/fiscalyear');
+    this.visit(FISCAL_YEAR_ROUTE);
     await fiscalYearList.whenLoaded();
     await fiscalYearList.newButton.click();
   });

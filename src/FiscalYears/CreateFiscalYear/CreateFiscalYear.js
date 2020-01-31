@@ -7,7 +7,7 @@ import { SubmissionError } from 'redux-form';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -21,7 +21,7 @@ import FiscalYearForm from '../FiscalYearForm';
 const INITIAL_FISCAL_YEAR = {};
 
 const CreateFiscalYear = ({ mutator, location, history }) => {
-  const showToast = useShowToast();
+  const showCallout = useShowCallout();
 
   const closeForm = useCallback(
     (id) => {
@@ -39,7 +39,9 @@ const CreateFiscalYear = ({ mutator, location, history }) => {
       try {
         const savedFiscalYear = await mutator.createFiscalYear.POST(fiscalYearValues);
 
-        showToast('ui-finance.fiscalYear.actions.save.success');
+        showCallout({
+          messageId: 'ui-finance.fiscalYear.actions.save.success',
+        });
         setTimeout(() => closeForm(savedFiscalYear.id), 0);
 
         return savedFiscalYear;
@@ -53,7 +55,10 @@ const CreateFiscalYear = ({ mutator, location, history }) => {
         } catch (parsingException) {
           errorCode = 'genericError';
         }
-        showToast(`ui-finance.fiscalYear.actions.save.error.${errorCode}`, 'error');
+        showCallout({
+          messageId: `ui-finance.fiscalYear.actions.save.error.${errorCode}`,
+          type: 'error',
+        });
         throw new SubmissionError({
           _error: 'FY was not saved',
         });

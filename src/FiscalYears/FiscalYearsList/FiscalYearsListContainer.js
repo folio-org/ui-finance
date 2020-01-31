@@ -23,7 +23,7 @@ import {
 } from './FiscalYearsListSearchConfig';
 
 const RESULT_COUNT_INCREMENT = 30;
-const buildTitlesQuery = makeQueryBuilder(
+const buildFiscalYearsQuery = makeQueryBuilder(
   'cql.allRecords=1',
   (query, qindex) => {
     if (qindex) {
@@ -50,7 +50,7 @@ const FiscalYearsListContainer = ({ mutator, location }) => {
       params: {
         limit: RESULT_COUNT_INCREMENT,
         offset,
-        query: buildTitlesQuery(queryString.parse(location.search)),
+        query: buildFiscalYearsQuery(queryString.parse(location.search)),
       },
     })
       .then(fiscalYearsResponse => {

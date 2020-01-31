@@ -9,7 +9,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Paneset } from '@folio/stripes/components';
 import {
   LoadingPane,
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -32,7 +32,7 @@ const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
     [fiscalYearId],
   );
 
-  const showToast = useShowToast();
+  const showCallout = useShowCallout();
 
   const closeEdit = useCallback(
     () => {
@@ -50,7 +50,9 @@ const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
       try {
         const savedFiscalYear = await mutator.fiscalYearEdit.PUT(fiscalYearValues);
 
-        showToast('ui-finance.fiscalYear.actions.save.success');
+        showCallout({
+          messageId: 'ui-finance.fiscalYear.actions.save.success',
+        });
         setTimeout(() => closeEdit(), 0);
 
         return savedFiscalYear;
@@ -64,7 +66,10 @@ const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
         } catch (parsingException) {
           errorCode = 'genericError';
         }
-        showToast(`ui-finance.fiscalYear.actions.save.error.${errorCode}`, 'error');
+        showCallout({
+          messageId: `ui-finance.fiscalYear.actions.save.error.${errorCode}`,
+          type: 'error',
+        });
         throw new SubmissionError({
           _error: 'FY was not saved',
         });

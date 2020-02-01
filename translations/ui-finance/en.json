@@ -337,6 +337,8 @@
   "budget.expended": "Expended",
   "budget.fiscalEnd": "Fiscal end",
   "budget.fiscalStart": "Fiscal start",
+  "budget.overEncumbrance": "Over encumbered",
+  "budget.overExpended": "Over expended",
   "budget.information.title": "Budget information",
   "budget.name": "Name",
   "budget.save": "Save",

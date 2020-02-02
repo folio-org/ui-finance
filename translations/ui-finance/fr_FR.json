@@ -475,5 +475,7 @@
     "fiscalYear.actions.load.error": "Échec du chargement des données de l'exercice fiscal",
     "budget.actions.load.error": "Echec du chargement des données budgétaires",
     "fund.plannedBudget.noUpcomingFY.label": "No upcoming fiscal year found",
-    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger."
+    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger.",
+    "budget.overEncumbrance": "Over encumbered",
+    "budget.overExpended": "Over expended"
 }

@@ -475,5 +475,7 @@
     "fiscalYear.actions.load.error": "会計年度データを読み込めませんでした",
     "budget.actions.load.error": "Failed to load budget data",
     "fund.plannedBudget.noUpcomingFY.label": "No upcoming fiscal year found",
-    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger."
+    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger.",
+    "budget.overEncumbrance": "Over encumbered",
+    "budget.overExpended": "Over expended"
 }

@@ -13,7 +13,7 @@ describe('Group create', () => {
   const groupForm = new GroupFormInteractor();
 
   beforeEach(async function () {
-    this.visit(`${GROUPS_ROUTE}?layer=create`);
+    this.visit(`${GROUPS_ROUTE}/create`);
     await groupForm.whenLoaded();
   });
 

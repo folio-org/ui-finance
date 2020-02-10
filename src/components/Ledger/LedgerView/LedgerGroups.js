@@ -16,7 +16,10 @@ import {
   groupsResource,
   groupSummariesResource,
 } from '../../../common/resources';
-import { CHUNK_LIMIT } from '../../../common/const';
+import {
+  CHUNK_LIMIT,
+  GROUPS_ROUTE,
+} from '../../../common/const';
 import ConnectionListing from '../../ConnectionListing';
 
 import { getLedgerGroupsSummary } from './utils';
@@ -68,7 +71,7 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
 
   const openGroup = useCallback(
     (e, group) => {
-      const path = `/finance/groups/view/${group.id}`;
+      const path = `${GROUPS_ROUTE}/${group.id}/view`;
 
       history.push(path);
     },

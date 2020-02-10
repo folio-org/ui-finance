@@ -1,1 +1,1 @@
-export { default } from './EditGroup';
+export { default as EditGroup } from './EditGroup';

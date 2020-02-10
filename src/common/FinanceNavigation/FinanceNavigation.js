@@ -34,7 +34,7 @@ const FinanceNavigation = ({ history, match: { path } }) => {
         <FormattedMessage id="ui-finance.ledger" />
       </Button>
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.GROUPS)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.GROUPS, false)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.GROUPS)}
         data-test-finance-navigation-group
       >

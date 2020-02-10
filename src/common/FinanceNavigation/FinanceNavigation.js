@@ -12,7 +12,7 @@ import { FINANCE_NAVIGATION_TABS } from './constants';
 
 const FinanceNavigation = ({ history, match: { path } }) => {
   const getTabStyle = tabId => (path.includes(`/finance/${tabId}`) ? 'primary' : 'default');
-  const goToTab = tabId => history.push(`/finance/${tabId}?sort=name`);
+  const goToTab = (tabId, withSort = true) => history.push(`/finance/${tabId}${withSort ? '?sort=name' : ''}`);
 
   return (
     <ButtonGroup
@@ -27,7 +27,7 @@ const FinanceNavigation = ({ history, match: { path } }) => {
         <FormattedMessage id="ui-finance.fiscalyear" />
       </Button>
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER, false)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.LEDGER)}
         data-test-finance-navigation-ledger
       >

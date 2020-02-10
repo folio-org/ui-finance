@@ -15,9 +15,9 @@ import {
   groupFundFiscalYears,
   groupsResource,
   groupSummariesResource,
-} from '../../../common/resources';
-import { CHUNK_LIMIT } from '../../../common/const';
-import ConnectionListing from '../../ConnectionListing';
+} from '../../common/resources';
+import { CHUNK_LIMIT } from '../../common/const';
+import ConnectionListing from '../../components/ConnectionListing';
 
 import { getLedgerGroupsSummary } from './utils';
 

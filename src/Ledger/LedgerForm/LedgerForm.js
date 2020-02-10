@@ -8,7 +8,7 @@ import {
   Button,
   Col,
   Pane,
-  PaneFooter,
+  PaneMenu,
   Paneset,
   Row,
   TextArea,
@@ -21,11 +21,11 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-import { FiscalYearField } from '../../../common/FiscalYearField';
+import { FiscalYearField } from '../../common/FiscalYearField';
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
-} from '../../../common/const';
+} from '../../common/const';
 import {
   LEDGER_FORM,
   LEDGER_STATUS_OPTIONS,
@@ -34,34 +34,20 @@ import {
 const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.create" />;
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
 
-const getPaneFooter = (handleSubmit, pristine, submitting, onCancel) => {
-  const start = (
-    <Button
-      data-test-button-close-ledger
-      buttonStyle="default mega"
-      onClick={onCancel}
-    >
-      <FormattedMessage id="ui-finance.close" />
-    </Button>
-  );
-
-  const end = (
-    <Button
-      data-test-button-save-ledger
-      type="submit"
-      buttonStyle="primary mega"
-      disabled={submitting}
-      onClick={handleSubmit}
-    >
-      <FormattedMessage id="ui-finance.saveAndClose" />
-    </Button>
-  );
-
+const getLastMenu = (handleSubmit, pristine, submitting) => {
   return (
-    <PaneFooter
-      renderStart={start}
-      renderEnd={end}
-    />
+    <PaneMenu>
+      <Button
+        data-test-button-save-ledger
+        marginBottom0
+        type="submit"
+        buttonStyle="primary"
+        disabled={submitting}
+        onClick={handleSubmit}
+      >
+        <FormattedMessage id="ui-finance.save" />
+      </Button>
+    </PaneMenu>
   );
 };
 
@@ -74,7 +60,7 @@ const LedgerForm = ({
   submitting,
 }) => {
   const isEditMode = Boolean(initialValues.id);
-  const paneFooter = getPaneFooter(handleSubmit, pristine, submitting, onCancel);
+  const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const metadata = initialValues.metadata;
 
   return (
@@ -85,7 +71,7 @@ const LedgerForm = ({
           dismissible
           id="pane-ledger-form"
           onClose={onCancel}
-          footer={paneFooter}
+          lastMenu={lastMenu}
           paneTitle={isEditMode ? EDIT_LEDGER_TITLE : CREATE_LEDGER_TITLE}
         >
           <Row>
@@ -118,7 +104,10 @@ const LedgerForm = ({
                   />
                 </Col>
 
-                <Col xs>
+                <Col
+                  data-test-col-ledger-form-fy
+                  xs={3}
+                >
                   <FiscalYearField
                     label={<FormattedMessage id="ui-finance.ledger.fiscalYear" />}
                     name="fiscalYearOneId"

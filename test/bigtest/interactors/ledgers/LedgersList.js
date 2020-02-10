@@ -12,13 +12,12 @@ import FinanceNavigationInteractor from '../common/FinanceNavigation';
 export default interactor(class LedgersListInteractor {
   static defaultScope = '[data-test-ledgers-list]';
 
-  ledgers = collection('[role=row] a');
+  ledgers = collection('[role=group] [role=row]');
   navigation = new FinanceNavigationInteractor();
-  newButton = new Button('#clickable-newledger');
-  isNoResultsMessageLabelPresent = isPresent('[class*=noResultsMessageLabel]');
-  fillSearchField = fillable('#input-ledger-search');
-  clickSearch = clickable('[data-test-search-and-sort-submit]');
-  isLoaded = isPresent('#pane-results');
+  newButton = new Button('#clickable-newLedger');
+  fillSearchField = fillable('[data-test-single-search-form] input');
+  clickSearch = clickable('[data-test-single-search-form] button');
+  isLoaded = isPresent('#ledgers-list');
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
   }

@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { LEDGER_VIEW_ROUTE } from '../../../../../src/common/const';
+import { LEDGERS_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import LedgerDetailsInteractor from '../../../interactors/ledgers/LedgerDetailsInteractor';
@@ -35,7 +35,7 @@ describe('Ledger details', () => {
       available: 1000,
     });
 
-    this.visit(`${LEDGER_VIEW_ROUTE}${ledger.id}`);
+    this.visit(`${LEDGERS_ROUTE}/${ledger.id}/view`);
     await ledgerDetails.whenLoaded();
   });
 

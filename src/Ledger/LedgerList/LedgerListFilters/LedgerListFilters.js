@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -15,7 +15,14 @@ import {
   LEDGER_STATUS_OPTIONS,
 } from '../../constants';
 
-const LedgerListFilters = ({ activeFilters, onChange, acqUnits }) => {
+const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+
+const LedgerListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
+  const adaptedApplyFilters = useCallback(
+    applyFiltersAdapter(applyFilters),
+    [applyFilters],
+  );
+
   return (
     <AccordionSet>
       <AcqCheckboxFilter
@@ -23,7 +30,7 @@ const LedgerListFilters = ({ activeFilters, onChange, acqUnits }) => {
         activeFilters={activeFilters[LEDGER_FILTERS.STATUS]}
         labelId="ui-finance.ledger.status"
         name={LEDGER_FILTERS.STATUS}
-        onChange={onChange}
+        onChange={adaptedApplyFilters}
         options={LEDGER_STATUS_OPTIONS}
       />
       <AcqUnitFilter
@@ -31,7 +38,7 @@ const LedgerListFilters = ({ activeFilters, onChange, acqUnits }) => {
         activeFilters={activeFilters[LEDGER_FILTERS.ACQUISITIONS_UNIT]}
         labelId="ui-finance.ledger.acqUnits"
         name={LEDGER_FILTERS.ACQUISITIONS_UNIT}
-        onChange={onChange}
+        onChange={adaptedApplyFilters}
         acqUnits={acqUnits}
       />
     </AccordionSet>
@@ -41,7 +48,7 @@ const LedgerListFilters = ({ activeFilters, onChange, acqUnits }) => {
 LedgerListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   acqUnits: acqUnitsShape,
-  onChange: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
 };
 
 export default LedgerListFilters;

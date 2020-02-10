@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { LEDGER_EDIT_ROUTE } from '../../../../../src/common/const';
+import { LEDGERS_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import LedgerFormInteractor from '../../../interactors/ledgers/LedgerForm';
@@ -22,7 +22,7 @@ describe('Ledger edit', () => {
       fiscalYearOneId: fiscalYear.id,
     });
 
-    this.visit(`${LEDGER_EDIT_ROUTE}${ledger.id}`);
+    this.visit(`${LEDGERS_ROUTE}/${ledger.id}/edit`);
     await ledgerForm.whenLoaded();
   });
 

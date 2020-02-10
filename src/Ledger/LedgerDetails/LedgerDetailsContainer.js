@@ -10,22 +10,21 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  LEDGER_EDIT_ROUTE,
   LEDGERS_ROUTE,
-} from '../../../common/const';
+} from '../../common/const';
 import {
   ledgerByUrlIdResource,
   fundsResource,
   ledgerCurrentFiscalYearResource,
-} from '../../../common/resources';
+} from '../../common/resources';
 
-import LedgerView from './LedgerView';
+import LedgerDetails from './LedgerDetails';
 
-const LedgerViewContainer = ({
+const LedgerDetailsContainer = ({
   mutator,
   match,
   history,
-  onClose,
+  location,
 }) => {
   const ledgerId = match.params.id;
   const [isLoading, setIsLoading] = useState(true);
@@ -70,10 +69,20 @@ const LedgerViewContainer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [ledgerId],
   );
+  const closePane = useCallback(
+    () => {
+      history.push({
+        pathname: LEDGERS_ROUTE,
+        search: location.search,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search],
+  );
 
   const editLedger = useCallback(
     () => {
-      history.push(`${LEDGER_EDIT_ROUTE}${ledgerId}`);
+      history.push(`${LEDGERS_ROUTE}/${ledgerId}/edit`);
     },
     [history, ledgerId],
   );
@@ -83,33 +92,33 @@ const LedgerViewContainer = ({
       mutator.ledgerDetails.DELETE({ id: ledgerId })
         .then(() => {
           showToast('ui-finance.ledger.actions.remove.success');
-          history.push(LEDGERS_ROUTE);
+          closePane();
         })
         .catch(() => {
           showToast('ui-finance.ledger.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, ledgerId],
+    [closePane, ledgerId],
   );
 
   if (isLoading) {
-    return <LoadingPane onClose={onClose} />;
+    return <LoadingPane onClose={closePane} />;
   }
 
   return (
-    <LedgerView
+    <LedgerDetails
       ledger={ledger}
       fiscalYear={currentFiscalYear}
-      onClose={onClose}
-      editLedger={editLedger}
-      removeLedger={removeLedger}
+      onClose={closePane}
+      onEdit={editLedger}
+      onDelete={removeLedger}
       funds={funds}
     />
   );
 };
 
-LedgerViewContainer.manifest = Object.freeze({
+LedgerDetailsContainer.manifest = Object.freeze({
   ledgerDetails: {
     ...ledgerByUrlIdResource,
     accumulate: true,
@@ -126,11 +135,11 @@ LedgerViewContainer.manifest = Object.freeze({
   ledgerCurrentFiscalYear: ledgerCurrentFiscalYearResource,
 });
 
-LedgerViewContainer.propTypes = {
+LedgerDetailsContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
-  onClose: PropTypes.func.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };
 
-export default withRouter(stripesConnect(LedgerViewContainer));
+export default withRouter(stripesConnect(LedgerDetailsContainer));

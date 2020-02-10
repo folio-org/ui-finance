@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { AccordionSet } from '@folio/stripes/components';
@@ -11,9 +11,16 @@ import {
 import {
   GROUPS_FILTERS,
   GROUP_STATUS_OPTIONS,
-} from '../constants';
+} from '../../constants';
 
-const GroupsListFilters = ({ activeFilters, onChange, acqUnits }) => {
+const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+
+const GroupsListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
+  const adaptedApplyFilters = useCallback(
+    applyFiltersAdapter(applyFilters),
+    [applyFilters],
+  );
+
   return (
     <AccordionSet>
       <AcqCheckboxFilter
@@ -21,7 +28,7 @@ const GroupsListFilters = ({ activeFilters, onChange, acqUnits }) => {
         activeFilters={activeFilters[GROUPS_FILTERS.STATUS]}
         labelId="ui-finance.groups.status"
         name={GROUPS_FILTERS.STATUS}
-        onChange={onChange}
+        onChange={adaptedApplyFilters}
         options={GROUP_STATUS_OPTIONS}
       />
       <AcqUnitFilter
@@ -29,7 +36,7 @@ const GroupsListFilters = ({ activeFilters, onChange, acqUnits }) => {
         activeFilters={activeFilters[GROUPS_FILTERS.ACQUISITIONS_UNIT]}
         labelId="ui-finance.groups.acqUnits"
         name={GROUPS_FILTERS.ACQUISITIONS_UNIT}
-        onChange={onChange}
+        onChange={adaptedApplyFilters}
         acqUnits={acqUnits}
       />
     </AccordionSet>
@@ -39,7 +46,7 @@ const GroupsListFilters = ({ activeFilters, onChange, acqUnits }) => {
 GroupsListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   acqUnits: acqUnitsShape,
-  onChange: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
 };
 
 export default GroupsListFilters;

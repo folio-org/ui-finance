@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import { stripesConnect } from '@folio/stripes/core';
 
+import { GROUPS_ROUTE } from '../../../common/const';
 import {
   groupsResource,
 } from '../../../common/resources';
@@ -46,7 +47,7 @@ const FiscalYearGroups = ({
 
   const openGroup = useCallback(
     (e, group) => {
-      const path = `/finance/groups/${group.id}/view`;
+      const path = `${GROUPS_ROUTE}/${group.id}/view`;
 
       history.push(path);
     },

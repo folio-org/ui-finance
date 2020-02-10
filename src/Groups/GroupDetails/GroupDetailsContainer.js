@@ -11,7 +11,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  GROUP_EDIT_ROUTE,
   GROUPS_ROUTE,
 } from '../../common/const';
 import {
@@ -29,7 +28,7 @@ const GroupDetailsContainer = ({
   resources,
   match,
   history,
-  onClose,
+  location,
 }) => {
   const groupId = match.params.id;
   const [groupData, setGroupData] = useState({});
@@ -74,11 +73,26 @@ const GroupDetailsContainer = ({
     [groupId],
   );
 
+  const closePane = useCallback(
+    () => {
+      history.push({
+        pathname: GROUPS_ROUTE,
+        search: location.search,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search],
+  );
+
   const editGroup = useCallback(
     () => {
-      history.push(`${GROUP_EDIT_ROUTE}${groupId}`);
+      history.push({
+        pathname: `${GROUPS_ROUTE}/${groupId}/edit`,
+        search: location.search,
+      });
     },
-    [history, groupId],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search, groupId],
   );
 
   const removeGroup = useCallback(
@@ -86,14 +100,14 @@ const GroupDetailsContainer = ({
       mutator.groupDetails.DELETE(groupData.groupDetails)
         .then(() => {
           showToast('ui-finance.groups.actions.remove.success');
-          history.push(GROUPS_ROUTE);
+          closePane();
         })
         .catch(() => {
           showToast('ui-finance.groups.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, groupData.groupDetails],
+    [closePane, groupData.groupDetails],
   );
 
   const selectFY = useCallback(
@@ -116,7 +130,7 @@ const GroupDetailsContainer = ({
   );
 
   if (isLoading) {
-    return <LoadingPane onClose={onClose} />;
+    return <LoadingPane onClose={closePane} />;
   }
 
   const funds = get(resources, ['funds', 'records'], []);
@@ -127,7 +141,7 @@ const GroupDetailsContainer = ({
       groupSummary={groupData.groupSummary}
       fiscalYearsRecords={groupData.groupFiscalYears}
       funds={funds}
-      onClose={onClose}
+      onClose={closePane}
       editGroup={editGroup}
       removeGroup={removeGroup}
       selectedFY={selectedFY}
@@ -160,7 +174,7 @@ GroupDetailsContainer.propTypes = {
   resources: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
-  onClose: PropTypes.func.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default withRouter(stripesConnect(GroupDetailsContainer));

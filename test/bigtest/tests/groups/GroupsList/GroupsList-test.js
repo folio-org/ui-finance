@@ -21,11 +21,11 @@ describe('Groups list', () => {
     await groupsList.whenLoaded();
   });
 
-  it('shows the list of year items', () => {
+  it('shows the list of group items', () => {
     expect(groupsList.isPresent).to.be.true;
   });
 
-  it('renders row for each year from the response', () => {
+  it('renders row for each group from the response', () => {
     expect(groupsList.groups().length).to.be.equal(GROUPS_COUNT);
   });
 

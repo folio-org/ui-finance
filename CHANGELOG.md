@@ -5,6 +5,8 @@
 
 ### Stories
 * [UIF-176](https://issues.folio.org/browse/UIF-176) TECH-DEBT refactor Ledgers list to not use SearchAndSort
+* [UIF-162](https://issues.folio.org/browse/UIF-162) Display over encumbered and over expended values on Budget view
+* [UIF-156](https://issues.folio.org/browse/UIF-156) TECH-DEBT refactor Fiscal years list to not use SearchAndSort
 * [UIF-158](https://issues.folio.org/browse/UIF-158) Update create planned budget
 * [UIF-161](https://issues.folio.org/browse/UIF-161) Not displaying active budgets for fiscal years other than current fiscal year
 * [UIF-172](https://issues.folio.org/browse/UIF-172) Update settings permission label
@@ -12,6 +14,7 @@
 * [UIF-148](https://issues.folio.org/browse/UIF-148) Update Fiscal year record view to display group and related totals for that year
 
 ### Bug fixes
+* [UIF-165](https://issues.folio.org/browse/UIF-164) Search option “All” for ledger does not include Code
 * [UIF-160](https://issues.folio.org/browse/UIF-160) Default results display on the start page for ledgers (inconsistency with fiscal year/group/fund)
 * [UIF-163](https://issues.folio.org/browse/UIF-163) Search option “All” for fund groups does not include Code
 * [UIF-164](https://issues.folio.org/browse/UIF-164) Search option “All” for fiscal year does not include Code

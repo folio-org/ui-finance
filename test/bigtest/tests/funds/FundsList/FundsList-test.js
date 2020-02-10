@@ -59,11 +59,13 @@ describe('Funds list', () => {
       const fiscalYearList = new FiscalYearListInteractor();
 
       beforeEach(async function () {
+        this.server.createList('fiscalYear', FUNDS_COUNT);
+
         await fundsList.navigation.fiscalYearNavBtn.click();
         await fiscalYearList.whenLoaded();
       });
 
-      it('should open the ledgers list', () => {
+      it('should open the fiscal years list', () => {
         expect(fiscalYearList.isPresent).to.be.true;
       });
     });

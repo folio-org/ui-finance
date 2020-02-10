@@ -475,5 +475,7 @@
     "fiscalYear.actions.load.error": "无法加载财务年度数据",
     "budget.actions.load.error": "无法加载预算数据",
     "fund.plannedBudget.noUpcomingFY.label": "No upcoming fiscal year found",
-    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger."
+    "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger.",
+    "budget.overEncumbrance": "Over encumbered",
+    "budget.overExpended": "Over expended"
 }

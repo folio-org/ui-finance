@@ -24,7 +24,7 @@ import {
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
-} from '../../../common/const';
+} from '../../common/const';
 import { FISCAL_YEAR_FORM } from '../constants';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;

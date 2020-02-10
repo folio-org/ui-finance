@@ -22,11 +22,11 @@ import {
 import {
   DetailsEditAction,
   DetailsRemoveAction,
-} from '../../../common/DetailsActions';
+} from '../../common/DetailsActions';
 import {
   calculateTotals,
-} from '../../../common/utils';
-import ConnectionListing from '../../ConnectionListing';
+} from '../../common/utils';
+import ConnectionListing from '../../components/ConnectionListing';
 import {
   FISCAL_YEAR_ACCORDION,
   FISCAL_YEAR_ACCORDION_LABELS,

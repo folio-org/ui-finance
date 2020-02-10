@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { FISCAL_YEAR_VIEW_ROUTE } from '../../../../../src/common/const';
+import { FISCAL_YEAR_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
@@ -21,7 +21,7 @@ describe('Fiscal year edit', () => {
       name: TEST_VALUE_NAME,
     });
 
-    this.visit(`${FISCAL_YEAR_VIEW_ROUTE}${fiscalYear.id}`);
+    this.visit(`${FISCAL_YEAR_ROUTE}/${fiscalYear.id}/view`);
     await fiscalYearDetails.whenLoaded();
     await fiscalYearDetails.actions.editFiscalYear.click();
   });

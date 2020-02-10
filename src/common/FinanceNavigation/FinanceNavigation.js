@@ -20,7 +20,7 @@ const FinanceNavigation = ({ history, match: { path } }) => {
       data-test-finance-navigation
     >
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YAER, false)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
         data-test-finance-navigation-fiscalyear
       >

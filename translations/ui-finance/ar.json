@@ -475,5 +475,7 @@
     "fiscalYear.actions.load.error": "فشل تحميل بيانات السنة المالية",
     "budget.actions.load.error": "فشل تحميل بيانات الميزانية",
     "fund.plannedBudget.noUpcomingFY.label": "لم يتم العثور على سنة مالية قادمة",
-    "fund.plannedBudget.noUpcomingFY.message": "لا يمكنك إنشاء ميزانية مخططة حتى تكون هناك سنة مالية قادمة في سلسلة السنوات المالية المرتبطة بالدفتر."
+    "fund.plannedBudget.noUpcomingFY.message": "لا يمكنك إنشاء ميزانية مخططة حتى تكون هناك سنة مالية قادمة في سلسلة السنوات المالية المرتبطة بالدفتر.",
+    "budget.overEncumbrance": "Over encumbered",
+    "budget.overExpended": "Over expended"
 }

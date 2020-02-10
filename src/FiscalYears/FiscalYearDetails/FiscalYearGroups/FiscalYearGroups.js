@@ -12,11 +12,11 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   groupsResource,
-} from '../../../../common/resources';
+} from '../../../common/resources';
 import {
   getGroupsWithTotals,
-} from '../../../../common/utils';
-import ConnectionListing from '../../../ConnectionListing';
+} from '../../../common/utils';
+import ConnectionListing from '../../../components/ConnectionListing';
 
 const FiscalYearGroups = ({
   fiscalYear,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,7 +13,14 @@ import {
   FISCAL_YEAR_FILTERS,
 } from '../../constants';
 
-const FiscalYearListFilters = ({ activeFilters, onChange, acqUnits }) => {
+const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+
+const FiscalYearsListFilter = ({ activeFilters, applyFilters, acqUnits }) => {
+  const adaptedApplyFilters = useCallback(
+    applyFiltersAdapter(applyFilters),
+    [applyFilters],
+  );
+
   return (
     <AccordionSet>
       <AcqUnitFilter
@@ -21,17 +28,17 @@ const FiscalYearListFilters = ({ activeFilters, onChange, acqUnits }) => {
         activeFilters={activeFilters[FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT]}
         labelId="ui-finance.fiscalYear.filters.acqUnits"
         name={FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT}
-        onChange={onChange}
+        onChange={adaptedApplyFilters}
         acqUnits={acqUnits}
       />
     </AccordionSet>
   );
 };
 
-FiscalYearListFilters.propTypes = {
+FiscalYearsListFilter.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   acqUnits: acqUnitsShape,
-  onChange: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
 };
 
-export default FiscalYearListFilters;
+export default FiscalYearsListFilter;

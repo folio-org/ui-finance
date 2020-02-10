@@ -18,6 +18,8 @@ import {
   BUDGET_TRANSACTIONS_ROUTE,
 } from '../../../common/const';
 
+const isOverAllowable = value => value > 100;
+
 const BudgetInformation = ({
   allowableEncumbrance,
   allowableExpenditure,
@@ -29,6 +31,8 @@ const BudgetInformation = ({
   fiscalStart,
   name,
   id,
+  overEncumbrance,
+  overExpended,
 }) => (
   <Row>
     <Col xs={3}>
@@ -111,6 +115,34 @@ const BudgetInformation = ({
 
     <Col xs={3}>
       <KeyValue
+        label={<FormattedMessage id="ui-finance.budget.overEncumbrance" />}
+      >
+        {
+          isOverAllowable(allowableEncumbrance) && (
+            <AmountWithCurrencyField
+              amount={overEncumbrance}
+            />
+          )
+        }
+      </KeyValue>
+    </Col>
+
+    <Col xs={3}>
+      <KeyValue
+        label={<FormattedMessage id="ui-finance.budget.overExpended" />}
+      >
+        {
+          isOverAllowable(allowableExpenditure) && (
+            <AmountWithCurrencyField
+              amount={overExpended}
+            />
+          )
+        }
+      </KeyValue>
+    </Col>
+
+    <Col xs={3}>
+      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.actionsRequired" />}
       />
     </Col>
@@ -138,6 +170,8 @@ BudgetInformation.propTypes = {
   fiscalStart: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
+  overEncumbrance: PropTypes.number,
+  overExpended: PropTypes.number,
 };
 
 BudgetInformation.defaultProps = {
@@ -150,6 +184,8 @@ BudgetInformation.defaultProps = {
   fiscalEnd: '',
   fiscalStart: '',
   name: '',
+  overEncumbrance: 0,
+  overExpended: 0,
 };
 
 export default BudgetInformation;

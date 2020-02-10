@@ -4,6 +4,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
 
 ### Stories
+* [UIF-178](https://issues.folio.org/browse/UIF-178) TECH-DEBT refactor Groups list to not use SearchAndSort
 * [UIF-162](https://issues.folio.org/browse/UIF-162) Display over encumbered and over expended values on Budget view
 * [UIF-156](https://issues.folio.org/browse/UIF-156) TECH-DEBT refactor Fiscal years list to not use SearchAndSort
 * [UIF-158](https://issues.folio.org/browse/UIF-158) Update create planned budget

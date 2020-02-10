@@ -44,6 +44,8 @@ describe('Funds list', () => {
       const ledgersList = new LedgersListInteractor();
 
       beforeEach(async function () {
+        this.server.createList('ledger', FUNDS_COUNT);
+
         await fundsList.navigation.ledgersNavBtn.click();
         await ledgersList.whenLoaded();
       });

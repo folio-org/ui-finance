@@ -15,6 +15,9 @@ describe('Ledger create', () => {
 
   beforeEach(async function () {
     this.server.createList('ledger', 2);
+    this.server.create('fiscalYear', {
+      code: 'FY',
+    });
     this.visit(LEDGERS_ROUTE);
     await ledgersList.whenLoaded();
     await ledgersList.newButton.click();
@@ -51,8 +54,8 @@ describe('Ledger create', () => {
     beforeEach(async function () {
       await ledgerForm.name.fill('Test Ledger');
       await ledgerForm.code.fill('LDGR');
+      await ledgerForm.fyOneList.selectOption('FY');
       await ledgerForm.status.options.list(1).click();
-
       await ledgerForm.saveButton.click();
       await ledgersList.whenLoaded();
     });

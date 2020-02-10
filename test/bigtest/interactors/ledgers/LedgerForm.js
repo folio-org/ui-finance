@@ -4,7 +4,9 @@ import {
   isPresent,
   value,
 } from '@bigtest/interactor';
-
+import {
+  SelectInteractor,
+} from '@folio/stripes-acq-components/test/bigtest/interactors';
 import Button from '../common/Button';
 import OptionListInteractor from '../common/OptionListInteractor';
 
@@ -24,6 +26,7 @@ export default interactor(class LedgerFormInteractor {
   nameValue = value('input[name="name"]');
   code = new Interactor('input[name="code"]');
   status = new StatusInteractor();
+  fyOneList = new SelectInteractor('[data-test-col-ledger-form-fy]');
 
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);

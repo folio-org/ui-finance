@@ -4,17 +4,17 @@ import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 
-import { acqUnitsResource } from '../../../../common/resources';
+import { acqUnitsResource } from '../../../common/resources';
 
 import LedgerListFilters from './LedgerListFilters';
 
-const LedgerListFiltersContainer = ({ resources, activeFilters, onChange }) => {
+const LedgerListFiltersContainer = ({ resources, activeFilters, applyFilters }) => {
   const acqUnits = get(resources, 'acqUnits.records', []);
 
   return (
     <LedgerListFilters
       activeFilters={activeFilters}
-      onChange={onChange}
+      applyFilters={applyFilters}
       acqUnits={acqUnits}
     />
   );
@@ -26,7 +26,7 @@ LedgerListFiltersContainer.manifest = Object.freeze({
 
 LedgerListFiltersContainer.propTypes = {
   activeFilters: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
 };
 

@@ -23,7 +23,7 @@ import {
 import {
   DetailsEditAction,
   DetailsRemoveAction,
-} from '../../../common/DetailsActions';
+} from '../../common/DetailsActions';
 import {
   LEDGER_ACCORDTION,
   LEDGER_ACCORDTION_LABELS,
@@ -32,12 +32,12 @@ import LedgerInformation from './LedgerInformation';
 import LedgerGroups from './LedgerGroups';
 import LedgerFunds from './LedgerFunds';
 
-const LedgerView = ({
+const LedgerDetails = ({
   ledger,
   fiscalYear,
   onClose,
-  editLedger,
-  removeLedger,
+  onEdit,
+  onDelete,
   funds,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -50,7 +50,7 @@ const LedgerView = ({
         <MenuSection id="ledger-details-actions">
           <DetailsEditAction
             perm="finance.ledgers.item.put"
-            onEdit={editLedger}
+            onEdit={onEdit}
             toggleActionMenu={onToggle}
           />
           <DetailsRemoveAction
@@ -61,15 +61,15 @@ const LedgerView = ({
         </MenuSection>
       );
     },
-    [editLedger, toggleRemoveConfirmation],
+    [onEdit, toggleRemoveConfirmation],
   );
 
   const onRemove = useCallback(
     () => {
       toggleRemoveConfirmation();
-      removeLedger();
+      onDelete();
     },
-    [removeLedger, toggleRemoveConfirmation],
+    [onDelete, toggleRemoveConfirmation],
   );
 
   const lastMenu = (
@@ -82,7 +82,7 @@ const LedgerView = ({
               buttonStyle="primary"
               id="clickable-edit-ledger"
               marginBottom0
-              onClick={editLedger}
+              onClick={onEdit}
             >
               <FormattedMessage id="stripes-components.button.edit" />
             </Button>
@@ -172,19 +172,19 @@ const LedgerView = ({
   );
 };
 
-LedgerView.propTypes = {
+LedgerDetails.propTypes = {
   onClose: PropTypes.func.isRequired,
-  editLedger: PropTypes.func.isRequired,
-  removeLedger: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   ledger: PropTypes.object,
   fiscalYear: PropTypes.object,
   funds: PropTypes.arrayOf(PropTypes.object),
 };
 
-LedgerView.defaultProps = {
+LedgerDetails.defaultProps = {
   fiscalYear: {},
   funds: [],
   ledger: {},
 };
 
-export default LedgerView;
+export default LedgerDetails;

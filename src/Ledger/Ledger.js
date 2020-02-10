@@ -6,19 +6,25 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import EditLedger from './EditLedger';
-import LedgerList from './LedgerList';
+import { EditLedger } from './EditLedger';
+import { CreateLedger } from './CreateLedger';
+import { LedgerListContainer } from './LedgerList';
 
 const Ledger = ({ match }) => {
   return (
     <Switch>
       <Route
-        path={`${match.url}/edit/:id`}
-        component={EditLedger}
+        path={`${match.url}/create`}
+        render={CreateLedger}
       />
       <Route
+        path={`${match.url}/:id/edit`}
+        render={EditLedger}
+      />
+
+      <Route
         path={match.url}
-        component={LedgerList}
+        render={LedgerListContainer}
       />
     </Switch>
   );

@@ -13,7 +13,6 @@ import {
   MultiColumnList,
   Paneset,
 } from '@folio/stripes/components';
-
 import {
   FiltersPane,
   ResultsPane,
@@ -26,7 +25,6 @@ import {
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
-
 import { LedgerListFiltersContainer } from './LedgerListFilters';
 import {
   searchableIndexes,

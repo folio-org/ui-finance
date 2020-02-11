@@ -50,7 +50,7 @@ const LedgerForm = ({
       handleSubmit={handleSubmit}
       pristine={pristine}
       submitting={submitting}
-      onCancel={() => onCancel()}
+      onCancel={onCancel}
     />
   );
   const metadata = initialValues.metadata;

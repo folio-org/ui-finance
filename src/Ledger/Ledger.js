@@ -4,34 +4,30 @@ import {
   Switch,
   withRouter,
 } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { LEDGERS_ROUTE } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { LedgerListContainer } from './LedgerList';
 
-const Ledger = ({ match }) => {
+const Ledger = () => {
   return (
     <Switch>
       <Route
-        path={`${match.url}/create`}
+        path={`${LEDGERS_ROUTE}/create`}
         render={CreateLedger}
       />
       <Route
-        path={`${match.url}/:id/edit`}
+        path={`${LEDGERS_ROUTE}/:id/edit`}
         render={EditLedger}
       />
 
       <Route
-        path={match.url}
+        path={LEDGERS_ROUTE}
         render={LedgerListContainer}
       />
     </Switch>
   );
-};
-
-Ledger.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default withRouter(Ledger);

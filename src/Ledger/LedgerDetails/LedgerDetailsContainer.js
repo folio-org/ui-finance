@@ -82,9 +82,12 @@ const LedgerDetailsContainer = ({
 
   const editLedger = useCallback(
     () => {
-      history.push(`${LEDGERS_ROUTE}/${ledgerId}/edit`);
+      history.push({
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/edit`,
+        search: location.search,
+      });
     },
-    [history, ledgerId],
+    [history, location.search, ledgerId],
   );
 
   const removeLedger = useCallback(

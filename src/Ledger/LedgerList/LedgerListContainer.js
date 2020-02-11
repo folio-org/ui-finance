@@ -97,7 +97,11 @@ const LedgerListContainer = ({ mutator, location }) => {
 };
 
 LedgerListContainer.manifest = Object.freeze({
-  ledgersListFinance: ledgersResource,
+  ledgersListFinance: {
+    ...ledgersResource,
+    accumulate: true,
+    records: '',
+  },
 });
 
 LedgerListContainer.propTypes = {

@@ -8,7 +8,7 @@ import {
   Button,
   Col,
   Pane,
-  PaneMenu,
+  PaneFooter,
   Paneset,
   Row,
   TextArea,
@@ -34,20 +34,34 @@ import {
 const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.create" />;
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
 
-const getLastMenu = (handleSubmit, pristine, submitting) => {
+const getPaneFooter = (handleSubmit, pristine, submitting, onCancel) => {
+  const start = (
+    <Button
+      data-test-button-close-ledger
+      buttonStyle="default mega"
+      onClick={() => onCancel()}
+    >
+      <FormattedMessage id="ui-finance.close" />
+    </Button>
+  );
+
+  const end = (
+    <Button
+      data-test-button-save-ledger
+      type="submit"
+      buttonStyle="primary mega"
+      disabled={submitting}
+      onClick={handleSubmit}
+    >
+      <FormattedMessage id="ui-finance.saveAndClose" />
+    </Button>
+  );
+
   return (
-    <PaneMenu>
-      <Button
-        data-test-button-save-ledger
-        marginBottom0
-        type="submit"
-        buttonStyle="primary"
-        disabled={submitting}
-        onClick={handleSubmit}
-      >
-        <FormattedMessage id="ui-finance.save" />
-      </Button>
-    </PaneMenu>
+    <PaneFooter
+      renderStart={start}
+      renderEnd={end}
+    />
   );
 };
 
@@ -60,7 +74,7 @@ const LedgerForm = ({
   submitting,
 }) => {
   const isEditMode = Boolean(initialValues.id);
-  const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
+  const paneFooter = getPaneFooter(handleSubmit, pristine, submitting, onCancel);
   const metadata = initialValues.metadata;
 
   return (
@@ -71,7 +85,7 @@ const LedgerForm = ({
           dismissible
           id="pane-ledger-form"
           onClose={onCancel}
-          lastMenu={lastMenu}
+          footer={paneFooter}
           paneTitle={isEditMode ? EDIT_LEDGER_TITLE : CREATE_LEDGER_TITLE}
         >
           <Row>

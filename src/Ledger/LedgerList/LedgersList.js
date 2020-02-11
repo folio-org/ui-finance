@@ -84,7 +84,7 @@ const LedgerList = ({
   return (
     <Paneset data-test-ledgers-list>
       {isFiltersOpened && (
-        <FiltersPane>
+        <FiltersPane width="350px">
           <FinanceNavigation />
           <SingleSearchForm
             applySearch={applySearch}

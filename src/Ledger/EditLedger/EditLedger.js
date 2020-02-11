@@ -34,9 +34,12 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
 
   const closeEdit = useCallback(
     () => {
-      history.push(`${LEDGERS_ROUTE}`);
+      history.push({
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/view`,
+        search: location.search,
+      });
     },
-    [history],
+    [history, location.search, ledgerId],
   );
 
   const saveLedger = useCallback(

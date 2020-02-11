@@ -8,7 +8,7 @@ export const ledgersResource = {
   params: {
     query: 'cql.allRecords=1 sortby name',
   },
-  accumulate: true,
+  records: 'ledgers',
 };
 
 export const ledgerByUrlIdResource = {

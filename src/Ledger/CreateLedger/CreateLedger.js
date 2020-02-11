@@ -33,7 +33,6 @@ const CreateLedger = ({ mutator, location, history }) => {
   const goToCreateFY = useCallback(() => {
     history.push({
       pathname: FISCAL_YEAR_ROUTE,
-      search: location.search,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -18,7 +18,7 @@ export default interactor(class LedgerFormInteractor {
   static defaultScope = '#pane-ledger-form';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
-  saveButton = new Interactor('[data-test-button-save-ledger]');
+  saveButton = new Interactor('[data-test-save-button]');
   createFYButton = new Button('[data-test-ledger-create-fy]');
   closePane = new Button('[icon=times]');
 

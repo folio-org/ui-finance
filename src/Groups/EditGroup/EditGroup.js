@@ -11,11 +11,11 @@ import {
   LoadingPane,
 } from '@folio/stripes-acq-components';
 
-import { GROUP_VIEW_ROUTE } from '../../common/const';
+import { GROUPS_ROUTE } from '../../common/const';
 import { groupByUrlIdResource } from '../../common/resources';
-import GroupForm from '../GroupForm';
+import { GroupForm } from '../GroupForm';
 
-const EditGroup = ({ resources, mutator, match, history }) => {
+const EditGroup = ({ resources, mutator, match, history, location }) => {
   const groupId = match.params.id;
 
   useEffect(
@@ -31,9 +31,13 @@ const EditGroup = ({ resources, mutator, match, history }) => {
 
   const closeEdit = useCallback(
     () => {
-      history.push(`${GROUP_VIEW_ROUTE}${groupId}?layer=view`);
+      history.push({
+        pathname: `${GROUPS_ROUTE}/${groupId}/view`,
+        search: location.search,
+      });
     },
-    [groupId, history],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [groupId, location.search],
   );
 
   const saveGroup = useCallback(
@@ -85,6 +89,7 @@ EditGroup.propTypes = {
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default withRouter(stripesConnect(EditGroup));

@@ -1,185 +1,160 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from 'react-intl';
-import { get } from 'lodash';
+  Route,
+  withRouter,
+} from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import {
-  SearchAndSort,
-  makeQueryFunction,
-} from '@folio/stripes/smart-components';
-import { stripesConnect } from '@folio/stripes/core';
-import { Callout } from '@folio/stripes/components';
+  Paneset,
+  MultiColumnList,
+} from '@folio/stripes/components';
 import {
-  baseManifest,
-  changeSearchIndex,
-  getActiveFilters,
-  handleFilterChange,
-  showToast,
+  FiltersPane,
+  ResultsPane,
+  ResetButton,
+  SingleSearchForm,
+  useLocationFilters,
+  useLocationSorting,
+  useToggle,
 } from '@folio/stripes-acq-components';
 
-import packageInfo from '../../../package';
-import {
-  GROUPS_API,
-  GROUPS_ROUTE,
-  GROUP_VIEW_ROUTE,
-} from '../../common/const';
+import { GROUPS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
 
-import GroupDetails from '../GroupDetails';
-import GroupForm from '../GroupForm';
-
-import GroupsListFilters from '../GroupsListFilters';
-import { filterConfig } from './GroupsListFilterConfig';
+import { GroupDetailsContainer } from '../GroupDetails';
+import { GroupsListFilters } from './GroupsListFilters';
 import {
   searchableIndexes,
-  groupsSearchTemplate,
 } from './GroupsListSearchConfig';
+import GroupsListLastMenu from './GroupsListLastMenu';
 
-const groupsPackageInfo = {
-  ...packageInfo,
-  stripes: {
-    ...packageInfo.stripes,
-    route: GROUPS_ROUTE,
-  },
-};
-
-const INITIAL_RESULT_COUNT = 30;
-const RESULT_COUNT_INCREMENT = 30;
-
-const title = <FormattedMessage id="ui-finance.group" />;
+const resultsPaneTitle = <FormattedMessage id="ui-finance.group" />;
 const visibleColumns = ['name', 'code'];
+const sortableFields = ['name', 'code'];
 const columnMapping = {
   name: <FormattedMessage id="ui-finance.groups.list.name" />,
   code: <FormattedMessage id="ui-finance.groups.list.code" />,
 };
 
-class GroupsList extends Component {
-  static propTypes = {
-    stripes: PropTypes.object,
-    intl: intlShape.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-  };
+const GroupsList = ({
+  history,
+  isLoading,
+  location,
+  onNeedMoreData,
+  resetData,
+  groups,
+  groupsCount,
+}) => {
+  const [
+    filters,
+    searchQuery,
+    applyFilters,
+    applySearch,
+    changeSearch,
+    resetFilters,
+    changeIndex,
+    searchIndex,
+  ] = useLocationFilters(location, history, resetData);
+  const [
+    sortingField,
+    sortingDirection,
+    changeSorting,
+  ] = useLocationSorting(location, history, resetData, sortableFields);
 
-  static manifest = Object.freeze({
-    query: {
-      initialValue: {
-        query: '',
-        filters: '',
-        sort: 'name',
-      },
+  const [isFiltersOpened, toggleFilters] = useToggle(true);
+
+  const openGroupDetails = useCallback(
+    (e, meta) => {
+      history.push({
+        pathname: `${GROUPS_ROUTE}/${meta.id}/view`,
+        search: location.search,
+      });
     },
-    resultCount: { initialValue: INITIAL_RESULT_COUNT },
-    records: {
-      ...baseManifest,
-      clear: true,
-      records: 'groups',
-      recordsRequired: '%{resultCount}',
-      path: GROUPS_API,
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: makeQueryFunction(
-            'cql.allRecords=1',
-            groupsSearchTemplate,
-            {},
-            filterConfig,
-          ),
-        },
-        staticFallback: { params: {} },
-      },
-    },
-  });
-
-  constructor(props) {
-    super(props);
-
-    this.getActiveFilters = getActiveFilters.bind(this);
-    this.handleFilterChange = handleFilterChange.bind(this);
-    this.changeSearchIndex = changeSearchIndex.bind(this);
-    this.callout = React.createRef();
-    this.showToast = showToast.bind(this);
-  }
-
-  onCreate = async (group) => {
-    const { history, mutator } = this.props;
-
-    try {
-      const savedGroup = await mutator.records.POST(group);
-
-      this.showToast('ui-finance.groups.actions.save.success');
-      history.push(`${GROUP_VIEW_ROUTE}${savedGroup.id}?layer=view`);
-
-      return savedGroup;
-    } catch (response) {
-      this.showToast('ui-finance.groups.actions.save.error', 'error');
-
-      return { id: 'Unable to create group' };
-    }
-  }
-
-  renderNavigation = () => (
-    <FinanceNavigation />
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search],
   );
 
-  renderFilters = (onChange) => {
-    return (
-      <GroupsListFilters
-        activeFilters={this.getActiveFilters()}
-        onChange={onChange}
-      />
-    );
-  };
+  const renderLastMenu = useCallback(() => <GroupsListLastMenu />, []);
 
-  getTranslateSearchableIndexes() {
-    const { intl: { formatMessage } } = this.props;
+  return (
+    <Paneset data-test-groups-list>
+      {isFiltersOpened && (
+        <FiltersPane width="350px">
+          <FinanceNavigation />
 
-    return searchableIndexes.map(index => {
-      const label = formatMessage({ id: `ui-finance.groups.search.${index.label}` });
+          <SingleSearchForm
+            applySearch={applySearch}
+            changeSearch={changeSearch}
+            searchQuery={searchQuery}
+            searchableIndexes={searchableIndexes}
+            changeSearchIndex={changeIndex}
+            selectedIndex={searchIndex}
+            isLoading={isLoading}
+            ariaLabelId="ui-finance.search"
+          />
 
-      return { ...index, label };
-    });
-  }
+          <ResetButton
+            id="reset-groups-filters"
+            reset={resetFilters}
+            disabled={!location.search}
+          />
 
-  render() {
-    const { resources, mutator, stripes } = this.props;
+          <GroupsListFilters
+            activeFilters={filters}
+            applyFilters={applyFilters}
+          />
+        </FiltersPane>
+      )}
 
-    return (
-      <div data-test-groups-list>
-        <SearchAndSort
-          packageInfo={groupsPackageInfo}
-          objectName="group"
-          baseRoute={groupsPackageInfo.stripes.route}
-          title={title}
-          initialResultCount={INITIAL_RESULT_COUNT}
-          resultCountIncrement={RESULT_COUNT_INCREMENT}
-          editRecordComponent={GroupForm}
-          onCreate={this.onCreate}
-          viewRecordComponent={GroupDetails}
+      <ResultsPane
+        title={resultsPaneTitle}
+        count={groupsCount}
+        renderLastMenu={renderLastMenu}
+        toggleFiltersPane={toggleFilters}
+        filters={!isFiltersOpened && filters}
+      >
+        <MultiColumnList
+          id="groups-list"
+          totalCount={groupsCount}
+          contentData={groups}
           visibleColumns={visibleColumns}
           columnMapping={columnMapping}
-          viewRecordPerms="finance.groups.item.get"
-          newRecordPerms="finance.groups.item.post"
-          parentResources={resources}
-          parentMutator={mutator}
-          stripes={stripes}
-          onFilterChange={this.handleFilterChange}
-          renderFilters={this.renderFilters}
-          renderNavigation={this.renderNavigation}
-          searchableIndexes={this.getTranslateSearchableIndexes()}
-          selectedIndex={get(resources.query, 'qindex')}
-          onChangeIndex={this.changeSearchIndex}
+          loading={isLoading}
+          autosize
+          virtualize
+          onNeedMoreData={onNeedMoreData}
+          sortOrder={sortingField}
+          sortDirection={sortingDirection}
+          onHeaderClick={changeSorting}
+          onRowClick={openGroupDetails}
         />
-        <Callout ref={this.callout} />
-      </div>
-    );
-  }
-}
+      </ResultsPane>
 
-export default stripesConnect(injectIntl(GroupsList));
+      <Route
+        path={`${GROUPS_ROUTE}/:id/view`}
+        component={GroupDetailsContainer}
+      />
+    </Paneset>
+  );
+};
+
+GroupsList.propTypes = {
+  onNeedMoreData: PropTypes.func.isRequired,
+  resetData: PropTypes.func.isRequired,
+  groupsCount: PropTypes.number,
+  isLoading: PropTypes.bool,
+  groups: PropTypes.arrayOf(PropTypes.object),
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+};
+
+GroupsList.defaultProps = {
+  groupsCount: 0,
+  isLoading: false,
+  groups: [],
+};
+
+export default withRouter(GroupsList);

@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { GROUP_EDIT_ROUTE } from '../../../../../src/common/const';
+import { GROUPS_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import GroupFormInteractor from '../../../interactors/groups/GroupFormInteractor';
@@ -19,7 +19,7 @@ describe('Group edit', () => {
       name: TEST_VALUE_NAME,
     });
 
-    this.visit(`${GROUP_EDIT_ROUTE}${group.id}`);
+    this.visit(`${GROUPS_ROUTE}/${group.id}/edit`);
     await groupForm.whenLoaded();
   });
 

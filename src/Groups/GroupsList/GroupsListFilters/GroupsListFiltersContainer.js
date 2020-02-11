@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 
-import { acqUnitsResource } from '../../common/resources';
+import { acqUnitsResource } from '../../../common/resources';
 import GroupsListFilters from './GroupsListFilters';
 
 const GroupsListFiltersContainer = ({ resources, activeFilters, onChange }) => {

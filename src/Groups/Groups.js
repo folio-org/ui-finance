@@ -2,30 +2,31 @@ import React from 'react';
 import {
   Route,
   Switch,
-  withRouter,
 } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
-import GroupsList from './GroupsList';
-import EditGroup from './EditGroup';
+import { GROUPS_ROUTE } from '../common/const';
 
-const Groups = ({ match }) => {
+import { GroupsListContainer } from './GroupsList';
+import { CreateGroup } from './CreateGroup';
+import { EditGroup } from './EditGroup';
+
+const Groups = () => {
   return (
     <Switch>
       <Route
-        path={`${match.url}/edit/:id`}
+        path={`${GROUPS_ROUTE}/create`}
+        component={CreateGroup}
+      />
+      <Route
+        path={`${GROUPS_ROUTE}/:id/edit`}
         component={EditGroup}
       />
       <Route
-        path={match.url}
-        component={GroupsList}
+        path={GROUPS_ROUTE}
+        component={GroupsListContainer}
       />
     </Switch>
   );
 };
 
-Groups.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
-};
-
-export default withRouter(Groups);
+export default Groups;

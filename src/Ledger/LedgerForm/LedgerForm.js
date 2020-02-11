@@ -8,7 +8,6 @@ import {
   Button,
   Col,
   Pane,
-  PaneFooter,
   Paneset,
   Row,
   TextArea,
@@ -19,13 +18,14 @@ import {
   AcqUnitsField,
   FieldSelection,
   validateRequired,
+  FormFooter,
 } from '@folio/stripes-acq-components';
 
-import { FiscalYearField } from '../../../common/FiscalYearField';
+import { FiscalYearField } from '../../common/FiscalYearField';
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
-} from '../../../common/const';
+} from '../../common/const';
 import {
   LEDGER_FORM,
   LEDGER_STATUS_OPTIONS,
@@ -33,37 +33,7 @@ import {
 
 const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.create" />;
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
-
-const getPaneFooter = (handleSubmit, pristine, submitting, onCancel) => {
-  const start = (
-    <Button
-      data-test-button-close-ledger
-      buttonStyle="default mega"
-      onClick={onCancel}
-    >
-      <FormattedMessage id="ui-finance.close" />
-    </Button>
-  );
-
-  const end = (
-    <Button
-      data-test-button-save-ledger
-      type="submit"
-      buttonStyle="primary mega"
-      disabled={submitting}
-      onClick={handleSubmit}
-    >
-      <FormattedMessage id="ui-finance.saveAndClose" />
-    </Button>
-  );
-
-  return (
-    <PaneFooter
-      renderStart={start}
-      renderEnd={end}
-    />
-  );
-};
+const SAVE_AND_CLOSE_TITLE = <FormattedMessage id="ui-finance.saveAndClose" />;
 
 const LedgerForm = ({
   goToCreateFY,
@@ -74,7 +44,15 @@ const LedgerForm = ({
   submitting,
 }) => {
   const isEditMode = Boolean(initialValues.id);
-  const paneFooter = getPaneFooter(handleSubmit, pristine, submitting, onCancel);
+  const paneFooter = (
+    <FormFooter
+      label={SAVE_AND_CLOSE_TITLE}
+      handleSubmit={handleSubmit}
+      pristine={pristine}
+      submitting={submitting}
+      onCancel={onCancel}
+    />
+  );
   const metadata = initialValues.metadata;
 
   return (
@@ -118,7 +96,10 @@ const LedgerForm = ({
                   />
                 </Col>
 
-                <Col xs>
+                <Col
+                  data-test-col-ledger-form-fy
+                  xs={3}
+                >
                   <FiscalYearField
                     label={<FormattedMessage id="ui-finance.ledger.fiscalYear" />}
                     name="fiscalYearOneId"

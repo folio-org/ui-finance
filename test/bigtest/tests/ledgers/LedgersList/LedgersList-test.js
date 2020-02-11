@@ -1,6 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { LEDGERS_ROUTE } from '../../../../../src/common/const';
+
 import setupApplication from '../../../helpers/setup-application';
 
 import LedgersListInteractor from '../../../interactors/ledgers/LedgersList';
@@ -15,12 +17,8 @@ describe('Ledgers list', () => {
   beforeEach(async function () {
     this.server.createList('ledger', LEDGERS_COUNT);
 
-    this.visit('/finance/ledger');
+    this.visit(LEDGERS_ROUTE);
     await ledgersList.whenLoaded();
-  });
-
-  it('is no results message label present', () => {
-    expect(ledgersList.isNoResultsMessageLabelPresent).to.be.true;
   });
 
   describe('search by something', function () {

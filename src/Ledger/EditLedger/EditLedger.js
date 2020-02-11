@@ -13,9 +13,9 @@ import {
 
 import {
   FISCAL_YEAR_ROUTE,
-  LEDGER_VIEW_ROUTE,
-} from '../../../common/const';
-import { ledgerByUrlIdResource } from '../../../common/resources';
+  LEDGERS_ROUTE,
+} from '../../common/const';
+import { ledgerByUrlIdResource } from '../../common/resources';
 import LedgerForm from '../LedgerForm';
 
 const EditLedger = ({ resources, mutator, match, history, location }) => {
@@ -34,9 +34,12 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
 
   const closeEdit = useCallback(
     () => {
-      history.push(`${LEDGER_VIEW_ROUTE}${ledgerId}?layer=view`);
+      history.push({
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/view`,
+        search: location.search,
+      });
     },
-    [ledgerId, history],
+    [history, location.search, ledgerId],
   );
 
   const saveLedger = useCallback(

@@ -7,7 +7,7 @@ import {
   FISCAL_YEAR_ROUTE,
 } from '../../common/const';
 
-import Ledger from '../Ledger';
+import { Ledger } from '../../Ledger';
 import FundsList from '../Fund';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';

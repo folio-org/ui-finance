@@ -27,7 +27,7 @@ const FinanceNavigation = ({ history, match: { path } }) => {
         <FormattedMessage id="ui-finance.fiscalyear" />
       </Button>
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER, false)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.LEDGER)}
         data-test-finance-navigation-ledger
       >

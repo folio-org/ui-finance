@@ -1,7 +1,7 @@
 import { Factory } from 'miragejs';
 import faker from 'faker';
 
-import { LEDGER_STATUS } from '../../../../src/components/Ledger/constants';
+import { LEDGER_STATUS } from '../../../../src/Ledger/constants';
 
 export default Factory.extend({
   id: faker.random.uuid,

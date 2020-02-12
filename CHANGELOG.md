@@ -4,6 +4,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
 
 ### Stories
+* [UIF-179](https://issues.folio.org/browse/UIF-179) Move record action buttons into "Action" button UX pattern
 * [UIF-176](https://issues.folio.org/browse/UIF-176) TECH-DEBT refactor Ledgers list to not use SearchAndSort
 * [UIF-178](https://issues.folio.org/browse/UIF-178) TECH-DEBT refactor Groups list to not use SearchAndSort
 * [UIF-162](https://issues.folio.org/browse/UIF-162) Display over encumbered and over expended values on Budget view

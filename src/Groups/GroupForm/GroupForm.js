@@ -7,10 +7,8 @@ import {
 
 import stripesForm from '@folio/stripes/form';
 import {
-  Button,
   Col,
   Pane,
-  PaneMenu,
   Paneset,
   Row,
   TextArea,
@@ -19,6 +17,7 @@ import {
 import {
   AcqUnitsField,
   FieldSelection,
+  FormFooter,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -33,23 +32,6 @@ const GROUP_FORM = 'groupForm';
 const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
 const EDIT_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.edit" />;
 
-const getLastMenu = (handleSubmit, pristine, submitting) => {
-  return (
-    <PaneMenu>
-      <Button
-        data-test-button-save-group
-        marginBottom0
-        buttonStyle="primary"
-        onClick={handleSubmit}
-        type="submit"
-        disabled={pristine || submitting}
-      >
-        <FormattedMessage id="ui-finance.save" />
-      </Button>
-    </PaneMenu>
-  );
-};
-
 const GroupForm = ({
   onCancel,
   initialValues,
@@ -58,7 +40,16 @@ const GroupForm = ({
   submitting,
 }) => {
   const isEditMode = Boolean(initialValues.id);
-  const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
+
+  const paneFooter = (
+    <FormFooter
+      label={<FormattedMessage id="ui-finance.saveAndClose" />}
+      handleSubmit={handleSubmit}
+      pristine={pristine}
+      submitting={submitting}
+      onCancel={onCancel}
+    />
+  );
 
   return (
     <form>
@@ -66,9 +57,9 @@ const GroupForm = ({
         <Pane
           defaultWidth="fill"
           dismissible
+          footer={paneFooter}
           id="pane-group-form"
           onClose={onCancel}
-          lastMenu={lastMenu}
           paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
         >
           <Row>

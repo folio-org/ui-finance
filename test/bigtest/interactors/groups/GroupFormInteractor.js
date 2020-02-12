@@ -15,7 +15,7 @@ export default interactor(class GroupFormInteractor {
   static defaultScope = '#pane-group-form';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
-  saveButton = new Interactor('[data-test-button-save-group]');
+  saveButton = new Interactor('[data-test-save-button]');
 
   name = new Interactor('input[name="name"]');
   nameValue = value('input[name="name"]');

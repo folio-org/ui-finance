@@ -10,8 +10,6 @@ import {
   ExpandAllButton,
   AccordionSet,
   Accordion,
-  PaneMenu,
-  Button,
   MenuSection,
 } from '@folio/stripes/components';
 import {
@@ -66,18 +64,6 @@ const FiscalYearDetails = ({
     [onEdit, toggleRemoveConfirmation],
   );
 
-  const lastMenu = (
-    <PaneMenu>
-      <Button
-        marginBottom0
-        buttonStyle="primary"
-        onClick={onEdit}
-      >
-        <FormattedMessage id="ui-finance.actions.edit" />
-      </Button>
-    </PaneMenu>
-  );
-
   const fiscalYearTotals = calculateTotals(groupSummaries);
 
   return (
@@ -88,7 +74,6 @@ const FiscalYearDetails = ({
       paneTitle={fiscalYear.name}
       onClose={onClose}
       actionMenu={renderActionMenu}
-      lastMenu={lastMenu}
     >
       <Row end="xs">
         <Col xs={12}>

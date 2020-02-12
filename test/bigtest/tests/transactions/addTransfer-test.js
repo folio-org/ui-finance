@@ -29,7 +29,7 @@ describe('Add transfer', () => {
 
   describe('click on add new transfer', () => {
     beforeEach(async function () {
-      await budgetDetails.addTransferButton.click();
+      await budgetDetails.actions.addTransferButton.click();
     });
 
     it('add transfer modal is opened', () => {

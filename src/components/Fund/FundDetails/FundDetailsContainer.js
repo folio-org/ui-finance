@@ -11,7 +11,6 @@ import {
 import {
   Accordion,
   AccordionSet,
-  Button,
   Col,
   ConfirmationModal,
   ExpandAllButton,
@@ -146,13 +145,6 @@ const FundDetailsContainer = ({
 
   const lastMenu = (
     <PaneMenu>
-      <Button
-        marginBottom0
-        buttonStyle="primary"
-        onClick={onEdit}
-      >
-        <FormattedMessage id="ui-finance.actions.edit" />
-      </Button>
       <TagsBadge
         tagsToggle={toggleTagsPane}
         tagsQuantity={tags.length}

@@ -15,7 +15,7 @@ export default interactor(class BudgetEdit {
 
   closePane = new Button('[icon=times]');
 
-  updateBudget = new Button('[data-test-button-save-budget]');
+  updateBudget = new Button('[data-test-save-button]');
 
   name = new NameField();
   expended = new ExpendedField();

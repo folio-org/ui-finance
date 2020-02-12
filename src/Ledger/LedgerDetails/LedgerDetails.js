@@ -5,16 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   AccordionSet,
-  Button,
   Col,
   ConfirmationModal,
   ExpandAllButton,
   MenuSection,
-  PaneMenu,
   Pane,
   Row,
 } from '@folio/stripes/components';
-import { IfPermission } from '@folio/stripes/core';
 import {
   useAccordionToggle,
   useModalToggle,
@@ -72,26 +69,6 @@ const LedgerDetails = ({
     [onDelete, toggleRemoveConfirmation],
   );
 
-  const lastMenu = (
-    <PaneMenu>
-      <IfPermission perm="finance.ledgers.item.put">
-        <FormattedMessage id="ui-finance.ledger.editAriaLabel">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="primary"
-              id="clickable-edit-ledger"
-              marginBottom0
-              onClick={onEdit}
-            >
-              <FormattedMessage id="stripes-components.button.edit" />
-            </Button>
-          )}
-        </FormattedMessage>
-      </IfPermission>
-    </PaneMenu>
-  );
-
   return (
     <Pane
       id="pane-ledger-details"
@@ -100,7 +77,6 @@ const LedgerDetails = ({
       actionMenu={renderActionMenu}
       paneTitle={ledger.name}
       onClose={onClose}
-      lastMenu={lastMenu}
     >
       <Row end="xs">
         <Col xs={12}>

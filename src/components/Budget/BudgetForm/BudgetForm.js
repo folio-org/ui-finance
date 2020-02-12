@@ -9,7 +9,6 @@ import {
   Paneset,
   MenuSection,
   Pane,
-  PaneMenu,
   AccordionSet,
   Accordion,
   Col,
@@ -18,28 +17,14 @@ import {
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import { useAccordionToggle } from '@folio/stripes-acq-components';
+import {
+  FormFooter,
+  useAccordionToggle,
+} from '@folio/stripes-acq-components';
 
 import { BUDGET_FORM, SECTIONS_BUDGET } from '../constants';
 import BudgetSummary from '../BudgetView/BudgetSummary';
 import BudgetInformationFields from './BudgetInformationFields';
-
-const getLastMenu = (handleSubmit, pristine, submitting) => {
-  return (
-    <PaneMenu>
-      <Button
-        data-test-button-save-budget
-        marginBottom0
-        type="submit"
-        disabled={pristine || submitting}
-        buttonStyle="primary"
-        onClick={handleSubmit}
-      >
-        <FormattedMessage id="ui-finance.budget.save" />
-      </Button>
-    </PaneMenu>
-  );
-};
 
 const BudgetForm = ({
   parentResources,
@@ -50,9 +35,18 @@ const BudgetForm = ({
   onClose,
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
-  const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const fiscalYear = get(parentResources, ['fiscalYear', 'records', 0], {});
   const { periodStart, periodEnd } = fiscalYear;
+
+  const paneFooter = (
+    <FormFooter
+      label={<FormattedMessage id="ui-finance.saveAndClose" />}
+      handleSubmit={handleSubmit}
+      pristine={pristine}
+      submitting={submitting}
+      onCancel={onClose}
+    />
+  );
 
   const renderActionMenu = () => (
     <MenuSection id="budget-actions">
@@ -77,8 +71,8 @@ const BudgetForm = ({
           actionMenu={renderActionMenu}
           defaultWidth="fill"
           dismissible
+          footer={paneFooter}
           id="pane-budget"
-          lastMenu={lastMenu}
           onClose={onClose}
           paneTitle={initialValues.name}
         >

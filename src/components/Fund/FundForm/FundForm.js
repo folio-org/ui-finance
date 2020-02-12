@@ -12,12 +12,10 @@ import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Accordion,
   AccordionSet,
-  Button,
   Col,
   ExpandAllButton,
   KeyValue,
   Pane,
-  PaneMenu,
   Paneset,
   Row,
   TextArea,
@@ -28,6 +26,7 @@ import {
   AcqUnitsField,
   FieldMultiSelectionFinal as FieldMultiSelection,
   FieldSelectionFinal as FieldSelection,
+  FormFooter,
   useAccordionToggle,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -46,22 +45,6 @@ import {
   fetchFundsByNameAndLedger,
 } from './fetchFunds';
 
-const getLastMenu = (handleSubmit, pristine, submitting) => {
-  return (
-    <PaneMenu>
-      <Button
-        buttonStyle="primary"
-        data-test-button-save-fund
-        disabled={pristine || submitting}
-        marginBottom0
-        onClick={handleSubmit}
-        type="submit"
-      >
-        <FormattedMessage id="ui-finance.fund.save" />
-      </Button>
-    </PaneMenu>
-  );
-};
 const itemToString = item => item;
 
 const FundForm = ({
@@ -126,7 +109,6 @@ const FundForm = ({
     }),
   );
 
-  const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const paneTitle = fundId
     ? initialValues.fund.name
     : <FormattedMessage id="ui-finance.fund.paneTitle.create" />;
@@ -155,17 +137,27 @@ const FundForm = ({
 
   const isEditMode = Boolean(fundId);
 
+  const paneFooter = (
+    <FormFooter
+      label={<FormattedMessage id="ui-finance.saveAndClose" />}
+      handleSubmit={handleSubmit}
+      pristine={pristine}
+      submitting={submitting}
+      onCancel={onCancel}
+    />
+  );
+
   return (
     <form>
       <Paneset>
         <Pane
           defaultWidth="fill"
           dismissible
+          footer={paneFooter}
           id="pane-fund-form"
-          lastMenu={lastMenu}
           onClose={onCancel}
-          paneTitle={paneTitle}
           paneSub={initialValues.fund.code}
+          paneTitle={paneTitle}
         >
           <Row>
             <Col

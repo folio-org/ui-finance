@@ -11,7 +11,7 @@ export default interactor(class FiscalYearFormInteractor {
   static defaultScope = '#pane-fiscal-year-form';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
-  saveButton = new Interactor('[data-test-button-save-fiscal-year]');
+  saveButton = new Interactor('[data-test-save-button]');
   closePane = new Button('[icon=times]');
 
   name = new Interactor('input[name="name"]');

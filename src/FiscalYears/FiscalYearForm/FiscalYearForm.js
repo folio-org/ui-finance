@@ -5,10 +5,8 @@ import { Field } from 'redux-form';
 
 import stripesForm from '@folio/stripes/form';
 import {
-  Button,
   Col,
   Pane,
-  PaneMenu,
   Paneset,
   Row,
   TextArea,
@@ -18,6 +16,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
   FieldDatepicker,
+  FormFooter,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -30,23 +29,6 @@ import { FISCAL_YEAR_FORM } from '../constants';
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
 
-const getLastMenu = (handleSubmit, pristine, submitting) => {
-  return (
-    <PaneMenu>
-      <Button
-        data-test-button-save-fiscal-year
-        marginBottom0
-        buttonStyle="primary"
-        onClick={handleSubmit}
-        type="submit"
-        disabled={pristine || submitting}
-      >
-        <FormattedMessage id="ui-finance.save" />
-      </Button>
-    </PaneMenu>
-  );
-};
-
 const FiscalYearForm = ({
   onCancel,
   initialValues,
@@ -55,8 +37,17 @@ const FiscalYearForm = ({
   submitting,
 }) => {
   const isEditMode = Boolean(initialValues.id);
-  const lastMenu = getLastMenu(handleSubmit, pristine, submitting);
   const metadata = initialValues.metadata;
+
+  const paneFooter = (
+    <FormFooter
+      label={<FormattedMessage id="ui-finance.saveAndClose" />}
+      handleSubmit={handleSubmit}
+      pristine={pristine}
+      submitting={submitting}
+      onCancel={onCancel}
+    />
+  );
 
   return (
     <form>
@@ -64,9 +55,9 @@ const FiscalYearForm = ({
         <Pane
           defaultWidth="fill"
           dismissible
+          footer={paneFooter}
           id="pane-fiscal-year-form"
           onClose={onCancel}
-          lastMenu={lastMenu}
           paneTitle={isEditMode ? EDIT_FISCAL_YEAR_TITLE : CREATE_FISCAL_YEAR_TITLE}
         >
           <Row>

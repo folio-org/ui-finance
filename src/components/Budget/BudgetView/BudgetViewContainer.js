@@ -11,7 +11,6 @@ import {
   Paneset,
   MenuSection,
   Pane,
-  PaneMenu,
   Row,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
@@ -124,36 +123,6 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
     </MenuSection>
   );
 
-  const lastMenu = (
-    <PaneMenu>
-      <Button
-        marginBottom0
-        buttonStyle="default"
-        data-test-add-allocation-button
-        onClick={toggleAllocateModal}
-      >
-        <FormattedMessage id="ui-finance.transaction.allocate" />
-      </Button>
-
-      <Button
-        marginBottom0
-        buttonStyle="default"
-        data-test-add-transfer-button
-        onClick={toggleTransferModal}
-      >
-        <FormattedMessage id="ui-finance.transaction.button.transfer" />
-      </Button>
-
-      <Button
-        marginBottom0
-        buttonStyle="primary"
-        onClick={editBudget}
-      >
-        <FormattedMessage id="ui-finance.actions.edit" />
-      </Button>
-    </PaneMenu>
-  );
-
   if (isLoading) {
     return (
       <Paneset>
@@ -169,7 +138,6 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
         defaultWidth="fill"
         dismissible
         id="pane-budget"
-        lastMenu={lastMenu}
         onClose={goToFundDetails}
         paneTitle={paneTitle}
       >

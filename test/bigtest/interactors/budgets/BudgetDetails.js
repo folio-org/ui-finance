@@ -14,10 +14,15 @@ import Button from '../common/Button';
   amount = new Interactor('input[name=amount]');
 }
 
+@interactor class Actions {
+  static defaultScope = '#budget-actions';
+  addTransferButton = new Interactor('[data-test-add-transfer-menu-button]');
+}
+
 export default interactor(class BudgetDetailsInteractor {
   static defaultScope = '#pane-budget';
 
-  addTransferButton = new Button('[data-test-add-transfer-button]');
+  actions = new Actions();
   addTransferModal = new AddTransferModal();
   closePane = new Button('[icon=times]');
 

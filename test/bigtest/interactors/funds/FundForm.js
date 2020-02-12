@@ -12,7 +12,7 @@ export default interactor(class FundFormInteractor {
   closePane = new Button('[icon=times]');
   externalAccountNo = new TextFieldInteractor('input[name="fund.externalAccountNo"]');
   description = new TextFieldInteractor('[name="fund.description"]');
-  saveButton = new Button('[data-test-button-save-fund]');
+  saveButton = new Button('[data-test-save-button]');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

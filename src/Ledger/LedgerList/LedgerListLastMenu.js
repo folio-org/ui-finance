@@ -1,5 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   PaneMenu,
@@ -9,16 +11,19 @@ import { IfPermission } from '@folio/stripes/core';
 
 import { LEDGERS_ROUTE } from '../../common/const';
 
-const LedgerListLastMenu = () => {
+const LedgerListLastMenu = ({ location }) => {
   return (
-    <IfPermission perm="finance.ledgers-list.item.post">
+    <IfPermission perm="finance.ledgers.item.post">
       <PaneMenu>
         <FormattedMessage id="stripes-smart-components.addNew">
           {ariaLabel => (
             <Button
               id="clickable-newLedger"
               aria-label={ariaLabel}
-              to={`${LEDGERS_ROUTE}/create`}
+              to={{
+                pathname: `${LEDGERS_ROUTE}/create`,
+                search: location.search,
+              }}
               buttonStyle="primary"
               marginBottom0
             >
@@ -31,4 +36,8 @@ const LedgerListLastMenu = () => {
   );
 };
 
-export default LedgerListLastMenu;
+LedgerListLastMenu.propTypes = {
+  location: ReactRouterPropTypes.location.isRequired,
+};
+
+export default withRouter(LedgerListLastMenu);

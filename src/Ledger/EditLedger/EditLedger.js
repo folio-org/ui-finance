@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  FISCAL_YEAR_ROUTE,
   LEDGERS_ROUTE,
 } from '../../common/const';
 import { ledgerByUrlIdResource } from '../../common/resources';
@@ -63,11 +62,11 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
 
   const goToCreateFY = useCallback(() => {
     history.push({
-      pathname: FISCAL_YEAR_ROUTE,
-      search: `?layer=create&ledgerId=${ledgerId}`,
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/fiscalyear/create`,
+      search: location.search,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ledgerId]);
+  }, [location.search, ledgerId]);
 
   const isLoading = !get(resources, ['ledgerEdit', 'hasLoaded']);
   const ledger = get(resources, ['ledgerEdit', 'records', '0']);

@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
-import { SubmissionError } from 'redux-form';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Paneset } from '@folio/stripes/components';
 import {
   LoadingPane,
-  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -18,7 +16,9 @@ import {
 import {
   fiscalYearResource,
 } from '../../common/resources';
-import FiscalYearForm from '../FiscalYearForm';
+
+import { FiscalYearForm } from '../FiscalYearForm';
+import { useSaveFiscalYear } from '../utils';
 
 const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
   const fiscalYearId = match.params.id;
@@ -32,8 +32,6 @@ const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
     [fiscalYearId],
   );
 
-  const showCallout = useShowCallout();
-
   const closeEdit = useCallback(
     () => {
       history.push({
@@ -45,39 +43,7 @@ const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
     [fiscalYearId, location.search],
   );
 
-  const saveFiscalYear = useCallback(
-    async (fiscalYearValues) => {
-      try {
-        const savedFiscalYear = await mutator.fiscalYearEdit.PUT(fiscalYearValues);
-
-        showCallout({
-          messageId: 'ui-finance.fiscalYear.actions.save.success',
-        });
-        setTimeout(() => closeEdit(), 0);
-
-        return savedFiscalYear;
-      } catch (response) {
-        let errorCode = null;
-
-        try {
-          const responseJson = await response.json();
-
-          errorCode = get(responseJson, 'errors.0.code', 'genericError');
-        } catch (parsingException) {
-          errorCode = 'genericError';
-        }
-        showCallout({
-          messageId: `ui-finance.fiscalYear.actions.save.error.${errorCode}`,
-          type: 'error',
-        });
-        throw new SubmissionError({
-          _error: 'FY was not saved',
-        });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closeEdit, mutator.fiscalYearEdit],
-  );
+  const saveFiscalYear = useSaveFiscalYear(mutator.fiscalYearEdit, closeEdit, 'PUT');
 
   const isLoading = !get(resources, ['fiscalYearEdit', 'hasLoaded']);
   const fiscalYear = get(resources, ['fiscalYearEdit', 'records', '0']);

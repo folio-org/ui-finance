@@ -6,6 +6,7 @@ import { LEDGERS_ROUTE } from '../../../../../src/common/const';
 import setupApplication from '../../../helpers/setup-application';
 import LedgerFormInteractor from '../../../interactors/ledgers/LedgerForm';
 import LedgersListInteractor from '../../../interactors/ledgers/LedgersList';
+import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
 
 describe('Ledger create', () => {
   setupApplication();
@@ -66,12 +67,19 @@ describe('Ledger create', () => {
   });
 
   describe('Click on create fiscal year button', () => {
+    const fiscalYearForm = new FiscalYearFormInteractor();
+
     beforeEach(async function () {
       await ledgerForm.createFYButton.click();
+      await fiscalYearForm.whenLoaded();
     });
 
     it('should  close form', () => {
       expect(ledgerForm.isPresent).to.be.false;
+    });
+
+    it('should open fiscal year form', () => {
+      expect(fiscalYearForm.isPresent).to.be.true;
     });
   });
 });

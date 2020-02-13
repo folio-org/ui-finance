@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
@@ -40,17 +40,17 @@ const LedgerForm = ({
   handleSubmit,
   initialValues,
   onCancel,
-  pristine,
   submitting,
 }) => {
+  const closeForm = useCallback(() => onCancel(), [onCancel]);
+
   const isEditMode = Boolean(initialValues.id);
   const paneFooter = (
     <FormFooter
       label={SAVE_AND_CLOSE_TITLE}
       handleSubmit={handleSubmit}
-      pristine={pristine}
       submitting={submitting}
-      onCancel={onCancel}
+      onCancel={closeForm}
     />
   );
   const metadata = initialValues.metadata;
@@ -62,7 +62,7 @@ const LedgerForm = ({
           defaultWidth="fill"
           dismissible
           id="pane-ledger-form"
-          onClose={onCancel}
+          onClose={closeForm}
           footer={paneFooter}
           paneTitle={isEditMode ? EDIT_LEDGER_TITLE : CREATE_LEDGER_TITLE}
         >
@@ -156,7 +156,6 @@ LedgerForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
 };
 
@@ -167,4 +166,5 @@ LedgerForm.defaultProps = {
 export default stripesForm({
   form: LEDGER_FORM,
   navigationCheck: true,
+  enableReinitialize: true,
 })(LedgerForm);

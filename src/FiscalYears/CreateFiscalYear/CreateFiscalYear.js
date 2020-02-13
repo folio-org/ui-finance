@@ -2,13 +2,8 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
-import { SubmissionError } from 'redux-form';
 
 import { stripesConnect } from '@folio/stripes/core';
-import {
-  useShowCallout,
-} from '@folio/stripes-acq-components';
 
 import {
   FISCAL_YEAR_ROUTE,
@@ -16,13 +11,13 @@ import {
 import {
   fiscalYearsResource,
 } from '../../common/resources';
-import FiscalYearForm from '../FiscalYearForm';
+
+import { useSaveFiscalYear } from '../utils';
+import { FiscalYearForm } from '../FiscalYearForm';
 
 const INITIAL_FISCAL_YEAR = {};
 
 const CreateFiscalYear = ({ mutator, location, history }) => {
-  const showCallout = useShowCallout();
-
   const closeForm = useCallback(
     (id) => {
       history.push({
@@ -34,39 +29,7 @@ const CreateFiscalYear = ({ mutator, location, history }) => {
     [location.search],
   );
 
-  const saveFiscalYear = useCallback(
-    async (fiscalYearValues) => {
-      try {
-        const savedFiscalYear = await mutator.createFiscalYear.POST(fiscalYearValues);
-
-        showCallout({
-          messageId: 'ui-finance.fiscalYear.actions.save.success',
-        });
-        setTimeout(() => closeForm(savedFiscalYear.id), 0);
-
-        return savedFiscalYear;
-      } catch (response) {
-        let errorCode = null;
-
-        try {
-          const responseJson = await response.json();
-
-          errorCode = get(responseJson, 'errors.0.code', 'genericError');
-        } catch (parsingException) {
-          errorCode = 'genericError';
-        }
-        showCallout({
-          messageId: `ui-finance.fiscalYear.actions.save.error.${errorCode}`,
-          type: 'error',
-        });
-        throw new SubmissionError({
-          _error: 'FY was not saved',
-        });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closeForm],
-  );
+  const saveFiscalYear = useSaveFiscalYear(mutator.createFiscalYear, closeForm);
 
   return (
     <FiscalYearForm

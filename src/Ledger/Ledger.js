@@ -8,6 +8,7 @@ import {
 import { LEDGERS_ROUTE } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
+import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
 import { LedgerListContainer } from './LedgerList';
 
 const Ledger = () => {
@@ -18,10 +19,17 @@ const Ledger = () => {
         render={CreateLedger}
       />
       <Route
+        path={`${LEDGERS_ROUTE}/fiscalyear/create`}
+        render={CreateLedgerFiscalYear}
+      />
+      <Route
+        path={`${LEDGERS_ROUTE}/:id/fiscalyear/create`}
+        render={CreateLedgerFiscalYear}
+      />
+      <Route
         path={`${LEDGERS_ROUTE}/:id/edit`}
         render={EditLedger}
       />
-
       <Route
         path={LEDGERS_ROUTE}
         render={LedgerListContainer}

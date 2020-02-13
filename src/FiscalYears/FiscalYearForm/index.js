@@ -1,1 +1,1 @@
-export { default } from './FiscalYearForm';
+export { default as FiscalYearForm } from './FiscalYearForm';

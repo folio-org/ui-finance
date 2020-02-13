@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
@@ -39,6 +39,8 @@ const GroupForm = ({
   pristine,
   submitting,
 }) => {
+  const closeForm = useCallback(() => onCancel(), [onCancel]);
+
   const isEditMode = Boolean(initialValues.id);
 
   const paneFooter = (
@@ -47,7 +49,7 @@ const GroupForm = ({
       handleSubmit={handleSubmit}
       pristine={pristine}
       submitting={submitting}
-      onCancel={onCancel}
+      onCancel={closeForm}
     />
   );
 
@@ -59,7 +61,7 @@ const GroupForm = ({
           dismissible
           footer={paneFooter}
           id="pane-group-form"
-          onClose={onCancel}
+          onClose={closeForm}
           paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
         >
           <Row>

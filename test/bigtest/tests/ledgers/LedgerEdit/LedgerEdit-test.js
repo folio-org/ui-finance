@@ -6,6 +6,7 @@ import { LEDGERS_ROUTE } from '../../../../../src/common/const';
 import setupApplication from '../../../helpers/setup-application';
 import LedgerFormInteractor from '../../../interactors/ledgers/LedgerForm';
 import LesdgersListInteractor from '../../../interactors/ledgers/LedgersList';
+import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
 
 const TEST_VALUE_NAME = 'test edit name';
 
@@ -44,12 +45,19 @@ describe('Ledger edit', () => {
   });
 
   describe('Click on create fiscal year button', () => {
+    const fiscalYearForm = new FiscalYearFormInteractor();
+
     beforeEach(async function () {
       await ledgerForm.createFYButton.click();
+      await fiscalYearForm.whenLoaded();
     });
 
     it('should close form', () => {
       expect(ledgerForm.isPresent).to.be.false;
+    });
+
+    it('should open fiscal year form', () => {
+      expect(fiscalYearForm.isPresent).to.be.true;
     });
   });
 });

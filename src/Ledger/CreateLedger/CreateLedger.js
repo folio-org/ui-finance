@@ -1,4 +1,8 @@
-import React, { useCallback } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -10,7 +14,7 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { FISCAL_YEAR_ROUTE, LEDGERS_ROUTE } from '../../common/const';
+import { LEDGERS_ROUTE } from '../../common/const';
 import { ledgersResource } from '../../common/resources';
 import LedgerForm from '../LedgerForm';
 
@@ -18,6 +22,13 @@ const INITIAL_LEDGER = {};
 
 const CreateLedger = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();
+  const [ledger, setLedger] = useState(INITIAL_LEDGER);
+
+  useEffect(() => {
+    if (location.state) {
+      setLedger(location.state);
+    }
+  }, [location.state]);
 
   const closeForm = useCallback(
     (id) => {
@@ -32,10 +43,11 @@ const CreateLedger = ({ mutator, location, history }) => {
 
   const goToCreateFY = useCallback(() => {
     history.push({
-      pathname: FISCAL_YEAR_ROUTE,
+      pathname: `${LEDGERS_ROUTE}/fiscalyear/create`,
+      search: location.search,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.search]);
 
   const saveLedger = useCallback(
     async (ledgerValues) => {
@@ -74,7 +86,7 @@ const CreateLedger = ({ mutator, location, history }) => {
   return (
     <LedgerForm
       goToCreateFY={goToCreateFY}
-      initialValues={INITIAL_LEDGER}
+      initialValues={ledger}
       onSubmit={saveLedger}
       onCancel={closeForm}
     />

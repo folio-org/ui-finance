@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
@@ -36,6 +36,8 @@ const FiscalYearForm = ({
   pristine,
   submitting,
 }) => {
+  const closeForm = useCallback(() => onCancel(), [onCancel]);
+
   const isEditMode = Boolean(initialValues.id);
   const metadata = initialValues.metadata;
 
@@ -45,7 +47,7 @@ const FiscalYearForm = ({
       handleSubmit={handleSubmit}
       pristine={pristine}
       submitting={submitting}
-      onCancel={onCancel}
+      onCancel={closeForm}
     />
   );
 
@@ -57,7 +59,7 @@ const FiscalYearForm = ({
           dismissible
           footer={paneFooter}
           id="pane-fiscal-year-form"
-          onClose={onCancel}
+          onClose={closeForm}
           paneTitle={isEditMode ? EDIT_FISCAL_YEAR_TITLE : CREATE_FISCAL_YEAR_TITLE}
         >
           <Row>

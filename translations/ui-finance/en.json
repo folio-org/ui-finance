@@ -399,6 +399,7 @@
   "fund.remove.heading": "Delete fund",
   "fund.remove.message": "Are you sure you want to delete fund?",
   "fund.save": "Save",
+  "fund.search.keyword": "All",
   "fund.search.code": "Code",
   "fund.search.externalAccountNo": "External account number",
   "fund.search.name": "Name",

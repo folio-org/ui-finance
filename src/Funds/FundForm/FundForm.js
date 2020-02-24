@@ -60,7 +60,6 @@ const FundForm = ({
   systemCurrency,
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
-  // const funds = sortBy(get(parentResources, ['records', 'records'], []), 'name');
   const fundTypeOptions = fundTypes.map(
     ({ name, id }) => ({
       label: name,

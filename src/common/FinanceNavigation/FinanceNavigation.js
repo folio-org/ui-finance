@@ -12,7 +12,7 @@ import { FINANCE_NAVIGATION_TABS } from './constants';
 
 const FinanceNavigation = ({ history, match: { path } }) => {
   const getTabStyle = tabId => (path.includes(`/finance/${tabId}`) ? 'primary' : 'default');
-  const goToTab = (tabId, withSort = true) => history.push(`/finance/${tabId}${withSort ? '?sort=name' : ''}`);
+  const goToTab = (tabId) => history.push(`/finance/${tabId}`);
 
   return (
     <ButtonGroup
@@ -20,21 +20,21 @@ const FinanceNavigation = ({ history, match: { path } }) => {
       data-test-finance-navigation
     >
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YAER, false)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
         data-test-finance-navigation-fiscalyear
       >
         <FormattedMessage id="ui-finance.fiscalyear" />
       </Button>
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER, false)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.LEDGER)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.LEDGER)}
         data-test-finance-navigation-ledger
       >
         <FormattedMessage id="ui-finance.ledger" />
       </Button>
       <Button
-        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.GROUPS, false)}
+        onClick={() => goToTab(FINANCE_NAVIGATION_TABS.GROUPS)}
         buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.GROUPS)}
         data-test-finance-navigation-group
       >

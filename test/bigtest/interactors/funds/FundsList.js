@@ -10,11 +10,11 @@ import FinanceNavigationInteractor from '../common/FinanceNavigation';
 export default interactor(class FundsListInteractor {
   static defaultScope = '[data-test-funds-list]';
 
-  funds = collection('[role=row] a');
+  funds = collection('[role=group] [role=row]');
   navigation = new FinanceNavigationInteractor();
-  newButton = new Button('#clickable-newfund');
+  newButton = new Button('#clickable-newFund');
 
-  isLoaded = isPresent('#pane-results');
+  isLoaded = isPresent('#funds-list');
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
   }

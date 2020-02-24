@@ -8,7 +8,7 @@ import {
 } from '../../common/const';
 
 import { Ledger } from '../../Ledger';
-import FundsList from '../Fund';
+import Funds from '../../Funds';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
 import Transactions from '../../Transactions';
@@ -24,7 +24,7 @@ const Main = ({ match }) => {
         />
         <Route
           path={`${match.path}/fund`}
-          component={FundsList}
+          component={Funds}
         />
         <Route
           path={`${match.path}/budget`}

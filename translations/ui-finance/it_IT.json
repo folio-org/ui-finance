@@ -477,5 +477,6 @@
     "fund.plannedBudget.noUpcomingFY.label": "Nessun anno fiscale in arrivo trovato",
     "fund.plannedBudget.noUpcomingFY.message": "Non è possibile creare un budget pianificato finché non è previsto un anno fiscale in arrivo nella serie degli anni fiscali associata alla contabilità generale.",
     "budget.overEncumbrance": "Oltre l'impegno di spesa",
-    "budget.overExpended": "Oltre la spesa"
+    "budget.overExpended": "Oltre la spesa",
+    "fund.search.keyword": "All"
 }

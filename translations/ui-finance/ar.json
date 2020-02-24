@@ -477,5 +477,6 @@
     "fund.plannedBudget.noUpcomingFY.label": "لم يتم العثور على سنة مالية قادمة",
     "fund.plannedBudget.noUpcomingFY.message": "لا يمكنك إنشاء ميزانية مخططة حتى تكون هناك سنة مالية قادمة في سلسلة السنوات المالية المرتبطة بالدفتر.",
     "budget.overEncumbrance": "تكاليف زائدة",
-    "budget.overExpended": "أكثر من ذلك"
+    "budget.overExpended": "أكثر من ذلك",
+    "fund.search.keyword": "All"
 }

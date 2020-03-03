@@ -30,7 +30,7 @@ const buildGroupsQuery = makeQueryBuilder(
       return `(${qindex}=${query}*)`;
     }
 
-    return getKeywordQuery(query);
+    return `(${getKeywordQuery(query)})`;
   },
   'sortby name/sort.ascending',
 );

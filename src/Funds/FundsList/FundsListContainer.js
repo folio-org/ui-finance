@@ -15,12 +15,16 @@ import {
   makeQueryBuilder,
 } from '@folio/stripes-acq-components';
 
-import { fundsResource } from '../../common/resources';
+import {
+  fundsResource,
+  ledgersResource,
+} from '../../common/resources';
 
 import FundsList from './FundsList';
 import {
   getKeywordQuery,
 } from './FundsListSearchConfig';
+import { fetchFundLedgers } from './utils';
 
 const RESULT_COUNT_INCREMENT = 30;
 const buildFundsQuery = makeQueryBuilder(
@@ -30,7 +34,7 @@ const buildFundsQuery = makeQueryBuilder(
       return `(${qindex}=${query}*)`;
     }
 
-    return getKeywordQuery(query);
+    return `(${getKeywordQuery(query)})`;
   },
   'sortby name/sort.ascending',
 );
@@ -39,6 +43,7 @@ const resetData = () => {};
 
 const FundsListContainer = ({ mutator, location }) => {
   const [funds, setFunds] = useState([]);
+  const [ledgersMap, setLedgersMap] = useState({});
   const [fundsCount, setFundsCount] = useState(0);
   const [fundsOffset, setFundsOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,9 +59,33 @@ const FundsListContainer = ({ mutator, location }) => {
       },
     })
       .then(fundsResponse => {
+        const ledgersPromise = fetchFundLedgers(
+          mutator.fundsListLedgers, fundsResponse.funds, ledgersMap,
+        );
+
+        return Promise.all([fundsResponse, ledgersPromise]);
+      })
+      .then(([fundsResponse, ledgersResponse]) => {
         if (!offset) setFundsCount(fundsResponse.totalRecords);
 
-        setFunds((prev) => [...prev, ...fundsResponse.funds]);
+        const newLedgersMap = {
+          ...ledgersMap,
+          ...ledgersResponse.reduce((acc, ledgerItem) => {
+            acc[ledgerItem.id] = ledgerItem;
+
+            return acc;
+          }, {}),
+        };
+
+        setLedgersMap(newLedgersMap);
+
+        setFunds((prev) => [
+          ...prev,
+          ...fundsResponse.funds.map(fund => ({
+            ...fund,
+            ledger: newLedgersMap[fund.ledgerId]?.name,
+          })),
+        ]);
       })
       .finally(() => setIsLoading(false));
   };
@@ -100,6 +129,10 @@ FundsListContainer.manifest = Object.freeze({
     ...fundsResource,
     accumulate: true,
     records: null,
+  },
+  fundsListLedgers: {
+    ...ledgersResource,
+    accumulate: true,
   },
 });
 

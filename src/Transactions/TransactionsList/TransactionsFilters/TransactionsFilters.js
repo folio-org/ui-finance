@@ -7,6 +7,7 @@ import {
 
 import {
   AcqCheckboxFilter,
+  AcqTagsFilter,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -15,6 +16,7 @@ import {
 
 const FILTERS = {
   TRANSACTION_TYPE: 'transactionType',
+  TAGS: 'tags.tagList',
 };
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
@@ -38,6 +40,13 @@ const TransactionsFilters = ({
           name={FILTERS.TRANSACTION_TYPE}
           onChange={adaptedApplyFilters}
           options={TRANSACTION_TYPE_OPTIONS}
+        />
+
+        <AcqTagsFilter
+          activeFilters={activeFilters[FILTERS.TAGS]}
+          id={FILTERS.TAGS}
+          name={FILTERS.TAGS}
+          onChange={adaptedApplyFilters}
         />
       </AccordionSet>
     </Fragment>

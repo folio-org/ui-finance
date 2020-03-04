@@ -4,6 +4,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
 
 ### Stories
+* [UIF-177](https://issues.folio.org/browse/UIF-177) Update transaction view
 * [UIF-128](https://issues.folio.org/browse/UIF-128) Filter Finance transaction records by tags
 * [UIF-182](https://issues.folio.org/browse/UIF-182) TECH-DEBT refactor Funds list to not use SearchAndSort
 * [UIF-179](https://issues.folio.org/browse/UIF-179) Move record action buttons into "Action" button UX pattern

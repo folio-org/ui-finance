@@ -65,6 +65,7 @@ const TransactionDetails = ({
             tags={transaction.tags}
             toFundName={toFundName}
             transactionType={transaction.transactionType}
+            encumbrance={transaction.encumbrance}
           />
         </Accordion>
       </AccordionSet>

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -17,6 +17,7 @@ const TransactionInformation = ({
   amount,
   currency,
   description,
+  encumbrance,
   fiscalYearCode,
   fromFundName,
   metadata,
@@ -26,7 +27,7 @@ const TransactionInformation = ({
   transactionType,
 }) => {
   return (
-    <Fragment>
+    <>
       <ViewMetaData metadata={metadata} />
       <Row>
         <Col
@@ -110,7 +111,57 @@ const TransactionInformation = ({
             value={tags.tagList.join(', ')}
           />
         </Col>
+      </Row>
 
+      <Row>
+        <Col
+          data-test-transaction-amount-awaiting-payment
+          xs={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-finance.transaction.amountAwaitingPayment" />}>
+            <AmountWithCurrencyField
+              amount={encumbrance.amountAwaitingPayment}
+              currency={currency}
+            />
+          </KeyValue>
+        </Col>
+
+        <Col
+          data-test-transaction-amount-encumbered
+          xs={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-finance.transaction.initialEncumbrance" />}>
+            <AmountWithCurrencyField
+              amount={encumbrance.initialAmountEncumbered}
+              currency={currency}
+            />
+          </KeyValue>
+        </Col>
+
+        <Col
+          data-test-transaction-amount-expended
+          xs={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-finance.transaction.expended" />}>
+            <AmountWithCurrencyField
+              amount={encumbrance.amountExpended}
+              currency={currency}
+            />
+          </KeyValue>
+        </Col>
+
+        <Col
+          data-test-transaction-status
+          xs={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-finance.transaction.status" />}
+            value={encumbrance.status}
+          />
+        </Col>
+      </Row>
+
+      <Row>
         <Col xs={12}>
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.description" />}
@@ -118,7 +169,7 @@ const TransactionInformation = ({
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 };
 
@@ -126,6 +177,7 @@ TransactionInformation.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
   description: PropTypes.string,
+  encumbrance: PropTypes.object,
   fiscalYearCode: PropTypes.string.isRequired,
   fromFundName: PropTypes.string,
   metadata: PropTypes.object,
@@ -137,6 +189,7 @@ TransactionInformation.propTypes = {
 
 TransactionInformation.defaultProps = {
   description: '',
+  encumbrance: {},
   metadata: {},
   tags: { tagList: [] },
 };

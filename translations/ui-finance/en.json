@@ -476,6 +476,8 @@
   "transaction.source.Voucher": "Voucher",
   "transaction.source": "Source",
   "transaction.status": "Status",
+  "transaction.status.Released": "Released",
+  "transaction.status.Unreleased": "Unreleased",
   "transaction.tags": "Tags",
   "transaction.to": "To",
   "transaction.transfer.hasBeenCreated": "{amount} was successfully trasfered to the budget {budgetName}",

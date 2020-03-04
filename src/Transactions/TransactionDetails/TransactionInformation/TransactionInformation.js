@@ -113,53 +113,54 @@ const TransactionInformation = ({
         </Col>
       </Row>
 
-      <Row>
-        <Col
-          data-test-transaction-amount-awaiting-payment
-          xs={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-finance.transaction.amountAwaitingPayment" />}>
-            <AmountWithCurrencyField
-              amount={encumbrance.amountAwaitingPayment}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
+      {encumbrance && (
+        <Row>
+          <Col
+            data-test-transaction-amount-awaiting-payment
+            xs={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-finance.transaction.amountAwaitingPayment" />}>
+              <AmountWithCurrencyField
+                amount={encumbrance.amountAwaitingPayment}
+                currency={currency}
+              />
+            </KeyValue>
+          </Col>
 
-        <Col
-          data-test-transaction-amount-encumbered
-          xs={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-finance.transaction.initialEncumbrance" />}>
-            <AmountWithCurrencyField
-              amount={encumbrance.initialAmountEncumbered}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
+          <Col
+            data-test-transaction-amount-encumbered
+            xs={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-finance.transaction.initialEncumbrance" />}>
+              <AmountWithCurrencyField
+                amount={encumbrance.initialAmountEncumbered}
+                currency={currency}
+              />
+            </KeyValue>
+          </Col>
 
-        <Col
-          data-test-transaction-amount-expended
-          xs={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-finance.transaction.expended" />}>
-            <AmountWithCurrencyField
-              amount={encumbrance.amountExpended}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
+          <Col
+            data-test-transaction-amount-expended
+            xs={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-finance.transaction.expended" />}>
+              <AmountWithCurrencyField
+                amount={encumbrance.amountExpended}
+                currency={currency}
+              />
+            </KeyValue>
+          </Col>
 
-        <Col
-          data-test-transaction-status
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.transaction.status" />}
-            value={encumbrance.status}
-          />
-        </Col>
-      </Row>
+          <Col
+            data-test-transaction-status
+            xs={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-finance.transaction.status" />}>
+              <FormattedMessage id={`ui-finance.transaction.status.${encumbrance.status}`} />
+            </KeyValue>
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col xs={12}>
@@ -189,7 +190,6 @@ TransactionInformation.propTypes = {
 
 TransactionInformation.defaultProps = {
   description: '',
-  encumbrance: {},
   metadata: {},
   tags: { tagList: [] },
 };

@@ -156,7 +156,9 @@ const TransactionInformation = ({
             xs={3}
           >
             <KeyValue label={<FormattedMessage id="ui-finance.transaction.status" />}>
-              <FormattedMessage id={`ui-finance.transaction.status.${encumbrance.status}`} />
+              <span data-test-transaction-status-value>
+                <FormattedMessage id={`ui-finance.transaction.status.${encumbrance.status}`} />
+              </span>
             </KeyValue>
           </Col>
         </Row>

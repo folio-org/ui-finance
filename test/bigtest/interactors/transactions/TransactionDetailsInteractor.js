@@ -7,7 +7,7 @@ import Button from '../common/Button';
 
 @interactor class Status {
   static defaultScope = '[data-test-transaction-status]';
-  value = text('[class*=kvRoot---]');
+  value = text('[data-test-transaction-status-value]');
 }
 
 export default interactor(class TransactionDetailsInteractor {

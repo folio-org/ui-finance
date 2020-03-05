@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import {
   BUDGET_ROUTE,
   BUDGET_TRANSACTIONS_ROUTE,
+  TRANSACTION_TYPES,
 } from '../../../../../src/common/const';
 import setupApplication from '../../../helpers/setup-application';
 import TransactionDetailsInteractor from '../../../interactors/transactions/TransactionDetailsInteractor';
@@ -18,27 +19,18 @@ describe('Transaction details', () => {
     const fiscalYear = this.server.create('fiscalYear');
     const transaction = this.server.create('transaction', {
       fiscalYearId: fiscalYear.id,
+      transactionType: TRANSACTION_TYPES.encumbrance,
+      encumbrance: {
+        status: 'Released',
+      },
     });
 
     this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}${transaction.id}/view`);
     await details.whenLoaded();
   });
 
-  it('should show details pane', () => {
-    expect(details.isPresent).to.be.true;
-  });
-
-  it('encumbrance values for non-encumbrance transactions should not be presented', () => {
-    expect(details.status.isPresent).to.be.false;
-  });
-
-  describe('close action', () => {
-    beforeEach(async function () {
-      await details.closePane.click();
-    });
-
-    it('should close details pane', () => {
-      expect(details.isPresent).to.be.false;
-    });
+  it('status should be presented', () => {
+    expect(details.status.isPresent).to.be.true;
+    expect(details.status.value).to.contain('Released');
   });
 });

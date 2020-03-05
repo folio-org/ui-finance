@@ -19,8 +19,8 @@ export const TRANSACTION_TYPE_OPTIONS = Object.values(TRANSACTION_TYPES).map(tra
 }));
 
 export const TRANSACTION_SOURCE = {
-  credit: 'Credit',
-  manual: 'Manual',
+  fiscalYear: 'FiscalYear',
+  invoice: 'Invoice',
+  poLine: 'PoLine',
   user: 'User',
-  voucher: 'Voucher',
 };

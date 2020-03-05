@@ -5,7 +5,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   Button,
-  Icon,
   Modal,
   ModalFooter,
   Spinner,

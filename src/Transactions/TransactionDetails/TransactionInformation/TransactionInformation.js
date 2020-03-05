@@ -116,24 +116,24 @@ const TransactionInformation = ({
       {encumbrance && (
         <Row>
           <Col
-            data-test-transaction-amount-awaiting-payment
-            xs={3}
-          >
-            <KeyValue label={<FormattedMessage id="ui-finance.transaction.amountAwaitingPayment" />}>
-              <AmountWithCurrencyField
-                amount={encumbrance.amountAwaitingPayment}
-                currency={currency}
-              />
-            </KeyValue>
-          </Col>
-
-          <Col
             data-test-transaction-amount-encumbered
             xs={3}
           >
             <KeyValue label={<FormattedMessage id="ui-finance.transaction.initialEncumbrance" />}>
               <AmountWithCurrencyField
                 amount={encumbrance.initialAmountEncumbered}
+                currency={currency}
+              />
+            </KeyValue>
+          </Col>
+
+          <Col
+            data-test-transaction-amount-awaiting-payment
+            xs={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-finance.transaction.amountAwaitingPayment" />}>
+              <AmountWithCurrencyField
+                amount={encumbrance.amountAwaitingPayment}
                 currency={currency}
               />
             </KeyValue>

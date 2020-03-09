@@ -382,8 +382,6 @@
     "transaction.fiscalYear": "السنة المالية",
     "transaction.from": "من",
     "transaction.information": "بيانات",
-    "transaction.source.Credit": "رصيد",
-    "transaction.source.Manual": "يدوي",
     "transaction.source.User": "المستخدم",
     "transaction.source.Voucher": "قسيمة",
     "transaction.source": "مصدر",
@@ -478,5 +476,14 @@
     "fund.plannedBudget.noUpcomingFY.message": "لا يمكنك إنشاء ميزانية مخططة حتى تكون هناك سنة مالية قادمة في سلسلة السنوات المالية المرتبطة بالدفتر.",
     "budget.overEncumbrance": "تكاليف زائدة",
     "budget.overExpended": "أكثر من ذلك",
-    "fund.search.keyword": "All"
+    "fund.search.keyword": "الكل",
+    "transaction.amountAwaitingPayment": "في انتظار السداد",
+    "transaction.expended": "المنفق",
+    "transaction.initialEncumbrance": "التكلفة المبدئية",
+    "transaction.source.FiscalYear": "السنة المالية",
+    "transaction.source.Invoice": "الفاتورة",
+    "transaction.source.PoLine": "سطر أمر الشراء",
+    "transaction.status": "الحالة",
+    "transaction.status.Released": "تم إصداره",
+    "transaction.status.Unreleased": "لم يتم إصداره"
 }

@@ -382,8 +382,6 @@
     "transaction.fiscalYear": "Финансовый год",
     "transaction.from": "От",
     "transaction.information": "Информация",
-    "transaction.source.Credit": "Кредит",
-    "transaction.source.Manual": "Руководство",
     "transaction.source.User": "Пользователь",
     "transaction.source.Voucher": "Ваучер",
     "transaction.source": "Источник",
@@ -478,5 +476,14 @@
     "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger.",
     "budget.overEncumbrance": "Over encumbered",
     "budget.overExpended": "Over expended",
-    "fund.search.keyword": "All"
+    "fund.search.keyword": "All",
+    "transaction.amountAwaitingPayment": "Awaiting payment",
+    "transaction.expended": "Expended",
+    "transaction.initialEncumbrance": "Initial encumbrance",
+    "transaction.source.FiscalYear": "Fiscal year",
+    "transaction.source.Invoice": "Invoice",
+    "transaction.source.PoLine": "PO line",
+    "transaction.status": "Status",
+    "transaction.status.Released": "Released",
+    "transaction.status.Unreleased": "Unreleased"
 }

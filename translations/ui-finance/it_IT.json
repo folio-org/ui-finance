@@ -382,8 +382,6 @@
     "transaction.fiscalYear": "Anno fiscale",
     "transaction.from": "Da",
     "transaction.information": "Informazioni",
-    "transaction.source.Credit": "Credito",
-    "transaction.source.Manual": "Manuale",
     "transaction.source.User": "Utente",
     "transaction.source.Voucher": "Voucher",
     "transaction.source": "Fonte",
@@ -478,5 +476,14 @@
     "fund.plannedBudget.noUpcomingFY.message": "Non è possibile creare un budget pianificato finché non è previsto un anno fiscale in arrivo nella serie degli anni fiscali associata alla contabilità generale.",
     "budget.overEncumbrance": "Oltre l'impegno di spesa",
     "budget.overExpended": "Oltre la spesa",
-    "fund.search.keyword": "All"
+    "fund.search.keyword": "All",
+    "transaction.amountAwaitingPayment": "Awaiting payment",
+    "transaction.expended": "Expended",
+    "transaction.initialEncumbrance": "Initial encumbrance",
+    "transaction.source.FiscalYear": "Fiscal year",
+    "transaction.source.Invoice": "Invoice",
+    "transaction.source.PoLine": "PO line",
+    "transaction.status": "Status",
+    "transaction.status.Released": "Released",
+    "transaction.status.Unreleased": "Unreleased"
 }

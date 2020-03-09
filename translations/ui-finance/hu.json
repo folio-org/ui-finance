@@ -382,8 +382,6 @@
     "transaction.fiscalYear": "Fiscal year",
     "transaction.from": "From",
     "transaction.information": "Information",
-    "transaction.source.Credit": "Credit",
-    "transaction.source.Manual": "Manual",
     "transaction.source.User": "User",
     "transaction.source.Voucher": "Voucher",
     "transaction.source": "Source",
@@ -478,5 +476,14 @@
     "fund.plannedBudget.noUpcomingFY.message": "You can not create a planned budget until there is an upcoming fiscal year in the fiscal year series associated with the Ledger.",
     "budget.overEncumbrance": "Over encumbered",
     "budget.overExpended": "Over expended",
-    "fund.search.keyword": "All"
+    "fund.search.keyword": "All",
+    "transaction.amountAwaitingPayment": "Awaiting payment",
+    "transaction.expended": "Expended",
+    "transaction.initialEncumbrance": "Initial encumbrance",
+    "transaction.source.FiscalYear": "Fiscal year",
+    "transaction.source.Invoice": "Invoice",
+    "transaction.source.PoLine": "PO line",
+    "transaction.status": "Status",
+    "transaction.status.Released": "Released",
+    "transaction.status.Unreleased": "Unreleased"
 }

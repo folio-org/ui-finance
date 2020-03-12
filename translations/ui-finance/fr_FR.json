@@ -479,7 +479,7 @@
     "fund.search.keyword": "Tout",
     "transaction.amountAwaitingPayment": "En attente de paiement",
     "transaction.expended": "Dépensé",
-    "transaction.initialEncumbrance": "Initial encumbrance",
+    "transaction.initialEncumbrance": "Provision initiale",
     "transaction.source.FiscalYear": "Exercice fiscal",
     "transaction.source.Invoice": "Facture",
     "transaction.source.PoLine": "Ligne de commande",

@@ -13,8 +13,10 @@ import queryString from 'query-string';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryBuilder,
+  useLocationReset,
 } from '@folio/stripes-acq-components';
 
+import { LEDGERS_ROUTE } from '../../common/const';
 import { ledgersResource } from '../../common/resources';
 
 import LedgersList from './LedgersList';
@@ -38,7 +40,7 @@ const buildLedgersQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const LedgerListContainer = ({ mutator, location }) => {
+const LedgerListContainer = ({ mutator, location, history }) => {
   const [ledgers, setLedgers] = useState([]);
   const [ledgersCount, setLedgersCount] = useState(0);
   const [ledgersOffset, setLedgersOffset] = useState(0);
@@ -75,15 +77,20 @@ const LedgerListContainer = ({ mutator, location }) => {
     [ledgersOffset],
   );
 
+  const refreshList = () => {
+    setLedgers([]);
+    setLedgersOffset(0);
+    loadLedgers(0);
+  };
+
   useEffect(
     () => {
-      setLedgers([]);
-      setLedgersOffset(0);
-      loadLedgers(0);
+      refreshList();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location.search],
   );
+  useLocationReset(history, location, LEDGERS_ROUTE, refreshList);
 
   return (
     <LedgersList
@@ -106,6 +113,7 @@ LedgerListContainer.manifest = Object.freeze({
 
 LedgerListContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
 };
 

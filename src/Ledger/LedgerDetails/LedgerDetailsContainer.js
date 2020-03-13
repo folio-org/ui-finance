@@ -95,14 +95,17 @@ const LedgerDetailsContainer = ({
       mutator.ledgerDetails.DELETE({ id: ledgerId })
         .then(() => {
           showToast('ui-finance.ledger.actions.remove.success');
-          closePane();
+          history.replace({
+            pathname: LEDGERS_ROUTE,
+            search: location.search,
+          });
         })
         .catch(() => {
           showToast('ui-finance.ledger.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closePane, ledgerId],
+    [location.search, ledgerId],
   );
 
   if (isLoading) {

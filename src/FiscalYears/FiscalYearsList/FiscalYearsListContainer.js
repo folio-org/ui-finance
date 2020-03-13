@@ -13,8 +13,10 @@ import queryString from 'query-string';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryBuilder,
+  useLocationReset,
 } from '@folio/stripes-acq-components';
 
+import { FISCAL_YEAR_ROUTE } from '../../common/const';
 import { fiscalYearsResource } from '../../common/resources';
 
 import FiscalYearsList from './FiscalYearsList';
@@ -37,7 +39,7 @@ const buildFiscalYearsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const FiscalYearsListContainer = ({ mutator, location }) => {
+const FiscalYearsListContainer = ({ mutator, location, history }) => {
   const [fiscalYears, setFiscalYears] = useState([]);
   const [fiscalYearsCount, setFiscalYearsCount] = useState(0);
   const [fiscalYearsOffset, setFiscalYearsOffset] = useState(0);
@@ -74,15 +76,20 @@ const FiscalYearsListContainer = ({ mutator, location }) => {
     [fiscalYearsOffset],
   );
 
+  const refreshList = () => {
+    setFiscalYears([]);
+    setFiscalYearsOffset(0);
+    loadFiscalYears(0);
+  };
+
   useEffect(
     () => {
-      setFiscalYears([]);
-      setFiscalYearsOffset(0);
-      loadFiscalYears(0);
+      refreshList();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location.search],
   );
+  useLocationReset(history, location, FISCAL_YEAR_ROUTE, refreshList);
 
   return (
     <FiscalYearsList
@@ -105,6 +112,7 @@ FiscalYearsListContainer.manifest = Object.freeze({
 
 FiscalYearsListContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
 };
 

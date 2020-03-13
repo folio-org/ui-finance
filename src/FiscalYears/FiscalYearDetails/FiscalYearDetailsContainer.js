@@ -112,14 +112,17 @@ const FiscalYearDetailsContainer = ({
       mutator.fiscalYear.DELETE(fiscalYear)
         .then(() => {
           showToast('ui-finance.fiscalYear.actions.remove.success');
-          closePane();
+          history.replace({
+            pathname: FISCAL_YEAR_ROUTE,
+            search: location.search,
+          });
         })
         .catch(() => {
           showToast('ui-finance.fiscalYear.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closePane, fiscalYear],
+    [location.search, fiscalYear],
   );
 
   if (isLoading) {

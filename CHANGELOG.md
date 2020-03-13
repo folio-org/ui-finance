@@ -1,7 +1,9 @@
 # Change history for ui-finance
 
-## [1.8.0](https://github.com/folio-org/ui-finance/tree/v1.8.0) (in progress)
-[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
+## [2.0.0](https://github.com/folio-org/ui-finance/tree/v2.0.0) (2020-03-13)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v2.0.0)
+
+* bump the @folio/stripes peer to v3.0.0
 
 ### Stories
 * [UIF-177](https://issues.folio.org/browse/UIF-177) Update transaction view
@@ -16,6 +18,7 @@
 * [UIF-161](https://issues.folio.org/browse/UIF-161) Not displaying active budgets for fiscal years other than current fiscal year
 * [UIF-172](https://issues.folio.org/browse/UIF-172) Update settings permission label
 * [UIF-157](https://issues.folio.org/browse/UIF-157) Update create current budget
+* [UIF-149](https://issues.folio.org/browse/UIF-149) display Ledger and related totals for that year
 * [UIF-148](https://issues.folio.org/browse/UIF-148) Update Fiscal year record view to display group and related totals for that year
 
 ### Bug fixes

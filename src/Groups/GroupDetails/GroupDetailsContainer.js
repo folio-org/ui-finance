@@ -100,14 +100,17 @@ const GroupDetailsContainer = ({
       mutator.groupDetails.DELETE(groupData.groupDetails)
         .then(() => {
           showToast('ui-finance.groups.actions.remove.success');
-          closePane();
+          history.replace({
+            pathname: GROUPS_ROUTE,
+            search: location.search,
+          });
         })
         .catch(() => {
           showToast('ui-finance.groups.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closePane, groupData.groupDetails],
+    [location.search, groupData.groupDetails],
   );
 
   const selectFY = useCallback(

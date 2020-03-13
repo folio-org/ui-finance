@@ -114,14 +114,17 @@ const FundDetailsContainer = ({
       mutator.fund.DELETE({ id: fund.id })
         .then(() => {
           showToast('ui-finance.fund.actions.remove.success');
-          history.push(FUNDS_ROUTE);
+          history.replace({
+            pathname: FUNDS_ROUTE,
+            search: location.search,
+          });
         })
         .catch(() => {
           showToast('ui-finance.fund.actions.remove.error', 'error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, fund.id],
+    [location.search, fund.id],
   );
 
   const onRemove = useCallback(

@@ -13,8 +13,10 @@ import queryString from 'query-string';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryBuilder,
+  useLocationReset,
 } from '@folio/stripes-acq-components';
 
+import { FUNDS_ROUTE } from '../../common/const';
 import {
   fundsResource,
   ledgersResource,
@@ -41,7 +43,7 @@ const buildFundsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const FundsListContainer = ({ mutator, location }) => {
+const FundsListContainer = ({ mutator, location, history }) => {
   const [funds, setFunds] = useState([]);
   const [ledgersMap, setLedgersMap] = useState({});
   const [fundsCount, setFundsCount] = useState(0);
@@ -103,15 +105,20 @@ const FundsListContainer = ({ mutator, location }) => {
     [fundsOffset],
   );
 
+  const refreshList = () => {
+    setFunds([]);
+    setFundsOffset(0);
+    loadFunds(0);
+  };
+
   useEffect(
     () => {
-      setFunds([]);
-      setFundsOffset(0);
-      loadFunds(0);
+      refreshList();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location.search],
   );
+  useLocationReset(history, location, FUNDS_ROUTE, refreshList);
 
   return (
     <FundsList
@@ -138,6 +145,7 @@ FundsListContainer.manifest = Object.freeze({
 
 FundsListContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
 };
 

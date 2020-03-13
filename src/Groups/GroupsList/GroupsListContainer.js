@@ -13,8 +13,10 @@ import queryString from 'query-string';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryBuilder,
+  useLocationReset,
 } from '@folio/stripes-acq-components';
 
+import { GROUPS_ROUTE } from '../../common/const';
 import { groupsResource } from '../../common/resources';
 
 import GroupsList from './GroupsList';
@@ -37,7 +39,7 @@ const buildGroupsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const GroupsListContainer = ({ mutator, location }) => {
+const GroupsListContainer = ({ mutator, location, history }) => {
   const [groups, setGroups] = useState([]);
   const [groupsCount, setGroupsCount] = useState(0);
   const [groupsOffset, setGroupsOffset] = useState(0);
@@ -74,15 +76,20 @@ const GroupsListContainer = ({ mutator, location }) => {
     [groupsOffset],
   );
 
+  const refreshList = () => {
+    setGroups([]);
+    setGroupsOffset(0);
+    loadGroups(0);
+  };
+
   useEffect(
     () => {
-      setGroups([]);
-      setGroupsOffset(0);
-      loadGroups(0);
+      refreshList();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location.search],
   );
+  useLocationReset(history, location, GROUPS_ROUTE, refreshList);
 
   return (
     <GroupsList
@@ -105,6 +112,7 @@ GroupsListContainer.manifest = Object.freeze({
 
 GroupsListContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
 };
 

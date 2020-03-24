@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import {
-  chunk,
+  flatten,
   uniqBy,
 } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
-import { LIMIT_MAX } from '@folio/stripes-acq-components';
+import { batchFetch } from '@folio/stripes-acq-components';
 
 import {
   groupFundFiscalYears,
@@ -17,7 +17,6 @@ import {
   groupSummariesResource,
 } from '../../common/resources';
 import {
-  CHUNK_LIMIT,
   GROUPS_ROUTE,
 } from '../../common/const';
 import ConnectionListing from '../../components/ConnectionListing';
@@ -25,8 +24,7 @@ import ConnectionListing from '../../components/ConnectionListing';
 import { getLedgerGroupsSummary } from './utils';
 
 const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearId }) => {
-  const fundIds = funds.map(fund => `fundId="${fund.id}"`);
-  const chunkedFundIds = chunk(fundIds, CHUNK_LIMIT).map(arr => arr.join(' or '));
+  const fundIds = funds.map(({ id }) => id);
   const [groups, setGroups] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,21 +32,22 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
     if (funds.length) {
       setIsLoading(true);
 
-      Promise.all(
-        chunkedFundIds.map(fundIdsQuery => (
-          mutator.groupFundFYByFundId.GET({
-            params: {
-              limit: LIMIT_MAX,
-              query: fundIdsQuery,
-            },
-          })
-        )),
-      )
-        .then(response => {
-          const groupIds = uniqBy(response.flat(), 'groupId').map(item => `id="${item.groupId}"`);
-          const query = groupIds.length ? `(${groupIds.join(' or ')}) sortby name` : null;
+      batchFetch(mutator.groupFundFYByFundId, fundIds, (itemsChunk) => {
+        const query = itemsChunk
+          .map(id => `fundId=${id}`)
+          .join(' or ');
 
-          const relatedGroupsPromise = mutator.groups.GET({ params: { query } });
+        return query || '';
+      })
+        .then(response => {
+          const groupIds = uniqBy(flatten(response), 'groupId').map(({ groupId }) => groupId);
+          const relatedGroupsPromise = batchFetch(mutator.groups, groupIds, (itemsChunk) => {
+            const query = itemsChunk
+              .map(id => `id=${id}`)
+              .join(' or ');
+
+            return `${query} sortby name` || '';
+          });
           const ledgerGroupSummariesPromise = getLedgerGroupsSummary(
             mutator.ledgerGroupSummaries, ledgerId, fiscalYearId,
           );

@@ -1,5 +1,12 @@
 # Change history for ui-finance
 
+## (IN PROGRESS)
+
+### Stories
+
+### Bug fixes
+* [UIF-186](https://issues.folio.org/browse/UIF-186) Ledger groups table not scrolling - showing a maximum of 10 groups
+
 ## [2.0.0](https://github.com/folio-org/ui-finance/tree/v2.0.0) (2020-03-13)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v2.0.0)
 

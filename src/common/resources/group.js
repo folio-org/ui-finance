@@ -5,6 +5,9 @@ import { GROUPS_API } from '../const';
 export const groupsResource = {
   ...baseManifest,
   path: GROUPS_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'groups',
 };
 

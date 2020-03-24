@@ -46,6 +46,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
         columnMapping={columnMapping}
         contentData={items}
         formatter={resultsFormatter}
+        maxHeight={400}
         onRowClick={openItem}
         visibleColumns={visibleColumns}
       />

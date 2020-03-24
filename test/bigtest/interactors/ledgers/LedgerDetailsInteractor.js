@@ -18,11 +18,23 @@ import Button from '../common/Button';
   });
 }
 
+@interactor class GroupsAccordion {
+  static defaultScope = '#group';
+
+  list = collection('[class*=mclRow---]', {
+    link: clickable(),
+    values: collection('[class*=mclCell---]', {
+      value: text(),
+    }),
+  });
+}
+
 export default interactor(class LedgerDetailsInteractor {
   static defaultScope = '#pane-ledger-details';
 
   closePane = new Button('[icon=times]');
   funds = new FundsAccordion();
+  groups = new GroupsAccordion();
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

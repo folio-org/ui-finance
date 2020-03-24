@@ -16,6 +16,7 @@ describe('Ledger details', () => {
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
     const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
+    const group = this.server.create('group');
 
     const funds = this.server.createList('fund', 5, {
       fund: {
@@ -27,12 +28,20 @@ describe('Ledger details', () => {
         name: 'test fund',
         code: 'TEST_CODE',
       },
+      groupIds: [group.id],
     });
 
-    this.server.create('budget', {
+    const budget = this.server.create('budget', {
       fiscalYearId: fiscalYear.id,
       fundId: funds[0].id,
       available: 1000,
+    });
+
+    this.server.create('groupFundFiscalYear', {
+      budgetId: budget.id,
+      fundId: funds[0].id,
+      groupId: group.id,
+      fiscalYearId: fiscalYear.id,
     });
 
     this.visit(`${LEDGERS_ROUTE}/${ledger.id}/view`);
@@ -57,6 +66,16 @@ describe('Ledger details', () => {
     });
 
     it('redirects to selected fund view page', () => {
+      expect(fundDetails.isPresent).to.be.false;
+    });
+  });
+
+  describe('click on group', () => {
+    beforeEach(async function () {
+      await ledgerDetails.groups.list(0).link();
+    });
+
+    it('redirects to selected group view page', () => {
       expect(fundDetails.isPresent).to.be.false;
     });
   });

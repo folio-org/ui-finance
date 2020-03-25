@@ -326,6 +326,8 @@
   "fiscalyear": "Fiscal year",
 
   "budget.actions.load.error": "Failed to load budget data",
+  "budget.actions.remove.success": "Budget has been deleted",
+  "budget.actions.remove.error": "Budget has not been deleted",
   "budget.actionsRequired": "Actions required",
   "budget.allocated": "Allocated",
   "budget.allocationDate": "Allocation date",
@@ -343,6 +345,8 @@
   "budget.name": "Name",
   "budget.save": "Save",
   "budget.fiscalYear": "Fiscal year",
+  "budget.remove.heading": "Delete budget",
+  "budget.remove.message": "Are you sure you want to delete budget?",
   "budget.status": "Status",
   "budget.status.active": "Active",
   "budget.status.closed": "Closed",

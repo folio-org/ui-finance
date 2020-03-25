@@ -15,9 +15,10 @@ const Budget = ({ match: { path } }) => (
     <Route
       path={`${path}/:budgetId/view`}
       render={
-        ({ history, match }) => (
+        ({ history, match, location }) => (
           <BudgetView
             history={history}
+            location={location}
             match={match}
           />
         )

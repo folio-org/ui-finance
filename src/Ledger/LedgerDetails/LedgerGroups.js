@@ -34,7 +34,7 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
 
       batchFetch(mutator.groupFundFYByFundId, fundIds, (itemsChunk) => {
         const query = itemsChunk
-          .map(id => `fundId=${id}`)
+          .map(id => `fundId==${id}`)
           .join(' or ');
 
         return query || '';
@@ -43,10 +43,10 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
           const groupIds = uniqBy(flatten(response), 'groupId').map(({ groupId }) => groupId);
           const relatedGroupsPromise = batchFetch(mutator.groups, groupIds, (itemsChunk) => {
             const query = itemsChunk
-              .map(id => `id=${id}`)
+              .map(id => `id==${id}`)
               .join(' or ');
 
-            return `${query} sortby name` || '';
+            return query ? `${query} sortby name` : '';
           });
           const ledgerGroupSummariesPromise = getLedgerGroupsSummary(
             mutator.ledgerGroupSummaries, ledgerId, fiscalYearId,

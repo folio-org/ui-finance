@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import {
   Button,
@@ -34,11 +34,11 @@ import {
   TRANSACTION_TYPES,
 } from '../../../common/const';
 import CreateTransaction from '../../../Transactions/CreateTransaction';
-import BudgetRemoveAction from '../BudgetRemoveAction';
 import BudgetView from './BudgetView';
+import { handleRemoveErrorResponse } from './utils';
 
 const BudgetViewContainer = ({ history, location, match, mutator }) => {
-  const budgetId = match.params.id;
+  const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +67,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
 
   useEffect(fetchBudgetResources, [budgetId]);
 
-  const paneTitle = get(budget, 'name');
+  const paneTitle = budget?.name;
 
   const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
   const [isAllocateModalOpened, toggleAllocateModal] = useModalToggle();
@@ -87,17 +87,17 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
       mutator.budgetById.DELETE({ id: budgetId })
         .then(() => {
           showCallout({ messageId: 'ui-finance.budget.actions.remove.success', type: 'success' });
-          history.replace({
+          history.push({
             pathname: `${FUNDS_ROUTE}/view/${budget.fundId}`,
             search: location.search,
           });
         })
-        .catch(() => {
-          showCallout({ messageId: 'ui-finance.budget.actions.remove.error', type: 'error' });
+        .catch(async (response) => {
+          await handleRemoveErrorResponse(showCallout, response);
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, budgetId],
+    [budgetId],
   );
 
   const onRemove = useCallback(
@@ -135,12 +135,6 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
         </Button>
       </IfPermission>
 
-      <BudgetRemoveAction
-        perm="finance.budgets.item.delete"
-        toggleActionMenu={onToggle}
-        onRemove={toggleRemoveConfirmation}
-      />
-
       <IfPermission perm="finance.allocations.item.post">
         <Button
           buttonStyle="dropdownItem"
@@ -164,6 +158,24 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
           }}
         >
           <FormattedMessage id="ui-finance.transaction.button.transfer" />
+        </Button>
+      </IfPermission>
+
+      <IfPermission perm="finance.budgets.item.delete">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-budget-remove-action
+          onClick={() => {
+            onToggle();
+            toggleRemoveConfirmation();
+          }}
+        >
+          <Icon
+            size="small"
+            icon="trash"
+          >
+            <FormattedMessage id="ui-finance.actions.remove" />
+          </Icon>
         </Button>
       </IfPermission>
     </MenuSection>
@@ -259,4 +271,4 @@ BudgetViewContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
 };
 
-export default stripesConnect(BudgetViewContainer);
+export default withRouter(stripesConnect(BudgetViewContainer));

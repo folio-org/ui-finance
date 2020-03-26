@@ -14,15 +14,7 @@ const Budget = ({ match: { path } }) => (
   <Switch>
     <Route
       path={`${path}/:budgetId/view`}
-      render={
-        ({ history, match, location }) => (
-          <BudgetView
-            history={history}
-            location={location}
-            match={match}
-          />
-        )
-      }
+      component={BudgetView}
     />
     <Route
       path={`${path}/:budgetId/edit`}

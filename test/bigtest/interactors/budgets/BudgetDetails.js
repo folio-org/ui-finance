@@ -3,12 +3,16 @@ import {
   interactor,
   isPresent,
 } from '@bigtest/interactor';
-import Button from '../common/Button';
+
+import {
+  ButtonInteractor,
+  ConfirmationInteractor,
+} from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 @interactor class AddTransferModal {
   static defaultScope = '#add-transfer-modal';
-  cancelButton = new Button('[data-test-add-transfer-cancel]');
-  saveButton = new Button('[data-test-add-transfer-save]');
+  cancelButton = new ButtonInteractor('[data-test-add-transfer-cancel]');
+  saveButton = new ButtonInteractor('[data-test-add-transfer-save]');
   transferTo = new Interactor('select[name=toFundId]');
   transferFrom = new Interactor('select[name=fromFundId]');
   amount = new Interactor('input[name=amount]');
@@ -17,6 +21,7 @@ import Button from '../common/Button';
 @interactor class Actions {
   static defaultScope = '#budget-actions';
   addTransferButton = new Interactor('[data-test-add-transfer-menu-button]');
+  deleteBudgetButton = new Interactor('[data-test-budget-remove-action]');
 }
 
 export default interactor(class BudgetDetailsInteractor {
@@ -24,7 +29,8 @@ export default interactor(class BudgetDetailsInteractor {
 
   actions = new Actions();
   addTransferModal = new AddTransferModal();
-  closePane = new Button('[icon=times]');
+  closePane = new ButtonInteractor('[icon=times]');
+  budgetRemoveConfirmation = new ConfirmationInteractor('#budget-remove-confirmation');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

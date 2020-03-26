@@ -34,6 +34,7 @@ const CreateTransactionContainer = ({
   onClose,
   resources,
   stripes,
+  fetchBudgetResources,
 }) => {
   const showCallout = useShowToast();
 
@@ -60,6 +61,7 @@ const CreateTransactionContainer = ({
           budgetName,
         });
         onClose();
+        fetchBudgetResources();
       } catch (e) {
         showCallout(`ui-finance.transaction.${transactionTypeKey}.hasNotBeenCreated`, 'error', {
           amount: getAmountWithCurrency(locale, currency, formValue.amount),
@@ -102,6 +104,7 @@ CreateTransactionContainer.propTypes = {
   onClose: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
+  fetchBudgetResources: PropTypes.func.isRequired,
 };
 
 export default stripesConnect(CreateTransactionContainer);

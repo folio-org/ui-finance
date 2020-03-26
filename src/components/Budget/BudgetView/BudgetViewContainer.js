@@ -1,22 +1,30 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
 import {
   Button,
   Col,
+  ConfirmationModal,
   Icon,
   Paneset,
   MenuSection,
   Pane,
   Row,
 } from '@folio/stripes/components';
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  IfPermission,
+  stripesConnect,
+} from '@folio/stripes/core';
 import {
   LoadingPane,
   useModalToggle,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -25,19 +33,21 @@ import {
 } from '../../../common/resources';
 import {
   FISCAL_YEARS_API,
+  FUNDS_ROUTE,
   TRANSACTION_TYPES,
 } from '../../../common/const';
 import CreateTransaction from '../../../Transactions/CreateTransaction';
-
 import BudgetView from './BudgetView';
+import { handleRemoveErrorResponse } from './utils';
 
-const BudgetViewContainer = ({ history, match, mutator }) => {
-  const budgetId = match.params.id;
+const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
+  const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const showCallout = useShowCallout();
 
-  useEffect(
+  const fetchBudgetResources = useCallback(
     () => {
       setIsLoading(true);
       setBudget({});
@@ -51,19 +61,20 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
             path: `${FISCAL_YEARS_API}/${budgetResponse.fiscalYearId}`,
           });
         })
-        .then(fyResponse => {
-          setFiscalYear(fyResponse);
-        })
+        .then(setFiscalYear)
         .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [budgetId],
   );
 
-  const paneTitle = get(budget, 'name');
+  useEffect(fetchBudgetResources, [budgetId]);
+
+  const paneTitle = budget?.name;
 
   const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
   const [isAllocateModalOpened, toggleAllocateModal] = useModalToggle();
+  const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
 
   const editBudget = useCallback(
     () => {
@@ -72,6 +83,32 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
       history.push(path);
     },
     [history, budget],
+  );
+
+  const removeBudget = useCallback(
+    () => {
+      mutator.budgetById.DELETE({ id: budgetId }, { silent: true })
+        .then(() => {
+          showCallout({ messageId: 'ui-finance.budget.actions.remove.success', type: 'success' });
+          history.replace({
+            pathname: `${FUNDS_ROUTE}/view/${budget.fundId}`,
+            search: location.search,
+          });
+        })
+        .catch(async (response) => {
+          await handleRemoveErrorResponse(intl, showCallout, response);
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [budgetId, budget.fundId],
+  );
+
+  const onRemove = useCallback(
+    () => {
+      toggleRemoveConfirmation();
+      removeBudget();
+    },
+    [removeBudget, toggleRemoveConfirmation],
   );
 
   const goToFundDetails = useCallback(
@@ -86,40 +123,64 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = ({ onToggle }) => (
     <MenuSection id="budget-actions">
-      <Button
-        buttonStyle="dropdownItem"
-        data-test-edit-budget-button
-        onClick={editBudget}
-      >
-        <Icon
-          size="small"
-          icon="edit"
+      <IfPermission perm="finance.budgets.item.put">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-edit-budget-button
+          onClick={editBudget}
         >
-          <FormattedMessage id="ui-finance.actions.edit" />
-        </Icon>
-      </Button>
+          <Icon
+            size="small"
+            icon="edit"
+          >
+            <FormattedMessage id="ui-finance.actions.edit" />
+          </Icon>
+        </Button>
+      </IfPermission>
 
-      <Button
-        buttonStyle="dropdownItem"
-        data-test-add-allocation-menu-button
-        onClick={() => {
-          onToggle();
-          toggleAllocateModal();
-        }}
-      >
-        <FormattedMessage id="ui-finance.transaction.allocate" />
-      </Button>
+      <IfPermission perm="finance.allocations.item.post">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-add-allocation-menu-button
+          onClick={() => {
+            onToggle();
+            toggleAllocateModal();
+          }}
+        >
+          <FormattedMessage id="ui-finance.transaction.allocate" />
+        </Button>
+      </IfPermission>
 
-      <Button
-        buttonStyle="dropdownItem"
-        data-test-add-transfer-menu-button
-        onClick={() => {
-          onToggle();
-          toggleTransferModal();
-        }}
-      >
-        <FormattedMessage id="ui-finance.transaction.button.transfer" />
-      </Button>
+      <IfPermission perm="finance.transfers.item.post">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-add-transfer-menu-button
+          onClick={() => {
+            onToggle();
+            toggleTransferModal();
+          }}
+        >
+          <FormattedMessage id="ui-finance.transaction.button.transfer" />
+        </Button>
+      </IfPermission>
+
+      <IfPermission perm="finance.budgets.item.delete">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-budget-remove-action
+          onClick={() => {
+            onToggle();
+            toggleRemoveConfirmation();
+          }}
+        >
+          <Icon
+            size="small"
+            icon="trash"
+          >
+            <FormattedMessage id="ui-finance.actions.remove" />
+          </Icon>
+        </Button>
+      </IfPermission>
     </MenuSection>
   );
 
@@ -163,6 +224,7 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
           transactionType={TRANSACTION_TYPES.transfer}
           fiscalYearId={fiscalYear.id}
           onClose={toggleTransferModal}
+          fetchBudgetResources={fetchBudgetResources}
         />
       )}
 
@@ -173,6 +235,19 @@ const BudgetViewContainer = ({ history, match, mutator }) => {
           transactionType={TRANSACTION_TYPES.allocation}
           fiscalYearId={fiscalYear.id}
           onClose={toggleAllocateModal}
+          fetchBudgetResources={fetchBudgetResources}
+        />
+      )}
+
+      {isRemoveConfirmation && (
+        <ConfirmationModal
+          id="budget-remove-confirmation"
+          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+          heading={<FormattedMessage id="ui-finance.budget.remove.heading" />}
+          message={<FormattedMessage id="ui-finance.budget.remove.message" />}
+          onCancel={toggleRemoveConfirmation}
+          onConfirm={onRemove}
+          open
         />
       )}
     </Paneset>
@@ -193,9 +268,11 @@ BudgetViewContainer.manifest = Object.freeze({
 });
 
 BudgetViewContainer.propTypes = {
+  intl: intlShape.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 
-export default stripesConnect(BudgetViewContainer);
+export default stripesConnect(injectIntl(BudgetViewContainer));

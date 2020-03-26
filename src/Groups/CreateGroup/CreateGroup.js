@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 
 import { stripesConnect } from '@folio/stripes/core';
@@ -46,17 +45,8 @@ const CreateGroup = ({ mutator, location, history }) => {
 
         return savedGroup;
       } catch (response) {
-        let errorCode = null;
-
-        try {
-          const responseJson = await response.json();
-
-          errorCode = get(responseJson, 'errors.0.code', 'genericError');
-        } catch (parsingException) {
-          errorCode = 'genericError';
-        }
         showCallout({
-          messageId: `ui-finance.groups.actions.save.error.${errorCode}`,
+          messageId: 'ui-finance.groups.actions.save.error',
           type: 'error',
         });
         throw new SubmissionError({

@@ -485,5 +485,10 @@
     "transaction.source.PoLine": "سطر أمر الشراء",
     "transaction.status": "الحالة",
     "transaction.status.Released": "تم إصداره",
-    "transaction.status.Unreleased": "لم يتم إصداره"
+    "transaction.status.Unreleased": "لم يتم إصداره",
+    "budget.actions.remove.success": "Budget has been deleted",
+    "budget.actions.remove.error.genericError": "Budget has not been deleted",
+    "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
+    "budget.remove.heading": "Delete budget",
+    "budget.remove.message": "Are you sure you want to delete budget?"
 }

@@ -87,7 +87,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
 
   const removeBudget = useCallback(
     () => {
-      mutator.budgetById.DELETE({ id: budgetId })
+      mutator.budgetById.DELETE({ id: budgetId }, { silent: true })
         .then(() => {
           showCallout({ messageId: 'ui-finance.budget.actions.remove.success', type: 'success' });
           history.replace({
@@ -100,7 +100,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetId],
+    [budgetId, budget.fundId],
   );
 
   const onRemove = useCallback(

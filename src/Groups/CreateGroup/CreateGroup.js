@@ -46,17 +46,8 @@ const CreateGroup = ({ mutator, location, history }) => {
 
         return savedGroup;
       } catch (response) {
-        let errorCode = null;
-
-        try {
-          const responseJson = await response.json();
-
-          errorCode = get(responseJson, 'errors.0.code', 'genericError');
-        } catch (parsingException) {
-          errorCode = 'genericError';
-        }
         showCallout({
-          messageId: `ui-finance.groups.actions.save.error.${errorCode}`,
+          messageId: 'ui-finance.groups.actions.save.error',
           type: 'error',
         });
         throw new SubmissionError({

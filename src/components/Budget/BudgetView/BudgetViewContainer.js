@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
 import {
   Button,
@@ -37,7 +40,7 @@ import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';
 import { handleRemoveErrorResponse } from './utils';
 
-const BudgetViewContainer = ({ history, location, match, mutator }) => {
+const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
   const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
@@ -87,13 +90,13 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
       mutator.budgetById.DELETE({ id: budgetId })
         .then(() => {
           showCallout({ messageId: 'ui-finance.budget.actions.remove.success', type: 'success' });
-          history.push({
+          history.replace({
             pathname: `${FUNDS_ROUTE}/view/${budget.fundId}`,
             search: location.search,
           });
         })
         .catch(async (response) => {
-          await handleRemoveErrorResponse(showCallout, response);
+          await handleRemoveErrorResponse(intl, showCallout, response);
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -265,10 +268,11 @@ BudgetViewContainer.manifest = Object.freeze({
 });
 
 BudgetViewContainer.propTypes = {
+  intl: intlShape.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 
-export default withRouter(stripesConnect(BudgetViewContainer));
+export default stripesConnect(injectIntl(BudgetViewContainer));

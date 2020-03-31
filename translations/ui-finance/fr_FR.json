@@ -485,5 +485,10 @@
     "transaction.source.PoLine": "Ligne de commande",
     "transaction.status": "Statut",
     "transaction.status.Released": "Publié",
-    "transaction.status.Unreleased": "Non publié"
+    "transaction.status.Unreleased": "Non publié",
+    "budget.actions.remove.success": "Budget has been deleted",
+    "budget.actions.remove.error.genericError": "Budget has not been deleted",
+    "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
+    "budget.remove.heading": "Delete budget",
+    "budget.remove.message": "Are you sure you want to delete budget?"
 }

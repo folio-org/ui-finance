@@ -162,7 +162,7 @@ FiscalYearDetailsContainer.manifest = Object.freeze({
     params: {
       fiscalYear: ':{id}',
       limit: `${LIMIT_MAX}`,
-      query: 'cql.allRecords=1 sortby name',
+      query: 'fiscalYearOneId==:{id} sortby name',
     },
   },
 });

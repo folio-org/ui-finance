@@ -485,5 +485,10 @@
     "transaction.source.PoLine": "سطر أمر الشراء",
     "transaction.status": "الحالة",
     "transaction.status.Released": "تم إصداره",
-    "transaction.status.Unreleased": "لم يتم إصداره"
+    "transaction.status.Unreleased": "لم يتم إصداره",
+    "budget.actions.remove.success": "تم حذف الميزانية",
+    "budget.actions.remove.error.genericError": "لم يتم حذف الميزانية",
+    "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "تعذر حذف الميزانية بسبب وجود تعاملات بها",
+    "budget.remove.heading": "حذف الميزانية",
+    "budget.remove.message": "هل أنت متأكد من أنك تريد حذف الميزانية؟"
 }

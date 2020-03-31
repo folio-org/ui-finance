@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -41,12 +41,11 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <MultiColumnList
         columnMapping={columnMapping}
         contentData={items}
         formatter={resultsFormatter}
-        maxHeight={400}
         onRowClick={openItem}
         visibleColumns={visibleColumns}
       />
@@ -55,7 +54,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
           <FormattedMessage id="stripes-components.endOfList" />
         </Icon>
       </Layout>
-    </Fragment>
+    </>
   );
 };
 

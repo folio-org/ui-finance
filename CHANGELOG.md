@@ -5,6 +5,7 @@
 ### Stories
 
 ### Bug fixes
+* [UIF-190](https://issues.folio.org/browse/UIF-190) Fiscal year record displaying all Ledgers
 * [UIF-187](https://issues.folio.org/browse/UIF-187) Can not delete a budget
 * [UIF-186](https://issues.folio.org/browse/UIF-186) Ledger groups table not scrolling - showing a maximum of 10 groups
 

@@ -11,6 +11,7 @@ import {
 } from '@folio/stripes/components';
 import {
   baseManifest,
+  LIMIT_MAX,
   useShowToast,
 } from '@folio/stripes-acq-components';
 import { stripesConnect } from '@folio/stripes/core';
@@ -26,10 +27,10 @@ import { BUDGET_STATUSES } from '../constants';
 
 // `FYoptions` here is expected as an array sorted by `periodStart`
 const getPlannedFYId = (currentFYId, FYoptions = []) => {
-  const currentFYindex = FYoptions.findIndex(d => d.value === currentFYId);
+  const currentFYindex = FYoptions.findIndex(d => d.id === currentFYId);
 
   return currentFYindex !== -1 && FYoptions[currentFYindex + 1]
-    ? FYoptions[currentFYindex + 1].value
+    ? FYoptions[currentFYindex + 1].id
     : '';
 };
 
@@ -41,28 +42,35 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
   const isCurrentBudget = budgetStatus === BUDGET_STATUSES.ACTIVE;
 
   useEffect(() => {
-    mutator.fiscalYears.GET()
-      .then(fiscalYearsResponse => setFiscalYearsOptions(mapFiscalYearsToOptions(fiscalYearsResponse)))
-      .catch(() => setFiscalYearsOptions([]));
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  []);
-
-  useEffect(() => {
     setIsLoading(true);
     setCurrentFYId('');
     mutator.currentFiscalYear.GET()
-      .then(({ id }) => setCurrentFYId(id))
+      .then(({ id, series }) => {
+        setCurrentFYId(id);
+
+        return series;
+      })
       .catch(() => {
         showCallout('ui-finance.fiscalYear.actions.load.error', 'error');
       })
+      .then(series => {
+        return series
+          ? mutator.fiscalYears.GET({
+            params: {
+              limit: `${LIMIT_MAX}`,
+              query: `series==${series} sortby periodStart`,
+            },
+          })
+          : [];
+      })
+      .then(setFiscalYearsOptions)
       .finally(() => setIsLoading(false));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [ledgerId]);
 
   const getFiscalYearOption = useCallback((fiscalYearId) => {
-    return fiscalYearsOptions.find(year => year.value === fiscalYearId);
+    return fiscalYearsOptions.find(year => year.id === fiscalYearId);
   }, [fiscalYearsOptions]);
 
   const _getPlannedFYId = useCallback(getPlannedFYId, [currentFYId, fiscalYearsOptions]);
@@ -74,7 +82,7 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
         const budget = await mutator.budget.POST({
           ...formValue,
           fundId: fund.id,
-          name: `${fund.code}-${fiscalYearOption.label}`,
+          name: `${fund.code}-${fiscalYearOption.code}`,
         });
         const { name, id } = budget;
 
@@ -151,9 +159,6 @@ AddBudgetModal.manifest = Object.freeze({
     ...fiscalYearsResource,
     accumulate: true,
     fetch: false,
-    params: {
-      query: 'cql.allRecords=1 sortby periodStart',
-    },
   },
   budget: {
     ...budgetResource,

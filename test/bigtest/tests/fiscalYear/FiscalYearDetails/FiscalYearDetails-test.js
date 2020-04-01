@@ -12,7 +12,10 @@ describe('Fiscal year details', () => {
   const fiscalYearDetails = new FiscalYearDetailsInteractor();
 
   beforeEach(async function () {
-    const fiscalYear = this.server.create('fiscalYear');
+    const fiscalYear = this.server.create('fiscalYear', {
+      code: 'FY2020',
+      series: 'FY',
+    });
 
     this.visit(`${FISCAL_YEAR_ROUTE}/${fiscalYear.id}/view`);
     await fiscalYearDetails.whenLoaded();

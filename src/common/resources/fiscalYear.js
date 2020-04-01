@@ -13,10 +13,10 @@ export const fiscalYearsResource = {
 };
 
 export const ledgerCurrentFiscalYearResource = {
+  ...baseManifest,
   accumulate: true,
   fetch: false,
   path: LEDGER_CURRENT_FISCAL_YEAR_API,
-  ...baseManifest,
 };
 
 export const fiscalYearResource = {

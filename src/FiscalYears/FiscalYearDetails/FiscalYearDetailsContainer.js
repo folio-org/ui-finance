@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  batchFetch,
   LIMIT_MAX,
   LoadingPane,
   useShowToast,
@@ -12,6 +13,7 @@ import {
 
 import {
   fiscalYearResource,
+  fiscalYearsResource,
   fundsResource,
   groupSummariesResource,
   ledgersResource,
@@ -20,6 +22,14 @@ import {
   FISCAL_YEAR_ROUTE,
 } from '../../common/const';
 import FiscalYearDetails from './FiscalYearDetails';
+
+const buildLedgersQueryByFYIds = (fiscalYears) => {
+  const query = fiscalYears
+    .map(({ id }) => `fiscalYearOneId==${id}`)
+    .join(' or ');
+
+  return query || '';
+};
 
 const FiscalYearDetailsContainer = ({
   mutator,
@@ -41,32 +51,41 @@ const FiscalYearDetailsContainer = ({
       setFiscalYear({});
       setFunds([]);
       setGroupSummaries([]);
+      setLedgers([]);
 
       const fiscalYearPromise = mutator.fiscalYear.GET();
       const groupSummariesPromise = mutator.fyGroupSummaries.GET({
         params: {
-          query: `fiscalYearId=${fiscalYearId}`,
+          query: `fiscalYearId==${fiscalYearId}`,
           limit: `${LIMIT_MAX}`,
         },
       });
-      const ledgersPromise = mutator.fyLedgers.GET();
+      const fyFundsPromise = mutator.fyFunds.GET({
+        params: {
+          query: `budget.fiscalYearId==${fiscalYearId}`,
+          limit: `${LIMIT_MAX}`,
+        },
+      });
 
-      Promise.all([fiscalYearPromise, groupSummariesPromise, ledgersPromise])
-        .then(([fy, groupSummariesResponse, ledgersResponse]) => {
+      Promise.all([fiscalYearPromise, groupSummariesPromise, fyFundsPromise])
+        .then(([fy, groupSummariesResponse, fyFundsResponse]) => {
           setFiscalYear(fy);
           setGroupSummaries(groupSummariesResponse);
-          setLedgers(ledgersResponse);
+          setFunds(fyFundsResponse);
 
-          const fyFundsPromise = mutator.fyFunds.GET({
-            params: {
-              query: `budget.fiscalYearId=${fy.id}`,
-              limit: `${LIMIT_MAX}`,
-            },
-          });
-
-          return fy.id ? fyFundsPromise : [];
+          return fy.series
+            ? mutator.fiscalYearsBySeries.GET({
+              params: {
+                query: `series==${fy.series}`,
+                limit: `${LIMIT_MAX}`,
+              },
+            })
+            : [];
         })
-        .then(response => setFunds(response))
+        .then(fiscalYears => {
+          return batchFetch(mutator.fyLedgers, fiscalYears, buildLedgersQueryByFYIds, { fiscalYear: fiscalYearId });
+        })
+        .then(setLedgers)
         .catch(() => {
           showToast('ui-finance.fiscalYear.actions.load.error', 'error');
         })
@@ -159,11 +178,11 @@ FiscalYearDetailsContainer.manifest = Object.freeze({
     ...ledgersResource,
     accumulate: true,
     fetch: false,
-    params: {
-      fiscalYear: ':{id}',
-      limit: `${LIMIT_MAX}`,
-      query: 'fiscalYearOneId==:{id} sortby name',
-    },
+  },
+  fiscalYearsBySeries: {
+    ...fiscalYearsResource,
+    accumulate: true,
+    fetch: false,
   },
 });
 

@@ -18,7 +18,7 @@ describe('Create current budget', () => {
 
     fund.fund.ledgerId = ledger.id;
 
-    this.server.create('fiscalYear', { id: ledger.id });
+    this.server.create('fiscalYear', { id: ledger.id, series: 'FY' });
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();
   });

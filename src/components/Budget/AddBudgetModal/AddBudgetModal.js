@@ -22,7 +22,6 @@ import {
   fiscalYearsResource,
 } from '../../../common/resources';
 import { LEDGERS_API } from '../../../common/const';
-import { mapFiscalYearsToOptions } from '../../../common/utils';
 import { BUDGET_STATUSES } from '../constants';
 
 // `FYoptions` here is expected as an array sorted by `periodStart`

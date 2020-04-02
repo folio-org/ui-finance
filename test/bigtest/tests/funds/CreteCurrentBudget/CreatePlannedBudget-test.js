@@ -18,10 +18,10 @@ describe('Create planned budget', () => {
 
     fund.fund.ledgerId = ledger.id;
 
-    const currentFY = this.server.create('fiscalYear', { id: ledger.id });
+    const currentFY = this.server.create('fiscalYear', { id: ledger.id, series: 'FY' });
 
     // create next planned FY
-    this.server.create('fiscalYear', { periodStart: currentFY.attrs.periodEnd });
+    this.server.create('fiscalYear', { periodStart: currentFY.attrs.periodEnd, series: 'FY' });
     this.visit(`/finance/fund/view/${fund.id}`);
     await fundDetails.whenLoaded();
   });

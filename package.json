@@ -90,7 +90,7 @@
           "finance.groups.collection.get",
           "finance.groups.item.get",
           "finance.ledgers.collection.get",
-          "finance.ledgers.current-fiscal-year",
+          "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",

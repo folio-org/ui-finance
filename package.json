@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -90,6 +90,7 @@
           "finance.groups.collection.get",
           "finance.groups.item.get",
           "finance.ledgers.collection.get",
+          "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",

@@ -5,12 +5,17 @@
 ### Stories
 
 ### Bug fixes
+
+## [2.0.1](https://github.com/folio-org/ui-finance/tree/v2.0.1) (2020-04-03)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.0.0...v2.0.1)
+
+### Bug fixes
 * [UIF-190](https://issues.folio.org/browse/UIF-190) Fiscal year record displaying all Ledgers
 * [UIF-187](https://issues.folio.org/browse/UIF-187) Can not delete a budget
 * [UIF-186](https://issues.folio.org/browse/UIF-186) Ledger groups table not scrolling - showing a maximum of 10 groups
 
 ## [2.0.0](https://github.com/folio-org/ui-finance/tree/v2.0.0) (2020-03-13)
-[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v2.0.0)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v1.7.1...v2.0.0)
 
 * bump the @folio/stripes peer to v3.0.0
 

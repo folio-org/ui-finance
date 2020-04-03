@@ -486,9 +486,9 @@
     "transaction.status": "Status",
     "transaction.status.Released": "Lançado",
     "transaction.status.Unreleased": "Não lançado",
-    "budget.actions.remove.success": "Budget has been deleted",
-    "budget.actions.remove.error.genericError": "Budget has not been deleted",
-    "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
-    "budget.remove.heading": "Delete budget",
-    "budget.remove.message": "Are you sure you want to delete budget?"
+    "budget.actions.remove.success": "O orçamento foi excluído",
+    "budget.actions.remove.error.genericError": "O orçamento não foi excluído",
+    "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "O orçamento não pode ser excluído porque possui transações",
+    "budget.remove.heading": "Excluir orçamento",
+    "budget.remove.message": "Tem certeza de que deseja excluir o orçamento?"
 }

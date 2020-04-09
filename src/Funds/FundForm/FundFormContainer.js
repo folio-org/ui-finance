@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
@@ -16,11 +16,10 @@ import {
 } from '@folio/stripes/core';
 import {
   ConfirmationModal,
-  Paneset,
+  LoadingView,
 } from '@folio/stripes/components';
 import {
   ERROR_CODE_GENERIC,
-  LoadingPane,
   useModalToggle,
   useShowCallout,
   fundsManifest,
@@ -132,14 +131,12 @@ const FundFormContainer = ({
 
   if (isLoading) {
     return (
-      <Paneset>
-        <LoadingPane onClose={onCancel} />
-      </Paneset>
+      <LoadingView onClose={onCancel} />
     );
   }
 
   return (
-    <Fragment>
+    <>
       <FundForm
         initialValues={fund}
         onCancel={onCancel}
@@ -165,7 +162,7 @@ const FundFormContainer = ({
           />
         )
       }
-    </Fragment>
+    </>
   );
 };
 

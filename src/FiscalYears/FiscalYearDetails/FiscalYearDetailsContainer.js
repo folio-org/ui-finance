@@ -4,10 +4,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { LoadingPane } from '@folio/stripes/components';
 import {
   batchFetch,
   LIMIT_MAX,
-  LoadingPane,
   useShowToast,
 } from '@folio/stripes-acq-components';
 

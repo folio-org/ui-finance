@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
 
-import {
-  Paneset,
-} from '@folio/stripes/components';
+import { LoadingView } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  LoadingPane,
   useShowToast,
 } from '@folio/stripes-acq-components';
 
@@ -51,9 +48,7 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
 
   if (isLoading) {
     return (
-      <Paneset>
-        <LoadingPane onClose={goToBudgetView} />
-      </Paneset>
+      <LoadingView onClose={goToBudgetView} />
     );
   }
 

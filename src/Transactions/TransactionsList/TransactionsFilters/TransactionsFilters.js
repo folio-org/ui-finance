@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -31,25 +31,23 @@ const TransactionsFilters = ({
   );
 
   return (
-    <Fragment>
-      <AccordionSet>
-        <AcqCheckboxFilter
-          id={FILTERS.TRANSACTION_TYPE}
-          activeFilters={activeFilters[FILTERS.TRANSACTION_TYPE]}
-          labelId="ui-finance.transaction.type"
-          name={FILTERS.TRANSACTION_TYPE}
-          onChange={adaptedApplyFilters}
-          options={TRANSACTION_TYPE_OPTIONS}
-        />
+    <AccordionSet>
+      <AcqCheckboxFilter
+        id={FILTERS.TRANSACTION_TYPE}
+        activeFilters={activeFilters[FILTERS.TRANSACTION_TYPE]}
+        labelId="ui-finance.transaction.type"
+        name={FILTERS.TRANSACTION_TYPE}
+        onChange={adaptedApplyFilters}
+        options={TRANSACTION_TYPE_OPTIONS}
+      />
 
-        <AcqTagsFilter
-          activeFilters={activeFilters[FILTERS.TAGS]}
-          id={FILTERS.TAGS}
-          name={FILTERS.TAGS}
-          onChange={adaptedApplyFilters}
-        />
-      </AccordionSet>
-    </Fragment>
+      <AcqTagsFilter
+        activeFilters={activeFilters[FILTERS.TAGS]}
+        id={FILTERS.TAGS}
+        name={FILTERS.TAGS}
+        onChange={adaptedApplyFilters}
+      />
+    </AccordionSet>
   );
 };
 

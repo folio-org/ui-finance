@@ -5,9 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { Paneset } from '@folio/stripes/components';
+import { LoadingView } from '@folio/stripes/components';
 import {
-  LoadingPane,
   useShowToast,
 } from '@folio/stripes-acq-components';
 
@@ -74,9 +73,7 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
 
   if (isLoading) {
     return (
-      <Paneset>
-        <LoadingPane onClose={closeEdit} />
-      </Paneset>
+      <LoadingView onClose={closeEdit} />
     );
   }
 

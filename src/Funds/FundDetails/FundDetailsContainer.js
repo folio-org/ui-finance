@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -14,6 +14,7 @@ import {
   Col,
   ConfirmationModal,
   ExpandAllButton,
+  LoadingPane,
   MenuSection,
   Pane,
   PaneMenu,
@@ -22,7 +23,6 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   baseManifest,
-  LoadingPane,
   Tags,
   TagsBadge,
   useAccordionToggle,
@@ -183,7 +183,7 @@ const FundDetailsContainer = ({
   }
 
   return (
-    <Fragment>
+    <>
       <Pane
         actionMenu={renderActionMenu}
         defaultWidth="fill"
@@ -274,7 +274,7 @@ const FundDetailsContainer = ({
           onClose={toggleTagsPane}
         />
       )}
-    </Fragment>
+    </>
   );
 };
 

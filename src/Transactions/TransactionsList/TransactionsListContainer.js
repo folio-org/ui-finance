@@ -6,6 +6,7 @@ import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  LoadingView,
   Paneset,
   Pane,
 } from '@folio/stripes/components';
@@ -14,7 +15,6 @@ import {
   buildFilterQuery,
   buildSortingQuery,
   connectQuery,
-  LoadingPane,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -54,9 +54,8 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
 
   if (isLoading) {
     return (
-      <Paneset>
-        <LoadingPane onClose={closePane} />
-      </Paneset>
+      <LoadingView onClose={closePane} />
+
     );
   }
 

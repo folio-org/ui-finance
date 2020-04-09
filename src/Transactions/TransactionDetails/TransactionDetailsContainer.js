@@ -5,9 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
-import {
-  LoadingPane,
-} from '@folio/stripes-acq-components';
+import { LoadingPane } from '@folio/stripes/components';
 
 import {
   fiscalYearResource,

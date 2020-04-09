@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { LoadingPane } from '@folio/stripes/components';
 import {
-  LoadingPane,
   useShowToast,
 } from '@folio/stripes-acq-components';
 

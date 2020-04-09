@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -27,7 +27,7 @@ const LedgerInformation = ({
   unavailable,
 }) => {
   return (
-    <Fragment>
+    <>
       <ViewMetaData metadata={metadata} />
       <Row>
         <Col
@@ -118,7 +118,7 @@ const LedgerInformation = ({
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 };
 

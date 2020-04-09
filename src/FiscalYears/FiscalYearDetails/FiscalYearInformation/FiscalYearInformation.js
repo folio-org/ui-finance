@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -28,7 +28,7 @@ const FiscalYearInformation = ({
   unavailable,
 }) => {
   return (
-    <Fragment>
+    <>
       {metadata && <ViewMetaData metadata={metadata} />}
       <Row>
         <Col
@@ -129,7 +129,7 @@ const FiscalYearInformation = ({
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 };
 

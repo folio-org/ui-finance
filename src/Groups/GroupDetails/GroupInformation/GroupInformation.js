@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -38,7 +38,7 @@ const GroupInformation = ({
   }, [onSelectFY, selectedFiscalYearId]);
 
   return (
-    <Fragment>
+    <>
       {
         metadata && <ViewMetaData metadata={metadata} />
       }
@@ -138,7 +138,7 @@ const GroupInformation = ({
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 };
 

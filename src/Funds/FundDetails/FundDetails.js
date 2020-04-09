@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -20,7 +20,7 @@ const FundDetails = ({
   fund,
   groupIds,
 }) => (
-  <Fragment>
+  <>
     <Row>
       <Col xs={3}>
         <KeyValue
@@ -85,7 +85,7 @@ const FundDetails = ({
         />
       </Col>
     </Row>
-  </Fragment>
+  </>
 );
 
 FundDetails.propTypes = {

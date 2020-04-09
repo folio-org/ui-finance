@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -20,7 +20,7 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   return (
-    <Fragment>
+    <>
       <Row end="xs">
         <Col xs={12}>
           <ExpandAllButton
@@ -62,7 +62,7 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
           />
         </Accordion>
       </AccordionSet>
-    </Fragment>
+    </>
   );
 };
 

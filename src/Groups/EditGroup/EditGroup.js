@@ -5,10 +5,9 @@ import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { Paneset } from '@folio/stripes/components';
+import { LoadingView } from '@folio/stripes/components';
 import {
   useShowToast,
-  LoadingPane,
 } from '@folio/stripes-acq-components';
 
 import { GROUPS_ROUTE } from '../../common/const';
@@ -70,11 +69,7 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
         onCancel={closeEdit}
       />
     )
-    : (
-      <Paneset>
-        <LoadingPane onClose={closeEdit} />
-      </Paneset>
-    );
+    : (<LoadingView onClose={closeEdit} />);
 };
 
 EditGroup.manifest = Object.freeze({

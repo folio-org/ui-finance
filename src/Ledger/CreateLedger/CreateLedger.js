@@ -16,9 +16,12 @@ import {
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import { ledgersResource } from '../../common/resources';
+import { LEDGER_STATUS } from '../constants';
 import LedgerForm from '../LedgerForm';
 
-const INITIAL_LEDGER = {};
+const INITIAL_LEDGER = {
+  ledgerStatus: LEDGER_STATUS.active,
+};
 
 const CreateLedger = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();

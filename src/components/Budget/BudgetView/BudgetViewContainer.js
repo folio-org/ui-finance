@@ -12,9 +12,10 @@ import {
   Col,
   ConfirmationModal,
   Icon,
-  Paneset,
+  LoadingView,
   MenuSection,
   Pane,
+  Paneset,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -22,7 +23,6 @@ import {
   stripesConnect,
 } from '@folio/stripes/core';
 import {
-  LoadingPane,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -186,9 +186,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
 
   if (isLoading) {
     return (
-      <Paneset>
-        <LoadingPane onClose={goToFundDetails} />
-      </Paneset>
+      <LoadingView onClose={goToFundDetails} />
     );
   }
 

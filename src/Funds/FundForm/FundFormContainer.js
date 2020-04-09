@@ -31,6 +31,7 @@ import {
   fundTypesResource,
   ledgersResource,
 } from '../../common/resources';
+import { FUND_STATUSES } from '../constants';
 import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
 
@@ -68,7 +69,10 @@ const FundFormContainer = ({
             setIsLoading(false);
           });
       } else {
-        setFund(undefined);
+        setFund({
+          fund: { fundStatus: FUND_STATUSES.ACTIVE },
+          groupIds: [],
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

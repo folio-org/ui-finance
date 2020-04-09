@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIF-201](https://issues.folio.org/browse/UIF-201) Select active status by default when creating financial records
 
 ### Bug fixes
 

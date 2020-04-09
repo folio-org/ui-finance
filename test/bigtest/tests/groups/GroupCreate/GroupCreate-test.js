@@ -38,7 +38,6 @@ describe('Group create', () => {
     beforeEach(async function () {
       await groupForm.name.fill('Test group');
       await groupForm.code.fill('TSD');
-      await groupForm.status.options.list(1).click();
 
       await groupForm.saveButton.click();
       await groupsList.whenLoaded();

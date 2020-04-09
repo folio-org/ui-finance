@@ -56,7 +56,6 @@ describe('Ledger create', () => {
       await ledgerForm.name.fill('Test Ledger');
       await ledgerForm.code.fill('LDGR');
       await ledgerForm.fyOneList.selectOption('FY');
-      await ledgerForm.status.options.list(1).click();
       await ledgerForm.saveButton.click();
       await ledgersList.whenLoaded();
     });

@@ -15,9 +15,12 @@ import {
 import {
   groupsResource,
 } from '../../common/resources';
+import { GROUP_STATUS } from '../constants';
 import { GroupForm } from '../GroupForm';
 
-const INITIAL_GROUP = {};
+const INITIAL_GROUP = {
+  status: GROUP_STATUS.active,
+};
 
 const CreateGroup = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();

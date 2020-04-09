@@ -69,9 +69,7 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
         onCancel={closeEdit}
       />
     )
-    : (
-        <LoadingView onClose={closeEdit} />
-    );
+    : (<LoadingView onClose={closeEdit} />);
 };
 
 EditGroup.manifest = Object.freeze({

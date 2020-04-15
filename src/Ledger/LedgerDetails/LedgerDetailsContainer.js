@@ -135,7 +135,7 @@ LedgerDetailsContainer.manifest = Object.freeze({
     ...fundsResource,
     GET: {
       params: {
-        query: 'ledgerId==":{id}"',
+        query: 'ledgerId==":{id}" sortby name',
       },
     },
     accumulate: true,

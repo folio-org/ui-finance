@@ -7,7 +7,10 @@ import {
   Layout,
   MultiColumnList,
 } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
+import {
+  acqRowFormatter,
+  AmountWithCurrencyField,
+} from '@folio/stripes-acq-components';
 
 const defaultColumns = ['name', 'code', 'allocated', 'unavailable', 'available'];
 const columnMapping = {
@@ -17,6 +20,7 @@ const columnMapping = {
   unavailable: <FormattedMessage id="ui-finance.item.unavailable" />,
   available: <FormattedMessage id="ui-finance.item.available" />,
 };
+const alignRowProps = { alignLastColToEnd: true };
 
 const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   const resultsFormatter = {
@@ -47,6 +51,8 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
         contentData={items}
         formatter={resultsFormatter}
         onRowClick={openItem}
+        rowFormatter={acqRowFormatter}
+        rowProps={alignRowProps}
         visibleColumns={visibleColumns}
       />
       <Layout className="textCentered">

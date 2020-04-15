@@ -12,8 +12,9 @@ import {
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
-const defaultColumns = ['name', 'code', 'allocated', 'unavailable', 'available'];
+const defaultColumns = ['name', 'code', 'allocated', 'unavailable', 'available', 'arrow'];
 const columnMapping = {
+  arrow: null,
   name: <FormattedMessage id="ui-finance.item.name" />,
   code: <FormattedMessage id="ui-finance.item.code" />,
   allocated: <FormattedMessage id="ui-finance.item.allocated" />,
@@ -42,6 +43,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
         currency={currency}
       />
     ),
+    arrow: () => <Icon icon="caret-right" />,
   };
 
   return (

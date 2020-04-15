@@ -6,6 +6,7 @@
 * [UIF-201](https://issues.folio.org/browse/UIF-201) Select active status by default when creating financial records
 
 ### Bug fixes
+* [UIF-203](https://issues.folio.org/browse/UIF-203) On ledger detail view, funds associated with the ledger not in alpha order
 
 ## [2.0.1](https://github.com/folio-org/ui-finance/tree/v2.0.1) (2020-04-03)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.0.0...v2.0.1)

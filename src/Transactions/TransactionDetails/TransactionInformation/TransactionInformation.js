@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import {
   Row,
@@ -13,19 +14,39 @@ import {
   FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
+import { getSourceLink } from './utils';
+
 const TransactionInformation = ({
   amount,
   currency,
   description,
   encumbrance,
   fiscalYearCode,
+  fiscalYearId,
   fromFundName,
+  invoiceId,
+  invoiceLineId,
   metadata,
   source,
   tags,
   toFundName,
   transactionType,
 }) => {
+  const sourceLink = useMemo(
+    () => getSourceLink(source, fiscalYearId, invoiceId, invoiceLineId, encumbrance?.sourcePoLineId),
+    [source, fiscalYearId, invoiceId, invoiceLineId, encumbrance],
+  );
+  const sourceValue = sourceLink
+    ? (
+      <Link
+        data-testid="transaction-source-link"
+        to={sourceLink}
+      >
+        <FormattedMessage id={`ui-finance.transaction.source.${source}`} />
+      </Link>
+    )
+    : <FormattedMessage id={`ui-finance.transaction.source.${source}`} />;
+
   return (
     <>
       <ViewMetaData metadata={metadata} />
@@ -68,7 +89,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.source" />}
-            value={<FormattedMessage id={`ui-finance.transaction.source.${source}`} />}
+            value={sourceValue}
           />
         </Col>
 
@@ -182,7 +203,10 @@ TransactionInformation.propTypes = {
   description: PropTypes.string,
   encumbrance: PropTypes.object,
   fiscalYearCode: PropTypes.string.isRequired,
+  fiscalYearId: PropTypes.string,
   fromFundName: PropTypes.string,
+  invoiceId: PropTypes.string,
+  invoiceLineId: PropTypes.string,
   metadata: PropTypes.object,
   source: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.object),

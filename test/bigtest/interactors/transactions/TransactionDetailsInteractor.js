@@ -1,4 +1,5 @@
 import {
+  clickable,
   interactor,
   isPresent,
   text,
@@ -15,6 +16,7 @@ export default interactor(class TransactionDetailsInteractor {
 
   closePane = new Button('[icon=times]');
   status = new Status();
+  sourceLink = clickable('[data-testid="transaction-source-link"]');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

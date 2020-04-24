@@ -13,8 +13,9 @@ import {
 } from '@folio/stripes/components';
 import {
   FiltersPane,
-  ResultsPane,
+  NoResultsMessage,
   ResetButton,
+  ResultsPane,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -79,11 +80,22 @@ const FiscalYearsList = ({
   );
 
   const renderLastMenu = useCallback(() => <FiscalYearsListLastMenu />, []);
+  const resultsStatusMessage = (
+    <NoResultsMessage
+      isLoading={isLoading}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
+    />
+  );
 
   return (
     <Paneset data-test-fiscal-years-list>
       {isFiltersOpened && (
-        <FiltersPane width="350px">
+        <FiltersPane
+          toggleFilters={toggleFilters}
+          width="350px"
+        >
           <FinanceNavigation />
 
           <SingleSearchForm
@@ -115,7 +127,8 @@ const FiscalYearsList = ({
         count={fiscalYearsCount}
         renderLastMenu={renderLastMenu}
         toggleFiltersPane={toggleFilters}
-        filters={!isFiltersOpened && filters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           id="fiscal-years-list"
@@ -131,6 +144,9 @@ const FiscalYearsList = ({
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
           onRowClick={openFiscalYearDetails}
+          isEmptyMessage={resultsStatusMessage}
+          pagingType="click"
+          hasMargin
         />
       </ResultsPane>
 

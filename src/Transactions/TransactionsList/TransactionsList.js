@@ -16,14 +16,16 @@ import {
   MultiColumnList,
 } from '@folio/stripes/components';
 import {
-  FolioFormattedTime,
   AmountWithCurrencyField,
   FiltersPane,
-  ResultsPane,
+  FolioFormattedTime,
+  NoResultsMessage,
   ResetButton,
+  ResultsPane,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
+  useToggle,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -93,6 +95,7 @@ const TransactionsList = ({
     sortingDirection,
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
+  const [isFiltersOpened, toggleFilters] = useToggle(true);
 
   const selectedItem = useCallback(
     (e, meta) => {
@@ -105,33 +108,46 @@ const TransactionsList = ({
   );
 
   const resultsFormatter = useMemo(() => getResultsFormatter(funds), [funds]);
+  const resultsStatusMessage = (
+    <NoResultsMessage
+      isLoading={isLoadingTransactions}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
+    />
+  );
 
   return (
     <Paneset>
-      <FiltersPane>
-        <SingleSearchForm
-          applySearch={applySearch}
-          changeSearch={changeSearch}
-          searchQuery={searchQuery}
-          isLoading={isLoadingTransactions}
-          ariaLabelId="ui-finance.search.transactions"
-        />
+      {isFiltersOpened && (
+        <FiltersPane toggleFilters={toggleFilters}>
+          <SingleSearchForm
+            applySearch={applySearch}
+            changeSearch={changeSearch}
+            searchQuery={searchQuery}
+            isLoading={isLoadingTransactions}
+            ariaLabelId="ui-finance.search"
+          />
 
-        <ResetButton
-          id="reset-transactions-filters"
-          reset={resetFilters}
-          disabled={!location.search}
-        />
+          <ResetButton
+            id="reset-transactions-filters"
+            reset={resetFilters}
+            disabled={!location.search}
+          />
 
-        <TransactionsFilters
-          activeFilters={filters}
-          applyFilters={applyFilters}
-        />
-      </FiltersPane>
+          <TransactionsFilters
+            activeFilters={filters}
+            applyFilters={applyFilters}
+          />
+        </FiltersPane>
+      )}
 
       <ResultsPane
         title={resultsPaneTitle}
         count={transactionsCount}
+        toggleFiltersPane={toggleFilters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           id="transactions-list"
@@ -148,6 +164,9 @@ const TransactionsList = ({
           sortOrder={sortingField}
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
+          isEmptyMessage={resultsStatusMessage}
+          pagingType="click"
+          hasMargin
         />
       </ResultsPane>
 

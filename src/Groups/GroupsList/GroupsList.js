@@ -13,8 +13,9 @@ import {
 } from '@folio/stripes/components';
 import {
   FiltersPane,
-  ResultsPane,
+  NoResultsMessage,
   ResetButton,
+  ResultsPane,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -78,11 +79,22 @@ const GroupsList = ({
   );
 
   const renderLastMenu = useCallback(() => <GroupsListLastMenu />, []);
+  const resultsStatusMessage = (
+    <NoResultsMessage
+      isLoading={isLoading}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
+    />
+  );
 
   return (
     <Paneset data-test-groups-list>
       {isFiltersOpened && (
-        <FiltersPane width="350px">
+        <FiltersPane
+          toggleFilters={toggleFilters}
+          width="350px"
+        >
           <FinanceNavigation />
 
           <SingleSearchForm
@@ -114,7 +126,8 @@ const GroupsList = ({
         count={groupsCount}
         renderLastMenu={renderLastMenu}
         toggleFiltersPane={toggleFilters}
-        filters={!isFiltersOpened && filters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           id="groups-list"
@@ -130,6 +143,9 @@ const GroupsList = ({
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
           onRowClick={openGroupDetails}
+          isEmptyMessage={resultsStatusMessage}
+          pagingType="click"
+          hasMargin
         />
       </ResultsPane>
 

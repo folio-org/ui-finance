@@ -7,6 +7,7 @@
 * [UIF-201](https://issues.folio.org/browse/UIF-201) Select active status by default when creating financial records
 
 ### Bug fixes
+* [UIORGS-151](https://issues.folio.org/browse/UIORGS-151) Organizations is not using the same Expand/Collapse as implemented in Q4 2019
 * [UIF-203](https://issues.folio.org/browse/UIF-203) On ledger detail view, funds associated with the ledger not in alpha order
 
 ## [2.0.1](https://github.com/folio-org/ui-finance/tree/v2.0.1) (2020-04-03)

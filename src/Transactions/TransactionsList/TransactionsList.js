@@ -15,15 +15,18 @@ import {
   Paneset,
   MultiColumnList,
 } from '@folio/stripes/components';
+import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
-  FolioFormattedTime,
   AmountWithCurrencyField,
   FiltersPane,
-  ResultsPane,
+  FolioFormattedTime,
   ResetButton,
+  ResultsPane,
+  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
+  useToggle,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -93,6 +96,7 @@ const TransactionsList = ({
     sortingDirection,
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
+  const [isFiltersOpened, toggleFilters] = useToggle(true);
 
   const selectedItem = useCallback(
     (e, meta) => {
@@ -105,33 +109,56 @@ const TransactionsList = ({
   );
 
   const resultsFormatter = useMemo(() => getResultsFormatter(funds), [funds]);
+  const hasFilters = filters && Object.values(filters).some(Boolean);
+  const source = useMemo(
+    () => ({
+      loaded: () => hasFilters && !isLoadingTransactions,
+      pending: () => isLoadingTransactions,
+      failure: () => {},
+    }),
+    [isLoadingTransactions, hasFilters],
+  );
+
+  const resultsStatusMessage = (
+    <SearchAndSortNoResultsMessage
+      filterPaneIsVisible={isFiltersOpened}
+      searchTerm={filters[SEARCH_PARAMETER] || ''}
+      source={source}
+      toggleFilterPane={toggleFilters}
+    />
+  );
 
   return (
     <Paneset>
-      <FiltersPane>
-        <SingleSearchForm
-          applySearch={applySearch}
-          changeSearch={changeSearch}
-          searchQuery={searchQuery}
-          isLoading={isLoadingTransactions}
-          ariaLabelId="ui-finance.search.transactions"
-        />
+      {isFiltersOpened && (
+        <FiltersPane toggleFilters={toggleFilters}>
+          <SingleSearchForm
+            applySearch={applySearch}
+            changeSearch={changeSearch}
+            searchQuery={searchQuery}
+            isLoading={isLoadingTransactions}
+            ariaLabelId="ui-finance.search"
+          />
 
-        <ResetButton
-          id="reset-transactions-filters"
-          reset={resetFilters}
-          disabled={!location.search}
-        />
+          <ResetButton
+            id="reset-transactions-filters"
+            reset={resetFilters}
+            disabled={!location.search}
+          />
 
-        <TransactionsFilters
-          activeFilters={filters}
-          applyFilters={applyFilters}
-        />
-      </FiltersPane>
+          <TransactionsFilters
+            activeFilters={filters}
+            applyFilters={applyFilters}
+          />
+        </FiltersPane>
+      )}
 
       <ResultsPane
         title={resultsPaneTitle}
         count={transactionsCount}
+        toggleFiltersPane={toggleFilters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           id="transactions-list"
@@ -148,6 +175,9 @@ const TransactionsList = ({
           sortOrder={sortingField}
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
+          isEmptyMessage={resultsStatusMessage}
+          pagingType="click"
+          hasMargin
         />
       </ResultsPane>
 

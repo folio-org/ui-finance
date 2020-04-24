@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -11,10 +11,12 @@ import {
   Paneset,
   MultiColumnList,
 } from '@folio/stripes/components';
+import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
-  ResultsPane,
   ResetButton,
+  ResultsPane,
+  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -78,11 +80,32 @@ const GroupsList = ({
   );
 
   const renderLastMenu = useCallback(() => <GroupsListLastMenu />, []);
+  const hasFilters = filters && Object.values(filters).some(Boolean);
+  const source = useMemo(
+    () => ({
+      loaded: () => hasFilters && !isLoading,
+      pending: () => isLoading,
+      failure: () => {},
+    }),
+    [isLoading, hasFilters],
+  );
+
+  const resultsStatusMessage = (
+    <SearchAndSortNoResultsMessage
+      filterPaneIsVisible={isFiltersOpened}
+      searchTerm={filters[SEARCH_PARAMETER] || ''}
+      source={source}
+      toggleFilterPane={toggleFilters}
+    />
+  );
 
   return (
     <Paneset data-test-groups-list>
       {isFiltersOpened && (
-        <FiltersPane width="350px">
+        <FiltersPane
+          toggleFilters={toggleFilters}
+          width="350px"
+        >
           <FinanceNavigation />
 
           <SingleSearchForm
@@ -114,7 +137,8 @@ const GroupsList = ({
         count={groupsCount}
         renderLastMenu={renderLastMenu}
         toggleFiltersPane={toggleFilters}
-        filters={!isFiltersOpened && filters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           id="groups-list"
@@ -130,6 +154,9 @@ const GroupsList = ({
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
           onRowClick={openGroupDetails}
+          isEmptyMessage={resultsStatusMessage}
+          pagingType="click"
+          hasMargin
         />
       </ResultsPane>
 

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
@@ -13,10 +13,12 @@ import {
   MultiColumnList,
   Paneset,
 } from '@folio/stripes/components';
+import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
-  ResultsPane,
   ResetButton,
+  ResultsPane,
+  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -79,10 +81,32 @@ const LedgerList = ({
     [location.search],
   );
 
+  const hasFilters = filters && Object.values(filters).some(Boolean);
+  const source = useMemo(
+    () => ({
+      loaded: () => hasFilters && !isLoading,
+      pending: () => isLoading,
+      failure: () => {},
+    }),
+    [isLoading, hasFilters],
+  );
+
+  const resultsStatusMessage = (
+    <SearchAndSortNoResultsMessage
+      filterPaneIsVisible={isFiltersOpened}
+      searchTerm={filters[SEARCH_PARAMETER] || ''}
+      source={source}
+      toggleFilterPane={toggleFilters}
+    />
+  );
+
   return (
     <Paneset data-test-ledgers-list>
       {isFiltersOpened && (
-        <FiltersPane width="350px">
+        <FiltersPane
+          toggleFilters={toggleFilters}
+          width="350px"
+        >
           <FinanceNavigation />
           <SingleSearchForm
             applySearch={applySearch}
@@ -111,7 +135,8 @@ const LedgerList = ({
         count={ledgersCount}
         renderLastMenu={renderLastMenu}
         toggleFiltersPane={toggleFilters}
-        filters={!isFiltersOpened && filters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           id="ledgers-list"
@@ -127,6 +152,9 @@ const LedgerList = ({
           sortDirection={sortingDirection}
           onHeaderClick={changeSorting}
           onRowClick={openLedgerDetails}
+          isEmptyMessage={resultsStatusMessage}
+          pagingType="click"
+          hasMargin
         />
       </ResultsPane>
       <Route

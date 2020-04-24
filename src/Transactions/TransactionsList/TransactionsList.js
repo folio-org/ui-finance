@@ -15,14 +15,13 @@ import {
   Paneset,
   MultiColumnList,
 } from '@folio/stripes/components';
-import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
   AmountWithCurrencyField,
   FiltersPane,
   FolioFormattedTime,
+  NoResultsMessage,
   ResetButton,
   ResultsPane,
-  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -109,22 +108,12 @@ const TransactionsList = ({
   );
 
   const resultsFormatter = useMemo(() => getResultsFormatter(funds), [funds]);
-  const hasFilters = filters && Object.values(filters).some(Boolean);
-  const source = useMemo(
-    () => ({
-      loaded: () => hasFilters && !isLoadingTransactions,
-      pending: () => isLoadingTransactions,
-      failure: () => {},
-    }),
-    [isLoadingTransactions, hasFilters],
-  );
-
   const resultsStatusMessage = (
-    <SearchAndSortNoResultsMessage
-      filterPaneIsVisible={isFiltersOpened}
-      searchTerm={filters[SEARCH_PARAMETER] || ''}
-      source={source}
-      toggleFilterPane={toggleFilters}
+    <NoResultsMessage
+      isLoading={isLoadingTransactions}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
     />
   );
 

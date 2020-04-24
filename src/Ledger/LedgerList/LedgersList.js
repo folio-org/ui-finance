@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
@@ -13,12 +13,11 @@ import {
   MultiColumnList,
   Paneset,
 } from '@folio/stripes/components';
-import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
+  NoResultsMessage,
   ResetButton,
   ResultsPane,
-  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -81,22 +80,12 @@ const LedgerList = ({
     [location.search],
   );
 
-  const hasFilters = filters && Object.values(filters).some(Boolean);
-  const source = useMemo(
-    () => ({
-      loaded: () => hasFilters && !isLoading,
-      pending: () => isLoading,
-      failure: () => {},
-    }),
-    [isLoading, hasFilters],
-  );
-
   const resultsStatusMessage = (
-    <SearchAndSortNoResultsMessage
-      filterPaneIsVisible={isFiltersOpened}
-      searchTerm={filters[SEARCH_PARAMETER] || ''}
-      source={source}
-      toggleFilterPane={toggleFilters}
+    <NoResultsMessage
+      isLoading={isLoading}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
     />
   );
 

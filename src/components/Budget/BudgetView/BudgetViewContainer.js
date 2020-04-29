@@ -213,41 +213,41 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
             />
           </Col>
         </Row>
+
+        {isTransferModalOpened && (
+          <CreateTransaction
+            fundId={budget.fundId}
+            budgetName={budget.name}
+            transactionType={TRANSACTION_TYPES.transfer}
+            fiscalYearId={fiscalYear.id}
+            onClose={toggleTransferModal}
+            fetchBudgetResources={fetchBudgetResources}
+          />
+        )}
+
+        {isAllocateModalOpened && (
+          <CreateTransaction
+            fundId={budget.fundId}
+            budgetName={budget.name}
+            transactionType={TRANSACTION_TYPES.allocation}
+            fiscalYearId={fiscalYear.id}
+            onClose={toggleAllocateModal}
+            fetchBudgetResources={fetchBudgetResources}
+          />
+        )}
+
+        {isRemoveConfirmation && (
+          <ConfirmationModal
+            id="budget-remove-confirmation"
+            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+            heading={<FormattedMessage id="ui-finance.budget.remove.heading" />}
+            message={<FormattedMessage id="ui-finance.budget.remove.message" />}
+            onCancel={toggleRemoveConfirmation}
+            onConfirm={onRemove}
+            open
+          />
+        )}
       </Pane>
-
-      {isTransferModalOpened && (
-        <CreateTransaction
-          fundId={budget.fundId}
-          budgetName={budget.name}
-          transactionType={TRANSACTION_TYPES.transfer}
-          fiscalYearId={fiscalYear.id}
-          onClose={toggleTransferModal}
-          fetchBudgetResources={fetchBudgetResources}
-        />
-      )}
-
-      {isAllocateModalOpened && (
-        <CreateTransaction
-          fundId={budget.fundId}
-          budgetName={budget.name}
-          transactionType={TRANSACTION_TYPES.allocation}
-          fiscalYearId={fiscalYear.id}
-          onClose={toggleAllocateModal}
-          fetchBudgetResources={fetchBudgetResources}
-        />
-      )}
-
-      {isRemoveConfirmation && (
-        <ConfirmationModal
-          id="budget-remove-confirmation"
-          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
-          heading={<FormattedMessage id="ui-finance.budget.remove.heading" />}
-          message={<FormattedMessage id="ui-finance.budget.remove.message" />}
-          onCancel={toggleRemoveConfirmation}
-          onConfirm={onRemove}
-          open
-        />
-      )}
     </Paneset>
   );
 };

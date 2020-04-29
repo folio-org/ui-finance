@@ -11,12 +11,17 @@ import Button from '../common/Button';
   value = text('[data-test-transaction-status-value]');
 }
 
+@interactor class SourceLink {
+  static defaultScope = '[data-testid="transaction-source-link"]';
+  click = clickable();
+}
+
 export default interactor(class TransactionDetailsInteractor {
   static defaultScope = '#pane-transaction-details';
 
   closePane = new Button('[icon=times]');
   status = new Status();
-  sourceLink = clickable('[data-testid="transaction-source-link"]');
+  sourceLink = new SourceLink();
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

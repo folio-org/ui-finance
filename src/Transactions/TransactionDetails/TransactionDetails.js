@@ -55,20 +55,10 @@ const TransactionDetails = ({
           label={TRANSACTION_ACCORDION_LABELS[TRANSACTION_ACCORDION.information]}
         >
           <TransactionInformation
-            amount={transaction.amount}
-            currency={transaction.currency}
-            description={transaction.description}
-            encumbrance={transaction.encumbrance}
             fiscalYearCode={fiscalYearCode}
-            fiscalYearId={transaction.fiscalYearId}
             fromFundName={fromFundName}
-            invoiceId={transaction.sourceInvoiceId}
-            invoiceLineId={transaction.sourceInvoiceLineId}
-            metadata={transaction.metadata}
-            source={transaction.source}
-            tags={transaction.tags}
             toFundName={toFundName}
-            transactionType={transaction.transactionType}
+            transaction={transaction}
           />
         </Accordion>
       </AccordionSet>

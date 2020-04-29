@@ -39,6 +39,7 @@ describe('Budget details', () => {
   describe('close budget details', () => {
     beforeEach(async function () {
       await budgetDetails.closePane.click();
+      await fundDetails.whenLoaded();
     });
 
     it('closes budget details', () => {

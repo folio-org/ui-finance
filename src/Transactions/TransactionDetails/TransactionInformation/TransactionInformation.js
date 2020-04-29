@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 
 import {
   Row,
@@ -14,38 +13,23 @@ import {
   FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
-import { getSourceLink } from './utils';
+import SourceValue from './SourceValue';
 
 const TransactionInformation = ({
-  amount,
-  currency,
-  description,
-  encumbrance,
   fiscalYearCode,
-  fiscalYearId,
   fromFundName,
-  invoiceId,
-  invoiceLineId,
-  metadata,
-  source,
-  tags,
   toFundName,
-  transactionType,
+  transaction,
 }) => {
-  const sourceLink = useMemo(
-    () => getSourceLink(source, fiscalYearId, invoiceId, invoiceLineId, encumbrance?.sourcePoLineId),
-    [source, fiscalYearId, invoiceId, invoiceLineId, encumbrance],
-  );
-  const sourceValue = sourceLink
-    ? (
-      <Link
-        data-testid="transaction-source-link"
-        to={sourceLink}
-      >
-        <FormattedMessage id={`ui-finance.transaction.source.${source}`} />
-      </Link>
-    )
-    : <FormattedMessage id={`ui-finance.transaction.source.${source}`} />;
+  const {
+    amount,
+    currency,
+    description = '',
+    encumbrance,
+    metadata = {},
+    tags = { tagList: [] },
+    transactionType,
+  } = transaction;
 
   return (
     <>
@@ -89,7 +73,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.source" />}
-            value={sourceValue}
+            value={<SourceValue transaction={transaction} />}
           />
         </Col>
 
@@ -198,26 +182,14 @@ const TransactionInformation = ({
 };
 
 TransactionInformation.propTypes = {
-  amount: PropTypes.number.isRequired,
-  currency: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  encumbrance: PropTypes.object,
   fiscalYearCode: PropTypes.string.isRequired,
-  fiscalYearId: PropTypes.string,
   fromFundName: PropTypes.string,
-  invoiceId: PropTypes.string,
-  invoiceLineId: PropTypes.string,
-  metadata: PropTypes.object,
-  source: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.object),
   toFundName: PropTypes.string,
-  transactionType: PropTypes.string.isRequired,
+  transaction: PropTypes.object,
 };
 
 TransactionInformation.defaultProps = {
-  description: '',
-  metadata: {},
-  tags: { tagList: [] },
+  transaction: {},
 };
 
 export default TransactionInformation;

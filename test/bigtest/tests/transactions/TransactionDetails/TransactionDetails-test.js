@@ -38,7 +38,7 @@ describe('Transaction details', () => {
 
   describe('click on source', function () {
     beforeEach(async function () {
-      await details.sourceLink();
+      await details.sourceLink.click();
     });
 
     it('goes to fiscal year in finance app', function () {

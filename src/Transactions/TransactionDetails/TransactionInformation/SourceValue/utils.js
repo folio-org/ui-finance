@@ -15,6 +15,6 @@ export function getSourceLink({
     case TRANSACTION_SOURCE.poLine:
       return encumbrance?.sourcePoLineId && `/orders/lines/view/${encumbrance.sourcePoLineId}`;
     default:
-      return '';
+      return null;
   }
 }

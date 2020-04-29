@@ -13,19 +13,24 @@ import {
   FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
+import SourceValue from './SourceValue';
+
 const TransactionInformation = ({
-  amount,
-  currency,
-  description,
-  encumbrance,
   fiscalYearCode,
   fromFundName,
-  metadata,
-  source,
-  tags,
   toFundName,
-  transactionType,
+  transaction,
 }) => {
+  const {
+    amount,
+    currency,
+    description = '',
+    encumbrance,
+    metadata = {},
+    tags,
+    transactionType,
+  } = transaction;
+
   return (
     <>
       <ViewMetaData metadata={metadata} />
@@ -68,7 +73,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.source" />}
-            value={<FormattedMessage id={`ui-finance.transaction.source.${source}`} />}
+            value={<SourceValue transaction={transaction} />}
           />
         </Col>
 
@@ -108,7 +113,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.tags" />}
-            value={tags.tagList.join(', ')}
+            value={tags?.tagList?.join(', ')}
           />
         </Col>
       </Row>
@@ -177,23 +182,14 @@ const TransactionInformation = ({
 };
 
 TransactionInformation.propTypes = {
-  amount: PropTypes.number.isRequired,
-  currency: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  encumbrance: PropTypes.object,
   fiscalYearCode: PropTypes.string.isRequired,
   fromFundName: PropTypes.string,
-  metadata: PropTypes.object,
-  source: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.object),
   toFundName: PropTypes.string,
-  transactionType: PropTypes.string.isRequired,
+  transaction: PropTypes.object,
 };
 
 TransactionInformation.defaultProps = {
-  description: '',
-  metadata: {},
-  tags: { tagList: [] },
+  transaction: {},
 };
 
 export default TransactionInformation;

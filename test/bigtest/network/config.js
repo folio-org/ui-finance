@@ -4,6 +4,7 @@ import {
   configTags,
   configUnits,
   configUsers,
+  configLines,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import configBudgets from './configs/budgets';
@@ -29,4 +30,5 @@ export default function config() {
   configUsers(this);
   configFundTypes(this);
   configGroupSummaries(this);
+  configLines(this);
 }

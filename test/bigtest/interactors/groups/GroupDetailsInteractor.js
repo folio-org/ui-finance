@@ -3,6 +3,8 @@ import {
   Interactor,
   isPresent,
   attribute,
+  collection,
+  text,
 } from '@bigtest/interactor';
 import Button from '../common/Button';
 
@@ -18,12 +20,23 @@ import Button from '../common/Button';
   deleteGroup = new Interactor('[data-test-details-remove-action]');
 }
 
+@interactor class FundsAccordion {
+  static defaultScope = '#fund';
+  sortByNameButton = new Interactor('#fund #clickable-list-column-name');
+  sortByCodeButton = new Interactor('#fund #clickable-list-column-code');
+  funds = collection('#fund [role=group] [role=row]', { cells: collection('[role=gridcell]', { value: text() }) });
+  whenLoaded() {
+    return this.timeout(5000).when(() => isPresent('#fund #clickable-list-column-name'));
+  }
+}
+
 export default interactor(class GroupDetailsInteractor {
   static defaultScope = '#pane-group-details';
 
   closePane = new Button('[icon=times]');
   actions = new Actions();
   groupRemoveConfirmationModal = new GroupRemoveConfirmationModal();
+  fundsAccordion = new FundsAccordion();
 
   groupAllocatedValue = attribute(
     '[data-test-group-information-allocated]',

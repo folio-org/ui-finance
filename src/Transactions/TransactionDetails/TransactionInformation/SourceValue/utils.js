@@ -9,11 +9,11 @@ export function getSourceLink({
 }) {
   switch (source) {
     case TRANSACTION_SOURCE.invoice:
-      return sourceInvoiceId && sourceInvoiceLineId ? `/invoice/view/${sourceInvoiceId}/line/${sourceInvoiceLineId}` : '';
+      return sourceInvoiceId && sourceInvoiceLineId && `/invoice/view/${sourceInvoiceId}/line/${sourceInvoiceLineId}`;
     case TRANSACTION_SOURCE.fiscalYear:
-      return fiscalYearId ? `/finance/fiscalyear/${fiscalYearId}/view` : '';
+      return fiscalYearId && `/finance/fiscalyear/${fiscalYearId}/view`;
     case TRANSACTION_SOURCE.poLine:
-      return encumbrance?.sourcePoLineId ? `/orders/lines/view/${encumbrance.sourcePoLineId}` : '';
+      return encumbrance?.sourcePoLineId && `/orders/lines/view/${encumbrance.sourcePoLineId}`;
     default:
       return '';
   }

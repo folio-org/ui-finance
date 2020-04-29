@@ -27,7 +27,7 @@ const TransactionInformation = ({
     description = '',
     encumbrance,
     metadata = {},
-    tags = { tagList: [] },
+    tags,
     transactionType,
   } = transaction;
 
@@ -113,7 +113,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.tags" />}
-            value={tags.tagList.join(', ')}
+            value={tags?.tagList?.join(', ')}
           />
         </Col>
       </Row>

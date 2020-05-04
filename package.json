@@ -170,6 +170,9 @@
     "react-final-form": "^6.3.0",
     "redux-form": "^7.4.2"
   },
+  "resolutions": {
+    "moment": "2.24.0"
+  },
   "peerDependencies": {
     "@folio/stripes": "^3.0.0",
     "react": "*",

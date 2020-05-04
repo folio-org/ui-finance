@@ -9,7 +9,7 @@ export function getSourceLink({
 }) {
   switch (source) {
     case TRANSACTION_SOURCE.invoice:
-      return sourceInvoiceId && sourceInvoiceLineId && `/invoice/view/${sourceInvoiceId}/line/${sourceInvoiceLineId}`;
+      return sourceInvoiceId && sourceInvoiceLineId && `/invoice/view/${sourceInvoiceId}/line/${sourceInvoiceLineId}/view`;
     case TRANSACTION_SOURCE.fiscalYear:
       return fiscalYearId && `/finance/fiscalyear/${fiscalYearId}/view`;
     case TRANSACTION_SOURCE.poLine:

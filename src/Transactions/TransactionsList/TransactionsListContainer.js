@@ -33,6 +33,7 @@ const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
 const TransactionsListContainer = ({ mutator, resources, history, match }) => {
+  const budgetId = match.params.budgetId;
   const onNeedMoreData = useCallback(
     () => mutator.resultCount.replace(resources.resultCount + RESULT_COUNT_INCREMENT),
     [mutator.resultCount, resources.resultCount],
@@ -43,18 +44,19 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
   );
   const closePane = useCallback(
     () => {
-      history.push(`${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_VIEW_ROUTE}`);
+      history.push(`${BUDGET_ROUTE}${budgetId}${BUDGET_VIEW_ROUTE}`);
     },
-    [history, match.params.budgetId],
+    [history, budgetId],
   );
 
+  const budget = resources?.budget?.records?.[0];
   const isLoading = !(
-    get(resources, ['budget', 'hasLoaded']) && get(resources, ['fundsTransactionsList', 'hasLoaded'])
+    budgetId === budget?.id && resources?.fundsTransactionsList?.hasLoaded
   );
 
   if (isLoading) {
     return (
-      <LoadingView onClose={closePane} />
+      <LoadingView dismissible onClose={closePane} />
 
     );
   }
@@ -63,7 +65,7 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
     <div data-test-transactions-list>
       <Paneset>
         <Pane
-          paneTitle={get(resources, 'budget.records.0.name')}
+          paneTitle={budget?.name}
           defaultWidth="100%"
           padContent={false}
           onClose={closePane}
@@ -89,10 +91,10 @@ TransactionsListContainer.manifest = Object.freeze({
   fundsTransactionsList: fundsResource,
   transactions: {
     ...baseManifest,
-    path: (queryParams, pathComponents, resourceData, logger, props) => {
+    path: (queryParams, { budgetId }, resourceData, logger, props) => {
       const budget = get(props, ['resources', 'budget', 'records', 0]);
 
-      if (budget) {
+      if (budget && budget.id === budgetId) {
         return TRANSACTIONS_API;
       }
 
@@ -103,10 +105,10 @@ TransactionsListContainer.manifest = Object.freeze({
     recordsRequired: '%{resultCount}',
     GET: {
       params: {
-        query: (queryParams, pathComponents, resourceValues) => {
+        query: (queryParams, { budgetId }, resourceValues) => {
           const budget = get(resourceValues, ['budget', 'records', 0]);
 
-          if (!budget) return null;
+          if (budget?.id !== budgetId) return null;
 
           const fundId = budget.fundId;
           const fiscalYearId = budget.fiscalYearId;

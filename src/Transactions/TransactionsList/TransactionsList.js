@@ -152,7 +152,7 @@ const TransactionsList = ({
         <MultiColumnList
           id="transactions-list"
           totalCount={transactionsCount}
-          contentData={transactions}
+          contentData={isLoadingTransactions ? [] : transactions}
           formatter={resultsFormatter}
           visibleColumns={visibleColumns}
           columnMapping={columnMapping}

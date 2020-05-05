@@ -3,11 +3,13 @@ import { expect } from 'chai';
 
 import setupApplication from '../../../helpers/setup-application';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
+import TransactionsListInteractor from '../../../interactors/transactions/TransactionsListInteractor';
 
 describe('Funds details', () => {
   setupApplication();
 
   const fundDetails = new FundDetailsInteractor();
+  const transactionsList = new TransactionsListInteractor();
 
   beforeEach(async function () {
     const group = this.server.create('group');
@@ -16,6 +18,8 @@ describe('Funds details', () => {
     const fund = this.server.create('fund', {
       groupIds: [group.id],
     });
+
+    this.server.create('transaction', { fiscalYearId: fiscalYear.id });
 
     fund.fund.ledgerId = ledger.id;
 
@@ -49,6 +53,17 @@ describe('Funds details', () => {
 
     it('redirects to current budget view page', () => {
       expect(fundDetails.isPresent).to.be.false;
+    });
+  });
+
+  describe('click on view transactions for current budget', () => {
+    beforeEach(async function () {
+      await fundDetails.actions.viewTransactions.click();
+      await transactionsList.whenLoaded();
+    });
+
+    it('redirects to transactions list for current budget', () => {
+      expect(transactionsList.isPresent).to.be.true;
     });
   });
 });

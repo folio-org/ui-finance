@@ -11,9 +11,11 @@ import {
 import {
   Accordion,
   AccordionSet,
+  Button,
   Col,
   ConfirmationModal,
   ExpandAllButton,
+  Icon,
   LoadingPane,
   MenuSection,
   Pane,
@@ -34,8 +36,13 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
-import { fundResource } from '../../common/resources';
 import {
+  budgetsResource,
+  fundResource,
+} from '../../common/resources';
+import {
+  BUDGET_ROUTE,
+  BUDGET_TRANSACTIONS_ROUTE,
   FUNDS_ROUTE,
   LEDGERS_API,
 } from '../../common/const';
@@ -56,6 +63,7 @@ const FundDetailsContainer = ({
   const [compositeFund, setCompositeFund] = useState({ fund: {}, groupIds: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
+  const [currentBudget, setCurrentBudget] = useState();
 
   const fetchFund = useCallback(
     () => {
@@ -68,7 +76,16 @@ const FundDetailsContainer = ({
             path: `${LEDGERS_API}/${fundResponse.fund.ledgerId}/current-fiscal-year`,
           });
         })
-        .then(setCurrentFY)
+        .then(currentFYResponse => {
+          setCurrentFY(currentFYResponse);
+
+          return mutator.currentBudget.GET({
+            params: {
+              query: `fundId=${params.id} and fiscalYearId=${currentFYResponse.id}`,
+            },
+          });
+        })
+        .then((budgetResponse) => setCurrentBudget(budgetResponse[0]))
         .catch(() => setCompositeFund({ fund: {}, groupIds: [] }))
         .finally(() => setIsLoading(false));
     },
@@ -98,7 +115,7 @@ const FundDetailsContainer = ({
     [location.search],
   );
 
-  const editGroup = useCallback(
+  const editFund = useCallback(
     () => {
       history.push({
         pathname: `${FUNDS_ROUTE}/edit/${params.id}`,
@@ -143,6 +160,20 @@ const FundDetailsContainer = ({
     fetchFund();
   };
 
+  const goToTransactions = useCallback(
+    () => {
+      history.push({
+        pathname: `${BUDGET_ROUTE}${currentBudget.id}${BUDGET_TRANSACTIONS_ROUTE}`,
+        state: {
+          fundId: fund.id,
+          fundCode: fund.code,
+        },
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [params.id, currentBudget],
+  );
+
   const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
 
   const renderActionMenu = useCallback(
@@ -150,9 +181,26 @@ const FundDetailsContainer = ({
       <MenuSection id="fund-details-actions">
         <DetailsEditAction
           perm="finance.funds.item.put"
-          onEdit={editGroup}
+          onEdit={editFund}
           toggleActionMenu={onToggle}
         />
+        {currentBudget?.id && (
+          <Button
+            buttonStyle="dropdownItem"
+            data-test-details-view-transactions-action
+            onClick={() => {
+              goToTransactions();
+              onToggle();
+            }}
+          >
+            <Icon
+              size="small"
+              icon="eye-open"
+            >
+              <FormattedMessage id="ui-finance.fund.actions.viewTransactions" />
+            </Icon>
+          </Button>
+        )}
         <DetailsRemoveAction
           perm="finance.funds.item.delete"
           toggleActionMenu={onToggle}
@@ -160,7 +208,7 @@ const FundDetailsContainer = ({
         />
       </MenuSection>
     ),
-    [editGroup, toggleRemoveConfirmation],
+    [editFund, toggleRemoveConfirmation, currentBudget, goToTransactions],
   );
 
   const openNewBudgetModal = useCallback((status) => {
@@ -221,9 +269,8 @@ const FundDetailsContainer = ({
 
           {currentFY && (
             <FundCurrentBudget
+              budget={currentBudget}
               currency={currency}
-              currentFY={currentFY}
-              fundId={fund.id}
               history={history}
               openNewBudgetModal={openNewBudgetModal}
             />
@@ -288,6 +335,11 @@ FundDetailsContainer.manifest = Object.freeze({
     ...baseManifest,
     accumulate: true,
     fetch: false,
+  },
+  currentBudget: {
+    ...budgetsResource,
+    fetch: false,
+    accumulate: true,
   },
 });
 

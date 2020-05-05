@@ -24,6 +24,7 @@ import {
 import {
   BUDGET_ROUTE,
   BUDGET_VIEW_ROUTE,
+  FUNDS_ROUTE,
   TRANSACTIONS_API,
 } from '../../common/const';
 
@@ -44,9 +45,14 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
   );
   const closePane = useCallback(
     () => {
-      history.push(`${BUDGET_ROUTE}${budgetId}${BUDGET_VIEW_ROUTE}`);
+      return location.state
+        ? history.push({
+          pathname: `${FUNDS_ROUTE}/view/${location.state.fundId}`,
+          search: `?query=${location.state.fundCode}`,
+        })
+        : history.push(`${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_VIEW_ROUTE}`);
     },
-    [history, budgetId],
+    [history, budgetId, location.state],
   );
 
   const budget = resources?.budget?.records?.[0];
@@ -132,6 +138,7 @@ TransactionsListContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default withRouter(stripesConnect(TransactionsListContainer));

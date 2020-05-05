@@ -13,6 +13,7 @@ import TagsAction from '../common/tags/TagsAction';
   static defaultScope = '#fund-details-actions';
   editFund = new Interactor('[data-test-details-edit-action]');
   deleteFund = new Interactor('[data-test-details-remove-action]');
+  viewTransactions = new Interactor('[data-test-details-view-transactions-action]');
 }
 
 @interactor class CurrentBudgetAccordion {

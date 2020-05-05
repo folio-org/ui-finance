@@ -6,6 +6,7 @@ import {
 
 import { FUNDS_ROUTE } from '../common/const';
 
+import Transactions from '../Transactions';
 import { FundsListContainer } from './FundsList';
 import { CreateFund } from './CreateFund';
 import { EditFund } from './EditFund';
@@ -20,6 +21,10 @@ const Funds = () => {
       <Route
         path={`${FUNDS_ROUTE}/edit/:id`}
         component={EditFund}
+      />
+      <Route
+        path={`${FUNDS_ROUTE}/view/:id/budget/:budgetId/transactions`}
+        component={Transactions}
       />
       <Route
         path={FUNDS_ROUTE}

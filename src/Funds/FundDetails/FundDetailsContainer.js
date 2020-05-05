@@ -41,7 +41,6 @@ import {
   fundResource,
 } from '../../common/resources';
 import {
-  BUDGET_ROUTE,
   BUDGET_TRANSACTIONS_ROUTE,
   FUNDS_ROUTE,
   LEDGERS_API,
@@ -162,13 +161,7 @@ const FundDetailsContainer = ({
 
   const goToTransactions = useCallback(
     () => {
-      history.push({
-        pathname: `${BUDGET_ROUTE}${currentBudget.id}${BUDGET_TRANSACTIONS_ROUTE}`,
-        state: {
-          fundId: fund.id,
-          fundCode: fund.code,
-        },
-      });
+      history.push(`${FUNDS_ROUTE}/view/${params.id}/budget/${currentBudget.id}${BUDGET_TRANSACTIONS_ROUTE}`);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [params.id, currentBudget],

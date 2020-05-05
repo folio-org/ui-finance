@@ -13,13 +13,12 @@ import {
   transactionByUrlIdResource,
 } from '../../common/resources';
 import {
-  BUDGET_ROUTE,
-  BUDGET_TRANSACTIONS_ROUTE,
   FISCAL_YEARS_API,
 } from '../../common/const';
 import TransactionDetails from './TransactionDetails';
 
 const TransactionDetailsContainer = ({
+  baseUrl,
   history,
   match,
   location,
@@ -31,11 +30,11 @@ const TransactionDetailsContainer = ({
   const onClose = useCallback(
     () => {
       history.push({
-        pathname: `${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_TRANSACTIONS_ROUTE}`,
+        pathname: baseUrl,
         search: location.search,
       });
     },
-    [location.search, match.params.budgetId, history],
+    [location.search, history, baseUrl],
   );
 
   useEffect(
@@ -104,6 +103,7 @@ TransactionDetailsContainer.manifest = Object.freeze({
 });
 
 TransactionDetailsContainer.propTypes = {
+  baseUrl: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   location: ReactRouterPropTypes.location.isRequired,

@@ -24,7 +24,7 @@ describe('Transaction details', () => {
       source: TRANSACTION_SOURCE.fiscalYear,
     });
 
-    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}${transaction.id}/view`);
+    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}/${transaction.id}/view`);
     await details.whenLoaded();
   });
 

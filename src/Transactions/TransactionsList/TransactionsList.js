@@ -30,10 +30,6 @@ import {
   useToggle,
 } from '@folio/stripes-acq-components';
 
-import {
-  BUDGET_ROUTE,
-  BUDGET_TRANSACTIONS_ROUTE,
-} from '../../common/const';
 import TransactionDetails from '../TransactionDetails';
 import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
@@ -106,11 +102,11 @@ const TransactionsList = ({
   const selectedItem = useCallback(
     (e, meta) => {
       history.push({
-        pathname: `${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_TRANSACTIONS_ROUTE}${meta.id}/view`,
+        pathname: `${match.url}/${meta.id}/view`,
         search: location.search,
       });
     },
-    [history, match.params.budgetId, location.search],
+    [history, location.search, match.url],
   );
 
   const resultsFormatter = useMemo(() => getResultsFormatter(funds, fundId), [fundId, funds]);
@@ -178,7 +174,7 @@ const TransactionsList = ({
 
       <Route
         path={`${match.path}/:id/view`}
-        component={TransactionDetails}
+        render={() => <TransactionDetails baseUrl={match.url} />}
       />
     </Paneset>
   );

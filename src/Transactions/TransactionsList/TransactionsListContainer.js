@@ -45,14 +45,11 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
   );
   const closePane = useCallback(
     () => {
-      return location.state
-        ? history.push({
-          pathname: `${FUNDS_ROUTE}/view/${location.state.fundId}`,
-          search: `?query=${location.state.fundCode}`,
-        })
-        : history.push(`${BUDGET_ROUTE}${match.params.budgetId}${BUDGET_VIEW_ROUTE}`);
+      return match.params.id
+        ? history.push(`${FUNDS_ROUTE}/view/${match.params.id}`)
+        : history.push(`${BUDGET_ROUTE}${budgetId}${BUDGET_VIEW_ROUTE}`);
     },
-    [history, budgetId, location.state],
+    [history, budgetId, match.params.id],
   );
 
   const budget = resources?.budget?.records?.[0];
@@ -138,7 +135,6 @@ TransactionsListContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default withRouter(stripesConnect(TransactionsListContainer));

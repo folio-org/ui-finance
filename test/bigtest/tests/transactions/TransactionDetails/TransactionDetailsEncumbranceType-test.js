@@ -29,7 +29,7 @@ describe('Transaction details', () => {
       },
     });
 
-    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}${transaction.id}/view`);
+    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}/${transaction.id}/view`);
     await details.whenLoaded();
   });
 

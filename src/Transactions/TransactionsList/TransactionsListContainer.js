@@ -118,7 +118,7 @@ TransactionsListContainer.manifest = Object.freeze({
 
           return connectQuery(
             filterQuery ? `${requiredFilterQuery} and ${filterQuery}` : requiredFilterQuery,
-            buildSortingQuery(queryParams),
+            buildSortingQuery(queryParams) || 'sortby transactionDate/sort.descending',
           );
         },
       },

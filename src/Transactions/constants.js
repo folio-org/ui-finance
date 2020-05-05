@@ -24,3 +24,8 @@ export const TRANSACTION_SOURCE = {
   poLine: 'PoLine',
   user: 'User',
 };
+
+export const TRANSACTION_SOURCE_OPTIONS = Object.values(TRANSACTION_SOURCE).map(source => ({
+  label: <FormattedMessage id={`ui-finance.transaction.source.${source}`} />,
+  value: source,
+}));

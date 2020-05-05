@@ -17,12 +17,15 @@ import {
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
+  DESC_DIRECTION,
   FiltersPane,
   FolioFormattedTime,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  SORTING_DIRECTION_PARAMETER,
+  SORTING_PARAMETER,
   useLocationFilters,
   useLocationSorting,
   useToggle,
@@ -36,17 +39,20 @@ import TransactionDetails from '../TransactionDetails';
 
 import TransactionsFilters from './TransactionsFilters';
 
+const COL_TAGS = 'tags.tagList';
+const COL_TRANS_DATE = 'transactionDate';
+const DEFAULT_SORTING = { [SORTING_PARAMETER]: COL_TRANS_DATE, [SORTING_DIRECTION_PARAMETER]: DESC_DIRECTION };
 const resultsPaneTitle = <FormattedMessage id="ui-finance.budget.transactions" />;
-const visibleColumns = ['transactionDate', 'transactionType', 'amount', 'fromFundId', 'toFundId', 'source', 'tagsList'];
-const sortableFields = ['transactionDate', 'transactionType', 'amount', 'source'];
+const visibleColumns = [COL_TRANS_DATE, 'transactionType', 'amount', 'fromFundId', 'toFundId', 'source', COL_TAGS];
+const sortableFields = [COL_TRANS_DATE, 'amount', COL_TAGS];
 const columnMapping = {
-  transactionDate: <FormattedMessage id="ui-finance.transaction.date" />,
+  [COL_TRANS_DATE]: <FormattedMessage id="ui-finance.transaction.date" />,
   transactionType: <FormattedMessage id="ui-finance.transaction.type" />,
   amount: <FormattedMessage id="ui-finance.transaction.amount" />,
   fromFundId: <FormattedMessage id="ui-finance.transaction.from" />,
   toFundId: <FormattedMessage id="ui-finance.transaction.to" />,
   source: <FormattedMessage id="ui-finance.transaction.source" />,
-  tagsList: <FormattedMessage id="ui-finance.transaction.tags" />,
+  [COL_TAGS]: <FormattedMessage id="ui-finance.transaction.tags" />,
 };
 const getResultsFormatter = (funds) => {
   const fundsMap = funds.reduce((acc, fund) => {
@@ -56,7 +62,7 @@ const getResultsFormatter = (funds) => {
   }, {});
 
   return ({
-    transactionDate: item => <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />,
+    [COL_TRANS_DATE]: item => <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />,
     transactionType: item => <FormattedMessage id={`ui-finance.transaction.type.${item.transactionType}`} />,
     amount: item => (
       <AmountWithCurrencyField
@@ -67,7 +73,7 @@ const getResultsFormatter = (funds) => {
     fromFundId: item => fundsMap[item.fromFundId],
     toFundId: item => fundsMap[item.toFundId],
     source: item => <FormattedMessage id={`ui-finance.transaction.source.${item.source}`} />,
-    tagsList: item => sortBy(get(item, 'tags.tagList', [])).join(', '),
+    [COL_TAGS]: item => sortBy(get(item, 'tags.tagList', [])).join(', '),
   });
 };
 
@@ -94,7 +100,7 @@ const TransactionsList = ({
     sortingField,
     sortingDirection,
     changeSorting,
-  ] = useLocationSorting(location, history, resetData, sortableFields);
+  ] = useLocationSorting(location, history, resetData, sortableFields, DEFAULT_SORTING);
   const [isFiltersOpened, toggleFilters] = useToggle(true);
 
   const selectedItem = useCallback(

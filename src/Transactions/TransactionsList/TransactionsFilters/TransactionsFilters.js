@@ -11,10 +11,12 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  TRANSACTION_SOURCE_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from '../../constants';
 
 const FILTERS = {
+  SOURCE: 'source',
   TRANSACTION_TYPE: 'transactionType',
   TAGS: 'tags.tagList',
 };
@@ -39,6 +41,15 @@ const TransactionsFilters = ({
         name={FILTERS.TRANSACTION_TYPE}
         onChange={adaptedApplyFilters}
         options={TRANSACTION_TYPE_OPTIONS}
+      />
+
+      <AcqCheckboxFilter
+        activeFilters={activeFilters[FILTERS.SOURCE]}
+        id={`filter-${FILTERS.SOURCE}`}
+        labelId="ui-finance.transaction.source"
+        name={FILTERS.SOURCE}
+        onChange={adaptedApplyFilters}
+        options={TRANSACTION_SOURCE_OPTIONS}
       />
 
       <AcqTagsFilter

@@ -9,6 +9,7 @@
 * [UIF-201](https://issues.folio.org/browse/UIF-201) Select active status by default when creating financial records
 
 ### Bug fixes
+* [UIF-210](https://issues.folio.org/browse/UIF-210) View transactions glitch shows transactions from different budget
 * [UIORGS-151](https://issues.folio.org/browse/UIORGS-151) Organizations is not using the same Expand/Collapse as implemented in Q4 2019
 * [UIF-203](https://issues.folio.org/browse/UIF-203) On ledger detail view, funds associated with the ledger not in alpha order
 

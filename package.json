@@ -162,7 +162,7 @@
     "final-form-set-field-data": "^1.0.2",
     "final-form": "^4.18.2",
     "lodash": "^4.17.5",
-    "moment": "^2.22.2",
+    "moment": "~2.24.0",
     "prop-types": "^15.5.10",
     "query-string": "^6.1.0",
     "react-final-form-arrays": "^3.1.0",
@@ -171,7 +171,7 @@
     "redux-form": "^7.4.2"
   },
   "resolutions": {
-    "moment": "2.24.0"
+    "moment": "~2.24.0"
   },
   "peerDependencies": {
     "@folio/stripes": "^3.0.0",

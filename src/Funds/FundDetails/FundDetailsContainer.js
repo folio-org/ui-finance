@@ -80,7 +80,7 @@ const FundDetailsContainer = ({
 
           return mutator.currentBudget.GET({
             params: {
-              query: `fundId=${params.id} and fiscalYearId=${currentFYResponse.id}`,
+              query: `fundId==${params.id} and fiscalYearId==${currentFYResponse.id}`,
             },
           });
         })

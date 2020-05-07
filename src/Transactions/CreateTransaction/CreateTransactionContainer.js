@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import { get } from 'lodash';
 
 import {
   getAmountWithCurrency,
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 import {
   stripesConnect,
@@ -24,6 +27,7 @@ import {
   TRANSACTION_SOURCE,
 } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
+import { handleCreateTransactionErrorResponse } from './utils';
 
 const CreateTransactionContainer = ({
   budgetName,
@@ -35,8 +39,9 @@ const CreateTransactionContainer = ({
   resources,
   stripes,
   fetchBudgetResources,
+  intl,
 }) => {
-  const showCallout = useShowToast();
+  const showCallout = useShowCallout();
 
   const transactionTypeKey = transactionType.toLowerCase();
 
@@ -56,17 +61,21 @@ const CreateTransactionContainer = ({
 
         const { amount } = transfer;
 
-        showCallout(`ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`, 'success', {
-          amount: getAmountWithCurrency(locale, currency, amount),
-          budgetName,
+        showCallout({
+          messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
+          values: {
+            amount: getAmountWithCurrency(locale, currency, amount),
+            budgetName,
+          },
         });
         onClose();
         fetchBudgetResources();
-      } catch (e) {
-        showCallout(`ui-finance.transaction.${transactionTypeKey}.hasNotBeenCreated`, 'error', {
-          amount: getAmountWithCurrency(locale, currency, formValue.amount),
-          budgetName,
-        });
+      } catch (errorResponse) {
+        const amountWithCurrency = getAmountWithCurrency(locale, currency, formValue.amount);
+
+        handleCreateTransactionErrorResponse(
+          intl, showCallout, errorResponse, amountWithCurrency, budgetName, transactionTypeKey,
+        );
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,6 +114,7 @@ CreateTransactionContainer.propTypes = {
   resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
   fetchBudgetResources: PropTypes.func.isRequired,
+  intl: PropTypes.object,
 };
 
-export default stripesConnect(CreateTransactionContainer);
+export default stripesConnect(injectIntl(CreateTransactionContainer));

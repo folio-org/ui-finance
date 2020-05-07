@@ -90,6 +90,8 @@ const FundDetailsContainer = ({
           });
         }, () => {
           showToast('ui-finance.fiscalYear.actions.load.error', 'error');
+
+          setCurrentFY();
         })
         .then((budgetResponse) => setCurrentBudget(budgetResponse[0]), () => {
           showToast('ui-finance.budget.actions.load.error', 'error');

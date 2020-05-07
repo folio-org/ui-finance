@@ -14,8 +14,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  BUDGET_ROUTE,
-  BUDGET_TRANSACTIONS_ROUTE,
+  TRANSACTIONS_ROUTE,
 } from '../../../common/const';
 
 const isOverAllowable = value => value > 100;
@@ -151,7 +150,7 @@ const BudgetInformation = ({
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.transactions" />}
       >
-        <Link to={`${BUDGET_ROUTE}${id}${BUDGET_TRANSACTIONS_ROUTE}`}>
+        <Link to={`${TRANSACTIONS_ROUTE}/budget/${id}`}>
           <FormattedMessage id="ui-finance.budget.transactions.view" />
         </Link>
       </KeyValue>

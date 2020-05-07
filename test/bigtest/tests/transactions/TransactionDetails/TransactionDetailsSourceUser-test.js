@@ -2,8 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import {
-  BUDGET_TRANSACTIONS_ROUTE,
-  FUNDS_ROUTE,
+  TRANSACTIONS_ROUTE,
 } from '../../../../../src/common/const';
 import { TRANSACTION_SOURCE } from '../../../../../src/Transactions/constants';
 import setupApplication from '../../../helpers/setup-application';
@@ -25,7 +24,7 @@ describe('Transaction details - source User', () => {
       source: TRANSACTION_SOURCE.user,
     });
 
-    this.visit(`${FUNDS_ROUTE}/view/${fund.id}/budget/${budget.id}${BUDGET_TRANSACTIONS_ROUTE}/${transaction.id}/view`);
+    this.visit(`${TRANSACTIONS_ROUTE}/fund/${fund.id}/budget/${budget.id}/transaction/${transaction.id}/view`);
     await details.whenLoaded();
   });
 

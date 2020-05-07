@@ -102,7 +102,7 @@ const TransactionsList = ({
   const selectedItem = useCallback(
     (e, meta) => {
       history.push({
-        pathname: `${match.url}/${meta.id}/view`,
+        pathname: `${match.url}/transaction/${meta.id}/view`,
         search: location.search,
       });
     },
@@ -173,7 +173,7 @@ const TransactionsList = ({
       </ResultsPane>
 
       <Route
-        path={`${match.path}/:id/view`}
+        path={`${match.path}/transaction/:id/view`}
         render={() => <TransactionDetails baseUrl={match.url} />}
       />
     </Paneset>

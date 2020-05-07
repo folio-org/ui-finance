@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIF-208](https://issues.folio.org/browse/UIF-208) Display transaction amounts that subtract from the budget in '()' and no negative numbers
 * [UIF-202](https://issues.folio.org/browse/UIF-202) Update the sort options for a fund's transaction list
 * [UIF-204](https://issues.folio.org/browse/UIF-204) Ability to sort Fund columns on the Group details view
 * [UINV-184](https://issues.folio.org/browse/UINV-184) Hotlink 'Source' in transaction view

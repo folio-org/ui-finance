@@ -78,6 +78,7 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
             transactionsCount={get(resources, 'transactions.other.totalRecords')}
             isLoadingTransactions={get(resources, 'transactions.isPending', true)}
             transactions={get(resources, 'transactions.records')}
+            fundId={budget.fundId}
           />
         </Pane>
       </Paneset>

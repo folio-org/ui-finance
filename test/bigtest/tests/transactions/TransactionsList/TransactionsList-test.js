@@ -19,9 +19,16 @@ describe('Transactions list', () => {
 
   beforeEach(async function () {
     const fiscalYear = this.server.create('fiscalYear');
-    const budget = this.server.create('budget');
+    const fund = this.server.create('fund');
+    const budget = this.server.create('budget', { fundId: fund.id });
 
-    this.server.createList('transaction', TRANSACTIONS_COUNT, {
+    this.server.create('transaction', {
+      amount: -1,
+      fiscalYearId: fiscalYear.id,
+      toFundId: fund.id,
+    });
+
+    this.server.createList('transaction', TRANSACTIONS_COUNT - 1, {
       fiscalYearId: fiscalYear.id,
     });
 
@@ -29,12 +36,10 @@ describe('Transactions list', () => {
     await transactionsList.whenLoaded();
   });
 
-  it('should display the list of transaction items', () => {
-    expect(transactionsList.isPresent).to.be.true;
-  });
-
   it('should render row for each transaction from the response', () => {
+    expect(transactionsList.isPresent).to.be.true;
     expect(transactionsList.transactions().length).to.be.equal(TRANSACTIONS_COUNT);
+    expect(transactionsList.transactions(0).rowText).to.contain('($1.00)');
   });
 
   describe('select item', function () {

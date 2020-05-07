@@ -16,7 +16,6 @@ import {
   MultiColumnList,
 } from '@folio/stripes/components';
 import {
-  AmountWithCurrencyField,
   DESC_DIRECTION,
   FiltersPane,
   FolioFormattedTime,
@@ -36,7 +35,7 @@ import {
   BUDGET_TRANSACTIONS_ROUTE,
 } from '../../common/const';
 import TransactionDetails from '../TransactionDetails';
-
+import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
 
 const COL_TAGS = 'tags.tagList';
@@ -54,7 +53,7 @@ const columnMapping = {
   source: <FormattedMessage id="ui-finance.transaction.source" />,
   [COL_TAGS]: <FormattedMessage id="ui-finance.transaction.tags" />,
 };
-const getResultsFormatter = (funds) => {
+const getResultsFormatter = (funds, fundId) => {
   const fundsMap = funds.reduce((acc, fund) => {
     acc[fund.id] = fund.code;
 
@@ -65,9 +64,9 @@ const getResultsFormatter = (funds) => {
     [COL_TRANS_DATE]: item => <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />,
     transactionType: item => <FormattedMessage id={`ui-finance.transaction.type.${item.transactionType}`} />,
     amount: item => (
-      <AmountWithCurrencyField
-        amount={item.amount}
-        currency={item.currency}
+      <BracketizeTransactionAmount
+        fundId={fundId}
+        transaction={item}
       />
     ),
     fromFundId: item => fundsMap[item.fromFundId],
@@ -87,6 +86,7 @@ const TransactionsList = ({
   history,
   location,
   match,
+  fundId,
 }) => {
   const [
     filters,
@@ -113,7 +113,7 @@ const TransactionsList = ({
     [history, match.params.budgetId, location.search],
   );
 
-  const resultsFormatter = useMemo(() => getResultsFormatter(funds), [funds]);
+  const resultsFormatter = useMemo(() => getResultsFormatter(funds, fundId), [fundId, funds]);
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoadingTransactions}
@@ -187,20 +187,20 @@ const TransactionsList = ({
 TransactionsList.propTypes = {
   onNeedMoreData: PropTypes.func.isRequired,
   resetData: PropTypes.func.isRequired,
-  funds: PropTypes.arrayOf(PropTypes.object),
+  funds: PropTypes.arrayOf(PropTypes.object).isRequired,
   transactionsCount: PropTypes.number,
   isLoadingTransactions: PropTypes.bool,
   transactions: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  fundId: PropTypes.string.isRequired,
 };
 
 TransactionsList.defaultProps = {
   transactionsCount: 0,
   isLoadingTransactions: false,
   transactions: [],
-  funds: [],
 };
 
 export default withRouter(TransactionsList);

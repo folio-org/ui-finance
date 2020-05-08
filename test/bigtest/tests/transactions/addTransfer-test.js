@@ -1,6 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { Response } from 'miragejs';
 
+import { TRANSFERS_API } from '../../../../src/common/const';
 import setupApplication from '../../helpers/setup-application';
 import BudgetDetailsInteractor from '../../interactors/budgets/BudgetDetails';
 
@@ -58,6 +60,23 @@ describe('Add transfer', () => {
 
       it('add transfer modal is closed', () => {
         expect(budgetDetails.addTransferModal.isPresent).to.be.false;
+      });
+    });
+
+    describe('Error handling while transfer creation', () => {
+      beforeEach(async function () {
+        this.server.post(
+          TRANSFERS_API,
+          () => new Response(422, { errors: [{ code: 'genericError' }] }),
+        );
+        await budgetDetails.addTransferModal.transferTo.select(TEST_FUND_NAME);
+        await budgetDetails.addTransferModal.amount.fill(10);
+
+        await budgetDetails.addTransferModal.saveButton.click();
+      });
+
+      it('add transfer modal is still open', () => {
+        expect(budgetDetails.addTransferModal.isPresent).to.be.true;
       });
     });
   });

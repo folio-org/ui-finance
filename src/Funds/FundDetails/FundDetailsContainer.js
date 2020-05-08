@@ -11,9 +11,11 @@ import {
 import {
   Accordion,
   AccordionSet,
+  Button,
   Col,
   ConfirmationModal,
   ExpandAllButton,
+  Icon,
   LoadingPane,
   MenuSection,
   Pane,
@@ -34,10 +36,14 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
-import { fundResource } from '../../common/resources';
+import {
+  budgetsResource,
+  fundResource,
+} from '../../common/resources';
 import {
   FUNDS_ROUTE,
   LEDGERS_API,
+  TRANSACTIONS_ROUTE,
 } from '../../common/const';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import { SECTIONS_FUND } from '../constants';
@@ -56,6 +62,8 @@ const FundDetailsContainer = ({
   const [compositeFund, setCompositeFund] = useState({ fund: {}, groupIds: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
+  const [currentBudget, setCurrentBudget] = useState();
+  const showToast = useShowToast();
 
   const fetchFund = useCallback(
     () => {
@@ -67,9 +75,27 @@ const FundDetailsContainer = ({
           return mutator.fundCurrentFY.GET({
             path: `${LEDGERS_API}/${fundResponse.fund.ledgerId}/current-fiscal-year`,
           });
+        }, () => {
+          showToast('ui-finance.fund.actions.load.error', 'error');
+
+          setCompositeFund({ fund: {}, groupIds: [] });
         })
-        .then(setCurrentFY)
-        .catch(() => setCompositeFund({ fund: {}, groupIds: [] }))
+        .then(currentFYResponse => {
+          setCurrentFY(currentFYResponse);
+
+          return mutator.currentBudget.GET({
+            params: {
+              query: `fundId==${params.id} and fiscalYearId==${currentFYResponse.id}`,
+            },
+          });
+        }, () => {
+          showToast('ui-finance.fiscalYear.actions.load.error', 'error');
+
+          setCurrentFY();
+        })
+        .then((budgetResponse) => setCurrentBudget(budgetResponse[0]), () => {
+          showToast('ui-finance.budget.actions.load.error', 'error');
+        })
         .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +104,6 @@ const FundDetailsContainer = ({
 
   useEffect(fetchFund, [params.id]);
 
-  const showToast = useShowToast();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
@@ -98,7 +123,7 @@ const FundDetailsContainer = ({
     [location.search],
   );
 
-  const editGroup = useCallback(
+  const editFund = useCallback(
     () => {
       history.push({
         pathname: `${FUNDS_ROUTE}/edit/${params.id}`,
@@ -143,6 +168,13 @@ const FundDetailsContainer = ({
     fetchFund();
   };
 
+  const goToTransactions = useCallback(
+    () => {
+      history.push(`${TRANSACTIONS_ROUTE}/fund/${params.id}/budget/${currentBudget.id}`);
+    },
+    [params.id, currentBudget, history],
+  );
+
   const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
 
   const renderActionMenu = useCallback(
@@ -150,9 +182,23 @@ const FundDetailsContainer = ({
       <MenuSection id="fund-details-actions">
         <DetailsEditAction
           perm="finance.funds.item.put"
-          onEdit={editGroup}
+          onEdit={editFund}
           toggleActionMenu={onToggle}
         />
+        {currentBudget?.id && (
+          <Button
+            buttonStyle="dropdownItem"
+            data-test-details-view-transactions-action
+            onClick={goToTransactions}
+          >
+            <Icon
+              size="small"
+              icon="eye-open"
+            >
+              <FormattedMessage id="ui-finance.fund.actions.viewTransactions" />
+            </Icon>
+          </Button>
+        )}
         <DetailsRemoveAction
           perm="finance.funds.item.delete"
           toggleActionMenu={onToggle}
@@ -160,7 +206,7 @@ const FundDetailsContainer = ({
         />
       </MenuSection>
     ),
-    [editGroup, toggleRemoveConfirmation],
+    [editFund, toggleRemoveConfirmation, currentBudget, goToTransactions],
   );
 
   const openNewBudgetModal = useCallback((status) => {
@@ -221,9 +267,8 @@ const FundDetailsContainer = ({
 
           {currentFY && (
             <FundCurrentBudget
+              budget={currentBudget}
               currency={currency}
-              currentFY={currentFY}
-              fundId={fund.id}
               history={history}
               openNewBudgetModal={openNewBudgetModal}
             />
@@ -288,6 +333,11 @@ FundDetailsContainer.manifest = Object.freeze({
     ...baseManifest,
     accumulate: true,
     fetch: false,
+  },
+  currentBudget: {
+    ...budgetsResource,
+    fetch: false,
+    accumulate: true,
   },
 });
 

@@ -3,27 +3,30 @@ import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
 import {
-  GROUPS_ROUTE,
   FISCAL_YEAR_ROUTE,
+  FUNDS_ROUTE,
+  GROUPS_ROUTE,
+  LEDGERS_ROUTE,
+  TRANSACTIONS_ROUTE,
 } from '../../common/const';
 
 import { Ledger } from '../../Ledger';
 import Funds from '../../Funds';
 import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
-import Transactions from '../../Transactions';
 import { FiscalYears } from '../../FiscalYears';
+import Transactions from '../../Transactions';
 
 const Main = ({ match }) => {
   return (
     <div style={{ width: '100%' }}>
       <Switch>
         <Route
-          path={`${match.path}/ledger`}
+          path={LEDGERS_ROUTE}
           component={Ledger}
         />
         <Route
-          path={`${match.path}/fund`}
+          path={FUNDS_ROUTE}
           component={Funds}
         />
         <Route
@@ -39,10 +42,10 @@ const Main = ({ match }) => {
           component={FiscalYears}
         />
         <Route
-          path={`${match.path}/:budgetId/transactions`}
+          path={TRANSACTIONS_ROUTE}
           component={Transactions}
         />
-        <Redirect exact from={`${match.path}`} to={`${match.path}/ledger`} />
+        <Redirect exact from={`${match.path}`} to={LEDGERS_ROUTE} />
       </Switch>
     </div>
   );

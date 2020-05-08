@@ -22,8 +22,6 @@ import {
   fundsResource,
 } from '../../common/resources';
 import {
-  BUDGET_ROUTE,
-  BUDGET_VIEW_ROUTE,
   TRANSACTIONS_API,
 } from '../../common/const';
 
@@ -32,7 +30,7 @@ import TransactionsList from './TransactionsList';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
-const TransactionsListContainer = ({ mutator, resources, history, match }) => {
+const TransactionsListContainer = ({ mutator, resources, closePane, match }) => {
   const budgetId = match.params.budgetId;
   const onNeedMoreData = useCallback(
     () => mutator.resultCount.replace(resources.resultCount + RESULT_COUNT_INCREMENT),
@@ -42,13 +40,6 @@ const TransactionsListContainer = ({ mutator, resources, history, match }) => {
     () => mutator.resultCount.replace(INITIAL_RESULT_COUNT),
     [mutator.resultCount],
   );
-  const closePane = useCallback(
-    () => {
-      history.push(`${BUDGET_ROUTE}${budgetId}${BUDGET_VIEW_ROUTE}`);
-    },
-    [history, budgetId],
-  );
-
   const budget = resources?.budget?.records?.[0];
   const isLoading = !(
     budgetId === budget?.id && resources?.fundsTransactionsList?.hasLoaded
@@ -128,9 +119,9 @@ TransactionsListContainer.manifest = Object.freeze({
 });
 
 TransactionsListContainer.propTypes = {
+  closePane: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
 };
 

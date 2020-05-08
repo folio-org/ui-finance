@@ -2,8 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import {
-  BUDGET_ROUTE,
-  BUDGET_TRANSACTIONS_ROUTE,
+  TRANSACTIONS_ROUTE,
 } from '../../../../../src/common/const';
 import { TRANSACTION_SOURCE } from '../../../../../src/Transactions/constants';
 import setupApplication from '../../../helpers/setup-application';
@@ -24,7 +23,7 @@ describe('Transaction details', () => {
       source: TRANSACTION_SOURCE.fiscalYear,
     });
 
-    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}${transaction.id}/view`);
+    this.visit(`${TRANSACTIONS_ROUTE}/budget/${budget.id}/transaction/${transaction.id}/view`);
     await details.whenLoaded();
   });
 

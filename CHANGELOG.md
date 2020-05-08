@@ -6,6 +6,7 @@
 * [UIF-153](https://issues.folio.org/browse/UIF-153) Display appropriate error message when transaction is blocked by Allow to or from Fund setting
 * [UIF-208](https://issues.folio.org/browse/UIF-208) Display transaction amounts that subtract from the budget in '()' and no negative numbers
 * [UIF-202](https://issues.folio.org/browse/UIF-202) Update the sort options for a fund's transaction list
+* [UIF-209](https://issues.folio.org/browse/UIF-209) View transactions from Fund
 * [UIF-204](https://issues.folio.org/browse/UIF-204) Ability to sort Fund columns on the Group details view
 * [UINV-184](https://issues.folio.org/browse/UINV-184) Hotlink 'Source' in transaction view
 * [UINV-138](https://issues.folio.org/browse/UINV-138) Align actions icons in table to right hand side of view pane(s)

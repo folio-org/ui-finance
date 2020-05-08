@@ -365,10 +365,12 @@
   "budget.button.new": "New",
   "budget.button.cancel": "Cancel",
 
+  "fund.actions.load.error": "Failed to load fund data",
   "fund.actions.remove.error": "Fund has not been deleted",
   "fund.actions.remove.success": "Fund has been deleted",
   "fund.actions.save.error.genericError": "Fund has not been saved",
   "fund.actions.save.error.fiscalYearsNotFound": "Cannot find current fiscal year for specified ledger",
+  "fund.actions.viewTransactions": "View transactions for current budget",
   "fund.budget.code": "Code",
   "fund.budget.name": "Name",
   "fund.currentBudget.title": "Current budget",

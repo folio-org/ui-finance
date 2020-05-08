@@ -2,13 +2,13 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import {
-  BUDGET_ROUTE,
-  BUDGET_TRANSACTIONS_ROUTE,
+  TRANSACTIONS_ROUTE,
 } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import TransactionsListInteractor from '../../../interactors/transactions/TransactionsListInteractor';
 import TransactionDetailsInteractor from '../../../interactors/transactions/TransactionDetailsInteractor';
+import BudgetDetailsInteractor from '../../../interactors/budgets/BudgetDetails';
 
 const TRANSACTIONS_COUNT = 15;
 
@@ -32,7 +32,7 @@ describe('Transactions list', () => {
       fiscalYearId: fiscalYear.id,
     });
 
-    this.visit(`${BUDGET_ROUTE}${budget.id}${BUDGET_TRANSACTIONS_ROUTE}`);
+    this.visit(`${TRANSACTIONS_ROUTE}/budget/${budget.id}`);
     await transactionsList.whenLoaded();
   });
 
@@ -52,6 +52,20 @@ describe('Transactions list', () => {
 
     it('should open transaction details', function () {
       expect(transactionDetails.isPresent).to.be.true;
+    });
+  });
+
+  describe('close transaction list', function () {
+    const budgetDetails = new BudgetDetailsInteractor();
+
+    beforeEach(async function () {
+      await transactionsList.closePane.click();
+      await budgetDetails.whenLoaded();
+    });
+
+    it('should close transactions and show budget details pane', function () {
+      expect(budgetDetails.isPresent).to.be.true;
+      expect(transactionsList.isPresent).to.be.false;
     });
   });
 });

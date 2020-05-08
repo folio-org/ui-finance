@@ -7,7 +7,6 @@ import {
 
 export const handleCreateTransactionErrorResponse = async (
   intl,
-  showCallout,
   errorResponse,
   amountWithCurrency,
   budgetName,
@@ -23,7 +22,7 @@ export const handleCreateTransactionErrorResponse = async (
     errorCode = ERROR_CODE_GENERIC;
   }
 
-  const message = (
+  return (
     <FormattedMessage
       id={`ui-finance.transaction.${transactionTypeKey}.${errorCode}`}
       defaultMessage={intl.formatMessage(
@@ -32,9 +31,4 @@ export const handleCreateTransactionErrorResponse = async (
       )}
     />
   );
-
-  return showCallout({
-    message,
-    type: 'error',
-  });
 };

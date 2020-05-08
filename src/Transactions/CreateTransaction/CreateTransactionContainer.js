@@ -73,9 +73,11 @@ const CreateTransactionContainer = ({
       } catch (errorResponse) {
         const amountWithCurrency = getAmountWithCurrency(locale, currency, formValue.amount);
 
-        handleCreateTransactionErrorResponse(
-          intl, showCallout, errorResponse, amountWithCurrency, budgetName, transactionTypeKey,
+        const message = await handleCreateTransactionErrorResponse(
+          intl, errorResponse, amountWithCurrency, budgetName, transactionTypeKey,
         );
+
+        showCallout({ message, type: 'error' });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

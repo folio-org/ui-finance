@@ -5,7 +5,6 @@ import { AccordionSet } from '@folio/stripes/components';
 import {
   AcqCheckboxFilter,
   AcqUnitFilter,
-  acqUnitsShape,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -15,7 +14,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-const GroupsListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
+const GroupsListFilters = ({ activeFilters, applyFilters }) => {
   const adaptedApplyFilters = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -37,7 +36,6 @@ const GroupsListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
         labelId="ui-finance.groups.acqUnits"
         name={GROUPS_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
-        acqUnits={acqUnits}
       />
     </AccordionSet>
   );
@@ -45,7 +43,6 @@ const GroupsListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
 
 GroupsListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
-  acqUnits: acqUnitsShape,
   applyFilters: PropTypes.func.isRequired,
 };
 

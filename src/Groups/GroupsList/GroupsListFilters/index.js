@@ -1,2 +1,1 @@
-export { default as GroupsListFilters } from './GroupsListFilters';
-export { default as GroupsListFiltersContainer } from './GroupsListFiltersContainer';
+export { default } from './GroupsListFilters';

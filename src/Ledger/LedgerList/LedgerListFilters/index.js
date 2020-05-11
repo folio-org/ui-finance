@@ -1,1 +1,1 @@
-export { default as LedgerListFiltersContainer } from './LedgerListFiltersContainer';
+export { default } from './LedgerListFilters';

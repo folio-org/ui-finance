@@ -26,7 +26,7 @@ import {
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
-import { LedgerListFiltersContainer } from './LedgerListFilters';
+import LedgerListFilters from './LedgerListFilters';
 import {
   searchableIndexes,
 } from './LedgerListSearchConfig';
@@ -113,7 +113,7 @@ const LedgerList = ({
             reset={resetFilters}
             disabled={!location.search}
           />
-          <LedgerListFiltersContainer
+          <LedgerListFilters
             activeFilters={filters}
             applyFilters={applyFilters}
           />

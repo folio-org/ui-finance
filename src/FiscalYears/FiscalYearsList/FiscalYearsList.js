@@ -26,7 +26,7 @@ import { FISCAL_YEAR_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
 
 import FiscalYearDetails from '../FiscalYearDetails';
-import { FiscalYearsListFilterContainer } from './FiscalYearsListFilter';
+import FiscalYearsListFilter from './FiscalYearsListFilter';
 import {
   searchableIndexes,
 } from './FiscalYearsListSearchConfig';
@@ -115,7 +115,7 @@ const FiscalYearsList = ({
             disabled={!location.search}
           />
 
-          <FiscalYearsListFilterContainer
+          <FiscalYearsListFilter
             activeFilters={filters}
             applyFilters={applyFilters}
           />

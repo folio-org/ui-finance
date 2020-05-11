@@ -35,7 +35,7 @@ import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
 
 const COL_TAGS = 'tags.tagList';
-const COL_TRANS_DATE = 'transactionDate';
+const COL_TRANS_DATE = 'metadata.createdDate';
 const DEFAULT_SORTING = { [SORTING_PARAMETER]: COL_TRANS_DATE, [SORTING_DIRECTION_PARAMETER]: DESC_DIRECTION };
 const resultsPaneTitle = <FormattedMessage id="ui-finance.budget.transactions" />;
 const visibleColumns = [COL_TRANS_DATE, 'transactionType', 'amount', 'fromFundId', 'toFundId', 'source', COL_TAGS];

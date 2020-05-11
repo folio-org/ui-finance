@@ -5,7 +5,6 @@ import { AccordionSet } from '@folio/stripes/components';
 import {
   AcqCheckboxFilter,
   AcqUnitFilter,
-  acqUnitsShape,
   AcqTagsFilter,
   SelectionFilter,
   selectOptionsShape,
@@ -19,7 +18,6 @@ import {
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
 const FundsListFilters = ({
-  acqUnits,
   activeFilters,
   fundTypes,
   groups,
@@ -68,7 +66,6 @@ const FundsListFilters = ({
         labelId="ui-finance.fund.filters.acqUnits"
         name={FUND_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
-        acqUnits={acqUnits}
       />
       <AcqTagsFilter
         activeFilters={activeFilters[FUND_FILTERS.TAGS]}
@@ -83,14 +80,12 @@ const FundsListFilters = ({
 FundsListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
-  acqUnits: acqUnitsShape,
   fundTypes: selectOptionsShape,
   groups: selectOptionsShape,
   ledgers: selectOptionsShape,
 };
 
 FundsListFilters.defaultProps = {
-  acqUnits: [],
   fundTypes: [],
   groups: [],
   ledgers: [],

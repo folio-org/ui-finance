@@ -7,7 +7,6 @@ import {
 import {
   AcqCheckboxFilter,
   AcqUnitFilter,
-  acqUnitsShape,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -17,7 +16,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-const LedgerListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
+const LedgerListFilters = ({ activeFilters, applyFilters }) => {
   const adaptedApplyFilters = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -39,7 +38,6 @@ const LedgerListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
         labelId="ui-finance.ledger.acqUnits"
         name={LEDGER_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
-        acqUnits={acqUnits}
       />
     </AccordionSet>
   );
@@ -47,7 +45,6 @@ const LedgerListFilters = ({ activeFilters, applyFilters, acqUnits }) => {
 
 LedgerListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
-  acqUnits: acqUnitsShape,
   applyFilters: PropTypes.func.isRequired,
 };
 

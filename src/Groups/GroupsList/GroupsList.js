@@ -26,7 +26,7 @@ import { GROUPS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
 
 import { GroupDetailsContainer } from '../GroupDetails';
-import { GroupsListFilters } from './GroupsListFilters';
+import GroupsListFilters from './GroupsListFilters';
 import {
   searchableIndexes,
 } from './GroupsListSearchConfig';

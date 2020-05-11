@@ -6,7 +6,6 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqUnitFilter,
-  acqUnitsShape,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -15,7 +14,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-const FiscalYearsListFilter = ({ activeFilters, applyFilters, acqUnits }) => {
+const FiscalYearsListFilter = ({ activeFilters, applyFilters }) => {
   const adaptedApplyFilters = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -29,7 +28,6 @@ const FiscalYearsListFilter = ({ activeFilters, applyFilters, acqUnits }) => {
         labelId="ui-finance.fiscalYear.filters.acqUnits"
         name={FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
-        acqUnits={acqUnits}
       />
     </AccordionSet>
   );
@@ -37,7 +35,6 @@ const FiscalYearsListFilter = ({ activeFilters, applyFilters, acqUnits }) => {
 
 FiscalYearsListFilter.propTypes = {
   activeFilters: PropTypes.object.isRequired,
-  acqUnits: acqUnitsShape,
   applyFilters: PropTypes.func.isRequired,
 };
 

@@ -23,6 +23,7 @@ import TransactionInformation from './TransactionInformation';
 const TransactionDetails = ({
   fiscalYearCode,
   fromFundName,
+  fundId,
   onClose,
   toFundName,
   transaction,
@@ -57,6 +58,7 @@ const TransactionDetails = ({
           <TransactionInformation
             fiscalYearCode={fiscalYearCode}
             fromFundName={fromFundName}
+            fundId={fundId}
             toFundName={toFundName}
             transaction={transaction}
           />
@@ -73,6 +75,7 @@ TransactionDetails.propTypes = {
   fiscalYearCode: PropTypes.string.isRequired,
   toFundName: PropTypes.string,
   fromFundName: PropTypes.string,
+  fundId: PropTypes.string.isRequired,
 };
 
 export default TransactionDetails;

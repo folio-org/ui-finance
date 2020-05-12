@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingView } from '@folio/stripes/components';
 import {
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -28,7 +28,7 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
     [ledgerId],
   );
 
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
 
   const closeEdit = useCallback(
     () => {
@@ -45,12 +45,12 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
       try {
         const savedLedger = await mutator.ledgerEdit.PUT(ledgerValues);
 
-        showToast('ui-finance.ledger.actions.save.success');
+        showToast({ messageId: 'ui-finance.ledger.actions.save.success' });
         setTimeout(() => closeEdit(), 0);
 
         return savedLedger;
       } catch (response) {
-        showToast('ui-finance.ledger.actions.save.error', 'error');
+        showToast({ messageId: 'ui-finance.ledger.actions.save.error', type: 'error' });
 
         return { id: 'Unable to edit ledger' };
       }

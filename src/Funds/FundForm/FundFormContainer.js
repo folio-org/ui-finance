@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -191,7 +190,7 @@ FundFormContainer.manifest = Object.freeze({
 });
 
 FundFormContainer.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   onCancel: PropTypes.func,

@@ -138,9 +138,9 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
-    "@folio/stripes": "^3.0.0",
+    "@folio/stripes": "^4.0.0",
     "@folio/stripes-cli": "^1.8.0",
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.0",
     "chai": "^4.2.0",
     "core-js": "^3.6.4",
     "eslint": "^6.2.1",
@@ -148,9 +148,10 @@
     "eslint-plugin-jest": "^23.0.4",
     "faker": "^4.1.0",
     "miragejs": "^0.1.32",
+    "moment": "~2.24.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-intl": "^2.4.0",
+    "react-intl": "^4.5.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-prop-types": "^1.0.4",
@@ -162,7 +163,6 @@
     "final-form-set-field-data": "^1.0.2",
     "final-form": "^4.18.2",
     "lodash": "^4.17.5",
-    "moment": "~2.24.0",
     "prop-types": "^15.5.10",
     "query-string": "^6.1.0",
     "react-final-form-arrays": "^3.1.0",
@@ -170,13 +170,11 @@
     "react-final-form": "^6.3.0",
     "redux-form": "^7.4.2"
   },
-  "resolutions": {
-    "moment": "~2.24.0"
-  },
   "peerDependencies": {
-    "@folio/stripes": "^3.0.0",
+    "@folio/stripes": "^4.0.0",
+    "moment": "~2.24.0",
     "react": "*",
-    "react-intl": "^2.4.0",
+    "react-intl": "^4.5.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1"
   }

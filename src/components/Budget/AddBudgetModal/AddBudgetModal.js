@@ -12,7 +12,7 @@ import {
 import {
   baseManifest,
   LIMIT_MAX,
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -37,7 +37,7 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
   const [isLoading, setIsLoading] = useState(false);
   const [currentFYId, setCurrentFYId] = useState('');
   const [fiscalYearsOptions, setFiscalYearsOptions] = useState();
-  const showCallout = useShowToast();
+  const showCallout = useShowCallout();
   const isCurrentBudget = budgetStatus === BUDGET_STATUSES.ACTIVE;
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
         return series;
       })
       .catch(() => {
-        showCallout('ui-finance.fiscalYear.actions.load.error', 'error');
+        showCallout({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
       })
       .then(series => {
         return series
@@ -85,12 +85,12 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
         });
         const { name, id } = budget;
 
-        showCallout('ui-finance.budget.hasBeenCreated', 'success', { name, fundName: fund.name });
+        showCallout({ messageId: 'ui-finance.budget.hasBeenCreated', values: { name, fundName: fund.name } });
         const path = `/finance/budget/${id}/view`;
 
         history.push(path);
       } catch (e) {
-        showCallout('ui-finance.budget.hasNotBeenCreated', 'error');
+        showCallout({ messageId: 'ui-finance.budget.hasNotBeenCreated', type: 'error' });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

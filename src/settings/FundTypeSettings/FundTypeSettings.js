@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
 import { Field } from 'redux-form';
 
@@ -104,7 +103,7 @@ FundTypeSettings.manifest = Object.freeze({
 });
 
 FundTypeSettings.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,

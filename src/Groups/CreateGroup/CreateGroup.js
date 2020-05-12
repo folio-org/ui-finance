@@ -17,6 +17,7 @@ import {
 } from '../../common/resources';
 import { GROUP_STATUS } from '../constants';
 import { GroupForm } from '../GroupForm';
+import { handleSaveGroupErrorResponse } from '../utils';
 
 const INITIAL_GROUP = {
   status: GROUP_STATUS.active,
@@ -48,8 +49,10 @@ const CreateGroup = ({ mutator, location, history }) => {
 
         return savedGroup;
       } catch (response) {
+        const errorCode = await handleSaveGroupErrorResponse(response);
+
         showCallout({
-          messageId: 'ui-finance.groups.actions.save.error',
+          messageId: `ui-finance.groups.actions.save.error.${errorCode}`,
           type: 'error',
         });
         throw new SubmissionError({

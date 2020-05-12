@@ -174,7 +174,7 @@ const TransactionsList = ({
 
       <Route
         path={`${match.path}/transaction/:id/view`}
-        render={() => <TransactionDetails baseUrl={match.url} />}
+        render={() => <TransactionDetails baseUrl={match.url} fundId={fundId} />}
       />
     </Paneset>
   );

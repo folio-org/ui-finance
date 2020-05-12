@@ -24,6 +24,7 @@ const TransactionDetailsContainer = ({
   location,
   mutator,
   resources,
+  fundId,
 }) => {
   const transactionId = match.params.id;
   const transaction = get(resources, ['transactionDetails', 'records', '0']);
@@ -47,7 +48,7 @@ const TransactionDetailsContainer = ({
           mutator.fiscalYearId.replace(fiscalYearId);
           mutator.fiscalYear.GET();
 
-          const fundsQuery = [fromFundId, toFundId].map(fundId => `id == ${fundId}`).join(' OR ');
+          const fundsQuery = [fromFundId, toFundId].map(id => `id == ${id}`).join(' OR ');
 
           mutator.transactionFunds.GET({ params: { query: fundsQuery } });
         });
@@ -76,6 +77,7 @@ const TransactionDetailsContainer = ({
     <TransactionDetails
       fiscalYearCode={fiscalYearCode}
       fromFundName={fromFundName}
+      fundId={fundId}
       onClose={onClose}
       toFundName={toFundName}
       transaction={transaction}
@@ -109,6 +111,7 @@ TransactionDetailsContainer.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
+  fundId: PropTypes.string.isRequired,
 };
 
 export default withRouter(stripesConnect(TransactionDetailsContainer));

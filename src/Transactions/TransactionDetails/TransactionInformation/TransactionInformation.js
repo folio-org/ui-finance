@@ -13,16 +13,17 @@ import {
   FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
+import { BracketizeTransactionAmount } from '../../BracketizeTransactionAmount';
 import SourceValue from './SourceValue';
 
 const TransactionInformation = ({
   fiscalYearCode,
   fromFundName,
+  fundId,
   toFundName,
   transaction,
 }) => {
   const {
-    amount,
     currency,
     description = '',
     encumbrance,
@@ -60,9 +61,9 @@ const TransactionInformation = ({
           xs={3}
         >
           <KeyValue label={<FormattedMessage id="ui-finance.transaction.amount" />}>
-            <AmountWithCurrencyField
-              amount={amount}
-              currency={currency}
+            <BracketizeTransactionAmount
+              fundId={fundId}
+              transaction={transaction}
             />
           </KeyValue>
         </Col>
@@ -184,6 +185,7 @@ const TransactionInformation = ({
 TransactionInformation.propTypes = {
   fiscalYearCode: PropTypes.string.isRequired,
   fromFundName: PropTypes.string,
+  fundId: PropTypes.string.isRequired,
   toFundName: PropTypes.string,
   transaction: PropTypes.object,
 };

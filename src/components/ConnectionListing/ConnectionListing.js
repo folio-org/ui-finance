@@ -27,8 +27,8 @@ const columnMapping = {
 };
 const alignRowProps = { alignLastColToEnd: true };
 const sorters = {
-  [COLUMN_NAME]: ({ name }) => name,
-  'code': ({ code }) => code,
+  [COLUMN_NAME]: ({ name }) => name?.toLowerCase(),
+  'code': ({ code }) => code?.toLowerCase(),
   'allocated': ({ allocated }) => allocated,
   'unavailable': ({ unavailable }) => unavailable,
   'available': ({ available }) => available,

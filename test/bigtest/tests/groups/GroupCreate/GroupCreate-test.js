@@ -1,7 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { Response } from 'miragejs';
 
-import { GROUPS_ROUTE } from '../../../../../src/common/const';
+import {
+  GROUPS_API,
+  GROUPS_ROUTE,
+} from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import GroupFormInteractor from '../../../interactors/groups/GroupFormInteractor';
@@ -45,6 +49,22 @@ describe('Group create', () => {
 
     it('should close form and display the list of groups', () => {
       expect(groupsList.isPresent).to.be.true;
+    });
+  });
+
+  describe('Error handling while group creation', () => {
+    beforeEach(async function () {
+      this.server.post(
+        GROUPS_API,
+        () => new Response(422, { errors: [{ code: 'genericError' }] }),
+      );
+      await groupForm.name.fill('Test group');
+      await groupForm.code.fill('TSD');
+      await groupForm.saveButton.click();
+    });
+
+    it('new group form is still open', () => {
+      expect(groupForm.isPresent).to.be.true;
     });
   });
 });

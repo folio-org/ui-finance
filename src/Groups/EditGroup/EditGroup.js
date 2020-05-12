@@ -7,12 +7,13 @@ import { get } from 'lodash';
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingView } from '@folio/stripes/components';
 import {
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import { GROUPS_ROUTE } from '../../common/const';
 import { groupByUrlIdResource } from '../../common/resources';
 import { GroupForm } from '../GroupForm';
+import { handleSaveGroupErrorResponse } from '../utils';
 
 const EditGroup = ({ resources, mutator, match, history, location }) => {
   const groupId = match.params.id;
@@ -26,7 +27,7 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
     [groupId],
   );
 
-  const showToast = useShowToast();
+  const showCallout = useShowCallout();
 
   const closeEdit = useCallback(
     () => {
@@ -44,12 +45,17 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
       try {
         const savedGroup = await mutator.groupEdit.PUT(group);
 
-        showToast('ui-finance.groups.actions.save.success');
+        showCallout({ messageId: 'ui-finance.groups.actions.save.success' });
         setTimeout(() => closeEdit(), 0);
 
         return savedGroup;
       } catch (response) {
-        showToast('ui-finance.groups.actions.save.error', 'error');
+        const errorCode = await handleSaveGroupErrorResponse(response);
+
+        showCallout({
+          messageId: `ui-finance.groups.actions.save.error.${errorCode}`,
+          type: 'error',
+        });
 
         return { id: 'Unable to edit group' };
       }

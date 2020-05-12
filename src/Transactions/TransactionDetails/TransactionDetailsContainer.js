@@ -48,7 +48,7 @@ const TransactionDetailsContainer = ({
           mutator.fiscalYearId.replace(fiscalYearId);
           mutator.fiscalYear.GET();
 
-          const fundsQuery = [fromFundId, toFundId].map(fundId => `id == ${fundId}`).join(' OR ');
+          const fundsQuery = [fromFundId, toFundId].map(id => `id == ${id}`).join(' OR ');
 
           mutator.transactionFunds.GET({ params: { query: fundsQuery } });
         });

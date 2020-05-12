@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
 import {
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -34,7 +34,7 @@ const GroupDetailsContainer = ({
   const [groupData, setGroupData] = useState({});
   const [selectedFY, setSelectedFY] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
 
   useEffect(
     () => {
@@ -63,7 +63,7 @@ const GroupDetailsContainer = ({
           }));
         })
         .catch(() => {
-          showToast('ui-finance.groups.actions.load.error', 'error');
+          showToast({ messageId: 'ui-finance.groups.actions.load.error', type: 'error' });
         })
         .finally(() => {
           setIsLoading(false);
@@ -99,14 +99,14 @@ const GroupDetailsContainer = ({
     () => {
       mutator.groupDetails.DELETE(groupData.groupDetails)
         .then(() => {
-          showToast('ui-finance.groups.actions.remove.success');
+          showToast({ messageId: 'ui-finance.groups.actions.remove.success' });
           history.replace({
             pathname: GROUPS_ROUTE,
             search: location.search,
           });
         })
         .catch(() => {
-          showToast('ui-finance.groups.actions.remove.error', 'error');
+          showToast({ messageId: 'ui-finance.groups.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,7 +125,7 @@ const GroupDetailsContainer = ({
           }));
         })
         .catch(() => {
-          showToast('ui-finance.groups.actions.load.summary.error', 'error');
+          showToast({ messageId: 'ui-finance.groups.actions.load.summary.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

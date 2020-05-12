@@ -8,7 +8,7 @@ import { LoadingPane } from '@folio/stripes/components';
 import {
   batchFetch,
   LIMIT_MAX,
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -43,7 +43,7 @@ const FiscalYearDetailsContainer = ({
   const [groupSummaries, setGroupSummaries] = useState([]);
   const [ledgers, setLedgers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
 
   useEffect(
     () => {
@@ -87,7 +87,7 @@ const FiscalYearDetailsContainer = ({
         })
         .then(setLedgers)
         .catch(() => {
-          showToast('ui-finance.fiscalYear.actions.load.error', 'error');
+          showToast({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
         })
         .finally(() => setIsLoading(false));
     },
@@ -130,14 +130,14 @@ const FiscalYearDetailsContainer = ({
     () => {
       mutator.fiscalYear.DELETE(fiscalYear)
         .then(() => {
-          showToast('ui-finance.fiscalYear.actions.remove.success');
+          showToast({ messageId: 'ui-finance.fiscalYear.actions.remove.success' });
           history.replace({
             pathname: FISCAL_YEAR_ROUTE,
             search: location.search,
           });
         })
         .catch(() => {
-          showToast('ui-finance.fiscalYear.actions.remove.error', 'error');
+          showToast({ messageId: 'ui-finance.fiscalYear.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

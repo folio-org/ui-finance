@@ -8,7 +8,7 @@ import {
   LoadingPane,
 } from '@folio/stripes/components';
 import {
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -30,7 +30,7 @@ const LedgerDetailsContainer = ({
 }) => {
   const ledgerId = match.params.id;
   const [isLoading, setIsLoading] = useState(true);
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
   const [{ ledger, funds, currentFiscalYear }, setLedgerData] = useState({});
 
   useEffect(
@@ -39,7 +39,7 @@ const LedgerDetailsContainer = ({
         mutator.funds.GET(),
         mutator.ledgerCurrentFiscalYear.GET()
           .catch(() => {
-            showToast('ui-finance.ledger.actions.load.error.noFiscalYear', 'error');
+            showToast({ messageId: 'ui-finance.ledger.actions.load.error.noFiscalYear', type: 'error' });
 
             return {};
           }),
@@ -62,7 +62,7 @@ const LedgerDetailsContainer = ({
           });
         })
         .catch(() => {
-          showToast('ui-finance.ledger.actions.load.error', 'error');
+          showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
         })
         .finally(() => {
           setIsLoading(false);
@@ -96,14 +96,14 @@ const LedgerDetailsContainer = ({
     () => {
       mutator.ledgerDetails.DELETE({ id: ledgerId })
         .then(() => {
-          showToast('ui-finance.ledger.actions.remove.success');
+          showToast({ messageId: 'ui-finance.ledger.actions.remove.success' });
           history.replace({
             pathname: LEDGERS_ROUTE,
             search: location.search,
           });
         })
         .catch(() => {
-          showToast('ui-finance.ledger.actions.remove.error', 'error');
+          showToast({ messageId: 'ui-finance.ledger.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

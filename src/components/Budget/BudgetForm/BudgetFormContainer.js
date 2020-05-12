@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import { LoadingView } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -17,7 +17,7 @@ import { FISCAL_YEARS_API } from '../../../common/const';
 import BudgetForm from './BudgetForm';
 
 const BudgetFormContainer = ({ history, resources, mutator }) => {
-  const showCallout = useShowToast();
+  const showCallout = useShowCallout();
   const budget = get(resources, ['budget', 'records', 0]);
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
 
@@ -37,10 +37,10 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
 
       try {
         await mutator.budget[saveMethod](formValue);
-        showCallout('ui-finance.budget.hasBeenSaved', 'success', { name });
+        showCallout({ messageId: 'ui-finance.budget.hasBeenSaved', values: { name } });
         setTimeout(() => goToBudgetView(), 0);
       } catch (e) {
-        showCallout('ui-finance.budget.hasNotBeenSaved', 'error', { name });
+        showCallout({ messageId: 'ui-finance.budget.hasNotBeenSaved', type: 'error', values: { name } });
       }
     },
     [mutator.budget, showCallout, goToBudgetView],

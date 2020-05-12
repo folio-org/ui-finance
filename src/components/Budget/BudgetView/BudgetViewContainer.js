@@ -4,7 +4,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
 
 import {
@@ -266,7 +265,7 @@ BudgetViewContainer.manifest = Object.freeze({
 });
 
 BudgetViewContainer.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,

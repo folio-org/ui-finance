@@ -8,7 +8,7 @@ import {
   Accordion,
   Icon,
 } from '@folio/stripes/components';
-import { useShowToast } from '@folio/stripes-acq-components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { budgetsResource } from '../../../common/resources';
 import FundBudgets from '../FundBudgets';
@@ -24,7 +24,7 @@ const FundPreviousBudgetsContainer = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [previousBudgets, setPreviousBudgets] = useState([]);
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
 
   useEffect(() => {
     setIsLoading(true);
@@ -36,7 +36,7 @@ const FundPreviousBudgetsContainer = ({
     })
       .then(setPreviousBudgets)
       .catch(() => {
-        showToast('ui-finance.budget.actions.load.error', 'error');
+        showToast({ messageId: 'ui-finance.budget.actions.load.error', type: 'error' });
       })
       .finally(() => setIsLoading(false));
   },

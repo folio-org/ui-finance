@@ -29,7 +29,7 @@ import {
   TagsBadge,
   useAccordionToggle,
   useModalToggle,
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -63,7 +63,7 @@ const FundDetailsContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
   const [currentBudget, setCurrentBudget] = useState();
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
 
   const fetchFund = useCallback(
     () => {
@@ -76,7 +76,7 @@ const FundDetailsContainer = ({
             path: `${LEDGERS_API}/${fundResponse.fund.ledgerId}/current-fiscal-year`,
           });
         }, () => {
-          showToast('ui-finance.fund.actions.load.error', 'error');
+          showToast({ messageId: 'ui-finance.fund.actions.load.error', type: 'error' });
 
           setCompositeFund({ fund: {}, groupIds: [] });
         })
@@ -89,12 +89,12 @@ const FundDetailsContainer = ({
             },
           });
         }, () => {
-          showToast('ui-finance.fiscalYear.actions.load.error', 'error');
+          showToast({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
 
           setCurrentFY();
         })
         .then((budgetResponse) => setCurrentBudget(budgetResponse[0]), () => {
-          showToast('ui-finance.budget.actions.load.error', 'error');
+          showToast({ messageId: 'ui-finance.budget.actions.load.error', type: 'error' });
         })
         .finally(() => setIsLoading(false));
     },
@@ -138,14 +138,14 @@ const FundDetailsContainer = ({
     () => {
       mutator.fund.DELETE({ id: fund.id })
         .then(() => {
-          showToast('ui-finance.fund.actions.remove.success');
+          showToast({ messageId: 'ui-finance.fund.actions.remove.success' });
           history.replace({
             pathname: FUNDS_ROUTE,
             search: location.search,
           });
         })
         .catch(() => {
-          showToast('ui-finance.fund.actions.remove.error', 'error');
+          showToast({ messageId: 'ui-finance.fund.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

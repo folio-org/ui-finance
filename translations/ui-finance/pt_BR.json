@@ -334,7 +334,6 @@
     "groups.actions.remove.heading": "Excluir grupo",
     "groups.actions.remove.message": "Tem certeza de que deseja excluir o grupo?",
     "groups.actions.save.success": "O grupo foi salvo",
-    "groups.actions.save.error": "O grupo não foi salvo",
     "groups.form.title.create": "Criar grupo",
     "groups.form.title.edit": "Editar grupo",
     "budget.fiscalYear": "Ano fiscal",
@@ -388,7 +387,6 @@
     "transaction.tags": "Tags",
     "transaction.to": "Para",
     "transaction.transfer.hasBeenCreated": "{amount} foi transferido com sucesso para o orçamento {budgetName}",
-    "transaction.transfer.hasNotBeenCreated": "{amount} não foi transferido com sucesso para o orçamento {budgetName}",
     "transaction.transfer.title": "Transferir",
     "transaction.transferFrom": "Transferir de",
     "transaction.transferTo": "Transferir para",
@@ -403,7 +401,6 @@
     "transaction.allocate": "Alocar",
     "transaction.allocation.title": "Alocação",
     "transaction.allocation.hasBeenCreated": "{amount} foi alocado com sucesso para o orçamento {budgetName}",
-    "transaction.allocation.hasNotBeenCreated": "{amount} não foi alocado com sucesso para o orçamento {budgetName}",
     "ledger.fund": "Fundo",
     "ledger.search.keyword": "Todos",
     "ledger.search.name": "Nome",
@@ -490,5 +487,13 @@
     "budget.actions.remove.error.genericError": "O orçamento não foi excluído",
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "O orçamento não pode ser excluído porque possui transações",
     "budget.remove.heading": "Excluir orçamento",
-    "budget.remove.message": "Tem certeza de que deseja excluir o orçamento?"
+    "budget.remove.message": "Tem certeza de que deseja excluir o orçamento?",
+    "transaction.allocation.genericError": "{amount} não foi alocado com sucesso para o orçamento {budgetName}",
+    "transaction.allocation.allowableAllocationIdsMismatch": "Esta transação não pode ser feita entre esses dois fundos, pois a configuração \"permitir transferência de / para\" o fundo em um ou mais fundos é muito restritiva.",
+    "transaction.transfer.genericError": "{amount} não foi transferido com sucesso para o orçamento {budgetName}",
+    "transaction.transfer.allowableAllocationIdsMismatch": "Esta transação não pode ser feita entre esses dois fundos, pois a configuração \"permitir transferência de / para\" o fundo em um ou mais fundos é muito restritiva.",
+    "fund.actions.load.error": "Falha ao carregar os dados do fundo",
+    "fund.actions.viewTransactions": "Exibir transações para o orçamento atual",
+    "groups.actions.save.error.genericError": "O grupo não foi salvo",
+    "groups.actions.save.error.uniqueFieldGroupNameError": "Não foi possível salvar o grupo - O nome do grupo já está em uso"
 }

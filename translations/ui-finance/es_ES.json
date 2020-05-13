@@ -334,7 +334,6 @@
     "groups.actions.remove.heading": "Eliminar grupo",
     "groups.actions.remove.message": "¿Está seguro de que desea eliminar el grupo?",
     "groups.actions.save.success": "El grupo se ha guardado",
-    "groups.actions.save.error": "El grupo no se ha guardado",
     "groups.form.title.create": "Crear grupo",
     "groups.form.title.edit": "Editar grupo",
     "budget.fiscalYear": "Año fiscal",
@@ -388,7 +387,6 @@
     "transaction.tags": "Etiquetas",
     "transaction.to": "Para",
     "transaction.transfer.hasBeenCreated": "{amount} se transfirió correctamente al presupuesto {budgetName}",
-    "transaction.transfer.hasNotBeenCreated": "{amount} no se transfirió correctamente al presupuesto {budgetName}",
     "transaction.transfer.title": "Transferencia",
     "transaction.transferFrom": "Transferencia desde",
     "transaction.transferTo": "Transferir a",
@@ -403,7 +401,6 @@
     "transaction.allocate": "Asignar",
     "transaction.allocation.title": "Asignación",
     "transaction.allocation.hasBeenCreated": "{amount} se asignó correctamente al presupuesto {budgetName}",
-    "transaction.allocation.hasNotBeenCreated": "{amount} no se asignó correctamente al presupuesto {budgetName}",
     "ledger.fund": "Fondo",
     "ledger.search.keyword": "Todos",
     "ledger.search.name": "Nombre",
@@ -490,5 +487,13 @@
     "budget.actions.remove.error.genericError": "Budget has not been deleted",
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
     "budget.remove.heading": "Delete budget",
-    "budget.remove.message": "Are you sure you want to delete budget?"
+    "budget.remove.message": "Are you sure you want to delete budget?",
+    "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
+    "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
+    "transaction.transfer.genericError": "{amount} was not successfully trasfered to the budget {budgetName}",
+    "transaction.transfer.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
+    "fund.actions.load.error": "Failed to load fund data",
+    "fund.actions.viewTransactions": "View transactions for current budget",
+    "groups.actions.save.error.genericError": "Group has not been saved",
+    "groups.actions.save.error.uniqueFieldGroupNameError": "Group could not be saved - Group name already in use"
 }

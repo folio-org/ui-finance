@@ -334,7 +334,6 @@
     "groups.actions.remove.heading": "حذف المجموعة",
     "groups.actions.remove.message": "هل أنت متأكد من أنك تريد حذف المجموعة؟",
     "groups.actions.save.success": "تم حفظ المجموعة",
-    "groups.actions.save.error": "لم يتم حفظ المجموعة",
     "groups.form.title.create": "إنشاء مجموعة",
     "groups.form.title.edit": "تحرير المجموعة",
     "budget.fiscalYear": "السنة المالية",
@@ -388,7 +387,6 @@
     "transaction.tags": "وسوم",
     "transaction.to": "إلى",
     "transaction.transfer.hasBeenCreated": "تم تحويل {amount} بنجاح للميزانية {budgetName}",
-    "transaction.transfer.hasNotBeenCreated": "لم يتم تحويل {amount} بنجاح للميزانية {budgetName}",
     "transaction.transfer.title": "تحويل",
     "transaction.transferFrom": "تحويل من",
     "transaction.transferTo": "تحويل إلى",
@@ -403,7 +401,6 @@
     "transaction.allocate": "تخصيص",
     "transaction.allocation.title": "تخصيص",
     "transaction.allocation.hasBeenCreated": "تم تخصيص {amount} بنجاح للميزانية {budgetName}",
-    "transaction.allocation.hasNotBeenCreated": "لم يتم تخصيص {amount} بنجاح للميزانية {budgetName}",
     "ledger.fund": "تمويل",
     "ledger.search.keyword": "الكل",
     "ledger.search.name": "الاسم",
@@ -490,5 +487,13 @@
     "budget.actions.remove.error.genericError": "لم يتم حذف الميزانية",
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "تعذر حذف الميزانية بسبب وجود تعاملات بها",
     "budget.remove.heading": "حذف الميزانية",
-    "budget.remove.message": "هل أنت متأكد من أنك تريد حذف الميزانية؟"
+    "budget.remove.message": "هل أنت متأكد من أنك تريد حذف الميزانية؟",
+    "transaction.allocation.genericError": "لم يتم تخصيص {amount} بنجاح للميزانية {budgetName}",
+    "transaction.allocation.allowableAllocationIdsMismatch": "لا يمكن إجراء هذه المعاملة بين هذين التمويلين لأن إعداد \"السماح بالتحويل إلى أو من\" مقيد للغاية على أحد التمويلات أو أكثر.",
+    "transaction.transfer.genericError": "لم يتم تحويل {amount} بنجاح للميزانية {budgetName}",
+    "transaction.transfer.allowableAllocationIdsMismatch": "لا يمكن إجراء هذه المعاملة بين هذين التمويلين لأن إعداد \"السماح بالتحويل إلى أو من\" مقيد للغاية على أحد التمويلات أو أكثر.",
+    "fund.actions.load.error": "فشل تحميل بيانات التمويل",
+    "fund.actions.viewTransactions": "عرض المعاملات للميزانية الحالية",
+    "groups.actions.save.error.genericError": "لم يتم حفظ المجموعة",
+    "groups.actions.save.error.uniqueFieldGroupNameError": "تعذر حفظ المجموعة - اسم المجموعة قيد الاستخدام بالفعل"
 }

@@ -334,7 +334,6 @@
     "groups.actions.remove.heading": "删除组",
     "groups.actions.remove.message": "确定要删除组吗？",
     "groups.actions.save.success": "组已保存",
-    "groups.actions.save.error": "组尚未保存",
     "groups.form.title.create": "创建组",
     "groups.form.title.edit": "编辑组",
     "budget.fiscalYear": "财务年度",
@@ -388,7 +387,6 @@
     "transaction.tags": "标签",
     "transaction.to": "至",
     "transaction.transfer.hasBeenCreated": "{amount}已成功转移到预算{budgetName}",
-    "transaction.transfer.hasNotBeenCreated": "{amount}未成功转移到预算{budgetName}",
     "transaction.transfer.title": "转移",
     "transaction.transferFrom": "转移自",
     "transaction.transferTo": "转移至",
@@ -403,7 +401,6 @@
     "transaction.allocate": "分配",
     "transaction.allocation.title": "分配",
     "transaction.allocation.hasBeenCreated": "{amount}已成功分配到预算{budgetName}",
-    "transaction.allocation.hasNotBeenCreated": "{amount}未成功分配到预算{budgetName}",
     "ledger.fund": "经费",
     "ledger.search.keyword": "所有",
     "ledger.search.name": "名称",
@@ -490,5 +487,13 @@
     "budget.actions.remove.error.genericError": "预算尚未删除",
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "预算无法删除，因为有交易",
     "budget.remove.heading": "删除预算",
-    "budget.remove.message": "确定要删除预算？"
+    "budget.remove.message": "确定要删除预算？",
+    "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
+    "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
+    "transaction.transfer.genericError": "{amount} was not successfully trasfered to the budget {budgetName}",
+    "transaction.transfer.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
+    "fund.actions.load.error": "Failed to load fund data",
+    "fund.actions.viewTransactions": "View transactions for current budget",
+    "groups.actions.save.error.genericError": "Group has not been saved",
+    "groups.actions.save.error.uniqueFieldGroupNameError": "Group could not be saved - Group name already in use"
 }

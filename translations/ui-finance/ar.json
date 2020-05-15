@@ -495,5 +495,7 @@
     "fund.actions.load.error": "فشل تحميل بيانات التمويل",
     "fund.actions.viewTransactions": "عرض المعاملات للميزانية الحالية",
     "groups.actions.save.error.genericError": "لم يتم حفظ المجموعة",
-    "groups.actions.save.error.uniqueFieldGroupNameError": "تعذر حفظ المجموعة - اسم المجموعة قيد الاستخدام بالفعل"
+    "groups.actions.save.error.uniqueFieldGroupNameError": "تعذر حفظ المجموعة - اسم المجموعة قيد الاستخدام بالفعل",
+    "ledger.actions.save.error.genericError": "لم يتم حفظ الدفتر",
+    "groups.actions.save.error.uniqueFieldGroupCodeError": "تعذر حفظ المجموعة - رمز المجموعة قيد الاستخدام بالفعل"
 }

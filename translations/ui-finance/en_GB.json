@@ -495,5 +495,7 @@
     "fund.actions.load.error": "Failed to load fund data",
     "fund.actions.viewTransactions": "View transactions for current budget",
     "groups.actions.save.error.genericError": "Group has not been saved",
-    "groups.actions.save.error.uniqueFieldGroupNameError": "Group could not be saved - Group name already in use"
+    "groups.actions.save.error.uniqueFieldGroupNameError": "Group could not be saved - Group name already in use",
+    "ledger.actions.save.error.genericError": "Ledger has not been saved",
+    "groups.actions.save.error.uniqueFieldGroupCodeError": "Group could not be saved - Group code already in use"
 }

@@ -495,5 +495,7 @@
     "fund.actions.load.error": "Échec du chargement des données budgétaires",
     "fund.actions.viewTransactions": "Afficher les transactions pour le budget actuel",
     "groups.actions.save.error.genericError": "Group has not been saved",
-    "groups.actions.save.error.uniqueFieldGroupNameError": "Group could not be saved - Group name already in use"
+    "groups.actions.save.error.uniqueFieldGroupNameError": "Group could not be saved - Group name already in use",
+    "ledger.actions.save.error.genericError": "Ledger has not been saved",
+    "groups.actions.save.error.uniqueFieldGroupCodeError": "Group could not be saved - Group code already in use"
 }

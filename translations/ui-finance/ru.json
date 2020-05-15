@@ -495,5 +495,7 @@
     "fund.actions.load.error": "Failed to load fund data",
     "fund.actions.viewTransactions": "View transactions for current budget",
     "groups.actions.save.error.genericError": "Группа не была сохранена",
-    "groups.actions.save.error.uniqueFieldGroupNameError": "Группа не может быть сохранена - Название группы уже используется"
+    "groups.actions.save.error.uniqueFieldGroupNameError": "Группа не может быть сохранена - Название группы уже используется",
+    "ledger.actions.save.error.genericError": "Книга учёта не была сохранена",
+    "groups.actions.save.error.uniqueFieldGroupCodeError": "Группа не может быть сохранена - Код группы уже используется"
 }

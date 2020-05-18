@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIF-223](https://issues.folio.org/browse/UIF-223) Change "allowable" default percentage on the Create budget screen
 * [UIF-222](https://issues.folio.org/browse/UIF-222) Change "allowable" field labels on the Create budget screen
 * [UIF-218](https://issues.folio.org/browse/UIF-218) Finance app: Update to Stripes v4
 * [UIREC-42](https://issues.folio.org/browse/UIREC-42) Filter Titles by Acq unit

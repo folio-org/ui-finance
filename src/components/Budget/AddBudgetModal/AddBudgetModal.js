@@ -140,6 +140,8 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
   const initialValues = {
     fiscalYearId: isCurrentBudget ? currentFYId : plannedFYId,
     budgetStatus,
+    allowableExpenditure: 100,
+    allowableEncumbrance: 100,
   };
 
   return (

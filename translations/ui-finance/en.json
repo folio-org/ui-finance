@@ -335,6 +335,8 @@
   "budget.allocationDate": "Allocation date",
   "budget.allowableEncumbrance": "Allowable encumbrance",
   "budget.allowableExpenditure": "Allowable expenditure",
+  "budget.allowableEncumbrancePercentage": "Allowable encumbrance percentage",
+  "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
   "budget.available": "Available",
   "budget.awaitingPayment": "Awaiting payment",
   "budget.encumbered": "Encumbered",

@@ -69,15 +69,17 @@ const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
         <Col xs>
           <Field
             component={TextField}
-            label={<FormattedMessage id="ui-finance.budget.allowableExpenditure" />}
+            label={<FormattedMessage id="ui-finance.budget.allowableExpenditurePercentage" />}
             name="allowableExpenditure"
+            type="number"
           />
         </Col>
         <Col xs>
           <Field
             component={TextField}
-            label={<FormattedMessage id="ui-finance.budget.allowableEncumbrance" />}
+            label={<FormattedMessage id="ui-finance.budget.allowableEncumbrancePercentage" />}
             name="allowableEncumbrance"
+            type="number"
           />
         </Col>
       </Row>

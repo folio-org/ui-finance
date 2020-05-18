@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIF-222](https://issues.folio.org/browse/UIF-222) Change "allowable" field labels on the Create budget screen
 * [UIF-218](https://issues.folio.org/browse/UIF-218) Finance app: Update to Stripes v4
 * [UIREC-42](https://issues.folio.org/browse/UIREC-42) Filter Titles by Acq unit
 * [UIF-153](https://issues.folio.org/browse/UIF-153) Display appropriate error message when transaction is blocked by Allow to or from Fund setting

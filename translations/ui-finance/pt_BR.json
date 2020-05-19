@@ -497,5 +497,7 @@
     "groups.actions.save.error.genericError": "O grupo não foi salvo",
     "groups.actions.save.error.uniqueFieldGroupNameError": "Não foi possível salvar o grupo - O nome do grupo já está em uso",
     "ledger.actions.save.error.genericError": "Contabilidade não foi salva",
-    "groups.actions.save.error.uniqueFieldGroupCodeError": "Não foi possível salvar o grupo - o código do grupo já está em uso"
+    "groups.actions.save.error.uniqueFieldGroupCodeError": "Não foi possível salvar o grupo - o código do grupo já está em uso",
+    "budget.allowableEncumbrancePercentage": "Porcentagem de oneração permitida",
+    "budget.allowableExpenditurePercentage": "Porcentagem de despesa permitida"
 }

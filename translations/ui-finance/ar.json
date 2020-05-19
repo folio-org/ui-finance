@@ -289,7 +289,7 @@
     "budget.actionsRequired": "الإجراءات المطلوبة",
     "budget.allocated": "مخصص",
     "budget.allocationDate": "تاريخ التخصيص",
-    "budget.allowableEncumbrance": "الرهن المسموح به",
+    "budget.allowableEncumbrance": "التكاليف المسموح بها",
     "budget.allowableExpenditure": "النفقات المسموح بها",
     "budget.available": "متاح",
     "budget.awaitingPayment": "في انتظار السداد",
@@ -392,7 +392,7 @@
     "transaction.transferTo": "تحويل إلى",
     "transaction.type.Allocation": "تخصيص",
     "transaction.type.Credit": "رصيد",
-    "transaction.type.Encumbrance": "رهن",
+    "transaction.type.Encumbrance": "تكلفة",
     "transaction.type.Payment": "السداد",
     "transaction.type.Transfer": "تحويل",
     "transaction.type": "النوع",
@@ -497,5 +497,7 @@
     "groups.actions.save.error.genericError": "لم يتم حفظ المجموعة",
     "groups.actions.save.error.uniqueFieldGroupNameError": "تعذر حفظ المجموعة - اسم المجموعة قيد الاستخدام بالفعل",
     "ledger.actions.save.error.genericError": "لم يتم حفظ الدفتر",
-    "groups.actions.save.error.uniqueFieldGroupCodeError": "تعذر حفظ المجموعة - رمز المجموعة قيد الاستخدام بالفعل"
+    "groups.actions.save.error.uniqueFieldGroupCodeError": "تعذر حفظ المجموعة - رمز المجموعة قيد الاستخدام بالفعل",
+    "budget.allowableEncumbrancePercentage": "النسبة المئوية للتكاليف المسموح بها",
+    "budget.allowableExpenditurePercentage": "النسبة المئوية للنفقات المسموح بها"
 }

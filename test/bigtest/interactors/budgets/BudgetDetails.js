@@ -22,6 +22,7 @@ import {
   static defaultScope = '#budget-actions';
   addTransferButton = new Interactor('[data-test-add-transfer-menu-button]');
   deleteBudgetButton = new Interactor('[data-test-budget-remove-action]');
+  editBudgetButton = new Interactor('[data-test-edit-budget-button]');
 }
 
 export default interactor(class BudgetDetailsInteractor {

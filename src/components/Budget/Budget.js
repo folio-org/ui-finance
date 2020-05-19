@@ -18,14 +18,7 @@ const Budget = ({ match: { path } }) => (
     />
     <Route
       path={`${path}/:budgetId/edit`}
-      render={
-        ({ history, match }) => (
-          <BudgetForm
-            history={history}
-            match={match}
-          />
-        )
-      }
+      component={BudgetForm}
     />
     <Route
       path={`${path}/:budgetId/transactions`}

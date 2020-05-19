@@ -8,12 +8,14 @@ import { expect } from 'chai';
 import setupApplication from '../../helpers/setup-application';
 import BudgetDetailsInteractor from '../../interactors/budgets/BudgetDetails';
 import FundDetailsInteractor from '../../interactors/funds/FundDetails';
+import BudgetEdit from '../../interactors/budgets/BudgetEdit';
 
 describe('Budget details', () => {
   setupApplication();
 
   const budgetDetails = new BudgetDetailsInteractor();
   const fundDetails = new FundDetailsInteractor();
+  const budgetForm = new BudgetEdit();
 
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
@@ -45,6 +47,17 @@ describe('Budget details', () => {
     it('closes budget details', () => {
       expect(budgetDetails.isPresent).to.be.false;
       expect(fundDetails.isPresent).to.be.true;
+    });
+  });
+
+  describe('edit budget', () => {
+    beforeEach(async function () {
+      await budgetDetails.actions.editBudgetButton.click();
+      await budgetForm.whenLoaded();
+    });
+
+    it('shows budget form', () => {
+      expect(budgetForm.isPresent).to.be.true;
     });
   });
 });

@@ -4,12 +4,14 @@ import { expect } from 'chai';
 import setupApplication from '../../../helpers/setup-application';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 import TransactionsListInteractor from '../../../interactors/transactions/TransactionsListInteractor';
+import BudgetDetailsInteractor from '../../../interactors/budgets/BudgetDetails';
 
 describe('Funds details', () => {
   setupApplication();
 
   const fundDetails = new FundDetailsInteractor();
   const transactionsList = new TransactionsListInteractor();
+  const budgetDetails = new BudgetDetailsInteractor();
 
   beforeEach(async function () {
     const group = this.server.create('group');
@@ -53,6 +55,18 @@ describe('Funds details', () => {
 
     it('redirects to current budget view page', () => {
       expect(fundDetails.isPresent).to.be.false;
+      expect(budgetDetails.isPresent).to.be.true;
+    });
+  });
+
+  describe('click on planned budget', () => {
+    beforeEach(async function () {
+      await fundDetails.plannedBudget.list(0).link();
+    });
+
+    it('redirects to planned budget view page', () => {
+      expect(fundDetails.isPresent).to.be.false;
+      expect(budgetDetails.isPresent).to.be.true;
     });
   });
 

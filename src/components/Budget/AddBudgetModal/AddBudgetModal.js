@@ -33,7 +33,7 @@ const getPlannedFYId = (currentFYId, FYoptions = []) => {
     : '';
 };
 
-const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerId }) => {
+const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerId, location }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentFYId, setCurrentFYId] = useState('');
   const [fiscalYearsOptions, setFiscalYearsOptions] = useState();
@@ -88,13 +88,16 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
         showCallout({ messageId: 'ui-finance.budget.hasBeenCreated', values: { name, fundName: fund.name } });
         const path = `/finance/budget/${id}/view`;
 
-        history.push(path);
+        history.push({
+          pathname: path,
+          search: location.search,
+        });
       } catch (e) {
         showCallout({ messageId: 'ui-finance.budget.hasNotBeenCreated', type: 'error' });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getFiscalYearOption, fund.id, fund.code, fund.name, history],
+    [getFiscalYearOption, fund.id, fund.code, fund.name, history, location.search],
   );
 
   if (isLoading) {
@@ -178,6 +181,7 @@ AddBudgetModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   fund: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   budgetStatus: PropTypes.string,
   ledgerId: PropTypes.string,

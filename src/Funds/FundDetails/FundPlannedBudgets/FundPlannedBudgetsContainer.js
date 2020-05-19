@@ -20,6 +20,7 @@ const FundPlannedBudgetsContainer = ({
   currency,
   fundId,
   history,
+  location,
   mutator,
   openNewBudgetModal,
   currentFY,
@@ -49,9 +50,12 @@ const FundPlannedBudgetsContainer = ({
     (e, { id }) => {
       const path = `/finance/budget/${id}/view`;
 
-      history.push(path);
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history],
+    [history, location.search],
   );
 
   const addBudgetButton = useCallback((status, count) => {
@@ -104,6 +108,7 @@ FundPlannedBudgetsContainer.propTypes = {
   currentFY: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   openNewBudgetModal: PropTypes.func.isRequired,
 };

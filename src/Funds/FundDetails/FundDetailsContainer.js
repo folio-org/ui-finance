@@ -270,6 +270,7 @@ const FundDetailsContainer = ({
               budget={currentBudget}
               currency={currency}
               history={history}
+              location={location}
               openNewBudgetModal={openNewBudgetModal}
             />
           )}
@@ -279,6 +280,7 @@ const FundDetailsContainer = ({
               currentFY={currentFY}
               fundId={fund.id}
               history={history}
+              location={location}
               openNewBudgetModal={openNewBudgetModal}
             />
           )}
@@ -288,6 +290,7 @@ const FundDetailsContainer = ({
               currentFY={currentFY}
               fundId={fund.id}
               history={history}
+              location={location}
             />
           )}
         </AccordionSet>
@@ -298,6 +301,7 @@ const FundDetailsContainer = ({
             fund={fund}
             history={history}
             ledgerId={fund.ledgerId}
+            location={location}
           />
         )}
         {isRemoveConfirmation && (

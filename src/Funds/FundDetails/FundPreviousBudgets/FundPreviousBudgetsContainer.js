@@ -19,6 +19,7 @@ const FundPreviousBudgetsContainer = ({
   currency,
   fundId,
   history,
+  location,
   mutator,
   currentFY,
 }) => {
@@ -47,9 +48,12 @@ const FundPreviousBudgetsContainer = ({
     (e, { id }) => {
       const path = `/finance/budget/${id}/view`;
 
-      history.push(path);
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history],
+    [history, location.search],
   );
 
   if (isLoading) {
@@ -88,6 +92,7 @@ FundPreviousBudgetsContainer.propTypes = {
   currentFY: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 

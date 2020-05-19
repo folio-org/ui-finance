@@ -16,7 +16,7 @@ import {
 import { FISCAL_YEARS_API } from '../../../common/const';
 import BudgetForm from './BudgetForm';
 
-const BudgetFormContainer = ({ history, resources, mutator }) => {
+const BudgetFormContainer = ({ history, resources, mutator, location }) => {
   const showCallout = useShowCallout();
   const budget = get(resources, ['budget', 'records', 0]);
   const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
@@ -25,9 +25,12 @@ const BudgetFormContainer = ({ history, resources, mutator }) => {
     () => {
       const path = `/finance/budget/${budget.id}/view`;
 
-      history.push(path);
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history, budget],
+    [history, budget, location.search],
   );
 
   const saveBudget = useCallback(
@@ -76,6 +79,7 @@ BudgetFormContainer.manifest = Object.freeze({
 
 BudgetFormContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   resources: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,
 };

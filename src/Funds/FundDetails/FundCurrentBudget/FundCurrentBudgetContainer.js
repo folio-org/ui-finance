@@ -18,15 +18,19 @@ const FundCurrentBudgetContainer = ({
   budget,
   currency,
   history,
+  location,
   openNewBudgetModal,
 }) => {
   const openBudget = useCallback(
     (e, { id }) => {
       const path = `${BUDGET_ROUTE}${id}${BUDGET_VIEW_ROUTE}`;
 
-      history.push(path);
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history],
+    [history, location.search],
   );
 
   const addBudgetButton = useCallback((status, count) => {
@@ -59,6 +63,7 @@ FundCurrentBudgetContainer.propTypes = {
   budget: PropTypes.object,
   currency: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   openNewBudgetModal: PropTypes.func.isRequired,
 };
 

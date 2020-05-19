@@ -79,9 +79,12 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
     () => {
       const path = `/finance/budget/${budget.id}/edit`;
 
-      history.push(path);
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history, budget],
+    [history, budget, location.search],
   );
 
   const removeBudget = useCallback(
@@ -114,9 +117,12 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
     () => {
       const path = `/finance/fund/view/${budget.fundId}`;
 
-      history.push(path);
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history, budget],
+    [history, budget, location.search],
   );
 
   // eslint-disable-next-line react/prop-types

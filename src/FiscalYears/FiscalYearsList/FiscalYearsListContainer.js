@@ -1,6 +1,7 @@
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -39,13 +40,15 @@ const buildFiscalYearsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const FiscalYearsListContainer = ({ mutator, location, history }) => {
+const FiscalYearsListContainer = ({ mutator: originMutator, location, history }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const mutator = useMemo(() => originMutator, []);
   const [fiscalYears, setFiscalYears] = useState([]);
   const [fiscalYearsCount, setFiscalYearsCount] = useState(0);
   const [fiscalYearsOffset, setFiscalYearsOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadFiscalYears = (offset) => {
+  const loadFiscalYears = useCallback((offset) => {
     setIsLoading(true);
 
     return mutator.fiscalYearsListFYears.GET({
@@ -61,7 +64,7 @@ const FiscalYearsListContainer = ({ mutator, location, history }) => {
         setFiscalYears((prev) => [...prev, ...fiscalYearsResponse.fiscalYears]);
       })
       .finally(() => setIsLoading(false));
-  };
+  }, [location.search, mutator.fiscalYearsListFYears]);
 
   const onNeedMoreData = useCallback(
     () => {
@@ -72,8 +75,7 @@ const FiscalYearsListContainer = ({ mutator, location, history }) => {
           setFiscalYearsOffset(newOffset);
         });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fiscalYearsOffset],
+    [fiscalYearsOffset, loadFiscalYears],
   );
 
   const refreshList = () => {

@@ -17,6 +17,7 @@
 * [UIF-201](https://issues.folio.org/browse/UIF-201) Select active status by default when creating financial records
 
 ### Bug fixes
+* [UIF-220](https://issues.folio.org/browse/UIF-220) Fund and Groups result list "load more" buttons not working properly
 * [UIF-188](https://issues.folio.org/browse/UIF-188) Error message not helpful when saving group
 * [UIF-210](https://issues.folio.org/browse/UIF-210) View transactions glitch shows transactions from different budget
 * [UIORGS-151](https://issues.folio.org/browse/UIORGS-151) Organizations is not using the same Expand/Collapse as implemented in Q4 2019

@@ -1,6 +1,7 @@
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -40,13 +41,15 @@ const buildLedgersQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const LedgerListContainer = ({ mutator, location, history }) => {
+const LedgerListContainer = ({ mutator: originMutator, location, history }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const mutator = useMemo(() => originMutator, []);
   const [ledgers, setLedgers] = useState([]);
   const [ledgersCount, setLedgersCount] = useState(0);
   const [ledgersOffset, setLedgersOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadLedgers = (offset) => {
+  const loadLedgers = useCallback((offset) => {
     setIsLoading(true);
 
     return mutator.ledgersListFinance.GET({
@@ -62,7 +65,7 @@ const LedgerListContainer = ({ mutator, location, history }) => {
         setLedgers((prev) => [...prev, ...ledgersResponse.ledgers]);
       })
       .finally(() => setIsLoading(false));
-  };
+  }, [location.search, mutator.ledgersListFinance]);
 
   const onNeedMoreData = useCallback(
     () => {
@@ -73,8 +76,7 @@ const LedgerListContainer = ({ mutator, location, history }) => {
           setLedgersOffset(newOffset);
         });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ledgersOffset],
+    [ledgersOffset, loadLedgers],
   );
 
   const refreshList = () => {

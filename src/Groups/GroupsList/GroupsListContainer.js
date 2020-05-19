@@ -1,6 +1,7 @@
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -39,13 +40,15 @@ const buildGroupsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const GroupsListContainer = ({ mutator, location, history }) => {
+const GroupsListContainer = ({ mutator: originMutator, location, history }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const mutator = useMemo(() => originMutator, []);
   const [groups, setGroups] = useState([]);
   const [groupsCount, setGroupsCount] = useState(0);
   const [groupsOffset, setGroupsOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadGroups = (offset) => {
+  const loadGroups = useCallback((offset) => {
     setIsLoading(true);
 
     return mutator.groupsListGroups.GET({
@@ -61,7 +64,7 @@ const GroupsListContainer = ({ mutator, location, history }) => {
         setGroups((prev) => [...prev, ...groupsResponse.groups]);
       })
       .finally(() => setIsLoading(false));
-  };
+  }, [location.search, mutator.groupsListGroups]);
 
   const onNeedMoreData = useCallback(
     () => {
@@ -72,8 +75,7 @@ const GroupsListContainer = ({ mutator, location, history }) => {
           setGroupsOffset(newOffset);
         });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [groupsOffset],
+    [groupsOffset, loadGroups],
   );
 
   const refreshList = () => {

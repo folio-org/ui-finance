@@ -1,6 +1,7 @@
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -43,14 +44,16 @@ const buildFundsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const FundsListContainer = ({ mutator, location, history }) => {
+const FundsListContainer = ({ mutator: originMutator, location, history }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const mutator = useMemo(() => originMutator, []);
   const [funds, setFunds] = useState([]);
   const [ledgersMap, setLedgersMap] = useState({});
   const [fundsCount, setFundsCount] = useState(0);
   const [fundsOffset, setFundsOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadFunds = (offset) => {
+  const loadFunds = useCallback((offset) => {
     setIsLoading(true);
 
     return mutator.fundsListFunds.GET({
@@ -90,7 +93,7 @@ const FundsListContainer = ({ mutator, location, history }) => {
         ]);
       })
       .finally(() => setIsLoading(false));
-  };
+  }, [ledgersMap, location.search, mutator.fundsListFunds, mutator.fundsListLedgers]);
 
   const onNeedMoreData = useCallback(
     () => {
@@ -101,8 +104,7 @@ const FundsListContainer = ({ mutator, location, history }) => {
           setFundsOffset(newOffset);
         });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fundsOffset],
+    [fundsOffset, loadFunds],
   );
 
   const refreshList = () => {

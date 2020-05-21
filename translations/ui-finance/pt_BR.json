@@ -499,5 +499,6 @@
     "ledger.actions.save.error.genericError": "Contabilidade não foi salva",
     "groups.actions.save.error.uniqueFieldGroupCodeError": "Não foi possível salvar o grupo - o código do grupo já está em uso",
     "budget.allowableEncumbrancePercentage": "Porcentagem de oneração permitida",
-    "budget.allowableExpenditurePercentage": "Porcentagem de despesa permitida"
+    "budget.allowableExpenditurePercentage": "Porcentagem de despesa permitida",
+    "transaction.type.Pending payment": "Pending payment"
 }

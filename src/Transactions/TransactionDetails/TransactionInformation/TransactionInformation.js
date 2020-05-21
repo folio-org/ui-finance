@@ -84,7 +84,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.type" />}
-            value={transactionType}
+            value={<FormattedMessage id={`ui-finance.transaction.type.${transactionType}`} />}
           />
         </Col>
 

@@ -3,6 +3,7 @@ export const TRANSACTION_TYPES = {
   credit: 'Credit',
   encumbrance: 'Encumbrance',
   payment: 'Payment',
+  pendingPayment: 'Pending payment',
   transfer: 'Transfer',
 };
 

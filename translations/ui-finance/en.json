@@ -503,6 +503,7 @@
   "transaction.type.Credit": "Credit",
   "transaction.type.Encumbrance": "Encumbrance",
   "transaction.type.Payment": "Payment",
+  "transaction.type.Pending payment": "Pending payment",
   "transaction.type.Transfer": "Transfer",
   "transaction.type": "Type",
 

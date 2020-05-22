@@ -500,5 +500,5 @@
     "groups.actions.save.error.uniqueFieldGroupCodeError": "Группа не может быть сохранена - Код группы уже используется",
     "budget.allowableEncumbrancePercentage": "Allowable encumbrance percentage",
     "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
-    "transaction.type.Pending payment": "Pending payment"
+    "transaction.type.Pending payment": "Незавершенный платеж"
 }

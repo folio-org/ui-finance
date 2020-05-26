@@ -381,7 +381,7 @@
     "transaction.fiscalYear": "Exercice fiscal",
     "transaction.from": "De",
     "transaction.information": "Informations",
-    "transaction.source.User": "Adhérent",
+    "transaction.source.User": "Utilisateur",
     "transaction.source.Voucher": "Bon d'achat",
     "transaction.source": "Source",
     "transaction.tags": "Mots-clés",
@@ -500,5 +500,5 @@
     "groups.actions.save.error.uniqueFieldGroupCodeError": "Group could not be saved - Group code already in use",
     "budget.allowableEncumbrancePercentage": "Allowable encumbrance percentage",
     "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
-    "transaction.type.Pending payment": "Pending payment"
+    "transaction.type.Pending payment": "En attente de paiement"
 }

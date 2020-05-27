@@ -499,6 +499,6 @@
     "ledger.actions.save.error.genericError": "Книга учёта не была сохранена",
     "groups.actions.save.error.uniqueFieldGroupCodeError": "Группа не может быть сохранена - Код группы уже используется",
     "budget.allowableEncumbrancePercentage": "Allowable encumbrance percentage",
-    "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
+    "budget.allowableExpenditurePercentage": "Допустимые расходы в процентном отношении",
     "transaction.type.Pending payment": "Незавершенный платеж"
 }

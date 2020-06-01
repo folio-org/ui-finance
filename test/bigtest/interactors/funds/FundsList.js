@@ -10,7 +10,7 @@ import FinanceNavigationInteractor from '../common/FinanceNavigation';
 export default interactor(class FundsListInteractor {
   static defaultScope = '[data-test-funds-list]';
 
-  funds = collection('[role=group] [role=row]');
+  funds = collection('[data-row-inner]');
   navigation = new FinanceNavigationInteractor();
   newButton = new Button('#clickable-newFund');
 

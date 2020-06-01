@@ -10,7 +10,7 @@ import { ButtonInteractor } from '@folio/stripes-acq-components/test/bigtest/int
 export default interactor(class TransactionsListInteractor {
   static defaultScope = '[data-test-transactions-list]';
 
-  transactions = collection('[class^="mclRow---"][role=row]', {
+  transactions = collection('[class^="mclRow---"][data-row-inner]', {
     rowText: text(),
   });
 

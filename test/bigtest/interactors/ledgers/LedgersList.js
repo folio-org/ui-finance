@@ -12,7 +12,7 @@ import FinanceNavigationInteractor from '../common/FinanceNavigation';
 export default interactor(class LedgersListInteractor {
   static defaultScope = '[data-test-ledgers-list]';
 
-  ledgers = collection('[role=group] [role=row]');
+  ledgers = collection('[data-row-inner]');
   navigation = new FinanceNavigationInteractor();
   newButton = new Button('#clickable-newLedger');
   fillSearchField = fillable('[data-test-single-search-form] input');

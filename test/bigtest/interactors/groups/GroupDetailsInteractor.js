@@ -24,7 +24,7 @@ import Button from '../common/Button';
   static defaultScope = '#fund';
   sortByNameButton = new Interactor('#fund #clickable-list-column-name');
   sortByCodeButton = new Interactor('#fund #clickable-list-column-code');
-  funds = collection('#fund [role=group] [role=row]', { cells: collection('[role=gridcell]', { value: text() }) });
+  funds = collection('#fund [data-row-inner]', { cells: collection('[role=gridcell]', { value: text() }) });
   whenLoaded() {
     return this.timeout(5000).when(() => isPresent('#fund #clickable-list-column-name'));
   }

@@ -10,7 +10,7 @@ import FinanceNavigationInteractor from '../common/FinanceNavigation';
 export default interactor(class FiscalYearListInteractor {
   static defaultScope = '[data-test-fiscal-years-list]';
 
-  fiscalYears = collection('[role=group] [role=row]');
+  fiscalYears = collection('[data-row-inner]');
   navigation = new FinanceNavigationInteractor();
   newButton = new Button('#clickable-newFiscalYear');
 

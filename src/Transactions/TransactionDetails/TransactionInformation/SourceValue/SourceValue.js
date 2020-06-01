@@ -13,7 +13,6 @@ const SourceValue = ({ transaction }) => {
       <Link
         data-testid="transaction-source-link"
         to={sourceLink}
-        replace
       >
         <FormattedMessage id={`ui-finance.transaction.source.${transaction.source}`} />
       </Link>

@@ -521,5 +521,8 @@
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
   "fund.code.isInUse": "This Fund code is already in use.",
   "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",
-  "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?"
+  "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?",
+
+  "permission.ui-finance.transactions.allocations.create": "Finance: Create allocations",
+  "permission.ui-finance.transactions.transfers.create": "Finance: Create transactions"
 }

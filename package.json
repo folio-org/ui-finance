@@ -124,6 +124,24 @@
         "subPermissions": [
           "finance.acquisitions-units-assignments.manage"
         ]
+      },
+      {
+        "permissionName": "ui-finance.transactions.allocations.create",
+        "displayName": "Finance: Create allocations",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.allocations.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.transactions.transfers.create",
+        "displayName": "Finance: Create transfers",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.transfers.item.post"
+        ]
       }
     ]
   },

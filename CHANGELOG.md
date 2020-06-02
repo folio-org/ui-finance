@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UINV-154](https://issues.folio.org/browse/UINV-154) Add separate permissions for creating Allocation and transfer
 * [UIF-217](https://issues.folio.org/browse/UIF-217) Support Pending payment transaction details
 * [UIF-223](https://issues.folio.org/browse/UIF-223) Change "allowable" default percentage on the Create budget screen
 * [UIF-222](https://issues.folio.org/browse/UIF-222) Change "allowable" field labels on the Create budget screen

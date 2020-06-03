@@ -103,9 +103,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "finance.awaiting-payment.item.post",
           "finance.budgets.all",
-          "finance.credits.item.post",
           "finance.encumbrances.item.post",
           "finance.exchange-rate.item.get",
           "finance.fiscal-years.all",
@@ -118,8 +116,6 @@
           "finance.ledgers.all",
           "finance.order-transaction-summaries.item.post",
           "finance.order-transaction-summaries.item.put",
-          "finance.payments.item.post",
-          "finance.release-encumbrance.item.post",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",
           "ui-finance.third-party-services"

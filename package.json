@@ -103,7 +103,21 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "finance.all",
+          "finance.budgets.all",
+          "finance.encumbrances.item.post",
+          "finance.exchange-rate.item.get",
+          "finance.fiscal-years.all",
+          "finance.fund-types.all",
+          "finance.funds.all",
+          "finance.group-fiscal-year-summaries.collection.get",
+          "finance.group-fund-fiscal-years.all",
+          "finance.groups.all",
+          "finance.invoice-transaction-summaries.item.post",
+          "finance.ledgers.all",
+          "finance.order-transaction-summaries.item.post",
+          "finance.order-transaction-summaries.item.put",
+          "finance.transactions.collection.get",
+          "finance.transactions.item.get",
           "ui-finance.third-party-services"
         ]
       },
@@ -123,6 +137,24 @@
         "visible": true,
         "subPermissions": [
           "finance.acquisitions-units-assignments.manage"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.allocations.create",
+        "displayName": "Finance: Create allocations",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.allocations.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.transfers.create",
+        "displayName": "Finance: Create transfers",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.transfers.item.post"
         ]
       }
     ]

@@ -143,7 +143,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
         </Button>
       </IfPermission>
 
-      <IfPermission perm="finance.allocations.item.post">
+      <IfPermission perm="ui-finance.allocations.create">
         <Button
           buttonStyle="dropdownItem"
           data-test-add-allocation-menu-button
@@ -156,7 +156,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
         </Button>
       </IfPermission>
 
-      <IfPermission perm="finance.transfers.item.post">
+      <IfPermission perm="ui-finance.transfers.create">
         <Button
           buttonStyle="dropdownItem"
           data-test-add-transfer-menu-button

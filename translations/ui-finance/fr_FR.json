@@ -500,5 +500,7 @@
     "groups.actions.save.error.uniqueFieldGroupCodeError": "Impossible d'enregistrer le groupe - le code du groupe est déjà utilisé",
     "budget.allowableEncumbrancePercentage": "Allowable encumbrance percentage",
     "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
-    "transaction.type.Pending payment": "En attente de paiement"
+    "transaction.type.Pending payment": "En attente de paiement",
+    "permission.allocations.create": "Finance: créer des allocations",
+    "permission.transfers.create": "Finance: créer des transactions"
 }

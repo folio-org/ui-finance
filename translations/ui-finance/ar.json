@@ -500,5 +500,7 @@
     "groups.actions.save.error.uniqueFieldGroupCodeError": "تعذر حفظ المجموعة - رمز المجموعة قيد الاستخدام بالفعل",
     "budget.allowableEncumbrancePercentage": "النسبة المئوية للتكاليف المسموح بها",
     "budget.allowableExpenditurePercentage": "النسبة المئوية للنفقات المسموح بها",
-    "transaction.type.Pending payment": "في انتظار الدفع"
+    "transaction.type.Pending payment": "في انتظار الدفع",
+    "permission.allocations.create": "الشؤون المالية: أنشئ مخصصات",
+    "permission.transfers.create": "الشؤون المالية: أنشئ  معاملات"
 }

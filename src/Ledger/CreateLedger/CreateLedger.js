@@ -40,8 +40,7 @@ const CreateLedger = ({ mutator, location, history }) => {
         search: location.search,
       });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
+    [history, location.search],
   );
 
   const goToCreateFY = useCallback(() => {
@@ -83,7 +82,7 @@ const CreateLedger = ({ mutator, location, history }) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [closeForm, showCallout],
   );
 
   return (

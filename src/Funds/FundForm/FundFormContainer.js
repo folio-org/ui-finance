@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 
@@ -34,7 +33,6 @@ import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
 
 const FundFormContainer = ({
-  intl,
   match,
   mutator,
   onCancel,
@@ -78,9 +76,10 @@ const FundFormContainer = ({
   );
   const [isNotUniqueNameOpen, toggleNotUniqueName] = useModalToggle();
   const [forceSaveValues, setForceSaveValues] = useState();
+  const intl = useIntl();
 
   // eslint-disable-next-line consistent-return
-  const saveFund = async (formValues) => {
+  const saveFund = useCallback(async (formValues) => {
     const saveMethod = formValues.fund.id ? 'PUT' : 'POST';
 
     if (!forceSaveValues) {
@@ -126,7 +125,8 @@ const FundFormContainer = ({
 
       return { [FORM_ERROR]: 'FY was not saved' };
     }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [forceSaveValues, intl, onCancel, showCallout, toggleNotUniqueName]);
 
   if (isLoading) {
     return (
@@ -154,7 +154,7 @@ const FundFormContainer = ({
             message={<FormattedMessage id="ui-finance.fund.actions.nameIsNotUnique.confirmation.message" />}
             onCancel={() => {
               toggleNotUniqueName();
-              setForceSaveValues(null);
+              setForceSaveValues();
             }}
             onConfirm={() => saveFund(forceSaveValues)}
             open
@@ -190,11 +190,10 @@ FundFormContainer.manifest = Object.freeze({
 });
 
 FundFormContainer.propTypes = {
-  intl: PropTypes.object.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
+  match: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,
   onCancel: PropTypes.func,
   stripes: stripesShape.isRequired,
 };
 
-export default withRouter(stripesConnect(injectIntl(FundFormContainer)));
+export default withRouter(stripesConnect(FundFormContainer));

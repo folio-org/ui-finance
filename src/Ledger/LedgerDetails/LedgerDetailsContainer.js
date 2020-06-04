@@ -107,7 +107,7 @@ const LedgerDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, ledgerId],
+    [ledgerId, showToast, history, location.search],
   );
 
   if (isLoading) {

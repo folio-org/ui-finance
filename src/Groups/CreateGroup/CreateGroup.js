@@ -61,7 +61,7 @@ const CreateGroup = ({ mutator, location, history }) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closeForm],
+    [closeForm, showCallout],
   );
 
   return (

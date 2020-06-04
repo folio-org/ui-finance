@@ -97,7 +97,7 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getFiscalYearOption, fund.id, fund.code, fund.name, history, location.search],
+    [getFiscalYearOption, fund.id, fund.code, fund.name, showCallout, history, location.search],
   );
 
   if (isLoading) {

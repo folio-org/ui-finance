@@ -97,7 +97,7 @@ const GroupDetailsContainer = ({
 
   const removeGroup = useCallback(
     () => {
-      mutator.groupDetails.DELETE(groupData.groupDetails)
+      mutator.groupDetails.DELETE({ id: groupId }, { silent: true })
         .then(() => {
           showToast({ messageId: 'ui-finance.groups.actions.remove.success' });
           history.replace({
@@ -110,7 +110,7 @@ const GroupDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, groupData.groupDetails],
+    [groupId, showToast, history, location.search],
   );
 
   const selectFY = useCallback(
@@ -129,7 +129,7 @@ const GroupDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [groupId],
+    [groupId, showToast],
   );
 
   if (isLoading) {

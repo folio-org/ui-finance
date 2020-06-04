@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 
 import {
@@ -39,7 +39,7 @@ import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';
 import { handleRemoveErrorResponse } from './utils';
 
-const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
+const BudgetViewContainer = ({ history, location, match, mutator }) => {
   const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
@@ -87,6 +87,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
     [history, budget, location.search],
   );
 
+  const intl = useIntl();
   const removeBudget = useCallback(
     () => {
       mutator.budgetById.DELETE({ id: budgetId }, { silent: true })
@@ -102,7 +103,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, intl }) => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetId, budget.fundId],
+    [budgetId, showCallout, history, budget.fundId, location.search, intl],
   );
 
   const onRemove = useCallback(
@@ -271,11 +272,10 @@ BudgetViewContainer.manifest = Object.freeze({
 });
 
 BudgetViewContainer.propTypes = {
-  intl: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 
-export default stripesConnect(injectIntl(BudgetViewContainer));
+export default stripesConnect(BudgetViewContainer);

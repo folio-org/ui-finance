@@ -128,7 +128,7 @@ const FiscalYearDetailsContainer = ({
 
   const removeFiscalYear = useCallback(
     () => {
-      mutator.fiscalYear.DELETE(fiscalYear)
+      mutator.fiscalYear.DELETE({ id: fiscalYear.id }, { silent: true })
         .then(() => {
           showToast({ messageId: 'ui-finance.fiscalYear.actions.remove.success' });
           history.replace({
@@ -141,7 +141,7 @@ const FiscalYearDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, fiscalYear],
+    [fiscalYear.id, showToast, history, location.search],
   );
 
   if (isLoading) {

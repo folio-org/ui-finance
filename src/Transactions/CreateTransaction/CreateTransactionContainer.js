@@ -81,7 +81,7 @@ const CreateTransactionContainer = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetName, fiscalYearId],
+    [budgetName, fiscalYearId, showCallout],
   );
 
   const funds = get(resources, ['funds', 'records'], []).map(f => ({ label: f.name, value: f.id }));

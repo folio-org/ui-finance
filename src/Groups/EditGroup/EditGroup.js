@@ -60,8 +60,7 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
         return { id: 'Unable to edit group' };
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closeEdit, mutator.groupEdit],
+    [closeEdit, mutator.groupEdit, showCallout],
   );
 
   const hasLoaded = get(resources, ['groupEdit', 'hasLoaded']);

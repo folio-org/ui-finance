@@ -99,7 +99,7 @@ const FundDetailsContainer = ({
         .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [params.id],
+    [params.id, showToast],
   );
 
   useEffect(fetchFund, [params.id]);
@@ -136,7 +136,7 @@ const FundDetailsContainer = ({
 
   const removeFund = useCallback(
     () => {
-      mutator.fund.DELETE({ id: fund.id })
+      mutator.fund.DELETE({ id: fund.id }, { silent: true })
         .then(() => {
           showToast({ messageId: 'ui-finance.fund.actions.remove.success' });
           history.replace({
@@ -149,7 +149,7 @@ const FundDetailsContainer = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, fund.id],
+    [fund.id, showToast, history, location.search],
   );
 
   const onRemove = useCallback(

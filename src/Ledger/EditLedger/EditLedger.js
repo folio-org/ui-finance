@@ -55,8 +55,7 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
         return { id: 'Unable to edit ledger' };
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [closeEdit, mutator.ledgerEdit],
+    [closeEdit, mutator.ledgerEdit, showToast],
   );
 
   const goToCreateFY = useCallback(() => {

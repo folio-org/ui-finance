@@ -39,7 +39,7 @@ export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [onSave],
+    [method, onSave, showCallout],
   );
 
   return saveFiscalYear;

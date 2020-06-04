@@ -524,5 +524,5 @@
   "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?",
 
   "permission.allocations.create": "Finance: Create allocations",
-  "permission.transfers.create": "Finance: Create transactions"
+  "permission.transfers.create": "Finance: Create transfers"
 }

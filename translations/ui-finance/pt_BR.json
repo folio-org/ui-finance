@@ -502,5 +502,5 @@
     "budget.allowableExpenditurePercentage": "Porcentagem de despesa permitida",
     "transaction.type.Pending payment": "Pagamento pendente",
     "permission.allocations.create": "Finanças: Criar alocações",
-    "permission.transfers.create": "Finanças: Criar transações"
+    "permission.transfers.create": "Finanças: Criar transferências"
 }

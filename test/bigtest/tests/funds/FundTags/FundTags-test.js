@@ -43,6 +43,7 @@ describe('Fund details tags', () => {
 
     describe('close tags pane', () => {
       beforeEach(async function () {
+        await tagsPane.whenLoaded();
         await tagsPane.closeButton.click();
       });
 

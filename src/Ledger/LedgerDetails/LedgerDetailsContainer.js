@@ -8,6 +8,7 @@ import {
   LoadingPane,
 } from '@folio/stripes/components';
 import {
+  LIMIT_MAX,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -49,6 +50,7 @@ const LedgerDetailsContainer = ({
           const ledgerPromise = mutator.ledgerDetails.GET({
             params: {
               fiscalYear: fyID,
+              limit: `${LIMIT_MAX}`,
             },
           });
 

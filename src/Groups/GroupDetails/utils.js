@@ -1,3 +1,5 @@
+import { LIMIT_MAX } from '@folio/stripes-acq-components';
+
 const emptyGroupSummary = {
   allocated: 0,
   unavailable: 0,
@@ -12,6 +14,7 @@ export const getGroupSummary = (groupSummariesMutator, groupId, fiscalYearId) =>
 
   return groupSummariesMutator.GET({
     params: {
+      limit: `${LIMIT_MAX}`,
       query: `(groupFundFY.groupId==${groupId} or groupId==${groupId}) and fiscalYearId==${fiscalYearId}`,
     },
   })

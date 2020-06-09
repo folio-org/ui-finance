@@ -9,7 +9,7 @@ import {
   Button,
   Icon,
 } from '@folio/stripes/components';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import { LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
 
 import { budgetsResource } from '../../../common/resources';
 import FundBudgets from '../FundBudgets';
@@ -34,6 +34,7 @@ const FundPlannedBudgetsContainer = ({
     setPlannedBudgets([]);
     mutator.fundPlannedBudgets.GET({
       params: {
+        limit: `${LIMIT_MAX}`,
         query: `fundId=${fundId} and fiscalYear.periodStart > ${currentFY.periodStart}`,
       },
     })

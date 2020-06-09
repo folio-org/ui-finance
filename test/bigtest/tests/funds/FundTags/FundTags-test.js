@@ -53,27 +53,26 @@ describe('Fund details tags', () => {
     });
   });
 
-  // TODO revert test
-  // describe('add/delete tags', () => {
-  //   beforeEach(async function () {
-  //     await fundDetails.tagsAction.click();
-  //     await tagsPane.whenLoaded();
-  //     await tagsPane.selectedTags.fillTag('tag');
-  //     await tagsPane.addTag();
-  //   });
+  describe('add/delete tags', () => {
+    beforeEach(async function () {
+      await fundDetails.tagsAction.click();
+      await tagsPane.whenLoaded();
+      await tagsPane.selectedTags.fillTag('tag');
+      await tagsPane.addTag();
+    });
 
-  //   it('should add one new tag', () => {
-  //     expect(fundDetails.tagsAction.count).to.equal('1');
-  //   });
+    it('should add one new tag', () => {
+      expect(fundDetails.tagsAction.count).to.equal('1');
+    });
 
-  //   describe('delete tag from the list', () => {
-  //     beforeEach(async function () {
-  //       await tagsPane.selectedTags.list(0).deleteTag().timeout(7000);
-  //     });
+    describe('delete tag from the list', () => {
+      beforeEach(async function () {
+        await tagsPane.selectedTags.list(0).deleteTag().timeout(7000);
+      });
 
-  //     it('should delete one tag', () => {
-  //       expect(fundDetails.tagsAction.count).to.equal('0');
-  //     });
-  //   });
-  // });
+      it('should delete one tag', () => {
+        expect(fundDetails.tagsAction.count).to.equal('0');
+      });
+    });
+  });
 });

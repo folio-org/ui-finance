@@ -44,7 +44,7 @@ const CreateTransactionContainer = ({
 }) => {
   const showCallout = useShowCallout();
   const locale = stripes.locale;
-  const currency = fiscalYearCurrency || stripes.locale;
+  const currency = fiscalYearCurrency || stripes.currency;
 
   const transactionTypeKey = transactionType.toLowerCase();
 

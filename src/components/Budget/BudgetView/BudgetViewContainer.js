@@ -228,6 +228,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
             fiscalYearId={fiscalYear.id}
             onClose={toggleTransferModal}
             fetchBudgetResources={fetchBudgetResources}
+            fiscalYearCurrency={fiscalYear.currency}
           />
         )}
 
@@ -239,6 +240,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
             fiscalYearId={fiscalYear.id}
             onClose={toggleAllocateModal}
             fetchBudgetResources={fetchBudgetResources}
+            fiscalYearCurrency={fiscalYear.currency}
           />
         )}
 

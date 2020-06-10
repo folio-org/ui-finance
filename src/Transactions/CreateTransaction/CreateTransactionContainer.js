@@ -40,14 +40,16 @@ const CreateTransactionContainer = ({
   stripes,
   fetchBudgetResources,
   intl,
+  fiscalYearCurrency,
 }) => {
   const showCallout = useShowCallout();
+  const locale = stripes.locale;
+  const currency = fiscalYearCurrency || stripes.locale;
 
   const transactionTypeKey = transactionType.toLowerCase();
 
   const saveTransaction = useCallback(
     async (formValue) => {
-      const { locale, currency } = stripes;
       const mutatorObject = mutator[transactionType];
 
       try {
@@ -81,7 +83,7 @@ const CreateTransactionContainer = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetName, fiscalYearId, showCallout],
+    [budgetName, currency, fiscalYearId, showCallout],
   );
 
   const funds = get(resources, ['funds', 'records'], []).map(f => ({ label: f.name, value: f.id }));
@@ -117,6 +119,7 @@ CreateTransactionContainer.propTypes = {
   stripes: stripesShape.isRequired,
   fetchBudgetResources: PropTypes.func.isRequired,
   intl: PropTypes.object,
+  fiscalYearCurrency: PropTypes.string,
 };
 
 export default stripesConnect(injectIntl(CreateTransactionContainer));

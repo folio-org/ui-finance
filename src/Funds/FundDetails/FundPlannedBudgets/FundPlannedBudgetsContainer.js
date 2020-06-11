@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -9,7 +10,7 @@ import {
   Button,
   Icon,
 } from '@folio/stripes/components';
-import { batchFetch, LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
+import { batchFetch, DATE_FORMAT, LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
 
 import { budgetsResource, fiscalYearsResource } from '../../../common/resources';
 import FundBudgets from '../FundBudgets';
@@ -27,6 +28,7 @@ const FundPlannedBudgetsContainer = ({
   const [isLoading, setIsLoading] = useState(false);
   const [plannedBudgets, setPlannedBudgets] = useState([]);
   const showToast = useShowCallout();
+  const prevFYStartDate = moment.utc(currentFY.periodStart).add(1, 'day').format(DATE_FORMAT);
 
   useEffect(() => {
     setIsLoading(true);
@@ -34,7 +36,7 @@ const FundPlannedBudgetsContainer = ({
     mutator.fundPlannedBudgets.GET({
       params: {
         limit: `${LIMIT_MAX}`,
-        query: `fundId=${fundId} and fiscalYear.periodStart > ${currentFY.periodStart}`,
+        query: `fundId=${fundId} and fiscalYear.periodStart > ${prevFYStartDate}`,
       },
     })
       .then(budgets => {
@@ -57,7 +59,7 @@ const FundPlannedBudgetsContainer = ({
       .finally(() => setIsLoading(false));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [currentFY, fundId]);
+  [fundId, prevFYStartDate]);
 
   const openBudget = useCallback(
     (e, { id }) => {

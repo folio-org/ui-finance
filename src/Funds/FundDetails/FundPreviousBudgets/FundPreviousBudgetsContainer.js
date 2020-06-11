@@ -8,15 +8,14 @@ import {
   Accordion,
   Icon,
 } from '@folio/stripes/components';
-import { LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
+import { batchFetch, LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
 
-import { budgetsResource } from '../../../common/resources';
+import { budgetsResource, fiscalYearsResource } from '../../../common/resources';
 import FundBudgets from '../FundBudgets';
 import { BUDGET_STATUSES } from '../../../components/Budget/constants';
 import { SECTIONS_FUND } from '../../constants';
 
 const FundPreviousBudgetsContainer = ({
-  currency,
   fundId,
   history,
   location,
@@ -36,14 +35,26 @@ const FundPreviousBudgetsContainer = ({
         query: `fundId==${fundId} and fiscalYear.periodStart < ${currentFY.periodStart}`,
       },
     })
-      .then(setPreviousBudgets)
-      .catch(() => {
+      .then(prevBudgets => {
+        setPreviousBudgets(prevBudgets);
+
+        return batchFetch(mutator.budgetsFiscalYears, prevBudgets.map(({ fiscalYearId }) => fiscalYearId));
+      }, () => {
         showToast({ messageId: 'ui-finance.budget.actions.load.error', type: 'error' });
       })
+      .then(fiscalYears => {
+        setPreviousBudgets(prevBudgets => prevBudgets.map((budget) => {
+          const fiscalYear = fiscalYears.find(({ id }) => id === budget.fiscalYearId);
+
+          return {
+            ...budget,
+            currency: fiscalYear?.currency,
+          };
+        }));
+      })
       .finally(() => setIsLoading(false));
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [currentFY, fundId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentFY, fundId]);
 
   const openBudget = useCallback(
     (e, { id }) => {
@@ -72,7 +83,6 @@ const FundPreviousBudgetsContainer = ({
     <FundBudgets
       budgets={previousBudgets}
       budgetStatus={BUDGET_STATUSES.CLOSED}
-      currency={currency}
       labelId="ui-finance.fund.previousBudgets.title"
       openBudget={openBudget}
       sectionId={SECTIONS_FUND.PREVIOUS_BUDGETS}
@@ -86,10 +96,14 @@ FundPreviousBudgetsContainer.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
+  budgetsFiscalYears: {
+    ...fiscalYearsResource,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 FundPreviousBudgetsContainer.propTypes = {
-  currency: PropTypes.string.isRequired,
   currentFY: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,

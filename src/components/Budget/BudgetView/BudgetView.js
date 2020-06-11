@@ -16,7 +16,7 @@ import { SECTIONS_BUDGET } from '../constants';
 import BudgetSummary from './BudgetSummary';
 import BudgetInformation from './BudgetInformation';
 
-const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
+const BudgetView = ({ budget, fiscalStart, fiscalEnd, fiscalYearCurrency }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   return (
@@ -40,6 +40,7 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
           {budget.metadata && <ViewMetaData metadata={budget.metadata} />}
           <BudgetSummary
             budget={budget}
+            fiscalYearCurrency={fiscalYearCurrency}
           />
         </Accordion>
         <Accordion
@@ -55,6 +56,7 @@ const BudgetView = ({ budget, fiscalStart, fiscalEnd }) => {
             expenditures={budget.expenditures}
             fiscalEnd={fiscalEnd}
             fiscalStart={fiscalStart}
+            fiscalYearCurrency={fiscalYearCurrency}
             name={budget.name}
             id={budget.id}
             overEncumbrance={budget.overEncumbrance}
@@ -70,6 +72,7 @@ BudgetView.propTypes = {
   budget: PropTypes.object,
   fiscalStart: PropTypes.string,
   fiscalEnd: PropTypes.string,
+  fiscalYearCurrency: PropTypes.string,
 };
 
 BudgetView.defaultProps = {

@@ -35,7 +35,7 @@ FundBudgets.propTypes = {
   addBudgetButton: PropTypes.func,
   budgets: PropTypes.arrayOf(PropTypes.object),
   budgetStatus: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.string,
   labelId: PropTypes.string.isRequired,
   openBudget: PropTypes.func.isRequired,
   sectionId: PropTypes.string.isRequired,

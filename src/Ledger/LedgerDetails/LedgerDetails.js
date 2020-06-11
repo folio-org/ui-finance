@@ -106,7 +106,7 @@ const LedgerDetails = ({
             available={ledger.available}
             allocated={ledger.allocated}
             unavailable={ledger.unavailable}
-            currency={ledger.currency}
+            currency={fiscalYear.currency}
           />
         </Accordion>
         <Accordion
@@ -115,7 +115,7 @@ const LedgerDetails = ({
         >
           <LedgerGroups
             funds={funds}
-            currency={ledger.currency}
+            currency={fiscalYear.currency}
             ledgerId={ledger.id}
             fiscalYearId={fiscalYear.id}
           />
@@ -127,7 +127,7 @@ const LedgerDetails = ({
           <LedgerFunds
             funds={funds}
             fiscalYearId={fiscalYear.id}
-            currency={ledger.currency}
+            currency={fiscalYear.currency}
             ledgerId={ledger.id}
           />
         </Accordion>

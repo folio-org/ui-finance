@@ -39,19 +39,19 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
     allocated: item => (
       <AmountWithCurrencyField
         amount={item.allocated}
-        currency={currency}
+        currency={currency || item.currency}
       />
     ),
     unavailable: item => (
       <AmountWithCurrencyField
         amount={item.unavailable}
-        currency={currency}
+        currency={currency || item.currency}
       />
     ),
     available: item => (
       <AmountWithCurrencyField
         amount={item.available}
-        currency={currency}
+        currency={currency || item.currency}
       />
     ),
     arrow: () => <Icon icon="caret-right" />,

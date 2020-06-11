@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/components';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
-const BudgetSummary = ({ budget }) => (
+const BudgetSummary = ({ budget, fiscalYearCurrency }) => (
   <Row>
     <Col xs={3}>
       <KeyValue
@@ -17,6 +17,7 @@ const BudgetSummary = ({ budget }) => (
       >
         <AmountWithCurrencyField
           amount={budget.allocated}
+          currency={fiscalYearCurrency}
         />
       </KeyValue>
     </Col>
@@ -26,6 +27,7 @@ const BudgetSummary = ({ budget }) => (
       >
         <AmountWithCurrencyField
           amount={budget.unavailable}
+          currency={fiscalYearCurrency}
         />
       </KeyValue>
     </Col>
@@ -35,6 +37,7 @@ const BudgetSummary = ({ budget }) => (
       >
         <AmountWithCurrencyField
           amount={budget.available}
+          currency={fiscalYearCurrency}
         />
       </KeyValue>
     </Col>
@@ -43,6 +46,7 @@ const BudgetSummary = ({ budget }) => (
 
 BudgetSummary.propTypes = {
   budget: PropTypes.object,
+  fiscalYearCurrency: PropTypes.string,
 };
 
 BudgetSummary.defaultProps = {

@@ -216,6 +216,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
               budget={budget}
               fiscalStart={fiscalYear.periodStart}
               fiscalEnd={fiscalYear.periodEnd}
+              fiscalYearCurrency={fiscalYear.currency}
             />
           </Col>
         </Row>

@@ -28,6 +28,7 @@ const BudgetInformation = ({
   expenditures,
   fiscalEnd,
   fiscalStart,
+  fiscalYearCurrency,
   name,
   id,
   overEncumbrance,
@@ -88,6 +89,7 @@ const BudgetInformation = ({
       >
         <AmountWithCurrencyField
           amount={encumbered}
+          currency={fiscalYearCurrency}
         />
       </KeyValue>
     </Col>
@@ -98,6 +100,7 @@ const BudgetInformation = ({
       >
         <AmountWithCurrencyField
           amount={awaitingPayment}
+          currency={fiscalYearCurrency}
         />
       </KeyValue>
     </Col>
@@ -108,6 +111,7 @@ const BudgetInformation = ({
       >
         <AmountWithCurrencyField
           amount={expenditures}
+          currency={fiscalYearCurrency}
         />
       </KeyValue>
     </Col>
@@ -120,6 +124,7 @@ const BudgetInformation = ({
           isOverAllowable(allowableEncumbrance) && (
             <AmountWithCurrencyField
               amount={overEncumbrance}
+              currency={fiscalYearCurrency}
             />
           )
         }
@@ -134,6 +139,7 @@ const BudgetInformation = ({
           isOverAllowable(allowableExpenditure) && (
             <AmountWithCurrencyField
               amount={overExpended}
+              currency={fiscalYearCurrency}
             />
           )
         }
@@ -167,6 +173,7 @@ BudgetInformation.propTypes = {
   expenditures: PropTypes.number,
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
+  fiscalYearCurrency: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
   overEncumbrance: PropTypes.number,

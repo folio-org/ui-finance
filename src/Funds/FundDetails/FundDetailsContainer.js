@@ -268,7 +268,7 @@ const FundDetailsContainer = ({
           {currentFY && (
             <FundCurrentBudget
               budget={currentBudget}
-              currency={currency}
+              currency={currentFY.currency}
               history={history}
               location={location}
               openNewBudgetModal={openNewBudgetModal}
@@ -276,7 +276,6 @@ const FundDetailsContainer = ({
           )}
           {currentFY && (
             <FundPlannedBudgetsContainer
-              currency={currency}
               currentFY={currentFY}
               fundId={fund.id}
               history={history}
@@ -286,7 +285,6 @@ const FundDetailsContainer = ({
           )}
           {currentFY && (
             <FundPreviousBudgetsContainer
-              currency={currency}
               currentFY={currentFY}
               fundId={fund.id}
               history={history}

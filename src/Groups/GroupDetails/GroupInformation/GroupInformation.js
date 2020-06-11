@@ -27,6 +27,7 @@ const GroupInformation = ({
   available,
   selectedFiscalYearId,
   onSelectFY,
+  fiscalYearCurrency,
 }) => {
   const fiscalYearsOptions = fiscalYears.map(fy => ({
     label: fy.code,
@@ -97,6 +98,7 @@ const GroupInformation = ({
           >
             <AmountWithCurrencyField
               amount={allocated}
+              currency={fiscalYearCurrency}
             />
           </KeyValue>
         </Col>
@@ -110,6 +112,7 @@ const GroupInformation = ({
           >
             <AmountWithCurrencyField
               amount={unavailable}
+              currency={fiscalYearCurrency}
             />
           </KeyValue>
         </Col>
@@ -123,6 +126,7 @@ const GroupInformation = ({
           >
             <AmountWithCurrencyField
               amount={available}
+              currency={fiscalYearCurrency}
             />
           </KeyValue>
         </Col>
@@ -155,6 +159,7 @@ GroupInformation.propTypes = {
   available: PropTypes.number,
   selectedFiscalYearId: PropTypes.string.isRequired,
   onSelectFY: PropTypes.func.isRequired,
+  fiscalYearCurrency: PropTypes.string,
 };
 
 GroupInformation.defaultProps = {

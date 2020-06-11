@@ -110,6 +110,7 @@ const GroupDetails = ({
             available={groupSummary.available}
             selectedFiscalYearId={selectedFY.id}
             onSelectFY={onSelectFY}
+            fiscalYearCurrency={selectedFY.currency}
           />
         </Accordion>
         <Accordion
@@ -117,6 +118,7 @@ const GroupDetails = ({
           label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
         >
           <GroupFund
+            currency={selectedFY.currency}
             funds={funds}
             fiscalYearId={selectedFY.id}
             groupId={group.id}

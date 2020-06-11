@@ -9,15 +9,14 @@ import {
   Button,
   Icon,
 } from '@folio/stripes/components';
-import { LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
+import { batchFetch, LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
 
-import { budgetsResource } from '../../../common/resources';
+import { budgetsResource, fiscalYearsResource } from '../../../common/resources';
 import FundBudgets from '../FundBudgets';
 import { BUDGET_STATUSES } from '../../../components/Budget/constants';
 import { SECTIONS_FUND } from '../../constants';
 
 const FundPlannedBudgetsContainer = ({
-  currency,
   fundId,
   history,
   location,
@@ -38,9 +37,22 @@ const FundPlannedBudgetsContainer = ({
         query: `fundId=${fundId} and fiscalYear.periodStart > ${currentFY.periodStart}`,
       },
     })
-      .then(setPlannedBudgets)
-      .catch(() => {
+      .then(budgets => {
+        setPlannedBudgets(budgets);
+
+        return batchFetch(mutator.budgetsFiscalYears, budgets.map(({ fiscalYearId }) => fiscalYearId));
+      }, () => {
         showToast({ messageId: 'ui-finance.budget.actions.load.error', type: 'error' });
+      })
+      .then(fiscalYears => {
+        setPlannedBudgets(budgets => budgets.map((budget) => {
+          const fiscalYear = fiscalYears.find(({ id }) => id === budget.fiscalYearId);
+
+          return {
+            ...budget,
+            currency: fiscalYear?.currency,
+          };
+        }));
       })
       .finally(() => setIsLoading(false));
   },
@@ -88,7 +100,6 @@ const FundPlannedBudgetsContainer = ({
       addBudgetButton={addBudgetButton}
       budgets={plannedBudgets}
       budgetStatus={BUDGET_STATUSES.PLANNED}
-      currency={currency}
       labelId="ui-finance.fund.plannedBudget.title"
       openBudget={openBudget}
       sectionId={SECTIONS_FUND.PLANNED_BUDGET}
@@ -102,10 +113,14 @@ FundPlannedBudgetsContainer.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
+  budgetsFiscalYears: {
+    ...fiscalYearsResource,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 FundPlannedBudgetsContainer.propTypes = {
-  currency: PropTypes.string.isRequired,
   currentFY: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,

@@ -13,7 +13,7 @@ import {
     deleteTag: clickable('[class*=iconButton---]'),
   });
 
-  fillTag = fillable('[class*=multiSelectFilterField---]');
+  fillTag = fillable('#acqtags-input');
 }
 
 export default interactor(class TagsPaneInteractor {

@@ -491,6 +491,7 @@
   "transaction.status": "Status",
   "transaction.status.Released": "Released",
   "transaction.status.Unreleased": "Unreleased",
+  "transaction.status.Pending": "Pending",
   "transaction.tags": "Tags",
   "transaction.to": "To",
   "transaction.transfer.hasBeenCreated": "{amount} was successfully trasfered to the budget {budgetName}",

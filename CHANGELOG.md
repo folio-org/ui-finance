@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+## [2.1.1](https://github.com/folio-org/ui-finance/tree/v2.1.1) (2020-06-12)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.1.0...v2.1.1)
+
+* fixed tests and missing translation;
+
 ## [2.1.0](https://github.com/folio-org/ui-finance/tree/v2.1.0) (2020-06-12)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.0.1...v2.1.0)
 

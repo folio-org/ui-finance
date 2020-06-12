@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.1.0](https://github.com/folio-org/ui-finance/tree/v2.1.0) (2020-06-12)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.0.1...v2.1.0)
+
 ### Stories
 * [UINV-154](https://issues.folio.org/browse/UINV-154) Add separate permissions for creating Allocation and transfer
 * [UIF-217](https://issues.folio.org/browse/UIF-217) Support Pending payment transaction details

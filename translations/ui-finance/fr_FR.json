@@ -502,5 +502,6 @@
     "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
     "transaction.type.Pending payment": "En attente de paiement",
     "permission.allocations.create": "Finance: créer des allocations",
-    "permission.transfers.create": "Finance: créer des transferts"
+    "permission.transfers.create": "Finance: créer des transferts",
+    "transaction.status.Pending": "Pending"
 }

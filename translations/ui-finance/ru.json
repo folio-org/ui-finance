@@ -502,5 +502,6 @@
     "budget.allowableExpenditurePercentage": "Допустимые расходы в процентном отношении",
     "transaction.type.Pending payment": "Незавершенный платеж",
     "permission.allocations.create": "Финансы: создание перерасчётов",
-    "permission.transfers.create": "Финансы: создание транзакций"
+    "permission.transfers.create": "Финансы: создание транзакций",
+    "transaction.status.Pending": "Pending"
 }

@@ -483,7 +483,6 @@
     "transaction.status": "Status",
     "transaction.status.Released": "Released",
     "transaction.status.Unreleased": "Unreleased",
-    "transaction.status.Pending": "Pending",
     "budget.actions.remove.success": "Budget has been deleted",
     "budget.actions.remove.error.genericError": "Budget has not been deleted",
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
@@ -503,5 +502,6 @@
     "budget.allowableExpenditurePercentage": "Allowable expenditure percentage",
     "transaction.type.Pending payment": "Pending payment",
     "permission.allocations.create": "Finance: Create allocations",
-    "permission.transfers.create": "Finance: Create transfers"
+    "permission.transfers.create": "Finance: Create transfers",
+    "transaction.status.Pending": "Pending"
 }

@@ -503,5 +503,5 @@
     "transaction.type.Pending payment": "Незавершенный платеж",
     "permission.allocations.create": "Финансы: создание перерасчётов",
     "permission.transfers.create": "Финансы: создание транзакций",
-    "transaction.status.Pending": "Pending"
+    "transaction.status.Pending": "Не завершено"
 }

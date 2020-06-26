@@ -46,12 +46,12 @@ const LedgerDetails = ({
       return (
         <MenuSection id="ledger-details-actions">
           <DetailsEditAction
-            perm="finance.ledgers.item.put"
+            perm="ui-finance.ledger.edit"
             onEdit={onEdit}
             toggleActionMenu={onToggle}
           />
           <DetailsRemoveAction
-            perm="finance.ledgers.item.delete"
+            perm="ui-finance.ledger.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
           />

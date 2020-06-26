@@ -49,20 +49,6 @@
     ],
     "permissionSets": [
       {
-        "permissionName": "module.finance.enabled",
-        "displayName": "UI: Finance module is enabled",
-        "visible": true
-      },
-      {
-        "permissionName": "settings.finance.enabled",
-        "displayName": "Settings (Finance): Can view and edit settings",
-        "visible": true,
-        "subPermissions": [
-          "settings.enabled",
-          "finance.fund-types.all"
-        ]
-      },
-      {
         "permissionName": "ui-finance.third-party-services",
         "displayName": "Finance: Permissions required to call services apart from mod-finance",
         "description": "",
@@ -75,11 +61,150 @@
         ]
       },
       {
-        "permissionName": "ui-finance.view",
-        "displayName": "Finance: View groups, ledgers, funds, budgets and fiscal years",
-        "description": "",
+        "permissionName": "ui-finance.fiscal-year.view",
+        "displayName": "Fiscal year: View",
         "visible": true,
         "subPermissions": [
+          "module.finance.enabled",
+          "finance.budgets.collection.get",
+          "finance.fiscal-years.collection.get",
+          "finance.fiscal-years.item.get",
+          "finance.funds.collection.get",
+          "finance.group-fiscal-year-summaries.collection.get",
+          "finance.groups.collection.get",
+          "finance.ledgers.collection.get",
+          "ui-finance.third-party-services"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fiscal-year.edit",
+        "displayName": "Fiscal year: View, edit",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fiscal-year.view",
+          "finance.fiscal-years.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fiscal-year.create",
+        "displayName": "Fiscal year: View, edit, create",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fiscal-year.edit",
+          "finance.fiscal-years.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fiscal-year.delete",
+        "displayName": "Fiscal year: View, edit, delete",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fiscal-year.edit",
+          "finance.fiscal-years.item.delete"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.settings.all",
+        "displayName": "Settings (Finance): View, edit, create, delete",
+        "visible": true,
+        "subPermissions": [
+          "settings.enabled",
+          "finance.fund-types.all"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.ledger.view",
+        "displayName": "Ledger: View",
+        "visible": true,
+        "subPermissions": [
+          "module.finance.enabled",
+          "finance.budgets.collection.get",
+          "finance.funds.collection.get",
+          "finance.group-fiscal-year-summaries.collection.get",
+          "finance.group-fund-fiscal-years.collection.get",
+          "finance.groups.collection.get",
+          "finance.ledgers.collection.get",
+          "finance.ledgers.current-fiscal-year.item.get",
+          "finance.ledgers.item.get",
+          "ui-finance.third-party-services"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.ledger.edit",
+        "displayName": "Ledger: View, edit",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.ledger.view",
+          "finance.fiscal-years.collection.get",
+          "finance.ledgers.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.ledger.create",
+        "displayName": "Ledger: View, edit, create",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.ledger.edit",
+          "finance.ledgers.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.ledger.delete",
+        "displayName": "Ledger: View, edit, delete",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.ledger.edit",
+          "finance.ledgers.item.delete"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.group.view",
+        "displayName": "Group: View",
+        "visible": true,
+        "subPermissions": [
+          "module.finance.enabled",
+          "finance.budgets.collection.get",
+          "finance.fiscal-years.collection.get",
+          "finance.funds.collection.get",
+          "finance.group-fiscal-year-summaries.collection.get",
+          "finance.groups.collection.get",
+          "finance.groups.item.get",
+          "ui-finance.third-party-services"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.group.edit",
+        "displayName": "Group: View, edit",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.group.view",
+          "finance.groups.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.group.create",
+        "displayName": "Group: View, edit, create",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.group.edit",
+          "finance.groups.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.group.delete",
+        "displayName": "Group: View, edit, delete",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.group.edit",
+          "finance.groups.item.delete"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fund-budget.view",
+        "displayName": "Fund and budget: View",
+        "visible": true,
+        "subPermissions": [
+          "module.finance.enabled",
           "finance.budgets.collection.get",
           "finance.budgets.item.get",
           "finance.fiscal-years.collection.get",
@@ -88,10 +213,7 @@
           "finance.fund-types.item.get",
           "finance.funds.collection.get",
           "finance.funds.item.get",
-          "finance.group-fiscal-year-summaries.collection.get",
-          "finance.group-fund-fiscal-years.collection.get",
           "finance.groups.collection.get",
-          "finance.groups.item.get",
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
@@ -101,27 +223,32 @@
         ]
       },
       {
-        "permissionName": "ui-finance.all",
-        "displayName": "Finance: all permissions for View and Edit ledgers, funds, budgets and fiscal years",
-        "description": "",
+        "permissionName": "ui-finance.fund-budget.edit",
+        "displayName": "Fund and budget: View, edit",
         "visible": true,
         "subPermissions": [
-          "finance.budgets.all",
-          "finance.encumbrances.item.post",
-          "finance.exchange-rate.item.get",
-          "finance.fiscal-years.all",
-          "finance.fund-types.all",
-          "finance.funds.all",
-          "finance.group-fiscal-year-summaries.collection.get",
-          "finance.group-fund-fiscal-years.all",
-          "finance.groups.all",
-          "finance.invoice-transaction-summaries.item.post",
-          "finance.ledgers.all",
-          "finance.order-transaction-summaries.item.post",
-          "finance.order-transaction-summaries.item.put",
-          "finance.transactions.collection.get",
-          "finance.transactions.item.get",
-          "ui-finance.third-party-services"
+          "ui-finance.fund-budget.view",
+          "finance.budgets.item.put",
+          "finance.funds.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fund-budget.create",
+        "displayName": "Fund and budget: View, edit, create",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fund-budget.edit",
+          "finance.budgets.item.post",
+          "finance.funds.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fund-budget.delete",
+        "displayName": "Fund and budget: View, edit, delete",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.group.edit",
+          "finance.groups.item.delete"
         ]
       },
       {
@@ -148,6 +275,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "ui-finance.fund-budget.edit",
           "finance.allocations.item.post"
         ]
       },
@@ -157,6 +285,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "ui-finance.fund-budget.edit",
           "finance.transfers.item.post"
         ]
       }

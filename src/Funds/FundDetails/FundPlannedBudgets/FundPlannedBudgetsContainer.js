@@ -4,7 +4,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  IfPermission,
+  stripesConnect,
+} from '@folio/stripes/core';
 import {
   Accordion,
   Button,
@@ -76,12 +79,14 @@ const FundPlannedBudgetsContainer = ({
   const addBudgetButton = useCallback((status, count) => {
     return !count
       ? (
-        <Button
-          data-test-add-planned-budget-button
-          onClick={() => openNewBudgetModal(status)}
-        >
-          <FormattedMessage id="ui-finance.budget.button.new" />
-        </Button>
+        <IfPermission perm="ui-finance.fund-budget.create">
+          <Button
+            data-test-add-planned-budget-button
+            onClick={() => openNewBudgetModal(status)}
+          >
+            <FormattedMessage id="ui-finance.budget.button.new" />
+          </Button>
+        </IfPermission>
       )
       : null;
   }, [openNewBudgetModal]);

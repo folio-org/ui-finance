@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
 import stripesForm from '@folio/stripes/form';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Button,
   Col,
@@ -105,13 +106,15 @@ const LedgerForm = ({
                     name="fiscalYearOneId"
                     required
                   />
-                  <Button
-                    buttonStyle="link bottomMargin0"
-                    data-test-ledger-create-fy
-                    onClick={goToCreateFY}
-                  >
-                    <FormattedMessage id="ui-finance.ledger.createNewFY" />
-                  </Button>
+                  <IfPermission perm="ui-finance.fiscal-year.create">
+                    <Button
+                      buttonStyle="link bottomMargin0"
+                      data-test-ledger-create-fy
+                      onClick={goToCreateFY}
+                    >
+                      <FormattedMessage id="ui-finance.ledger.createNewFY" />
+                    </Button>
+                  </IfPermission>
                 </Col>
 
                 <Col data-test-col-ledger-form-status xs={3}>

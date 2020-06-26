@@ -13,7 +13,7 @@ import { FUNDS_ROUTE } from '../../common/const';
 
 const FundsListLastMenu = ({ location }) => {
   return (
-    <IfPermission perm="finance.funds.item.post">
+    <IfPermission perm="ui-finance.fund-budget.create">
       <PaneMenu>
         <FormattedMessage id="stripes-smart-components.addNew">
           {ariaLabel => (

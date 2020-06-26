@@ -181,7 +181,7 @@ const FundDetailsContainer = ({
     ({ onToggle }) => (
       <MenuSection id="fund-details-actions">
         <DetailsEditAction
-          perm="finance.funds.item.put"
+          perm="ui-finance.fund-budget.edit"
           onEdit={editFund}
           toggleActionMenu={onToggle}
         />
@@ -200,7 +200,7 @@ const FundDetailsContainer = ({
           </Button>
         )}
         <DetailsRemoveAction
-          perm="finance.funds.item.delete"
+          perm="ui-finance.fund-budget.delete"
           toggleActionMenu={onToggle}
           onRemove={toggleRemoveConfirmation}
         />

@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  IfPermission,
+  stripesConnect,
+} from '@folio/stripes/core';
 import { Button } from '@folio/stripes/components';
 
 import FundBudgets from '../FundBudgets';
@@ -36,12 +39,14 @@ const FundCurrentBudgetContainer = ({
   const addBudgetButton = useCallback((status, count) => {
     return !count
       ? (
-        <Button
-          data-test-add-current-budget-button
-          onClick={() => openNewBudgetModal(status)}
-        >
-          <FormattedMessage id="ui-finance.budget.button.new" />
-        </Button>
+        <IfPermission perm="ui-finance.fund-budget.create">
+          <Button
+            data-test-add-current-budget-button
+            onClick={() => openNewBudgetModal(status)}
+          >
+            <FormattedMessage id="ui-finance.budget.button.new" />
+          </Button>
+        </IfPermission>
       )
       : null;
   }, [openNewBudgetModal]);

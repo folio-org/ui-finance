@@ -49,23 +49,12 @@
     ],
     "permissionSets": [
       {
-        "permissionName": "ui-finance.third-party-services",
-        "displayName": "Finance: Permissions required to call services apart from mod-finance",
-        "description": "",
-        "subPermissions": [
-          "acquisitions-units.memberships.collection.get",
-          "acquisitions-units.units.collection.get",
-          "configuration.entries.collection.get",
-          "tags.collection.get",
-          "users.collection.get"
-        ]
-      },
-      {
         "permissionName": "ui-finance.fiscal-year.view",
         "displayName": "Fiscal year: View",
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
+          "acquisitions-units.units.collection.get",
           "finance.budgets.collection.get",
           "finance.fiscal-years.collection.get",
           "finance.fiscal-years.item.get",
@@ -73,7 +62,7 @@
           "finance.group-fiscal-year-summaries.collection.get",
           "finance.groups.collection.get",
           "finance.ledgers.collection.get",
-          "ui-finance.third-party-services"
+          "users.collection.get"
         ]
       },
       {
@@ -82,6 +71,7 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.fiscal-year.view",
+          "acquisitions-units.memberships.collection.get",
           "finance.fiscal-years.item.put"
         ]
       },
@@ -118,6 +108,7 @@
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
+          "acquisitions-units.units.collection.get",
           "finance.budgets.collection.get",
           "finance.funds.collection.get",
           "finance.group-fiscal-year-summaries.collection.get",
@@ -126,7 +117,7 @@
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
-          "ui-finance.third-party-services"
+          "users.collection.get"
         ]
       },
       {
@@ -135,6 +126,7 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.ledger.view",
+          "acquisitions-units.memberships.collection.get",
           "finance.fiscal-years.collection.get",
           "finance.ledgers.item.put"
         ]
@@ -163,13 +155,14 @@
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
+          "acquisitions-units.units.collection.get",
           "finance.budgets.collection.get",
           "finance.fiscal-years.collection.get",
           "finance.funds.collection.get",
           "finance.group-fiscal-year-summaries.collection.get",
           "finance.groups.collection.get",
           "finance.groups.item.get",
-          "ui-finance.third-party-services"
+          "users.collection.get"
         ]
       },
       {
@@ -178,6 +171,7 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.group.view",
+          "acquisitions-units.memberships.collection.get",
           "finance.groups.item.put"
         ]
       },
@@ -205,6 +199,8 @@
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
+          "acquisitions-units.units.collection.get",
+          "configuration.entries.collection.get",
           "finance.budgets.collection.get",
           "finance.budgets.item.get",
           "finance.fiscal-years.collection.get",
@@ -219,7 +215,8 @@
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",
-          "ui-finance.third-party-services"
+          "tags.collection.get",
+          "users.collection.get"
         ]
       },
       {
@@ -228,8 +225,10 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.fund-budget.view",
+          "acquisitions-units.memberships.collection.get",
           "finance.budgets.item.put",
-          "finance.funds.item.put"
+          "finance.funds.item.put",
+          "tags.item.post"
         ]
       },
       {

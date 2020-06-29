@@ -9,6 +9,7 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   MultiColumnList,
   Paneset,
@@ -148,7 +149,11 @@ const LedgerList = ({
       </ResultsPane>
       <Route
         path="/finance/ledger/:id/view"
-        component={LedgerDetailsContainer}
+        render={() => (
+          <IfPermission perm="ui-finance.ledger.view">
+            <LedgerDetailsContainer />
+          </IfPermission>
+        )}
       />
     </Paneset>
   );

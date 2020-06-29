@@ -7,6 +7,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   Paneset,
   MultiColumnList,
@@ -153,7 +154,11 @@ const FundsList = ({
 
       <Route
         path={`${FUNDS_ROUTE}/view/:id`}
-        component={FundDetailsContainer}
+        render={(props) => (
+          <IfPermission perm="ui-finance.fund-budget.view">
+            <FundDetailsContainer {...props} />
+          </IfPermission>
+        )}
       />
     </Paneset>
   );

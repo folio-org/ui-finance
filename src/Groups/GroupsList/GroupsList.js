@@ -7,6 +7,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   Paneset,
   MultiColumnList,
@@ -151,7 +152,11 @@ const GroupsList = ({
 
       <Route
         path={`${GROUPS_ROUTE}/:id/view`}
-        component={GroupDetailsContainer}
+        render={() => (
+          <IfPermission perm="ui-finance.group.view">
+            <GroupDetailsContainer />
+          </IfPermission>
+        )}
       />
     </Paneset>
   );

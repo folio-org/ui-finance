@@ -49,6 +49,10 @@
     ],
     "permissionSets": [
       {
+        "permissionName": "module.finance.enabled",
+        "displayName": "UI: Finance module is enabled"
+      },
+      {
         "permissionName": "ui-finance.fiscal-year.view",
         "displayName": "Fiscal year: View",
         "visible": true,

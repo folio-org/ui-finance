@@ -64,7 +64,7 @@ const FiscalYearDetails = ({
     [onEdit, toggleRemoveConfirmation],
   );
 
-  const fiscalYearTotals = calculateTotals(groupSummaries);
+  const fiscalYearTotals = calculateTotals(ledgers);
 
   return (
     <Pane

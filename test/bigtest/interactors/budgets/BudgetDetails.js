@@ -20,6 +20,7 @@ import {
 
 @interactor class Actions {
   static defaultScope = '#budget-actions';
+  addAllocationButton = new Interactor('[data-test-add-allocation-menu-button]');
   addTransferButton = new Interactor('[data-test-add-transfer-menu-button]');
   deleteBudgetButton = new Interactor('[data-test-budget-remove-action]');
   editBudgetButton = new Interactor('[data-test-edit-budget-button]');

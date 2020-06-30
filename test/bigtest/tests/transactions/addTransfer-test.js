@@ -31,7 +31,7 @@ describe('Add transfer', () => {
 
   describe('click on add new transfer', () => {
     beforeEach(async function () {
-      await budgetDetails.actions.addTransferButton.click();
+      await budgetDetails.actions.addAllocationButton.click();
     });
 
     it('add transfer modal is opened', () => {

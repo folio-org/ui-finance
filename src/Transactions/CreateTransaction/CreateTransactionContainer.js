@@ -92,6 +92,7 @@ const CreateTransactionContainer = ({
     <CreateTransactionModal
       fundId={fundId}
       funds={funds}
+      isRequiredTransferFrom={transactionType !== TRANSACTION_TYPES.allocation}
       onClose={onClose}
       onSubmit={saveTransaction}
       store={stripes.store}

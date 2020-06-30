@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Bug fixes
+* [UIF-232](https://issues.folio.org/browse/UIF-232) Transfer 'from' field is required but has no indicator in UI
 * [UIF-231](https://issues.folio.org/browse/UIF-231) Fiscal year Allocated total is calculated incorrectly
 
 ## [2.1.1](https://github.com/folio-org/ui-finance/tree/v2.1.1) (2020-06-12)

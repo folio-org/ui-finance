@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+### Stories
+* [UISACQCOMP-3](https://issues.folio.org/browse/UISACQCOMP-3) Handle import of stripes-acq-components to modules and platform
+
 ### Bug fixes
 * [UIF-232](https://issues.folio.org/browse/UIF-232) Transfer 'from' field is required but has no indicator in UI
 * [UIF-231](https://issues.folio.org/browse/UIF-231) Fiscal year Allocated total is calculated incorrectly

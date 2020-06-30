@@ -26,13 +26,23 @@ import { validateFund } from '../../common/utils';
 
 const TRANSACTION_FORM = 'transactionForm';
 
-const CreateTransactionModal = ({ fundId, handleSubmit, onClose, funds, store, dispatch, change, title }) => {
+const CreateTransactionModal = ({
+  fundId,
+  handleSubmit,
+  onClose,
+  funds,
+  store,
+  dispatch,
+  change,
+  title,
+  isRequiredTransferFrom,
+}) => {
   const formValues = getFormValues(TRANSACTION_FORM)(store.getState()) || {};
   const transferFrom = formValues.fromFundId;
   const transferTo = formValues.toFundId;
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
-  const isTransferFromReqired = hasToFundIdProperty ? transferTo !== fundId : false;
+  const isTransferFromReqired = isRequiredTransferFrom || (hasToFundIdProperty ? transferTo !== fundId : false);
   const validateTransferFrom = isTransferFromReqired ? { validate: validateRequired } : {};
 
   const optionsFrom = (
@@ -156,6 +166,7 @@ CreateTransactionModal.propTypes = {
   store: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
+  isRequiredTransferFrom: PropTypes.bool.isRequired,
 };
 
 CreateTransactionModal.defaultProps = {

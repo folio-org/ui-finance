@@ -44,6 +44,9 @@
         "title": "Finance"
       }
     ],
+    "stripesDeps": [
+      "@folio/stripes-acq-components"
+    ],
     "permissionSets": [
       {
         "permissionName": "module.finance.enabled",
@@ -202,9 +205,6 @@
     "react-final-form": "^6.3.0",
     "redux-form": "^7.4.2"
   },
-  "stripesDeps": [
-    "@folio/stripes-acq-components"
-  ],
   "peerDependencies": {
     "@folio/stripes": "^4.0.0",
     "moment": "~2.24.0",

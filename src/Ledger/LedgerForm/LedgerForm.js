@@ -106,7 +106,7 @@ const LedgerForm = ({
                     name="fiscalYearOneId"
                     required
                   />
-                  <IfPermission perm="ui-finance.fiscal-year.create">
+                  <IfPermission perm="finance.fiscal-years.item.post">
                     <Button
                       buttonStyle="link bottomMargin0"
                       data-test-ledger-create-fy

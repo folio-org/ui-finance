@@ -11,7 +11,7 @@ import { FISCAL_YEAR_ROUTE } from '../../common/const';
 
 const FiscalYearsListLastMenu = () => {
   return (
-    <IfPermission perm="ui-finance.fiscal-year.create">
+    <IfPermission perm="finance.fiscal-years.item.post">
       <PaneMenu>
         <FormattedMessage id="stripes-smart-components.addNew">
           {ariaLabel => (

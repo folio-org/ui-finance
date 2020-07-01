@@ -51,7 +51,7 @@ const BudgetForm = ({
 
   const renderActionMenu = () => (
     <MenuSection id="budget-actions">
-      <IfPermission perm="ui-finance.fund-budget.delete">
+      <IfPermission perm="finance.budgets.item.delete">
         <Button
           buttonStyle="dropdownItem"
           data-test-remove-budget-button

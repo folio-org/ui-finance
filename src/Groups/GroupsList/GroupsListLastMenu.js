@@ -11,7 +11,7 @@ import { GROUPS_ROUTE } from '../../common/const';
 
 const GroupsListLastMenu = () => {
   return (
-    <IfPermission perm="ui-finance.group.create">
+    <IfPermission perm="finance.groups.item.post">
       <PaneMenu>
         <FormattedMessage id="stripes-smart-components.addNew">
           {ariaLabel => (

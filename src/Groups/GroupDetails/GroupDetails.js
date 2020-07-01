@@ -48,12 +48,12 @@ const GroupDetails = ({
       return (
         <MenuSection id="group-details-actions">
           <DetailsEditAction
-            perm="ui-finance.group.edit"
+            perm="finance.groups.item.put"
             onEdit={editGroup}
             toggleActionMenu={onToggle}
           />
           <DetailsRemoveAction
-            perm="ui-finance.group.delete"
+            perm="finance.groups.item.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
           />

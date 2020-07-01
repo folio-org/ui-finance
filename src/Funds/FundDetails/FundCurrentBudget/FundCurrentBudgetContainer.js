@@ -39,7 +39,7 @@ const FundCurrentBudgetContainer = ({
   const addBudgetButton = useCallback((status, count) => {
     return !count
       ? (
-        <IfPermission perm="ui-finance.fund-budget.create">
+        <IfPermission perm="finance.budgets.item.post">
           <Button
             data-test-add-current-budget-button
             onClick={() => openNewBudgetModal(status)}

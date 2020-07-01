@@ -13,7 +13,7 @@ import { LEDGERS_ROUTE } from '../../common/const';
 
 const LedgerListLastMenu = ({ location }) => {
   return (
-    <IfPermission perm="ui-finance.ledger.create">
+    <IfPermission perm="finance.ledgers.item.post">
       <PaneMenu>
         <FormattedMessage id="stripes-smart-components.addNew">
           {ariaLabel => (

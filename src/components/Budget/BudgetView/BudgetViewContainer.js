@@ -129,7 +129,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = ({ onToggle }) => (
     <MenuSection id="budget-actions">
-      <IfPermission perm="ui-finance.fund-budget.edit">
+      <IfPermission perm="finance.budgets.item.put">
         <Button
           buttonStyle="dropdownItem"
           data-test-edit-budget-button
@@ -144,7 +144,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
         </Button>
       </IfPermission>
 
-      <IfPermission perm="ui-finance.allocations.create">
+      <IfPermission perm="finance.allocations.item.post">
         <Button
           buttonStyle="dropdownItem"
           data-test-add-allocation-menu-button
@@ -157,7 +157,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
         </Button>
       </IfPermission>
 
-      <IfPermission perm="ui-finance.transfers.create">
+      <IfPermission perm="finance.transfers.item.post">
         <Button
           buttonStyle="dropdownItem"
           data-test-add-transfer-menu-button
@@ -170,7 +170,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
         </Button>
       </IfPermission>
 
-      <IfPermission perm="ui-finance.fund-budget.delete">
+      <IfPermission perm="finance.budgets.item.delete">
         <Button
           buttonStyle="dropdownItem"
           data-test-budget-remove-action

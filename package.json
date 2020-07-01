@@ -53,6 +53,14 @@
         "displayName": "UI: Finance module is enabled"
       },
       {
+        "permissionName": "settings.finance.enabled",
+        "displayName": "Settings (Finance): Module is enabled.",
+        "subPermissions": [
+          "settings.enabled"
+        ],
+        "visible": false
+      },
+      {
         "permissionName": "ui-finance.fiscal-year.view",
         "displayName": "Fiscal year: View",
         "visible": true,
@@ -102,7 +110,7 @@
         "displayName": "Settings (Finance): View, edit, create, delete",
         "visible": true,
         "subPermissions": [
-          "settings.enabled",
+          "settings.finance.enabled",
           "finance.fund-types.all"
         ]
       },
@@ -250,8 +258,9 @@
         "displayName": "Fund and budget: View, edit, delete",
         "visible": true,
         "subPermissions": [
-          "ui-finance.group.edit",
-          "finance.groups.item.delete"
+          "ui-finance.fund-budget.edit",
+          "finance.budgets.item.delete",
+          "finance.funds.item.delete"
         ]
       },
       {

@@ -503,5 +503,6 @@
     "transaction.type.Pending payment": "في انتظار الدفع",
     "permission.allocations.create": "الشؤون المالية: أنشئ مخصصات",
     "permission.transfers.create": "الشؤون المالية: أنشئ  معاملات",
-    "transaction.status.Pending": "قيد الانتظار"
+    "transaction.status.Pending": "قيد الانتظار",
+    "transaction.transfer.missingFundId": "مفقود إلى/من معرف التمويل"
 }

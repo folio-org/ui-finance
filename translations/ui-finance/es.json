@@ -490,7 +490,7 @@
     "budget.remove.message": "Are you sure you want to delete budget?",
     "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
     "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
-    "transaction.transfer.genericError": "{amount} was not successfully trasfered to the budget {budgetName}",
+    "transaction.transfer.genericError": "{amount} was not successfully transferred to the budget {budgetName}",
     "transaction.transfer.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
     "fund.actions.load.error": "Failed to load fund data",
     "fund.actions.viewTransactions": "View transactions for current budget",
@@ -503,5 +503,6 @@
     "transaction.type.Pending payment": "Pending payment",
     "permission.allocations.create": "Finance: Create allocations",
     "permission.transfers.create": "Finance: Create transfers",
-    "transaction.status.Pending": "Pending"
+    "transaction.status.Pending": "Pending",
+    "transaction.transfer.missingFundId": "Missing to/from fund id"
 }

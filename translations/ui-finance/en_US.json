@@ -503,5 +503,6 @@
     "transaction.type.Pending payment": "Pending payment",
     "permission.allocations.create": "Finance: Create allocations",
     "permission.transfers.create": "Finance: Create transfers",
-    "transaction.status.Pending": "Pending"
+    "transaction.status.Pending": "Pending",
+    "transaction.transfer.missingFundId": "Missing to/from fund id"
 }

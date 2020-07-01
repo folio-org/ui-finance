@@ -5,6 +5,8 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+import { IfPermission } from '@folio/stripes/core';
+
 import { LEDGERS_ROUTE } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
@@ -16,23 +18,43 @@ const Ledger = () => {
     <Switch>
       <Route
         path={`${LEDGERS_ROUTE}/create`}
-        render={CreateLedger}
+        render={() => (
+          <IfPermission perm="ui-finance.ledger.create">
+            <CreateLedger />
+          </IfPermission>
+        )}
       />
       <Route
         path={`${LEDGERS_ROUTE}/fiscalyear/create`}
-        render={CreateLedgerFiscalYear}
+        render={() => (
+          <IfPermission perm="ui-finance.fiscal-year.create">
+            <CreateLedgerFiscalYear />
+          </IfPermission>
+        )}
       />
       <Route
         path={`${LEDGERS_ROUTE}/:id/fiscalyear/create`}
-        render={CreateLedgerFiscalYear}
+        render={() => (
+          <IfPermission perm="ui-finance.fiscal-year.create">
+            <CreateLedgerFiscalYear />
+          </IfPermission>
+        )}
       />
       <Route
         path={`${LEDGERS_ROUTE}/:id/edit`}
-        render={EditLedger}
+        render={() => (
+          <IfPermission perm="ui-finance.ledger.edit">
+            <EditLedger />
+          </IfPermission>
+        )}
       />
       <Route
         path={LEDGERS_ROUTE}
-        render={LedgerListContainer}
+        render={() => (
+          <IfPermission perm="ui-finance.ledger.view">
+            <LedgerListContainer />
+          </IfPermission>
+        )}
       />
     </Switch>
   );

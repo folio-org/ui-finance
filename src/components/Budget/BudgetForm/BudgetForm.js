@@ -16,6 +16,7 @@ import {
   ExpandAllButton,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import { IfPermission } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   FormFooter,
@@ -50,17 +51,19 @@ const BudgetForm = ({
 
   const renderActionMenu = () => (
     <MenuSection id="budget-actions">
-      <Button
-        buttonStyle="dropdownItem"
-        data-test-remove-budget-button
-      >
-        <Icon
-          size="small"
-          icon="trash"
+      <IfPermission perm="finance.budgets.item.delete">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-remove-budget-button
         >
-          <FormattedMessage id="ui-finance.actions.remove" />
-        </Icon>
-      </Button>
+          <Icon
+            size="small"
+            icon="trash"
+          >
+            <FormattedMessage id="ui-finance.actions.remove" />
+          </Icon>
+        </Button>
+      </IfPermission>
     </MenuSection>
   );
 

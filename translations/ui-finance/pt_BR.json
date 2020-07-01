@@ -503,5 +503,6 @@
     "transaction.type.Pending payment": "Pagamento pendente",
     "permission.allocations.create": "Finanças: Criar alocações",
     "permission.transfers.create": "Finanças: Criar transferências",
-    "transaction.status.Pending": "Pendente"
+    "transaction.status.Pending": "Pendente",
+    "transaction.transfer.missingFundId": "Falta de/para o ID do fundo"
 }

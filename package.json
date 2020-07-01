@@ -50,11 +50,12 @@
     "permissionSets": [
       {
         "permissionName": "module.finance.enabled",
-        "displayName": "UI: Finance module is enabled"
+        "displayName": "UI: Finance module is enabled",
+        "visible": false
       },
       {
         "permissionName": "settings.finance.enabled",
-        "displayName": "Settings (Finance): Module is enabled.",
+        "displayName": "Settings (Finance): Can view and edit settings",
         "subPermissions": [
           "settings.enabled"
         ],

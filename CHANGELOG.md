@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.1.2](https://github.com/folio-org/ui-finance/tree/v2.1.2) (2020-07-01)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.1.1...v2.1.2)
+
 ### Stories
 * [UISACQCOMP-3](https://issues.folio.org/browse/UISACQCOMP-3) Handle import of stripes-acq-components to modules and platform
 

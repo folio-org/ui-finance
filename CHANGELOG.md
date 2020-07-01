@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+### Stories
+* [UIF-228](https://issues.folio.org/browse/UINV-228) Increase granularity of finance app permissions
+
 ## [2.1.2](https://github.com/folio-org/ui-finance/tree/v2.1.2) (2020-07-01)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.1.1...v2.1.2)
 

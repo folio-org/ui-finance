@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { IfPermission } from '@folio/stripes/core';
+
 import {
   BUDGET_ROUTE,
   FUNDS_ROUTE,
@@ -32,17 +34,21 @@ const Transactions = ({ match, history }) => {
       <Route
         path={`${match.path}/fund/:fundId/budget/:budgetId`}
         render={({ match: { params } }) => (
-          <TransactionsList
-            closePane={() => goToFundDetails(params)}
-          />
+          <IfPermission perm="ui-finance.fund-budget.view">
+            <TransactionsList
+              closePane={() => goToFundDetails(params)}
+            />
+          </IfPermission>
         )}
       />
       <Route
         path={`${match.path}/budget/:budgetId`}
         render={({ match: { params } }) => (
-          <TransactionsList
-            closePane={() => goToBudgetView(params)}
-          />
+          <IfPermission perm="ui-finance.fund-budget.view">
+            <TransactionsList
+              closePane={() => goToBudgetView(params)}
+            />
+          </IfPermission>
         )}
       />
     </Switch>

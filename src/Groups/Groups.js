@@ -4,6 +4,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import { IfPermission } from '@folio/stripes/core';
+
 import { GROUPS_ROUTE } from '../common/const';
 
 import { GroupsListContainer } from './GroupsList';
@@ -15,15 +17,27 @@ const Groups = () => {
     <Switch>
       <Route
         path={`${GROUPS_ROUTE}/create`}
-        component={CreateGroup}
+        render={() => (
+          <IfPermission perm="ui-finance.group.create">
+            <CreateGroup />
+          </IfPermission>
+        )}
       />
       <Route
         path={`${GROUPS_ROUTE}/:id/edit`}
-        component={EditGroup}
+        render={() => (
+          <IfPermission perm="ui-finance.group.edit">
+            <EditGroup />
+          </IfPermission>
+        )}
       />
       <Route
         path={GROUPS_ROUTE}
-        component={GroupsListContainer}
+        render={() => (
+          <IfPermission perm="ui-finance.group.view">
+            <GroupsListContainer />
+          </IfPermission>
+        )}
       />
     </Switch>
   );

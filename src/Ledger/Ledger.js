@@ -5,9 +5,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 
-import { IfPermission } from '@folio/stripes/core';
-
-import NoPermissionsMessage from '../common/NoPermissionsMessage';
+import CheckPermission from '../common/CheckPermission';
 import { LEDGERS_ROUTE } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
@@ -20,56 +18,41 @@ const Ledger = () => {
       <Route
         path={`${LEDGERS_ROUTE}/create`}
         render={() => (
-          <IfPermission perm="ui-finance.ledger.create">
-            {({ hasPermission }) => (hasPermission
-              ? <CreateLedger />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.ledger.create">
+            <CreateLedger />
+          </CheckPermission>
         )}
       />
       <Route
         path={`${LEDGERS_ROUTE}/fiscalyear/create`}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.create">
-            {({ hasPermission }) => (hasPermission
-              ? <CreateLedgerFiscalYear />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fiscal-year.create">
+            <CreateLedgerFiscalYear />
+          </CheckPermission>
         )}
       />
       <Route
         path={`${LEDGERS_ROUTE}/:id/fiscalyear/create`}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.create">
-            {({ hasPermission }) => (hasPermission
-              ? <CreateLedgerFiscalYear />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fiscal-year.create">
+            <CreateLedgerFiscalYear />
+          </CheckPermission>
         )}
       />
       <Route
         path={`${LEDGERS_ROUTE}/:id/edit`}
         render={() => (
-          <IfPermission perm="ui-finance.ledger.edit">
-            {({ hasPermission }) => (hasPermission
-              ? <EditLedger />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.ledger.edit">
+            <EditLedger />
+          </CheckPermission>
         )}
       />
       <Route
         path={LEDGERS_ROUTE}
         render={() => (
-          <IfPermission perm="ui-finance.ledger.view">
-            {({ hasPermission }) => (hasPermission
-              ? <LedgerListContainer />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.ledger.view">
+            <LedgerListContainer />
+          </CheckPermission>
         )}
       />
     </Switch>

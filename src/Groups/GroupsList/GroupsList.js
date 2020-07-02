@@ -7,7 +7,6 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes/core';
 import {
   Paneset,
   MultiColumnList,
@@ -25,7 +24,7 @@ import {
 
 import { GROUPS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
-import NoPermissionsMessage from '../../common/NoPermissionsMessage';
+import CheckPermission from '../../common/CheckPermission';
 
 import { GroupDetailsContainer } from '../GroupDetails';
 import GroupsListFilters from './GroupsListFilters';
@@ -154,12 +153,9 @@ const GroupsList = ({
       <Route
         path={`${GROUPS_ROUTE}/:id/view`}
         render={() => (
-          <IfPermission perm="ui-finance.group.view">
-            {({ hasPermission }) => (hasPermission
-              ? <GroupDetailsContainer />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.group.view">
+            <GroupDetailsContainer />
+          </CheckPermission>
         )}
       />
     </Paneset>

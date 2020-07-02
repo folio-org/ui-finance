@@ -4,10 +4,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { IfPermission } from '@folio/stripes/core';
-
 import { FISCAL_YEAR_ROUTE } from '../common/const';
-import NoPermissionsMessage from '../common/NoPermissionsMessage';
+import CheckPermission from '../common/CheckPermission';
 
 import { CreateFiscalYear } from './CreateFiscalYear';
 import { EditFiscalYear } from './EditFiscalYear';
@@ -19,34 +17,25 @@ const FiscalYears = () => {
       <Route
         path={`${FISCAL_YEAR_ROUTE}/create`}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.create">
-            {({ hasPermission }) => (hasPermission
-              ? <CreateFiscalYear />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fiscal-year.create">
+            <CreateFiscalYear />
+          </CheckPermission>
         )}
       />
       <Route
         path={`${FISCAL_YEAR_ROUTE}/:id/edit`}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.edit">
-            {({ hasPermission }) => (hasPermission
-              ? <EditFiscalYear />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fiscal-year.edit">
+            <EditFiscalYear />
+          </CheckPermission>
         )}
       />
       <Route
         path={FISCAL_YEAR_ROUTE}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.view">
-            {({ hasPermission }) => (hasPermission
-              ? <FiscalYearsListContainer />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fiscal-year.view">
+            <FiscalYearsListContainer />
+          </CheckPermission>
         )}
       />
     </Switch>

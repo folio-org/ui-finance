@@ -9,7 +9,6 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes/core';
 import {
   MultiColumnList,
   Paneset,
@@ -27,7 +26,7 @@ import {
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
-import NoPermissionsMessage from '../../common/NoPermissionsMessage';
+import CheckPermission from '../../common/CheckPermission';
 import LedgerListFilters from './LedgerListFilters';
 import {
   searchableIndexes,
@@ -151,12 +150,9 @@ const LedgerList = ({
       <Route
         path="/finance/ledger/:id/view"
         render={() => (
-          <IfPermission perm="ui-finance.ledger.view">
-            {({ hasPermission }) => (hasPermission
-              ? <LedgerDetailsContainer />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.ledger.view">
+            <LedgerDetailsContainer />
+          </CheckPermission>
         )}
       />
     </Paneset>

@@ -4,10 +4,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { IfPermission } from '@folio/stripes/core';
-
 import { GROUPS_ROUTE } from '../common/const';
-import NoPermissionsMessage from '../common/NoPermissionsMessage';
+import CheckPermission from '../common/CheckPermission';
 
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
@@ -19,34 +17,25 @@ const Groups = () => {
       <Route
         path={`${GROUPS_ROUTE}/create`}
         render={() => (
-          <IfPermission perm="ui-finance.group.create">
-            {({ hasPermission }) => (hasPermission
-              ? <CreateGroup />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.group.create">
+            <CreateGroup />
+          </CheckPermission>
         )}
       />
       <Route
         path={`${GROUPS_ROUTE}/:id/edit`}
         render={() => (
-          <IfPermission perm="ui-finance.group.edit">
-            {({ hasPermission }) => (hasPermission
-              ? <EditGroup />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.group.edit">
+            <EditGroup />
+          </CheckPermission>
         )}
       />
       <Route
         path={GROUPS_ROUTE}
         render={() => (
-          <IfPermission perm="ui-finance.group.view">
-            {({ hasPermission }) => (hasPermission
-              ? <GroupsListContainer />
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.group.view">
+            <GroupsListContainer />
+          </CheckPermission>
         )}
       />
     </Switch>

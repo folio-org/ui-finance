@@ -5,17 +5,15 @@ import {
   LEDGERS_ROUTE,
 } from '../../common/const';
 
-const viewPermissionsMap = {
-  'ui-finance.ledger.view': LEDGERS_ROUTE,
-  'ui-finance.fiscal-year.view': FISCAL_YEAR_ROUTE,
-  'ui-finance.group.view': GROUPS_ROUTE,
-  'ui-finance.fund-budget.view': FUNDS_ROUTE,
+const routePermissionMap = {
+  [LEDGERS_ROUTE]: 'ui-finance.ledger.view',
+  [FISCAL_YEAR_ROUTE]: 'ui-finance.fiscal-year.view',
+  [GROUPS_ROUTE]: 'ui-finance.group.view',
+  [FUNDS_ROUTE]: 'ui-finance.fund-budget.view',
 };
 
 export const getInitialRoute = (stripes) => {
-  const routesList = Object.keys(viewPermissionsMap)
-    .map(perm => (stripes.hasPerm(perm) ? viewPermissionsMap[perm] : ''))
-    .filter(Boolean);
+  const enabledRoutes = Object.keys(routePermissionMap).filter(route => stripes.hasPerm(routePermissionMap[route]));
 
-  return routesList[0];
+  return enabledRoutes[0];
 };

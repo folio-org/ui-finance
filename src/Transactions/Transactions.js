@@ -6,13 +6,11 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { IfPermission } from '@folio/stripes/core';
-
 import {
   BUDGET_ROUTE,
   FUNDS_ROUTE,
 } from '../common/const';
-import NoPermissionsMessage from '../common/NoPermissionsMessage';
+import CheckPermission from '../common/CheckPermission';
 import TransactionsList from './TransactionsList';
 
 const Transactions = ({ match, history }) => {
@@ -35,31 +33,21 @@ const Transactions = ({ match, history }) => {
       <Route
         path={`${match.path}/fund/:fundId/budget/:budgetId`}
         render={({ match: { params } }) => (
-          <IfPermission perm="ui-finance.fund-budget.view">
-            {({ hasPermission }) => (hasPermission
-              ? (
-                <TransactionsList
-                  closePane={() => goToFundDetails(params)}
-                />
-              )
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fund-budget.view">
+            <TransactionsList
+              closePane={() => goToFundDetails(params)}
+            />
+          </CheckPermission>
         )}
       />
       <Route
         path={`${match.path}/budget/:budgetId`}
         render={({ match: { params } }) => (
-          <IfPermission perm="ui-finance.fund-budget.view">
-            {({ hasPermission }) => (hasPermission
-              ? (
-                <TransactionsList
-                  closePane={() => goToBudgetView(params)}
-                />
-              )
-              : <NoPermissionsMessage />
-            )}
-          </IfPermission>
+          <CheckPermission perm="ui-finance.fund-budget.view">
+            <TransactionsList
+              closePane={() => goToBudgetView(params)}
+            />
+          </CheckPermission>
         )}
       />
     </Switch>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
-import { withStripes } from '@folio/stripes/core';
+import { useStripes } from '@folio/stripes/core';
 import {
   FISCAL_YEAR_ROUTE,
   FUNDS_ROUTE,
@@ -19,7 +19,9 @@ import { FiscalYears } from '../../FiscalYears';
 import Transactions from '../../Transactions';
 import { getInitialRoute } from './utils';
 
-const Main = ({ match, stripes }) => {
+const Main = ({ match }) => {
+  const stripes = useStripes();
+
   return (
     <div style={{ width: '100%' }}>
       <Switch>
@@ -55,7 +57,6 @@ const Main = ({ match, stripes }) => {
 
 Main.propTypes = {
   match: PropTypes.object,
-  stripes: PropTypes.object.isRequired,
 };
 
-export default withStripes(Main);
+export default Main;

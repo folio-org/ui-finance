@@ -525,6 +525,7 @@
   "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",
   "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?",
 
+  "noPermissionsMessage": "You do not have permissions to this page.",
   "permission.acq.unit.assignment.assign": "Finance: Assign acquisition units to new record",
   "permission.acq.unit.assignment.manage": "Finance: Manage acquisition units",
   "permission.allocations.create": "Finance: Create allocations",

@@ -4,9 +4,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { IfPermission } from '@folio/stripes/core';
-
 import { FUNDS_ROUTE } from '../common/const';
+import CheckPermission from '../common/CheckPermission';
 
 import { FundsListContainer } from './FundsList';
 import { CreateFund } from './CreateFund';
@@ -18,25 +17,25 @@ const Funds = () => {
       <Route
         path={`${FUNDS_ROUTE}/create`}
         render={() => (
-          <IfPermission perm="ui-finance.fund-budget.create">
+          <CheckPermission perm="ui-finance.fund-budget.create">
             <CreateFund />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
       <Route
         path={`${FUNDS_ROUTE}/edit/:id`}
         render={() => (
-          <IfPermission perm="ui-finance.fund-budget.edit">
+          <CheckPermission perm="ui-finance.fund-budget.edit">
             <EditFund />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
       <Route
         path={FUNDS_ROUTE}
         render={() => (
-          <IfPermission perm="ui-finance.fund-budget.view">
+          <CheckPermission perm="ui-finance.fund-budget.view">
             <FundsListContainer />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
     </Switch>

@@ -11,7 +11,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get, sortBy } from 'lodash';
 
-import { IfPermission } from '@folio/stripes/core';
 import {
   Paneset,
   MultiColumnList,
@@ -31,6 +30,7 @@ import {
   useToggle,
 } from '@folio/stripes-acq-components';
 
+import CheckPermission from '../../common/CheckPermission';
 import TransactionDetails from '../TransactionDetails';
 import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
@@ -176,12 +176,12 @@ const TransactionsList = ({
       <Route
         path={`${match.path}/transaction/:id/view`}
         render={() => (
-          <IfPermission perm="ui-finance.fund-budget.view">
+          <CheckPermission perm="ui-finance.fund-budget.view">
             <TransactionDetails
               baseUrl={match.url}
               fundId={fundId}
             />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
     </Paneset>

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   FISCAL_YEAR_ROUTE,
   FUNDS_ROUTE,
@@ -16,8 +17,11 @@ import Budget from '../Budget/Budget';
 import Groups from '../../Groups';
 import { FiscalYears } from '../../FiscalYears';
 import Transactions from '../../Transactions';
+import { getInitialRoute } from './utils';
 
 const Main = ({ match }) => {
+  const stripes = useStripes();
+
   return (
     <div style={{ width: '100%' }}>
       <Switch>
@@ -45,7 +49,7 @@ const Main = ({ match }) => {
           path={TRANSACTIONS_ROUTE}
           component={Transactions}
         />
-        <Redirect exact from={`${match.path}`} to={LEDGERS_ROUTE} />
+        <Redirect exact from={`${match.path}`} to={getInitialRoute(stripes)} />
       </Switch>
     </div>
   );

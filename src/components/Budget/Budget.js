@@ -5,9 +5,8 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { IfPermission } from '@folio/stripes/core';
-
 import Transactions from '../../Transactions';
+import CheckPermission from '../../common/CheckPermission';
 
 import BudgetView from './BudgetView/BudgetViewContainer';
 import BudgetForm from './BudgetForm/BudgetFormContainer';
@@ -17,17 +16,17 @@ const Budget = ({ match: { path } }) => (
     <Route
       path={`${path}/:budgetId/view`}
       render={(props) => (
-        <IfPermission perm="ui-finance.fund-budget.view">
+        <CheckPermission perm="ui-finance.fund-budget.view">
           <BudgetView {...props} />
-        </IfPermission>
+        </CheckPermission>
       )}
     />
     <Route
       path={`${path}/:budgetId/edit`}
       render={(props) => (
-        <IfPermission perm="ui-finance.fund-budget.edit">
+        <CheckPermission perm="ui-finance.fund-budget.edit">
           <BudgetForm {...props} />
-        </IfPermission>
+        </CheckPermission>
       )}
     />
     <Route

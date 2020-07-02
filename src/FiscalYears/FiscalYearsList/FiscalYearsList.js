@@ -7,7 +7,6 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes/core';
 import {
   Paneset,
   MultiColumnList,
@@ -25,6 +24,7 @@ import {
 
 import { FISCAL_YEAR_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import CheckPermission from '../../common/CheckPermission';
 
 import FiscalYearDetails from '../FiscalYearDetails';
 import FiscalYearsListFilter from './FiscalYearsListFilter';
@@ -154,9 +154,9 @@ const FiscalYearsList = ({
       <Route
         path={`${FISCAL_YEAR_ROUTE}/:id/view`}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.view">
+          <CheckPermission perm="ui-finance.fiscal-year.view">
             <FiscalYearDetails />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
     </Paneset>

@@ -4,9 +4,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { IfPermission } from '@folio/stripes/core';
-
 import { FISCAL_YEAR_ROUTE } from '../common/const';
+import CheckPermission from '../common/CheckPermission';
 
 import { CreateFiscalYear } from './CreateFiscalYear';
 import { EditFiscalYear } from './EditFiscalYear';
@@ -18,25 +17,25 @@ const FiscalYears = () => {
       <Route
         path={`${FISCAL_YEAR_ROUTE}/create`}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.create">
+          <CheckPermission perm="ui-finance.fiscal-year.create">
             <CreateFiscalYear />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
       <Route
         path={`${FISCAL_YEAR_ROUTE}/:id/edit`}
         render={() => (
-          <IfPermission perm="ui-finance.fiacal-year.edit">
+          <CheckPermission perm="ui-finance.fiscal-year.edit">
             <EditFiscalYear />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
       <Route
         path={FISCAL_YEAR_ROUTE}
         render={() => (
-          <IfPermission perm="ui-finance.fiscal-year.view">
+          <CheckPermission perm="ui-finance.fiscal-year.view">
             <FiscalYearsListContainer />
-          </IfPermission>
+          </CheckPermission>
         )}
       />
     </Switch>

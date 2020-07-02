@@ -7,6 +7,7 @@ import {
 import { IfPermission } from '@folio/stripes/core';
 
 import { FISCAL_YEAR_ROUTE } from '../common/const';
+import NoPermissionsMessage from '../common/NoPermissionsMessage';
 
 import { CreateFiscalYear } from './CreateFiscalYear';
 import { EditFiscalYear } from './EditFiscalYear';
@@ -19,15 +20,21 @@ const FiscalYears = () => {
         path={`${FISCAL_YEAR_ROUTE}/create`}
         render={() => (
           <IfPermission perm="ui-finance.fiscal-year.create">
-            <CreateFiscalYear />
+            {({ hasPermission }) => (hasPermission
+              ? <CreateFiscalYear />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
       <Route
         path={`${FISCAL_YEAR_ROUTE}/:id/edit`}
         render={() => (
-          <IfPermission perm="ui-finance.fiacal-year.edit">
-            <EditFiscalYear />
+          <IfPermission perm="ui-finance.fiscal-year.edit">
+            {({ hasPermission }) => (hasPermission
+              ? <EditFiscalYear />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -35,7 +42,10 @@ const FiscalYears = () => {
         path={FISCAL_YEAR_ROUTE}
         render={() => (
           <IfPermission perm="ui-finance.fiscal-year.view">
-            <FiscalYearsListContainer />
+            {({ hasPermission }) => (hasPermission
+              ? <FiscalYearsListContainer />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

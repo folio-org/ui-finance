@@ -31,6 +31,7 @@ import {
   useToggle,
 } from '@folio/stripes-acq-components';
 
+import NoPermissionsMessage from '../../common/NoPermissionsMessage';
 import TransactionDetails from '../TransactionDetails';
 import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
@@ -177,10 +178,15 @@ const TransactionsList = ({
         path={`${match.path}/transaction/:id/view`}
         render={() => (
           <IfPermission perm="ui-finance.fund-budget.view">
-            <TransactionDetails
-              baseUrl={match.url}
-              fundId={fundId}
-            />
+            {({ hasPermission }) => (hasPermission
+              ? (
+                <TransactionDetails
+                  baseUrl={match.url}
+                  fundId={fundId}
+                />
+              )
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

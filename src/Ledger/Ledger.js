@@ -7,6 +7,7 @@ import {
 
 import { IfPermission } from '@folio/stripes/core';
 
+import NoPermissionsMessage from '../common/NoPermissionsMessage';
 import { LEDGERS_ROUTE } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
@@ -20,7 +21,10 @@ const Ledger = () => {
         path={`${LEDGERS_ROUTE}/create`}
         render={() => (
           <IfPermission perm="ui-finance.ledger.create">
-            <CreateLedger />
+            {({ hasPermission }) => (hasPermission
+              ? <CreateLedger />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -28,7 +32,10 @@ const Ledger = () => {
         path={`${LEDGERS_ROUTE}/fiscalyear/create`}
         render={() => (
           <IfPermission perm="ui-finance.fiscal-year.create">
-            <CreateLedgerFiscalYear />
+            {({ hasPermission }) => (hasPermission
+              ? <CreateLedgerFiscalYear />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -36,7 +43,10 @@ const Ledger = () => {
         path={`${LEDGERS_ROUTE}/:id/fiscalyear/create`}
         render={() => (
           <IfPermission perm="ui-finance.fiscal-year.create">
-            <CreateLedgerFiscalYear />
+            {({ hasPermission }) => (hasPermission
+              ? <CreateLedgerFiscalYear />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -44,7 +54,10 @@ const Ledger = () => {
         path={`${LEDGERS_ROUTE}/:id/edit`}
         render={() => (
           <IfPermission perm="ui-finance.ledger.edit">
-            <EditLedger />
+            {({ hasPermission }) => (hasPermission
+              ? <EditLedger />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -52,7 +65,10 @@ const Ledger = () => {
         path={LEDGERS_ROUTE}
         render={() => (
           <IfPermission perm="ui-finance.ledger.view">
-            <LedgerListContainer />
+            {({ hasPermission }) => (hasPermission
+              ? <LedgerListContainer />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

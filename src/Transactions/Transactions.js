@@ -12,6 +12,7 @@ import {
   BUDGET_ROUTE,
   FUNDS_ROUTE,
 } from '../common/const';
+import NoPermissionsMessage from '../common/NoPermissionsMessage';
 import TransactionsList from './TransactionsList';
 
 const Transactions = ({ match, history }) => {
@@ -35,9 +36,14 @@ const Transactions = ({ match, history }) => {
         path={`${match.path}/fund/:fundId/budget/:budgetId`}
         render={({ match: { params } }) => (
           <IfPermission perm="ui-finance.fund-budget.view">
-            <TransactionsList
-              closePane={() => goToFundDetails(params)}
-            />
+            {({ hasPermission }) => (hasPermission
+              ? (
+                <TransactionsList
+                  closePane={() => goToFundDetails(params)}
+                />
+              )
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -45,9 +51,14 @@ const Transactions = ({ match, history }) => {
         path={`${match.path}/budget/:budgetId`}
         render={({ match: { params } }) => (
           <IfPermission perm="ui-finance.fund-budget.view">
-            <TransactionsList
-              closePane={() => goToBudgetView(params)}
-            />
+            {({ hasPermission }) => (hasPermission
+              ? (
+                <TransactionsList
+                  closePane={() => goToBudgetView(params)}
+                />
+              )
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

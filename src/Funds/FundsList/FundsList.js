@@ -25,6 +25,7 @@ import {
 
 import { FUNDS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import NoPermissionsMessage from '../../common/NoPermissionsMessage';
 
 import { FundDetailsContainer } from '../FundDetails';
 import { FundsListFiltersContainer } from './FundsListFilters';
@@ -156,7 +157,10 @@ const FundsList = ({
         path={`${FUNDS_ROUTE}/view/:id`}
         render={(props) => (
           <IfPermission perm="ui-finance.fund-budget.view">
-            <FundDetailsContainer {...props} />
+            {({ hasPermission }) => (hasPermission
+              ? <FundDetailsContainer {...props} />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

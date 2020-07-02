@@ -7,6 +7,7 @@ import {
 import { IfPermission } from '@folio/stripes/core';
 
 import { FUNDS_ROUTE } from '../common/const';
+import NoPermissionsMessage from '../common/NoPermissionsMessage';
 
 import { FundsListContainer } from './FundsList';
 import { CreateFund } from './CreateFund';
@@ -19,7 +20,10 @@ const Funds = () => {
         path={`${FUNDS_ROUTE}/create`}
         render={() => (
           <IfPermission perm="ui-finance.fund-budget.create">
-            <CreateFund />
+            {({ hasPermission }) => (hasPermission
+              ? <CreateFund />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -27,7 +31,10 @@ const Funds = () => {
         path={`${FUNDS_ROUTE}/edit/:id`}
         render={() => (
           <IfPermission perm="ui-finance.fund-budget.edit">
-            <EditFund />
+            {({ hasPermission }) => (hasPermission
+              ? <EditFund />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -35,7 +42,10 @@ const Funds = () => {
         path={FUNDS_ROUTE}
         render={() => (
           <IfPermission perm="ui-finance.fund-budget.view">
-            <FundsListContainer />
+            {({ hasPermission }) => (hasPermission
+              ? <FundsListContainer />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

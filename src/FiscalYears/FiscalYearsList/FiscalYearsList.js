@@ -25,6 +25,7 @@ import {
 
 import { FISCAL_YEAR_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import NoPermissionsMessage from '../../common/NoPermissionsMessage';
 
 import FiscalYearDetails from '../FiscalYearDetails';
 import FiscalYearsListFilter from './FiscalYearsListFilter';
@@ -155,7 +156,10 @@ const FiscalYearsList = ({
         path={`${FISCAL_YEAR_ROUTE}/:id/view`}
         render={() => (
           <IfPermission perm="ui-finance.fiscal-year.view">
-            <FiscalYearDetails />
+            {({ hasPermission }) => (hasPermission
+              ? <FiscalYearDetails />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

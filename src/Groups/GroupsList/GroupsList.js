@@ -25,6 +25,7 @@ import {
 
 import { GROUPS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import NoPermissionsMessage from '../../common/NoPermissionsMessage';
 
 import { GroupDetailsContainer } from '../GroupDetails';
 import GroupsListFilters from './GroupsListFilters';
@@ -154,7 +155,10 @@ const GroupsList = ({
         path={`${GROUPS_ROUTE}/:id/view`}
         render={() => (
           <IfPermission perm="ui-finance.group.view">
-            <GroupDetailsContainer />
+            {({ hasPermission }) => (hasPermission
+              ? <GroupDetailsContainer />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

@@ -8,6 +8,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { IfPermission } from '@folio/stripes/core';
 
 import Transactions from '../../Transactions';
+import NoPermissionsMessage from '../../common/NoPermissionsMessage';
 
 import BudgetView from './BudgetView/BudgetViewContainer';
 import BudgetForm from './BudgetForm/BudgetFormContainer';
@@ -18,7 +19,10 @@ const Budget = ({ match: { path } }) => (
       path={`${path}/:budgetId/view`}
       render={(props) => (
         <IfPermission perm="ui-finance.fund-budget.view">
-          <BudgetView {...props} />
+          {({ hasPermission }) => (hasPermission
+            ? <BudgetView {...props} />
+            : <NoPermissionsMessage />
+          )}
         </IfPermission>
       )}
     />
@@ -26,7 +30,10 @@ const Budget = ({ match: { path } }) => (
       path={`${path}/:budgetId/edit`}
       render={(props) => (
         <IfPermission perm="ui-finance.fund-budget.edit">
-          <BudgetForm {...props} />
+          {({ hasPermission }) => (hasPermission
+            ? <BudgetForm {...props} />
+            : <NoPermissionsMessage />
+          )}
         </IfPermission>
       )}
     />

@@ -27,6 +27,7 @@ import {
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import NoPermissionsMessage from '../../common/NoPermissionsMessage';
 import LedgerListFilters from './LedgerListFilters';
 import {
   searchableIndexes,
@@ -151,7 +152,10 @@ const LedgerList = ({
         path="/finance/ledger/:id/view"
         render={() => (
           <IfPermission perm="ui-finance.ledger.view">
-            <LedgerDetailsContainer />
+            {({ hasPermission }) => (hasPermission
+              ? <LedgerDetailsContainer />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

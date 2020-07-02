@@ -7,6 +7,7 @@ import {
 import { IfPermission } from '@folio/stripes/core';
 
 import { GROUPS_ROUTE } from '../common/const';
+import NoPermissionsMessage from '../common/NoPermissionsMessage';
 
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
@@ -19,7 +20,10 @@ const Groups = () => {
         path={`${GROUPS_ROUTE}/create`}
         render={() => (
           <IfPermission perm="ui-finance.group.create">
-            <CreateGroup />
+            {({ hasPermission }) => (hasPermission
+              ? <CreateGroup />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -27,7 +31,10 @@ const Groups = () => {
         path={`${GROUPS_ROUTE}/:id/edit`}
         render={() => (
           <IfPermission perm="ui-finance.group.edit">
-            <EditGroup />
+            {({ hasPermission }) => (hasPermission
+              ? <EditGroup />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />
@@ -35,7 +42,10 @@ const Groups = () => {
         path={GROUPS_ROUTE}
         render={() => (
           <IfPermission perm="ui-finance.group.view">
-            <GroupsListContainer />
+            {({ hasPermission }) => (hasPermission
+              ? <GroupsListContainer />
+              : <NoPermissionsMessage />
+            )}
           </IfPermission>
         )}
       />

@@ -524,5 +524,5 @@
     "permission.ledger.edit": "Ledger: View, edit",
     "permission.ledger.view": "Ledger: View",
     "permission.settings.all": "Settings (Finance): View, edit, create, delete",
-    "noPermissionsMessage": "You do not have permissions to this page."
+    "noPermissionsMessage": "Vous n'êtes pas autorisé à accéder à cette page."
 }

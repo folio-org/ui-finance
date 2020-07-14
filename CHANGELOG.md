@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIF-229](https://issues.folio.org/browse/UINV-229) Change mouse cursor for non-sortable columns
 * [UIF-228](https://issues.folio.org/browse/UINV-228) Increase granularity of finance app permissions
 
 ## [2.1.2](https://github.com/folio-org/ui-finance/tree/v2.1.2) (2020-07-01)

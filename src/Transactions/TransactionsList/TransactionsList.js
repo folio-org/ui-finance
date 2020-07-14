@@ -41,7 +41,7 @@ const DEFAULT_SORTING = { [SORTING_PARAMETER]: COL_TRANS_DATE, [SORTING_DIRECTIO
 const resultsPaneTitle = <FormattedMessage id="ui-finance.budget.transactions" />;
 const visibleColumns = [COL_TRANS_DATE, 'transactionType', 'amount', 'fromFundId', 'toFundId', 'source', COL_TAGS];
 const sortableFields = [COL_TRANS_DATE, 'amount', COL_TAGS];
-const nonInteractiveHeaders = ['transactionType', 'fromFundId', 'toFundId', 'source'];
+const nonInteractiveHeaders = visibleColumns.filter(col => !sortableFields.includes(col));
 const columnMapping = {
   [COL_TRANS_DATE]: <FormattedMessage id="ui-finance.transaction.date" />,
   transactionType: <FormattedMessage id="ui-finance.transaction.type" />,

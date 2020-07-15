@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
+import { stripesConnect } from '@folio/stripes/core';
 
 import { EXPENSE_CLASSES_API } from '../../common/const';
 
-const hiddenFields = ['numberOfObjects', 'lastUpdated'];
+const hiddenFields = ['numberOfObjects'];
 const visibleFields = ['name', 'code', 'externalAccountNumberExt'];
 const columnMapping = {
   name: <FormattedMessage id="ui-finance.expenseType.name" />,
@@ -17,37 +18,31 @@ const columnMapping = {
   externalAccountNumberExt: <FormattedMessage id="ui-finance.expenseType.account" />,
 };
 
-class ExpenseTypeSettings extends Component {
-  constructor(props) {
-    super(props);
-    this.connectedControlledVocab = props.stripes.connect(ControlledVocab);
-  }
+const ConnectedControlledVocab = stripesConnect(ControlledVocab);
 
-  render() {
-    const { intl, stripes } = this.props;
+const ExpenseTypeSettings = ({ stripes }) => {
+  const intl = useIntl();
 
-    return (
-      <this.connectedControlledVocab
-        baseUrl={EXPENSE_CLASSES_API}
-        columnMapping={columnMapping}
-        hiddenFields={hiddenFields}
-        id="expenseTypes"
-        label={intl.formatMessage({ id: 'ui-finance.expenseType.label.plural' })}
-        labelSingular={intl.formatMessage({ id: 'ui-finance.expenseType.label' })}
-        nameKey="name"
-        objectLabel={intl.formatMessage({ id: 'ui-finance.expenseType.label' })}
-        records="expenseClasses"
-        sortby="name"
-        stripes={stripes}
-        visibleFields={visibleFields}
-      />
-    );
-  }
-}
+  return (
+    <ConnectedControlledVocab
+      baseUrl={EXPENSE_CLASSES_API}
+      columnMapping={columnMapping}
+      hiddenFields={hiddenFields}
+      id="expenseTypes"
+      label={intl.formatMessage({ id: 'ui-finance.expenseType.label.plural' })}
+      labelSingular={intl.formatMessage({ id: 'ui-finance.expenseType.label' })}
+      nameKey="name"
+      objectLabel={intl.formatMessage({ id: 'ui-finance.expenseType.label' })}
+      records="expenseClasses"
+      sortby="name"
+      stripes={stripes}
+      visibleFields={visibleFields}
+    />
+  );
+};
 
 ExpenseTypeSettings.propTypes = {
-  intl: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 
-export default injectIntl(ExpenseTypeSettings);
+export default ExpenseTypeSettings;

@@ -511,10 +511,17 @@
 
   "transactions.search": "Search transactions",
 
+  "expenseType.label": "Expense type",
+  "expenseType.label.plural": "Expense types",
+  "expenseType.name": "Name",
+  "expenseType.code": "Code",
+  "expenseType.account": "External account number extension",
+
   "fundType.label": "Fund type",
   "fundType.label.plural": "Fund types",
   "fundType.name": "Name",
 
+  "settings.expenseTypes.title": "Expense types",
   "settings.fundTypes.title": "Fund types",
 
   "actions.edit": "Edit",

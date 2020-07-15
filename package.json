@@ -24,6 +24,7 @@
       "acquisitions-units": "1.1",
       "configuration": "2.0",
       "finance.budgets": "1.0",
+      "finance.expense-classes": "1.0",
       "finance.fiscal-years": "1.0",
       "finance.fund-types": "1.0",
       "finance.funds": "1.0",
@@ -112,6 +113,7 @@
         "visible": true,
         "subPermissions": [
           "settings.finance.enabled",
+          "finance.expense-classes.all",
           "finance.fund-types.all"
         ]
       },

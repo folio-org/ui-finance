@@ -524,5 +524,11 @@
     "permission.ledger.edit": "الدفتر: اعرض، حرّر",
     "permission.ledger.view": "الدفتر: اعرض",
     "permission.settings.all": "الإعدادات (الشؤون المالية): اعرض حرّر، أنشئ، احذف",
-    "noPermissionsMessage": "ليس لديك صلاحيات لهذه الصفحة"
+    "noPermissionsMessage": "ليس لديك صلاحيات لهذه الصفحة",
+    "expenseType.label": "نوع المصروفات",
+    "expenseType.label.plural": "أنواع المصروفات",
+    "expenseType.name": "الاسم",
+    "expenseType.code": "رمز",
+    "expenseType.account": "امتداد رقم الحساب الخارجي",
+    "settings.expenseTypes.title": "أنواع المصروفات"
 }

@@ -524,5 +524,11 @@
     "permission.ledger.edit": "Ledger: View, edit",
     "permission.ledger.view": "Ledger: View",
     "permission.settings.all": "Settings (Finance): View, edit, create, delete",
-    "noPermissionsMessage": "Vous n'êtes pas autorisé à accéder à cette page."
+    "noPermissionsMessage": "Vous n'êtes pas autorisé à accéder à cette page.",
+    "expenseType.label": "Expense type",
+    "expenseType.label.plural": "Expense types",
+    "expenseType.name": "Name",
+    "expenseType.code": "Code",
+    "expenseType.account": "External account number extension",
+    "settings.expenseTypes.title": "Expense types"
 }

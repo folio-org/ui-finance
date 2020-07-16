@@ -524,5 +524,11 @@
     "permission.ledger.edit": "Contabilidade: Visualizar, editar",
     "permission.ledger.view": "Contabilidade: Visualizar",
     "permission.settings.all": "Configurações (Finanças): Visualizar, editar, criar, excluir",
-    "noPermissionsMessage": "Você não tem permissão para acessar essa página"
+    "noPermissionsMessage": "Você não tem permissão para acessar essa página",
+    "expenseType.label": "Expense type",
+    "expenseType.label.plural": "Expense types",
+    "expenseType.name": "Name",
+    "expenseType.code": "Code",
+    "expenseType.account": "External account number extension",
+    "settings.expenseTypes.title": "Expense types"
 }

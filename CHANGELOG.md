@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIF-211](https://issues.folio.org/browse/UINV-211) CRUD expense classes in Finance settings
 * [UIF-229](https://issues.folio.org/browse/UINV-229) Change mouse cursor for non-sortable columns
 * [UIF-228](https://issues.folio.org/browse/UINV-228) Increase granularity of finance app permissions
 

@@ -8,6 +8,7 @@ import {
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import configBudgets from './configs/budgets';
+import configExpenseClasses from './configs/expenseClasses';
 import configFiscalYears from './configs/fiscalYears';
 import configGroupFundFiscalYears from './configs/groupFundFiscalYears';
 import configGroups from './configs/groups';
@@ -31,4 +32,5 @@ export default function config() {
   configFundTypes(this);
   configGroupSummaries(this);
   configLines(this);
+  configExpenseClasses(this);
 }

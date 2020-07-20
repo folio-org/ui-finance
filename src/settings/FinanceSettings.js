@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Settings } from '@folio/stripes/smart-components';
 
 import FundTypeSettings from './FundTypeSettings';
-import ExpenseTypeSettings from './ExpenseTypeSettings';
+import ExpenseClassSettings from './ExpenseClassSettings';
 
 export default class FinanceSettings extends React.Component {
   pages = [
@@ -14,9 +14,9 @@ export default class FinanceSettings extends React.Component {
       route: 'fund-types',
     },
     {
-      component: ExpenseTypeSettings,
-      label: <FormattedMessage id="ui-finance.settings.expenseTypes.title" />,
-      route: 'expense-types',
+      component: ExpenseClassSettings,
+      label: <FormattedMessage id="ui-finance.settings.expenseClasses.title" />,
+      route: 'expense-classes',
     },
   ];
 

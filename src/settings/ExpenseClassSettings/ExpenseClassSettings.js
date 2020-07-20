@@ -13,14 +13,14 @@ import { EXPENSE_CLASSES_API } from '../../common/const';
 const hiddenFields = ['numberOfObjects'];
 const visibleFields = ['name', 'code', 'externalAccountNumberExt'];
 const columnMapping = {
-  name: <FormattedMessage id="ui-finance.expenseType.name" />,
-  code: <FormattedMessage id="ui-finance.expenseType.code" />,
-  externalAccountNumberExt: <FormattedMessage id="ui-finance.expenseType.account" />,
+  name: <FormattedMessage id="ui-finance.expenseClass.name" />,
+  code: <FormattedMessage id="ui-finance.expenseClass.code" />,
+  externalAccountNumberExt: <FormattedMessage id="ui-finance.expenseClass.account" />,
 };
 
 const ConnectedControlledVocab = stripesConnect(ControlledVocab);
 
-const ExpenseTypeSettings = ({ stripes }) => {
+const ExpenseClassSettings = ({ stripes }) => {
   const intl = useIntl();
 
   return (
@@ -28,11 +28,11 @@ const ExpenseTypeSettings = ({ stripes }) => {
       baseUrl={EXPENSE_CLASSES_API}
       columnMapping={columnMapping}
       hiddenFields={hiddenFields}
-      id="expenseTypes"
-      label={intl.formatMessage({ id: 'ui-finance.expenseType.label.plural' })}
-      labelSingular={intl.formatMessage({ id: 'ui-finance.expenseType.label' })}
+      id="expenseClasses"
+      label={intl.formatMessage({ id: 'ui-finance.expenseClass.label.plural' })}
+      labelSingular={intl.formatMessage({ id: 'ui-finance.expenseClass.label' })}
       nameKey="name"
-      objectLabel={intl.formatMessage({ id: 'ui-finance.expenseType.label' })}
+      objectLabel={intl.formatMessage({ id: 'ui-finance.expenseClass.label' })}
       records="expenseClasses"
       sortby="name"
       stripes={stripes}
@@ -41,8 +41,8 @@ const ExpenseTypeSettings = ({ stripes }) => {
   );
 };
 
-ExpenseTypeSettings.propTypes = {
+ExpenseClassSettings.propTypes = {
   stripes: PropTypes.object.isRequired,
 };
 
-export default ExpenseTypeSettings;
+export default ExpenseClassSettings;

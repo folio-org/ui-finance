@@ -274,7 +274,10 @@ const FundForm = ({
                       data-test-col-group
                       xs={3}
                     >
-                      <FieldFundGroups name="groupIds" />
+                      <FieldFundGroups
+                        ariaLabelledBy="fund-form-groups-label"
+                        name="groupIds"
+                      />
                     </Col>
                   </Row>
 
@@ -284,6 +287,7 @@ const FundForm = ({
                       xs={3}
                     >
                       <FieldMultiSelection
+                        ariaLabelledBy="fund-form-transfer-from-label"
                         dataOptions={fundOptions}
                         label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
                         name="fund.allocatedFromIds"
@@ -298,6 +302,7 @@ const FundForm = ({
                       xs={3}
                     >
                       <FieldMultiSelection
+                        ariaLabelledBy="fund-form-transfer-to-label"
                         dataOptions={fundOptions}
                         label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
                         name="fund.allocatedToIds"

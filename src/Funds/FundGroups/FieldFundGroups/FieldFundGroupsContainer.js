@@ -13,7 +13,7 @@ import FieldFundGroups from './FieldFundGroups';
 
 const itemToString = item => item;
 
-function FieldFundGroupsContainer({ name, resources }) {
+function FieldFundGroupsContainer({ ariaLabelledBy, name, resources }) {
   const isLoading = !get(resources, 'groupsDict.hasLoaded');
 
   if (isLoading) return null;
@@ -41,6 +41,7 @@ function FieldFundGroupsContainer({ name, resources }) {
 
   return (
     <FieldFundGroups
+      ariaLabelledBy={ariaLabelledBy}
       name={name}
       dataOptions={groupOptions}
       itemToString={itemToString}
@@ -55,6 +56,7 @@ FieldFundGroupsContainer.manifest = Object.freeze({
 });
 
 FieldFundGroupsContainer.propTypes = {
+  ariaLabelledBy: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   resources: PropTypes.object.isRequired,
 };

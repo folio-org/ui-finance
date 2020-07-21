@@ -33,6 +33,7 @@ const FundsListFilters = ({
     <AccordionSet>
       <SelectionFilter
         activeFilters={activeFilters[FUND_FILTERS.LEDGER]}
+        id={FUND_FILTERS.LEDGER}
         labelId="ui-finance.fund.filters.ledger"
         name={FUND_FILTERS.LEDGER}
         onChange={adaptedApplyFilters}
@@ -48,6 +49,7 @@ const FundsListFilters = ({
       />
       <SelectionFilter
         activeFilters={activeFilters[FUND_FILTERS.TYPE]}
+        id={FUND_FILTERS.TYPE}
         labelId="ui-finance.fund.filters.type"
         name={FUND_FILTERS.TYPE}
         onChange={adaptedApplyFilters}
@@ -55,6 +57,7 @@ const FundsListFilters = ({
       />
       <SelectionFilter
         activeFilters={activeFilters[FUND_FILTERS.GROUP]}
+        id={FUND_FILTERS.GROUP}
         labelId="ui-finance.fund.filters.group"
         name={FUND_FILTERS.GROUP}
         onChange={adaptedApplyFilters}

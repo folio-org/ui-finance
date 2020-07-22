@@ -6,8 +6,12 @@ import { Field } from 'redux-form';
 import stripesForm from '@folio/stripes/form';
 import { IfPermission } from '@folio/stripes/core';
 import {
+  Accordion,
+  AccordionSet,
+  AccordionStatus,
   Button,
   Col,
+  ExpandAllButton,
   Pane,
   Paneset,
   Row,
@@ -28,6 +32,8 @@ import {
   MANAGE_UNITS_PERM,
 } from '../../common/const';
 import {
+  LEDGER_ACCORDTION_LABELS,
+  LEDGER_ACCORDTION,
   LEDGER_FORM,
   LEDGER_STATUS_OPTIONS,
 } from '../constants';
@@ -42,6 +48,7 @@ const LedgerForm = ({
   initialValues,
   onCancel,
   submitting,
+  pristine,
 }) => {
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -52,6 +59,7 @@ const LedgerForm = ({
       handleSubmit={handleSubmit}
       submitting={submitting}
       onCancel={closeForm}
+      pristine={pristine}
     />
   );
   const metadata = initialValues.metadata;
@@ -73,79 +81,93 @@ const LedgerForm = ({
               md={8}
               mdOffset={2}
             >
-              {metadata && <ViewMetaData metadata={metadata} />}
-              <Row>
-                <Col data-test-col-ledger-form-name xs={3}>
-                  <Field
-                    component={TextField}
-                    label={<FormattedMessage id="ui-finance.ledger.name" />}
-                    name="name"
-                    type="text"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
+              <AccordionStatus>
+                <Row end="xs">
+                  <Col xs={12}>
+                    <ExpandAllButton />
+                  </Col>
+                </Row>
+                <AccordionSet>
+                  <Accordion
+                    id={LEDGER_ACCORDTION.information}
+                    label={LEDGER_ACCORDTION_LABELS.information}
+                  >
+                    {metadata && <ViewMetaData metadata={metadata} />}
+                    <Row>
+                      <Col data-test-col-ledger-form-name xs={3}>
+                        <Field
+                          component={TextField}
+                          label={<FormattedMessage id="ui-finance.ledger.name" />}
+                          name="name"
+                          type="text"
+                          required
+                          validate={validateRequired}
+                        />
+                      </Col>
 
-                <Col data-test-col-ledger-form-code xs={3}>
-                  <Field
-                    component={TextField}
-                    label={<FormattedMessage id="ui-finance.ledger.code" />}
-                    name="code"
-                    type="text"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
+                      <Col data-test-col-ledger-form-code xs={3}>
+                        <Field
+                          component={TextField}
+                          label={<FormattedMessage id="ui-finance.ledger.code" />}
+                          name="code"
+                          type="text"
+                          required
+                          validate={validateRequired}
+                        />
+                      </Col>
 
-                <Col
-                  data-test-col-ledger-form-fy
-                  xs={3}
-                >
-                  <FiscalYearField
-                    label={<FormattedMessage id="ui-finance.ledger.fiscalYear" />}
-                    name="fiscalYearOneId"
-                    required
-                  />
-                  <IfPermission perm="finance.fiscal-years.item.post">
-                    <Button
-                      buttonStyle="link bottomMargin0"
-                      data-test-ledger-create-fy
-                      onClick={goToCreateFY}
-                    >
-                      <FormattedMessage id="ui-finance.ledger.createNewFY" />
-                    </Button>
-                  </IfPermission>
-                </Col>
+                      <Col
+                        data-test-col-ledger-form-fy
+                        xs={3}
+                      >
+                        <FiscalYearField
+                          label={<FormattedMessage id="ui-finance.ledger.fiscalYear" />}
+                          name="fiscalYearOneId"
+                          required
+                        />
+                        <IfPermission perm="finance.fiscal-years.item.post">
+                          <Button
+                            buttonStyle="link bottomMargin0"
+                            data-test-ledger-create-fy
+                            onClick={goToCreateFY}
+                          >
+                            <FormattedMessage id="ui-finance.ledger.createNewFY" />
+                          </Button>
+                        </IfPermission>
+                      </Col>
 
-                <Col data-test-col-ledger-form-status xs={3}>
-                  <FieldSelection
-                    dataOptions={LEDGER_STATUS_OPTIONS}
-                    id="ledger-status"
-                    labelId="ui-finance.ledger.status"
-                    name="ledgerStatus"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
+                      <Col data-test-col-ledger-form-status xs={3}>
+                        <FieldSelection
+                          dataOptions={LEDGER_STATUS_OPTIONS}
+                          id="ledger-status"
+                          labelId="ui-finance.ledger.status"
+                          name="ledgerStatus"
+                          required
+                          validate={validateRequired}
+                        />
+                      </Col>
 
-                <Col data-test-col-ledger-form-acq-units xs={3}>
-                  <AcqUnitsField
-                    name="acqUnitIds"
-                    perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
-                    isEdit={isEditMode}
-                    preselectedUnits={initialValues.acqUnitIds}
-                  />
-                </Col>
+                      <Col data-test-col-ledger-form-acq-units xs={3}>
+                        <AcqUnitsField
+                          name="acqUnitIds"
+                          perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                          isEdit={isEditMode}
+                          preselectedUnits={initialValues.acqUnitIds}
+                        />
+                      </Col>
 
-                <Col data-test-col-ledger-form-description xs={12}>
-                  <Field
-                    component={TextArea}
-                    label={<FormattedMessage id="ui-finance.ledger.description" />}
-                    name="description"
-                    type="text"
-                  />
-                </Col>
-              </Row>
+                      <Col data-test-col-ledger-form-description xs={12}>
+                        <Field
+                          component={TextArea}
+                          label={<FormattedMessage id="ui-finance.ledger.description" />}
+                          name="description"
+                          type="text"
+                        />
+                      </Col>
+                    </Row>
+                  </Accordion>
+                </AccordionSet>
+              </AccordionStatus>
             </Col>
           </Row>
         </Pane>
@@ -160,6 +182,7 @@ LedgerForm.propTypes = {
   initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
+  pristine: PropTypes.func.isRequired,
 };
 
 LedgerForm.defaultProps = {

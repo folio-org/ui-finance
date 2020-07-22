@@ -7,6 +7,9 @@
 * [UIF-229](https://issues.folio.org/browse/UINV-229) Change mouse cursor for non-sortable columns
 * [UIF-228](https://issues.folio.org/browse/UINV-228) Increase granularity of finance app permissions
 
+### Bug fixes
+* [UIF-193](https://issues.folio.org/browse/UIF-193) Edit ledger - Certain ARIA roles must be contained by particular parents
+
 ## [2.1.2](https://github.com/folio-org/ui-finance/tree/v2.1.2) (2020-07-01)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.1.1...v2.1.2)
 

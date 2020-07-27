@@ -511,10 +511,6 @@
     "permission.fiscal-year.delete": "Finanças: Visualizar, editar, excluir ano fiscal",
     "permission.fiscal-year.edit": "Finanças: Visualizar, editar ano fiscal",
     "permission.fiscal-year.view": "Finanças: Exibir ano fiscal",
-    "permission.fund-buget.create": "Finanças: Visualizar, editar, criar fundo e orçamento",
-    "permission.fund-buget.delete": "Finanças: Visualizar, editar, excluir fundo e orçamento",
-    "permission.fund-buget.edit": "Finanças: Visualizar, editar fundo e orçamento",
-    "permission.fund-buget.view": "Finanças: Visualizar fundo e orçamento",
     "permission.group.create": "Finanças: Visualizar, editar, criar grupo",
     "permission.group.delete": "Finanças: Visualizar, editar, excluir grupo",
     "permission.group.edit": "Finanças: Visualizar, editar grupo",
@@ -530,5 +526,9 @@
     "expenseClass.name": "Nome",
     "expenseClass.code": "Código",
     "expenseClass.account": "Extensão de número de conta externa",
-    "settings.expenseClasses.title": "Classes de despesas"
+    "settings.expenseClasses.title": "Classes de despesas",
+    "permission.fund-budget.create": "Finanças: Visualizar, editar, criar fundo e orçamento",
+    "permission.fund-budget.delete": "Finanças: Visualizar, editar, excluir fundo e orçamento",
+    "permission.fund-budget.edit": "Finanças: Visualizar, editar fundo e orçamento",
+    "permission.fund-budget.view": "Finanças: Visualizar fundo e orçamento"
 }

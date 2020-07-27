@@ -511,10 +511,6 @@
     "permission.fiscal-year.delete": "السنة المالية: اعرض، حرّر، احذف",
     "permission.fiscal-year.edit": "السنة المالية: اعرض، حرّر",
     "permission.fiscal-year.view": "السنة المالية: اعرض",
-    "permission.fund-buget.create": "التمويل والميزانية: اعرض، حرّر، أنشئ",
-    "permission.fund-buget.delete": "التمويل والميزانية: اعرض، حرّر، احذف",
-    "permission.fund-buget.edit": "التمويل والميزانية: اعرض، حرّر",
-    "permission.fund-buget.view": "التمويل والميزانية: اعرض",
     "permission.group.create": "المجموعة: اعرض، حرّر، أنشئ",
     "permission.group.delete": "المجموعة: اعرض، حرّر، حذف",
     "permission.group.edit": "المجموعة: اعرض، حرّر",
@@ -530,5 +526,9 @@
     "expenseClass.name": "الاسم",
     "expenseClass.code": "رمز",
     "expenseClass.account": "امتداد رقم الحساب الخارجي",
-    "settings.expenseClasses.title": "فئات المصروفات"
+    "settings.expenseClasses.title": "فئات المصروفات",
+    "permission.fund-budget.create": "الشؤون المالية: اعرض، حرّر، أنشئ التمويل والميزانية",
+    "permission.fund-budget.delete": "الشؤون المالية: اعرض، حرّر، احذف التمويل والميزانية",
+    "permission.fund-budget.edit": "الشؤون المالية: اعرض، حرّر التمويل والميزانية",
+    "permission.fund-budget.view": "الشؤون المالية: اعرض التمويل والميزانية"
 }

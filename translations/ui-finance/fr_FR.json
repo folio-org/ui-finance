@@ -511,10 +511,6 @@
     "permission.fiscal-year.delete": "Finance: afficher, modifier, supprimer l'exercice fiscal",
     "permission.fiscal-year.edit": "Finance: afficher, modifier l'exercice",
     "permission.fiscal-year.view": "Finance: voir l'exercice fiscal",
-    "permission.fund-buget.create": "Finance: afficher, modifier, créer un fonds et un budget",
-    "permission.fund-buget.delete": "Finance: afficher, modifier, supprimer le fonds et le budget",
-    "permission.fund-buget.edit": "Finance: afficher, modifier le fonds et le budget",
-    "permission.fund-buget.view": "Finance: afficher le fonds et le budget",
     "permission.group.create": "Finance: afficher, modifier, créer un groupe",
     "permission.group.delete": "Finance: afficher, modifier, supprimer un groupe",
     "permission.group.edit": "Finance: afficher, modifier le groupe",
@@ -530,5 +526,9 @@
     "expenseClass.name": "Nom",
     "expenseClass.code": "Code",
     "expenseClass.account": "External account number extension",
-    "settings.expenseClasses.title": "Expense classes"
+    "settings.expenseClasses.title": "Expense classes",
+    "permission.fund-budget.create": "Finance: View, edit, create fund and budget",
+    "permission.fund-budget.delete": "Finance: View, edit, delete fund and budget",
+    "permission.fund-budget.edit": "Finance: View, edit fund and budget",
+    "permission.fund-budget.view": "Finance: View fund and budget"
 }

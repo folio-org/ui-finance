@@ -511,10 +511,6 @@
     "permission.fiscal-year.delete": "财务年度：查看、编辑、删除",
     "permission.fiscal-year.edit": "财务年度：查看、编辑",
     "permission.fiscal-year.view": "财务年度：查看",
-    "permission.fund-buget.create": "经费和预算：查看、编辑、创建",
-    "permission.fund-buget.delete": "经费和预算：查看、编辑、删除",
-    "permission.fund-buget.edit": "经费和预算：查看、编辑",
-    "permission.fund-buget.view": "经费和预算：查看",
     "permission.group.create": "组：查看、编辑、创建",
     "permission.group.delete": "组：查看、编辑、删除",
     "permission.group.edit": "组：查看、编辑",
@@ -530,5 +526,9 @@
     "expenseClass.name": "Name",
     "expenseClass.code": "Code",
     "expenseClass.account": "External account number extension",
-    "settings.expenseClasses.title": "Expense classes"
+    "settings.expenseClasses.title": "Expense classes",
+    "permission.fund-budget.create": "Finance: View, edit, create fund and budget",
+    "permission.fund-budget.delete": "Finance: View, edit, delete fund and budget",
+    "permission.fund-budget.edit": "Finance: View, edit fund and budget",
+    "permission.fund-budget.view": "Finance: View fund and budget"
 }

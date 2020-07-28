@@ -64,7 +64,7 @@
       },
       {
         "permissionName": "ui-finance.fiscal-year.view",
-        "displayName": "Fiscal year: View",
+        "displayName": "Finance: View fiscal year",
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
@@ -81,7 +81,7 @@
       },
       {
         "permissionName": "ui-finance.fiscal-year.edit",
-        "displayName": "Fiscal year: View, edit",
+        "displayName": "Finance: View, edit fiscal year",
         "visible": true,
         "subPermissions": [
           "ui-finance.fiscal-year.view",
@@ -91,7 +91,7 @@
       },
       {
         "permissionName": "ui-finance.fiscal-year.create",
-        "displayName": "Fiscal year: View, edit, create",
+        "displayName": "Finance: View, edit, create fiscal year",
         "visible": true,
         "subPermissions": [
           "ui-finance.fiscal-year.edit",
@@ -100,7 +100,7 @@
       },
       {
         "permissionName": "ui-finance.fiscal-year.delete",
-        "displayName": "Fiscal year: View, edit, delete",
+        "displayName": "Finance: View, edit, delete fiscal year",
         "visible": true,
         "subPermissions": [
           "ui-finance.fiscal-year.edit",
@@ -119,7 +119,7 @@
       },
       {
         "permissionName": "ui-finance.ledger.view",
-        "displayName": "Ledger: View",
+        "displayName": "Finance: View ledger",
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
@@ -137,7 +137,7 @@
       },
       {
         "permissionName": "ui-finance.ledger.edit",
-        "displayName": "Ledger: View, edit",
+        "displayName": "Finance: View, edit ledger",
         "visible": true,
         "subPermissions": [
           "ui-finance.ledger.view",
@@ -148,7 +148,7 @@
       },
       {
         "permissionName": "ui-finance.ledger.create",
-        "displayName": "Ledger: View, edit, create",
+        "displayName": "Finance: View, edit, create ledger",
         "visible": true,
         "subPermissions": [
           "ui-finance.ledger.edit",
@@ -157,7 +157,7 @@
       },
       {
         "permissionName": "ui-finance.ledger.delete",
-        "displayName": "Ledger: View, edit, delete",
+        "displayName": "Finance: View, edit, delete ledger",
         "visible": true,
         "subPermissions": [
           "ui-finance.ledger.edit",
@@ -166,7 +166,7 @@
       },
       {
         "permissionName": "ui-finance.group.view",
-        "displayName": "Group: View",
+        "displayName": "Finance: View group",
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
@@ -182,7 +182,7 @@
       },
       {
         "permissionName": "ui-finance.group.edit",
-        "displayName": "Group: View, edit",
+        "displayName": "Finance: View, edit group",
         "visible": true,
         "subPermissions": [
           "ui-finance.group.view",
@@ -192,7 +192,7 @@
       },
       {
         "permissionName": "ui-finance.group.create",
-        "displayName": "Group: View, edit, create",
+        "displayName": "Finance: View, edit, create group",
         "visible": true,
         "subPermissions": [
           "ui-finance.group.edit",
@@ -201,7 +201,7 @@
       },
       {
         "permissionName": "ui-finance.group.delete",
-        "displayName": "Group: View, edit, delete",
+        "displayName": "Finance: View, edit, delete group",
         "visible": true,
         "subPermissions": [
           "ui-finance.group.edit",
@@ -210,7 +210,7 @@
       },
       {
         "permissionName": "ui-finance.fund-budget.view",
-        "displayName": "Fund and budget: View",
+        "displayName": "Finance: View fund and budget",
         "visible": true,
         "subPermissions": [
           "module.finance.enabled",
@@ -236,7 +236,7 @@
       },
       {
         "permissionName": "ui-finance.fund-budget.edit",
-        "displayName": "Fund and budget: View, edit",
+        "displayName": "Finance: View, edit fund and budget",
         "visible": true,
         "subPermissions": [
           "ui-finance.fund-budget.view",
@@ -248,7 +248,7 @@
       },
       {
         "permissionName": "ui-finance.fund-budget.create",
-        "displayName": "Fund and budget: View, edit, create",
+        "displayName": "Finance: View, edit, create fund and budget",
         "visible": true,
         "subPermissions": [
           "ui-finance.fund-budget.edit",
@@ -258,7 +258,7 @@
       },
       {
         "permissionName": "ui-finance.fund-budget.delete",
-        "displayName": "Fund and budget: View, edit, delete",
+        "displayName": "Finance: View, edit, delete fund and budget",
         "visible": true,
         "subPermissions": [
           "ui-finance.fund-budget.edit",

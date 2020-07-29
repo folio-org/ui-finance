@@ -53,7 +53,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
     () => {
       setIsLoading(true);
       setBudget({});
-      setExpenseClassesTotals();
+      setExpenseClassesTotals([]);
       setFiscalYear({});
 
       Promise.all([mutator.budgetById.GET(), mutator.expenseClassesTotals.GET()])
@@ -66,10 +66,14 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
           });
         })
         .then(setFiscalYear)
+        .catch(() => showCallout({
+          messageId: "ui-finance.budget.actions.load.error",
+          type: 'error',
+        }))
         .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetId],
+    [budgetId, showCallout],
   );
 
   useEffect(fetchBudgetResources, [budgetId]);
@@ -195,7 +199,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
     </MenuSection>
   );
 
-  if (isLoading || !expenseClassesTotals) {
+  if (isLoading) {
     return (
       <LoadingView onClose={goToFundDetails} />
     );

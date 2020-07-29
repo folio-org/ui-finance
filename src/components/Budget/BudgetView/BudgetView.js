@@ -76,8 +76,8 @@ const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fisc
 };
 
 BudgetView.propTypes = {
-  budget: PropTypes.object,
-  expenseClassesTotals: PropTypes.arrayOf(PropTypes.object),
+  budget: PropTypes.object.isRequired,
+  expenseClassesTotals: PropTypes.arrayOf(PropTypes.object).isRequired,
   fiscalStart: PropTypes.string,
   fiscalEnd: PropTypes.string,
   fiscalYearCurrency: PropTypes.string,

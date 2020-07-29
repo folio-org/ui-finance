@@ -20,4 +20,5 @@ export const BUDGET_STATUSES_OPTIONS = [
 export const SECTIONS_BUDGET = {
   INFORMATION: 'information',
   SUMMARY: 'summary',
+  EXPENSE_CLASSES: 'expense-classes',
 };

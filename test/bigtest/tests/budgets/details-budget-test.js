@@ -21,6 +21,7 @@ describe('Budget details', () => {
     const ledger = this.server.create('ledger');
     const fund = this.server.create('fund');
     const fiscalYear = this.server.create('fiscalYear', { id: ledger.id });
+    const expenseClass = this.server.create('expenseClass');
 
     fund.fund.ledgerId = ledger.id;
     fund.fund.id = fund.id;
@@ -30,12 +31,15 @@ describe('Budget details', () => {
       fundId: fund.fund.id,
     });
 
+    this.server.create('budgetExpenseClassTotal', { id: expenseClass.id, expenseClassName: expenseClass.name });
+
     this.visit(`finance/budget/${budget.id}/view`);
     await budgetDetails.whenLoaded();
   });
 
   it('shows budget details', () => {
     expect(budgetDetails.isPresent).to.be.true;
+    expect(budgetDetails.expenseClassesAccordion).to.be.true;
   });
 
   describe('close budget details', () => {

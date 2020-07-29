@@ -14,6 +14,7 @@ const configBudgets = server => {
   server.get(`${BUDGETS_API}/:id`, createGetById(SCHEMA_NAME));
   server.post(BUDGETS_API, createPost(SCHEMA_NAME));
   server.put(`${BUDGETS_API}/:id`, createPut(SCHEMA_NAME));
+  server.get(`${BUDGETS_API}/:id/expense-classes-totals`, createGetAll('budgetExpenseClassTotals'));
 };
 
 export default configBudgets;

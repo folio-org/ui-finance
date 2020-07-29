@@ -33,6 +33,7 @@ export default interactor(class BudgetDetailsInteractor {
   addTransferModal = new AddTransferModal();
   closePane = new ButtonInteractor('[icon=times]');
   budgetRemoveConfirmation = new ConfirmationInteractor('#budget-remove-confirmation');
+  expenseClassesAccordion = isPresent('#expense-classes');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

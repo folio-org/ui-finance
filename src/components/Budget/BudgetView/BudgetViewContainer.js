@@ -22,6 +22,7 @@ import {
   stripesConnect,
 } from '@folio/stripes/core';
 import {
+  baseManifest,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -31,6 +32,7 @@ import {
   fiscalYearResource,
 } from '../../../common/resources';
 import {
+  BUDGETS_API,
   FISCAL_YEARS_API,
   FUNDS_ROUTE,
   TRANSACTION_TYPES,
@@ -44,27 +46,34 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [expenseClassesTotals, setExpenseClassesTotals] = useState();
   const showCallout = useShowCallout();
 
   const fetchBudgetResources = useCallback(
     () => {
       setIsLoading(true);
       setBudget({});
+      setExpenseClassesTotals([]);
       setFiscalYear({});
 
-      mutator.budgetById.GET()
-        .then(budgetResponse => {
+      Promise.all([mutator.budgetById.GET(), mutator.expenseClassesTotals.GET()])
+        .then(([budgetResponse, expenseClassesTotalsResp]) => {
           setBudget(budgetResponse);
+          setExpenseClassesTotals(expenseClassesTotalsResp);
 
           return mutator.budgetFiscalYear.GET({
             path: `${FISCAL_YEARS_API}/${budgetResponse.fiscalYearId}`,
           });
         })
         .then(setFiscalYear)
+        .catch(() => showCallout({
+          messageId: 'ui-finance.budget.actions.load.error',
+          type: 'error',
+        }))
         .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetId],
+    [budgetId, showCallout],
   );
 
   useEffect(fetchBudgetResources, [budgetId]);
@@ -214,6 +223,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
           >
             <BudgetView
               budget={budget}
+              expenseClassesTotals={expenseClassesTotals}
               fiscalStart={fiscalYear.periodStart}
               fiscalEnd={fiscalYear.periodEnd}
               fiscalYearCurrency={fiscalYear.currency}
@@ -269,6 +279,13 @@ BudgetViewContainer.manifest = Object.freeze({
   },
   budgetFiscalYear: {
     ...fiscalYearResource,
+    accumulate: true,
+    fetch: false,
+  },
+  expenseClassesTotals: {
+    ...baseManifest,
+    path: `${BUDGETS_API}/:{budgetId}/expense-classes-totals`,
+    records: 'budgetExpenseClassTotals',
     accumulate: true,
     fetch: false,
   },

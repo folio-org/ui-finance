@@ -67,7 +67,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
         })
         .then(setFiscalYear)
         .catch(() => showCallout({
-          messageId: "ui-finance.budget.actions.load.error",
+          messageId: 'ui-finance.budget.actions.load.error',
           type: 'error',
         }))
         .finally(() => setIsLoading(false));

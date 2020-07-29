@@ -84,7 +84,6 @@ BudgetView.propTypes = {
 };
 
 BudgetView.defaultProps = {
-  budget: {},
   fiscalStart: '',
   fiscalEnd: '',
 };

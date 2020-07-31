@@ -9,6 +9,8 @@ import {
   ConfirmationInteractor,
 } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
+import { SECTIONS_BUDGET } from '../../../../src/components/Budget/constants';
+
 @interactor class AddTransferModal {
   static defaultScope = '#add-transfer-modal';
   cancelButton = new ButtonInteractor('[data-test-add-transfer-cancel]');
@@ -33,7 +35,7 @@ export default interactor(class BudgetDetailsInteractor {
   addTransferModal = new AddTransferModal();
   closePane = new ButtonInteractor('[icon=times]');
   budgetRemoveConfirmation = new ConfirmationInteractor('#budget-remove-confirmation');
-  expenseClassesAccordion = isPresent('#expense-classes');
+  expenseClassesAccordion = isPresent(`#${SECTIONS_BUDGET.EXPENSE_CLASSES}`);
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

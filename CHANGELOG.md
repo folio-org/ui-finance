@@ -6,6 +6,7 @@
 * Display expense class information on Group view. Refs UIF-227
 
 ### Stories
+* [UIF-212](https://issues.folio.org/browse/UINV-212) Add expense classes to a budget
 * [UIF-214](https://issues.folio.org/browse/UINV-214) Display expense class information on budget view
 * [UIF-211](https://issues.folio.org/browse/UINV-211) CRUD expense classes in Finance settings
 * [UIF-229](https://issues.folio.org/browse/UINV-229) Change mouse cursor for non-sortable columns

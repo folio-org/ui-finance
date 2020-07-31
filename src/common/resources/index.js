@@ -1,5 +1,6 @@
 export * from './acqUnitsResource';
 export * from './budget';
+export * from './expenseClasses';
 export * from './fiscalYear';
 export * from './fund';
 export * from './group';

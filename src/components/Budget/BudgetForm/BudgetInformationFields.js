@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
 import {
   Col,
@@ -11,7 +11,7 @@ import {
   Datepicker,
 } from '@folio/stripes/components';
 import {
-  FieldSelect,
+  FieldSelectFinal,
 } from '@folio/stripes-acq-components';
 import { BUDGET_STATUSES_OPTIONS } from '../constants';
 
@@ -37,7 +37,7 @@ const BudgetInformationFields = ({
     </Col>
 
     <Col xs={3}>
-      <FieldSelect
+      <FieldSelectFinal
         dataOptions={BUDGET_STATUSES_OPTIONS}
         id="budget-status"
         label={<FormattedMessage id="ui-finance.budget.status" />}

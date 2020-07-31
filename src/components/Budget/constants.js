@@ -1,4 +1,3 @@
-export const BUDGET_FORM = 'budgetForm';
 export const ADD_BUDGET_MODAL_FORM = 'budgetModalForm';
 
 export const BUDGET_STATUSES = {
@@ -22,3 +21,13 @@ export const SECTIONS_BUDGET = {
   SUMMARY: 'summary',
   EXPENSE_CLASSES: 'expense-classes',
 };
+
+const EXPENSE_CLASS_STATUS = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
+};
+
+export const EXPENSE_CLASS_STATUS_OPTIONS = [
+  { labelId: 'ui-finance.budget.expenseClasses.status.Active', value: EXPENSE_CLASS_STATUS.ACTIVE },
+  { labelId: 'ui-finance.budget.expenseClasses.status.Inactive', value: EXPENSE_CLASS_STATUS.INACTIVE },
+];

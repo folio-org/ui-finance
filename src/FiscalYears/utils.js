@@ -16,7 +16,7 @@ export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
         showCallout({
           messageId: 'ui-finance.fiscalYear.actions.save.success',
         });
-        setTimeout(() => onSave(savedFiscalYear.id), 0);
+        onSave(savedFiscalYear.id);
 
         return savedFiscalYear;
       } catch (response) {

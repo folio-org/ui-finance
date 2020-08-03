@@ -1,6 +1,5 @@
 export const ACQUISITIONS_UNITS_API = 'acquisitions-units/units';
 export const BUDGETS_API = 'finance/budgets';
-export const EXPENSE_CLASSES_API = 'finance/expense-classes';
 export const FISCAL_YEARS_API = 'finance/fiscal-years';
 export const GROUP_FUND_FISCAL_YEARS_API = 'finance/group-fund-fiscal-years';
 export const FUND_TYPES_API = 'finance/fund-types';

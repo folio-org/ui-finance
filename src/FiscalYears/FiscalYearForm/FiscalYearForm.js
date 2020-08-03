@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
-import stripesForm from '@folio/stripes/form';
+import stripesForm from '@folio/stripes/final-form';
 import {
   Accordion,
   AccordionSet,
@@ -19,7 +19,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
-  FieldDatepicker,
+  FieldDatepickerFinal,
   FormFooter,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -31,7 +31,6 @@ import {
 import {
   FISCAL_YEAR_ACCORDION_LABELS,
   FISCAL_YEAR_ACCORDION,
-  FISCAL_YEAR_FORM,
 } from '../constants';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
@@ -116,12 +115,13 @@ const FiscalYearForm = ({
                           name="acqUnitIds"
                           perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
                           isEdit={isEditMode}
+                          isFinal
                           preselectedUnits={initialValues.acqUnitIds}
                         />
                       </Col>
 
                       <Col xs={4}>
-                        <FieldDatepicker
+                        <FieldDatepickerFinal
                           labelId="ui-finance.fiscalYear.information.periodStart"
                           name="periodStart"
                           required
@@ -130,7 +130,7 @@ const FiscalYearForm = ({
                       </Col>
 
                       <Col xs={4}>
-                        <FieldDatepicker
+                        <FieldDatepickerFinal
                           labelId="ui-finance.fiscalYear.information.periodEnd"
                           name="periodEnd"
                           required
@@ -171,6 +171,5 @@ FiscalYearForm.defaultProps = {
 };
 
 export default stripesForm({
-  form: FISCAL_YEAR_FORM,
   navigationCheck: true,
 })(FiscalYearForm);

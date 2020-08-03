@@ -18,5 +18,3 @@ export const FISCAL_YEAR_ACCORDION_LABELS = {
 export const FISCAL_YEAR_FILTERS = {
   ACQUISITIONS_UNIT: 'acqUnitIds',
 };
-
-export const FISCAL_YEAR_FORM = 'fiscalYearForm';

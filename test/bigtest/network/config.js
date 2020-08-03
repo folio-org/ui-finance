@@ -5,10 +5,10 @@ import {
   configUnits,
   configUsers,
   configLines,
+  configExpenseClasses,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import configBudgets from './configs/budgets';
-import configExpenseClasses from './configs/expenseClasses';
 import configFiscalYears from './configs/fiscalYears';
 import configGroupFundFiscalYears from './configs/groupFundFiscalYears';
 import configGroups from './configs/groups';

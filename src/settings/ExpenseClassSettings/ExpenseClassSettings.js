@@ -7,8 +7,7 @@ import {
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
-
-import { EXPENSE_CLASSES_API } from '../../common/const';
+import { EXPENSE_CLASSES_API } from '@folio/stripes-acq-components';
 
 const hiddenFields = ['numberOfObjects'];
 const visibleFields = ['name', 'code', 'externalAccountNumberExt'];

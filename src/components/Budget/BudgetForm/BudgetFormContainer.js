@@ -5,12 +5,12 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { LoadingView } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  expenseClassesManifest,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
   budgetResource,
-  expenseClassesResource,
   fiscalYearResource,
 } from '../../../common/resources';
 import { FISCAL_YEARS_API } from '../../../common/const';
@@ -105,7 +105,7 @@ BudgetFormContainer.manifest = Object.freeze({
     accumulate: true,
   },
   expenseClasses: {
-    ...expenseClassesResource,
+    ...expenseClassesManifest,
     fetch: false,
     accumulate: true,
   },

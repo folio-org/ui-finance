@@ -5,7 +5,6 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
-  KeyValue,
   Label,
   RepeatableField,
   Row,
@@ -17,7 +16,10 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-import { EXPENSE_CLASS_STATUS_OPTIONS } from '../../constants';
+import {
+  EXPENSE_CLASS_STATUS,
+  EXPENSE_CLASS_STATUS_OPTIONS,
+} from '../../constants';
 
 const headLabels = (
   <Row>
@@ -41,12 +43,6 @@ const headLabels = (
         <FormattedMessage id="ui-finance.budget.expenseClasses.status" />
       </Label>
     </Col>
-
-    <Col xs>
-      <Label id="budgetExpenseClassesFormExpendedLabel">
-        <FormattedMessage id="ui-finance.budget.expenseClasses.expended" />
-      </Label>
-    </Col>
   </Row>
 );
 
@@ -59,8 +55,9 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
     [expenseClasses],
   );
 
-  const getAccountNumberExt = useCallback(index => (
-    expenseClasses.find(({ id }) => id === values.statusExpenseClasses[index].id)?.externalAccountNumberExt ?? null
+  const getAccountNumberExt = useCallback(index => (expenseClasses.find(({ id }) => (
+    id === values.statusExpenseClasses[index].expenseClassId
+  ))?.externalAccountNumberExt ?? null
   ), [values, expenseClasses]);
 
   const renderSubForm = (field, index) => {
@@ -71,7 +68,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
             ariaLabelledBy="budgetExpenseClassesFormNameLabel"
             dataOptions={expenseClassesOptions}
             fullWidth
-            name={`${field}.id`}
+            name={`${field}.expenseClassId`}
             required
             validate={validateRequired}
           />
@@ -91,12 +88,6 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
             name={`${field}.status`}
           />
         </Col>
-        <Col xs>
-          <KeyValue
-            ariaLabelledBy="budgetExpenseClassesFormExpendedLabel"
-            value="-"
-          />
-        </Col>
       </Row>
     );
   };
@@ -108,6 +99,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
       headLabels={headLabels}
       id="budget-status-expense-classes"
       name="statusExpenseClasses"
+      onAdd={fields => fields.push({ status: EXPENSE_CLASS_STATUS.ACTIVE })}
       renderField={renderSubForm}
     />
   );

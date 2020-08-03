@@ -22,7 +22,7 @@ export const SECTIONS_BUDGET = {
   EXPENSE_CLASSES: 'expense-classes',
 };
 
-const EXPENSE_CLASS_STATUS = {
+export const EXPENSE_CLASS_STATUS = {
   ACTIVE: 'Active',
   INACTIVE: 'Inactive',
 };

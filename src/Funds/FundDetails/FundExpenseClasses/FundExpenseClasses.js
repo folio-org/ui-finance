@@ -6,6 +6,7 @@ import orderBy from 'lodash/orderBy';
 import {
   Accordion,
   MultiColumnList,
+  NoValue,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -52,7 +53,10 @@ function FundExpenseClasses({ budgetId, currency, resources: { totals: { failed,
         currency={currency}
       />
     ),
-    percentageExpended: item => `${item.percentageExpended}%`,
+    percentageExpended: item => (item.percentageExpended === null
+      ? <FormattedMessage id="budget.expenseClasses.percentageExpended.undefined" />
+      : `${item.percentageExpended}%`
+    ),
     expenseClassStatus: item => (
       <FormattedMessage id={`ui-finance.currentExpenseClasses.expenseClassStatus.${item.expenseClassStatus}`} />
     ),

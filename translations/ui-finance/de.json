@@ -530,5 +530,15 @@
     "permission.fund-budget.create": "Finance: View, edit, create fund and budget",
     "permission.fund-budget.delete": "Finance: View, edit, delete fund and budget",
     "permission.fund-budget.edit": "Finance: View, edit fund and budget",
-    "permission.fund-budget.view": "Finance: View fund and budget"
+    "permission.fund-budget.view": "Finance: View fund and budget",
+    "budget.expenseClasses.title": "Expense classes",
+    "budget.expenseClasses.expenseClassName": "Expense class",
+    "budget.expenseClasses.encumbered": "Encumbered",
+    "budget.expenseClasses.awaitingPayment": "Awating payment",
+    "budget.expenseClasses.expended": "Expended",
+    "budget.expenseClasses.percentageExpended": "Percent of total expended",
+    "budget.expenseClasses.percentageExpended.undefined": "Undefined",
+    "budget.expenseClasses.status": "Status",
+    "budget.expenseClasses.status.Active": "Active",
+    "budget.expenseClasses.status.Inactive": "Inactive"
 }

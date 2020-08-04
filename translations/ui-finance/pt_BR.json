@@ -530,5 +530,15 @@
     "permission.fund-budget.create": "Finanças: Visualizar, editar, criar fundo e orçamento",
     "permission.fund-budget.delete": "Finanças: Visualizar, editar, excluir fundo e orçamento",
     "permission.fund-budget.edit": "Finanças: Visualizar, editar fundo e orçamento",
-    "permission.fund-budget.view": "Finanças: Visualizar fundo e orçamento"
+    "permission.fund-budget.view": "Finanças: Visualizar fundo e orçamento",
+    "budget.expenseClasses.title": "Classes de despesas",
+    "budget.expenseClasses.expenseClassName": "Classe de despesa",
+    "budget.expenseClasses.encumbered": "Hipotecado",
+    "budget.expenseClasses.awaitingPayment": "Aguardando pagamento",
+    "budget.expenseClasses.expended": "Gasto",
+    "budget.expenseClasses.percentageExpended": "Porcentagem do total gasto",
+    "budget.expenseClasses.percentageExpended.undefined": "Indefinido",
+    "budget.expenseClasses.status": "Status",
+    "budget.expenseClasses.status.Active": "Ativo",
+    "budget.expenseClasses.status.Inactive": "Inativo"
 }

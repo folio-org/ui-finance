@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { isNumber } from 'lodash';
@@ -15,18 +15,33 @@ const columnMapping = {
   percentageExpended: <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended" />,
   status: <FormattedMessage id="ui-finance.budget.expenseClasses.status" />,
 };
-const resultsFormatter = {
-  encumbered: expenseClass => <AmountWithCurrencyField amount={expenseClass.encumbered} />,
-  awaitingPayment: expenseClass => <AmountWithCurrencyField amount={expenseClass.awaitingPayment} />,
-  expended: expenseClass => <AmountWithCurrencyField amount={expenseClass.expended} />,
-  percentageExpended: expenseClass => (isNumber(expenseClass.percentageExpended)
-    ? `${expenseClass.percentageExpended}%`
-    : <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended.undefined" />
-  ),
-  status: expenseClass => <FormattedMessage id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`} />,
-};
+const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id }) => {
+  const resultsFormatter = useMemo(() => ({
+    encumbered: expenseClass => (
+      <AmountWithCurrencyField
+        amount={expenseClass.encumbered}
+        currency={currency}
+      />
+    ),
+    awaitingPayment: expenseClass => (
+      <AmountWithCurrencyField
+        amount={expenseClass.awaitingPayment}
+        currency={currency}
+      />
+    ),
+    expended: expenseClass => (
+      <AmountWithCurrencyField
+        amount={expenseClass.expended}
+        currency={currency}
+      />
+    ),
+    percentageExpended: expenseClass => (isNumber(expenseClass.percentageExpended)
+      ? `${expenseClass.percentageExpended}%`
+      : <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended.undefined" />
+    ),
+    status: expenseClass => <FormattedMessage id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`} />,
+  }), [currency]);
 
-const ExpenseClasses = ({ expenseClassesTotals, visibleColumns, id }) => {
   if (!expenseClassesTotals) {
     return null;
   }
@@ -44,6 +59,7 @@ const ExpenseClasses = ({ expenseClassesTotals, visibleColumns, id }) => {
 };
 
 ExpenseClasses.propTypes = {
+  currency: PropTypes.string,
   expenseClassesTotals: PropTypes.arrayOf(PropTypes.object),
   id: PropTypes.string.isRequired,
   visibleColumns: PropTypes.arrayOf(PropTypes.string),

@@ -5,10 +5,10 @@ import { orderBy } from 'lodash';
 
 import {
   Icon,
-  Layout,
   MultiColumnList,
 } from '@folio/stripes/components';
 import {
+  AcqEndOfList,
   acqRowFormatter,
   AmountWithCurrencyField,
   ASC_DIRECTION,
@@ -84,11 +84,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
         sortedColumn={sortedColumn}
         visibleColumns={visibleColumns}
       />
-      <Layout className="textCentered">
-        <Icon icon="end-mark">
-          <FormattedMessage id="stripes-components.endOfList" />
-        </Icon>
-      </Layout>
+      <AcqEndOfList totalCount={items?.length} />
     </>
   );
 };

@@ -6,6 +6,7 @@ export const SECTIONS_FUND = {
   CURRENT_BUDGET: 'currentBudget',
   PLANNED_BUDGET: 'plannedBudget',
   PREVIOUS_BUDGETS: 'previousBudgets',
+  currentExpenseClasses: 'currentExpenseClasses',
 };
 
 export const FUND_STATUSES = {

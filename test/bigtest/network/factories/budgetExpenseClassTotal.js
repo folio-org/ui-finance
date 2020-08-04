@@ -8,4 +8,5 @@ export default Factory.extend({
   awaitingPayment: () => Number(faker.finance.amount(100, 1000, 2)),
   expended: () => Number(faker.finance.amount(100, 1000, 2)),
   percentageExpended: () => faker.random.number(100),
+  expenseClassStatus: 'Active',
 });

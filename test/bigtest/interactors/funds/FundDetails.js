@@ -52,6 +52,12 @@ import TagsAction from '../common/tags/TagsAction';
   allocated = new Interactor('input[name=allocated]');
 }
 
+@interactor class СurrentExpenseClasses {
+  static defaultScope = '#currentExpenseClasses';
+  fundExpenseClasses = isPresent('#fund-expense-classes');
+  sortByExpended = clickable('#clickable-list-column-expended');
+}
+
 export default interactor(class FundDetailsInteractor {
   static defaultScope = '#pane-fund-details';
 
@@ -62,9 +68,14 @@ export default interactor(class FundDetailsInteractor {
   closePane = new Button('[icon=times]');
   fundRemoveConfirmationModal = new FundRemoveConfirmationModal();
   tagsAction = new TagsAction('[icon=tag]');
+  currentExpenseClasses = new СurrentExpenseClasses();
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
+  }
+
+  whenExpenseClassesLoaded() {
+    return this.timeout(5000).when(() => isPresent('#fund-expense-classes'));
   }
 });

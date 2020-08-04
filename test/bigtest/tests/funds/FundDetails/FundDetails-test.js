@@ -22,6 +22,7 @@ describe('Funds details', () => {
     });
 
     this.server.create('transaction', { fiscalYearId: fiscalYear.id });
+    this.server.createList('budgetExpenseClassTotal', 2);
 
     fund.fund.ledgerId = ledger.id;
 
@@ -36,6 +37,17 @@ describe('Funds details', () => {
 
   it('shows fund details pane', () => {
     expect(fundDetails.isPresent).to.be.true;
+  });
+
+  describe('sort by expended in expense classes', () => {
+    beforeEach(async function () {
+      await fundDetails.whenExpenseClassesLoaded();
+      await fundDetails.currentExpenseClasses.sortByExpended();
+    });
+
+    it('shows fund expense classes', () => {
+      expect(fundDetails.currentExpenseClasses.fundExpenseClasses).to.be.true;
+    });
   });
 
   describe('close fund details pane', () => {

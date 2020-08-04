@@ -15,32 +15,34 @@ const columnMapping = {
   percentageExpended: <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended" />,
   status: <FormattedMessage id="ui-finance.budget.expenseClasses.status" />,
 };
+const getResultsFormatter = currency => ({
+  encumbered: expenseClass => (
+    <AmountWithCurrencyField
+      amount={expenseClass.encumbered}
+      currency={currency}
+    />
+  ),
+  awaitingPayment: expenseClass => (
+    <AmountWithCurrencyField
+      amount={expenseClass.awaitingPayment}
+      currency={currency}
+    />
+  ),
+  expended: expenseClass => (
+    <AmountWithCurrencyField
+      amount={expenseClass.expended}
+      currency={currency}
+    />
+  ),
+  percentageExpended: expenseClass => (isNumber(expenseClass.percentageExpended)
+    ? `${expenseClass.percentageExpended}%`
+    : <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended.undefined" />
+  ),
+  status: expenseClass => <FormattedMessage id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`} />,
+});
+
 const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id }) => {
-  const resultsFormatter = useMemo(() => ({
-    encumbered: expenseClass => (
-      <AmountWithCurrencyField
-        amount={expenseClass.encumbered}
-        currency={currency}
-      />
-    ),
-    awaitingPayment: expenseClass => (
-      <AmountWithCurrencyField
-        amount={expenseClass.awaitingPayment}
-        currency={currency}
-      />
-    ),
-    expended: expenseClass => (
-      <AmountWithCurrencyField
-        amount={expenseClass.expended}
-        currency={currency}
-      />
-    ),
-    percentageExpended: expenseClass => (isNumber(expenseClass.percentageExpended)
-      ? `${expenseClass.percentageExpended}%`
-      : <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended.undefined" />
-    ),
-    status: expenseClass => <FormattedMessage id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`} />,
-  }), [currency]);
+  const resultsFormatter = useMemo(() => getResultsFormatter(currency), [currency]);
 
   if (!expenseClassesTotals) {
     return null;

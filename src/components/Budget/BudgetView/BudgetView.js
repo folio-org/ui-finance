@@ -64,6 +64,7 @@ const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fisc
               id={SECTIONS_BUDGET.EXPENSE_CLASSES}
             >
               <ExpenseClasses
+                currency={fiscalYearCurrency}
                 expenseClassesTotals={expenseClassesTotals}
                 id="budget-expense-classes"
               />

@@ -51,6 +51,7 @@ import FundDetails from './FundDetails';
 import FundCurrentBudget from './FundCurrentBudget';
 import FundPlannedBudgetsContainer from './FundPlannedBudgets';
 import FundPreviousBudgetsContainer from './FundPreviousBudgets';
+import { FundExpenseClasses } from './FundExpenseClasses';
 
 const FundDetailsContainer = ({
   history,
@@ -105,7 +106,13 @@ const FundDetailsContainer = ({
   useEffect(fetchFund, [params.id]);
 
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
-  const [expandAll, sections, toggleSection] = useAccordionToggle();
+  const [expandAll, sections, toggleSection] = useAccordionToggle(
+    Object.values(SECTIONS_FUND).reduce((acc, k) => {
+      acc[k] = true;
+
+      return acc;
+    }, {}),
+  );
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
   const [isTagsPaneOpened, setIsTagsPaneOpened] = useState(false);
 
@@ -274,6 +281,10 @@ const FundDetailsContainer = ({
               openNewBudgetModal={openNewBudgetModal}
             />
           )}
+          <FundExpenseClasses
+            budgetId={currentBudget?.id}
+            currency={currentFY.currency}
+          />
           {currentFY && (
             <FundPlannedBudgetsContainer
               currentFY={currentFY}

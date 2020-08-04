@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Display expense classes on Fund record view. Refs UIF-230
+
 ### Stories
 * [UIF-214](https://issues.folio.org/browse/UINV-214) Display expense class information on budget view
 * [UIF-211](https://issues.folio.org/browse/UINV-211) CRUD expense classes in Finance settings

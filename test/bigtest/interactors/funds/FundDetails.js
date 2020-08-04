@@ -62,6 +62,7 @@ export default interactor(class FundDetailsInteractor {
   closePane = new Button('[icon=times]');
   fundRemoveConfirmationModal = new FundRemoveConfirmationModal();
   tagsAction = new TagsAction('[icon=tag]');
+  fundExpenseClasses = isPresent('#fund-expense-classes');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

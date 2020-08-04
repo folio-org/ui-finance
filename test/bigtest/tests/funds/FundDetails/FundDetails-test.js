@@ -39,8 +39,15 @@ describe('Funds details', () => {
     expect(fundDetails.isPresent).to.be.true;
   });
 
-  it('shows fund expense classes', () => {
-    expect(fundDetails.fundExpenseClasses).to.be.true;
+  describe('sort by expended in expense classes', () => {
+    beforeEach(async function () {
+      await fundDetails.whenExpenseClassesLoaded();
+      await fundDetails.currentExpenseClasses.sortByExpended();
+    });
+
+    it('shows fund expense classes', () => {
+      expect(fundDetails.currentExpenseClasses.fundExpenseClasses).to.be.true;
+    });
   });
 
   describe('close fund details pane', () => {

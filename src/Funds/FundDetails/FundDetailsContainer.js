@@ -283,7 +283,7 @@ const FundDetailsContainer = ({
           )}
           <FundExpenseClasses
             budgetId={currentBudget?.id}
-            currency={currentFY.currency}
+            currency={currentFY?.currency}
           />
           {currentFY && (
             <FundPlannedBudgetsContainer

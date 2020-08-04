@@ -530,5 +530,15 @@
     "permission.fund-budget.create": "الشؤون المالية: اعرض، حرّر، أنشئ التمويل والميزانية",
     "permission.fund-budget.delete": "الشؤون المالية: اعرض، حرّر، احذف التمويل والميزانية",
     "permission.fund-budget.edit": "الشؤون المالية: اعرض، حرّر التمويل والميزانية",
-    "permission.fund-budget.view": "الشؤون المالية: اعرض التمويل والميزانية"
+    "permission.fund-budget.view": "الشؤون المالية: اعرض التمويل والميزانية",
+    "budget.expenseClasses.title": "فئات المصروفات",
+    "budget.expenseClasses.expenseClassName": "فئة المصروفات",
+    "budget.expenseClasses.encumbered": "التكلفة",
+    "budget.expenseClasses.awaitingPayment": "في انتظار السداد",
+    "budget.expenseClasses.expended": "المنفق",
+    "budget.expenseClasses.percentageExpended": "النسبة المئوية لإجمالي الإنفاق",
+    "budget.expenseClasses.percentageExpended.undefined": "غير معرّف",
+    "budget.expenseClasses.status": "الحالة",
+    "budget.expenseClasses.status.Active": "نشط",
+    "budget.expenseClasses.status.Inactive": "غير نشط"
 }

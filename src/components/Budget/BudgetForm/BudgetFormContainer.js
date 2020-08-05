@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
 import { LoadingView } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  expenseClassesManifest,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -16,10 +16,37 @@ import {
 import { FISCAL_YEARS_API } from '../../../common/const';
 import BudgetForm from './BudgetForm';
 
-const BudgetFormContainer = ({ history, resources, mutator, location }) => {
+const BudgetFormContainer = ({ history, mutator, location, match }) => {
+  const budgetId = match.params.budgetId;
+  const [budget, setBudget] = useState();
+  const [fiscalYear, setFiscalYear] = useState();
+  const [expenseClasses, setExpenseClasses] = useState();
   const showCallout = useShowCallout();
-  const budget = get(resources, ['budget', 'records', 0]);
-  const isLoading = !get(resources, ['budget', 'hasLoaded']) && !get(resources, ['fiscalYear', 'hasLoaded']);
+
+  useEffect(() => {
+    setBudget();
+    setExpenseClasses();
+    setFiscalYear();
+
+    Promise.all([mutator.budget.GET(), mutator.expenseClasses.GET()])
+      .then(([budgetResponse, expenseClassesResponse]) => {
+        setBudget(budgetResponse);
+        setExpenseClasses(expenseClassesResponse);
+
+        return mutator.fiscalYear.GET({
+          path: `${FISCAL_YEARS_API}/${budgetResponse.fiscalYearId}`,
+        });
+      })
+      .then(setFiscalYear)
+      .catch(() => showCallout({
+        messageId: 'ui-finance.budget.actions.load.error',
+        type: 'error',
+      }));
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [budgetId, showCallout]);
+
+  const isLoading = !(budget && fiscalYear && expenseClasses);
 
   const goToBudgetView = useCallback(
     () => {
@@ -57,30 +84,37 @@ const BudgetFormContainer = ({ history, resources, mutator, location }) => {
 
   return (
     <BudgetForm
+      expenseClasses={expenseClasses}
+      fiscalYear={fiscalYear}
       initialValues={budget}
-      parentResources={resources}
-      onSubmit={saveBudget}
       onClose={goToBudgetView}
+      onSubmit={saveBudget}
     />
   );
 };
 
 BudgetFormContainer.manifest = Object.freeze({
-  budget: budgetResource,
+  budget: {
+    ...budgetResource,
+    fetch: false,
+    accumulate: true,
+  },
   fiscalYear: {
     ...fiscalYearResource,
-    path: (queryParams, pathComponents, resourceData, logger, props) => {
-      const fiscalYearId = get(props, ['resources', 'budget', 'records', 0, 'fiscalYearId']);
-
-      return fiscalYearId ? `${FISCAL_YEARS_API}/${fiscalYearId}` : null;
-    },
+    fetch: false,
+    accumulate: true,
+  },
+  expenseClasses: {
+    ...expenseClassesManifest,
+    fetch: false,
+    accumulate: true,
   },
 });
 
 BudgetFormContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
-  resources: PropTypes.object.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 

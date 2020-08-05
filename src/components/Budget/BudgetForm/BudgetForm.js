@@ -1,42 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import {
+  Accordion,
+  AccordionSet,
+  AccordionStatus,
   Button,
+  Col,
+  ExpandAllButton,
   Icon,
-  Paneset,
   MenuSection,
   Pane,
-  AccordionSet,
-  Accordion,
-  Col,
+  Paneset,
   Row,
-  ExpandAllButton,
 } from '@folio/stripes/components';
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 import { IfPermission } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   FormFooter,
-  useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
-import { BUDGET_FORM, SECTIONS_BUDGET } from '../constants';
+import { SECTIONS_BUDGET } from '../constants';
 import BudgetSummary from '../BudgetView/BudgetSummary';
 import BudgetInformationFields from './BudgetInformationFields';
+import BudgetExpenseClassesFields from './BudgetExpenseClassesFields';
 
 const BudgetForm = ({
-  parentResources,
+  expenseClasses,
+  fiscalYear,
   handleSubmit,
   initialValues,
+  onClose,
   pristine,
   submitting,
-  onClose,
+  values,
 }) => {
-  const [expandAll, sections, toggleSection] = useAccordionToggle();
-  const fiscalYear = get(parentResources, ['fiscalYear', 'records', 0], {});
   const { periodStart, periodEnd } = fiscalYear;
 
   const paneFooter = (
@@ -85,37 +85,42 @@ const BudgetForm = ({
               md={8}
               mdOffset={2}
             >
-              <Row end="xs">
-                <Col xs={12}>
-                  <ExpandAllButton
-                    accordionStatus={sections}
-                    onToggle={expandAll}
-                  />
-                </Col>
-              </Row>
-              <AccordionSet
-                accordionStatus={sections}
-                onToggle={toggleSection}
-              >
-                <Accordion
-                  label={<FormattedMessage id="ui-finance.budget.summary.title" />}
-                  id={SECTIONS_BUDGET.SUMMARY}
-                >
-                  {initialValues.metadata && <ViewMetaData metadata={initialValues.metadata} />}
-                  <BudgetSummary
-                    budget={initialValues}
-                  />
-                </Accordion>
-                <Accordion
-                  label={<FormattedMessage id="ui-finance.budget.information.title" />}
-                  id={SECTIONS_BUDGET.INFORMATION}
-                >
-                  <BudgetInformationFields
-                    fiscalEnd={periodEnd}
-                    fiscalStart={periodStart}
-                  />
-                </Accordion>
-              </AccordionSet>
+              <AccordionStatus>
+                <Row end="xs">
+                  <Col xs={12}>
+                    <ExpandAllButton />
+                  </Col>
+                </Row>
+                <AccordionSet>
+                  <Accordion
+                    label={<FormattedMessage id="ui-finance.budget.summary.title" />}
+                    id={SECTIONS_BUDGET.SUMMARY}
+                  >
+                    <ViewMetaData metadata={initialValues.metadata} />
+                    <BudgetSummary
+                      budget={initialValues}
+                    />
+                  </Accordion>
+                  <Accordion
+                    label={<FormattedMessage id="ui-finance.budget.information.title" />}
+                    id={SECTIONS_BUDGET.INFORMATION}
+                  >
+                    <BudgetInformationFields
+                      fiscalEnd={periodEnd}
+                      fiscalStart={periodStart}
+                    />
+                  </Accordion>
+                  <Accordion
+                    label={<FormattedMessage id="ui-finance.budget.expenseClasses.title" />}
+                    id={SECTIONS_BUDGET.EXPENSE_CLASSES}
+                  >
+                    <BudgetExpenseClassesFields
+                      expenseClasses={expenseClasses}
+                      formValues={values}
+                    />
+                  </Accordion>
+                </AccordionSet>
+              </AccordionStatus>
             </Col>
           </Row>
         </Pane>
@@ -126,15 +131,17 @@ const BudgetForm = ({
 };
 
 BudgetForm.propTypes = {
-  parentResources: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
+  expenseClasses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fiscalYear: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  onClose: PropTypes.bool.isRequired,
+  values: PropTypes.object.isRequired,
 };
 
-export default stripesForm({
-  form: BUDGET_FORM,
+export default stripesFinalForm({
   navigationCheck: true,
+  subscription: { values: true },
 })(BudgetForm);

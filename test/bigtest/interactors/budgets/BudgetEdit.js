@@ -1,4 +1,5 @@
 import {
+  collection,
   interactor,
   isPresent,
 } from '@bigtest/interactor';
@@ -9,6 +10,13 @@ import {
   EncumberedField,
   AwaitingPaymentField,
 } from './BudgetEditFields';
+import { SECTIONS_BUDGET } from '../../../../src/components/Budget/constants';
+
+@interactor class BudgetExpenseClassesAccordion {
+  static defaultScope = `#${SECTIONS_BUDGET.EXPENSE_CLASSES}`;
+  addExpenseClassButton = new Button('#budget-status-expense-classes-add-button');
+  expenseClasses = collection('[data-test-repeatable-field-list] [data-test-repeatable-field-list-item-labels]');
+}
 
 export default interactor(class BudgetEdit {
   static defaultScope = '#budget-edit-form';
@@ -21,6 +29,7 @@ export default interactor(class BudgetEdit {
   expended = new ExpendedField();
   awaitingPayment = new AwaitingPaymentField();
   encumbered = new EncumberedField();
+  budgetExpenseClassesAccordion = new BudgetExpenseClassesAccordion();
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

@@ -1,4 +1,5 @@
 import {
+  clickable,
   interactor,
   Interactor,
   isPresent,
@@ -30,6 +31,12 @@ import Button from '../common/Button';
   }
 }
 
+@interactor class ExpenseClasses {
+  static defaultScope = '#expenseClasses';
+  listIsPresent = isPresent('#group-expense-classes');
+  sortByExpended = clickable('#clickable-list-column-expended');
+}
+
 export default interactor(class GroupDetailsInteractor {
   static defaultScope = '#pane-group-details';
 
@@ -43,8 +50,14 @@ export default interactor(class GroupDetailsInteractor {
     'data-test-group-information-allocated',
   );
 
+  expenseClasses = new ExpenseClasses();
+
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
+  }
+
+  whenExpenseClassesLoaded() {
+    return this.timeout(5000).when(() => isPresent('#group-expense-classes'));
   }
 });

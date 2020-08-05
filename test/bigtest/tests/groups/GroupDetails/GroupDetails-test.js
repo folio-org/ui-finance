@@ -30,6 +30,7 @@ describe('Group details', () => {
       fundId: fundZ.id,
       fiscalYearId: fiscalYear.id,
     });
+    this.server.createList('budgetExpenseClassTotal', 2);
 
     this.visit(`${GROUPS_ROUTE}/${group.id}/view`);
     await groupDetails.whenLoaded();
@@ -37,6 +38,17 @@ describe('Group details', () => {
 
   it('should show details pane', () => {
     expect(groupDetails.isPresent).to.be.true;
+  });
+
+  describe('sort by expended in expense classes', () => {
+    beforeEach(async function () {
+      await groupDetails.whenExpenseClassesLoaded();
+      await groupDetails.expenseClasses.sortByExpended();
+    });
+
+    it('shows expense classes', () => {
+      expect(groupDetails.expenseClasses.listIsPresent).to.be.true;
+    });
   });
 
   describe('close action', () => {

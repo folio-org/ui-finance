@@ -1,10 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { isNumber } from 'lodash';
+import { isNumber, orderBy } from 'lodash';
 
 import { MultiColumnList } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
+import {
+  AcqEndOfList,
+  AmountWithCurrencyField,
+  ASC_DIRECTION,
+  DESC_DIRECTION,
+} from '@folio/stripes-acq-components';
 
 const defaultVisibleColumns = ['expenseClassName', 'encumbered', 'awaitingPayment', 'expended', 'percentageExpended', 'status'];
 const columnMapping = {
@@ -41,22 +46,50 @@ const getResultsFormatter = currency => ({
   status: expenseClass => <FormattedMessage id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`} />,
 });
 
-const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id }) => {
+const SORTERS = {
+  'expenseClassName': ({ expenseClassName }) => expenseClassName?.toLowerCase(),
+  'expenseClassStatus': ({ expenseClassStatus }) => expenseClassStatus?.toLowerCase(),
+  'expended': ({ expended }) => expended,
+  'percentageExpended': ({ percentageExpended }) => percentageExpended,
+};
+
+const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id, loading }) => {
   const resultsFormatter = useMemo(() => getResultsFormatter(currency), [currency]);
+  const [sortedColumn, setSortedColumn] = useState('expenseClassName');
+  const [sortOrder, setSortOrder] = useState(ASC_DIRECTION);
+
+  const changeSorting = useCallback((event, { name }) => {
+    if (!SORTERS[name]) return;
+    if (sortedColumn !== name) {
+      setSortedColumn(name);
+      setSortOrder(DESC_DIRECTION);
+    } else {
+      setSortOrder(sortOrder === DESC_DIRECTION ? ASC_DIRECTION : DESC_DIRECTION);
+    }
+  }, [sortOrder, sortedColumn]);
 
   if (!expenseClassesTotals) {
     return null;
   }
 
+  const sortedRecords = orderBy(expenseClassesTotals, SORTERS[sortedColumn], sortOrder === DESC_DIRECTION ? 'desc' : 'asc');
+
   return (
-    <MultiColumnList
-      columnMapping={columnMapping}
-      contentData={expenseClassesTotals}
-      formatter={resultsFormatter}
-      id={id}
-      interactive={false}
-      visibleColumns={visibleColumns}
-    />
+    <>
+      <MultiColumnList
+        columnMapping={columnMapping}
+        contentData={sortedRecords}
+        formatter={resultsFormatter}
+        id={id}
+        interactive={false}
+        loading={loading}
+        onHeaderClick={changeSorting}
+        sortDirection={sortOrder}
+        sortedColumn={sortedColumn}
+        visibleColumns={visibleColumns}
+      />
+      <AcqEndOfList totalCount={sortedRecords?.length} />
+    </>
   );
 };
 
@@ -64,10 +97,12 @@ ExpenseClasses.propTypes = {
   currency: PropTypes.string,
   expenseClassesTotals: PropTypes.arrayOf(PropTypes.object),
   id: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 ExpenseClasses.defaultProps = {
+  loading: false,
   visibleColumns: defaultVisibleColumns,
 };
 

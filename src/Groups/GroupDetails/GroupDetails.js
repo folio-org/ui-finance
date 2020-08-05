@@ -27,6 +27,7 @@ import {
 } from '../constants';
 import GroupInformation from './GroupInformation';
 import GroupFund from './GroupFund';
+import { GroupExpenseClasses } from './GroupExpenseClasses';
 
 const GroupDetails = ({
   group,
@@ -124,6 +125,10 @@ const GroupDetails = ({
             groupId={group.id}
           />
         </Accordion>
+        <GroupExpenseClasses
+          groupId={group.id}
+          currency={selectedFY.currency}
+        />
       </AccordionSet>
 
       {isRemoveConfirmation && (

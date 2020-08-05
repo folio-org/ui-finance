@@ -46,7 +46,7 @@ const headLabels = (
   </Row>
 );
 
-const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
+const BudgetExpenseClassesFields = ({ expenseClasses, formValues: { statusExpenseClasses } }) => {
   const expenseClassesOptions = useMemo(
     () => expenseClasses.map(({ id, name }) => ({
       label: name,
@@ -60,7 +60,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
   const renderSubForm = useCallback((field, index) => {
     const getAccountNumberExt = () => (
       expenseClasses.find(({ id }) => (
-        id === formValues.statusExpenseClasses[index].expenseClassId
+        id === statusExpenseClasses[index].expenseClassId
       ))?.externalAccountNumberExt ?? null
     );
 
@@ -93,7 +93,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
         </Col>
       </Row>
     );
-  }, [expenseClasses, formValues]);
+  }, [expenseClasses, statusExpenseClasses]);
 
   return (
     <FieldArray

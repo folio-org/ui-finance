@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * Display expense classes on Fund record view. Refs UIF-230
+* Display expense class information on Group view. Refs UIF-227
 
 ### Stories
 * [UIF-214](https://issues.folio.org/browse/UINV-214) Display expense class information on budget view

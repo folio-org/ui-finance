@@ -28,7 +28,7 @@ const BudgetSummary = ({ budget, fiscalYearCurrency }) => (
         <AmountWithCurrencyField
           amount={budget.netTransfers}
           currency={fiscalYearCurrency}
-          showBrackets
+          showBrackets={budget.netTransfers < 0}
         />
       </KeyValue>
     </Col>

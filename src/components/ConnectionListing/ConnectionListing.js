@@ -48,7 +48,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
       <AmountWithCurrencyField
         amount={item.netTransfers}
         currency={currency || item.currency}
-        showBrackets
+        showBrackets={item.netTransfers < 0}
       />
     ),
     unavailable: item => (

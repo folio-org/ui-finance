@@ -22,6 +22,7 @@ const columnMapping = {
   name: <FormattedMessage id="ui-finance.item.name" />,
   code: <FormattedMessage id="ui-finance.item.code" />,
   allocated: <FormattedMessage id="ui-finance.item.allocated" />,
+  netTransfers: <FormattedMessage id="ui-finance.item.netTransfers" />,
   unavailable: <FormattedMessage id="ui-finance.item.unavailable" />,
   available: <FormattedMessage id="ui-finance.item.available" />,
 };
@@ -30,6 +31,7 @@ const sorters = {
   [COLUMN_NAME]: ({ name }) => name?.toLowerCase(),
   'code': ({ code }) => code?.toLowerCase(),
   'allocated': ({ allocated }) => allocated,
+  'netTransfers': ({ netTransfers }) => netTransfers,
   'unavailable': ({ unavailable }) => unavailable,
   'available': ({ available }) => available,
 };
@@ -40,6 +42,13 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
       <AmountWithCurrencyField
         amount={item.allocated}
         currency={currency || item.currency}
+      />
+    ),
+    netTransfers: item => (
+      <AmountWithCurrencyField
+        amount={item.netTransfers}
+        currency={currency || item.currency}
+        showBrackets={item.netTransfers < 0}
       />
     ),
     unavailable: item => (

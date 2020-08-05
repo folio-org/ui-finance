@@ -4,6 +4,7 @@
 
 * Display expense classes on Fund record view. Refs UIF-230
 * Display expense class information on Group view. Refs UIF-227
+* Display "Net transfers" amount on budget view. Refs UIF-215
 
 ### Stories
 * [UIF-212](https://issues.folio.org/browse/UINV-212) Add expense classes to a budget

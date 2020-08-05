@@ -55,15 +55,15 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
     [expenseClasses],
   );
 
-  const getAccountNumberExt = index => (
-    expenseClasses.find(({ id }) => (
-      id === formValues.statusExpenseClasses[index].expenseClassId
-    ))?.externalAccountNumberExt ?? null
-  );
-
   const addFields = useCallback(fields => fields.push({ status: EXPENSE_CLASS_STATUS.ACTIVE }), []);
 
   const renderSubForm = useCallback((field, index) => {
+    const getAccountNumberExt = () => (
+      expenseClasses.find(({ id }) => (
+        id === formValues.statusExpenseClasses[index].expenseClassId
+      ))?.externalAccountNumberExt ?? null
+    );
+
     return (
       <Row>
         <Col xs>
@@ -79,7 +79,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
         <Col xs>
           <TextField
             ariaLabelledBy="budgetExpenseClassesFormAccountNumberLabel"
-            value={getAccountNumberExt(index)}
+            value={getAccountNumberExt()}
             disabled
           />
         </Col>
@@ -93,7 +93,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
         </Col>
       </Row>
     );
-  }, [getAccountNumberExt]);
+  }, [expenseClasses, formValues]);
 
   return (
     <FieldArray

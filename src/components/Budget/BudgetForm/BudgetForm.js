@@ -96,7 +96,7 @@ const BudgetForm = ({
                     label={<FormattedMessage id="ui-finance.budget.summary.title" />}
                     id={SECTIONS_BUDGET.SUMMARY}
                   >
-                    {initialValues.metadata && <ViewMetaData metadata={initialValues.metadata} />}
+                    <ViewMetaData metadata={initialValues.metadata} />
                     <BudgetSummary
                       budget={initialValues}
                     />
@@ -116,7 +116,7 @@ const BudgetForm = ({
                   >
                     <BudgetExpenseClassesFields
                       expenseClasses={expenseClasses}
-                      values={values}
+                      formValues={values}
                     />
                   </Accordion>
                 </AccordionSet>

@@ -46,7 +46,7 @@ const headLabels = (
   </Row>
 );
 
-const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
+const BudgetExpenseClassesFields = ({ expenseClasses, formValues }) => {
   const expenseClassesOptions = useMemo(
     () => expenseClasses.map(({ id, name }) => ({
       label: name,
@@ -55,12 +55,15 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
     [expenseClasses],
   );
 
-  const getAccountNumberExt = useCallback(index => (expenseClasses.find(({ id }) => (
-    id === values.statusExpenseClasses[index].expenseClassId
-  ))?.externalAccountNumberExt ?? null
-  ), [values, expenseClasses]);
+  const getAccountNumberExt = index => (
+    expenseClasses.find(({ id }) => (
+      id === formValues.statusExpenseClasses[index].expenseClassId
+    ))?.externalAccountNumberExt ?? null
+  );
 
-  const renderSubForm = (field, index) => {
+  const addFields = useCallback(fields => fields.push({ status: EXPENSE_CLASS_STATUS.ACTIVE }), []);
+
+  const renderSubForm = useCallback((field, index) => {
     return (
       <Row>
         <Col xs>
@@ -90,7 +93,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
         </Col>
       </Row>
     );
-  };
+  }, [getAccountNumberExt]);
 
   return (
     <FieldArray
@@ -99,7 +102,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
       headLabels={headLabels}
       id="budget-status-expense-classes"
       name="statusExpenseClasses"
-      onAdd={fields => fields.push({ status: EXPENSE_CLASS_STATUS.ACTIVE })}
+      onAdd={addFields}
       renderField={renderSubForm}
     />
   );
@@ -107,7 +110,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, values }) => {
 
 BudgetExpenseClassesFields.propTypes = {
   expenseClasses: PropTypes.arrayOf(PropTypes.object).isRequired,
-  values: PropTypes.object.isRequired,
+  formValues: PropTypes.object.isRequired,
 };
 
 export default BudgetExpenseClassesFields;

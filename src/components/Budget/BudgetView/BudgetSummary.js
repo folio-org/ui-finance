@@ -23,6 +23,17 @@ const BudgetSummary = ({ budget, fiscalYearCurrency }) => (
     </Col>
     <Col xs={3}>
       <KeyValue
+        label={<FormattedMessage id="ui-finance.budget.netTransfers" />}
+      >
+        <AmountWithCurrencyField
+          amount={budget.netTransfers}
+          currency={fiscalYearCurrency}
+          showBrackets
+        />
+      </KeyValue>
+    </Col>
+    <Col xs={3}>
+      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.unavailable" />}
       >
         <AmountWithCurrencyField

@@ -347,6 +347,7 @@
   "budget.overExpended": "Over expended",
   "budget.information.title": "Budget information",
   "budget.name": "Name",
+  "budget.netTransfers": "Net transfers",
   "budget.save": "Save",
   "budget.fiscalYear": "Fiscal year",
   "budget.remove.heading": "Delete budget",
@@ -474,6 +475,7 @@
   "item.available": "Available",
   "item.code": "Code",
   "item.name": "Name",
+  "item.netTransfers": "Net transfers",
   "item.unavailable": "Unavailable",
 
   "transaction.allocate": "Allocate",

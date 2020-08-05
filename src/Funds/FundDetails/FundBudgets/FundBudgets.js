@@ -6,7 +6,7 @@ import { Accordion } from '@folio/stripes/components';
 
 import ConnectionListing from '../../../components/ConnectionListing';
 
-const budgetColumns = ['name', 'allocated', 'unavailable', 'available', 'arrow'];
+const budgetColumns = ['name', 'allocated', 'netTransfers', 'unavailable', 'available', 'arrow'];
 
 const FundBudgets = ({
   addBudgetButton,

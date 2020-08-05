@@ -15,10 +15,13 @@ describe('Budget edit', () => {
 
   beforeEach(async function () {
     const fund = this.server.create('fund');
-
+    const fiscalYear = this.server.create('fiscalYear');
     const budget = this.server.create('budget', {
       fundId: fund.id,
+      fiscalYearId: fiscalYear.id,
     });
+
+    this.server.createList('expenseClass', 2);
 
     this.visit(`finance/budget/${budget.id}/edit`);
     await budgetEdit.whenLoaded();
@@ -41,6 +44,16 @@ describe('Budget edit', () => {
 
     it('name should be changed', () => {
       expect(budgetEdit.name.value).to.be.equal(TEST_NAME);
+    });
+  });
+
+  describe('expense classes could be added', function () {
+    beforeEach(async function () {
+      await budgetEdit.budgetExpenseClassesAccordion.addExpenseClassButton.click();
+    });
+
+    it('expense class fields are added', function () {
+      expect(budgetEdit.budgetExpenseClassesAccordion.expenseClasses().length).to.be.equal(1);
     });
   });
 

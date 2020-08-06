@@ -540,5 +540,11 @@
     "budget.expenseClasses.percentageExpended.undefined": "غير معرّف",
     "budget.expenseClasses.status": "الحالة",
     "budget.expenseClasses.status.Active": "نشط",
-    "budget.expenseClasses.status.Inactive": "غير نشط"
+    "budget.expenseClasses.status.Inactive": "غير نشط",
+    "fund.currentExpenseClasses": "فئات المصروفات الحالية",
+    "groups.item.expenseClasses": "فئات المصروفات",
+    "budget.expenseClasses.add": "إضافة فئة مصروفات",
+    "budget.expenseClasses.accountNumber": "امتداد رقم الحساب",
+    "budget.netTransfers": "صافي التحويلات",
+    "item.netTransfers": "صافي التحويلات"
 }

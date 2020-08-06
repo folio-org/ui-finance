@@ -540,5 +540,11 @@
     "budget.expenseClasses.percentageExpended.undefined": "Undefined",
     "budget.expenseClasses.status": "Status",
     "budget.expenseClasses.status.Active": "Active",
-    "budget.expenseClasses.status.Inactive": "Inactive"
+    "budget.expenseClasses.status.Inactive": "Inactive",
+    "fund.currentExpenseClasses": "Current expense classes",
+    "groups.item.expenseClasses": "Expense classes",
+    "budget.expenseClasses.add": "Add expense class",
+    "budget.expenseClasses.accountNumber": "Account number extention",
+    "budget.netTransfers": "Net transfers",
+    "item.netTransfers": "Net transfers"
 }

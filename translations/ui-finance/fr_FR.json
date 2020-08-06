@@ -532,7 +532,7 @@
     "permission.fund-budget.edit": "Finance: View, edit fund and budget",
     "permission.fund-budget.view": "Finance: View fund and budget",
     "budget.expenseClasses.title": "Expense classes",
-    "budget.expenseClasses.expenseClassName": "Expense class",
+    "budget.expenseClasses.expenseClassName": "Classe de dépenses",
     "budget.expenseClasses.encumbered": "Provisionné(e) ? (encumbered)",
     "budget.expenseClasses.awaitingPayment": "En attente de paiement",
     "budget.expenseClasses.expended": "Dépensé",
@@ -540,5 +540,11 @@
     "budget.expenseClasses.percentageExpended.undefined": "Indéfini",
     "budget.expenseClasses.status": "Statut",
     "budget.expenseClasses.status.Active": "Actif",
-    "budget.expenseClasses.status.Inactive": "Inactif"
+    "budget.expenseClasses.status.Inactive": "Inactif",
+    "fund.currentExpenseClasses": "Current expense classes",
+    "groups.item.expenseClasses": "Expense classes",
+    "budget.expenseClasses.add": "Add expense class",
+    "budget.expenseClasses.accountNumber": "Account number extention",
+    "budget.netTransfers": "Net transfers",
+    "item.netTransfers": "Net transfers"
 }

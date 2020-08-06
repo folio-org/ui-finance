@@ -14,7 +14,7 @@ function GroupExpenseClasses({
   currency,
   fiscalYearId,
   groupId,
-  resources: { totals: { failed, isPending, records } }
+  resources: { totals: { failed, isPending, records } },
 }) {
   if (!fiscalYearId || !groupId || failed || isPending || records.length === 0) return null;
 

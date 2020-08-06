@@ -15,7 +15,7 @@ const configGroups = server => {
   server.post(GROUPS_API, createPost(SCHEMA_NAME));
   server.put(`${GROUPS_API}/:id`, createPut(SCHEMA_NAME));
   server.delete(`${GROUPS_API}/:id`, createGetById(SCHEMA_NAME));
-  server.get(`${GROUPS_API}/:id/expense-classes`, createGetAll('budgetExpenseClassTotals'));
+  server.get(`${GROUPS_API}/:id/expense-classes-totals`, createGetAll('budgetExpenseClassTotals'));
 };
 
 export default configGroups;

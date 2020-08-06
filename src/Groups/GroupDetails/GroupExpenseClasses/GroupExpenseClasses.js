@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Accordion,
-} from '@folio/stripes/components';
+import { Accordion } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
-import {
-  baseManifest,
-} from '@folio/stripes-acq-components';
+import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
 import ExpenseClasses from '../../../common/ExpenseClasses';
 import { GROUP_ACCORDTION, GROUP_ACCORDTION_LABELS } from '../../constants';
 
 const VISIBLE_COLUMNS = ['expenseClassName', 'expended', 'percentageExpended'];
 
-function GroupExpenseClasses({ groupId, currency, resources: { totals: { failed, isPending, records } } }) {
-  if (!groupId || failed || isPending || records.length === 0) return null;
+function GroupExpenseClasses({
+  currency,
+  fiscalYearId,
+  groupId,
+  resources: { totals: { failed, isPending, records } },
+}) {
+  if (!fiscalYearId || !groupId || failed || isPending || records.length === 0) return null;
 
   return (
     <Accordion
@@ -35,13 +36,15 @@ function GroupExpenseClasses({ groupId, currency, resources: { totals: { failed,
 
 GroupExpenseClasses.manifest = Object.freeze({
   totals: {
-    ...baseManifest,
-    path: 'finance/groups/!{groupId}/expense-classes',
+    path: `finance/groups/!{groupId}/expense-classes-totals?fiscalYearId=!{fiscalYearId}&limit=${LIMIT_MAX}`,
     records: 'budgetExpenseClassTotals',
+    throwErrors: false,
+    type: 'okapi',
   },
 });
 
 GroupExpenseClasses.propTypes = {
+  fiscalYearId: PropTypes.string,
   groupId: PropTypes.string,
   currency: PropTypes.string.isRequired,
   resources: PropTypes.object.isRequired,

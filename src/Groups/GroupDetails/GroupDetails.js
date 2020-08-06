@@ -126,6 +126,7 @@ const GroupDetails = ({
           />
         </Accordion>
         <GroupExpenseClasses
+          fiscalYearId={selectedFY.id}
           groupId={group.id}
           currency={selectedFY.currency}
         />

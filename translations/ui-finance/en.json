@@ -379,7 +379,7 @@
   "budget.expenseClasses.status.Active": "Active",
   "budget.expenseClasses.status.Inactive": "Inactive",
   "budget.expenseClasses.add": "Add expense class",
-  "budget.expenseClasses.accountNumber": "Account number extention",
+  "budget.expenseClasses.accountNumber": "Account number extension",
 
   "fund.actions.load.error": "Failed to load fund data",
   "fund.actions.remove.error": "Fund has not been deleted",

@@ -162,7 +162,12 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
             toggleAllocateModal();
           }}
         >
-          <FormattedMessage id="ui-finance.transaction.allocate" />
+          <Icon
+            size="small"
+            icon="allocate"
+          >
+            <FormattedMessage id="ui-finance.transaction.allocate" />
+          </Icon>
         </Button>
       </IfPermission>
 
@@ -175,7 +180,12 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
             toggleTransferModal();
           }}
         >
-          <FormattedMessage id="ui-finance.transaction.button.transfer" />
+          <Icon
+            size="small"
+            icon="transfer"
+          >
+            <FormattedMessage id="ui-finance.transaction.button.transfer" />
+          </Icon>
         </Button>
       </IfPermission>
 

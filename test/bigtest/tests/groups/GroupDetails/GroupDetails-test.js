@@ -30,7 +30,7 @@ describe('Group details', () => {
       fundId: fundZ.id,
       fiscalYearId: fiscalYear.id,
     });
-    this.server.createList('budgetExpenseClassTotal', 2);
+    this.server.createList('groupExpenseClassTotal', 2);
 
     this.visit(`${GROUPS_ROUTE}/${group.id}/view`);
     await groupDetails.whenLoaded();

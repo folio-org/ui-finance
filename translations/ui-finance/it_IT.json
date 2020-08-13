@@ -520,7 +520,7 @@
     "permission.ledger.edit": "Finance: View, edit ledger",
     "permission.ledger.view": "Finance: View ledger",
     "permission.settings.all": "Settings (Finance): View, edit, create, delete",
-    "noPermissionsMessage": "You do not have permissions for this page.",
+    "noPermissionsMessage": "Non disponi delle autorizzazioni per questa pagina.",
     "expenseClass.label": "Expense class",
     "expenseClass.label.plural": "Expense classes",
     "expenseClass.name": "Name",

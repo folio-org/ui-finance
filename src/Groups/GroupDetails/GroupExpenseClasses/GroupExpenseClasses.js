@@ -37,7 +37,7 @@ function GroupExpenseClasses({
 GroupExpenseClasses.manifest = Object.freeze({
   totals: {
     path: `finance/groups/!{groupId}/expense-classes-totals?fiscalYearId=!{fiscalYearId}&limit=${LIMIT_MAX}`,
-    records: 'budgetExpenseClassTotals',
+    records: 'groupExpenseClassTotals',
     throwErrors: false,
     type: 'okapi',
   },

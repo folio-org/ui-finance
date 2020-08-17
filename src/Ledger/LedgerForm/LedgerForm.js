@@ -151,6 +151,7 @@ const LedgerForm = ({
                         <AcqUnitsField
                           name="acqUnitIds"
                           perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                          id="ledger-acq-units"
                           isEdit={isEditMode}
                           preselectedUnits={initialValues.acqUnitIds}
                         />

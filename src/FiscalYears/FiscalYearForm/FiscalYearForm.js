@@ -114,6 +114,7 @@ const FiscalYearForm = ({
                         <AcqUnitsField
                           name="acqUnitIds"
                           perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                          id="fy-acq-units"
                           isEdit={isEditMode}
                           isFinal
                           preselectedUnits={initialValues.acqUnitIds}

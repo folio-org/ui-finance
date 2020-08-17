@@ -265,6 +265,7 @@ const FundForm = ({
                       <AcqUnitsField
                         name="fund.acqUnitIds"
                         perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                        id="fund-acq-units"
                         isEdit={isEditMode}
                         isFinal
                         preselectedUnits={initialValues.fund.acqUnitIds}

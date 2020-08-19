@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 
 import {
   Col,
-  Row,
   KeyValue,
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
@@ -73,13 +74,13 @@ const BudgetInformation = ({
 
     <Col xs={3}>
       <KeyValue label={<FormattedMessage id="ui-finance.budget.allowableExpenditure" />}>
-        {`${allowableExpenditure}%`}
+        {allowableExpenditure == null ? <NoValue /> : `${allowableExpenditure}%`}
       </KeyValue>
     </Col>
 
     <Col xs={3}>
       <KeyValue label={<FormattedMessage id="ui-finance.budget.allowableEncumbrance" />}>
-        {`${allowableEncumbrance}%`}
+        {allowableEncumbrance == null ? <NoValue /> : `${allowableEncumbrance}%`}
       </KeyValue>
     </Col>
 
@@ -181,8 +182,6 @@ BudgetInformation.propTypes = {
 };
 
 BudgetInformation.defaultProps = {
-  allowableEncumbrance: 0,
-  allowableExpenditure: 0,
   awaitingPayment: 0,
   budgetStatus: '',
   encumbered: 0,

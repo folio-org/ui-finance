@@ -13,7 +13,7 @@ import {
     deleteTag: clickable('[class*=iconButton---]'),
   });
 
-  fillTag = fillable('#input-tag');
+  fillTag = fillable('#input-tag-input');
 }
 
 export default interactor(class TagsPaneInteractor {

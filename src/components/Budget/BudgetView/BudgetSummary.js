@@ -9,6 +9,8 @@ import {
 } from '@folio/stripes/components';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
+import { NetTransfers } from '../../../common/NetTransfers';
+
 const BudgetSummary = ({ budget, fiscalYearCurrency }) => (
   <Row>
     <Col xs={3}>
@@ -22,15 +24,10 @@ const BudgetSummary = ({ budget, fiscalYearCurrency }) => (
       </KeyValue>
     </Col>
     <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.netTransfers" />}
-      >
-        <AmountWithCurrencyField
-          amount={budget.netTransfers}
-          currency={fiscalYearCurrency}
-          showBrackets={budget.netTransfers < 0}
-        />
-      </KeyValue>
+      <NetTransfers
+        netTransfers={budget.netTransfers}
+        currency={fiscalYearCurrency}
+      />
     </Col>
     <Col xs={3}>
       <KeyValue

@@ -107,6 +107,7 @@ const LedgerDetails = ({
             allocated={ledger.allocated}
             unavailable={ledger.unavailable}
             currency={fiscalYear.currency}
+            netTransfers={ledger.netTransfers}
           />
         </Accordion>
         <Accordion

@@ -1,6 +1,7 @@
 # Change history for ui-finance
 
 ## (IN PROGRESS)
+* Display "Net transfers" amount on Ledger view. Refs UIF-236
 * Allowable expenditure/encumbrance display as 0% when not set. Refs UIF-240
 * Edit fiscal year - Form elements must have labels. Refs UIF-197
 * Display expense classes on Fund record view. Refs UIF-230

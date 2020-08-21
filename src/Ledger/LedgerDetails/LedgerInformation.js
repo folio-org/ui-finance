@@ -13,6 +13,8 @@ import {
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
+import { NetTransfers } from '../../common/NetTransfers';
+
 const LedgerInformation = ({
   acqUnitIds,
   allocated,
@@ -25,6 +27,7 @@ const LedgerInformation = ({
   name,
   status,
   unavailable,
+  netTransfers,
 }) => {
   return (
     <>
@@ -83,6 +86,13 @@ const LedgerInformation = ({
           </KeyValue>
         </Col>
 
+        <Col xs={3}>
+          <NetTransfers
+            netTransfers={netTransfers}
+            currency={currency}
+          />
+        </Col>
+
         <Col
           data-test-ledger-information-unavailable
           xs={3}
@@ -134,6 +144,7 @@ LedgerInformation.propTypes = {
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   fiscalYearCode: PropTypes.string,
+  netTransfers: PropTypes.number,
 };
 
 export default LedgerInformation;

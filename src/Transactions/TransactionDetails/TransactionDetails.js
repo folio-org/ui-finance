@@ -21,7 +21,6 @@ import {
 import TransactionInformation from './TransactionInformation';
 
 const TransactionDetails = ({
-  expenseClassName,
   fiscalYearCode,
   fromFundName,
   fundId,
@@ -57,7 +56,6 @@ const TransactionDetails = ({
           label={TRANSACTION_ACCORDION_LABELS[TRANSACTION_ACCORDION.information]}
         >
           <TransactionInformation
-            expenseClassName={expenseClassName}
             fiscalYearCode={fiscalYearCode}
             fromFundName={fromFundName}
             fundId={fundId}
@@ -78,7 +76,6 @@ TransactionDetails.propTypes = {
   toFundName: PropTypes.string,
   fromFundName: PropTypes.string,
   fundId: PropTypes.string.isRequired,
-  expenseClassName: PropTypes.string,
 };
 
 export default TransactionDetails;

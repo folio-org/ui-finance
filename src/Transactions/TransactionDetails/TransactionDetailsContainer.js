@@ -5,11 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
-import {
-  baseManifest,
-  EXPENSE_CLASSES_API,
-  useShowCallout,
-} from '@folio/stripes-acq-components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
   fiscalYearResource,
@@ -34,7 +30,6 @@ const TransactionDetailsContainer = ({
   const [transaction, setTransaction] = useState();
   const [transactionFunds, setTransactionFunds] = useState();
   const [fiscalYear, setFiscalYear] = useState();
-  const [expenseClass, setExpenseClass] = useState();
 
   const onClose = useCallback(
     () => {
@@ -51,13 +46,12 @@ const TransactionDetailsContainer = ({
       setTransaction();
       setTransactionFunds();
       setFiscalYear();
-      setExpenseClass();
 
       mutator.transactionDetails.GET()
         .then(transactionResponse => {
           setTransaction(transactionResponse);
 
-          const { fromFundId, toFundId, fiscalYearId, expenseClassId } = transactionResponse;
+          const { fromFundId, toFundId, fiscalYearId } = transactionResponse;
           const funds = [fromFundId, toFundId].filter(Boolean);
           const fundsQuery = funds.map(id => `id == ${id}`).join(' OR ');
 
@@ -65,20 +59,12 @@ const TransactionDetailsContainer = ({
             path: `${FISCAL_YEARS_API}/${fiscalYearId}`,
           });
           const transactionFundsPromise = mutator.transactionFunds.GET({ params: { query: fundsQuery } });
-          const expenseClassPromise = expenseClassId
-            ? (
-              mutator.transactionExpenseClass.GET({
-                path: `${EXPENSE_CLASSES_API}/${expenseClassId}`,
-              })
-            )
-            : {};
 
-          return Promise.all([fiscalYearPromise, transactionFundsPromise, expenseClassPromise]);
+          return Promise.all([fiscalYearPromise, transactionFundsPromise]);
         })
-        .then(([fiscalYearResp, transactionFundsResp, expenseClassResp]) => {
+        .then(([fiscalYearResp, transactionFundsResp]) => {
           setFiscalYear(fiscalYearResp);
           setTransactionFunds(transactionFundsResp);
-          setExpenseClass(expenseClassResp);
         })
         .catch(() => showCallout({
           messageId: 'ui-finance.transaction.actions.load.error',
@@ -89,7 +75,7 @@ const TransactionDetailsContainer = ({
     [transactionId],
   );
 
-  const isLoading = !(transaction && transactionFunds && fiscalYear && expenseClass);
+  const isLoading = !(transaction && transactionFunds && fiscalYear);
 
   if (isLoading) {
     return <LoadingPane onClose={onClose} dismissible />;
@@ -102,7 +88,6 @@ const TransactionDetailsContainer = ({
 
   return (
     <TransactionDetails
-      expenseClassName={expenseClass.name}
       fiscalYearCode={fiscalYear.code}
       fromFundName={fromFundName}
       fundId={fundId}
@@ -128,11 +113,6 @@ TransactionDetailsContainer.manifest = Object.freeze({
     ...fiscalYearResource,
     fetch: false,
     accumulate: true,
-  },
-  transactionExpenseClass: {
-    ...baseManifest,
-    accumulate: true,
-    fetch: false,
   },
 });
 

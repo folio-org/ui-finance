@@ -17,6 +17,7 @@ import { BracketizeTransactionAmount } from '../../BracketizeTransactionAmount';
 import SourceValue from './SourceValue';
 
 const TransactionInformation = ({
+  expenseClassName,
   fiscalYearCode,
   fromFundName,
   fundId,
@@ -114,6 +115,16 @@ const TransactionInformation = ({
         </Col>
 
         <Col
+          data-test-transaction-expense-class
+          xs={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-finance.transaction.expenseClass" />}
+            value={expenseClassName}
+          />
+        </Col>
+
+        <Col
           data-test-transaction-information-tags
           xs={3}
         >
@@ -192,11 +203,8 @@ TransactionInformation.propTypes = {
   fromFundName: PropTypes.string,
   fundId: PropTypes.string.isRequired,
   toFundName: PropTypes.string,
-  transaction: PropTypes.object,
-};
-
-TransactionInformation.defaultProps = {
-  transaction: {},
+  transaction: PropTypes.object.isRequired,
+  expenseClassName: PropTypes.string,
 };
 
 export default TransactionInformation;

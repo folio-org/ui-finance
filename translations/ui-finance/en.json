@@ -480,6 +480,7 @@
   "item.netTransfers": "Net transfers",
   "item.unavailable": "Unavailable",
 
+  "transaction.actions.load.error": "Failed to load transaction data",
   "transaction.allocate": "Allocate",
   "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
   "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
@@ -493,6 +494,7 @@
   "transaction.date": "Transaction date",
   "transaction.description": "Description",
   "transaction.expended": "Expended",
+  "transaction.expenseClass": "Expense class",
   "transaction.fiscalYear": "Fiscal year",
   "transaction.from": "From",
   "transaction.fundValidation": "Transfers and allocations can not be made from one budget to that same budget",

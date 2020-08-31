@@ -20,6 +20,7 @@ import {
   EXPENSE_CLASS_STATUS,
   EXPENSE_CLASS_STATUS_OPTIONS,
 } from '../../constants';
+import { getExpenseClassesForSelect } from '../../../../common/utils';
 
 const headLabels = (
   <Row>
@@ -48,10 +49,7 @@ const headLabels = (
 
 const BudgetExpenseClassesFields = ({ expenseClasses, formValues: { statusExpenseClasses } }) => {
   const expenseClassesOptions = useMemo(
-    () => expenseClasses.map(({ id, name }) => ({
-      label: name,
-      value: id,
-    })),
+    () => getExpenseClassesForSelect(expenseClasses),
     [expenseClasses],
   );
 

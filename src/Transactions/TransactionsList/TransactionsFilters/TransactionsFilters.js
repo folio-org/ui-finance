@@ -14,11 +14,13 @@ import {
   TRANSACTION_SOURCE_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from '../../constants';
+import { ExpenseClassFilter } from './ExpenseClassFilter';
 
 const FILTERS = {
   SOURCE: 'source',
   TRANSACTION_TYPE: 'transactionType',
   TAGS: 'tags.tagList',
+  EXPENSE_CLASS: 'expenseClassId',
 };
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
@@ -56,6 +58,14 @@ const TransactionsFilters = ({
         activeFilters={activeFilters[FILTERS.TAGS]}
         id={FILTERS.TAGS}
         name={FILTERS.TAGS}
+        onChange={adaptedApplyFilters}
+      />
+
+      <ExpenseClassFilter
+        activeFilters={activeFilters[FILTERS.EXPENSE_CLASS]}
+        id={FILTERS.EXPENSE_CLASS}
+        labelId="ui-finance.transaction.expenseClass"
+        name={FILTERS.EXPENSE_CLASS}
         onChange={adaptedApplyFilters}
       />
     </AccordionSet>

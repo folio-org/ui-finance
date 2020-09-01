@@ -546,5 +546,7 @@
     "budget.expenseClasses.add": "Add expense class",
     "budget.expenseClasses.accountNumber": "Extension de numéro de compte",
     "budget.netTransfers": "Net transfers",
-    "item.netTransfers": "Net transfers"
+    "item.netTransfers": "Net transfers",
+    "transaction.actions.load.error": "Failed to load transaction data",
+    "transaction.expenseClass": "Expense class"
 }

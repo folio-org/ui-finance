@@ -546,5 +546,7 @@
     "budget.expenseClasses.add": "添加支出类别",
     "budget.expenseClasses.accountNumber": "帐号扩展",
     "budget.netTransfers": "净转移",
-    "item.netTransfers": "净转移"
+    "item.netTransfers": "净转移",
+    "transaction.actions.load.error": "Failed to load transaction data",
+    "transaction.expenseClass": "Expense class"
 }

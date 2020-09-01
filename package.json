@@ -331,7 +331,7 @@
     "moment": "~2.24.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-intl": "^4.5.1",
+    "react-intl": "^5.7.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
@@ -354,7 +354,7 @@
     "@folio/stripes": "^5.0.0",
     "moment": "~2.24.0",
     "react": "*",
-    "react-intl": "^4.5.1",
+    "react-intl": "^5.7.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
   }

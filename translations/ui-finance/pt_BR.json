@@ -546,5 +546,7 @@
     "budget.expenseClasses.add": "Adicionar classe de despesas",
     "budget.expenseClasses.accountNumber": "Extensão do número da conta",
     "budget.netTransfers": "Transferências líquidas",
-    "item.netTransfers": "Transferências líquidas"
+    "item.netTransfers": "Transferências líquidas",
+    "transaction.actions.load.error": "Falha ao carregar os dados da transação",
+    "transaction.expenseClass": "Classe de despesa"
 }

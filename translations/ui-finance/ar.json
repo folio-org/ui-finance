@@ -546,5 +546,7 @@
     "budget.expenseClasses.add": "إضافة فئة مصروفات",
     "budget.expenseClasses.accountNumber": "امتداد رقم الحساب",
     "budget.netTransfers": "صافي التحويلات",
-    "item.netTransfers": "صافي التحويلات"
+    "item.netTransfers": "صافي التحويلات",
+    "transaction.actions.load.error": "فشل تحميل بيانات المعاملة",
+    "transaction.expenseClass": "فئة المصروفات"
 }

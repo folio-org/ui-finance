@@ -59,7 +59,7 @@ const CreateLedger = ({ mutator, location, history }) => {
         showCallout({
           messageId: 'ui-finance.ledger.actions.save.success',
         });
-        setTimeout(() => closeForm(savedLedger.id), 0);
+        closeForm(savedLedger.id);
 
         return savedLedger;
       } catch (response) {

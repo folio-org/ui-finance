@@ -46,7 +46,7 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
         const savedLedger = await mutator.ledgerEdit.PUT(ledgerValues);
 
         showToast({ messageId: 'ui-finance.ledger.actions.save.success' });
-        setTimeout(() => closeEdit(), 0);
+        closeEdit();
 
         return savedLedger;
       } catch (response) {

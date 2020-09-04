@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
@@ -21,7 +21,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
-  FieldSelection,
+  FieldSelectionFinal,
   validateRequired,
   FormFooter,
 } from '@folio/stripes-acq-components';
@@ -34,7 +34,6 @@ import {
 import {
   LEDGER_ACCORDTION_LABELS,
   LEDGER_ACCORDTION,
-  LEDGER_FORM,
   LEDGER_STATUS_OPTIONS,
 } from '../constants';
 
@@ -137,7 +136,7 @@ const LedgerForm = ({
                       </Col>
 
                       <Col data-test-col-ledger-form-status xs={3}>
-                        <FieldSelection
+                        <FieldSelectionFinal
                           dataOptions={LEDGER_STATUS_OPTIONS}
                           id="ledger-status"
                           labelId="ui-finance.ledger.status"
@@ -154,6 +153,7 @@ const LedgerForm = ({
                           id="ledger-acq-units"
                           isEdit={isEditMode}
                           preselectedUnits={initialValues.acqUnitIds}
+                          isFinal
                         />
                       </Col>
 
@@ -190,8 +190,6 @@ LedgerForm.defaultProps = {
   initialValues: {},
 };
 
-export default stripesForm({
-  form: LEDGER_FORM,
+export default stripesFinalForm({
   navigationCheck: true,
-  enableReinitialize: true,
 })(LedgerForm);

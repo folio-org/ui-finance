@@ -34,5 +34,3 @@ export const LEDGER_STATUS_OPTIONS = Object.values(LEDGER_STATUS).map(status => 
   label: LEDGER_STATUS_LABEL[status],
   value: status,
 }));
-
-export const LEDGER_FORM = 'ledgerForm';

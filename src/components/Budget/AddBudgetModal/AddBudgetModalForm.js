@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Col,
@@ -13,12 +13,12 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldSelect,
+  FieldSelectFinal,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
 import { FiscalYearField } from '../../../common/FiscalYearField';
-import { ADD_BUDGET_MODAL_FORM, BUDGET_STATUSES_OPTIONS } from '../constants';
+import { BUDGET_STATUSES_OPTIONS } from '../constants';
 
 const footer = (onClose, onSave) => (
   <ModalFooter>
@@ -55,7 +55,7 @@ const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
           />
         </Col>
         <Col xs>
-          <FieldSelect
+          <FieldSelectFinal
             dataOptions={BUDGET_STATUSES_OPTIONS}
             id="invoice-status"
             label={<FormattedMessage id="ui-finance.budget.status" />}
@@ -106,6 +106,6 @@ BudgetAddModalForm.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default stripesForm({
-  form: ADD_BUDGET_MODAL_FORM,
+export default stripesFinalForm({
+  navigationCheck: true,
 })(BudgetAddModalForm);

@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {
-  FieldSelect,
+  FieldSelectFinal,
 } from '@folio/stripes-acq-components';
 
 function FiscalYearField(props) {
   return (
-    <FieldSelect
+    <FieldSelectFinal
       {...props}
     />
   );

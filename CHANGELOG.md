@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Migrate "Create budget" form to react-final-form. Refs-UIF-247
 * Display and filter by expense class in transaction view. Refs UIF-241
 * Display "Net transfers" amount on Ledger view. Refs UIF-236
 * Allowable expenditure/encumbrance display as 0% when not set. Refs UIF-240

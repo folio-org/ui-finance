@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Migrate Group form to react-final-form. Refs UIF-248
 * Migrate Ledger form to react-final-form. Refs UIF-249
 * Migrate "Create budget" form to react-final-form. Refs UIF-247
 * Display and filter by expense class in transaction view. Refs UIF-241

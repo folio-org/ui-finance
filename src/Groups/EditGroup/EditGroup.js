@@ -46,7 +46,7 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
         const savedGroup = await mutator.groupEdit.PUT(group);
 
         showCallout({ messageId: 'ui-finance.groups.actions.save.success' });
-        setTimeout(() => closeEdit(), 0);
+        closeEdit();
 
         return savedGroup;
       } catch (response) {

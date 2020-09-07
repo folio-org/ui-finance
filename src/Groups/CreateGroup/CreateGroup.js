@@ -45,7 +45,7 @@ const CreateGroup = ({ mutator, location, history }) => {
         showCallout({
           messageId: 'ui-finance.groups.actions.save.success',
         });
-        setTimeout(() => closeForm(savedGroup.id), 0);
+        closeForm(savedGroup.id);
 
         return savedGroup;
       } catch (response) {

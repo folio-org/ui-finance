@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import {
-  Field,
-} from 'redux-form';
+import { Field } from 'react-final-form';
 
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Col,
   Pane,
@@ -16,7 +14,7 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqUnitsField,
-  FieldSelection,
+  FieldSelectionFinal,
   FormFooter,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -26,8 +24,6 @@ import {
   MANAGE_UNITS_PERM,
 } from '../../common/const';
 import { GROUP_STATUS_OPTIONS } from '../constants';
-
-const GROUP_FORM = 'groupForm';
 
 const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
 const EDIT_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.edit" />;
@@ -90,7 +86,7 @@ const GroupForm = ({
                 </Col>
 
                 <Col xs={3}>
-                  <FieldSelection
+                  <FieldSelectionFinal
                     dataOptions={GROUP_STATUS_OPTIONS}
                     id="group-status"
                     labelId="ui-finance.groups.item.information.status"
@@ -107,6 +103,7 @@ const GroupForm = ({
                     id="group-acq-units"
                     isEdit={isEditMode}
                     preselectedUnits={initialValues.acqUnitIds}
+                    isFinal
                   />
                 </Col>
 
@@ -139,7 +136,6 @@ GroupForm.defaultProps = {
   initialValues: {},
 };
 
-export default stripesForm({
-  form: GROUP_FORM,
+export default stripesFinalForm({
   navigationCheck: true,
 })(GroupForm);

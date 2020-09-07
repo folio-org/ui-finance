@@ -1,5 +1,3 @@
-export const ADD_BUDGET_MODAL_FORM = 'budgetModalForm';
-
 export const BUDGET_STATUSES = {
   ACTIVE: 'Active',
   CLOSED: 'Closed',

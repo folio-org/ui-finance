@@ -1,12 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import {
-  Field,
-  getFormValues,
-} from 'redux-form';
+import { Field } from 'react-final-form';
 
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Col,
@@ -17,28 +14,22 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldSelect,
+  FieldSelectFinal,
   FieldTags,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
 import { validateFund } from '../../common/utils';
 
-const TRANSACTION_FORM = 'transactionForm';
-
 const CreateTransactionModal = ({
   fundId,
   handleSubmit,
   onClose,
   funds,
-  store,
-  dispatch,
-  change,
   title,
   isRequiredTransferFrom,
+  values: formValues,
 }) => {
-  const formValues = getFormValues(TRANSACTION_FORM)(store.getState()) || {};
-  const transferFrom = formValues.fromFundId;
   const transferTo = formValues.toFundId;
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
@@ -57,22 +48,6 @@ const CreateTransactionModal = ({
     formValues.fromFundId === fundId)
       ? funds
       : funds.filter(f => f.value === fundId)
-  );
-
-  const selectFromFund = useCallback(
-    (e, id) => {
-      dispatch(change('fromFundId', id));
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fundId, transferFrom],
-  );
-
-  const selectToFund = useCallback(
-    (e, id) => {
-      dispatch(change('toFundId', id));
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fundId, transferTo],
   );
 
   const footer = (
@@ -103,24 +78,22 @@ const CreateTransactionModal = ({
       <form>
         <Row>
           <Col xs>
-            <FieldSelect
+            <FieldSelectFinal
               dataOptions={optionsFrom}
               label={<FormattedMessage id="ui-finance.transaction.from" />}
               name="fromFundId"
-              onChange={selectFromFund}
               required={isTransferFromReqired}
               {...validateTransferFrom}
             />
           </Col>
 
           <Col xs>
-            <FieldSelect
+            <FieldSelectFinal
               dataOptions={optionsTo}
               label={<FormattedMessage id="ui-finance.transaction.to" />}
               name="toFundId"
-              onChange={selectToFund}
               required
-              validate={[validateRequired, validateFund]}
+              validate={validateFund}
             />
           </Col>
         </Row>
@@ -137,10 +110,7 @@ const CreateTransactionModal = ({
           </Col>
 
           <Col xs>
-            <FieldTags
-              formName={TRANSACTION_FORM}
-              name="tags.tagList"
-            />
+            <FieldTags name="tags.tagList" />
           </Col>
         </Row>
         <Row>
@@ -158,21 +128,20 @@ const CreateTransactionModal = ({
 };
 
 CreateTransactionModal.propTypes = {
-  change: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
   fundId: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  store: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
   isRequiredTransferFrom: PropTypes.bool.isRequired,
+  values: PropTypes.object.isRequired,
 };
 
 CreateTransactionModal.defaultProps = {
   funds: [],
 };
 
-export default stripesForm({
-  form: TRANSACTION_FORM,
+export default stripesFinalForm({
+  navigationCheck: true,
+  subscription: { values: true },
 })(CreateTransactionModal);

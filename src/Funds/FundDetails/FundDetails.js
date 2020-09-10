@@ -6,6 +6,7 @@ import {
   Col,
   Row,
   KeyValue,
+  NoValue,
 } from '@folio/stripes/components';
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
@@ -45,8 +46,9 @@ const FundDetails = ({
       </Col>
       <Col xs={3}>
         <KeyValue
+          data-testid="currency"
           label={<FormattedMessage id="ui-finance.fund.information.currency" />}
-          value={currency}
+          value={currency || <NoValue />}
         />
       </Col>
       <Col xs={3}>
@@ -80,8 +82,9 @@ const FundDetails = ({
     <Row>
       <Col xs={12}>
         <KeyValue
+          data-testid="description"
           label={<FormattedMessage id="ui-finance.fund.information.description" />}
-          value={fund.description}
+          value={fund.description || <NoValue />}
         />
       </Col>
     </Row>
@@ -97,7 +100,6 @@ FundDetails.propTypes = {
 
 FundDetails.defaultProps = {
   acqUnitIds: [],
-  currency: '',
   fund: {},
   groupIds: [],
 };

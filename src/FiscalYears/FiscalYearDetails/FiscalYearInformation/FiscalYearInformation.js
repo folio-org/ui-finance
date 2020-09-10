@@ -6,6 +6,7 @@ import {
   Row,
   Col,
   KeyValue,
+  NoValue,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
@@ -124,8 +125,9 @@ const FiscalYearInformation = ({
           xs={3}
         >
           <KeyValue
+            data-testid="description"
             label={<FormattedMessage id="ui-finance.fiscalYear.information.description" />}
-            value={description}
+            value={description || <NoValue />}
           />
         </Col>
       </Row>

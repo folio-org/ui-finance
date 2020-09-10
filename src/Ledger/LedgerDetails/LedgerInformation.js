@@ -6,6 +6,7 @@ import {
   Row,
   Col,
   KeyValue,
+  NoValue,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
@@ -123,8 +124,9 @@ const LedgerInformation = ({
 
         <Col xs={12}>
           <KeyValue
+            data-testid="description"
             label={<FormattedMessage id="ui-finance.ledger.description" />}
-            value={description}
+            value={description || <NoValue />}
           />
         </Col>
       </Row>

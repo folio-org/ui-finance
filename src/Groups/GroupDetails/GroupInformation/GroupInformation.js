@@ -6,6 +6,7 @@ import {
   Row,
   Col,
   KeyValue,
+  NoValue,
   Select,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
@@ -137,8 +138,9 @@ const GroupInformation = ({
 
         <Col xs={12}>
           <KeyValue
+            data-testid="description"
             label={<FormattedMessage id="ui-finance.groups.item.information.description" />}
-            value={description}
+            value={description || <NoValue />}
           />
         </Col>
       </Row>

@@ -46,6 +46,7 @@ const BudgetInformation = ({
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.allocationDate" />}
+        value={<NoValue />}
       />
     </Col>
 
@@ -122,12 +123,12 @@ const BudgetInformation = ({
         label={<FormattedMessage id="ui-finance.budget.overEncumbrance" />}
       >
         {
-          isOverAllowable(allowableEncumbrance) && (
+          isOverAllowable(allowableEncumbrance) ? (
             <AmountWithCurrencyField
               amount={overEncumbrance}
               currency={fiscalYearCurrency}
             />
-          )
+          ) : <NoValue />
         }
       </KeyValue>
     </Col>
@@ -137,12 +138,12 @@ const BudgetInformation = ({
         label={<FormattedMessage id="ui-finance.budget.overExpended" />}
       >
         {
-          isOverAllowable(allowableExpenditure) && (
+          isOverAllowable(allowableExpenditure) ? (
             <AmountWithCurrencyField
               amount={overExpended}
               currency={fiscalYearCurrency}
             />
-          )
+          ) : <NoValue />
         }
       </KeyValue>
     </Col>
@@ -150,6 +151,7 @@ const BudgetInformation = ({
     <Col xs={3}>
       <KeyValue
         label={<FormattedMessage id="ui-finance.budget.actionsRequired" />}
+        value={<NoValue />}
       />
     </Col>
 
@@ -182,10 +184,7 @@ BudgetInformation.propTypes = {
 };
 
 BudgetInformation.defaultProps = {
-  awaitingPayment: 0,
   budgetStatus: '',
-  encumbered: 0,
-  expenditures: 0,
   fiscalEnd: '',
   fiscalStart: '',
   name: '',

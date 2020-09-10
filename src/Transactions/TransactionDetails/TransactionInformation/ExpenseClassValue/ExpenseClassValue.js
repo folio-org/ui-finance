@@ -8,6 +8,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   KeyValue,
   Loading,
+  NoValue,
 } from '@folio/stripes/components';
 import {
   baseManifest,
@@ -40,7 +41,7 @@ const ExpenseClassValue = ({ id, label, mutator }) => {
   return (
     <KeyValue
       label={label}
-      value={expenseClass.name}
+      value={expenseClass.name || <NoValue />}
     />
   );
 };

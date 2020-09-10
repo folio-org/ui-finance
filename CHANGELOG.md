@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Update view pane to display null as hyphen - Finance. Refs UIF-251
 * Migrate Transaction form to react-final-form. Refs UIF-250
 * Migrate Group form to react-final-form. Refs UIF-248
 * Migrate Ledger form to react-final-form. Refs UIF-249

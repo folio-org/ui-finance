@@ -6,6 +6,7 @@ import {
   Row,
   Col,
   KeyValue,
+  NoValue,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
@@ -101,7 +102,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.from" />}
-            value={fromFundName}
+            value={fromFundName || <NoValue />}
           />
         </Col>
 
@@ -111,7 +112,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.to" />}
-            value={toFundName}
+            value={toFundName || <NoValue />}
           />
         </Col>
 
@@ -131,7 +132,7 @@ const TransactionInformation = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.tags" />}
-            value={tags?.tagList?.join(', ')}
+            value={tags?.tagList?.join(', ') || <NoValue />}
           />
         </Col>
       </Row>
@@ -191,7 +192,7 @@ const TransactionInformation = ({
         <Col xs={12}>
           <KeyValue
             label={<FormattedMessage id="ui-finance.transaction.description" />}
-            value={description}
+            value={description || <NoValue />}
           />
         </Col>
       </Row>

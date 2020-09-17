@@ -32,7 +32,7 @@ const FundPreviousBudgetsContainer = ({
     mutator.fundPreviousBudgets.GET({
       params: {
         limit: `${LIMIT_MAX}`,
-        query: `fundId==${fundId} and fiscalYear.periodStart < ${currentFY.periodStart}`,
+        query: `fundId==${fundId} and fiscalYear.periodStart < ${currentFY?.periodStart?.substring(0, 10)}`,
       },
     })
       .then(prevBudgets => {

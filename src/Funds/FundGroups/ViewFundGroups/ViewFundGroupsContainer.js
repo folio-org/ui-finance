@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
+import { Loading } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 
 import {
@@ -12,7 +13,7 @@ import ViewFundGroups from './ViewFundGroups';
 function ViewFundGroupsContainer({ groupIds, resources }) {
   const isLoading = !get(resources, 'groupsDict.hasLoaded');
 
-  if (isLoading) return null;
+  if (isLoading) return <Loading />;
 
   const groups = get(resources, 'groupsDict.records', []).filter(({ id }) => groupIds.includes(id));
 

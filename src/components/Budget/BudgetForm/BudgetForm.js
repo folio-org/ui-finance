@@ -37,7 +37,8 @@ const BudgetForm = ({
   submitting,
   values,
 }) => {
-  const { periodStart, periodEnd } = fiscalYear;
+  const { periodStart, periodEnd, currency } = fiscalYear;
+  const { awaitingPayment, encumbered, expended } = initialValues;
 
   const paneFooter = (
     <FormFooter
@@ -99,6 +100,7 @@ const BudgetForm = ({
                     <ViewMetaData metadata={initialValues.metadata} />
                     <BudgetSummary
                       budget={initialValues}
+                      fiscalYearCurrency={currency}
                     />
                   </Accordion>
                   <Accordion
@@ -106,8 +108,12 @@ const BudgetForm = ({
                     id={SECTIONS_BUDGET.INFORMATION}
                   >
                     <BudgetInformationFields
+                      awaitingPayment={awaitingPayment}
+                      encumbered={encumbered}
+                      expended={expended}
                       fiscalEnd={periodEnd}
                       fiscalStart={periodStart}
+                      fiscalYearCurrency={currency}
                     />
                   </Accordion>
                   <Accordion

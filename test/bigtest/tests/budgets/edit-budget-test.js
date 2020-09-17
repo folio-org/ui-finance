@@ -31,12 +31,6 @@ describe('Budget edit', () => {
     expect(budgetEdit.isPresent).to.be.true;
   });
 
-  it('should be have disabled field', () => {
-    expect(budgetEdit.expended.isDisabled).to.be.true;
-    expect(budgetEdit.awaitingPayment.isDisabled).to.be.true;
-    expect(budgetEdit.encumbered.isDisabled).to.be.true;
-  });
-
   describe('change name', function () {
     beforeEach(async function () {
       await budgetEdit.name.fill(TEST_NAME);

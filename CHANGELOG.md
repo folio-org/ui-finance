@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Update edit form inactive fields - Budget. Refs UIF-252
 * Display error message when attempting delete a Budget with Expense Classes. Refs UIF-244
 * Update view pane to display null as hyphen - Finance. Refs UIF-251
 * Migrate Transaction form to react-final-form. Refs UIF-250

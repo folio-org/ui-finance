@@ -5,10 +5,10 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
+  KeyValue,
   Label,
   RepeatableField,
   Row,
-  TextField,
 } from '@folio/stripes/components';
 import {
   FieldSelectFinal,
@@ -75,10 +75,9 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues: { statusExpens
           />
         </Col>
         <Col xs>
-          <TextField
+          <KeyValue
             ariaLabelledBy="budgetExpenseClassesFormAccountNumberLabel"
             value={getAccountNumberExt()}
-            disabled
           />
         </Col>
         <Col xs>
@@ -91,7 +90,7 @@ const BudgetExpenseClassesFields = ({ expenseClasses, formValues: { statusExpens
         </Col>
       </Row>
     );
-  }, [expenseClasses, statusExpenseClasses]);
+  }, [expenseClasses, statusExpenseClasses, expenseClassesOptions]);
 
   return (
     <FieldArray

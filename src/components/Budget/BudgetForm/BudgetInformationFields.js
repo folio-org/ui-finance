@@ -5,19 +5,26 @@ import { Field } from 'react-final-form';
 
 import {
   Col,
-  Row,
   KeyValue,
+  NoValue,
+  Row,
   TextField,
-  Datepicker,
 } from '@folio/stripes/components';
 import {
+  AmountWithCurrencyField,
   FieldSelectFinal,
+  FolioFormattedDate,
 } from '@folio/stripes-acq-components';
+
 import { BUDGET_STATUSES_OPTIONS } from '../constants';
 
 const BudgetInformationFields = ({
+  awaitingPayment,
+  encumbered,
+  expended,
   fiscalEnd,
   fiscalStart,
+  fiscalYearCurrency,
 }) => (
   <Row>
     <Col xs={3}>
@@ -30,9 +37,9 @@ const BudgetInformationFields = ({
     </Col>
 
     <Col xs={3}>
-      <Datepicker
+      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.allocationDate" />}
-        disabled
+        value={<NoValue />}
       />
     </Col>
 
@@ -47,18 +54,16 @@ const BudgetInformationFields = ({
     </Col>
 
     <Col xs={3}>
-      <Datepicker
+      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.fiscalStart" />}
-        value={fiscalStart}
-        disabled
+        value={<FolioFormattedDate value={fiscalStart} />}
       />
     </Col>
 
     <Col xs={3}>
-      <Datepicker
+      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.fiscalEnd" />}
-        value={fiscalEnd}
-        disabled
+        value={<FolioFormattedDate value={fiscalEnd} />}
       />
     </Col>
 
@@ -79,48 +84,41 @@ const BudgetInformationFields = ({
     </Col>
 
     <Col xs={3}>
-      <Field
-        component={TextField}
-        label={<FormattedMessage id="ui-finance.budget.encumbered" />}
-        name="encumbered"
-        disabled
-      />
+      <KeyValue label={<FormattedMessage id="ui-finance.budget.encumbered" />}>
+        <AmountWithCurrencyField
+          amount={encumbered}
+          currency={fiscalYearCurrency}
+        />
+      </KeyValue>
     </Col>
 
     <Col xs={3}>
-      <Field
-        component={TextField}
-        label={<FormattedMessage id="ui-finance.budget.awaitingPayment" />}
-        name="awaitingPayment"
-        disabled
-      />
+      <KeyValue label={<FormattedMessage id="ui-finance.budget.awaitingPayment" />}>
+        <AmountWithCurrencyField
+          amount={awaitingPayment}
+          currency={fiscalYearCurrency}
+        />
+      </KeyValue>
     </Col>
 
     <Col xs={3}>
-      <Field
-        component={TextField}
-        label={<FormattedMessage id="ui-finance.budget.expended" />}
-        name="expended"
-        disabled
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.transactions" />}
-      />
+      <KeyValue label={<FormattedMessage id="ui-finance.budget.expended" />}>
+        <AmountWithCurrencyField
+          amount={expended}
+          currency={fiscalYearCurrency}
+        />
+      </KeyValue>
     </Col>
   </Row>
 );
 
 BudgetInformationFields.propTypes = {
+  awaitingPayment: PropTypes.number,
+  encumbered: PropTypes.number,
+  expended: PropTypes.number,
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
-};
-
-BudgetInformationFields.defaultProps = {
-  fiscalEnd: '',
-  fiscalStart: '',
+  fiscalYearCurrency: PropTypes.string,
 };
 
 export default BudgetInformationFields;

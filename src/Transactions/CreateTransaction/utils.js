@@ -29,6 +29,10 @@ export const handleCreateTransactionErrorResponse = async (
         { id: `ui-finance.transaction.${transactionTypeKey}.${ERROR_CODE_GENERIC}` },
         { amount: amountWithCurrency, budgetName },
       )}
+      values={{
+        amount: amountWithCurrency,
+        budgetName,
+      }}
     />
   );
 };

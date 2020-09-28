@@ -298,8 +298,8 @@
     "budget.expenseClasses.accountNumber": "帐号扩展",
     "budget.netTransfers": "净转移",
     "item.netTransfers": "净转移",
-    "transaction.actions.load.error": "Failed to load transaction data",
-    "transaction.expenseClass": "Expense class",
-    "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
-    "transaction.transfer.notEnoughMoneyForTransferError": "Transfer was not successful. There is not enough money Available in the budget to complete this Transfer."
+    "transaction.actions.load.error": "无法加载交易数据",
+    "transaction.expenseClass": "支出类别",
+    "budget.actions.remove.error.budgetExpenseClassReferenceError": "无法删除预算。无法删除已分配一个或多个费用类别的预算。",
+    "transaction.transfer.notEnoughMoneyForTransferError": "转移失败。预算中没有足够资金完成此次转移。"
 }

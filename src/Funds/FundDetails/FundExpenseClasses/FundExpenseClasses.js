@@ -13,7 +13,7 @@ import {
 import ExpenseClasses from '../../../common/ExpenseClasses';
 import { SECTIONS_FUND } from '../../constants';
 
-const VISIBLE_COLUMNS = ['expenseClassName', 'expended', 'percentageExpended', 'status'];
+const VISIBLE_COLUMNS = ['expenseClassName', 'encumbered', 'awaitingPayment', 'expended', 'percentageExpended', 'status'];
 
 function FundExpenseClasses({ budgetId, currency, resources: { totals: { failed, isPending, records } } }) {
   if (!budgetId || failed || isPending || records.length === 0) return null;

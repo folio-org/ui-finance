@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Fund view - Display encumbered and awaiting payment amount in "Current expense classes" table. Refs UIF-258
 * Update edit form inactive fields - Budget. Refs UIF-252
 * Display error message when transfer is restricted. Refs UIF-242
 * Display error message when attempting delete a Budget with Expense Classes. Refs UIF-244

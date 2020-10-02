@@ -51,6 +51,8 @@ const SORTERS = {
   'expenseClassStatus': ({ expenseClassStatus }) => expenseClassStatus?.toLowerCase(),
   'expended': ({ expended }) => expended,
   'percentageExpended': ({ percentageExpended }) => percentageExpended,
+  'encumbered': ({ encumbered }) => encumbered,
+  'awaitingPayment': ({ awaitingPayment }) => awaitingPayment,
 };
 
 const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id, loading }) => {

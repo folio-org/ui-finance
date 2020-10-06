@@ -25,6 +25,7 @@ import {
   baseManifest,
   useModalToggle,
   useShowCallout,
+  TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -35,7 +36,6 @@ import {
   BUDGETS_API,
   FISCAL_YEARS_API,
   FUNDS_ROUTE,
-  TRANSACTION_TYPES,
 } from '../../../common/const';
 import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';

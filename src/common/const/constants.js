@@ -1,12 +1,3 @@
-export const TRANSACTION_TYPES = {
-  allocation: 'Allocation',
-  credit: 'Credit',
-  encumbrance: 'Encumbrance',
-  payment: 'Payment',
-  pendingPayment: 'Pending payment',
-  transfer: 'Transfer',
-};
-
 export const CHUNK_LIMIT = 25;
 export const NO_ID = 'noId';
 

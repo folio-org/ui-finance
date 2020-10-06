@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   TRANSACTION_TYPES,
-} from '../common/const';
+} from '@folio/stripes-acq-components';
 
 export const TRANSACTION_ACCORDION = {
   information: 'information',

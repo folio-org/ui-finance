@@ -9,13 +9,13 @@ import { get } from 'lodash';
 import {
   getAmountWithCurrency,
   useShowCallout,
+  TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 import {
   stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
 
-import { TRANSACTION_TYPES } from '../../common/const';
 import {
   allocationsResource,
   budgetResource,

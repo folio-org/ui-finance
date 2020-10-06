@@ -1,8 +1,9 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { TRANSACTION_TYPES } from '@folio/stripes-acq-components';
+
 import {
-  TRANSACTION_TYPES,
   TRANSACTIONS_ROUTE,
 } from '../../../../../src/common/const';
 import { TRANSACTION_SOURCE } from '../../../../../src/Transactions/constants';

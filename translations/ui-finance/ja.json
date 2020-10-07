@@ -14,7 +14,7 @@
     "ledger.remove.heading": "Delete ledger",
     "ledger.remove.message": "Are you sure you want to delete ledger?",
     "fiscalyear": "会計年度",
-    "fund": "ファンド",
+    "fund": "予算管理",
     "fund.remove.heading": "Delete fund",
     "fund.remove.message": "Are you sure you want to delete fund?",
     "group": "グループ",

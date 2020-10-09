@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -24,7 +24,6 @@
       "acquisitions-units": "1.1",
       "configuration": "2.0",
       "finance.budgets": "1.0",
-      "finance.expense-classes": "1.0",
       "finance.fiscal-years": "1.0",
       "finance.fund-types": "1.0",
       "finance.funds": "1.0",
@@ -36,6 +35,9 @@
       "finance.transactions": "3.0 4.0",
       "tags": "1.0",
       "users": "15.0"
+    },
+    "optionalOkapiInterfaces": {
+      "finance.expense-classes": "1.0"
     },
     "queryResource": "query",
     "icons": [
@@ -356,7 +358,7 @@
     "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "^2.0.0",
+    "@folio/stripes-acq-components": "^2.2.0",
     "final-form-arrays": "^3.0.1",
     "final-form-set-field-data": "^1.0.2",
     "final-form": "^4.18.2",

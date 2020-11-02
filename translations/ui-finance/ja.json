@@ -203,7 +203,7 @@
     "groups.actions.remove.error": "Group has not been deleted",
     "groups.actions.remove.success": "Group has been deleted",
     "saveAndClose": "保存して閉じる",
-    "close": "Close",
+    "close": "閉じる",
     "budget.status.inactive": "無効",
     "ledger.createNewFY": "New fiscal year",
     "fiscalYear.actions.save.error.-1": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",

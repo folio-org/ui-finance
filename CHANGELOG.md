@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Group view - Display encumbered and awaiting payment amount in "Current expense classes" table. Refs UIF-259
+
 ## [2.2.0](https://github.com/folio-org/ui-finance/tree/v2.2.0) (2020-10-09)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.1.2...v2.2.0)
 

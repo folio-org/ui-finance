@@ -8,7 +8,7 @@ import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import ExpenseClasses from '../../../common/ExpenseClasses';
 import { GROUP_ACCORDTION, GROUP_ACCORDTION_LABELS } from '../../constants';
 
-const VISIBLE_COLUMNS = ['expenseClassName', 'expended', 'percentageExpended'];
+const VISIBLE_COLUMNS = ['expenseClassName', 'encumbered', 'awaitingPayment', 'expended', 'percentageExpended'];
 
 function GroupExpenseClasses({
   currency,

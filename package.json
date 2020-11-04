@@ -177,6 +177,7 @@
           "finance.fiscal-years.collection.get",
           "finance.funds.collection.get",
           "finance.group-fiscal-year-summaries.collection.get",
+          "finance.groups-expense-classes-totals.collection.get",
           "finance.groups.collection.get",
           "finance.groups.item.get",
           "users.collection.get"

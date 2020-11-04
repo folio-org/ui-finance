@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Missing Expense classes permission. Refs UIF-265
 * Group view - Display encumbered and awaiting payment amount in "Current expense classes" table. Refs UIF-259
 
 ## [2.2.0](https://github.com/folio-org/ui-finance/tree/v2.2.0) (2020-10-09)

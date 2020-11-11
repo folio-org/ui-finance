@@ -1,7 +1,7 @@
 {
     "search": "Search",
     "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
-    "meta.title": "Finance",
+    "meta.title": "예산",
     "ledger.name": "Name",
     "ledger.code": "Code",
     "ledger.status": "Status",

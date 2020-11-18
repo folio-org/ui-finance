@@ -15,12 +15,10 @@ describe('Ledger create', () => {
   const ledgersList = new LedgersListInteractor();
 
   beforeEach(async function () {
-    this.server.createList('ledger', 2);
     this.server.create('fiscalYear', {
       code: 'FY',
     });
     this.visit(LEDGERS_ROUTE);
-    await ledgersList.whenLoaded();
     await ledgersList.newButton.click();
     await ledgerForm.whenLoaded();
   });
@@ -36,7 +34,6 @@ describe('Ledger create', () => {
 
     it('closes ledger form', () => {
       expect(ledgerForm.isPresent).to.be.false;
-      expect(ledgersList.isPresent).to.be.true;
     });
   });
 
@@ -57,11 +54,10 @@ describe('Ledger create', () => {
       await ledgerForm.code.fill('LDGR');
       await ledgerForm.fyOneList.selectOption('FY');
       await ledgerForm.saveButton.click();
-      await ledgersList.whenLoaded();
     });
 
-    it('should close ledger form and display the list of ledgers', () => {
-      expect(ledgersList.isPresent).to.be.true;
+    it('should close ledger form', () => {
+      expect(ledgerForm.isPresent).to.be.false;
     });
   });
 

@@ -2,6 +2,7 @@ import {
   interactor,
   Interactor,
   isPresent,
+  text,
   value,
 } from '@bigtest/interactor';
 import {
@@ -27,6 +28,7 @@ export default interactor(class LedgerFormInteractor {
   code = new Interactor('input[name="code"]');
   status = new StatusInteractor();
   fyOneList = new SelectInteractor('[data-test-col-ledger-form-fy]');
+  codeValidationMessage = text('[data-test-col-ledger-form-code] [class*=feedbackError---]');
 
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);

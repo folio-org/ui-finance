@@ -36,6 +36,7 @@ import {
   LEDGER_ACCORDTION,
   LEDGER_STATUS_OPTIONS,
 } from '../constants';
+import FieldLedgerCode from './FieldLedgerCode';
 
 const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.create" />;
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
@@ -101,18 +102,12 @@ const LedgerForm = ({
                           type="text"
                           required
                           validate={validateRequired}
+                          validateFields={[]}
                         />
                       </Col>
 
                       <Col data-test-col-ledger-form-code xs={3}>
-                        <Field
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.ledger.code" />}
-                          name="code"
-                          type="text"
-                          required
-                          validate={validateRequired}
-                        />
+                        <FieldLedgerCode ledgerId={initialValues.id} />
                       </Col>
 
                       <Col
@@ -143,6 +138,7 @@ const LedgerForm = ({
                           name="ledgerStatus"
                           required
                           validate={validateRequired}
+                          validateFields={[]}
                         />
                       </Col>
 
@@ -163,6 +159,7 @@ const LedgerForm = ({
                           label={<FormattedMessage id="ui-finance.ledger.description" />}
                           name="description"
                           type="text"
+                          validateFields={[]}
                         />
                       </Col>
                     </Row>
@@ -183,7 +180,7 @@ LedgerForm.propTypes = {
   initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
-  pristine: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
 };
 
 LedgerForm.defaultProps = {

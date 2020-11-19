@@ -7,7 +7,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import { TextField } from '@folio/stripes/components';
 
 import { ledgersResource } from '../../../common/resources';
-import { validateLedger } from '../utils';
+import { validateLedger } from '../validateLedger';
 
 const FieldLedgerCode = ({ ledgerId, mutator }) => {
   const validate = useCallback(value => {

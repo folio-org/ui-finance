@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Error message: Ledger name already in use. Refs UIF-256.
 * Error message: Ledger code already in use. Refs UIF-255.
 * Missing Expense classes permission. Refs UIF-265
 * Group view - Display encumbered and awaiting payment amount in "Current expense classes" table. Refs UIF-259

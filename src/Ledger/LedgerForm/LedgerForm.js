@@ -16,7 +16,6 @@ import {
   Paneset,
   Row,
   TextArea,
-  TextField,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
@@ -37,6 +36,7 @@ import {
   LEDGER_STATUS_OPTIONS,
 } from '../constants';
 import FieldLedgerCode from './FieldLedgerCode';
+import FieldLedgerName from './FieldLedgerName';
 
 const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.create" />;
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
@@ -95,15 +95,7 @@ const LedgerForm = ({
                     {metadata && <ViewMetaData metadata={metadata} />}
                     <Row>
                       <Col data-test-col-ledger-form-name xs={3}>
-                        <Field
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.ledger.name" />}
-                          name="name"
-                          type="text"
-                          required
-                          validate={validateRequired}
-                          validateFields={[]}
-                        />
+                        <FieldLedgerName ledgerId={initialValues.id} />
                       </Col>
 
                       <Col data-test-col-ledger-form-code xs={3}>

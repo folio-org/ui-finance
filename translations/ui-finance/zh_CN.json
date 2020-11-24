@@ -301,5 +301,7 @@
     "transaction.actions.load.error": "无法加载交易数据",
     "transaction.expenseClass": "支出类别",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "无法删除预算。无法删除已分配一个或多个费用类别的预算。",
-    "transaction.transfer.notEnoughMoneyForTransferError": "转移失败。预算中没有足够资金完成此次转移。"
+    "transaction.transfer.notEnoughMoneyForTransferError": "转移失败。预算中没有足够资金完成此次转移。",
+    "ledger.code.isInUse": "This Ledger code is already in use.",
+    "ledger.name.isInUse": "This Ledger name is already in use."
 }

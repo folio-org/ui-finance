@@ -301,5 +301,7 @@
     "transaction.actions.load.error": "Failed to load transaction data",
     "transaction.expenseClass": "Expense class",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
-    "transaction.transfer.notEnoughMoneyForTransferError": "Transfer was not successful. There is not enough money Available in the budget to complete this Transfer."
+    "transaction.transfer.notEnoughMoneyForTransferError": "Transfer was not successful. There is not enough money Available in the budget to complete this Transfer.",
+    "ledger.code.isInUse": "This Ledger code is already in use.",
+    "ledger.name.isInUse": "This Ledger name is already in use."
 }

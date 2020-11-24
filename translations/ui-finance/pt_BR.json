@@ -301,5 +301,7 @@
     "transaction.actions.load.error": "Falha ao carregar os dados da transação",
     "transaction.expenseClass": "Classe de despesa",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "Não foi possível excluir o orçamento. Você não pode excluir um orçamento que foi atribuído a uma ou mais classes de despesas.",
-    "transaction.transfer.notEnoughMoneyForTransferError": "A transferência não foi bem-sucedida. Não há dinheiro suficiente disponível no orçamento para concluir esta transferência."
+    "transaction.transfer.notEnoughMoneyForTransferError": "A transferência não foi bem-sucedida. Não há dinheiro suficiente disponível no orçamento para concluir esta transferência.",
+    "ledger.code.isInUse": "Este código de contabilidade já está em uso.",
+    "ledger.name.isInUse": "Este nome de contabilidade já está em uso."
 }

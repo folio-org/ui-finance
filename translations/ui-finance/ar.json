@@ -301,5 +301,7 @@
     "transaction.actions.load.error": "فشل تحميل بيانات المعاملة",
     "transaction.expenseClass": "فئة المصروفات",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "تعذر حذف الميزانية. لا يمكنك حذف الميزانية التي تم تعيين فئة مصروفات واحدة أو أكثر لها.",
-    "transaction.transfer.notEnoughMoneyForTransferError": "لم ينجح التحويل. لا يوجد ما يكفي من الأموال في الميزانية لإتمام هذا التحويل."
+    "transaction.transfer.notEnoughMoneyForTransferError": "لم ينجح التحويل. لا يوجد ما يكفي من الأموال في الميزانية لإتمام هذا التحويل.",
+    "ledger.code.isInUse": "كود هذا الدفتر قيد الاستخدام بالفعل.",
+    "ledger.name.isInUse": "اسم هذا الدفتر قيد الاستخدام بالفعل."
 }

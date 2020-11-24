@@ -301,5 +301,7 @@
     "transaction.actions.load.error": "Failed to load transaction data",
     "transaction.expenseClass": "Expense class",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
-    "transaction.transfer.notEnoughMoneyForTransferError": "전송에 실패했습니다. 이 송금을 완료하기 위해 예산에 사용 가능한 자금이 충분하지 않습니다."
+    "transaction.transfer.notEnoughMoneyForTransferError": "전송에 실패했습니다. 이 송금을 완료하기 위해 예산에 사용 가능한 자금이 충분하지 않습니다.",
+    "ledger.code.isInUse": "This Ledger code is already in use.",
+    "ledger.name.isInUse": "This Ledger name is already in use."
 }

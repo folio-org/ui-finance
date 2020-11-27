@@ -89,4 +89,16 @@ describe('Ledger details', () => {
       expect(ledgerDetails.isPresent).to.be.false;
     });
   });
+
+  describe('click on rollover', () => {
+    beforeEach(async function () {
+      await ledgerDetails.actions.click();
+      await ledgerDetails.rollover.focus();
+      await ledgerDetails.rollover.click();
+    });
+
+    it('stays at ledger details (actual functionality is not implemented yet)', () => {
+      expect(ledgerDetails.isPresent).to.be.true;
+    });
+  });
 });

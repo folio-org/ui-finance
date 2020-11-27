@@ -167,6 +167,13 @@
         ]
       },
       {
+        "permissionName": "ui-finance.ledger.rollover",
+        "displayName": "Finance: Execute fiscal year rollover",
+        "visible": true,
+        "subPermissions": [
+        ]
+      },
+      {
         "permissionName": "ui-finance.group.view",
         "displayName": "Finance: View group",
         "visible": true,

@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Begin fiscal year rollover for a Ledger. Refs UIF-168.
 * Error message: Ledger name already in use. Refs UIF-256.
 * Error message: Ledger code already in use. Refs UIF-255.
 * Missing Expense classes permission. Refs UIF-265

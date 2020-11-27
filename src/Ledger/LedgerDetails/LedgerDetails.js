@@ -5,13 +5,16 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   AccordionSet,
+  Button,
   Col,
   ConfirmationModal,
   ExpandAllButton,
+  Icon,
   MenuSection,
   Pane,
   Row,
 } from '@folio/stripes/components';
+import { IfPermission } from '@folio/stripes/core';
 import {
   useAccordionToggle,
   useModalToggle,
@@ -35,6 +38,7 @@ const LedgerDetails = ({
   onClose,
   onEdit,
   onDelete,
+  onRollover,
   funds,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -55,10 +59,27 @@ const LedgerDetails = ({
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
           />
+          <IfPermission perm="ui-finance.ledger.rollover">
+            <Button
+              buttonStyle="dropdownItem"
+              data-test-ledger-rollover-action
+              onClick={() => {
+                onRollover();
+                onToggle();
+              }}
+            >
+              <Icon
+                size="small"
+                icon="transfer"
+              >
+                <FormattedMessage id="ui-finance.actions.rollover" />
+              </Icon>
+            </Button>
+          </IfPermission>
         </MenuSection>
       );
     },
-    [onEdit, toggleRemoveConfirmation],
+    [onEdit, toggleRemoveConfirmation, onRollover],
   );
 
   const onRemove = useCallback(
@@ -153,6 +174,7 @@ LedgerDetails.propTypes = {
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onRollover: PropTypes.func.isRequired,
   ledger: PropTypes.object,
   fiscalYear: PropTypes.object,
   funds: PropTypes.arrayOf(PropTypes.object),

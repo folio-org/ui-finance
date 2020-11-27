@@ -112,6 +112,11 @@ const LedgerDetailsContainer = ({
     [ledgerId, showToast, history, location.search],
   );
 
+  const rollover = useCallback(
+    () => { },
+    [],
+  );
+
   if (isLoading) {
     return <LoadingPane onClose={closePane} />;
   }
@@ -123,6 +128,7 @@ const LedgerDetailsContainer = ({
       onClose={closePane}
       onEdit={editLedger}
       onDelete={removeLedger}
+      onRollover={rollover}
       funds={funds}
     />
   );

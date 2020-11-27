@@ -296,6 +296,7 @@
   "actions.edit": "Edit",
   "actions.remove": "Delete",
   "actions.remove.confirm": "Delete",
+  "actions.rollover": "Rollover",
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
   "fund.code.isInUse": "This Fund code is already in use.",
   "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",
@@ -323,6 +324,7 @@
   "permission.ledger.delete": "Finance: View, edit, delete ledger",
   "permission.ledger.edit": "Finance: View, edit ledger",
   "permission.ledger.view": "Finance: View ledger",
+  "permission.ledger.rollover": "Finance: Execute fiscal year rollover",
   "permission.settings.all": "Settings (Finance): View, edit, create, delete",
   "permission.transfers.create": "Finance: Create transfers"
 }

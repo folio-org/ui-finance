@@ -35,6 +35,8 @@ export default interactor(class LedgerDetailsInteractor {
   closePane = new Button('[icon=times]');
   funds = new FundsAccordion();
   groups = new GroupsAccordion();
+  actions = new Button('[data-pane-header-actions-dropdown]');
+  rollover = new Button('[data-test-ledger-rollover-action]');
 
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {

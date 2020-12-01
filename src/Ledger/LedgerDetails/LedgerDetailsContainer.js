@@ -113,8 +113,13 @@ const LedgerDetailsContainer = ({
   );
 
   const rollover = useCallback(
-    () => { },
-    [],
+    () => {
+      history.push({
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover`,
+        search: location.search,
+      });
+    },
+    [history, location.search, ledgerId],
   );
 
   if (isLoading) {

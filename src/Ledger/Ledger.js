@@ -5,12 +5,15 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+import { PermissionedRoute } from '@folio/stripes-acq-components';
+
 import CheckPermission from '../common/CheckPermission';
 import { LEDGERS_ROUTE } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
 import { LedgerListContainer } from './LedgerList';
+import RolloverLedgerContainer from './RolloverLedger';
 
 const Ledger = () => {
   return (
@@ -47,6 +50,14 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+      <PermissionedRoute
+        path={`${LEDGERS_ROUTE}/:id/rollover`}
+        perm="ui-finance.ledger.rollover"
+        returnLink={LEDGERS_ROUTE}
+        returnLinkLabelId="ui-finance.ledger"
+      >
+        <RolloverLedgerContainer />
+      </PermissionedRoute>
       <Route
         path={LEDGERS_ROUTE}
         render={() => (

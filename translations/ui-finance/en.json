@@ -42,6 +42,12 @@
   "ledger.unavailable": "Unavailable",
   "ledger": "Ledger",
   "ledger.createNewFY": "New fiscal year",
+  "ledger.rollover.title": "Rollover {ledgerName}",
+  "ledger.rollover.budgets": "Rollover budgets",
+  "ledger.rollover.encumbrances": "Rollover encumbrances",
+  "ledger.rollover.saveBtn": "Rollover",
+  "ledger.rollover.fundType": "Fund type",
+  "ledger.rollover.allocation": "Allocation",
 
   "fiscalYear.actions.load.error": "Failed to load fiscal year data",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

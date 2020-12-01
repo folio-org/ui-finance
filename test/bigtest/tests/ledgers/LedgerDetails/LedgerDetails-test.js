@@ -6,12 +6,14 @@ import { LEDGERS_ROUTE } from '../../../../../src/common/const';
 import setupApplication from '../../../helpers/setup-application';
 import LedgerDetailsInteractor from '../../../interactors/ledgers/LedgerDetailsInteractor';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
+import LedgerRolloverInteractor from '../../../interactors/ledgers/LedgerRolloverInteractor';
 
 describe('Ledger details', () => {
   setupApplication();
 
   const ledgerDetails = new LedgerDetailsInteractor();
   const fundDetails = new FundDetailsInteractor();
+  const rollover = new LedgerRolloverInteractor();
 
   beforeEach(async function () {
     const ledger = this.server.create('ledger');
@@ -95,10 +97,11 @@ describe('Ledger details', () => {
       await ledgerDetails.actions.click();
       await ledgerDetails.rollover.focus();
       await ledgerDetails.rollover.click();
+      await rollover.whenLoaded();
     });
 
-    it('stays at ledger details (actual functionality is not implemented yet)', () => {
-      expect(ledgerDetails.isPresent).to.be.true;
+    it('goes to ledger rollover', () => {
+      expect(rollover.isPresent).to.be.true;
     });
   });
 });

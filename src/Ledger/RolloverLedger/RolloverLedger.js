@@ -37,14 +37,12 @@ const RolloverLedger = ({
   submitting,
   pristine,
 }) => {
-  const closeForm = useCallback(() => onCancel(), [onCancel]);
-
   const paneFooter = (
     <FormFooter
       label={<FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />}
       handleSubmit={handleSubmit}
       submitting={submitting}
-      onCancel={closeForm}
+      onCancel={onCancel}
       pristine={pristine}
     />
   );
@@ -56,7 +54,7 @@ const RolloverLedger = ({
           defaultWidth="fill"
           dismissible
           id="pane-ledger-rollover-form"
-          onClose={closeForm}
+          onClose={onCancel}
           footer={paneFooter}
           paneTitle={(
             <FormattedMessage

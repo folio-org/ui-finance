@@ -27,8 +27,7 @@ const headLabels = (
   </Row>
 );
 
-const RolloverLedgerBudgets = ({
-}) => {
+const RolloverLedgerBudgets = () => {
   const renderBudgetFields = (elem, index, fields) => {
     return (
       undefined

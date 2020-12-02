@@ -19,6 +19,7 @@ describe('Ledger create', () => {
       code: 'FY',
     });
     this.visit(LEDGERS_ROUTE);
+    await ledgersList.whenLoaded();
     await ledgersList.newButton.click();
     await ledgerForm.whenLoaded();
   });

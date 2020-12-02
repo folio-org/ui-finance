@@ -8,7 +8,10 @@ import {
 import { PermissionedRoute } from '@folio/stripes-acq-components';
 
 import CheckPermission from '../common/CheckPermission';
-import { LEDGERS_ROUTE } from '../common/const';
+import {
+  LEDGER_CREATE_ROUTE,
+  LEDGERS_ROUTE,
+} from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
@@ -19,7 +22,7 @@ const Ledger = () => {
   return (
     <Switch>
       <Route
-        path={`${LEDGERS_ROUTE}/create`}
+        path={LEDGER_CREATE_ROUTE}
         render={() => (
           <CheckPermission perm="ui-finance.ledger.create">
             <CreateLedger />

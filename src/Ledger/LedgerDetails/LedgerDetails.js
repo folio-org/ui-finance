@@ -70,7 +70,7 @@ const LedgerDetails = ({
             >
               <Icon
                 size="small"
-                icon="transfer"
+                icon="calendar"
               >
                 <FormattedMessage id="ui-finance.actions.rollover" />
               </Icon>

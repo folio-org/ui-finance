@@ -1,25 +1,22 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { LEDGERS_ROUTE } from '../../../../../src/common/const';
+import { LEDGER_CREATE_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import LedgerFormInteractor from '../../../interactors/ledgers/LedgerForm';
-import LedgersListInteractor from '../../../interactors/ledgers/LedgersList';
 import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
 
 describe('Ledger create', () => {
   setupApplication();
 
   const ledgerForm = new LedgerFormInteractor();
-  const ledgersList = new LedgersListInteractor();
 
   beforeEach(async function () {
     this.server.create('fiscalYear', {
       code: 'FY',
     });
-    this.visit(LEDGERS_ROUTE);
-    await ledgersList.newButton.click();
+    this.visit(LEDGER_CREATE_ROUTE);
     await ledgerForm.whenLoaded();
   });
 

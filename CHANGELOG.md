@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Set Fund detail for fiscal year rollover. Refs UIF-169
 * Begin fiscal year rollover for a Ledger. Refs UIF-168.
 * Error message: Ledger name already in use. Refs UIF-256.
 * Error message: Ledger code already in use. Refs UIF-255.

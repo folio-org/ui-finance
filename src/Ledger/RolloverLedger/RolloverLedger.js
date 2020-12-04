@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -29,13 +29,12 @@ export const ROLLOVER_LEDGER_ACCORDION_LABELS = {
 };
 
 const RolloverLedger = ({
-  goToCreateFY,
+  fundTypesMap,
   handleSubmit,
-  initialValues,
   ledger,
   onCancel,
-  submitting,
   pristine,
+  submitting,
 }) => {
   const paneFooter = (
     <FormFooter
@@ -66,8 +65,8 @@ const RolloverLedger = ({
           <Row>
             <Col
               xs={12}
-              md={8}
-              mdOffset={2}
+              md={10}
+              mdOffset={1}
             >
               <AccordionStatus>
                 <AccordionSet>
@@ -75,7 +74,7 @@ const RolloverLedger = ({
                     id={ROLLOVER_LEDGER_ACCORDION.budgets}
                     label={ROLLOVER_LEDGER_ACCORDION_LABELS.budgets}
                   >
-                    <RolloverLedgerBudgets />
+                    <RolloverLedgerBudgets fundTypesMap={fundTypesMap} />
                   </Accordion>
                 </AccordionSet>
               </AccordionStatus>
@@ -88,17 +87,16 @@ const RolloverLedger = ({
 };
 
 RolloverLedger.propTypes = {
-  goToCreateFY: PropTypes.func.isRequired,
+  fundTypesMap: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.object,
   ledger: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
 };
 
 RolloverLedger.defaultProps = {
-  initialValues: {},
+  ledger: {},
 };
 
 export default stripesFinalForm({

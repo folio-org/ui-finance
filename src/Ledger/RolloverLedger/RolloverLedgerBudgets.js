@@ -17,7 +17,7 @@ import { FieldSelectFinal } from '@folio/stripes-acq-components';
 import { ADD_AVAILABLE_TO_OPTIONS } from '../constants';
 
 // eslint-disable-next-line react/prop-types
-const LabelComponent = ({translationId, size = 2}) => (
+const LabelComponent = ({ translationId, size = 2 }) => (
   <Col xs={size}>
     <Label>
       <FormattedMessage id={translationId} />

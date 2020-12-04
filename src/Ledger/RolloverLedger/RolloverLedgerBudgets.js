@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
@@ -16,48 +16,28 @@ import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import { ADD_AVAILABLE_TO_OPTIONS } from '../constants';
 
+// eslint-disable-next-line react/prop-types
+const LabelComponent = ({translationId, size = 2}) => (
+  <Col xs={size}>
+    <Label>
+      <FormattedMessage id={translationId} />
+    </Label>
+  </Col>
+);
+
 const headLabels = (
   <Row>
-    <Col xs={2}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.fundType" />
-      </Label>
-    </Col>
-    <Col xs={2}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.allocation" />
-      </Label>
-    </Col>
-    <Col xs={2}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.adjustAllocation" />
-      </Label>
-    </Col>
-    <Col xs={2}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.available" />
-      </Label>
-    </Col>
-    <Col xs={2}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.addAvailableTo" />
-      </Label>
-    </Col>
-    <Col xs={1}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.allowableEncumbrance" />
-      </Label>
-    </Col>
-    <Col xs={1}>
-      <Label>
-        <FormattedMessage id="ui-finance.ledger.rollover.allowableExpenditure" />
-      </Label>
-    </Col>
+    <LabelComponent translationId="ui-finance.ledger.rollover.allocation" />
+    <LabelComponent translationId="ui-finance.ledger.rollover.adjustAllocation" />
+    <LabelComponent translationId="ui-finance.ledger.rollover.available" />
+    <LabelComponent translationId="ui-finance.ledger.rollover.addAvailableTo" />
+    <LabelComponent translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
+    <LabelComponent translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
   </Row>
 );
 
 const RolloverLedgerBudgets = ({ fundTypesMap }) => {
-  const renderBudgetFields = (elem, index, fields) => {
+  const renderBudgetFields = useCallback((elem, index, fields) => {
     return (
       <Row>
         <Col xs={2}>
@@ -121,7 +101,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         </Col>
       </Row>
     );
-  };
+  }, [fundTypesMap]);
 
   return (
     <FieldArray

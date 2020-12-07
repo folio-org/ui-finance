@@ -34,3 +34,18 @@ export const LEDGER_STATUS_OPTIONS = Object.values(LEDGER_STATUS).map(status => 
   label: LEDGER_STATUS_LABEL[status],
   value: status,
 }));
+
+export const ADD_AVAILABLE_TO = {
+  available: 'Available',
+  allocation: 'Allocation',
+};
+
+export const ADD_AVAILABLE_TO_LABEL = {
+  [ADD_AVAILABLE_TO.available]: 'ui-finance.ledger.rollover.addAvailableTo.available',
+  [ADD_AVAILABLE_TO.allocation]: 'ui-finance.ledger.rollover.addAvailableTo.allocation',
+};
+
+export const ADD_AVAILABLE_TO_OPTIONS = Object.values(ADD_AVAILABLE_TO).map(d => ({
+  labelId: ADD_AVAILABLE_TO_LABEL[d],
+  value: d,
+}));

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
+import { useFieldArray } from 'react-final-form-arrays';
 
 import {
   Checkbox,
@@ -27,6 +27,7 @@ const LabelComponent = ({ translationId, size = 2 }) => (
 
 const headLabels = (
   <Row>
+    <LabelComponent translationId="ui-finance.ledger.rollover.fundType" />
     <LabelComponent translationId="ui-finance.ledger.rollover.allocation" />
     <LabelComponent translationId="ui-finance.ledger.rollover.adjustAllocation" />
     <LabelComponent translationId="ui-finance.ledger.rollover.available" />
@@ -103,14 +104,15 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
     );
   }, [fundTypesMap]);
 
+  const fieldArrayProps = useFieldArray('budgetsRollover');
+
   return (
-    <FieldArray
-      component={RepeatableField}
+    <RepeatableField
       headLabels={headLabels}
       id="budgetsRollover"
-      name="budgetsRollover"
       onRemove={false}
       renderField={renderBudgetFields}
+      {...fieldArrayProps}
     />
   );
 };

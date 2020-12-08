@@ -16,6 +16,7 @@ import {
   FormFooter,
 } from '@folio/stripes-acq-components';
 
+import RolloverFiscalYears from './RolloverFiscalYears';
 import RolloverLedgerBudgets from './RolloverLedgerBudgets';
 
 export const ROLLOVER_LEDGER_ACCORDION = {
@@ -29,7 +30,9 @@ export const ROLLOVER_LEDGER_ACCORDION_LABELS = {
 };
 
 const RolloverLedger = ({
+  currentFiscalYear,
   fundTypesMap,
+  goToCreateFY,
   handleSubmit,
   ledger,
   onCancel,
@@ -68,6 +71,10 @@ const RolloverLedger = ({
               md={10}
               mdOffset={1}
             >
+              <RolloverFiscalYears
+                currentFiscalYear={currentFiscalYear}
+                goToCreateFY={goToCreateFY}
+              />
               <AccordionStatus>
                 <AccordionSet>
                   <Accordion
@@ -87,7 +94,9 @@ const RolloverLedger = ({
 };
 
 RolloverLedger.propTypes = {
+  currentFiscalYear: PropTypes.object,
   fundTypesMap: PropTypes.object,
+  goToCreateFY: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   ledger: PropTypes.object,
   onCancel: PropTypes.func.isRequired,

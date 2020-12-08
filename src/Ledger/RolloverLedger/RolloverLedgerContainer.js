@@ -53,14 +53,28 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     funds,
     fundTypesMap,
   } = useRolloverData(mutator);
+  const toFiscalYearId = location.state?.toFiscalYearId;
 
-  const initial = useMemo(() => ({
-    ledgerId: ledger?.id,
-    budgetsRollover: budgets?.map(b => ({
-      addAvailableTo: ADD_AVAILABLE_TO.available,
-      fundTypeId: funds?.find(({ id }) => id === b.fundId)?.fundTypeId,
-    })),
-  }), [budgets, funds, ledger]);
+  const initial = useMemo(() => {
+    const initValues = {
+      ledgerId: ledger?.id,
+      budgetsRollover: budgets?.map(b => ({
+        addAvailableTo: ADD_AVAILABLE_TO.available,
+        fundTypeId: funds?.find(({ id }) => id === b.fundId)?.fundTypeId,
+      })),
+    };
+
+    if (toFiscalYearId) initValues.toFiscalYearId = toFiscalYearId;
+
+    return initValues;
+  }, [budgets, toFiscalYearId, funds, ledger]);
+
+  const goToCreateFY = useCallback(() => {
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-create-fy`,
+      search: location.search,
+    });
+  }, [history, ledgerId, location.search]);
 
   if (isLoading || !budgets || !currentFiscalYear || !funds || !fundTypesMap) {
     return (
@@ -70,7 +84,9 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
 
   return (
     <RolloverLedger
+      currentFiscalYear={currentFiscalYear}
       fundTypesMap={fundTypesMap}
+      goToCreateFY={goToCreateFY}
       initialValues={initial}
       ledger={ledger}
       onCancel={close}

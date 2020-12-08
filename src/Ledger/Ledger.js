@@ -17,6 +17,7 @@ import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
 import { LedgerListContainer } from './LedgerList';
 import RolloverLedgerContainer from './RolloverLedger';
+import RolloverLedgerCreateFiscalYear from './RolloverLedgerCreateFiscalYear';
 
 const Ledger = () => {
   return (
@@ -53,6 +54,14 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+      <PermissionedRoute
+        path={`${LEDGERS_ROUTE}/:id/rollover-create-fy`}
+        perm="ui-finance.fiscal-year.create"
+        returnLink={LEDGERS_ROUTE}
+        returnLinkLabelId="ui-finance.ledger"
+      >
+        <RolloverLedgerCreateFiscalYear />
+      </PermissionedRoute>
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/rollover`}
         perm="ui-finance.ledger.rollover"

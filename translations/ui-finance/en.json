@@ -55,6 +55,10 @@
   "ledger.rollover.allowableExpenditure": "Allowed expenditure, %",
   "ledger.rollover.addAvailableTo.available": "Available",
   "ledger.rollover.addAvailableTo.allocation": "Allocation",
+  "ledger.rollover.periodBeginDate": "Period begin date",
+  "ledger.rollover.periodEndDate": "Period end date",
+  "ledger.rollover.restrictEncumbrance": "Do not restrict encumbrances",
+  "ledger.rollover.restrictExpenditures": "Do not restrict expenditures",
 
   "fiscalYear.actions.load.error": "Failed to load fiscal year data",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

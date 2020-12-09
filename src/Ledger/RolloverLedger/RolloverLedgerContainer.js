@@ -59,7 +59,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     const initValues = {
       ledgerId: ledger?.id,
       budgetsRollover: budgets?.map(b => ({
-        addAvailableTo: ADD_AVAILABLE_TO.available,
+        addAvailableTo: ADD_AVAILABLE_TO.transfer,
         fundTypeId: funds?.find(({ id }) => id === b.fundId)?.fundTypeId,
       })),
     };

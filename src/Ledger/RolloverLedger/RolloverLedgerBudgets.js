@@ -42,7 +42,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
     return (
       <Row>
         <Col xs={2}>
-          {fundTypesMap.get(fields.value[index].fundTypeId)?.name}
+          {fundTypesMap.get(fields.value[index].fundTypeId)?.name || <FormattedMessage id="ledger.rollover.noFundType" />}
         </Col>
         <Col xs={2}>
           <Field

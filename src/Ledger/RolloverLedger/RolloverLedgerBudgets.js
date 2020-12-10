@@ -7,7 +7,6 @@ import { useFieldArray } from 'react-final-form-arrays';
 import {
   Checkbox,
   Col,
-  Label,
   RepeatableField,
   Row,
   TextField,
@@ -15,25 +14,17 @@ import {
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import { ADD_AVAILABLE_TO_OPTIONS } from '../constants';
-
-// eslint-disable-next-line react/prop-types
-const LabelComponent = ({ translationId, size = 2 }) => (
-  <Col xs={size}>
-    <Label>
-      <FormattedMessage id={translationId} />
-    </Label>
-  </Col>
-);
+import HeadLabel from './HeadLabel';
 
 const headLabels = (
   <Row>
-    <LabelComponent translationId="ui-finance.ledger.rollover.fundType" />
-    <LabelComponent translationId="ui-finance.ledger.rollover.allocation" />
-    <LabelComponent translationId="ui-finance.ledger.rollover.adjustAllocation" />
-    <LabelComponent translationId="ui-finance.ledger.rollover.available" />
-    <LabelComponent translationId="ui-finance.ledger.rollover.addAvailableTo" />
-    <LabelComponent translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
-    <LabelComponent translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
+    <HeadLabel translationId="ui-finance.ledger.rollover.fundType" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.allocation" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.adjustAllocation" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.available" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.addAvailableAs" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
+    <HeadLabel translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
   </Row>
 );
 
@@ -42,7 +33,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
     return (
       <Row>
         <Col xs={2}>
-          {fundTypesMap.get(fields.value[index].fundTypeId)?.name || <FormattedMessage id="ledger.rollover.noFundType" />}
+          {fundTypesMap.get(fields.value[index].fundTypeId)?.name || <FormattedMessage id="ui-finance.ledger.rollover.noFundType" />}
         </Col>
         <Col xs={2}>
           <Field

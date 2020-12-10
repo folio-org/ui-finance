@@ -18,6 +18,7 @@ import {
 
 import RolloverFiscalYears from './RolloverFiscalYears';
 import RolloverLedgerBudgets from './RolloverLedgerBudgets';
+import RolloverLedgerEncumbrances from './RolloverLedgerEncumbrances';
 
 export const ROLLOVER_LEDGER_ACCORDION = {
   budgets: 'budgets',
@@ -82,6 +83,12 @@ const RolloverLedger = ({
                     label={ROLLOVER_LEDGER_ACCORDION_LABELS.budgets}
                   >
                     <RolloverLedgerBudgets fundTypesMap={fundTypesMap} />
+                  </Accordion>
+                  <Accordion
+                    id={ROLLOVER_LEDGER_ACCORDION.encumbrances}
+                    label={ROLLOVER_LEDGER_ACCORDION_LABELS.encumbrances}
+                  >
+                    <RolloverLedgerEncumbrances />
                   </Accordion>
                 </AccordionSet>
               </AccordionStatus>

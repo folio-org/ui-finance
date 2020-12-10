@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
+import { ORDER_TYPE } from '../constants';
 import RolloverLedger from './RolloverLedger';
 
 const CURRENT_FISCAL_YEAR = {
@@ -49,6 +50,7 @@ describe('RolloverLedger', () => {
       budgetsRollover: [{
         fundTypeId: 'a6cffa87-7a64-4419-83d6-fa7af9d120e2',
       }],
+      encumbrancesRollover: [],
     };
     const fundTypesMap = new Map([[
       'a6cffa87-7a64-4419-83d6-fa7af9d120e2',
@@ -66,9 +68,21 @@ describe('RolloverLedger', () => {
     const initialValues = {
       ledgerId: '7cef8378-7cbd-1fae-bcdd-8b9d7c0af9de',
       budgetsRollover: [],
+      encumbrancesRollover: [],
     };
 
     renderRolloverLedger({ currentFiscalYear: CURRENT_FISCAL_YEAR, initialValues });
     expect(screen.getByText('2020-01-01')).toBeDefined();
+  });
+
+  it('should display form with encumbrances info', () => {
+    const initialValues = {
+      ledgerId: '7cef8378-7cbd-1fae-bcdd-8b9d7c0af9de',
+      budgetsRollover: [],
+      encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
+    };
+
+    renderRolloverLedger({ initialValues });
+    expect(screen.getByText('ui-finance.ledger.rollover.orderType.onetime')).toBeDefined();
   });
 });

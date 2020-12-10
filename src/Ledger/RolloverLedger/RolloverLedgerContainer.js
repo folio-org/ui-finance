@@ -21,7 +21,10 @@ import {
 } from '../../common/resources';
 import RolloverLedger from './RolloverLedger';
 import useRolloverData from './useRolloverData';
-import { ADD_AVAILABLE_TO } from '../constants';
+import {
+  ADD_AVAILABLE_TO,
+  ORDER_TYPE,
+} from '../constants';
 
 const RolloverLedgerContainer = ({ resources, mutator, match, history, location }) => {
   const ledgerId = match.params.id;
@@ -62,6 +65,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
         addAvailableTo: ADD_AVAILABLE_TO.transfer,
         fundTypeId: funds?.find(({ id }) => id === b.fundId)?.fundTypeId,
       })),
+      encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
     };
 
     if (toFiscalYearId) initValues.toFiscalYearId = toFiscalYearId;

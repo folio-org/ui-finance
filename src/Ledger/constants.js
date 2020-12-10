@@ -49,3 +49,30 @@ export const ADD_AVAILABLE_TO_OPTIONS = Object.values(ADD_AVAILABLE_TO).map(d =>
   labelId: ADD_AVAILABLE_TO_LABEL[d],
   value: d,
 }));
+
+export const BASED_ON = {
+  expended: 'Expended',
+  remaining: 'Remaining',
+};
+
+export const BASED_ON_LABEL_ID = {
+  [BASED_ON.expended]: 'ui-finance.ledger.rollover.basedOn.expended',
+  [BASED_ON.remaining]: 'ui-finance.ledger.rollover.basedOn.remaining',
+};
+
+export const BASED_ON_OPTIONS = Object.values(BASED_ON).map(d => ({
+  labelId: BASED_ON_LABEL_ID[d],
+  value: d,
+}));
+
+export const ORDER_TYPE = {
+  ongoing: 'Ongoing',
+  ongoingSubscription: 'Ongoing-Subscription',
+  onetime: 'One-time',
+};
+
+export const ORDER_TYPE_LABEL = {
+  [ORDER_TYPE.ongoing]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.ongoing" />,
+  [ORDER_TYPE.ongoingSubscription]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.ongoingSubscription" />,
+  [ORDER_TYPE.onetime]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.onetime" />,
+};

@@ -28,10 +28,12 @@ const headLabels = (
 
 const RolloverLedgerEncumbrances = () => {
   const renderFields = useCallback((elem, index, fields) => {
+    const { orderType, rollover } = fields.value[index];
+
     return (
       <Row>
         <Col xs={2}>
-          {ORDER_TYPE_LABEL[fields.value[index].orderType]}
+          {ORDER_TYPE_LABEL[orderType]}
         </Col>
         <Col xs={2}>
           <Field
@@ -46,6 +48,7 @@ const RolloverLedgerEncumbrances = () => {
         <Col xs={2}>
           <FieldSelectFinal
             dataOptions={BASED_ON_OPTIONS}
+            disabled={!rollover}
             id="based-on"
             name={`${elem}.basedOn`}
             required
@@ -55,6 +58,7 @@ const RolloverLedgerEncumbrances = () => {
         <Col xs={2}>
           <Field
             component={TextField}
+            disabled={!rollover}
             label={null}
             name={`${elem}.increaseBy`}
             type="number"

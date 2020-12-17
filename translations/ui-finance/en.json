@@ -69,6 +69,7 @@
   "ledger.rollover.basedOn.expended": "Expended",
   "ledger.rollover.basedOn.remaining": "Remaining",
   "ledger.rollover.increaseBy": "Increase by, %",
+  "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
 
   "fiscalYear.actions.load.error": "Failed to load fiscal year data",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

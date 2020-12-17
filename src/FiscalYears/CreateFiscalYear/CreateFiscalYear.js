@@ -19,7 +19,7 @@ const INITIAL_FISCAL_YEAR = {};
 
 const CreateFiscalYear = ({ mutator, location, history }) => {
   const closeForm = useCallback(
-    (id) => {
+    ({ id }) => {
       history.push({
         pathname: id ? `${FISCAL_YEAR_ROUTE}/${id}/view` : FISCAL_YEAR_ROUTE,
         search: location.search,

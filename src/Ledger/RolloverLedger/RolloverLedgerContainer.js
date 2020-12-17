@@ -56,7 +56,8 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     funds,
     fundTypesMap,
   } = useRolloverData(mutator);
-  const toFiscalYearId = location.state?.toFiscalYearId;
+  const { toFiscalYearId, toFiscalYearSeries } = location.state;
+  const series = currentFiscalYear?.series;
 
   const initial = useMemo(() => {
     const initValues = {
@@ -68,10 +69,12 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
       encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
     };
 
-    if (toFiscalYearId) initValues.toFiscalYearId = toFiscalYearId;
+    if (toFiscalYearId && toFiscalYearSeries === series) {
+      initValues.toFiscalYearId = toFiscalYearId;
+    }
 
     return initValues;
-  }, [budgets, toFiscalYearId, funds, ledger]);
+  }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds]);
 
   const goToCreateFY = useCallback(() => {
     history.push({

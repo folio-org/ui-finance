@@ -8,4 +8,5 @@ export default Factory.extend({
   code: faker.finance.account,
   periodStart: faker.date.past,
   periodEnd: faker.date.future,
+  series: () => 'FY',
 });

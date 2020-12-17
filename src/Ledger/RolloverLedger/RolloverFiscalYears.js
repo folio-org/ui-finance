@@ -36,10 +36,13 @@ function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
           />
         </Col>
         <Col xs={3}>
-          <FiscalYearField
-            name="toFiscalYearId"
-            required
-          />
+          {currentFiscalYear?.series && (
+            <FiscalYearField
+              name="toFiscalYearId"
+              required
+              series={currentFiscalYear.series}
+            />
+          )}
           <IfPermission perm="finance.fiscal-years.item.post">
             <Button
               buttonStyle="link bottomMargin0"
@@ -65,6 +68,15 @@ function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
             component={Checkbox}
             label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpenditures" />}
             name="restrictExpenditures"
+            type="checkbox"
+            validateFields={[]}
+          />
+        </Col>
+        <Col xs={3}>
+          <Field
+            component={Checkbox}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.closeAllCurrentBudgets" />}
+            name="needCloseBudgets"
             type="checkbox"
             validateFields={[]}
           />

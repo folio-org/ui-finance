@@ -33,6 +33,8 @@ FiscalYearFieldContainer.propTypes = {
   required: PropTypes.bool,
   resources: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
+  // eslint-disable-next-line react/no-unused-prop-types
+  series: PropTypes.string,
 };
 
 FiscalYearFieldContainer.defaultProps = {

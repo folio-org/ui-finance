@@ -23,7 +23,7 @@ const CreateLedgerFiscalYear = ({ mutator, location, history, match }) => {
   const ledgerId = match.params.id;
 
   const closeForm = useCallback(
-    (id) => {
+    ({ id } = {}) => {
       const ledgerFormPath = ledgerId
         ? `${LEDGERS_ROUTE}/${ledgerId}/edit`
         : `${LEDGERS_ROUTE}/create`;

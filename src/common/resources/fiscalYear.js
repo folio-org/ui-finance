@@ -1,4 +1,7 @@
-import { baseManifest } from '@folio/stripes-acq-components';
+import {
+  baseManifest,
+  LIMIT_MAX,
+} from '@folio/stripes-acq-components';
 
 import {
   GROUP_FUND_FISCAL_YEARS_API,
@@ -10,6 +13,16 @@ export const fiscalYearsResource = {
   ...baseManifest,
   path: FISCAL_YEARS_API,
   records: 'fiscalYears',
+  params: (_q, _p, _r, _l, props) => {
+    const series = props.series;
+    const seriesQuery = series ? `series==${series}` : 'cql.allRecords=1';
+    const query = `${seriesQuery} sortby periodStart`;
+
+    return {
+      limit: `${LIMIT_MAX}`,
+      query,
+    };
+  },
 };
 
 export const ledgerCurrentFiscalYearResource = {

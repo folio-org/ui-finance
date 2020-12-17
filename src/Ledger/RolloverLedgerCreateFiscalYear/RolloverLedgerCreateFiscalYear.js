@@ -24,11 +24,14 @@ const RolloverLedgerCreateFiscalYear = ({ mutator }) => {
   const history = useHistory();
 
   const closeForm = useCallback(
-    (id) => {
+    ({ id, series } = {}) => {
       history.push({
         pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover`,
         search: location.search,
-        state: { toFiscalYearId: id },
+        state: {
+          toFiscalYearId: id,
+          toFiscalYearSeries: series,
+        },
       });
     },
     [history, ledgerId, location.search],

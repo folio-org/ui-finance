@@ -56,7 +56,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     funds,
     fundTypesMap,
   } = useRolloverData(mutator);
-  const { toFiscalYearId, toFiscalYearSeries } = location.state;
+  const { toFiscalYearId, toFiscalYearSeries } = location.state || {};
   const series = currentFiscalYear?.series;
 
   const initial = useMemo(() => {

@@ -3,11 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 
-import '@folio/stripes-acq-components/test/jest/__mock__';
-
-import {
-  OVERALL_ROLLOVER_STATUS,
-} from '../../../common/const';
+import { OVERALL_ROLLOVER_STATUS } from '../../../common/const';
 import LedgerRolloverProgress from './LedgerRolloverProgress';
 
 const LEDGER_NAME = 'test ledger';

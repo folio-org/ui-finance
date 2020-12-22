@@ -14,13 +14,16 @@ import {
 
 import {
   LEDGERS_ROUTE,
+  OVERALL_ROLLOVER_STATUS,
 } from '../../common/const';
 import {
   ledgerByUrlIdResource,
   fundsResource,
   ledgerCurrentFiscalYearResource,
+  ledgerRolloverProgressResource,
 } from '../../common/resources';
-
+import { LedgerRolloverProgress } from './LedgerRolloverProgress';
+import useRolloverProgressPolling from './useRolloverProgressPolling';
 import LedgerDetails from './LedgerDetails';
 
 const LedgerDetailsContainer = ({
@@ -33,6 +36,10 @@ const LedgerDetailsContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowCallout();
   const [{ ledger, funds, currentFiscalYear }, setLedgerData] = useState({});
+  const [rolloverStatus, isLoadingRolloverStatus] = useRolloverProgressPolling(
+    ledgerId,
+    mutator.ledgerRolloverProgress,
+  );
 
   useEffect(
     () => {
@@ -122,8 +129,19 @@ const LedgerDetailsContainer = ({
     [history, location.search, ledgerId],
   );
 
-  if (isLoading) {
+  if (isLoading || isLoadingRolloverStatus) {
     return <LoadingPane onClose={closePane} />;
+  }
+
+  if (rolloverStatus.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress) {
+    return (
+      <LedgerRolloverProgress
+        fromYearCode={currentFiscalYear?.code}
+        ledgerName={ledger?.name}
+        onClose={closePane}
+        rolloverStatus={rolloverStatus}
+      />
+    );
   }
 
   return (
@@ -154,6 +172,9 @@ LedgerDetailsContainer.manifest = Object.freeze({
     accumulate: true,
   },
   ledgerCurrentFiscalYear: ledgerCurrentFiscalYearResource,
+  ledgerRolloverProgress: {
+    ...ledgerRolloverProgressResource,
+  },
 });
 
 LedgerDetailsContainer.propTypes = {

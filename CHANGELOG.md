@@ -1,7 +1,7 @@
 # Change history for ui-finance
 
 ## (IN PROGRESS)
-
+* Display fiscal year rollover progress. Refs UIF-237
 * Close all current budgets when executing fiscal year rollover. Refs UIF-175
 * Set encumbrance detail for fiscal year rollover. Refs UIF-170
 * Set Fiscal year detail during fiscal year rollover. Refs UIF-254

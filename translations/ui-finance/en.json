@@ -70,6 +70,10 @@
   "ledger.rollover.basedOn.remaining": "Remaining",
   "ledger.rollover.increaseBy": "Increase by, %",
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
+  "ledger.rolloverInProgress.rollingOver": "Rolling over",
+  "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
+  "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Error loading To fiscal year code",
+  "ledger.rolloverInProgress.errorLoadingRolloverProgress": "Error loading ledger rollover progress",
 
   "fiscalYear.actions.load.error": "Failed to load fiscal year data",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

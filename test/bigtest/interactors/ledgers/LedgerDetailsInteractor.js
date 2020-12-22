@@ -32,7 +32,7 @@ import Button from '../common/Button';
 export default interactor(class LedgerDetailsInteractor {
   static defaultScope = '#pane-ledger-details';
 
-  closePane = new Button('[icon=times]');
+  closePane = new Button('[data-test-pane-header-dismiss-button]');
   funds = new FundsAccordion();
   groups = new GroupsAccordion();
   actions = new Button('[data-pane-header-actions-dropdown]');

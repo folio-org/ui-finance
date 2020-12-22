@@ -1,6 +1,10 @@
 import { baseManifest } from '@folio/stripes-acq-components';
 
-import { LEDGERS_API } from '../const';
+import {
+  LEDGER_ROLLOVER_API,
+  LEDGER_ROLLOVER_PROGRESS_API,
+  LEDGERS_API,
+} from '../const';
 
 export const ledgersResource = {
   ...baseManifest,
@@ -14,4 +18,17 @@ export const ledgersResource = {
 export const ledgerByUrlIdResource = {
   ...baseManifest,
   path: `${LEDGERS_API}/:{id}`,
+};
+
+export const ledgerRolloverResource = {
+  ...baseManifest,
+  path: LEDGER_ROLLOVER_API,
+};
+
+export const ledgerRolloverProgressResource = {
+  ...baseManifest,
+  accumulate: true,
+  fetch: false,
+  path: LEDGER_ROLLOVER_PROGRESS_API,
+  records: 'ledgerFiscalYearRolloverProgresses',
 };

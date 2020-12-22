@@ -9,6 +9,7 @@ import {
   Col,
   Headline,
   KeyValue,
+  Layout,
   Row,
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
@@ -45,7 +46,7 @@ function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
           )}
           <IfPermission perm="finance.fiscal-years.item.post">
             <Button
-              buttonStyle="link bottomMargin0"
+              buttonStyle="link"
               onClick={goToCreateFY}
             >
               <FormattedMessage id="ui-finance.ledger.createNewFY" />
@@ -73,13 +74,15 @@ function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
           />
         </Col>
         <Col xs={3}>
-          <Field
-            component={Checkbox}
-            label={<FormattedMessage id="ui-finance.ledger.rollover.closeAllCurrentBudgets" />}
-            name="needCloseBudgets"
-            type="checkbox"
-            validateFields={[]}
-          />
+          <Layout className="padding-bottom-gutter">
+            <Field
+              component={Checkbox}
+              label={<FormattedMessage id="ui-finance.ledger.rollover.closeAllCurrentBudgets" />}
+              name="needCloseBudgets"
+              type="checkbox"
+              validateFields={[]}
+            />
+          </Layout>
         </Col>
       </Row>
     </>

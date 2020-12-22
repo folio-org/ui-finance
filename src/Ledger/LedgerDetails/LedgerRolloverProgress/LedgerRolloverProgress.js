@@ -14,22 +14,20 @@ import { Progress } from '@folio/stripes-data-transfer-components';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
-  ledgerRolloverResource,
   fiscalYearResource,
 } from '../../../common/resources';
 import {
   FISCAL_YEARS_API,
-  LEDGER_ROLLOVER_API,
   OVERALL_ROLLOVER_STATUS,
 } from '../../../common/const';
 
 // attributes that show if corresponding stage is completed
 const STAGE_ATTRS = ['budgetsClosingRolloverStatus', 'financialRolloverStatus', 'ordersRolloverStatus'];
 
-function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearCode, mutator, resources }) {
+function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearCode, mutator, rollover }) {
   const showCallout = useShowCallout();
   const [toYearCode, setToYearCode] = useState();
-  const toYearId = resources.ledgerRollover.records[0]?.toFiscalYearId;
+  const toYearId = rollover?.toFiscalYearId;
 
   useEffect(() => {
     mutator.toFiscalYear.GET({ path: `${FISCAL_YEARS_API}/${toYearId}` })
@@ -47,7 +45,7 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
       );
   }, [showCallout, toYearId]);
 
-  const inProgressStages = STAGE_ATTRS.filter((k) => rolloverStatus[k] === OVERALL_ROLLOVER_STATUS.inProgress);
+  const inProgressStages = STAGE_ATTRS.filter((k) => rolloverStatus[k] !== OVERALL_ROLLOVER_STATUS.notStarted);
 
   return (
     <Pane
@@ -89,10 +87,6 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
 }
 
 LedgerRolloverProgress.manifest = Object.freeze({
-  ledgerRollover: {
-    ...ledgerRolloverResource,
-    path: `${LEDGER_ROLLOVER_API}/!{rolloverStatus.ledgerRolloverId}`,
-  },
   toFiscalYear: {
     ...fiscalYearResource,
     accumulate: true,
@@ -105,11 +99,12 @@ LedgerRolloverProgress.propTypes = {
   ledgerName: PropTypes.string,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  resources: PropTypes.object.isRequired,
+  rollover: PropTypes.object,
   rolloverStatus: PropTypes.object,
 };
 
 LedgerRolloverProgress.defaultProps = {
+  rollover: {},
   rolloverStatus: {},
 };
 

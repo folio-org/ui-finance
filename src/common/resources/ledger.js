@@ -22,7 +22,10 @@ export const ledgerByUrlIdResource = {
 
 export const ledgerRolloverResource = {
   ...baseManifest,
+  accumulate: true,
+  fetch: false,
   path: LEDGER_ROLLOVER_API,
+  records: 'ledgerFiscalYearRollovers',
 };
 
 export const ledgerRolloverProgressResource = {

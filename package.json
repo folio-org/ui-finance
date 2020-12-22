@@ -38,7 +38,8 @@
       "users": "15.0"
     },
     "optionalOkapiInterfaces": {
-      "finance.ledger-rollovers-progress": "1.0"
+      "finance.ledger-rollovers-progress": "1.0",
+      "finance.ledger-rollovers": "1.0"
     },
     "queryResource": "query",
     "icons": [

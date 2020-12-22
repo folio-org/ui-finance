@@ -17,10 +17,11 @@ import {
   OVERALL_ROLLOVER_STATUS,
 } from '../../common/const';
 import {
-  ledgerByUrlIdResource,
   fundsResource,
+  ledgerByUrlIdResource,
   ledgerCurrentFiscalYearResource,
   ledgerRolloverProgressResource,
+  ledgerRolloverResource,
 } from '../../common/resources';
 import { LedgerRolloverProgress } from './LedgerRolloverProgress';
 import useRolloverProgressPolling from './useRolloverProgressPolling';
@@ -36,9 +37,10 @@ const LedgerDetailsContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowCallout();
   const [{ ledger, funds, currentFiscalYear }, setLedgerData] = useState({});
-  const { rolloverStatus, isLoadingRolloverStatus } = useRolloverProgressPolling({
+  const { rolloverStatus, isLoadingRolloverStatus, rollover } = useRolloverProgressPolling({
     ledgerId,
     mutatorLedgerRolloverProgress: mutator.ledgerRolloverProgress,
+    mutatorLedgerRollover: mutator.ledgerRollover,
   });
 
   useEffect(
@@ -119,7 +121,7 @@ const LedgerDetailsContainer = ({
     [ledgerId, showToast, history, location.search],
   );
 
-  const rollover = useCallback(
+  const onRollover = useCallback(
     () => {
       history.push({
         pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover`,
@@ -139,6 +141,7 @@ const LedgerDetailsContainer = ({
         fromYearCode={currentFiscalYear?.code}
         ledgerName={ledger?.name}
         onClose={closePane}
+        rollover={rollover}
         rolloverStatus={rolloverStatus}
       />
     );
@@ -151,7 +154,7 @@ const LedgerDetailsContainer = ({
       onClose={closePane}
       onEdit={editLedger}
       onDelete={removeLedger}
-      onRollover={rollover}
+      onRollover={onRollover}
       funds={funds}
     />
   );
@@ -175,6 +178,7 @@ LedgerDetailsContainer.manifest = Object.freeze({
   ledgerRolloverProgress: {
     ...ledgerRolloverProgressResource,
   },
+  ledgerRollover: ledgerRolloverResource,
 });
 
 LedgerDetailsContainer.propTypes = {

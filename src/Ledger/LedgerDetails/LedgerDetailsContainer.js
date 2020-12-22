@@ -133,7 +133,7 @@ const LedgerDetailsContainer = ({
     return <LoadingPane onClose={closePane} />;
   }
 
-  if (rolloverStatus.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress) {
+  if (rolloverStatus?.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress) {
     return (
       <LedgerRolloverProgress
         fromYearCode={currentFiscalYear?.code}

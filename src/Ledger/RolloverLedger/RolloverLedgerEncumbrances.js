@@ -51,7 +51,7 @@ const RolloverLedgerEncumbrances = () => {
             disabled={!rollover}
             id="based-on"
             name={`${elem}.basedOn`}
-            required
+            required={!!rollover}
             validateFields={[]}
           />
         </Col>

@@ -67,6 +67,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
         fundTypeId: funds?.find(({ id }) => id === b.fundId)?.fundTypeId,
       })),
       encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
+      needCloseBudgets: true,
     };
 
     if (toFiscalYearId && toFiscalYearSeries === series) {

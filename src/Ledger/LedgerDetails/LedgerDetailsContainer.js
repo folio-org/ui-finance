@@ -36,10 +36,10 @@ const LedgerDetailsContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowCallout();
   const [{ ledger, funds, currentFiscalYear }, setLedgerData] = useState({});
-  const [rolloverStatus, isLoadingRolloverStatus] = useRolloverProgressPolling(
+  const { rolloverStatus, isLoadingRolloverStatus } = useRolloverProgressPolling({
     ledgerId,
-    mutator.ledgerRolloverProgress,
-  );
+    mutatorLedgerRolloverProgress: mutator.ledgerRolloverProgress,
+  });
 
   useEffect(
     () => {

@@ -32,7 +32,7 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
   const toYearId = resources.ledgerRollover.records[0]?.toFiscalYearId;
 
   useEffect(() => {
-    mutator.toFiscalYear.GET({ path: `${FISCAL_YEARS_API}/${toYearId}` }).catch(() => ({ code: "FY2021" }))
+    mutator.toFiscalYear.GET({ path: `${FISCAL_YEARS_API}/${toYearId}` })
       .then(
         ({ code }) => {
           setToYearCode(code);

@@ -41,6 +41,6 @@ describe('LedgerRolloverProgress', () => {
       rolloverStatus: { budgetsClosingRolloverStatus: OVERALL_ROLLOVER_STATUS.inProgress },
     });
 
-    expect(container.getElementsByClassName('progressCurrent')[0]).toHaveStyle('width: 33%');
+    expect(container.querySelector('[data-test-progress-bar]')).toBeDefined();
   });
 });

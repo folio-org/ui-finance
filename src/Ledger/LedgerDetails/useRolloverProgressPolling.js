@@ -4,7 +4,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { OVERALL_ROLLOVER_STATUS } from '../../common/const';
 
-function useRolloverProgressPolling(ledgerId, mutatorLedgerRolloverProgress) {
+function useRolloverProgressPolling({ ledgerId, mutatorLedgerRolloverProgress }) {
   const [rolloverStatus, setRolloverStatus] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const showCallout = useShowCallout();
@@ -54,7 +54,7 @@ function useRolloverProgressPolling(ledgerId, mutatorLedgerRolloverProgress) {
     return () => clearInterval(runningInterval);
   }, [ledgerId, showCallout, overallRolloverStatus]);
 
-  return [rolloverStatus, isLoading];
+  return { rolloverStatus, isLoading };
 }
 
 export default useRolloverProgressPolling;

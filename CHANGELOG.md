@@ -1,6 +1,8 @@
 # Change history for ui-finance
 
 ## (IN PROGRESS)
+
+* Add personal data disclosure form. Refs UIF-272.
 * Display fiscal year rollover progress. Refs UIF-237
 * Close all current budgets when executing fiscal year rollover. Refs UIF-175
 * Set encumbrance detail for fiscal year rollover. Refs UIF-170

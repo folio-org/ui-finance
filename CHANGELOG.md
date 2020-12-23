@@ -2,7 +2,7 @@
 
 ## (IN PROGRESS)
 
-* "Based on" fields required for encumbrance rollover even when not in use. Refs UIF-274
+* "Based on" fields not required for encumbrance rollover when not in use. Refs UIF-274
 * Add personal data disclosure form. Refs UIF-272.
 * Display fiscal year rollover progress. Refs UIF-237
 * Close all current budgets when executing fiscal year rollover. Refs UIF-175

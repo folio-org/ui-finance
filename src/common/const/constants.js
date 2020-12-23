@@ -6,4 +6,5 @@ export const MANAGE_UNITS_PERM = 'finance.acquisitions-units-assignments.manage'
 
 export const OVERALL_ROLLOVER_STATUS = {
   inProgress: 'In Progress',
+  notStarted: 'Not Started',
 };

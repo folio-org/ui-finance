@@ -10,6 +10,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  OVERALL_ROLLOVER_STATUS,
   LEDGERS_ROUTE,
 } from '../../common/const';
 import {
@@ -18,6 +19,8 @@ import {
   fundTypesResource,
   ledgerByUrlIdResource,
   ledgerCurrentFiscalYearResource,
+  ledgerRolloverProgressResource,
+  ledgerRolloverResource,
 } from '../../common/resources';
 import RolloverLedger from './RolloverLedger';
 import useRolloverData from './useRolloverData';
@@ -43,6 +46,22 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
 
   const rollover = useCallback(
     async (rolloverValues) => {
+      const encumbrancesRollover = rolloverValues.encumbrancesRollover.filter(d => d.rollover);
+      const budgetsRollover = rolloverValues.budgetsRollover?.filter(d => d.rollover);
+
+      encumbrancesRollover.forEach((d) => delete d.rollover);
+      budgetsRollover?.forEach((d) => delete d.rollover);
+      const savedRollover = await mutator.ledgerRollover.POST({
+        ...rolloverValues,
+        budgetsRollover,
+        encumbrancesRollover,
+      });
+
+      await mutator.ledgerRolloverProgress.POST({
+        ledgerRolloverId: savedRollover?.id,
+        overallRolloverStatus: OVERALL_ROLLOVER_STATUS.inProgress,
+        budgetsClosingRolloverStatus: OVERALL_ROLLOVER_STATUS.inProgress,
+      });
       close();
     },
     [close],
@@ -68,6 +87,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
       })),
       encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
       needCloseBudgets: true,
+      fromFiscalYearId: currentFiscalYear?.id,
     };
 
     if (toFiscalYearId && toFiscalYearSeries === series) {
@@ -75,7 +95,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     }
 
     return initValues;
-  }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds]);
+  }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
   const goToCreateFY = useCallback(() => {
     history.push({
@@ -128,6 +148,8 @@ RolloverLedgerContainer.manifest = Object.freeze({
     clear: true,
     fetch: false,
   },
+  ledgerRollover: ledgerRolloverResource,
+  ledgerRolloverProgress: ledgerRolloverProgressResource,
 });
 
 RolloverLedgerContainer.propTypes = {

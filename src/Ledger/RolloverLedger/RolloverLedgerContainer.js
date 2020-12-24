@@ -10,7 +10,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  OVERALL_ROLLOVER_STATUS,
   LEDGERS_ROUTE,
 } from '../../common/const';
 import {
@@ -32,7 +31,7 @@ import {
 const RolloverLedgerContainer = ({ resources, mutator, match, history, location }) => {
   const ledgerId = match.params.id;
 
-  const showToast = useShowCallout();
+  const showCallout = useShowCallout();
 
   const close = useCallback(
     () => {
@@ -47,24 +46,19 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
   const rollover = useCallback(
     async (rolloverValues) => {
       const encumbrancesRollover = rolloverValues.encumbrancesRollover.filter(d => d.rollover);
-      const budgetsRollover = rolloverValues.budgetsRollover?.filter(d => d.rollover);
 
       encumbrancesRollover.forEach((d) => delete d.rollover);
-      budgetsRollover?.forEach((d) => delete d.rollover);
-      const savedRollover = await mutator.ledgerRollover.POST({
-        ...rolloverValues,
-        budgetsRollover,
-        encumbrancesRollover,
-      });
-
-      await mutator.ledgerRolloverProgress.POST({
-        ledgerRolloverId: savedRollover?.id,
-        overallRolloverStatus: OVERALL_ROLLOVER_STATUS.inProgress,
-        budgetsClosingRolloverStatus: OVERALL_ROLLOVER_STATUS.inProgress,
-      });
+      try {
+        await mutator.ledgerRollover.POST({
+          ...rolloverValues,
+          encumbrancesRollover,
+        });
+      } catch (e) {
+        showCallout({ messageId: 'ledger.rollover.errorExecute', type: 'error' });
+      }
       close();
     },
-    [close],
+    [close, showCallout],
   );
 
   const isLoading = !resources.rolloverLedger.hasLoaded;
@@ -81,9 +75,13 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
   const initial = useMemo(() => {
     const initValues = {
       ledgerId: ledger?.id,
-      budgetsRollover: budgets?.map(b => ({
+      budgetsRollover: [...(budgets?.reduce((fundTypeIdsSet, budget) => {
+        fundTypeIdsSet.add(funds?.find(({ id }) => id === budget.fundId)?.fundTypeId);
+
+        return fundTypeIdsSet;
+      }, new Set()) || [])].map(fundTypeId => ({
         addAvailableTo: ADD_AVAILABLE_TO.transfer,
-        fundTypeId: funds?.find(({ id }) => id === b.fundId)?.fundTypeId,
+        fundTypeId,
       })),
       encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
       needCloseBudgets: true,

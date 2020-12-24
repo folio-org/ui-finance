@@ -70,6 +70,7 @@
   "ledger.rollover.basedOn.remaining": "Remaining",
   "ledger.rollover.increaseBy": "Increase by, %",
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
+  "ledger.rollover.errorExecute": "Error on executing rollover process",
   "ledger.rolloverInProgress.rollingOver": "Rolling over",
   "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
   "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Error loading To fiscal year code",

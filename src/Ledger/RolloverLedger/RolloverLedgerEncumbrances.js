@@ -3,7 +3,6 @@ import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
 
 import {
-  Checkbox,
   Col,
   RepeatableField,
   Row,
@@ -16,6 +15,7 @@ import {
   ORDER_TYPE_LABEL,
 } from '../constants';
 import HeadLabel from './HeadLabel';
+import RolloverField from './RolloverField';
 
 const headLabels = (
   <Row>
@@ -36,13 +36,9 @@ const RolloverLedgerEncumbrances = () => {
           {ORDER_TYPE_LABEL[orderType]}
         </Col>
         <Col xs={2}>
-          <Field
-            component={Checkbox}
-            label={null}
-            name={`${elem}.rollover`}
-            type="checkbox"
-            validateFields={[]}
-            vertical
+          <RolloverField
+            elem={elem}
+            rollover={rollover}
           />
         </Col>
         <Col xs={2}>

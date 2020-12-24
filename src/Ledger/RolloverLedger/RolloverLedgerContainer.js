@@ -10,7 +10,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  OVERALL_ROLLOVER_STATUS,
   LEDGERS_ROUTE,
 } from '../../common/const';
 import {

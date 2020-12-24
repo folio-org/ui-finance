@@ -13,12 +13,12 @@ function RolloverField({ rollover, elem }) {
     if (rollover) {
       resetFieldState(`${elem}.basedOn`);
       batch(() => {
-        change(`${elem}.rollover`, !rollover);
+        change(`${elem}.rollover`, false);
         change(`${elem}.basedOn`, undefined);
         change(`${elem}.increaseBy`, undefined);
       });
     } else {
-      change(`${elem}.rollover`, !rollover);
+      change(`${elem}.rollover`, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rollover]);

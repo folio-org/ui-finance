@@ -54,7 +54,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
           encumbrancesRollover,
         });
       } catch (e) {
-        showCallout({ messageId: 'ledger.rollover.errorExecute', type: 'error' });
+        showCallout({ messageId: 'ui-finance.ledger.rollover.errorExecute', type: 'error' });
       }
       close();
     },

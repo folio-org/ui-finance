@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
+import { useLocalStorage } from '@rehooks/local-storage';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -14,7 +15,6 @@ import {
 
 import {
   LEDGERS_ROUTE,
-  OVERALL_ROLLOVER_STATUS,
 } from '../../common/const';
 import {
   fundsResource,
@@ -32,6 +32,7 @@ const LedgerDetailsContainer = ({
   match,
   history,
   location,
+  stripes,
 }) => {
   const ledgerId = match.params.id;
   const [isLoading, setIsLoading] = useState(true);
@@ -131,11 +132,17 @@ const LedgerDetailsContainer = ({
     [history, location.search, ledgerId],
   );
 
+  const [isClosedProgress] = useLocalStorage(`LedgerRolloverProgress-${rolloverStatus?.id}`);
+
   if (isLoading || isLoadingRolloverStatus) {
     return <LoadingPane onClose={closePane} />;
   }
 
-  if (rolloverStatus?.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress) {
+  if (
+    !isClosedProgress &&
+    rollover?.fromFiscalYearId === currentFiscalYear?.id &&
+    stripes.hasPerm('ui-finance.ledger.rollover')
+  ) {
     return (
       <LedgerRolloverProgress
         fromYearCode={currentFiscalYear?.code}
@@ -186,6 +193,7 @@ LedgerDetailsContainer.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  stripes: PropTypes.object.isRequired,
 };
 
 export default withRouter(stripesConnect(LedgerDetailsContainer));

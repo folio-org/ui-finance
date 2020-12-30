@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { writeStorage } from '@rehooks/local-storage';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
 
 import {
+  Button,
   Card,
   Headline,
   Icon,
@@ -18,6 +24,7 @@ import {
 } from '../../../common/resources';
 import {
   FISCAL_YEARS_API,
+  LEDGERS_ROUTE,
   OVERALL_ROLLOVER_STATUS,
 } from '../../../common/const';
 
@@ -26,6 +33,8 @@ const STAGE_ATTRS = ['budgetsClosingRolloverStatus', 'financialRolloverStatus', 
 
 function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearCode, mutator, rollover }) {
   const showCallout = useShowCallout();
+  const history = useHistory();
+  const location = useLocation();
   const [toYearCode, setToYearCode] = useState();
   const toYearId = rollover?.toFiscalYearId;
 
@@ -46,6 +55,14 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
   }, [showCallout, toYearId]);
 
   const inProgressStages = STAGE_ATTRS.filter((k) => rolloverStatus[k] !== OVERALL_ROLLOVER_STATUS.notStarted);
+  const isInProgress = rolloverStatus.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress;
+  const closeProgress = useCallback(() => {
+    writeStorage(`LedgerRolloverProgress-${rolloverStatus.id}`, true);
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${rollover.ledgerId}/view`,
+      search: location.search,
+    });
+  }, [history, location.search, rollover.ledgerId, rolloverStatus.id]);
 
   return (
     <Pane
@@ -78,10 +95,28 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
           faded
           margin="none"
         >
-          <FormattedMessage id="ui-finance.ledger.rolloverInProgress.rollingOver" />
-          <Loading />
+          {isInProgress
+            ? (
+              <>
+                <FormattedMessage id="ui-finance.ledger.rolloverInProgress.rollingOver" />
+                <Loading />
+              </>
+            )
+            : (
+              <FormattedMessage id="ui-finance.ledger.rolloverInProgress.rollingOverFinished" />
+            )
+          }
         </Headline>
       </Card>
+      {!isInProgress && (
+        <Button
+          buttonStyle="primary"
+          fullWidth
+          onClick={closeProgress}
+        >
+          <FormattedMessage id="ui-finance.ledger.rolloverInProgress.close" />
+        </Button>
+      )}
     </Pane>
   );
 }

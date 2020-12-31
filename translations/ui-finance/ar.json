@@ -338,5 +338,7 @@
     "ledger.rolloverInProgress.header": "تمديد {fromYearCode} إلى {toYearCode}",
     "ledger.rolloverInProgress.errorLoadingToFiscalYear": "خطأ في التحميل إلى كود السنة المالية",
     "ledger.rolloverInProgress.errorLoadingRolloverProgress": "خطأ في تحميل تقدم تمديد الدفتر",
-    "ledger.rollover.errorExecute": "خطأ أثناء تنفيذ عملية التمديد"
+    "ledger.rollover.errorExecute": "خطأ أثناء تنفيذ عملية التمديد",
+    "ledger.rolloverInProgress.rollingOverFinished": "Rolling over is finished",
+    "ledger.rolloverInProgress.close": "Close and view ledger details"
 }

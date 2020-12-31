@@ -338,5 +338,7 @@
     "ledger.rolloverInProgress.header": "Prorrogração de {fromYearCode} para {toYearCode}",
     "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Erro ao carregar Para o código do ano fiscal",
     "ledger.rolloverInProgress.errorLoadingRolloverProgress": "Erro ao carregar a prorrogação do livro razão",
-    "ledger.rollover.errorExecute": "Erro ao executar o processo de prorrogação"
+    "ledger.rollover.errorExecute": "Erro ao executar o processo de prorrogação",
+    "ledger.rolloverInProgress.rollingOverFinished": "A prorrogação terminou",
+    "ledger.rolloverInProgress.close": "Fechar e visualizar detalhes da contabilidade"
 }

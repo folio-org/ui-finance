@@ -338,5 +338,7 @@
     "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
     "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Error loading To fiscal year code",
     "ledger.rolloverInProgress.errorLoadingRolloverProgress": "Error loading ledger rollover progress",
-    "ledger.rollover.errorExecute": "Error on executing rollover process"
+    "ledger.rollover.errorExecute": "Error on executing rollover process",
+    "ledger.rolloverInProgress.rollingOverFinished": "Rolling over is finished",
+    "ledger.rolloverInProgress.close": "Close and view ledger details"
 }

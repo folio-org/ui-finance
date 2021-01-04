@@ -1,0 +1,14 @@
+@import "@folio/stripes-components/lib/variables";
+
+.balanceWrapper {
+  border-radius: var(--radius);
+  background-color: var(--color-fill);
+  line-height: var(--line-height);
+  padding: 5px 20px;
+  margin: 20px 0 20px 0;
+  border: 1px solid var(--color-border);
+}
+
+.boldAmount {
+  font-weight: var(--text-weight-bold);
+}

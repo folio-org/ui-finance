@@ -13,8 +13,8 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import ExpenseClasses from '../../../common/ExpenseClasses';
+import FinancialSummary from '../../FinancialSummary';
 import { SECTIONS_BUDGET } from '../constants';
-import BudgetSummary from './BudgetSummary';
 import BudgetInformation from './BudgetInformation';
 
 const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fiscalYearCurrency }) => {
@@ -32,8 +32,8 @@ const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fisc
             id={SECTIONS_BUDGET.SUMMARY}
           >
             {budget.metadata && <ViewMetaData metadata={budget.metadata} />}
-            <BudgetSummary
-              budget={budget}
+            <FinancialSummary
+              data={budget}
               fiscalYearCurrency={fiscalYearCurrency}
             />
           </Accordion>

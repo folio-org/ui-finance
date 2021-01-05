@@ -2,14 +2,16 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { MultiColumnList } from '@folio/stripes/components';
+import {
+  MultiColumnList,
+  Headline,
+} from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
 import { FINANCIAL_SUMMARY } from '../constants';
 import { getFinacialActivityData } from '../utils';
-import css from '../styles.css';
 
 const visibleColumns = ['financialDescription', 'financialAmount'];
 const columnMapping = {
@@ -24,12 +26,12 @@ const FinancialActivity = ({ data, currency }) => {
       const isBold = item.description === FINANCIAL_SUMMARY.unavailable;
 
       return (
-        <div className={isBold ? css.boldAmount : ''}>
+        <Headline weight={isBold ? 'bold' : 'regular'} margin="none">
           <AmountWithCurrencyField
             amount={item.amount}
             currency={currency}
           />
-        </div>
+        </Headline>
       );
     },
     financialDescription: item => item.label,

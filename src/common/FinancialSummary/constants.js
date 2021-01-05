@@ -10,7 +10,7 @@ export const FINANCIAL_SUMMARY = {
   totalFunding: 'totalFunding',
   encumbered: 'encumbered',
   awaitingPayment: 'awaitingPayment',
-  expended: 'expended',
+  expenditures: 'expenditures',
   unavailable: 'unavailable',
   overEncumbrance: 'overEncumbrance',
   overExpended: 'overExpended',
@@ -28,7 +28,7 @@ export const FUNDING_INFORMATION_LABELS = {
 export const FINANCIAL_ACTIVITY_LABELS = {
   encumbered: <FormattedMessage id="ui-finance.financialSummary.encumbered" />,
   awaitingPayment: <FormattedMessage id="ui-finance.financialSummary.awaitingPayment" />,
-  expended: <FormattedMessage id="ui-finance.financialSummary.expended" />,
+  expenditures: <FormattedMessage id="ui-finance.financialSummary.expended" />,
   unavailable: <FormattedMessage id="ui-finance.financialSummary.unavailable" />,
 };
 

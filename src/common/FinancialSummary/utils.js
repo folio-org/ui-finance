@@ -54,9 +54,9 @@ export const getFinacialActivityData = (data) => {
       description: FINANCIAL_SUMMARY.awaitingPayment,
     },
     {
-      label: FINANCIAL_ACTIVITY_LABELS.expended,
-      amount: data.expended,
-      description: FINANCIAL_SUMMARY.expended,
+      label: FINANCIAL_ACTIVITY_LABELS.expenditures,
+      amount: data.expenditures,
+      description: FINANCIAL_SUMMARY.expenditures,
     },
     {
       label: FINANCIAL_ACTIVITY_LABELS.unavailable,

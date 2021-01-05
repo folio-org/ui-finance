@@ -13,7 +13,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import ExpenseClasses from '../../../common/ExpenseClasses';
-import FinancialSummary from '../../FinancialSummary';
+import FinancialSummary from '../../../common/FinancialSummary';
 import { SECTIONS_BUDGET } from '../constants';
 import BudgetInformation from './BudgetInformation';
 
@@ -44,17 +44,13 @@ const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fisc
             <BudgetInformation
               allowableEncumbrance={budget.allowableEncumbrance}
               allowableExpenditure={budget.allowableExpenditure}
-              awaitingPayment={budget.awaitingPayment}
               budgetStatus={budget.budgetStatus}
-              encumbered={budget.encumbered}
               expenditures={budget.expenditures}
               fiscalEnd={fiscalEnd}
               fiscalStart={fiscalStart}
               fiscalYearCurrency={fiscalYearCurrency}
               name={budget.name}
               id={budget.id}
-              overEncumbrance={budget.overEncumbrance}
-              overExpended={budget.overExpended}
             />
           </Accordion>
 

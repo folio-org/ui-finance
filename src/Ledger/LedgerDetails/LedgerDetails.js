@@ -24,6 +24,7 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
+import FinancialSummary from '../../common/FinancialSummary';
 import {
   LEDGER_ACCORDTION,
   LEDGER_ACCORDTION_LABELS,
@@ -124,11 +125,15 @@ const LedgerDetails = ({
             description={ledger.description}
             acqUnitIds={ledger.acqUnitIds}
             fiscalYearCode={fiscalYear.code}
-            available={ledger.available}
-            allocated={ledger.allocated}
-            unavailable={ledger.unavailable}
-            currency={fiscalYear.currency}
-            netTransfers={ledger.netTransfers}
+          />
+        </Accordion>
+        <Accordion
+          id={LEDGER_ACCORDTION.financialSummary}
+          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.financialSummary]}
+        >
+          <FinancialSummary
+            data={ledger}
+            fiscalYearCurrency={fiscalYear.currency}
           />
         </Accordion>
         <Accordion

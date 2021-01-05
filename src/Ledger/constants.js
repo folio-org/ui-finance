@@ -3,12 +3,14 @@ import { FormattedMessage } from 'react-intl';
 
 export const LEDGER_ACCORDTION = {
   information: 'information',
+  financialSummary: 'financial-summary',
   fund: 'fund',
   group: 'group',
 };
 
 export const LEDGER_ACCORDTION_LABELS = {
   [LEDGER_ACCORDTION.information]: <FormattedMessage id="ui-finance.ledger.information" />,
+  [LEDGER_ACCORDTION.financialSummary]: <FormattedMessage id="ui-finance.ledger.financialSummary" />,
   [LEDGER_ACCORDTION.fund]: <FormattedMessage id="ui-finance.ledger.fund" />,
   [LEDGER_ACCORDTION.group]: <FormattedMessage id="ui-finance.ledger.group" />,
 };

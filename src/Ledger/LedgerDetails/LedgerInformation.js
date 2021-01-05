@@ -9,26 +9,16 @@ import {
   NoValue,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import {
-  AcqUnitsView,
-  AmountWithCurrencyField,
-} from '@folio/stripes-acq-components';
-
-import { NetTransfers } from '../../common/NetTransfers';
+import { AcqUnitsView } from '@folio/stripes-acq-components';
 
 const LedgerInformation = ({
   acqUnitIds,
-  allocated,
-  available,
   code,
-  currency,
   description,
   fiscalYearCode,
   metadata,
   name,
   status,
-  unavailable,
-  netTransfers,
 }) => {
   return (
     <>
@@ -73,56 +63,11 @@ const LedgerInformation = ({
           </KeyValue>
         </Col>
 
-        <Col
-          data-test-ledger-information-allocated
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.ledger.allocated" />}
-          >
-            <AmountWithCurrencyField
-              amount={allocated}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
-
-        <Col xs={3}>
-          <NetTransfers
-            netTransfers={netTransfers}
-            currency={currency}
-          />
-        </Col>
-
-        <Col
-          data-test-ledger-information-unavailable
-          xs={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-finance.ledger.unavailable" />}>
-            <AmountWithCurrencyField
-              amount={unavailable}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
-
-        <Col
-          data-test-ledger-information-available
-          xs={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-finance.ledger.available" />}>
-            <AmountWithCurrencyField
-              amount={available}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
-
         <Col xs={3}>
           <AcqUnitsView units={acqUnitIds} />
         </Col>
 
-        <Col xs={12}>
+        <Col xs={9}>
           <KeyValue
             data-testid="description"
             label={<FormattedMessage id="ui-finance.ledger.description" />}
@@ -135,10 +80,6 @@ const LedgerInformation = ({
 };
 
 LedgerInformation.propTypes = {
-  allocated: PropTypes.number,
-  available: PropTypes.number,
-  unavailable: PropTypes.number,
-  currency: PropTypes.string,
   metadata: PropTypes.object,
   name: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
@@ -146,7 +87,6 @@ LedgerInformation.propTypes = {
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   fiscalYearCode: PropTypes.string,
-  netTransfers: PropTypes.number,
 };
 
 export default LedgerInformation;

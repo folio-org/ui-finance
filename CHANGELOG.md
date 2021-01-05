@@ -2,7 +2,8 @@
 
 ## (IN PROGRESS)
 
-* Update Budget detail view to include more summary information. UIF-261.
+* Update ledger view to include more summary information. Refs UIF-263.
+* Update Budget detail view to include more summary information. Refs UIF-261.
 * Start Rollover process with some stub data. Refs UIF-171
 * "Based on" fields not required for encumbrance rollover when not in use. Refs UIF-274
 * Add personal data disclosure form. Refs UIF-272.

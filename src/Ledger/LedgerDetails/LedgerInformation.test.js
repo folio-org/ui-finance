@@ -12,10 +12,6 @@ const MESSAGES = {
   'ui-finance.ledger.currentFiscalYear': 'currentFiscalYear',
   'ui-finance.ledger.status': 'status',
   'ui-finance.ledger.status.active': 'active',
-  'ui-finance.budget.netTransfers': 'netTransfers',
-  'ui-finance.ledger.allocated': 'allocated',
-  'ui-finance.ledger.unavailable': 'unavailable',
-  'ui-finance.ledger.available': 'available',
   'ui-finance.ledger.description': 'description',
   'stripes-acq-components.label.acqUnits': 'acqUnits',
   'stripes-components.noValue.noValueSet': 'noValueSet',
@@ -70,11 +66,6 @@ const renderComponent = (fiscalYear = DEFAULT_FY, ledger = DEFAULT_LEDGER) => (r
       description={ledger.description}
       acqUnitIds={ledger.acqUnitIds}
       fiscalYearCode={fiscalYear.code}
-      available={ledger.available}
-      allocated={ledger.allocated}
-      unavailable={ledger.unavailable}
-      currency={fiscalYear.currency}
-      netTransfers={ledger.netTransfers}
     />
   </IntlProvider>,
 ));

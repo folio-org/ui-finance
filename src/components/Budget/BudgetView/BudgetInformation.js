@@ -99,10 +99,8 @@ BudgetInformation.propTypes = {
   allowableEncumbrance: PropTypes.number,
   allowableExpenditure: PropTypes.number,
   budgetStatus: PropTypes.string,
-  expenditures: PropTypes.number,
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
-  fiscalYearCurrency: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
 };

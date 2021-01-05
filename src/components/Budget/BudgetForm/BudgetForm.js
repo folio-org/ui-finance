@@ -38,7 +38,6 @@ const BudgetForm = ({
   values,
 }) => {
   const { periodStart, periodEnd, currency } = fiscalYear;
-  const { awaitingPayment, encumbered, expended } = initialValues;
 
   const paneFooter = (
     <FormFooter

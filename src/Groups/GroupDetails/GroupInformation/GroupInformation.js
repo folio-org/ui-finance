@@ -10,10 +10,7 @@ import {
   Select,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import {
-  AcqUnitsView,
-  AmountWithCurrencyField,
-} from '@folio/stripes-acq-components';
+import { AcqUnitsView } from '@folio/stripes-acq-components';
 
 const GroupInformation = ({
   metadata,
@@ -23,12 +20,8 @@ const GroupInformation = ({
   description,
   acqUnitIds,
   fiscalYears,
-  allocated,
-  unavailable,
-  available,
   selectedFiscalYearId,
   onSelectFY,
-  fiscalYearCurrency,
 }) => {
   const fiscalYearsOptions = fiscalYears.map(fy => ({
     label: fy.code,
@@ -90,53 +83,11 @@ const GroupInformation = ({
           </KeyValue>
         </Col>
 
-        <Col
-          data-test-group-information-allocated={allocated}
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.groups.item.information.allocated" />}
-          >
-            <AmountWithCurrencyField
-              amount={allocated}
-              currency={fiscalYearCurrency}
-            />
-          </KeyValue>
-        </Col>
-
-        <Col
-          data-test-group-information-unavailable
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.groups.item.information.unavailable" />}
-          >
-            <AmountWithCurrencyField
-              amount={unavailable}
-              currency={fiscalYearCurrency}
-            />
-          </KeyValue>
-        </Col>
-
-        <Col
-          data-test-group-information-available
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.groups.item.information.available" />}
-          >
-            <AmountWithCurrencyField
-              amount={available}
-              currency={fiscalYearCurrency}
-            />
-          </KeyValue>
-        </Col>
-
         <Col xs={3}>
           <AcqUnitsView units={acqUnitIds} />
         </Col>
 
-        <Col xs={12}>
+        <Col xs={9}>
           <KeyValue
             data-testid="description"
             label={<FormattedMessage id="ui-finance.groups.item.information.description" />}
@@ -156,20 +107,13 @@ GroupInformation.propTypes = {
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
-  allocated: PropTypes.number,
-  unavailable: PropTypes.number,
-  available: PropTypes.number,
   selectedFiscalYearId: PropTypes.string.isRequired,
   onSelectFY: PropTypes.func.isRequired,
-  fiscalYearCurrency: PropTypes.string,
 };
 
 GroupInformation.defaultProps = {
   description: '',
   acqUnitIds: [],
-  allocated: 0,
-  unavailable: 0,
-  available: 0,
   fiscalYears: [],
 };
 

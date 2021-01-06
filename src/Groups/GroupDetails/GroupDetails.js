@@ -21,6 +21,7 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
+import FinancialSummary from '../../common/FinancialSummary';
 import {
   GROUP_ACCORDTION,
   GROUP_ACCORDTION_LABELS,
@@ -106,11 +107,16 @@ const GroupDetails = ({
             description={group.description}
             acqUnitIds={group.acqUnitIds}
             fiscalYears={fiscalYearsRecords}
-            allocated={groupSummary.allocated}
-            unavailable={groupSummary.unavailable}
-            available={groupSummary.available}
             selectedFiscalYearId={selectedFY.id}
             onSelectFY={onSelectFY}
+          />
+        </Accordion>
+        <Accordion
+          id={GROUP_ACCORDTION.financialSummary}
+          label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.financialSummary]}
+        >
+          <FinancialSummary
+            data={groupSummary}
             fiscalYearCurrency={selectedFY.currency}
           />
         </Accordion>

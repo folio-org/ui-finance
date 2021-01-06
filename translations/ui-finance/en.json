@@ -259,6 +259,7 @@
   "groups.item.information.description": "Description",
   "groups.item.fund": "Fund",
   "groups.item.expenseClasses": "Expense classes",
+  "groups.item.financialSummary": "Financial summary",
 
   "groups.actions.remove.error": "Group has not been deleted",
   "groups.actions.remove.heading": "Delete group",

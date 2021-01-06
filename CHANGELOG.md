@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Update group view to include more summary information. Refs UIF-264.
 * Update ledger view to include more summary information. Refs UIF-263.
 * Update Budget detail view to include more summary information. Refs UIF-261.
 * Start Rollover process with some stub data. Refs UIF-171

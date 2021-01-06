@@ -8,3 +8,7 @@
   margin: 20px 0 20px 0;
   border: 1px solid var(--color-border);
 }
+
+.icon {
+  margin-right: 5px;
+}

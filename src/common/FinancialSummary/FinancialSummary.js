@@ -7,6 +7,7 @@ import {
   Headline,
   Row,
 } from '@folio/stripes/components';
+import { AppIcon } from '@folio/stripes/core';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 import FundingInformation from './FundingInformation';
@@ -63,11 +64,13 @@ const FinancialSummary = ({ data, fiscalYearCurrency }) => {
       <Row>
         <Col xs={6}>
           <div className={css.balanceWrapper}>
+            <AppIcon app="@folio/finance" size="small" className={css.icon} />
             <FormattedMessage id="ui-finance.financialSummary.cashBalance" values={{ cashBalance }} />
           </div>
         </Col>
         <Col xs={6}>
           <div className={css.balanceWrapper}>
+            <AppIcon app="@folio/finance" size="small" className={css.icon} />
             <FormattedMessage id="ui-finance.financialSummary.availableBalance" values={{ availableBalance }} />
           </div>
         </Col>

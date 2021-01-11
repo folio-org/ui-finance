@@ -295,7 +295,7 @@
     "fund.currentExpenseClasses": "Current expense classes",
     "groups.item.expenseClasses": "Expense classes",
     "budget.expenseClasses.add": "Add expense class",
-    "budget.expenseClasses.accountNumber": "Account number extention",
+    "budget.expenseClasses.accountNumber": "Account number extension",
     "budget.netTransfers": "Net transfers",
     "item.netTransfers": "Net transfers",
     "transaction.actions.load.error": "Failed to load transaction data",
@@ -359,5 +359,7 @@
     "financialSummary.overExpended": "Over expended",
     "financialSummary.totalFunding": "<b>Total funding</b>",
     "financialSummary.unavailable": "<b>Unavailable</b>",
-    "ledger.financialSummary": "Financial summary"
+    "ledger.financialSummary": "Financial summary",
+    "groups.item.financialSummary": "Financial summary",
+    "fiscalYear.details.financialSummary": "Financial summary"
 }

@@ -137,7 +137,7 @@
     "transaction.source": "Source",
     "transaction.tags": "Tags",
     "transaction.to": "To",
-    "transaction.transfer.hasBeenCreated": "{amount} was successfully trasfered to the budget {budgetName}",
+    "transaction.transfer.hasBeenCreated": "{amount} was successfully transferred to the budget {budgetName}",
     "transaction.transfer.title": "Transfer",
     "transaction.transferFrom": "Transfer from",
     "transaction.transferTo": "Transfer to",
@@ -241,7 +241,7 @@
     "budget.remove.message": "Are you sure you want to delete budget?",
     "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
     "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
-    "transaction.transfer.genericError": "{amount} was not successfully trasfered to the budget {budgetName}",
+    "transaction.transfer.genericError": "{amount} was not successfully transferred to the budget {budgetName}",
     "transaction.transfer.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
     "fund.actions.load.error": "Failed to load fund data",
     "fund.actions.viewTransactions": "View transactions for current budget",
@@ -359,5 +359,7 @@
     "financialSummary.overExpended": "Over expended",
     "financialSummary.totalFunding": "<b>Total funding</b>",
     "financialSummary.unavailable": "<b>Unavailable</b>",
-    "ledger.financialSummary": "Financial summary"
+    "ledger.financialSummary": "Financial summary",
+    "groups.item.financialSummary": "Financial summary",
+    "fiscalYear.details.financialSummary": "Financial summary"
 }

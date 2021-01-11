@@ -21,10 +21,8 @@ import {
   DetailsEditAction,
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
-import {
-  calculateTotals,
-} from '../../common/utils';
 import ConnectionListing from '../../components/ConnectionListing';
+import FinancialSummary from '../../common/FinancialSummary';
 import {
   FISCAL_YEAR_ACCORDION,
   FISCAL_YEAR_ACCORDION_LABELS,
@@ -64,8 +62,6 @@ const FiscalYearDetails = ({
     [onEdit, toggleRemoveConfirmation],
   );
 
-  const fiscalYearTotals = calculateTotals(ledgers);
-
   return (
     <Pane
       id="pane-fiscal-year-details"
@@ -100,10 +96,16 @@ const FiscalYearDetails = ({
             name={fiscalYear.name}
             periodEnd={fiscalYear.periodEnd}
             periodStart={fiscalYear.periodStart}
-            currency={fiscalYear.currency}
-            allocated={fiscalYearTotals.allocated}
-            available={fiscalYearTotals.available}
-            unavailable={fiscalYearTotals.unavailable}
+          />
+        </Accordion>
+
+        <Accordion
+          id={FISCAL_YEAR_ACCORDION.financialSummary}
+          label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.financialSummary]}
+        >
+          <FinancialSummary
+            data={fiscalYear.financialSummary}
+            fiscalYearCurrency={fiscalYear.currency}
           />
         </Accordion>
 

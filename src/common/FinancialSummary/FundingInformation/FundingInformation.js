@@ -23,7 +23,11 @@ const FundingInformation = ({ data, currency }) => {
   const contentData = useMemo(() => getFundingData(data), [data]);
   const resultsFormatter = useMemo(() => ({
     fundingAmount: item => {
-      const showBrackets = item.description === FINANCIAL_SUMMARY.netTransfers && item.amount < 0;
+      const showBrackets = (
+        item.description === FINANCIAL_SUMMARY.netTransfers ||
+        item.description === FINANCIAL_SUMMARY.allocationFrom ||
+        item.description === FINANCIAL_SUMMARY.allocationTo
+      ) && item.amount < 0;
       const isBold = (
         item.description === FINANCIAL_SUMMARY.allocated || item.description === FINANCIAL_SUMMARY.totalFunding
       );

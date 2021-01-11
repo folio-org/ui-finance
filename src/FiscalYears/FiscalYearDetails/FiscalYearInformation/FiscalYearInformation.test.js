@@ -11,9 +11,6 @@ const MESSAGES = {
   'ui-finance.fiscalYear.information.code': 'code',
   'ui-finance.fiscalYear.information.periodStart': 'periodStart',
   'ui-finance.fiscalYear.information.periodEnd': 'periodEnd',
-  'ui-finance.fiscalYear.information.allocated': 'allocated',
-  'ui-finance.fiscalYear.information.unavailable': 'unavailable',
-  'ui-finance.fiscalYear.information.available': 'available',
   'ui-finance.fiscalYear.information.description': 'description',
   'stripes-acq-components.label.acqUnits': 'stripes-acq-components.label.acqUnits',
   'stripes-components.selection.filterOptionsLabel': 'Label',
@@ -40,7 +37,7 @@ const DEFAULT_FY = {
   },
 };
 
-const renderComponent = (fiscalYear = DEFAULT_FY, fiscalYearTotals = {}) => (render(
+const renderComponent = (fiscalYear = DEFAULT_FY) => (render(
   <IntlProvider locale="en" messages={MESSAGES}>
     <FiscalYearInformation
       acqUnitIds={fiscalYear.acqUnitIds}
@@ -50,10 +47,6 @@ const renderComponent = (fiscalYear = DEFAULT_FY, fiscalYearTotals = {}) => (ren
       name={fiscalYear.name}
       periodEnd={fiscalYear.periodEnd}
       periodStart={fiscalYear.periodStart}
-      currency={fiscalYear.currency}
-      allocated={fiscalYearTotals.allocated}
-      available={fiscalYearTotals.available}
-      unavailable={fiscalYearTotals.unavailable}
     />
   </IntlProvider>,
 ));

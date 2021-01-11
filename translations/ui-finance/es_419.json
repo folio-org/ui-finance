@@ -359,5 +359,7 @@
     "financialSummary.overExpended": "Over expended",
     "financialSummary.totalFunding": "<b>Total funding</b>",
     "financialSummary.unavailable": "<b>Unavailable</b>",
-    "ledger.financialSummary": "Financial summary"
+    "ledger.financialSummary": "Financial summary",
+    "groups.item.financialSummary": "Financial summary",
+    "fiscalYear.details.financialSummary": "Financial summary"
 }

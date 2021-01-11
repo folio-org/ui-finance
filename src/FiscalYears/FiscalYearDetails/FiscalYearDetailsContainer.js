@@ -165,6 +165,9 @@ const FiscalYearDetailsContainer = ({
 FiscalYearDetailsContainer.manifest = Object.freeze({
   fiscalYear: {
     ...fiscalYearResource,
+    params: {
+      withFinancialSummary: true,
+    },
     accumulate: true,
     fetch: false,
   },

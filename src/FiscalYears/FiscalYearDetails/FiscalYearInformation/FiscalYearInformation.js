@@ -11,7 +11,6 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsView,
-  AmountWithCurrencyField,
   FolioFormattedDate,
 } from '@folio/stripes-acq-components';
 
@@ -23,10 +22,6 @@ const FiscalYearInformation = ({
   name,
   periodEnd,
   periodStart,
-  currency,
-  allocated,
-  available,
-  unavailable,
 }) => {
   return (
     <>
@@ -74,55 +69,13 @@ const FiscalYearInformation = ({
           </KeyValue>
         </Col>
 
-        <Col
-          data-test-fiscal-year-allocated
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.allocated" />}
-          >
-            <AmountWithCurrencyField
-              amount={allocated}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
-
-        <Col
-          data-test-fiscal-year-unavailable
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.unavailable" />}
-          >
-            <AmountWithCurrencyField
-              amount={unavailable}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
-
-        <Col
-          data-test-fiscal-year-available
-          xs={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.available" />}
-          >
-            <AmountWithCurrencyField
-              amount={available}
-              currency={currency}
-            />
-          </KeyValue>
-        </Col>
-
         <Col xs={3}>
           <AcqUnitsView units={acqUnitIds} />
         </Col>
 
         <Col
           data-test-fiscal-year-description
-          xs={3}
+          xs={9}
         >
           <KeyValue
             data-testid="description"
@@ -143,18 +96,11 @@ FiscalYearInformation.propTypes = {
   name: PropTypes.string.isRequired,
   periodEnd: PropTypes.string.isRequired,
   periodStart: PropTypes.string.isRequired,
-  currency: PropTypes.string,
-  allocated: PropTypes.number,
-  unavailable: PropTypes.number,
-  available: PropTypes.number,
 };
 
 FiscalYearInformation.defaultProps = {
   acqUnitIds: [],
   description: '',
-  allocated: 0,
-  unavailable: 0,
-  available: 0,
 };
 
 export default FiscalYearInformation;

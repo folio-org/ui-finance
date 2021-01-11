@@ -80,8 +80,12 @@ const FinancialSummary = ({ data, fiscalYearCurrency }) => {
 };
 
 FinancialSummary.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   fiscalYearCurrency: PropTypes.string.isRequired,
+};
+
+FinancialSummary.defaultProps = {
+  data: {},
 };
 
 export default FinancialSummary;

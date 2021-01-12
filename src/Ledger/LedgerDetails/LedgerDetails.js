@@ -10,6 +10,7 @@ import {
   ConfirmationModal,
   ExpandAllButton,
   Icon,
+  Label,
   MenuSection,
   Pane,
   Row,
@@ -32,6 +33,7 @@ import {
 import LedgerInformation from './LedgerInformation';
 import LedgerGroups from './LedgerGroups';
 import LedgerFunds from './LedgerFunds';
+import RolloverErrorsLink from './RolloverErrorsLink';
 
 const LedgerDetails = ({
   ledger,
@@ -41,6 +43,8 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   funds,
+  rolloverErrors,
+  rolloverToFY,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
@@ -158,6 +162,21 @@ const LedgerDetails = ({
             ledgerId={ledger.id}
           />
         </Accordion>
+        {!rolloverErrors.length ? null : (
+          <Accordion
+            id={LEDGER_ACCORDTION.rolloverErrors}
+            label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.rolloverErrors]}
+          >
+            <Label>
+              <FormattedMessage id="ui-finance.ledger.rolloverErrorsLabel" />
+            </Label>
+            <RolloverErrorsLink
+              errors={rolloverErrors}
+              ledgerName={ledger.name}
+              toYearCode={rolloverToFY.code}
+            />
+          </Accordion>
+        )}
       </AccordionSet>
 
       {isRemoveConfirmation && (
@@ -183,12 +202,16 @@ LedgerDetails.propTypes = {
   ledger: PropTypes.object,
   fiscalYear: PropTypes.object,
   funds: PropTypes.arrayOf(PropTypes.object),
+  rolloverErrors: PropTypes.arrayOf(PropTypes.object),
+  rolloverToFY: PropTypes.object,
 };
 
 LedgerDetails.defaultProps = {
   fiscalYear: {},
   funds: [],
   ledger: {},
+  rolloverErrors: [],
+  rolloverToFY: {},
 };
 
 export default LedgerDetails;

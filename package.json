@@ -38,6 +38,7 @@
       "users": "15.0"
     },
     "optionalOkapiInterfaces": {
+      "finance.ledger-rollovers-errors": "1.0",
       "finance.ledger-rollovers-progress": "1.0",
       "finance.ledger-rollovers": "1.0"
     },
@@ -133,6 +134,7 @@
           "finance.group-fiscal-year-summaries.collection.get",
           "finance.group-fund-fiscal-years.collection.get",
           "finance.groups.collection.get",
+          "finance.ledger-rollovers-errors.collection.get",
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",

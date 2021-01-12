@@ -30,6 +30,8 @@
   "ledger.fund": "Fund",
   "ledger.group": "Group",
   "ledger.information": "Ledger information",
+  "ledger.rolloverErrors": "Rollover error log",
+  "ledger.rolloverErrorsLabel": "Rollover errors",
   "ledger.name": "Name",
   "ledger.remove.heading": "Delete ledger",
   "ledger.remove.message": "Are you sure you want to delete ledger?",
@@ -78,6 +80,7 @@
   "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
   "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Error loading To fiscal year code",
   "ledger.rolloverInProgress.errorLoadingRolloverProgress": "Error loading ledger rollover progress",
+  "ledger.rolloverInProgress.hasErrors": "<b>Rollover</b> for <b>{ledgerName}</b> produced errors: ",
 
   "fiscalYear.actions.load.error": "Failed to load fiscal year data",
   "fiscalYear.actions.remove.heading":"Delete fiscal year",

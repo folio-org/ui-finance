@@ -34,7 +34,7 @@ const FinancialSummary = ({ data, fiscalYearCurrency }) => {
     <>
       <Row>
         <Col xs={6}>
-          <Headline>
+          <Headline margin="none">
             <FormattedMessage id="ui-finance.financialSummary.fundingInformation" />
           </Headline>
 
@@ -45,7 +45,7 @@ const FinancialSummary = ({ data, fiscalYearCurrency }) => {
         </Col>
 
         <Col xs={6}>
-          <Headline>
+          <Headline margin="none">
             <FormattedMessage id="ui-finance.financialSummary.financialActivity" />
           </Headline>
 

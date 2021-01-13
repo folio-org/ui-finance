@@ -24,6 +24,7 @@ import {
   OVERALL_ROLLOVER_STATUS,
 } from '../../../common/const';
 import RolloverErrorsLink from '../RolloverErrorsLink';
+import css from './LedgerRolloverProgress.css';
 
 // attributes that show if corresponding stage is completed
 const STAGE_ATTRS = ['budgetsClosingRolloverStatus', 'financialRolloverStatus', 'ordersRolloverStatus'];
@@ -66,6 +67,7 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
       >
         <Progress
           current={inProgressStages.length}
+          progressCurrentClassName={isInProgress ? undefined : css.progressCompleted}
           progressInfoType="none"
           total={STAGE_ATTRS.length}
         />

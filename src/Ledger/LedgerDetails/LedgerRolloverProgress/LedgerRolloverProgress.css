@@ -1,0 +1,7 @@
+@import "@folio/stripes-components/lib/variables.css";
+
+.progressCompleted {
+  height: 100%;
+  border-radius: var(--radius);
+  background-color: var(--success);
+}

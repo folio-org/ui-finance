@@ -75,7 +75,7 @@
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
   "ledger.rollover.errorExecute": "Error on executing rollover process",
   "ledger.rolloverInProgress.rollingOver": "Rolling over",
-  "ledger.rolloverInProgress.rollingOverFinished": "Rolling over is finished",
+  "ledger.rolloverInProgress.rollingOverFinished": "Rollover is complete",
   "ledger.rolloverInProgress.close": "Close and view ledger details",
   "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
   "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Error loading To fiscal year code",

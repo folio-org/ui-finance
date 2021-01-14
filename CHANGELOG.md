@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * Update Fiscal year view to include more summary information. Refs UIF-262.
+* Display fiscal year rollover error message and log file. Refs UIF-238.
 * Update group view to include more summary information. Refs UIF-264.
 * Update ledger view to include more summary information. Refs UIF-263.
 * Update Budget detail view to include more summary information. Refs UIF-261.

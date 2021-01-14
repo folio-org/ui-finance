@@ -10,9 +10,28 @@ function RolloverErrorsLink({ errors, ledgerName, toYearCode }) {
   const exportErrorsFilename = `${ledgerName}-rollover-errors-${toYearCode}`;
 
   const exportErrors = useCallback(() => {
-    exportCsv(errors, {
-      filename: exportErrorsFilename,
-    });
+    exportCsv(
+      [
+        {
+          ledgerRolloverId: 'Ledger rollover ID',
+          errorType: 'Error type',
+          failedAction: 'Failed action',
+          errorMessage: 'Error message',
+          'details.amount': 'Amount',
+          'details.fundId': 'Fund ID',
+          'details.fundCode': 'Fund code',
+          'details.purchaseOrderId': 'Purchase order ID',
+          'details.polNumber': 'Purchase order line number',
+          'details.poLineId': 'Purchase order line ID',
+        },
+        ...errors,
+      ],
+      {
+        excludeFields: ['id', 'metadata'],
+        filename: exportErrorsFilename,
+        header: false,
+      },
+    );
   }, [errors, exportErrorsFilename]);
 
   return (

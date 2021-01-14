@@ -9,6 +9,7 @@ import {
   LoadingPane,
 } from '@folio/stripes/components';
 import {
+  fetchAllRecords,
   LIMIT_MAX,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -95,12 +96,7 @@ const LedgerDetailsContainer = ({
   useEffect(
     () => {
       if (fromFiscalYearId && fromFiscalYearId === currentFiscalYearId) {
-        mutator.ledgerRolloverErrors.GET({
-          params: {
-            query: `ledgerRolloverId==${rolloverId}`,
-            limit: `${LIMIT_MAX}`,
-          },
-        }).then(
+        fetchAllRecords(mutator.ledgerRolloverErrors, `ledgerRolloverId==${rolloverId}`).then(
           setRolloverErrors,
           () => {
             setRolloverErrors();

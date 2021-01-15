@@ -340,7 +340,7 @@
     "ledger.rolloverInProgress.errorLoadingRolloverProgress": "Error loading ledger rollover progress",
     "ledger.rollover.errorExecute": "Error on executing rollover process",
     "ledger.rolloverInProgress.rollingOverFinished": "Rollover is complete",
-    "ledger.rolloverInProgress.close": "Close and view ledger details",
+    "ledger.rolloverInProgress.close": "Close & view ledger details",
     "financialSummary.allocated": "<b>Total allocated</b>",
     "financialSummary.allocationFrom": "Decrease in allocation",
     "financialSummary.allocationTo": "Increase in allocation",

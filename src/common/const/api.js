@@ -8,6 +8,7 @@ export const GROUP_SUMMARIES_API = 'finance/group-fiscal-year-summaries';
 export const LEDGERS_API = 'finance/ledgers';
 export const LEDGER_ROLLOVER_API = 'finance/ledger-rollovers';
 export const LEDGER_ROLLOVER_PROGRESS_API = 'finance/ledger-rollovers-progress';
+export const LEDGER_ROLLOVER_ERRORS_API = 'finance/ledger-rollovers-errors';
 export const ALLOCATIONS_API = 'finance/allocations';
 export const ENCUMBRANCES_API = 'finance/encumbrances';
 export const TRANSACTIONS_API = 'finance/transactions';

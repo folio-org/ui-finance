@@ -38,6 +38,7 @@
       "users": "15.0"
     },
     "optionalOkapiInterfaces": {
+      "finance.ledger-rollovers-errors": "1.0",
       "finance.ledger-rollovers-progress": "1.0",
       "finance.ledger-rollovers": "1.0"
     },
@@ -133,6 +134,7 @@
           "finance.group-fiscal-year-summaries.collection.get",
           "finance.group-fund-fiscal-years.collection.get",
           "finance.groups.collection.get",
+          "finance.ledger-rollovers-errors.collection.get",
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
@@ -342,7 +344,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
-    "@folio/stripes": "^5.0.0",
+    "@folio/stripes": "^6.0.0",
     "@folio/stripes-cli": "^1.8.0",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
@@ -383,13 +385,13 @@
     "react-final-form-arrays": "^3.1.0",
     "react-final-form-listeners": "^1.0.2",
     "react-final-form": "^6.3.0",
-    "redux-form": "^7.4.2"
+    "redux-form": "^8.3.0"
   },
   "resolutions": {
     "babel-eslint/@babel/parser": "7.7.5"
   },
   "peerDependencies": {
-    "@folio/stripes": "^5.0.0",
+    "@folio/stripes": "^6.0.0",
     "moment": "^2.24.0",
     "react": "*",
     "react-intl": "^5.7.1",

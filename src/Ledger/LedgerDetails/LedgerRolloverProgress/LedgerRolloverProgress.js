@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { writeStorage } from '@rehooks/local-storage';
@@ -12,48 +12,27 @@ import {
   Card,
   Headline,
   Icon,
+  Layout,
   Loading,
+  MessageBanner,
   Pane,
 } from '@folio/stripes/components';
-import { stripesConnect } from '@folio/stripes/core';
 import { Progress } from '@folio/stripes-data-transfer-components';
-import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
-  fiscalYearResource,
-} from '../../../common/resources';
-import {
-  FISCAL_YEARS_API,
   LEDGERS_ROUTE,
   OVERALL_ROLLOVER_STATUS,
 } from '../../../common/const';
+import RolloverErrorsLink from '../RolloverErrorsLink';
+import css from './LedgerRolloverProgress.css';
 
 // attributes that show if corresponding stage is completed
 const STAGE_ATTRS = ['budgetsClosingRolloverStatus', 'financialRolloverStatus', 'ordersRolloverStatus'];
 
-function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearCode, mutator, rollover }) {
-  const showCallout = useShowCallout();
+function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearCode, rolloverToFY, rollover, errors }) {
   const history = useHistory();
   const location = useLocation();
-  const [toYearCode, setToYearCode] = useState();
-  const toYearId = rollover?.toFiscalYearId;
-
-  useEffect(() => {
-    mutator.toFiscalYear.GET({ path: `${FISCAL_YEARS_API}/${toYearId}` })
-      .then(
-        ({ code }) => {
-          setToYearCode(code);
-        },
-        () => {
-          showCallout({
-            messageId: 'ui-finance.ledger.rolloverInProgress.errorLoadingToFiscalYear',
-            type: 'error',
-          });
-          setToYearCode();
-        },
-      );
-  }, [showCallout, toYearId]);
-
+  const toYearCode = rolloverToFY.code;
   const inProgressStages = STAGE_ATTRS.filter((k) => rolloverStatus[k] !== OVERALL_ROLLOVER_STATUS.notStarted);
   const isInProgress = rolloverStatus.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress;
   const closeProgress = useCallback(() => {
@@ -88,6 +67,7 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
       >
         <Progress
           current={inProgressStages.length}
+          progressCurrentClassName={isInProgress ? undefined : css.progressCompleted}
           progressInfoType="none"
           total={STAGE_ATTRS.length}
         />
@@ -108,39 +88,49 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
           }
         </Headline>
       </Card>
+      {!errors.length ? null : (
+        <MessageBanner type="error">
+          <FormattedMessage
+            id="ui-finance.ledger.rolloverInProgress.hasErrors"
+            values={{ ledgerName }}
+          />
+          <RolloverErrorsLink
+            errors={errors}
+            ledgerName={ledgerName}
+            toYearCode={toYearCode}
+          />
+        </MessageBanner>
+      )}
       {!isInProgress && (
-        <Button
-          buttonStyle="primary"
-          fullWidth
-          onClick={closeProgress}
-        >
-          <FormattedMessage id="ui-finance.ledger.rolloverInProgress.close" />
-        </Button>
+        <Layout className="marginTop1">
+          <Button
+            buttonStyle="primary"
+            fullWidth
+            onClick={closeProgress}
+          >
+            <FormattedMessage id="ui-finance.ledger.rolloverInProgress.close" />
+          </Button>
+        </Layout>
       )}
     </Pane>
   );
 }
 
-LedgerRolloverProgress.manifest = Object.freeze({
-  toFiscalYear: {
-    ...fiscalYearResource,
-    accumulate: true,
-    fetch: false,
-  },
-});
-
 LedgerRolloverProgress.propTypes = {
   fromYearCode: PropTypes.string,
   ledgerName: PropTypes.string,
-  mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   rollover: PropTypes.object,
+  errors: PropTypes.arrayOf(PropTypes.object),
   rolloverStatus: PropTypes.object,
+  rolloverToFY: PropTypes.object,
 };
 
 LedgerRolloverProgress.defaultProps = {
+  errors: [],
   rollover: {},
   rolloverStatus: {},
+  rolloverToFY: {},
 };
 
-export default stripesConnect(LedgerRolloverProgress);
+export default LedgerRolloverProgress;

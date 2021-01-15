@@ -6,6 +6,7 @@ export const LEDGER_ACCORDTION = {
   financialSummary: 'financial-summary',
   fund: 'fund',
   group: 'group',
+  rolloverErrors: 'rolloverErrors',
 };
 
 export const LEDGER_ACCORDTION_LABELS = {
@@ -13,6 +14,7 @@ export const LEDGER_ACCORDTION_LABELS = {
   [LEDGER_ACCORDTION.financialSummary]: <FormattedMessage id="ui-finance.ledger.financialSummary" />,
   [LEDGER_ACCORDTION.fund]: <FormattedMessage id="ui-finance.ledger.fund" />,
   [LEDGER_ACCORDTION.group]: <FormattedMessage id="ui-finance.ledger.group" />,
+  [LEDGER_ACCORDTION.rolloverErrors]: <FormattedMessage id="ui-finance.ledger.rolloverErrors" />,
 };
 
 export const LEDGER_FILTERS = {

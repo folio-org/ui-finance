@@ -9,6 +9,7 @@ import {
   LoadingPane,
 } from '@folio/stripes/components';
 import {
+  fetchAllRecords,
   LIMIT_MAX,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -17,9 +18,11 @@ import {
   LEDGERS_ROUTE,
 } from '../../common/const';
 import {
+  fiscalYearsResource,
   fundsResource,
   ledgerByUrlIdResource,
   ledgerCurrentFiscalYearResource,
+  ledgerRolloverErrorsResource,
   ledgerRolloverProgressResource,
   ledgerRolloverResource,
 } from '../../common/resources';
@@ -38,10 +41,12 @@ const LedgerDetailsContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowCallout();
   const [{ ledger, funds, currentFiscalYear }, setLedgerData] = useState({});
-  const { rolloverStatus, isLoadingRolloverStatus, rollover } = useRolloverProgressPolling({
+  const [rolloverErrors, setRolloverErrors] = useState();
+  const { rolloverStatus, isLoadingRolloverStatus, rollover, rolloverToFY } = useRolloverProgressPolling({
     ledgerId,
     mutatorLedgerRolloverProgress: mutator.ledgerRolloverProgress,
     mutatorLedgerRollover: mutator.ledgerRollover,
+    mutatorToFiscalYear: mutator.toFiscalYear,
   });
 
   useEffect(
@@ -83,6 +88,25 @@ const LedgerDetailsContainer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [ledgerId],
   );
+
+  const fromFiscalYearId = rollover?.fromFiscalYearId;
+  const currentFiscalYearId = currentFiscalYear?.id;
+  const rolloverId = rollover?.id;
+
+  useEffect(
+    () => {
+      if (fromFiscalYearId && fromFiscalYearId === currentFiscalYearId) {
+        fetchAllRecords(mutator.ledgerRolloverErrors, `ledgerRolloverId==${rolloverId}`).then(
+          setRolloverErrors,
+          () => {
+            setRolloverErrors();
+          },
+        );
+      }
+    },
+    [currentFiscalYearId, fromFiscalYearId, rolloverId],
+  );
+
   const closePane = useCallback(
     () => {
       history.push({
@@ -145,11 +169,13 @@ const LedgerDetailsContainer = ({
   ) {
     return (
       <LedgerRolloverProgress
+        errors={rolloverErrors}
         fromYearCode={currentFiscalYear?.code}
         ledgerName={ledger?.name}
         onClose={closePane}
         rollover={rollover}
         rolloverStatus={rolloverStatus}
+        rolloverToFY={rolloverToFY}
       />
     );
   }
@@ -163,6 +189,8 @@ const LedgerDetailsContainer = ({
       onDelete={removeLedger}
       onRollover={onRollover}
       funds={funds}
+      rolloverErrors={rolloverErrors}
+      rolloverToFY={rolloverToFY}
     />
   );
 };
@@ -186,6 +214,12 @@ LedgerDetailsContainer.manifest = Object.freeze({
     ...ledgerRolloverProgressResource,
   },
   ledgerRollover: ledgerRolloverResource,
+  ledgerRolloverErrors: ledgerRolloverErrorsResource,
+  toFiscalYear: {
+    ...fiscalYearsResource,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 LedgerDetailsContainer.propTypes = {

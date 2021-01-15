@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Headline,
   TextLink,
 } from '@folio/stripes/components';
 import { exportCsv } from '@folio/stripes/util';
@@ -36,7 +37,9 @@ function RolloverErrorsLink({ errors, ledgerName, toYearCode }) {
 
   return (
     <TextLink onClick={exportErrors}>
-      {exportErrorsFilename}.csv
+      <Headline tag="span">
+        {exportErrorsFilename}.csv
+      </Headline>
     </TextLink>
   );
 }

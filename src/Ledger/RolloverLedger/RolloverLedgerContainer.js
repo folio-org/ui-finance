@@ -139,7 +139,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
       {showRolloverConfirmation && (
         <ConfirmationModal
           id="rollover-confirmation"
-          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+          confirmLabel={<FormattedMessage id="ui-finance.ledger.rollover.confirm.btn" />}
           heading={<FormattedMessage id="ui-finance.ledger.rollover.confirm.heading" />}
           message={(
             <FormattedMessage

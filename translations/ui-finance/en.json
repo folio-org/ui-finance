@@ -74,6 +74,7 @@
   "ledger.rollover.increaseBy": "Increase by, %",
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
   "ledger.rollover.errorExecute": "Error on executing rollover process",
+  "ledger.rollover.confirm.btn": "Confirm",
   "ledger.rollover.confirm.heading": "Fiscal year rollover",
   "ledger.rollover.confirm.message": "Ledger <b>{ledgerName}</b> for <b>{currentFYCode}</b> will be rolled over to <b>{chosenFYCode}</b>. Please confirm that you have completed the necessary details and are ready to proceed with rollover. This process may take several minutes to complete and cannot be undone.",
   "ledger.rolloverInProgress.rollingOver": "Rolling over",

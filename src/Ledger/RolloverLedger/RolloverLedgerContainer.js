@@ -1,11 +1,16 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { LoadingView } from '@folio/stripes/components';
 import {
+  ConfirmationModal,
+  LoadingView,
+} from '@folio/stripes/components';
+import {
+  useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -14,6 +19,7 @@ import {
 } from '../../common/const';
 import {
   budgetsResource,
+  fiscalYearsResource,
   fundsResource,
   fundTypesResource,
   ledgerByUrlIdResource,
@@ -32,6 +38,8 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
   const ledgerId = match.params.id;
 
   const showCallout = useShowCallout();
+  const [showRolloverConfirmation, toggleRolloverConfirmation] = useModalToggle();
+  const [savingValues, setSavingValues] = useState();
 
   const close = useCallback(
     () => {
@@ -60,6 +68,15 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     },
     [close, showCallout],
   );
+
+  const showConfirmation = useCallback((rolloverValues) => {
+    setSavingValues(rolloverValues);
+    toggleRolloverConfirmation();
+  }, [toggleRolloverConfirmation]);
+
+  const callRollover = useCallback(() => {
+    return rollover(savingValues);
+  }, [rollover, savingValues]);
 
   const isLoading = !resources.rolloverLedger.hasLoaded;
   const ledger = resources.rolloverLedger.records[0];
@@ -109,15 +126,37 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
   }
 
   return (
-    <RolloverLedger
-      currentFiscalYear={currentFiscalYear}
-      fundTypesMap={fundTypesMap}
-      goToCreateFY={goToCreateFY}
-      initialValues={initial}
-      ledger={ledger}
-      onCancel={close}
-      onSubmit={rollover}
-    />
+    <>
+      <RolloverLedger
+        currentFiscalYear={currentFiscalYear}
+        fundTypesMap={fundTypesMap}
+        goToCreateFY={goToCreateFY}
+        initialValues={initial}
+        ledger={ledger}
+        onCancel={close}
+        onSubmit={showConfirmation}
+      />
+      {showRolloverConfirmation && (
+        <ConfirmationModal
+          id="rollover-confirmation"
+          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+          heading={<FormattedMessage id="ui-finance.ledger.rollover.confirm.heading" />}
+          message={(
+            <FormattedMessage
+              id="ui-finance.ledger.rollover.confirm.message"
+              values={{
+                ledgerName: ledger?.name,
+                currentFYCode: currentFiscalYear?.code,
+                chosenFYCode: resources.fiscalYears.records.find(({ id }) => id === savingValues?.toFiscalYearId)?.code,
+              }}
+            />
+          )}
+          onCancel={toggleRolloverConfirmation}
+          onConfirm={callRollover}
+          open
+        />
+      )}
+    </>
   );
 };
 
@@ -148,6 +187,7 @@ RolloverLedgerContainer.manifest = Object.freeze({
   },
   ledgerRollover: ledgerRolloverResource,
   ledgerRolloverProgress: ledgerRolloverProgressResource,
+  fiscalYears: fiscalYearsResource,
 });
 
 RolloverLedgerContainer.propTypes = {

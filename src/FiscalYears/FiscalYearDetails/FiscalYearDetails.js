@@ -106,6 +106,7 @@ const FiscalYearDetails = ({
           <FinancialSummary
             data={fiscalYear.financialSummary}
             fiscalYearCurrency={fiscalYear.currency}
+            isFiscalYear
           />
         </Accordion>
 

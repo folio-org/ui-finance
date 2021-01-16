@@ -15,7 +15,7 @@ import FinancialActivity from './FinancialActivity';
 import Overages from './Overages';
 import css from './styles.css';
 
-const FinancialSummary = ({ data, fiscalYearCurrency }) => {
+const FinancialSummary = ({ data, fiscalYearCurrency, isFiscalYear }) => {
   const cashBalance = (
     <AmountWithCurrencyField
       amount={data.cashBalance}
@@ -41,6 +41,7 @@ const FinancialSummary = ({ data, fiscalYearCurrency }) => {
           <FundingInformation
             data={data}
             currency={fiscalYearCurrency}
+            isFiscalYear={isFiscalYear}
           />
         </Col>
 
@@ -82,10 +83,12 @@ const FinancialSummary = ({ data, fiscalYearCurrency }) => {
 FinancialSummary.propTypes = {
   data: PropTypes.object,
   fiscalYearCurrency: PropTypes.string.isRequired,
+  isFiscalYear: PropTypes.bool,
 };
 
 FinancialSummary.defaultProps = {
   data: {},
+  isFiscalYear: false,
 };
 
 export default FinancialSummary;

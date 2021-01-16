@@ -19,8 +19,8 @@ const columnMapping = {
   fundingAmount: <FormattedMessage id="ui-finance.financialSummary.amount" />,
 };
 
-const FundingInformation = ({ data, currency }) => {
-  const contentData = useMemo(() => getFundingData(data), [data]);
+const FundingInformation = ({ data, currency, isFiscalYear }) => {
+  const contentData = useMemo(() => getFundingData(data, isFiscalYear), [data, isFiscalYear]);
   const resultsFormatter = useMemo(() => ({
     fundingAmount: item => {
       const showBrackets = (
@@ -59,6 +59,11 @@ const FundingInformation = ({ data, currency }) => {
 FundingInformation.propTypes = {
   data: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
+  isFiscalYear: PropTypes.bool,
+};
+
+FundingInformation.defaultProps = {
+  isFiscalYear: false,
 };
 
 export default FundingInformation;

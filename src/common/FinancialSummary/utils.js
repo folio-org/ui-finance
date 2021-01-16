@@ -5,8 +5,8 @@ import {
   FINANCIAL_SUMMARY,
 } from './constants';
 
-export const getFundingData = (data) => {
-  return ([
+export const getFundingData = (data, isFiscalYear) => {
+  const fundingData = [
     {
       label: FUNDING_INFORMATION_LABELS.initialAllocation,
       amount: data.initialAllocation,
@@ -38,7 +38,15 @@ export const getFundingData = (data) => {
       description: FINANCIAL_SUMMARY.totalFunding,
 
     },
-  ]);
+  ];
+
+  return isFiscalYear
+    ? fundingData.filter(({ description }) => (
+      description !== FINANCIAL_SUMMARY.allocationTo &&
+      description !== FINANCIAL_SUMMARY.allocationFrom &&
+      description !== FINANCIAL_SUMMARY.netTransfers
+    ))
+    : fundingData;
 };
 
 export const getFinacialActivityData = (data) => {

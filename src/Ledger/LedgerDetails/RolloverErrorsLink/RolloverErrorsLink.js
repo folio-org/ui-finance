@@ -6,6 +6,7 @@ import {
   TextLink,
 } from '@folio/stripes/components';
 import { exportCsv } from '@folio/stripes/util';
+import css from './RolloverErrorsLink.css';
 
 function RolloverErrorsLink({ errors, ledgerName, toYearCode }) {
   const exportErrorsFilename = `${ledgerName}-rollover-errors-${toYearCode}`;
@@ -36,7 +37,10 @@ function RolloverErrorsLink({ errors, ledgerName, toYearCode }) {
   }, [errors, exportErrorsFilename]);
 
   return (
-    <TextLink onClick={exportErrors}>
+    <TextLink
+      className={css.hoveredLink}
+      onClick={exportErrors}
+    >
       <Headline tag="span">
         {exportErrorsFilename}.csv
       </Headline>

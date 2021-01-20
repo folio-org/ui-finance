@@ -339,8 +339,8 @@
     "ledger.rolloverInProgress.errorLoadingToFiscalYear": "加载到财务年度代码时出错",
     "ledger.rolloverInProgress.errorLoadingRolloverProgress": "加载总帐展期处理时出错",
     "ledger.rollover.errorExecute": "执行展期处理时出错",
-    "ledger.rolloverInProgress.rollingOverFinished": "Rolling over is finished",
-    "ledger.rolloverInProgress.close": "Close and view ledger details",
+    "ledger.rolloverInProgress.rollingOverFinished": "Rollover is complete",
+    "ledger.rolloverInProgress.close": "Close & view ledger details",
     "financialSummary.allocated": "<b>Total allocated</b>",
     "financialSummary.allocationFrom": "Decrease in allocation",
     "financialSummary.allocationTo": "Increase in allocation",
@@ -361,5 +361,11 @@
     "financialSummary.unavailable": "<b>Unavailable</b>",
     "ledger.financialSummary": "Financial summary",
     "groups.item.financialSummary": "Financial summary",
-    "fiscalYear.details.financialSummary": "Financial summary"
+    "fiscalYear.details.financialSummary": "Financial summary",
+    "ledger.rolloverErrors": "Rollover error log",
+    "ledger.rolloverErrorsLabel": "Rollover errors",
+    "ledger.rolloverInProgress.hasErrors": "<b>Rollover</b> for <b>{ledgerName}</b> produced errors: ",
+    "ledger.rollover.confirm.heading": "Fiscal year rollover",
+    "ledger.rollover.confirm.message": "Ledger <b>{ledgerName}</b> for <b>{currentFYCode}</b> will be rolled over to <b>{chosenFYCode}</b>. Please confirm that you have completed the necessary details and are ready to proceed with rollover. This process may take several minutes to complete and cannot be undone.",
+    "ledger.rollover.confirm.btn": "Confirm"
 }

@@ -361,5 +361,11 @@
     "financialSummary.unavailable": "<b> غير متاح </b>",
     "ledger.financialSummary": "الملخص المالي",
     "groups.item.financialSummary": "الملخص المالي",
-    "fiscalYear.details.financialSummary": "الملخص المالي"
+    "fiscalYear.details.financialSummary": "الملخص المالي",
+    "ledger.rolloverErrors": "سجل أخطاء التمديد",
+    "ledger.rolloverErrorsLabel": "أخطاء التمديد",
+    "ledger.rolloverInProgress.hasErrors": "أدى <b>التمديد</b> لـ <b>{ledgerName}</b> إلى أخطاء:",
+    "ledger.rollover.confirm.heading": "تمديد السنة المالية",
+    "ledger.rollover.confirm.message": "الدفتر <b>{ledgerName}</b> لـ <b>{currentFYCode}</b> سيتم تمديده إلى <b>{chosenFYCode}</b>. يرجى تأكيد قيامك باستكمال التفاصيل اللازمة واستعدادك لمتابعة التمديد. قد تستغرق هذه العملية عدة دقائق للإتمام ولا يمكن التراجع فيها.",
+    "ledger.rollover.confirm.btn": "تأكيد"
 }

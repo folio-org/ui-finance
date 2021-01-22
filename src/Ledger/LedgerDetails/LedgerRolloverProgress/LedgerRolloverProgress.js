@@ -36,12 +36,12 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
   const inProgressStages = STAGE_ATTRS.filter((k) => rolloverStatus[k] !== OVERALL_ROLLOVER_STATUS.notStarted);
   const isInProgress = rolloverStatus.overallRolloverStatus === OVERALL_ROLLOVER_STATUS.inProgress;
   const closeProgress = useCallback(() => {
-    writeStorage(`LedgerRolloverProgress-${rolloverStatus.id}`, true);
+    writeStorage(`LedgerRolloverProgress-${rollover.id}`, true);
     history.push({
       pathname: `${LEDGERS_ROUTE}/${rollover.ledgerId}/view`,
       search: location.search,
     });
-  }, [history, location.search, rollover.ledgerId, rolloverStatus.id]);
+  }, [history, location.search, rollover.ledgerId, rollover.id]);
 
   return (
     <Pane

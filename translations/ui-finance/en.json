@@ -340,6 +340,13 @@
   "transaction.type.Pending payment": "Pending payment",
   "transaction.type.Transfer": "Transfer",
   "transaction.type": "Type",
+  "transaction.releaseEncumbrance.button": "Release encumbrance",
+  "transaction.releaseEncumbrance.confirm": "Confirm",
+  "transaction.releaseEncumbrance.heading": "Release encumbrance",
+  "transaction.releaseEncumbrance.message": "Are you sure you want to release this encumbrance? Any remaining amount will be added back to the budget.",
+  "transaction.releaseEncumbrance.success": "Encumbrance was released",
+  "transaction.releaseEncumbrance.error.default": "Error while releasing encumbrance",
+  "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
 
   "transactions.search": "Search transactions",
 
@@ -389,5 +396,6 @@
   "permission.ledger.view": "Finance: View ledger",
   "permission.ledger.rollover": "Finance: Execute fiscal year rollover",
   "permission.settings.all": "Settings (Finance): View, edit, create, delete",
+  "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
   "permission.transfers.create": "Finance: Create transfers"
 }

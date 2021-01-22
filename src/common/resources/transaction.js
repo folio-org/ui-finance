@@ -3,6 +3,7 @@ import { baseManifest } from '@folio/stripes-acq-components';
 import {
   ALLOCATIONS_API,
   ENCUMBRANCES_API,
+  RELEASE_ENCUMBRANCE_API,
   TRANSACTIONS_API,
   TRANSFERS_API,
 } from '../const';
@@ -48,4 +49,13 @@ export const transfersResource = {
   fetch: false,
   path: TRANSFERS_API,
   records: 'transactions',
+};
+
+export const releaseEncumbranceResource = {
+  ...baseManifest,
+  accumulate: true,
+  fetch: false,
+  POST: {
+    path: RELEASE_ENCUMBRANCE_API,
+  },
 };

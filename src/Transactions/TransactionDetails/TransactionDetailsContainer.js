@@ -10,6 +10,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 import {
   fiscalYearResource,
   fundsResource,
+  releaseEncumbranceResource,
   transactionByUrlIdResource,
 } from '../../common/resources';
 import {
@@ -75,6 +76,33 @@ const TransactionDetailsContainer = ({
     [transactionId],
   );
 
+  const releaseTransaction = useCallback(() => {
+    mutator.releaseEncumbrance.POST({ id: transactionId }).then(
+      () => {
+        showCallout({
+          messageId: 'ui-finance.transaction.releaseEncumbrance.success',
+          type: 'success',
+        });
+      },
+      async (response) => {
+        let errorCode = null;
+
+        try {
+          const { errors } = await response.clone().json();
+
+          errorCode = errors?.[0]?.code || 'default';
+        } catch (e) {
+          errorCode = 'default';
+        }
+
+        showCallout({
+          messageId: `ui-finance.transaction.releaseEncumbrance.error.${errorCode}`,
+          type: 'error',
+        });
+      },
+    );
+  }, [showCallout, transactionId]);
+
   const isLoading = !(transaction && transactionFunds && fiscalYear);
 
   if (isLoading) {
@@ -92,6 +120,7 @@ const TransactionDetailsContainer = ({
       fromFundName={fromFundName}
       fundId={fundId}
       onClose={onClose}
+      releaseTransaction={releaseTransaction}
       toFundName={toFundName}
       transaction={transaction}
     />
@@ -114,6 +143,7 @@ TransactionDetailsContainer.manifest = Object.freeze({
     fetch: false,
     accumulate: true,
   },
+  releaseEncumbrance: releaseEncumbranceResource,
 });
 
 TransactionDetailsContainer.propTypes = {

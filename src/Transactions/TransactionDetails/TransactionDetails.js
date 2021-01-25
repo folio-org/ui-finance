@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Button,
+  ConfirmationModal,
   Pane,
   Row,
   Col,
@@ -10,8 +12,11 @@ import {
   AccordionSet,
   Accordion,
 } from '@folio/stripes/components';
+import { IfPermission } from '@folio/stripes/core';
 import {
+  TRANSACTION_TYPES,
   useAccordionToggle,
+  useModalToggle,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -27,11 +32,33 @@ const TransactionDetails = ({
   onClose,
   toFundName,
   transaction,
+  releaseTransaction,
 }) => {
   const [expandAll, sections, toggleSection] = useAccordionToggle();
+  const [isReleaseConfirmation, toggleReleaseConfirmation] = useModalToggle();
+  const isEncumbrance = transaction.transactionType === TRANSACTION_TYPES.encumbrance;
+  const onRelease = useCallback(() => {
+    toggleReleaseConfirmation();
+    releaseTransaction();
+  }, [releaseTransaction, toggleReleaseConfirmation]);
+  const releaseBtn = useMemo(
+    () => (
+      <IfPermission perm="finance.release-encumbrance.item.post">
+        <Button
+          buttonStyle="primary"
+          marginBottom0
+          onClick={toggleReleaseConfirmation}
+        >
+          <FormattedMessage id="ui-finance.transaction.releaseEncumbrance.button" />
+        </Button>
+      </IfPermission>
+    ),
+    [toggleReleaseConfirmation],
+  );
 
   return (
     <Pane
+      lastMenu={isEncumbrance ? releaseBtn : undefined}
       id="pane-transaction-details"
       defaultWidth="fill"
       dismissible
@@ -65,6 +92,18 @@ const TransactionDetails = ({
         </Accordion>
       </AccordionSet>
 
+      {isReleaseConfirmation && (
+        <ConfirmationModal
+          id="release-confirmation"
+          confirmLabel={<FormattedMessage id="ui-finance.transaction.releaseEncumbrance.confirm" />}
+          heading={<FormattedMessage id="ui-finance.transaction.releaseEncumbrance.heading" />}
+          message={<FormattedMessage id="ui-finance.transaction.releaseEncumbrance.message" />}
+          onCancel={toggleReleaseConfirmation}
+          onConfirm={onRelease}
+          open
+        />
+      )}
+
     </Pane>
   );
 };
@@ -76,6 +115,7 @@ TransactionDetails.propTypes = {
   toFundName: PropTypes.string,
   fromFundName: PropTypes.string,
   fundId: PropTypes.string.isRequired,
+  releaseTransaction: PropTypes.func.isRequired,
 };
 
 export default TransactionDetails;

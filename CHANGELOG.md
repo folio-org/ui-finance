@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Manually release encumbrances. Refs UIF-271.
 * Add Rollover confirmation modal so user can not start roll by mistake. Refs UIF-279.
 * Update Fiscal year view to include more summary information. Refs UIF-262.
 * Display fiscal year rollover error message and log file. Refs UIF-238.

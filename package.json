@@ -327,7 +327,17 @@
           "ui-finance.fund-budget.edit",
           "finance.transfers.item.post"
         ]
+      },
+      {
+        "permissionName": "ui-finance.manually-release-encumbrances",
+        "displayName": "Finance: Manually release encumbrance",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "finance.release-encumbrance.item.post"
+        ]
       }
+
     ]
   },
   "scripts": {
@@ -369,12 +379,13 @@
     "jest-junit": "^12.0.0",
     "miragejs": "^0.1.32",
     "moment": "~2.29.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "~16.13.0",
+    "react-dom": "~16.13.0",
     "react-intl": "^5.7.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
+    "react-titled": "^1.0.0",
     "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {

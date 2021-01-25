@@ -1,3 +1,0 @@
-{
-  "extends": ["../../node_modules/@folio/stripes-acq-components/test/.eslintrc"]
-}

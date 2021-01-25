@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Allow user to intentionally reset budget allowances during rollover. Refs UIF-275.
 * Manually release encumbrances. Refs UIF-271.
 * Add Rollover confirmation modal so user can not start roll by mistake. Refs UIF-279.
 * Update Fiscal year view to include more summary information. Refs UIF-262.

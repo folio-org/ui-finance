@@ -15,14 +15,16 @@ import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import { ADD_AVAILABLE_TO_OPTIONS } from '../constants';
 import HeadLabel from './HeadLabel';
+import SetAllowancesField from './SetAllowancesField';
 
 const headLabels = (
   <Row>
     <HeadLabel translationId="ui-finance.ledger.rollover.fundType" />
     <HeadLabel translationId="ui-finance.ledger.rollover.allocation" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.adjustAllocation" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.adjustAllocation" size={1} />
     <HeadLabel translationId="ui-finance.ledger.rollover.available" />
     <HeadLabel translationId="ui-finance.ledger.rollover.addAvailableAs" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.setAllowances" size={1} />
     <HeadLabel translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
     <HeadLabel translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
   </Row>
@@ -30,6 +32,8 @@ const headLabels = (
 
 const RolloverLedgerBudgets = ({ fundTypesMap }) => {
   const renderBudgetFields = useCallback((elem, index, fields) => {
+    const { setAllowances } = fields.value[index];
+
     return (
       <Row>
         <Col xs={2}>
@@ -45,7 +49,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
             vertical
           />
         </Col>
-        <Col xs={2}>
+        <Col xs={1}>
           <Field
             component={TextField}
             label={null}
@@ -74,8 +78,15 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
           />
         </Col>
         <Col xs={1}>
+          <SetAllowancesField
+            elem={elem}
+            setAllowances={setAllowances}
+          />
+        </Col>
+        <Col xs={1}>
           <Field
             component={TextField}
+            disabled={!setAllowances}
             label={null}
             name={`${elem}.allowableEncumbrance`}
             type="number"
@@ -85,6 +96,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         <Col xs={1}>
           <Field
             component={TextField}
+            disabled={!setAllowances}
             label={null}
             name={`${elem}.allowableExpenditure`}
             type="number"

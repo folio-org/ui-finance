@@ -367,5 +367,14 @@
     "ledger.rolloverInProgress.hasErrors": "<b>Rollover</b> for <b>{ledgerName}</b> produced errors: ",
     "ledger.rollover.confirm.heading": "Fiscal year rollover",
     "ledger.rollover.confirm.message": "Ledger <b>{ledgerName}</b> for <b>{currentFYCode}</b> will be rolled over to <b>{chosenFYCode}</b>. Please confirm that you have completed the necessary details and are ready to proceed with rollover. This process may take several minutes to complete and cannot be undone.",
-    "ledger.rollover.confirm.btn": "Bekræft"
+    "ledger.rollover.confirm.btn": "Bekræft",
+    "transaction.releaseEncumbrance.button": "Release encumbrance",
+    "transaction.releaseEncumbrance.confirm": "Confirm",
+    "transaction.releaseEncumbrance.heading": "Release encumbrance",
+    "transaction.releaseEncumbrance.message": "Are you sure you want to release this encumbrance? Any remaining amount will be added back to the budget.",
+    "transaction.releaseEncumbrance.success": "Encumbrance was released",
+    "transaction.releaseEncumbrance.error.default": "Error while releasing encumbrance",
+    "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
+    "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
+    "ledger.rollover.setAllowances": "Set allowances"
 }

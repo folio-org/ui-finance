@@ -367,5 +367,14 @@
     "ledger.rolloverInProgress.hasErrors": "<b>Jahresübergang</b> für <b>{ledgerName}</b> führte zu Fehlern:",
     "ledger.rollover.confirm.heading": "Jahresübergang Haushaltsjahr",
     "ledger.rollover.confirm.message": "Der Etat <b> {ledgerName} </b> für <b> {currentFYCode} </b> wird auf <b> {chosenFYCode} </b> übertragen. Bitte bestätigen Sie, dass Sie die erforderlichen Angaben gemacht haben und bereit sind, mit dem Jahresübergang fortzufahren. Dieser Vorgang kann einige Minuten dauern und kann nicht rückgängig gemacht werden.",
-    "ledger.rollover.confirm.btn": "Bestätigen"
+    "ledger.rollover.confirm.btn": "Bestätigen",
+    "transaction.releaseEncumbrance.button": "Release encumbrance",
+    "transaction.releaseEncumbrance.confirm": "Confirm",
+    "transaction.releaseEncumbrance.heading": "Release encumbrance",
+    "transaction.releaseEncumbrance.message": "Are you sure you want to release this encumbrance? Any remaining amount will be added back to the budget.",
+    "transaction.releaseEncumbrance.success": "Encumbrance was released",
+    "transaction.releaseEncumbrance.error.default": "Error while releasing encumbrance",
+    "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
+    "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
+    "ledger.rollover.setAllowances": "Set allowances"
 }

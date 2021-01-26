@@ -367,5 +367,14 @@
     "ledger.rolloverInProgress.hasErrors": "أدى <b>التمديد</b> لـ <b>{ledgerName}</b> إلى أخطاء:",
     "ledger.rollover.confirm.heading": "تمديد السنة المالية",
     "ledger.rollover.confirm.message": "الدفتر <b>{ledgerName}</b> لـ <b>{currentFYCode}</b> سيتم تمديده إلى <b>{chosenFYCode}</b>. يرجى تأكيد قيامك باستكمال التفاصيل اللازمة واستعدادك لمتابعة التمديد. قد تستغرق هذه العملية عدة دقائق للإتمام ولا يمكن التراجع فيها.",
-    "ledger.rollover.confirm.btn": "تأكيد"
+    "ledger.rollover.confirm.btn": "تأكيد",
+    "transaction.releaseEncumbrance.button": "إصدار التكاليف",
+    "transaction.releaseEncumbrance.confirm": "تأكيد",
+    "transaction.releaseEncumbrance.heading": "إصدار التكاليف",
+    "transaction.releaseEncumbrance.message": "هل أنت متأكد من أنك تريد إصدار هذه التكاليف؟ ستتم إضافة أي مبلغ متبقي إلى الميزانية.",
+    "transaction.releaseEncumbrance.success": "تم إصدار التكاليف",
+    "transaction.releaseEncumbrance.error.default": "خطأ أثناء إصدار التكاليف",
+    "transaction.releaseEncumbrance.error.genericError": "تمت معالجة كل المعاملات المتوقعة بالفعل",
+    "permission.manually-release-encumbrances": "الشؤون المالية: أصدر التكاليف يدوياً",
+    "ledger.rollover.setAllowances": "ضبط البدلات"
 }

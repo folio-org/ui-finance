@@ -19,6 +19,7 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
+import { ENCUMBRANCE_STATUS } from '../../common/const';
 import {
   TRANSACTION_ACCORDION,
   TRANSACTION_ACCORDION_LABELS,
@@ -37,13 +38,14 @@ const TransactionDetails = ({
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [isReleaseConfirmation, toggleReleaseConfirmation] = useModalToggle();
   const isEncumbrance = transaction.transactionType === TRANSACTION_TYPES.encumbrance;
+  const isNotReleased = transaction.encumbrance?.status !== ENCUMBRANCE_STATUS.released;
   const onRelease = useCallback(() => {
     toggleReleaseConfirmation();
     releaseTransaction();
   }, [releaseTransaction, toggleReleaseConfirmation]);
   const releaseBtn = useMemo(
     () => (
-      <IfPermission perm="finance.release-encumbrance.item.post">
+      <IfPermission perm="ui-finance.manually-release-encumbrances">
         <Button
           buttonStyle="primary"
           marginBottom0
@@ -58,7 +60,7 @@ const TransactionDetails = ({
 
   return (
     <Pane
-      lastMenu={isEncumbrance ? releaseBtn : undefined}
+      lastMenu={(isEncumbrance && isNotReleased) ? releaseBtn : undefined}
       id="pane-transaction-details"
       defaultWidth="fill"
       dismissible

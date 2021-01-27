@@ -8,3 +8,7 @@ export const OVERALL_ROLLOVER_STATUS = {
   inProgress: 'In Progress',
   notStarted: 'Not Started',
 };
+
+export const ENCUMBRANCE_STATUS = {
+  released: 'Released',
+};

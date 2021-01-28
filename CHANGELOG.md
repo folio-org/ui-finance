@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Add label to transaction type "Rollover transfer". Refs UIF-282.
 * Allow user to intentionally reset budget allowances during rollover. Refs UIF-275.
 * Manually release encumbrances. Refs UIF-271.
 * Add Rollover confirmation modal so user can not start roll by mistake. Refs UIF-279.

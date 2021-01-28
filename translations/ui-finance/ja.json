@@ -348,7 +348,7 @@
     "financialSummary.availableBalance": "<b>Available balance: {availableBalance}</b>",
     "financialSummary.awaitingPayment": "Awaiting payment",
     "financialSummary.cashBalance": "<b>Cash balance: {cashBalance}</b>",
-    "financialSummary.description": "Description",
+    "financialSummary.description": "説明",
     "financialSummary.encumbered": "Encumbered",
     "financialSummary.expended": "Expended",
     "financialSummary.financialActivity": "Financial activity & overages",
@@ -376,5 +376,6 @@
     "transaction.releaseEncumbrance.error.default": "Error while releasing encumbrance",
     "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
     "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
-    "ledger.rollover.setAllowances": "Set allowances"
+    "ledger.rollover.setAllowances": "Set allowances",
+    "transaction.type.Rollover transfer": "Rollover transfer"
 }

@@ -339,7 +339,7 @@
     "ledger.rolloverInProgress.errorLoadingToFiscalYear": "خطأ في التحميل إلى كود السنة المالية",
     "ledger.rolloverInProgress.errorLoadingRolloverProgress": "خطأ في تحميل تقدم تمديد الدفتر",
     "ledger.rollover.errorExecute": "خطأ أثناء تنفيذ عملية التمديد",
-    "ledger.rolloverInProgress.rollingOverFinished": "تم انتهاء التمديد",
+    "ledger.rolloverInProgress.rollingOverFinished": "اكتمل التمديد",
     "ledger.rolloverInProgress.close": "إغلاق وعرض تفاصيل الدفتر",
     "financialSummary.allocated": "<b> إجمالي المخصص </b>",
     "financialSummary.allocationFrom": "انخفاض في التخصيص",
@@ -376,5 +376,6 @@
     "transaction.releaseEncumbrance.error.default": "خطأ أثناء إصدار التكاليف",
     "transaction.releaseEncumbrance.error.genericError": "تمت معالجة كل المعاملات المتوقعة بالفعل",
     "permission.manually-release-encumbrances": "الشؤون المالية: أصدر التكاليف يدوياً",
-    "ledger.rollover.setAllowances": "ضبط البدلات"
+    "ledger.rollover.setAllowances": "ضبط البدلات",
+    "transaction.type.Rollover transfer": "تمديد التحويل"
 }

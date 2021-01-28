@@ -376,5 +376,6 @@
     "transaction.releaseEncumbrance.error.default": "Error while releasing encumbrance",
     "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
     "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
-    "ledger.rollover.setAllowances": "Set allowances"
+    "ledger.rollover.setAllowances": "Set allowances",
+    "transaction.type.Rollover transfer": "Rollover transfer"
 }

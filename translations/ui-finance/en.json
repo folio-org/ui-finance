@@ -339,6 +339,7 @@
   "transaction.type.Encumbrance": "Encumbrance",
   "transaction.type.Payment": "Payment",
   "transaction.type.Pending payment": "Pending payment",
+  "transaction.type.Rollover transfer": "Rollover transfer",
   "transaction.type.Transfer": "Transfer",
   "transaction.type": "Type",
   "transaction.releaseEncumbrance.button": "Release encumbrance",

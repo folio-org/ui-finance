@@ -77,12 +77,14 @@ const TransactionDetailsContainer = ({
   );
 
   const releaseTransaction = useCallback(() => {
+    setTransaction();
     mutator.releaseEncumbrance.POST({ id: transactionId }).then(
       () => {
         showCallout({
           messageId: 'ui-finance.transaction.releaseEncumbrance.success',
           type: 'success',
         });
+        mutator.transactionDetails.GET().then(setTransaction);
       },
       async (response) => {
         let errorCode = null;

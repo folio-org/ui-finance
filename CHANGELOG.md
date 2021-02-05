@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Allow only positive allocation to or from budget - Update field validation. Refs UIF-280.
 * Add label to transaction type "Rollover transfer". Refs UIF-282.
 * Allow user to intentionally reset budget allowances during rollover. Refs UIF-275.
 * Manually release encumbrances. Refs UIF-271.

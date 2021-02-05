@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -47,9 +47,10 @@ const CreateTransactionContainer = ({
   const currency = fiscalYearCurrency || stripes.currency;
 
   const transactionTypeKey = transactionType.toLowerCase();
+  const initialValues = useMemo(() => ({ fundId }), [fundId]);
 
   const saveTransaction = useCallback(
-    async (formValue) => {
+    async ({ fundId: _, ...formValue }) => {
       const mutatorObject = mutator[transactionType];
 
       try {
@@ -92,10 +93,9 @@ const CreateTransactionContainer = ({
     <CreateTransactionModal
       fundId={fundId}
       funds={funds}
-      isRequiredTransferFrom={transactionType !== TRANSACTION_TYPES.allocation}
+      initialValues={initialValues}
       onClose={onClose}
       onSubmit={saveTransaction}
-      store={stripes.store}
       title={<FormattedMessage id={`ui-finance.transaction.${transactionTypeKey}.title`} />}
     />
   );

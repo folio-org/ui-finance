@@ -1,16 +1,25 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { validateRequired } from '@folio/stripes-acq-components';
+// eslint-disable-next-line react/prop-types
+export const validateTransactionForm = ({ fromFundId, fundId, toFundId }) => {
+  if (!fromFundId && !toFundId) {
+    return {
+      fromFundId: <FormattedMessage id="stripes-acq-components.validation.required" />,
+      toFundId: <FormattedMessage id="stripes-acq-components.validation.required" />,
+    };
+  }
 
-export const validateFund = (value, { fromFundId, toFundId }) => {
-  const validateRequiredMessage = validateRequired(value);
+  if (fromFundId === toFundId) {
+    return { toFundId: <FormattedMessage id="ui-finance.transaction.fundValidation" /> };
+  }
 
-  if (validateRequiredMessage) return validateRequiredMessage;
+  if (fromFundId !== fundId && toFundId !== fundId) {
+    return {
+      fromFundId: <FormattedMessage id="ui-finance.transaction.fundValidation2" />,
+      toFundId: <FormattedMessage id="ui-finance.transaction.fundValidation2" />,
+    };
+  }
 
-  return (
-    fromFundId === toFundId
-      ? <FormattedMessage id="ui-finance.transaction.fundValidation" />
-      : undefined
-  );
+  return {};
 };

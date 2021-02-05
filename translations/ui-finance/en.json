@@ -312,6 +312,7 @@
   "transaction.fiscalYear": "Fiscal year",
   "transaction.from": "From",
   "transaction.fundValidation": "Transfers and allocations can not be made from one budget to that same budget",
+  "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
   "transaction.information": "Information",
   "transaction.initialEncumbrance": "Initial encumbrance",
   "transaction.source.FiscalYear": "Fiscal year",

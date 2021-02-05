@@ -16,10 +16,10 @@ import {
 import {
   FieldSelectFinal,
   FieldTags,
-  validateRequired,
+  validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
-import { validateFund } from '../../common/utils';
+import { validateTransactionForm } from '../../common/utils';
 
 const CreateTransactionModal = ({
   fundId,
@@ -27,14 +27,10 @@ const CreateTransactionModal = ({
   onClose,
   funds,
   title,
-  isRequiredTransferFrom,
   values: formValues,
 }) => {
-  const transferTo = formValues.toFundId;
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
-  const isTransferFromReqired = isRequiredTransferFrom || (hasToFundIdProperty ? transferTo !== fundId : false);
-  const validateTransferFrom = isTransferFromReqired ? { validate: validateRequired } : {};
 
   const optionsFrom = (
     (!hasToFundIdProperty ||
@@ -82,8 +78,6 @@ const CreateTransactionModal = ({
               dataOptions={optionsFrom}
               label={<FormattedMessage id="ui-finance.transaction.from" />}
               name="fromFundId"
-              required={isTransferFromReqired}
-              {...validateTransferFrom}
             />
           </Col>
 
@@ -92,8 +86,6 @@ const CreateTransactionModal = ({
               dataOptions={optionsTo}
               label={<FormattedMessage id="ui-finance.transaction.to" />}
               name="toFundId"
-              required
-              validate={validateFund}
             />
           </Col>
         </Row>
@@ -105,7 +97,7 @@ const CreateTransactionModal = ({
               name="amount"
               type="number"
               required
-              validate={validateRequired}
+              validate={validateRequiredPositiveNumber}
             />
           </Col>
 
@@ -133,7 +125,6 @@ CreateTransactionModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
-  isRequiredTransferFrom: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
 };
 
@@ -144,4 +135,5 @@ CreateTransactionModal.defaultProps = {
 export default stripesFinalForm({
   navigationCheck: true,
   subscription: { values: true },
+  validate: validateTransactionForm,
 })(CreateTransactionModal);

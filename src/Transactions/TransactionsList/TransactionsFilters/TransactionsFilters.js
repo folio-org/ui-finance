@@ -16,7 +16,7 @@ import {
 } from '../../constants';
 import { ExpenseClassFilter } from './ExpenseClassFilter';
 
-const FILTERS = {
+export const FILTERS = {
   SOURCE: 'source',
   TRANSACTION_TYPE: 'transactionType',
   TAGS: 'tags.tagList',

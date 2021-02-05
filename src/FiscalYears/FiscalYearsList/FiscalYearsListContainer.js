@@ -13,6 +13,7 @@ import queryString from 'query-string';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  buildArrayFieldQuery,
   makeQueryBuilder,
   useLocationReset,
 } from '@folio/stripes-acq-components';
@@ -24,6 +25,7 @@ import FiscalYearsList from './FiscalYearsList';
 import {
   getKeywordQuery,
 } from './FiscalYearsListSearchConfig';
+import { FISCAL_YEAR_FILTERS } from '../constants';
 
 const RESULT_COUNT_INCREMENT = 30;
 const buildFiscalYearsQuery = makeQueryBuilder(
@@ -36,9 +38,10 @@ const buildFiscalYearsQuery = makeQueryBuilder(
     return `(${getKeywordQuery(query)})`;
   },
   'sortby name/sort.ascending',
+  { [FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT]: buildArrayFieldQuery.bind(null, [FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT]) },
 );
 
-const resetData = () => {};
+const resetData = () => { };
 
 const FiscalYearsListContainer = ({ mutator: originMutator, location, history }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps

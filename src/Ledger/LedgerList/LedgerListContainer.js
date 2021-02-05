@@ -13,13 +13,14 @@ import queryString from 'query-string';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  buildArrayFieldQuery,
   makeQueryBuilder,
   useLocationReset,
 } from '@folio/stripes-acq-components';
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import { ledgersResource } from '../../common/resources';
-
+import { LEDGER_FILTERS } from '../constants';
 import LedgersList from './LedgersList';
 import {
   getKeywordQuery,
@@ -37,6 +38,7 @@ const buildLedgersQuery = makeQueryBuilder(
     return `(${getKeywordQuery(query)})`;
   },
   'sortby name/sort.ascending',
+  { [LEDGER_FILTERS.ACQUISITIONS_UNIT]: buildArrayFieldQuery.bind(null, [LEDGER_FILTERS.ACQUISITIONS_UNIT]) },
 );
 
 const resetData = () => {};

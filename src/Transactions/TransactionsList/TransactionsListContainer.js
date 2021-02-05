@@ -12,6 +12,7 @@ import {
 } from '@folio/stripes/components';
 import {
   baseManifest,
+  buildArrayFieldQuery,
   buildFilterQuery,
   buildSortingQuery,
   connectQuery,
@@ -24,11 +25,14 @@ import {
 import {
   TRANSACTIONS_API,
 } from '../../common/const';
-
+import { FILTERS } from './TransactionsFilters/TransactionsFilters';
 import TransactionsList from './TransactionsList';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
+const customFiltersMap = {
+  [FILTERS.TAGS]: buildArrayFieldQuery.bind(null, [FILTERS.TAGS]),
+};
 
 const TransactionsListContainer = ({ mutator, resources, closePane, match }) => {
   const budgetId = match.params.budgetId;
@@ -106,7 +110,7 @@ TransactionsListContainer.manifest = Object.freeze({
           const fiscalYearId = budget.fiscalYearId;
           const requiredFilterQuery =
             `(fiscalYearId=${fiscalYearId} and (fromFundId=${fundId} or toFundId=${fundId}))`;
-          const filterQuery = buildFilterQuery(queryParams, (query) => `(id=${query}* or amount=${query}*)`);
+          const filterQuery = buildFilterQuery(queryParams, (query) => `(id=${query}* or amount=${query}*)`, customFiltersMap);
 
           return connectQuery(
             filterQuery ? `${requiredFilterQuery} and ${filterQuery}` : requiredFilterQuery,

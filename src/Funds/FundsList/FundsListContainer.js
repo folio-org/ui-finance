@@ -13,6 +13,7 @@ import queryString from 'query-string';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  buildArrayFieldQuery,
   makeQueryBuilder,
   useLocationReset,
 } from '@folio/stripes-acq-components';
@@ -22,7 +23,7 @@ import {
   fundsResource,
   ledgersResource,
 } from '../../common/resources';
-
+import { FUND_FILTERS } from '../constants';
 import FundsList from './FundsList';
 import {
   getKeywordQuery,
@@ -40,6 +41,10 @@ const buildFundsQuery = makeQueryBuilder(
     return `(${getKeywordQuery(query)})`;
   },
   'sortby name/sort.ascending',
+  {
+    [FUND_FILTERS.ACQUISITIONS_UNIT]: buildArrayFieldQuery.bind(null, [FUND_FILTERS.ACQUISITIONS_UNIT]),
+    [FUND_FILTERS.TAGS]: buildArrayFieldQuery.bind(null, [FUND_FILTERS.TAGS]),
+  },
 );
 
 const resetData = () => {};

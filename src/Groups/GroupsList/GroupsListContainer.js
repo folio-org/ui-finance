@@ -13,13 +13,14 @@ import queryString from 'query-string';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  buildArrayFieldQuery,
   makeQueryBuilder,
   useLocationReset,
 } from '@folio/stripes-acq-components';
 
 import { GROUPS_ROUTE } from '../../common/const';
 import { groupsResource } from '../../common/resources';
-
+import { GROUPS_FILTERS } from '../constants';
 import GroupsList from './GroupsList';
 import {
   getKeywordQuery,
@@ -36,6 +37,7 @@ const buildGroupsQuery = makeQueryBuilder(
     return `(${getKeywordQuery(query)})`;
   },
   'sortby name/sort.ascending',
+  { [GROUPS_FILTERS.ACQUISITIONS_UNIT]: buildArrayFieldQuery.bind(null, [GROUPS_FILTERS.ACQUISITIONS_UNIT]) },
 );
 
 const resetData = () => {};

@@ -4,10 +4,10 @@ import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
-import { get } from 'lodash';
 
 import {
   getAmountWithCurrency,
+  useAllFunds,
   useShowCallout,
   TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
@@ -20,7 +20,6 @@ import {
   allocationsResource,
   budgetResource,
   encumbrancesResource,
-  fundsResource,
   transfersResource,
 } from '../../common/resources';
 import {
@@ -36,7 +35,6 @@ const CreateTransactionContainer = ({
   fundId,
   mutator,
   onClose,
-  resources,
   stripes,
   fetchBudgetResources,
   intl,
@@ -47,7 +45,10 @@ const CreateTransactionContainer = ({
   const currency = fiscalYearCurrency || stripes.currency;
 
   const transactionTypeKey = transactionType.toLowerCase();
-  const initialValues = useMemo(() => ({ fundId }), [fundId]);
+  const initialValues = useMemo(() => ({
+    fundId,
+    toFundId: fundId,
+  }), [fundId]);
 
   const saveTransaction = useCallback(
     async ({ fundId: _, ...formValue }) => {
@@ -87,12 +88,13 @@ const CreateTransactionContainer = ({
     [budgetName, currency, fiscalYearId, showCallout],
   );
 
-  const funds = get(resources, ['funds', 'records'], []).map(f => ({ label: f.name, value: f.id }));
+  const { funds } = useAllFunds();
+  const fundsOptions = useMemo(() => funds?.map(f => ({ label: f.name, value: f.id })), [funds]);
 
   return (
     <CreateTransactionModal
       fundId={fundId}
-      funds={funds}
+      fundsOptions={fundsOptions}
       initialValues={initialValues}
       onClose={onClose}
       onSubmit={saveTransaction}
@@ -102,7 +104,6 @@ const CreateTransactionContainer = ({
 };
 
 CreateTransactionContainer.manifest = Object.freeze({
-  funds: fundsResource,
   budget: budgetResource,
   [TRANSACTION_TYPES.allocation]: allocationsResource,
   [TRANSACTION_TYPES.encumbrance]: encumbrancesResource,
@@ -116,7 +117,6 @@ CreateTransactionContainer.propTypes = {
   fundId: PropTypes.string.isRequired,
   mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
   fetchBudgetResources: PropTypes.func.isRequired,
   intl: PropTypes.object,

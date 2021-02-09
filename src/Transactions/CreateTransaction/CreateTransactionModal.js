@@ -25,7 +25,7 @@ const CreateTransactionModal = ({
   fundId,
   handleSubmit,
   onClose,
-  funds,
+  fundsOptions,
   title,
   values: formValues,
 }) => {
@@ -35,15 +35,15 @@ const CreateTransactionModal = ({
   const optionsFrom = (
     (!hasToFundIdProperty ||
     formValues.toFundId === fundId)
-      ? funds
-      : funds.filter(f => f.value === fundId)
+      ? fundsOptions
+      : fundsOptions.filter(f => f.value === fundId)
   );
 
   const optionsTo = (
     (!hasFromFundIdProperty ||
     formValues.fromFundId === fundId)
-      ? funds
-      : funds.filter(f => f.value === fundId)
+      ? fundsOptions
+      : fundsOptions.filter(f => f.value === fundId)
   );
 
   const footer = (
@@ -123,13 +123,13 @@ CreateTransactionModal.propTypes = {
   fundId: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  funds: PropTypes.arrayOf(PropTypes.object),
+  fundsOptions: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
   values: PropTypes.object.isRequired,
 };
 
 CreateTransactionModal.defaultProps = {
-  funds: [],
+  fundsOptions: [],
 };
 
 export default stripesFinalForm({

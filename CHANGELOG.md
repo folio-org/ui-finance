@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Allocation: set "To" budget as budget you are viewing by default. Refs UIF-284.
 * Allow only positive allocation to or from budget - Update field validation. Refs UIF-280.
 * Add label to transaction type "Rollover transfer". Refs UIF-282.
 * Allow user to intentionally reset budget allowances during rollover. Refs UIF-275.

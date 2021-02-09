@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
 import {
+  useAllFunds,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -16,7 +17,6 @@ import {
 import {
   groupByUrlIdResource,
   fiscalYearsResource,
-  fundsResource,
   groupSummariesResource,
 } from '../../common/resources';
 
@@ -25,7 +25,6 @@ import GroupDetails from './GroupDetails';
 
 const GroupDetailsContainer = ({
   mutator,
-  resources,
   match,
   history,
   location,
@@ -132,11 +131,11 @@ const GroupDetailsContainer = ({
     [groupId, showToast],
   );
 
+  const { funds } = useAllFunds();
+
   if (isLoading) {
     return <LoadingPane onClose={closePane} />;
   }
-
-  const funds = get(resources, ['funds', 'records'], []);
 
   return (
     <GroupDetails
@@ -158,7 +157,6 @@ GroupDetailsContainer.manifest = Object.freeze({
     ...groupByUrlIdResource,
     accumulate: true,
   },
-  funds: fundsResource,
   groupSummaries: groupSummariesResource,
   groupFiscalYears: {
     ...fiscalYearsResource,
@@ -174,7 +172,6 @@ GroupDetailsContainer.manifest = Object.freeze({
 
 GroupDetailsContainer.propTypes = {
   mutator: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,

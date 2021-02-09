@@ -60,35 +60,4 @@ describe('Group details', () => {
       expect(groupDetails.isPresent).to.be.false;
     });
   });
-
-  describe('click sort by name on Funds list', () => {
-    beforeEach(async function () {
-      await groupDetails.fundsAccordion.whenLoaded();
-      await groupDetails.fundsAccordion.sortByNameButton.click();
-    });
-
-    it('should be sorted desc by name (fundZ first)', () => {
-      expect(groupDetails.fundsAccordion.funds(0).cells(0).value).to.equal(fundZ.attrs.name);
-    });
-
-    describe('click sort by code on Funds list', () => {
-      beforeEach(async function () {
-        await groupDetails.fundsAccordion.sortByCodeButton.click();
-      });
-
-      it('should be sorted by code in desc (fundZ first)', () => {
-        expect(groupDetails.fundsAccordion.funds(0).cells(0).value).to.equal(fundZ.attrs.name);
-      });
-
-      describe('click sort by code on Funds list', () => {
-        beforeEach(async function () {
-          await groupDetails.fundsAccordion.sortByCodeButton.click();
-        });
-
-        it('should be sorted by code in asc (fundA first)', () => {
-          expect(groupDetails.fundsAccordion.funds(0).cells(0).value).to.equal(fundA.attrs.name);
-        });
-      });
-    });
-  });
 });

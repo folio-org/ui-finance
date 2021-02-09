@@ -28,6 +28,7 @@ const sorters = {
 
 const ConnectionListing = ({ items, currency, openItem, visibleColumns }) => {
   const resultsFormatter = useMemo(() => ({
+    [COLUMN_NAME]: (item) => (<span data-testid="nameColumn">{item[COLUMN_NAME]}</span>),
     allocated: item => (
       <AmountWithCurrencyField
         amount={item.allocated}

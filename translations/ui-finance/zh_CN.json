@@ -377,5 +377,6 @@
     "transaction.releaseEncumbrance.error.genericError": "所有预期交易已处理",
     "permission.manually-release-encumbrances": "财务：人工释放预支",
     "ledger.rollover.setAllowances": "设置限额",
-    "transaction.type.Rollover transfer": "展期转账"
+    "transaction.type.Rollover transfer": "展期转账",
+    "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing"
 }

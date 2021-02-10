@@ -377,5 +377,6 @@
     "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
     "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
     "ledger.rollover.setAllowances": "Set allowances",
-    "transaction.type.Rollover transfer": "Rollover transfer"
+    "transaction.type.Rollover transfer": "Rollover transfer",
+    "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing"
 }

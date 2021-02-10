@@ -6,6 +6,7 @@ import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 import TagsPaneInteractor from '../../../interactors/common/tags/TagsPane';
 
 describe('Fund details tags', () => {
+  this.timeout(10000);
   setupApplication();
 
   const fundDetails = new FundDetailsInteractor();
@@ -67,7 +68,7 @@ describe('Fund details tags', () => {
 
     describe('delete tag from the list', () => {
       beforeEach(async function () {
-        await tagsPane.selectedTags.list(0).deleteTag().timeout(7000);
+        await tagsPane.selectedTags.list(0).deleteTag();
       });
 
       it('should delete one tag', () => {

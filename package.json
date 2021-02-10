@@ -383,6 +383,7 @@
     "react": "~16.13.0",
     "react-dom": "~16.13.0",
     "react-intl": "^5.7.1",
+    "react-query": "^3.6.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
@@ -412,6 +413,7 @@
     "moment": "^2.24.0",
     "react": "*",
     "react-intl": "^5.7.1",
+    "react-query": "^3.6.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
   }

@@ -32,6 +32,7 @@ export const ROLLOVER_LEDGER_ACCORDION_LABELS = {
 
 const RolloverLedger = ({
   currentFiscalYear,
+  fiscalYears,
   fundTypesMap,
   goToCreateFY,
   handleSubmit,
@@ -74,6 +75,7 @@ const RolloverLedger = ({
             >
               <RolloverFiscalYears
                 currentFiscalYear={currentFiscalYear}
+                fiscalYears={fiscalYears}
                 goToCreateFY={goToCreateFY}
               />
               <AccordionStatus>
@@ -102,6 +104,7 @@ const RolloverLedger = ({
 
 RolloverLedger.propTypes = {
   currentFiscalYear: PropTypes.object,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
   fundTypesMap: PropTypes.object,
   goToCreateFY: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,

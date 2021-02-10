@@ -34,6 +34,8 @@
       "finance.ledgers": "1.0",
       "finance.order-transaction-summaries": "1.0",
       "finance.transactions": "3.0 4.0",
+      "invoice": "7.0",
+      "order-lines": "2.0",
       "tags": "1.0",
       "users": "15.0"
     },
@@ -254,6 +256,8 @@
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",
+          "invoice.invoices.item.get",
+          "orders.po-lines.item.get",
           "tags.collection.get",
           "users.collection.get"
         ]

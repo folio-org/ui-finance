@@ -26,11 +26,9 @@ const queryFnsMap = {
 export const useSourceValue = (transaction) => {
   const ky = useOkapiKy();
 
-  let result = { isLoading: false, data: null };
-
   const queryFn = queryFnsMap[transaction.source];
 
-  result = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
+  const result = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
 
   return result;
 };

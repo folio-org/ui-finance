@@ -8,24 +8,29 @@ import {
 
 import { TRANSACTION_SOURCE } from '../../../constants';
 
+const queryFnsMap = {
+  [TRANSACTION_SOURCE.invoice]: async (ky, transaction) => {
+    const { folioInvoiceNo } = await ky(`${INVOICES_API}/${transaction.sourceInvoiceId}`).json();
+
+    return folioInvoiceNo;
+  },
+  [TRANSACTION_SOURCE.poLine]: async (ky, transaction) => {
+    const { poLineNumber } = await ky(`${LINES_API}/${transaction.encumbrance?.sourcePoLineId}`).json();
+
+    return poLineNumber;
+  },
+  [TRANSACTION_SOURCE.user]: () => TRANSACTION_SOURCE.user,
+  [TRANSACTION_SOURCE.fiscalYear]: () => TRANSACTION_SOURCE.fiscalYear,
+};
+
 export const useSourceValue = (transaction) => {
   const ky = useOkapiKy();
-  const isInvoiceSource = transaction.source === TRANSACTION_SOURCE.invoice;
 
-  const { isLoading: isInvoiceLoading, data: invoice } = useQuery(
-    transaction.id,
-    () => ky(`${INVOICES_API}/${transaction.sourceInvoiceId}`).json(),
-    { enabled: isInvoiceSource },
-  );
+  let result = { isLoading: false, data: null };
 
-  const { isLoading: isPoLineLoading, data: poLine } = useQuery(
-    transaction.id,
-    () => ky(`${LINES_API}/${transaction.encumbrance?.sourcePoLineId}`).json(),
-    { enabled: transaction.source === TRANSACTION_SOURCE.poLine },
-  );
+  const queryFn = queryFnsMap[transaction.source];
 
-  return ({
-    isLoading: isInvoiceLoading || isPoLineLoading,
-    sourceValue: isInvoiceSource ? invoice?.folioInvoiceNo : poLine?.poLineNumber,
-  });
+  result = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
+
+  return result;
 };

@@ -19,7 +19,6 @@ import {
 } from '../../common/const';
 import {
   budgetsResource,
-  fiscalYearsResource,
   fundsResource,
   fundTypesResource,
   ledgerByUrlIdResource,
@@ -29,6 +28,7 @@ import {
 } from '../../common/resources';
 import RolloverLedger from './RolloverLedger';
 import useRolloverData from './useRolloverData';
+import { useRolloverFiscalYears } from './useRolloverFiscalYears';
 import {
   ADD_AVAILABLE_TO,
   ORDER_TYPE,
@@ -119,6 +119,8 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     });
   }, [history, ledgerId, location.search]);
 
+  const { fiscalYears } = useRolloverFiscalYears(series);
+
   if (isLoading || !budgets || !currentFiscalYear || !funds || !fundTypesMap) {
     return (
       <LoadingView onClose={close} />
@@ -129,6 +131,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
     <>
       <RolloverLedger
         currentFiscalYear={currentFiscalYear}
+        fiscalYears={fiscalYears}
         fundTypesMap={fundTypesMap}
         goToCreateFY={goToCreateFY}
         initialValues={initial}
@@ -147,7 +150,7 @@ const RolloverLedgerContainer = ({ resources, mutator, match, history, location 
               values={{
                 ledgerName: ledger?.name,
                 currentFYCode: currentFiscalYear?.code,
-                chosenFYCode: resources.fiscalYears.records.find(({ id }) => id === savingValues?.toFiscalYearId)?.code,
+                chosenFYCode: fiscalYears?.find(({ id }) => id === savingValues?.toFiscalYearId)?.code,
               }}
             />
           )}
@@ -187,7 +190,6 @@ RolloverLedgerContainer.manifest = Object.freeze({
   },
   ledgerRollover: ledgerRolloverResource,
   ledgerRolloverProgress: ledgerRolloverProgressResource,
-  fiscalYears: fiscalYearsResource,
 });
 
 RolloverLedgerContainer.propTypes = {

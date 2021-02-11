@@ -15,9 +15,9 @@ import {
 import { IfPermission } from '@folio/stripes/core';
 import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
-import { FiscalYearField } from '../../common/FiscalYearField';
+import RolloverFiscalYearField from './RolloverFiscalYearField';
 
-function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
+function RolloverFiscalYears({ currentFiscalYear, fiscalYears, goToCreateFY }) {
   return (
     <>
       <Headline size="large" margin="medium" tag="h3">
@@ -37,13 +37,10 @@ function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
           />
         </Col>
         <Col xs={3}>
-          {currentFiscalYear?.series && (
-            <FiscalYearField
-              name="toFiscalYearId"
-              required
-              series={currentFiscalYear.series}
-            />
-          )}
+          <RolloverFiscalYearField
+            currentYearPeriodStart={currentFiscalYear?.periodStart}
+            fiscalYears={fiscalYears}
+          />
           <IfPermission perm="finance.fiscal-years.item.post">
             <Button
               buttonStyle="link"
@@ -91,6 +88,7 @@ function RolloverFiscalYears({ currentFiscalYear, goToCreateFY }) {
 
 RolloverFiscalYears.propTypes = {
   currentFiscalYear: PropTypes.object,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
   goToCreateFY: PropTypes.func.isRequired,
 };
 

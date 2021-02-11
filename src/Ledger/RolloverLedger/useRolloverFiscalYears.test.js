@@ -28,14 +28,12 @@ describe('useRolloverFiscalYears', () => {
   });
 
   xit('should return response array', async () => {
-    useOkapiKy.mockClear().mockReturnValue(() => {
-      return ({
-        json: () => {
-          return {
-            data: { fiscalYears: [{ id: 'fyId' }] },
-          };
-        },
-      });
+    useOkapiKy.mockClear().mockReturnValue({
+      get: () => ({
+        json: () => ({
+          data: { fiscalYears: [{ id: 'fyId' }] },
+        }),
+      }),
     });
 
     const { result, waitFor } = renderHook(() => useRolloverFiscalYears('FY'), { wrapper });

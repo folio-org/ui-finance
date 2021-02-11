@@ -1,4 +1,3 @@
-import queryString from 'query-string';
 import { useQuery } from 'react-query';
 
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
@@ -9,13 +8,13 @@ import { FISCAL_YEARS_API } from '../../common/const';
 export const useRolloverFiscalYears = (series) => {
   const ky = useOkapiKy();
 
-  const params = {
+  const searchParams = {
     limit: LIMIT_MAX,
     query: `series=="${series}" sortby periodStart`,
   };
   const { data: { fiscalYears } = {}, isLoading } = useQuery(
     ['finance', 'fiscal-years', series],
-    () => ky(`${FISCAL_YEARS_API}?${queryString.stringify(params)}`).json(),
+    () => ky.get(`${FISCAL_YEARS_API}`, { searchParams }).json(),
     { enabled: Boolean(series) },
   );
 

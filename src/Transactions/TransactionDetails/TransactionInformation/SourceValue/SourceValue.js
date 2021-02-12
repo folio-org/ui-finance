@@ -1,23 +1,13 @@
-import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
-import { getSourceLink } from './utils';
+import { useSourceLink } from './useSourceLink';
 
 const SourceValue = ({ transaction }) => {
-  const sourceLink = useMemo(() => getSourceLink(transaction), [transaction]);
+  const intl = useIntl();
+  const sourceLink = useSourceLink(transaction, intl);
 
-  return sourceLink
-    ? (
-      <Link
-        data-testid="transaction-source-link"
-        to={sourceLink}
-      >
-        <FormattedMessage id={`ui-finance.transaction.source.${transaction.source}`} />
-      </Link>
-    )
-    : <FormattedMessage id={`ui-finance.transaction.source.${transaction.source}`} />;
+  return sourceLink || intl.formatMessage({ id: `ui-finance.transaction.source.${transaction.source}` });
 };
 
 SourceValue.propTypes = {

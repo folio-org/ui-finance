@@ -1,28 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
-import { Loading } from '@folio/stripes/components';
-
-import { useSource } from './useSource';
+import { useSourceLink } from './useSourceLink';
 
 const SourceValue = ({ transaction }) => {
   const intl = useIntl();
-  const { isLoading, sourceLink, sourceValue } = useSource(transaction, intl);
+  const sourceLink = useSourceLink(transaction, intl);
 
-  if (isLoading) return <Loading />;
-
-  return sourceLink
-    ? (
-      <Link
-        data-testid="transaction-source-link"
-        to={sourceLink}
-      >
-        {sourceValue}
-      </Link>
-    )
-    : sourceValue;
+  return sourceLink || intl.formatMessage({ id: `ui-finance.transaction.source.${transaction.source}` });
 };
 
 SourceValue.propTypes = {

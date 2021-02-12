@@ -1,14 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 
 import { TRANSACTION_SOURCE } from '../../../constants';
 import {
-  useSource,
-} from './useSource';
+  useSourceLink,
+} from './useSourceLink';
 import SourceValue from './SourceValue';
 
-jest.mock('./useSource', () => ({ useSource: jest.fn() }));
+jest.mock('./useSourceLink', () => ({ useSourceLink: jest.fn() }));
 
 const invoiceTransaction = {
   source: TRANSACTION_SOURCE.invoice,
@@ -19,42 +18,31 @@ const userTransaction = {
 };
 
 const renderSourceValue = (transaction) => render(
-  <MemoryRouter>
-    <SourceValue transaction={transaction} />
-  </MemoryRouter>,
+  <SourceValue transaction={transaction} />,
 );
 
 describe('SourceValue', () => {
   describe('Invoice source', () => {
     beforeEach(() => {
-      useSource.mockClear().mockReturnValue({
-        isLoading: false,
-        sourceValue: '1001-1',
-        sourceLink: 'invoiceLink',
-      });
+      useSourceLink.mockClear().mockReturnValue('1001-1');
     });
 
-    it('should render invoice number with hyperlink', () => {
-      const { getByText, getByTestId } = renderSourceValue(invoiceTransaction);
+    it('should render invoice number', () => {
+      const { getByText } = renderSourceValue(invoiceTransaction);
 
       expect(getByText('1001-1')).toBeDefined();
-      expect(getByTestId('transaction-source-link')).toBeDefined();
     });
   });
 
   describe('User source', () => {
     beforeEach(() => {
-      useSource.mockClear().mockReturnValue({
-        isLoading: false,
-        sourceValue: 'User',
-      });
+      useSourceLink.mockClear().mockReturnValue(null);
     });
 
-    it('should render User source without hyperlink', () => {
-      const { getByText, queryByTestId } = renderSourceValue(userTransaction);
+    it('should render User source', () => {
+      const { getByText } = renderSourceValue(userTransaction);
 
-      expect(getByText('User')).toBeDefined();
-      expect(queryByTestId('transaction-source-link')).toBeNull();
+      expect(getByText('ui-finance.transaction.source.User')).toBeDefined();
     });
   });
 });

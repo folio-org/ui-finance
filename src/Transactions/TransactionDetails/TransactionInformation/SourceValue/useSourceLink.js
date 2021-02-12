@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
+import { Loading } from '@folio/stripes/components';
 import { useOkapiKy } from '@folio/stripes/core';
 import {
   LINES_API,
@@ -23,17 +25,24 @@ const queryFnsMap = {
   },
 };
 
-export const useSource = (transaction, intl) => {
+export const useSourceLink = (transaction, intl) => {
   const ky = useOkapiKy();
-  const sourceLink = useMemo(() => getSourceLink(transaction), [transaction]);
+  const sourceLink = getSourceLink(transaction);
 
   const queryFn = queryFnsMap[transaction.source];
 
   const { isLoading, data } = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
 
-  return ({
-    isLoading,
-    sourceLink,
-    sourceValue: data || intl.formatMessage({ id: `ui-finance.transaction.source.${transaction.source}` }),
-  });
+  if (isLoading) return <Loading />;
+
+  return (
+    sourceLink && (
+      <Link
+        data-testid="transaction-source-link"
+        to={sourceLink}
+      >
+        {data || intl.formatMessage({ id: `ui-finance.transaction.source.${transaction.source}` })}
+      </Link>
+    )
+  );
 };

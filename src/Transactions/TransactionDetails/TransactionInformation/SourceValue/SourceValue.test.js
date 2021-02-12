@@ -4,11 +4,11 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { TRANSACTION_SOURCE } from '../../../constants';
 import {
-  useSourceValue,
-} from './useSourceValue';
+  useSource,
+} from './useSource';
 import SourceValue from './SourceValue';
 
-jest.mock('./useSourceValue', () => ({ useSourceValue: jest.fn() }));
+jest.mock('./useSource', () => ({ useSource: jest.fn() }));
 
 const invoiceTransaction = {
   source: TRANSACTION_SOURCE.invoice,
@@ -27,9 +27,10 @@ const renderSourceValue = (transaction) => render(
 describe('SourceValue', () => {
   describe('Invoice source', () => {
     beforeEach(() => {
-      useSourceValue.mockClear().mockReturnValue({
+      useSource.mockClear().mockReturnValue({
         isLoading: false,
-        data: '1001-1',
+        sourceValue: '1001-1',
+        sourceLink: 'invoiceLink',
       });
     });
 
@@ -43,16 +44,16 @@ describe('SourceValue', () => {
 
   describe('User source', () => {
     beforeEach(() => {
-      useSourceValue.mockClear().mockReturnValue({
+      useSource.mockClear().mockReturnValue({
         isLoading: false,
-        data: 'User',
+        sourceValue: 'User',
       });
     });
 
     it('should render User source without hyperlink', () => {
       const { getByText, queryByTestId } = renderSourceValue(userTransaction);
 
-      expect(getByText('ui-finance.transaction.source.User')).toBeDefined();
+      expect(getByText('User')).toBeDefined();
       expect(queryByTestId('transaction-source-link')).toBeNull();
     });
   });

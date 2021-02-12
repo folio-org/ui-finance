@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
@@ -7,6 +8,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { TRANSACTION_SOURCE } from '../../../constants';
+import { getSourceLink } from './utils';
 
 const queryFnsMap = {
   [TRANSACTION_SOURCE.invoice]: async (ky, transaction) => {
@@ -19,16 +21,19 @@ const queryFnsMap = {
 
     return poLineNumber;
   },
-  [TRANSACTION_SOURCE.user]: () => TRANSACTION_SOURCE.user,
-  [TRANSACTION_SOURCE.fiscalYear]: () => TRANSACTION_SOURCE.fiscalYear,
 };
 
-export const useSourceValue = (transaction) => {
+export const useSource = (transaction, intl) => {
   const ky = useOkapiKy();
+  const sourceLink = useMemo(() => getSourceLink(transaction), [transaction]);
 
   const queryFn = queryFnsMap[transaction.source];
 
-  const result = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
+  const { isLoading, data } = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
 
-  return result;
+  return ({
+    isLoading,
+    sourceLink,
+    sourceValue: data || intl.formatMessage({ id: `ui-finance.transaction.source.${transaction.source}` }),
+  });
 };

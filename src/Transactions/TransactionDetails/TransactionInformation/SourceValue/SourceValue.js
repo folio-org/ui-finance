@@ -1,16 +1,15 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 import { Loading } from '@folio/stripes/components';
 
-import { getSourceLink } from './utils';
-import { useSourceValue } from './useSourceValue';
+import { useSource } from './useSource';
 
 const SourceValue = ({ transaction }) => {
-  const { isLoading, data: sourceValue } = useSourceValue(transaction);
-  const sourceLink = useMemo(() => getSourceLink(transaction), [transaction]);
+  const intl = useIntl();
+  const { isLoading, sourceLink, sourceValue } = useSource(transaction, intl);
 
   if (isLoading) return <Loading />;
 
@@ -20,10 +19,10 @@ const SourceValue = ({ transaction }) => {
         data-testid="transaction-source-link"
         to={sourceLink}
       >
-        {sourceValue || <FormattedMessage id={`ui-finance.transaction.source.${transaction.source}`} />}
+        {sourceValue}
       </Link>
     )
-    : <FormattedMessage id={`ui-finance.transaction.source.${sourceValue}`} />;
+    : sourceValue;
 };
 
 SourceValue.propTypes = {

@@ -369,7 +369,7 @@
     "ledger.rollover.confirm.message": "Contabilidade <b>{ledgerName}</b> para <b>{currentFYCode}</b> será transferido para <b>{chosenFYCode}</b>. Confirme se você preencheu os detalhes necessários e está pronto para prosseguir com o rollover. Esse processo pode levar vários minutos para ser concluído e não pode ser desfeito.",
     "ledger.rollover.confirm.btn": "Confirmar",
     "transaction.releaseEncumbrance.button": "Release encumbrance",
-    "transaction.releaseEncumbrance.confirm": "Confirm",
+    "transaction.releaseEncumbrance.confirm": "Confirmar",
     "transaction.releaseEncumbrance.heading": "Release encumbrance",
     "transaction.releaseEncumbrance.message": "Are you sure you want to release this encumbrance? Any remaining amount will be added back to the budget.",
     "transaction.releaseEncumbrance.success": "Encumbrance was released",

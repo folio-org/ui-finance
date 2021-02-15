@@ -27,11 +27,11 @@ describe('useRolloverFiscalYears', () => {
     expect(result.current.fiscalYears).toBeUndefined();
   });
 
-  xit('should return response array', async () => {
+  it('should return response array', async () => {
     useOkapiKy.mockClear().mockReturnValue({
       get: () => ({
         json: () => ({
-          data: { fiscalYears: [{ id: 'fyId' }] },
+          fiscalYears: [{ id: 'fyId' }],
         }),
       }),
     });

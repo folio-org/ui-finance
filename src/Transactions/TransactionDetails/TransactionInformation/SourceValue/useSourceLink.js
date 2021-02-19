@@ -14,9 +14,9 @@ import { getSourceLink } from './utils';
 
 const queryFnsMap = {
   [TRANSACTION_SOURCE.invoice]: async (ky, transaction) => {
-    const { folioInvoiceNo } = await ky(`${INVOICES_API}/${transaction.sourceInvoiceId}`).json();
+    const { vendorInvoiceNo } = await ky(`${INVOICES_API}/${transaction.sourceInvoiceId}`).json();
 
-    return folioInvoiceNo;
+    return vendorInvoiceNo;
   },
   [TRANSACTION_SOURCE.poLine]: async (ky, transaction) => {
     const { poLineNumber } = await ky(`${LINES_API}/${transaction.encumbrance?.sourcePoLineId}`).json();

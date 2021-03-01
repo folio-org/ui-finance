@@ -113,8 +113,8 @@
     "fiscalYear.information.available": "可用",
     "fiscalYear.information.description": "描述",
     "fiscalYear.information.name": "名称",
-    "fiscalYear.information.periodEnd": "期间结束日期",
-    "fiscalYear.information.periodStart": "期间开始日期",
+    "fiscalYear.information.periodEnd": "期间终止日期",
+    "fiscalYear.information.periodStart": "期间起始日期",
     "fiscalYear.information.unavailable": "不可用",
     "fiscalYear.list.description": "描述",
     "fiscalYear.list.name": "名称",
@@ -318,7 +318,7 @@
     "ledger.rollover.allowableExpenditure": "允许支出，％",
     "ledger.rollover.addAvailableTo.allocation": "分配",
     "ledger.rollover.periodBeginDate": "周期开始日期",
-    "ledger.rollover.periodEndDate": "周期结束日期",
+    "ledger.rollover.periodEndDate": "周期终止日期",
     "ledger.rollover.restrictEncumbrance": "不限制预留",
     "ledger.rollover.restrictExpenditures": "不限制支出",
     "ledger.rollover.noFundType": "无经费类型",
@@ -378,5 +378,5 @@
     "permission.manually-release-encumbrances": "财务：人工释放预支",
     "ledger.rollover.setAllowances": "设置限额",
     "transaction.type.Rollover transfer": "展期转账",
-    "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing"
+    "transaction.fundValidation2": "必须使用当前正在查看的预算填充“分配至”或“分配自”中的至少1个"
 }

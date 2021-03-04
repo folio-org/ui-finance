@@ -2,8 +2,11 @@ import {
   interactor,
   Interactor,
   isPresent,
+  text,
   value,
 } from '@bigtest/interactor';
+
+import { TextFieldInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from '../common/Button';
 
@@ -14,11 +17,12 @@ export default interactor(class FiscalYearFormInteractor {
   saveButton = new Interactor('[data-test-save-button]');
   closePane = new Button('[icon=times]');
 
-  name = new Interactor('input[name="name"]');
+  name = new TextFieldInteractor('input[name="name"]');
   nameValue = value('input[name="name"]');
-  code = new Interactor('input[name="code"]');
-  periodStart = new Interactor('input[name="periodStart"]');
-  periodEnd = new Interactor('input[name="periodEnd"]');
+  code = new TextFieldInteractor('input[name="code"]');
+  periodStart = new TextFieldInteractor('input[name="periodStart"]');
+  periodEnd = new TextFieldInteractor('input[name="periodEnd"]');
+  codeValidationMessage = text('[data-test-col-fy-form-code] [class*=feedbackError---]');
 
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);

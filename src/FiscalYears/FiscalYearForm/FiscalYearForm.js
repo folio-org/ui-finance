@@ -109,7 +109,10 @@ const FiscalYearForm = ({
                         />
                       </Col>
 
-                      <Col xs={4}>
+                      <Col
+                        xs={4}
+                        data-test-col-fy-form-code
+                      >
                         <Field
                           component={TextField}
                           label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}

@@ -376,6 +376,7 @@
   "fund.actions.nameIsNotUnique.confirmation.message": "Warning: You are about to add a fund with the same name as an existing fund. Would you like to complete this action?",
   "ledger.code.isInUse": "This Ledger code is already in use.",
   "ledger.name.isInUse": "This Ledger name is already in use.",
+  "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
 
   "noPermissionsMessage": "You do not have permissions for this page.",
   "permission.acq.unit.assignment.assign": "Finance: Assign acquisition units to new record",

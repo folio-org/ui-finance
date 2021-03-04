@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Fiscal year code missing field validation. Refs UIF-289.
 * Transactions: display POL or Invoice number as Hyperlink to corresponding record. Refs UIF-283.
 * Limit selection of fiscal years during rollover to upcoming years. Refs UIF-286.
 * Allocation: set "To" budget as budget you are viewing by default. Refs UIF-284.

@@ -51,7 +51,8 @@ const FiscalYearForm = ({
 
   const validateName = useCallback(
     (value) => validateFYName(ky, initialValues.id, value),
-    [initialValues.id, ky],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [initialValues.id],
   );
 
   const isEditMode = Boolean(initialValues.id);

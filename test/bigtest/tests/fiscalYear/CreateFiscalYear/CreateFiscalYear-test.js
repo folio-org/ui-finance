@@ -34,19 +34,4 @@ describe('Fiscal year create form', () => {
       expect(fiscalYearList.isPresent).to.be.true;
     });
   });
-
-  describe('create new fiscal year form', () => {
-    beforeEach(async function () {
-      await fiscalYearForm.code.fillAndBlur('Tes code');
-      await fiscalYearForm.name.fillAndBlur('Test name');
-      await fiscalYearForm.periodStart.fillAndBlur('2019-01-01');
-      await fiscalYearForm.periodEnd.fillAndBlur('2019-12-31');
-      await fiscalYearForm.saveButton.click();
-    });
-
-    // it('save fiscal year form', () => {
-    //   expect(fiscalYearForm.isPresent).to.be.false;
-    //   expect(fiscalYearList.isPresent).to.be.true;
-    // });
-  });
 });

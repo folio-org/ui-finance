@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 
+import { useOkapiKy } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
 import {
   Accordion,
@@ -32,6 +33,7 @@ import {
   FISCAL_YEAR_ACCORDION_LABELS,
   FISCAL_YEAR_ACCORDION,
 } from '../constants';
+import { validateFYName } from './validateFYName';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
@@ -43,7 +45,14 @@ const FiscalYearForm = ({
   pristine,
   submitting,
 }) => {
+  const ky = useOkapiKy();
+
   const closeForm = useCallback(() => onCancel(), [onCancel]);
+
+  const validateName = useCallback(
+    (value) => validateFYName(ky, initialValues.id, value),
+    [initialValues.id, ky],
+  );
 
   const isEditMode = Boolean(initialValues.id);
   const metadata = initialValues.metadata;
@@ -96,17 +105,22 @@ const FiscalYearForm = ({
                           type="text"
                           required
                           validate={validateRequired}
+                          validateFields={[]}
                         />
                       </Col>
 
-                      <Col xs={4}>
+                      <Col
+                        xs={4}
+                        data-test-col-fy-form-code
+                      >
                         <Field
                           component={TextField}
                           label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
                           name="code"
                           type="text"
                           required
-                          validate={validateRequired}
+                          validate={validateName}
+                          validateFields={[]}
                         />
                       </Col>
 
@@ -127,6 +141,7 @@ const FiscalYearForm = ({
                           name="periodStart"
                           required
                           validate={validateRequired}
+                          validateFields={[]}
                         />
                       </Col>
 
@@ -136,6 +151,7 @@ const FiscalYearForm = ({
                           name="periodEnd"
                           required
                           validate={validateRequired}
+                          validateFields={[]}
                         />
                       </Col>
 
@@ -145,6 +161,7 @@ const FiscalYearForm = ({
                           label={<FormattedMessage id="ui-finance.fiscalYear.information.description" />}
                           name="description"
                           type="text"
+                          validateFields={[]}
                         />
                       </Col>
                     </Row>
@@ -173,4 +190,5 @@ FiscalYearForm.defaultProps = {
 
 export default stripesForm({
   navigationCheck: true,
+  validateOnBlur: true,
 })(FiscalYearForm);

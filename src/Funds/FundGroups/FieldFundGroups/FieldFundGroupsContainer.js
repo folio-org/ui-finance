@@ -46,6 +46,7 @@ function FieldFundGroupsContainer({ name, resources }) {
       itemToString={itemToString}
       formatter={formatter}
       filter={filter}
+      validateFields={[]}
     />
   );
 }

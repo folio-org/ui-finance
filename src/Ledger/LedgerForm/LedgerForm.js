@@ -181,4 +181,5 @@ LedgerForm.defaultProps = {
 
 export default stripesFinalForm({
   navigationCheck: true,
+  validateOnBlur: true,
 })(LedgerForm);

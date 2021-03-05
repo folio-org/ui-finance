@@ -196,6 +196,7 @@ const FundForm = ({
                         type="text"
                         required
                         validate={validateFundName}
+                        validateFields={[]}
                       />
                     </Col>
 
@@ -210,6 +211,7 @@ const FundForm = ({
                         type="text"
                         required
                         validate={validateFundCode}
+                        validateFields={[]}
                       />
                     </Col>
 
@@ -222,6 +224,7 @@ const FundForm = ({
                         labelId="ui-finance.fund.information.ledger"
                         name="fund.ledgerId"
                         required
+                        validateFields={['fund.name']}
                       />
                     </Col>
 
@@ -235,6 +238,7 @@ const FundForm = ({
                         name="fund.fundStatus"
                         required
                         validate={validateRequired}
+                        validateFields={[]}
                       />
                     </Col>
                   </Row>
@@ -258,6 +262,7 @@ const FundForm = ({
                         dataOptions={fundTypeOptions}
                         labelId="ui-finance.fund.information.type"
                         name="fund.fundTypeId"
+                        validateFields={[]}
                       />
                     </Col>
 
@@ -291,6 +296,7 @@ const FundForm = ({
                         itemToString={itemToString}
                         formatter={formatter}
                         filter={filter}
+                        validateFields={[]}
                       />
                     </Col>
 
@@ -305,6 +311,7 @@ const FundForm = ({
                         itemToString={itemToString}
                         formatter={formatter}
                         filter={filter}
+                        validateFields={[]}
                       />
                     </Col>
 
@@ -319,6 +326,7 @@ const FundForm = ({
                         type="text"
                         required
                         validate={validateRequired}
+                        validateFields={[]}
                       />
                     </Col>
                   </Row>
@@ -332,6 +340,7 @@ const FundForm = ({
                         label={<FormattedMessage id="ui-finance.fund.information.description" />}
                         name="fund.description"
                         type="text"
+                        validateFields={[]}
                       />
                     </Col>
                   </Row>

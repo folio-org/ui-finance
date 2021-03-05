@@ -9,7 +9,7 @@ import { getFiscalYearsForSelect } from '../utils';
 
 import FiscalYearField from './FiscalYearField';
 
-function FiscalYearFieldContainer({ resources, name, required, label, disabled }) {
+function FiscalYearFieldContainer({ resources, name, required, label, disabled, validateFields }) {
   const fiscalYears = getFiscalYearsForSelect(resources);
 
   return (
@@ -19,6 +19,7 @@ function FiscalYearFieldContainer({ resources, name, required, label, disabled }
       name={name}
       required={required}
       disabled={disabled}
+      validateFields={validateFields}
     />
   );
 }
@@ -35,12 +36,14 @@ FiscalYearFieldContainer.propTypes = {
   disabled: PropTypes.bool,
   // eslint-disable-next-line react/no-unused-prop-types
   series: PropTypes.string,
+  validateFields: PropTypes.arrayOf(PropTypes.string),
 };
 
 FiscalYearFieldContainer.defaultProps = {
   label: <FormattedMessage id="ui-finance.budget.fiscalYear" />,
   required: false,
   disabled: false,
+  validateFields: [],
 };
 
 export default stripesConnect(FiscalYearFieldContainer);

@@ -5,7 +5,6 @@ import { FISCAL_YEAR_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
-import FiscalYearListInteractor from '../../../interactors/fiscalYear/FiscalYearList';
 import FiscalYearDetailsInteractor from '../../../interactors/fiscalYear/FiscalYearDetails';
 
 const TEST_VALUE_NAME = 'test edit name';
@@ -31,17 +30,15 @@ describe('Fiscal year edit', () => {
   });
 
   describe('Save after edit', () => {
-    const fiscalYearList = new FiscalYearListInteractor();
-
     beforeEach(async function () {
       await fiscalYearForm.name.fill('new name');
 
       await fiscalYearForm.saveButton.click();
-      await fiscalYearList.whenLoaded();
     });
 
-    it('should close form', () => {
-      expect(fiscalYearForm.isPresent).to.be.false;
+    it('fiscal year form is still presented, since validation errors', () => {
+      expect(fiscalYearForm.isPresent).to.be.true;
+      expect(fiscalYearForm.codeValidationMessage).to.equal('This Fiscal year code is already in use');
     });
   });
 });

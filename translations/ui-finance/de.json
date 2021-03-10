@@ -379,5 +379,5 @@
     "ledger.rollover.setAllowances": "Abzüge festlegen",
     "transaction.type.Rollover transfer": "Übertrag beim Jahresübergang",
     "transaction.fundValidation2": "Sie müssen das aktuell betrachtete Budget entweder unter \"Zuweisung zu\" oder \"Zuweisung von\" eintragen",
-    "fiscalYear.code.isInUse": "This Fiscal year code is already in use"
+    "fiscalYear.code.isInUse": "Dieser Code für das Haushaltsjahr wird bereits verwendet."
 }

@@ -5,7 +5,7 @@ import { validateRequired } from '@folio/stripes-acq-components';
 
 import { FISCAL_YEARS_API } from '../../common/const';
 
-export const validateFYName = async (ky, fiscalYearId, value) => {
+export const validateFYCode = async (ky, fiscalYearId, value) => {
   const errorRequired = validateRequired(value);
 
   if (errorRequired) {

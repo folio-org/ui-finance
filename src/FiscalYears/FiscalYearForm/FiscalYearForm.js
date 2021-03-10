@@ -33,7 +33,7 @@ import {
   FISCAL_YEAR_ACCORDION_LABELS,
   FISCAL_YEAR_ACCORDION,
 } from '../constants';
-import { validateFYName } from './validateFYName';
+import { validateFYCode } from './validateFYCode';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
@@ -49,8 +49,8 @@ const FiscalYearForm = ({
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
-  const validateName = useCallback(
-    (value) => validateFYName(ky, initialValues.id, value),
+  const validateCode = useCallback(
+    (value) => validateFYCode(ky, initialValues.id, value),
     [initialValues.id, ky],
   );
 
@@ -119,7 +119,7 @@ const FiscalYearForm = ({
                           name="code"
                           type="text"
                           required
-                          validate={validateName}
+                          validate={validateCode}
                           validateFields={[]}
                         />
                       </Col>

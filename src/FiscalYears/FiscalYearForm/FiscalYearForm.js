@@ -190,5 +190,4 @@ FiscalYearForm.defaultProps = {
 
 export default stripesForm({
   navigationCheck: true,
-  validateOnBlur: true,
 })(FiscalYearForm);

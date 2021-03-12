@@ -310,7 +310,7 @@
     "ledger.rollover.budgets": "Rollover budgets",
     "ledger.rollover.encumbrances": "Rollover encumbrances",
     "ledger.rollover.saveBtn": "Rollover",
-    "ledger.rollover.fundType": "Fund type",
+    "ledger.rollover.fundType": "Type de poste budgétaire",
     "ledger.rollover.allocation": "Rollover allocation",
     "ledger.rollover.adjustAllocation": "Adjust allocation, %",
     "ledger.rollover.available": "Rollover available",
@@ -329,10 +329,10 @@
     "ledger.rollover.orderType.ongoingSubscription": "Ongoing-subscription encumbrances",
     "ledger.rollover.orderType.onetime": "One-time encumbrances",
     "ledger.rollover.rollover": "Rollover",
-    "ledger.rollover.basedOn": "Based on",
-    "ledger.rollover.basedOn.expended": "Expended",
-    "ledger.rollover.basedOn.remaining": "Remaining",
-    "ledger.rollover.increaseBy": "Increase by, %",
+    "ledger.rollover.basedOn": "Basé sur",
+    "ledger.rollover.basedOn.expended": "Dépensé",
+    "ledger.rollover.basedOn.remaining": "Restant",
+    "ledger.rollover.increaseBy": "Augmenté de, %",
     "ledger.rollover.closeAllCurrentBudgets": "Fermer tous les budgets actuels",
     "ledger.rolloverInProgress.rollingOver": "Rolling over",
     "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
@@ -379,5 +379,5 @@
     "ledger.rollover.setAllowances": "Set allowances",
     "transaction.type.Rollover transfer": "Rollover transfer",
     "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
-    "fiscalYear.code.isInUse": "This Fiscal year code is already in use"
+    "fiscalYear.code.isInUse": "Ce code d'exercice fiscal est déjà utilisé"
 }

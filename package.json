@@ -23,7 +23,7 @@
     "okapiInterfaces": {
       "acquisitions-units": "1.1",
       "configuration": "2.0",
-      "finance.budgets": "1.0",
+      "finance.budgets": "1.0 2.0",
       "finance.expense-classes": "1.0",
       "finance.fiscal-years": "1.0",
       "finance.fund-types": "1.0",

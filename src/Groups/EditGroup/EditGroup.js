@@ -3,20 +3,22 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingView } from '@folio/stripes/components';
 import {
+  getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import { GROUPS_ROUTE } from '../../common/const';
 import { groupByUrlIdResource } from '../../common/resources';
 import { GroupForm } from '../GroupForm';
-import { handleSaveGroupErrorResponse } from '../utils';
 
 const EditGroup = ({ resources, mutator, match, history, location }) => {
   const groupId = match.params.id;
+  const intl = useIntl();
 
   useEffect(
     () => {
@@ -50,10 +52,17 @@ const EditGroup = ({ resources, mutator, match, history, location }) => {
 
         return savedGroup;
       } catch (response) {
-        const errorCode = await handleSaveGroupErrorResponse(response);
+        const errorCode = await getErrorCodeFromResponse(response);
+
+        const errorMessage = (
+          <FormattedMessage
+            id={`ui-finance.groups.actions.save.error.${errorCode}`}
+            defaultMessage={intl.formatMessage({ id: 'ui-finance.groups.actions.save.error.genericError' })}
+          />
+        );
 
         showCallout({
-          messageId: `ui-finance.groups.actions.save.error.${errorCode}`,
+          message: errorMessage,
           type: 'error',
         });
 

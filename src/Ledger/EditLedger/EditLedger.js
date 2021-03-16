@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingView } from '@folio/stripes/components';
 import {
+  getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -18,6 +20,7 @@ import LedgerForm from '../LedgerForm';
 
 const EditLedger = ({ resources, mutator, match, history, location }) => {
   const ledgerId = match.params.id;
+  const intl = useIntl();
 
   useEffect(
     () => {
@@ -50,6 +53,19 @@ const EditLedger = ({ resources, mutator, match, history, location }) => {
 
         return savedLedger;
       } catch (response) {
+        const errorCode = await getErrorCodeFromResponse(response);
+
+        const errorMessage = (
+          <FormattedMessage
+            id={`ui-finance.ledger.actions.save.error.${errorCode}`}
+            defaultMessage={intl.formatMessage({ id: 'ui-finance.ledger.actions.save.error' })}
+          />
+        );
+
+        showToast({
+          message: errorMessage,
+          type: 'error',
+        });
         showToast({ messageId: 'ui-finance.ledger.actions.save.error', type: 'error' });
 
         return { id: 'Unable to edit ledger' };

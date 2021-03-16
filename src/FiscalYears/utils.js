@@ -1,12 +1,15 @@
-import { useCallback } from 'react';
-import { SubmissionError } from 'redux-form';
+import React, { useCallback } from 'react';
+import { FORM_ERROR } from 'final-form';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
+  getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
 export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
   const showCallout = useShowCallout();
+  const intl = useIntl();
 
   const saveFiscalYear = useCallback(
     async (fiscalYearValues) => {
@@ -18,27 +21,25 @@ export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
         });
         onSave(savedFiscalYear);
 
-        return savedFiscalYear;
+        return undefined;
       } catch (response) {
-        let errorCode = null;
+        const errorCode = await getErrorCodeFromResponse(response);
 
-        try {
-          const responseJson = await response.json();
+        const errorMessage = (
+          <FormattedMessage
+            id={`ui-finance.fiscalYear.actions.save.error.${errorCode}`}
+            defaultMessage={intl.formatMessage({ id: 'ui-finance.fiscalYear.actions.save.error.genericError' })}
+          />
+        );
 
-          errorCode = responseJson?.errors?.[0]?.code || 'genericError';
-        } catch (parsingException) {
-          errorCode = 'genericError';
-        }
         showCallout({
-          messageId: `ui-finance.fiscalYear.actions.save.error.${errorCode}`,
+          message: errorMessage,
           type: 'error',
         });
-        throw new SubmissionError({
-          _error: 'FY was not saved',
-        });
+
+        return { [FORM_ERROR]: 'FY was not saved' };
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [method, onSave, showCallout],
   );
 

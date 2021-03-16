@@ -6,11 +6,12 @@ import React, {
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
-import { SubmissionError } from 'redux-form';
+import { FORM_ERROR } from 'final-form';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -26,6 +27,7 @@ const INITIAL_LEDGER = {
 const CreateLedger = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();
   const [ledger, setLedger] = useState(INITIAL_LEDGER);
+  const intl = useIntl();
 
   useEffect(() => {
     if (location.state) {
@@ -61,27 +63,24 @@ const CreateLedger = ({ mutator, location, history }) => {
         });
         closeForm(savedLedger.id);
 
-        return savedLedger;
+        return undefined;
       } catch (response) {
-        let errorCode = null;
+        const errorCode = await getErrorCodeFromResponse(response);
+        const errorMessage = (
+          <FormattedMessage
+            id={`ui-finance.ledger.actions.save.error.${errorCode}`}
+            defaultMessage={intl.formatMessage({ id: 'ui-finance.ledger.actions.save.error.genericError' })}
+          />
+        );
 
-        try {
-          const responseJson = await response.json();
-
-          errorCode = get(responseJson, 'errors.0.code', 'genericError');
-        } catch (parsingException) {
-          errorCode = 'genericError';
-        }
         showCallout({
-          messageId: `ui-finance.ledger.actions.save.error.${errorCode}`,
+          message: errorMessage,
           type: 'error',
         });
-        throw new SubmissionError({
-          _error: 'Ledger was not saved',
-        });
+
+        return { [FORM_ERROR]: 'Ledger was not saved' };
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [closeForm, showCallout],
   );
 

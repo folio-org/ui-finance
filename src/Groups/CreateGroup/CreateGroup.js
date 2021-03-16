@@ -2,10 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { SubmissionError } from 'redux-form';
+import { FORM_ERROR } from 'final-form';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -17,7 +19,6 @@ import {
 } from '../../common/resources';
 import { GROUP_STATUS } from '../constants';
 import { GroupForm } from '../GroupForm';
-import { handleSaveGroupErrorResponse } from '../utils';
 
 const INITIAL_GROUP = {
   status: GROUP_STATUS.active,
@@ -25,6 +26,7 @@ const INITIAL_GROUP = {
 
 const CreateGroup = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();
+  const intl = useIntl();
 
   const closeForm = useCallback(
     (id) => {
@@ -47,20 +49,24 @@ const CreateGroup = ({ mutator, location, history }) => {
         });
         closeForm(savedGroup.id);
 
-        return savedGroup;
+        return undefined;
       } catch (response) {
-        const errorCode = await handleSaveGroupErrorResponse(response);
+        const errorCode = await getErrorCodeFromResponse(response);
+        const errorMessage = (
+          <FormattedMessage
+            id={`ui-finance.groups.actions.save.error.${errorCode}`}
+            defaultMessage={intl.formatMessage({ id: 'ui-finance.groups.actions.save.error.genericError' })}
+          />
+        );
 
         showCallout({
-          messageId: `ui-finance.groups.actions.save.error.${errorCode}`,
+          message: errorMessage,
           type: 'error',
         });
-        throw new SubmissionError({
-          _error: 'Group was not saved',
-        });
+
+        return { [FORM_ERROR]: 'Group was not saved' };
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [closeForm, showCallout],
   );
 

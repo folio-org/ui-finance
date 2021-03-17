@@ -12,11 +12,15 @@ export const validateFYCode = async (ky, fiscalYearId, value) => {
     return errorRequired;
   }
 
-  let query = `code == ${value}`;
+  let query = `code == "${value}"`;
 
   if (fiscalYearId) query += ` and id<>"${fiscalYearId}"`;
 
-  const existingFiscalYears = await ky.get(`${FISCAL_YEARS_API}`, { searchParams: { query } }).json();
+  try {
+    const existingFiscalYears = await ky.get(FISCAL_YEARS_API, { searchParams: { query } }).json();
 
-  return existingFiscalYears?.totalRecords ? <FormattedMessage id="ui-finance.fiscalYear.code.isInUse" /> : undefined;
+    return existingFiscalYears?.totalRecords ? <FormattedMessage id="ui-finance.fiscalYear.code.isInUse" /> : undefined;
+  } catch {
+    return <FormattedMessage id="ui-finance.errors.load.code" />;
+  }
 };

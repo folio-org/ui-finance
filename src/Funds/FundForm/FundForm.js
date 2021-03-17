@@ -82,11 +82,13 @@ const FundForm = ({
       return errorRequired;
     }
 
-    const existingFunds = await fetchFundsByNameAndLedger(fundsByNameMutator, fundId, value, fundLedgerId);
+    try {
+      const existingFunds = await fetchFundsByNameAndLedger(fundsByNameMutator, fundId, value, fundLedgerId);
 
-    if (existingFunds.length) return <FormattedMessage id="ui-finance.fund.name.isInUse" />;
-
-    return undefined;
+      return existingFunds.length ? <FormattedMessage id="ui-finance.fund.name.isInUse" /> : undefined;
+    } catch {
+      return <FormattedMessage id="ui-finance.errors.load.name" />;
+    }
   }, [fundId, fundLedgerId, fundsByNameMutator]);
 
   const validateFundCode = useCallback(async value => {
@@ -96,11 +98,13 @@ const FundForm = ({
       return errorRequired;
     }
 
-    const existingFunds = await fetchFundsByCode(fundsByNameMutator, fundId, value);
+    try {
+      const existingFunds = await fetchFundsByCode(fundsByNameMutator, fundId, value);
 
-    if (existingFunds.length) return <FormattedMessage id="ui-finance.fund.code.isInUse" />;
-
-    return undefined;
+      return existingFunds.length ? <FormattedMessage id="ui-finance.fund.code.isInUse" /> : undefined;
+    } catch {
+      return <FormattedMessage id="ui-finance.errors.load.code" />;
+    }
   }, [fundId, fundsByNameMutator]);
 
   const ledgerOptions = ledgers.map(

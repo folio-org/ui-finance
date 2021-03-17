@@ -8,6 +8,9 @@
   "saveAndClose": "Save & Close",
   "close": "Close",
 
+  "errors.load.code": "Error code fetching",
+  "errors.load.name": "Error name fetching",
+
   "ledger.acqUnits": "Acquisition units",
   "ledger.actions.remove.error": "Ledger has not been deleted",
   "ledger.actions.remove.success": "Ledger has been deleted",

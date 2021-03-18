@@ -13,10 +13,18 @@ const FieldLedgerCode = ({ ledgerId }) => {
   const ky = useOkapiKy();
 
   const validate = useCallback(
-    (value) => {
+    (fieldValue) => {
       const errorMessage = <FormattedMessage id="ui-finance.ledger.code.isInUse" />;
+      const params = {
+        ky,
+        api: LEDGERS_API,
+        id: ledgerId,
+        fieldValue,
+        errorMessage,
+        fieldName: 'code',
+      };
 
-      return validateDuplicateFieldValue(ky, LEDGERS_API, ledgerId, value, errorMessage, 'code');
+      return validateDuplicateFieldValue(params);
     },
     [ledgerId, ky],
   );

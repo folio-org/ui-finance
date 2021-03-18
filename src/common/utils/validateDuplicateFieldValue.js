@@ -3,22 +3,28 @@ import { FormattedMessage } from 'react-intl';
 
 import { validateRequired } from '@folio/stripes-acq-components';
 
-export const validateDuplicateFieldValue = async (ky, api, id, value, errorMessage, name, customQuery) => {
-  const errorRequired = validateRequired(value);
+export const validateDuplicateFieldValue = async ({
+  ky,
+  api,
+  id,
+  fieldValue,
+  errorMessage,
+  fieldName,
+  query = `${fieldName} == "${fieldValue}"`,
+}) => {
+  const errorRequired = validateRequired(fieldValue);
 
   if (errorRequired) {
     return errorRequired;
   }
 
-  let query = customQuery || `${name} == "${value}"`;
-
-  if (id) query += ` and id<>"${id}"`;
+  const _query = id ? query.concat(` and id<>"${id}"`) : query;
 
   try {
-    const existingRecords = await ky.get(api, { searchParams: { query } }).json();
+    const existingRecords = await ky.get(api, { searchParams: { query: _query } }).json();
 
     return existingRecords.totalRecords ? errorMessage : undefined;
   } catch {
-    return <FormattedMessage id={`ui-finance.errors.load.${name}`} />;
+    return <FormattedMessage id={`ui-finance.errors.load.${fieldName}`} />;
   }
 };

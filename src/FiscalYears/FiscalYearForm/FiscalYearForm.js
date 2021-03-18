@@ -51,10 +51,18 @@ const FiscalYearForm = ({
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const validateCode = useCallback(
-    (value) => {
+    (fieldValue) => {
       const errorMessage = <FormattedMessage id="ui-finance.fiscalYear.code.isInUse" />;
+      const params = {
+        ky,
+        api: FISCAL_YEARS_API,
+        id: initialValues.id,
+        fieldValue,
+        errorMessage,
+        fieldName: 'code',
+      };
 
-      return validateDuplicateFieldValue(ky, FISCAL_YEARS_API, initialValues.id, value, errorMessage, 'code');
+      return validateDuplicateFieldValue(params);
     },
     [initialValues.id, ky],
   );

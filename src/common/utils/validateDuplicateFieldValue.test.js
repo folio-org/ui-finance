@@ -1,5 +1,11 @@
 import { validateDuplicateFieldValue } from './validateDuplicateFieldValue';
 
+const params = {
+  api: 'api',
+  fieldValue: 'value',
+  fieldName: 'code',
+};
+
 describe('validateDuplicateFieldValue fn', () => {
   let ky;
 
@@ -10,14 +16,14 @@ describe('validateDuplicateFieldValue fn', () => {
   });
 
   it('should not call API if no value passed', () => {
-    validateDuplicateFieldValue(ky);
+    validateDuplicateFieldValue({ ky });
 
     expect(ky.get).not.toHaveBeenCalled();
   });
 
   it('should call API if value passed', () => {
-    validateDuplicateFieldValue(ky, 'api', 'id', 'value');
-    validateDuplicateFieldValue(ky, 'api', undefined, 'value');
+    validateDuplicateFieldValue({ ...params, ky });
+    validateDuplicateFieldValue({ ...params, ky, id: 'id' });
 
     expect(ky.get).toHaveBeenCalled();
   });

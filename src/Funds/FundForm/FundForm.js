@@ -75,20 +75,37 @@ const FundForm = ({
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const validateFundName = useCallback(
-    (value) => {
+    (fieldValue) => {
       const errorMessage = <FormattedMessage id="ui-finance.fund.name.isInUse" />;
-      const query = `name == "${value}" and ledgerId == "${fundLedgerId}"`;
+      const query = `name == "${fieldValue}" and ledgerId == "${fundLedgerId}"`;
+      const params = {
+        ky,
+        api: FUNDS_API,
+        id: fundId,
+        fieldValue,
+        errorMessage,
+        fieldName: 'name',
+        query,
+      };
 
-      return validateDuplicateFieldValue(ky, FUNDS_API, fundId, value, errorMessage, 'name', query);
+      return validateDuplicateFieldValue(params);
     },
     [fundId, fundLedgerId, ky],
   );
 
   const validateFundCode = useCallback(
-    (value) => {
+    (fieldValue) => {
       const errorMessage = <FormattedMessage id="ui-finance.fund.code.isInUse" />;
+      const params = {
+        ky,
+        api: FUNDS_API,
+        id: fundId,
+        fieldValue,
+        errorMessage,
+        fieldName: 'code',
+      };
 
-      return validateDuplicateFieldValue(ky, FUNDS_API, fundId, value, errorMessage, 'code');
+      return validateDuplicateFieldValue(params);
     },
     [fundId, ky],
   );

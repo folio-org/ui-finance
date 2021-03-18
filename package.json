@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -23,26 +23,24 @@
     "okapiInterfaces": {
       "acquisitions-units": "1.1",
       "configuration": "2.0",
-      "finance.budgets": "1.0 2.0",
+      "finance.budgets": "2.0",
       "finance.expense-classes": "1.0",
       "finance.fiscal-years": "1.0",
       "finance.fund-types": "1.0",
-      "finance.funds": "1.0",
+      "finance.funds": "1.3",
       "finance.group-fiscal-year-summaries": "1.0",
       "finance.group-fund-fiscal-years": "1.0",
       "finance.groups": "1.0",
-      "finance.ledgers": "1.0",
-      "finance.order-transaction-summaries": "1.0",
-      "finance.transactions": "3.0 4.0",
-      "invoice": "6.0 7.0",
-      "order-lines": "1.0 2.0",
-      "tags": "1.0",
-      "users": "15.0"
-    },
-    "optionalOkapiInterfaces": {
       "finance.ledger-rollovers-errors": "1.0",
       "finance.ledger-rollovers-progress": "1.0",
-      "finance.ledger-rollovers": "1.0"
+      "finance.ledger-rollovers": "1.0",
+      "finance.ledgers": "1.5",
+      "finance.order-transaction-summaries": "1.0",
+      "finance.transactions": "4.0",
+      "invoice": "7.0",
+      "order-lines": "2.0",
+      "tags": "1.0",
+      "users": "15.0"
     },
     "queryResource": "query",
     "icons": [
@@ -397,8 +395,8 @@
     "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "^2.2.0",
-    "@folio/stripes-data-transfer-components": "^3.0.2",
+    "@folio/stripes-acq-components": "~2.3.0",
+    "@folio/stripes-data-transfer-components": "^4.0.0",
     "@rehooks/local-storage": "^2.4.0",
     "final-form-arrays": "^3.0.1",
     "final-form-set-field-data": "^1.0.2",

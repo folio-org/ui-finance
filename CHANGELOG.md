@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.3.0](https://github.com/folio-org/ui-finance/tree/v2.3.0) (2021-03-18)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.2.0...v2.3.0)
+
 * Cannot create fiscal year. Refs UIF-290.
 * Fiscal year code missing field validation. Refs UIF-289.
 * Transactions: display POL or Invoice number as Hyperlink to corresponding record. Refs UIF-283.

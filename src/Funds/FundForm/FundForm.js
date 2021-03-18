@@ -8,6 +8,7 @@ import {
 } from 'lodash';
 
 import stripesFinalForm from '@folio/stripes/final-form';
+import { useOkapiKy } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -26,6 +27,7 @@ import {
   FieldMultiSelectionFinal as FieldMultiSelection,
   FieldSelectionFinal as FieldSelection,
   FormFooter,
+  FUNDS_API,
   useAccordionToggle,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -35,14 +37,11 @@ import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
+import { validateDuplicateFieldValue } from '../../common/utils';
 import {
   FUND_STATUSES_OPTIONS,
   SECTIONS_FUND,
 } from '../constants';
-import {
-  fetchFundsByCode,
-  fetchFundsByNameAndLedger,
-} from './fetchFunds';
 
 const itemToString = item => item;
 
@@ -53,12 +52,12 @@ const FundForm = ({
   pristine,
   submitting,
   values: formValues,
-  fundsByNameMutator,
   funds,
   fundTypes,
   ledgers,
   systemCurrency,
 }) => {
+  const ky = useOkapiKy();
   const [expandAll, sections, toggleSection] = useAccordionToggle();
   const fundTypeOptions = fundTypes.map(
     ({ name, id }) => ({
@@ -75,37 +74,24 @@ const FundForm = ({
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
-  const validateFundName = useCallback(async value => {
-    const errorRequired = validateRequired(value);
+  const validateFundName = useCallback(
+    (value) => {
+      const errorMessage = <FormattedMessage id="ui-finance.fund.name.isInUse" />;
+      const query = `name == "${value}" and ledgerId == "${fundLedgerId}"`;
 
-    if (errorRequired) {
-      return errorRequired;
-    }
+      return validateDuplicateFieldValue(ky, FUNDS_API, fundId, value, errorMessage, 'name', query);
+    },
+    [fundId, fundLedgerId, ky],
+  );
 
-    try {
-      const existingFunds = await fetchFundsByNameAndLedger(fundsByNameMutator, fundId, value, fundLedgerId);
+  const validateFundCode = useCallback(
+    (value) => {
+      const errorMessage = <FormattedMessage id="ui-finance.fund.code.isInUse" />;
 
-      return existingFunds.length ? <FormattedMessage id="ui-finance.fund.name.isInUse" /> : undefined;
-    } catch {
-      return <FormattedMessage id="ui-finance.errors.load.name" />;
-    }
-  }, [fundId, fundLedgerId, fundsByNameMutator]);
-
-  const validateFundCode = useCallback(async value => {
-    const errorRequired = validateRequired(value);
-
-    if (errorRequired) {
-      return errorRequired;
-    }
-
-    try {
-      const existingFunds = await fetchFundsByCode(fundsByNameMutator, fundId, value);
-
-      return existingFunds.length ? <FormattedMessage id="ui-finance.fund.code.isInUse" /> : undefined;
-    } catch {
-      return <FormattedMessage id="ui-finance.errors.load.code" />;
-    }
-  }, [fundId, fundsByNameMutator]);
+      return validateDuplicateFieldValue(ky, FUNDS_API, fundId, value, errorMessage, 'code');
+    },
+    [fundId, ky],
+  );
 
   const ledgerOptions = ledgers.map(
     ({ name, id, currency }) => ({
@@ -362,7 +348,6 @@ FundForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   form: PropTypes.object,  // form object to get initialValues with composite fund
   onCancel: PropTypes.func.isRequired,
-  fundsByNameMutator: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,  // current form values with composite fund

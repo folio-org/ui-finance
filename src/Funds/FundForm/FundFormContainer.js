@@ -140,7 +140,6 @@ const FundFormContainer = ({
         initialValues={fund}
         onCancel={onCancel}
         onSubmit={saveFund}
-        fundsByNameMutator={mutator.fundFormFunds}
         systemCurrency={stripes.currency}
         funds={funds}
         fundTypes={fundTypes}

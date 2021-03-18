@@ -3,18 +3,23 @@ import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { stripesConnect } from '@folio/stripes/core';
+import { useOkapiKy } from '@folio/stripes/core';
 import { TextField } from '@folio/stripes/components';
 
-import { ledgersResource } from '../../../common/resources';
-import { validateLedger } from '../validateLedger';
+import { validateDuplicateFieldValue } from '../../../common/utils';
+import { LEDGERS_API } from '../../../common/const';
 
-const FieldLedgerCode = ({ ledgerId, mutator }) => {
-  const validate = useCallback(value => {
-    return validateLedger(mutator.ledgers, ledgerId, value, 'code');
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [ledgerId]);
+const FieldLedgerCode = ({ ledgerId }) => {
+  const ky = useOkapiKy();
+
+  const validate = useCallback(
+    (value) => {
+      const errorMessage = <FormattedMessage id="ui-finance.ledger.code.isInUse" />;
+
+      return validateDuplicateFieldValue(ky, LEDGERS_API, ledgerId, value, errorMessage, 'code');
+    },
+    [ledgerId, ky],
+  );
 
   return (
     <Field
@@ -29,17 +34,8 @@ const FieldLedgerCode = ({ ledgerId, mutator }) => {
   );
 };
 
-FieldLedgerCode.manifest = Object.freeze({
-  ledgers: {
-    ...ledgersResource,
-    fetch: false,
-    accumulate: true,
-  },
-});
-
 FieldLedgerCode.propTypes = {
-  mutator: PropTypes.object.isRequired,
   ledgerId: PropTypes.string,
 };
 
-export default stripesConnect(FieldLedgerCode);
+export default FieldLedgerCode;

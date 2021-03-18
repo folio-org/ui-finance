@@ -28,12 +28,13 @@ import {
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
+  FISCAL_YEARS_API,
 } from '../../common/const';
 import {
   FISCAL_YEAR_ACCORDION_LABELS,
   FISCAL_YEAR_ACCORDION,
 } from '../constants';
-import { validateFYCode } from './validateFYCode';
+import { validateDuplicateFieldValue } from '../../common/utils';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
@@ -50,7 +51,11 @@ const FiscalYearForm = ({
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const validateCode = useCallback(
-    (value) => validateFYCode(ky, initialValues.id, value),
+    (value) => {
+      const errorMessage = <FormattedMessage id="ui-finance.fiscalYear.code.isInUse" />;
+
+      return validateDuplicateFieldValue(ky, FISCAL_YEARS_API, initialValues.id, value, errorMessage, 'code');
+    },
     [initialValues.id, ky],
   );
 

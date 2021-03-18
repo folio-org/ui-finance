@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+## [2.3.1](https://github.com/folio-org/ui-finance/tree/v2.3.1) (2021-03-18)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.0...v2.3.1)
+
+* decrease "finance.budgets" interface requirement since 2.0 was not released.
+
 ## [2.3.0](https://github.com/folio-org/ui-finance/tree/v2.3.0) (2021-03-18)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.2.0...v2.3.0)
 

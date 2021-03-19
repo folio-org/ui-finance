@@ -90,7 +90,8 @@ const FundForm = ({
 
       return validateDuplicateFieldValue(params);
     },
-    [fundId, fundLedgerId, ky],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fundId, fundLedgerId],
   );
 
   const validateFundCode = useCallback(
@@ -107,7 +108,8 @@ const FundForm = ({
 
       return validateDuplicateFieldValue(params);
     },
-    [fundId, ky],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fundId],
   );
 
   const ledgerOptions = ledgers.map(

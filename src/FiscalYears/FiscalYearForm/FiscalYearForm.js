@@ -64,7 +64,8 @@ const FiscalYearForm = ({
 
       return validateDuplicateFieldValue(params);
     },
-    [initialValues.id, ky],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [initialValues.id],
   );
 
   const isEditMode = Boolean(initialValues.id);

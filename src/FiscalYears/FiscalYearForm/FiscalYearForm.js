@@ -28,12 +28,14 @@ import {
 import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
+  FISCAL_YEARS_API,
 } from '../../common/const';
 import {
   FISCAL_YEAR_ACCORDION_LABELS,
   FISCAL_YEAR_ACCORDION,
 } from '../constants';
-import { validateFYCode } from './validateFYCode';
+import { validateDuplicateFieldValue } from '../../common/utils';
+import DebouncingValidatingField from './DebouncingValidatingField';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
@@ -50,8 +52,20 @@ const FiscalYearForm = ({
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const validateCode = useCallback(
-    (value) => validateFYCode(ky, initialValues.id, value),
-    [initialValues.id, ky],
+    (fieldValue) => {
+      const errorMessage = <FormattedMessage id="ui-finance.fiscalYear.code.isInUse" />;
+      const params = {
+        ky,
+        api: FISCAL_YEARS_API,
+        id: initialValues.id,
+        fieldValue,
+        errorMessage,
+        fieldName: 'code',
+      };
+
+      return validateDuplicateFieldValue(params);
+    },
+    [initialValues.id],
   );
 
   const isEditMode = Boolean(initialValues.id);
@@ -113,7 +127,7 @@ const FiscalYearForm = ({
                         xs={4}
                         data-test-col-fy-form-code
                       >
-                        <Field
+                        <DebouncingValidatingField
                           component={TextField}
                           label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
                           name="code"

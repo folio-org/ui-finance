@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
+import { debounce } from 'lodash';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
@@ -35,6 +36,7 @@ import {
   FISCAL_YEAR_ACCORDION,
 } from '../constants';
 import { validateDuplicateFieldValue } from '../../common/utils';
+import DebouncingValidatingField from './DebouncingValidatingField';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
@@ -127,7 +129,7 @@ const FiscalYearForm = ({
                         xs={4}
                         data-test-col-fy-form-code
                       >
-                        <Field
+                        <DebouncingValidatingField
                           component={TextField}
                           label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
                           name="code"

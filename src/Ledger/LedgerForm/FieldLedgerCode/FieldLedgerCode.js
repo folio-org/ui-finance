@@ -26,7 +26,6 @@ const FieldLedgerCode = ({ ledgerId }) => {
 
       return validateDuplicateFieldValue(params);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ledgerId],
   );
 

@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { debounce } from 'lodash';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
@@ -66,7 +65,6 @@ const FiscalYearForm = ({
 
       return validateDuplicateFieldValue(params);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [initialValues.id],
   );
 

@@ -90,7 +90,6 @@ const FundForm = ({
 
       return validateDuplicateFieldValue(params);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [fundId, fundLedgerId],
   );
 
@@ -108,7 +107,6 @@ const FundForm = ({
 
       return validateDuplicateFieldValue(params);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [fundId],
   );
 

@@ -379,5 +379,7 @@
     "ledger.rollover.setAllowances": "Ustaw uprawnienia",
     "transaction.type.Rollover transfer": "Transfer przeniesienia",
     "transaction.fundValidation2": "Musisz wypełnić co najmniej jedno z „Przydział do” lub „Przydział od” w aktualnie przeglądanym budżecie.",
-    "fiscalYear.code.isInUse": "Ten kod roku budżetowego jest już używany"
+    "fiscalYear.code.isInUse": "Ten kod roku budżetowego jest już używany",
+    "errors.load.code": "Error code fetching",
+    "errors.load.name": "Error name fetching"
 }

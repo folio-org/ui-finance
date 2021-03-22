@@ -379,5 +379,7 @@
     "ledger.rollover.setAllowances": "ضبط البدلات",
     "transaction.type.Rollover transfer": "تمديد التحويل",
     "transaction.fundValidation2": "يجب عليك تعبئة ما لا يقل عن 1 من \"تخصيص إلى\" أو \"تخصيص من\" بالميزانية التي تشاهدها حالياً",
-    "fiscalYear.code.isInUse": "كود السنة المالية هذا قيد الاستخدام بالفعل"
+    "fiscalYear.code.isInUse": "كود السنة المالية هذا قيد الاستخدام بالفعل",
+    "errors.load.code": "خطأ أثناء جلب الكود",
+    "errors.load.name": "خطأ أثناء جلب الاسم"
 }

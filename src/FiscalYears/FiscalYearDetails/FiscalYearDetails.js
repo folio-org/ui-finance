@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  AccordionStatus,
   Pane,
   Row,
   Col,
@@ -13,7 +14,6 @@ import {
   MenuSection,
 } from '@folio/stripes/components';
 import {
-  useAccordionToggle,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -41,7 +41,6 @@ const FiscalYearDetails = ({
   onRemove,
   openLedger,
 }) => {
-  const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
 
   const renderActionMenu = useCallback(
@@ -71,77 +70,72 @@ const FiscalYearDetails = ({
       onClose={onClose}
       actionMenu={renderActionMenu}
     >
-      <Row end="xs">
-        <Col xs={12}>
-          <ExpandAllButton
-            accordionStatus={sections}
-            onToggle={expandAll}
-          />
-        </Col>
-      </Row>
+      <AccordionStatus>
+        <Row end="xs">
+          <Col xs>
+            <ExpandAllButton />
+          </Col>
+        </Row>
+        <AccordionSet>
+          <Accordion
+            id={FISCAL_YEAR_ACCORDION.information}
+            label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.information]}
+          >
+            <FiscalYearInformation
+              acqUnitIds={fiscalYear.acqUnitIds}
+              code={fiscalYear.code}
+              description={fiscalYear.description}
+              metadata={fiscalYear.metadata}
+              name={fiscalYear.name}
+              periodEnd={fiscalYear.periodEnd}
+              periodStart={fiscalYear.periodStart}
+            />
+          </Accordion>
 
-      <AccordionSet
-        accordionStatus={sections}
-        onToggle={toggleSection}
-      >
-        <Accordion
-          id={FISCAL_YEAR_ACCORDION.information}
-          label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.information]}
-        >
-          <FiscalYearInformation
-            acqUnitIds={fiscalYear.acqUnitIds}
-            code={fiscalYear.code}
-            description={fiscalYear.description}
-            metadata={fiscalYear.metadata}
-            name={fiscalYear.name}
-            periodEnd={fiscalYear.periodEnd}
-            periodStart={fiscalYear.periodStart}
-          />
-        </Accordion>
+          <Accordion
+            id={FISCAL_YEAR_ACCORDION.financialSummary}
+            label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.financialSummary]}
+          >
+            <FinancialSummary
+              data={fiscalYear.financialSummary}
+              fiscalYearCurrency={fiscalYear.currency}
+              isFiscalYear
+            />
+          </Accordion>
 
-        <Accordion
-          id={FISCAL_YEAR_ACCORDION.financialSummary}
-          label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.financialSummary]}
-        >
-          <FinancialSummary
-            data={fiscalYear.financialSummary}
-            fiscalYearCurrency={fiscalYear.currency}
-            isFiscalYear
-          />
-        </Accordion>
+          <Accordion
+            id={FISCAL_YEAR_ACCORDION.ledger}
+            label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.ledger]}
+          >
+            <ConnectionListing
+              items={ledgers}
+              currency={fiscalYear.currency}
+              openItem={openLedger}
+            />
+          </Accordion>
 
-        <Accordion
-          id={FISCAL_YEAR_ACCORDION.ledger}
-          label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.ledger]}
-        >
-          <ConnectionListing
-            items={ledgers}
-            currency={fiscalYear.currency}
-            openItem={openLedger}
-          />
-        </Accordion>
+          <Accordion
+            id={FISCAL_YEAR_ACCORDION.group}
+            label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.group]}
+          >
+            <FiscalYearGroups
+              fiscalYear={fiscalYear}
+              groupSummaries={groupSummaries}
+            />
+          </Accordion>
 
-        <Accordion
-          id={FISCAL_YEAR_ACCORDION.group}
-          label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.group]}
-        >
-          <FiscalYearGroups
-            fiscalYear={fiscalYear}
-            groupSummaries={groupSummaries}
-          />
-        </Accordion>
-
-        <Accordion
-          id={FISCAL_YEAR_ACCORDION.fund}
-          label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.fund]}
-        >
-          <FiscalYearFunds
-            currency={fiscalYear.currency}
-            fiscalYearId={fiscalYear.id}
-            funds={funds}
-          />
-        </Accordion>
-      </AccordionSet>
+          <Accordion
+            id={FISCAL_YEAR_ACCORDION.fund}
+            label={FISCAL_YEAR_ACCORDION_LABELS[FISCAL_YEAR_ACCORDION.fund]}
+          >
+            <FiscalYearFunds
+              currency={fiscalYear.currency}
+              fiscalYearId={fiscalYear.id}
+              funds={funds}
+            />
+          </Accordion>
+        </AccordionSet>
+      </AccordionStatus>
 
       {isRemoveConfirmation && (
         <ConfirmationModal

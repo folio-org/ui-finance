@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* fix collapse/expand all accordions.
 * Validations on FY, Ledger and Group. Refs UIF-292.
 
 ## [2.3.1](https://github.com/folio-org/ui-finance/tree/v2.3.1) (2021-03-18)

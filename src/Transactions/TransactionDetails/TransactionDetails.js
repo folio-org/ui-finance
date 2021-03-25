@@ -11,11 +11,11 @@ import {
   ExpandAllButton,
   AccordionSet,
   Accordion,
+  AccordionStatus,
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 import {
   TRANSACTION_TYPES,
-  useAccordionToggle,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -35,7 +35,6 @@ const TransactionDetails = ({
   transaction,
   releaseTransaction,
 }) => {
-  const [expandAll, sections, toggleSection] = useAccordionToggle();
   const [isReleaseConfirmation, toggleReleaseConfirmation] = useModalToggle();
   const isEncumbrance = transaction.transactionType === TRANSACTION_TYPES.encumbrance;
   const isNotReleased = transaction.encumbrance?.status !== ENCUMBRANCE_STATUS.released;
@@ -67,32 +66,27 @@ const TransactionDetails = ({
       paneTitle={<FormattedMessage id={`ui-finance.transaction.type.${transaction.transactionType}`} />}
       onClose={onClose}
     >
-      <Row end="xs">
-        <Col xs={12}>
-          <ExpandAllButton
-            accordionStatus={sections}
-            onToggle={expandAll}
-          />
-        </Col>
-      </Row>
-
-      <AccordionSet
-        accordionStatus={sections}
-        onToggle={toggleSection}
-      >
-        <Accordion
-          id={TRANSACTION_ACCORDION.information}
-          label={TRANSACTION_ACCORDION_LABELS[TRANSACTION_ACCORDION.information]}
-        >
-          <TransactionInformation
-            fiscalYearCode={fiscalYearCode}
-            fromFundName={fromFundName}
-            fundId={fundId}
-            toFundName={toFundName}
-            transaction={transaction}
-          />
-        </Accordion>
-      </AccordionSet>
+      <AccordionStatus>
+        <Row end="xs">
+          <Col xs={12}>
+            <ExpandAllButton />
+          </Col>
+        </Row>
+        <AccordionSet>
+          <Accordion
+            id={TRANSACTION_ACCORDION.information}
+            label={TRANSACTION_ACCORDION_LABELS[TRANSACTION_ACCORDION.information]}
+          >
+            <TransactionInformation
+              fiscalYearCode={fiscalYearCode}
+              fromFundName={fromFundName}
+              fundId={fundId}
+              toFundName={toFundName}
+              transaction={transaction}
+            />
+          </Accordion>
+        </AccordionSet>
+      </AccordionStatus>
 
       {isReleaseConfirmation && (
         <ConfirmationModal

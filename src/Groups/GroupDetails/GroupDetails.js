@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  AccordionStatus,
   Pane,
   Row,
   Col,
@@ -13,7 +14,6 @@ import {
   ConfirmationModal,
 } from '@folio/stripes/components';
 import {
-  useAccordionToggle,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -42,7 +42,6 @@ const GroupDetails = ({
   onSelectFY,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
-  const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
@@ -82,61 +81,56 @@ const GroupDetails = ({
       paneTitle={group.name}
       onClose={onClose}
     >
-      <Row end="xs">
-        <Col xs={12}>
-          <ExpandAllButton
-            accordionStatus={sections}
-            onToggle={expandAll}
-          />
-        </Col>
-      </Row>
-
-      <AccordionSet
-        accordionStatus={sections}
-        onToggle={toggleSection}
-      >
-        <Accordion
-          id={GROUP_ACCORDTION.information}
-          label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.information]}
-        >
-          <GroupInformation
-            metadata={group.metadata}
-            name={group.name}
-            code={group.code}
-            status={group.status}
-            description={group.description}
-            acqUnitIds={group.acqUnitIds}
-            fiscalYears={fiscalYearsRecords}
-            selectedFiscalYearId={selectedFY.id}
-            onSelectFY={onSelectFY}
-          />
-        </Accordion>
-        <Accordion
-          id={GROUP_ACCORDTION.financialSummary}
-          label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.financialSummary]}
-        >
-          <FinancialSummary
-            data={groupSummary}
-            fiscalYearCurrency={selectedFY.currency}
-          />
-        </Accordion>
-        <Accordion
-          id={GROUP_ACCORDTION.fund}
-          label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
-        >
-          <GroupFund
-            currency={selectedFY.currency}
-            funds={funds}
+      <AccordionStatus>
+        <Row end="xs">
+          <Col xs={12}>
+            <ExpandAllButton />
+          </Col>
+        </Row>
+        <AccordionSet>
+          <Accordion
+            id={GROUP_ACCORDTION.information}
+            label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.information]}
+          >
+            <GroupInformation
+              metadata={group.metadata}
+              name={group.name}
+              code={group.code}
+              status={group.status}
+              description={group.description}
+              acqUnitIds={group.acqUnitIds}
+              fiscalYears={fiscalYearsRecords}
+              selectedFiscalYearId={selectedFY.id}
+              onSelectFY={onSelectFY}
+            />
+          </Accordion>
+          <Accordion
+            id={GROUP_ACCORDTION.financialSummary}
+            label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.financialSummary]}
+          >
+            <FinancialSummary
+              data={groupSummary}
+              fiscalYearCurrency={selectedFY.currency}
+            />
+          </Accordion>
+          <Accordion
+            id={GROUP_ACCORDTION.fund}
+            label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
+          >
+            <GroupFund
+              currency={selectedFY.currency}
+              funds={funds}
+              fiscalYearId={selectedFY.id}
+              groupId={group.id}
+            />
+          </Accordion>
+          <GroupExpenseClasses
             fiscalYearId={selectedFY.id}
             groupId={group.id}
+            currency={selectedFY.currency}
           />
-        </Accordion>
-        <GroupExpenseClasses
-          fiscalYearId={selectedFY.id}
-          groupId={group.id}
-          currency={selectedFY.currency}
-        />
-      </AccordionSet>
+        </AccordionSet>
+      </AccordionStatus>
 
       {isRemoveConfirmation && (
         <ConfirmationModal

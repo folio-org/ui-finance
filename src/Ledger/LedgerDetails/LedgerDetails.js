@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   Button,
   Col,
   ConfirmationModal,
@@ -17,7 +18,6 @@ import {
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 import {
-  useAccordionToggle,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -47,7 +47,6 @@ const LedgerDetails = ({
   rolloverToFY,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
-  const [expandAll, sections, toggleSection] = useAccordionToggle();
 
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
@@ -104,80 +103,75 @@ const LedgerDetails = ({
       paneTitle={ledger.name}
       onClose={onClose}
     >
-      <Row end="xs">
-        <Col xs={12}>
-          <ExpandAllButton
-            accordionStatus={sections}
-            onToggle={expandAll}
-          />
-        </Col>
-      </Row>
-
-      <AccordionSet
-        accordionStatus={sections}
-        onToggle={toggleSection}
-      >
-        <Accordion
-          id={LEDGER_ACCORDTION.information}
-          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.information]}
-        >
-          <LedgerInformation
-            metadata={ledger.metadata}
-            name={ledger.name}
-            code={ledger.code}
-            status={ledger.ledgerStatus}
-            description={ledger.description}
-            acqUnitIds={ledger.acqUnitIds}
-            fiscalYearCode={fiscalYear.code}
-          />
-        </Accordion>
-        <Accordion
-          id={LEDGER_ACCORDTION.financialSummary}
-          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.financialSummary]}
-        >
-          <FinancialSummary
-            data={ledger}
-            fiscalYearCurrency={fiscalYear.currency}
-          />
-        </Accordion>
-        <Accordion
-          id={LEDGER_ACCORDTION.group}
-          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.group]}
-        >
-          <LedgerGroups
-            funds={funds}
-            currency={fiscalYear.currency}
-            ledgerId={ledger.id}
-            fiscalYearId={fiscalYear.id}
-          />
-        </Accordion>
-        <Accordion
-          id={LEDGER_ACCORDTION.fund}
-          label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.fund]}
-        >
-          <LedgerFunds
-            funds={funds}
-            fiscalYearId={fiscalYear.id}
-            currency={fiscalYear.currency}
-            ledgerId={ledger.id}
-          />
-        </Accordion>
-        {!rolloverErrors.length ? null : (
+      <AccordionStatus>
+        <Row end="xs">
+          <Col xs={12}>
+            <ExpandAllButton />
+          </Col>
+        </Row>
+        <AccordionSet>
           <Accordion
-            id={LEDGER_ACCORDTION.rolloverErrors}
-            label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.rolloverErrors]}
+            id={LEDGER_ACCORDTION.information}
+            label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.information]}
           >
-            <Label>
-              <FormattedMessage id="ui-finance.ledger.rolloverErrorsLabel" />
-            </Label>
-            <RolloverErrorsLink
-              errors={rolloverErrors}
-              ledgerName={ledger.name}
-              toYearCode={rolloverToFY.code}
+            <LedgerInformation
+              metadata={ledger.metadata}
+              name={ledger.name}
+              code={ledger.code}
+              status={ledger.ledgerStatus}
+              description={ledger.description}
+              acqUnitIds={ledger.acqUnitIds}
+              fiscalYearCode={fiscalYear.code}
             />
           </Accordion>
-        )}
-      </AccordionSet>
+          <Accordion
+            id={LEDGER_ACCORDTION.financialSummary}
+            label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.financialSummary]}
+          >
+            <FinancialSummary
+              data={ledger}
+              fiscalYearCurrency={fiscalYear.currency}
+            />
+          </Accordion>
+          <Accordion
+            id={LEDGER_ACCORDTION.group}
+            label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.group]}
+          >
+            <LedgerGroups
+              funds={funds}
+              currency={fiscalYear.currency}
+              ledgerId={ledger.id}
+              fiscalYearId={fiscalYear.id}
+            />
+          </Accordion>
+          <Accordion
+            id={LEDGER_ACCORDTION.fund}
+            label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.fund]}
+          >
+            <LedgerFunds
+              funds={funds}
+              fiscalYearId={fiscalYear.id}
+              currency={fiscalYear.currency}
+              ledgerId={ledger.id}
+            />
+          </Accordion>
+          {!rolloverErrors.length ? null : (
+            <Accordion
+              id={LEDGER_ACCORDTION.rolloverErrors}
+              label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.rolloverErrors]}
+            >
+              <Label>
+                <FormattedMessage id="ui-finance.ledger.rolloverErrorsLabel" />
+              </Label>
+              <RolloverErrorsLink
+                errors={rolloverErrors}
+                ledgerName={ledger.name}
+                toYearCode={rolloverToFY.code}
+              />
+            </Accordion>
+          )}
+        </AccordionSet>
+      </AccordionStatus>
 
       {isRemoveConfirmation && (
         <ConfirmationModal

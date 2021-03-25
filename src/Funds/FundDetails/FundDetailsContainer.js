@@ -11,6 +11,7 @@ import {
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   Button,
   Col,
   ConfirmationModal,
@@ -27,7 +28,6 @@ import {
   baseManifest,
   Tags,
   TagsBadge,
-  useAccordionToggle,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -106,13 +106,6 @@ const FundDetailsContainer = ({
   useEffect(fetchFund, [params.id]);
 
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
-  const [expandAll, sections, toggleSection] = useAccordionToggle(
-    Object.values(SECTIONS_FUND).reduce((acc, k) => {
-      acc[k] = true;
-
-      return acc;
-    }, {}),
-  );
   const [budgetStatusModal, setBudgetStatusModal] = useState('');
   const [isTagsPaneOpened, setIsTagsPaneOpened] = useState(false);
 
@@ -247,62 +240,58 @@ const FundDetailsContainer = ({
         paneSub={fund.code}
         paneTitle={fund.name}
       >
-        <Row end="xs">
-          <Col xs={12}>
-            <ExpandAllButton
-              accordionStatus={sections}
-              onToggle={expandAll}
-            />
-          </Col>
-        </Row>
-        <AccordionSet
-          accordionStatus={sections}
-          onToggle={toggleSection}
-        >
-          <Accordion
-            label={<FormattedMessage id="ui-finance.fund.information.title" />}
-            id={SECTIONS_FUND.INFORMATION}
-          >
-            <ViewMetaData metadata={fund.metadata} />
-            <FundDetails
-              acqUnitIds={fund.acqUnitIds}
-              currency={currency}
-              fund={fund}
-              groupIds={compositeFund.groupIds}
-            />
-          </Accordion>
+        <AccordionStatus>
+          <Row end="xs">
+            <Col xs={12}>
+              <ExpandAllButton />
+            </Col>
+          </Row>
+          <AccordionSet>
+            <Accordion
+              label={<FormattedMessage id="ui-finance.fund.information.title" />}
+              id={SECTIONS_FUND.INFORMATION}
+            >
+              <ViewMetaData metadata={fund.metadata} />
+              <FundDetails
+                acqUnitIds={fund.acqUnitIds}
+                currency={currency}
+                fund={fund}
+                groupIds={compositeFund.groupIds}
+              />
+            </Accordion>
 
-          {currentFY && (
-            <FundCurrentBudget
-              budget={currentBudget}
-              currency={currentFY.currency}
-              history={history}
-              location={location}
-              openNewBudgetModal={openNewBudgetModal}
+            {currentFY && (
+              <FundCurrentBudget
+                budget={currentBudget}
+                currency={currentFY.currency}
+                history={history}
+                location={location}
+                openNewBudgetModal={openNewBudgetModal}
+              />
+            )}
+            <FundExpenseClasses
+              budgetId={currentBudget?.id}
+              currency={currentFY?.currency}
             />
-          )}
-          <FundExpenseClasses
-            budgetId={currentBudget?.id}
-            currency={currentFY?.currency}
-          />
-          {currentFY && (
-            <FundPlannedBudgetsContainer
-              currentFY={currentFY}
-              fundId={fund.id}
-              history={history}
-              location={location}
-              openNewBudgetModal={openNewBudgetModal}
-            />
-          )}
-          {currentFY && (
-            <FundPreviousBudgetsContainer
-              currentFY={currentFY}
-              fundId={fund.id}
-              history={history}
-              location={location}
-            />
-          )}
-        </AccordionSet>
+            {currentFY && (
+              <FundPlannedBudgetsContainer
+                currentFY={currentFY}
+                fundId={fund.id}
+                history={history}
+                location={location}
+                openNewBudgetModal={openNewBudgetModal}
+              />
+            )}
+            {currentFY && (
+              <FundPreviousBudgetsContainer
+                currentFY={currentFY}
+                fundId={fund.id}
+                history={history}
+                location={location}
+              />
+            )}
+          </AccordionSet>
+        </AccordionStatus>
         {budgetStatusModal && (
           <AddBudgetModal
             budgetStatus={budgetStatusModal}

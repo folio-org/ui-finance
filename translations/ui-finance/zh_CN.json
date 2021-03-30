@@ -379,7 +379,7 @@
     "ledger.rollover.setAllowances": "设置限额",
     "transaction.type.Rollover transfer": "展期转账",
     "transaction.fundValidation2": "必须使用当前正在查看的预算填充“分配至”或“分配自”中的至少1个",
-    "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
-    "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching"
+    "fiscalYear.code.isInUse": "该财务年度代码已被使用",
+    "errors.load.code": "错误代码提取",
+    "errors.load.name": "错误名称提取"
 }

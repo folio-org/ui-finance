@@ -9,6 +9,8 @@ import { ControlledVocab } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
 import { EXPENSE_CLASSES_API } from '@folio/stripes-acq-components';
 
+import { ExpenseClassHelper } from './ExpenseClassHelper';
+
 const hiddenFields = ['numberOfObjects'];
 const visibleFields = ['name', 'code', 'externalAccountNumberExt'];
 const columnMapping = {
@@ -36,6 +38,7 @@ const ExpenseClassSettings = ({ stripes }) => {
       sortby="name"
       stripes={stripes}
       visibleFields={visibleFields}
+      rowFilter={<ExpenseClassHelper />}
     />
   );
 };

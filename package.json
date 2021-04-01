@@ -347,6 +347,7 @@
     "build": "yarn stripes build --output ./output",
     "test": "yarn run test:unit && yarn run test:e2e",
     "test:unit": "jest --ci --coverage",
+    "test:unit:watch": "jest --ci --watch",
     "test:e2e": "yarn stripes test karma --karma.singleRun --karma.browsers ChromeDocker --karma.reporters mocha junit --coverage",
     "lint": "eslint ."
   },

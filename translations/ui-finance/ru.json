@@ -381,5 +381,6 @@
     "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
     "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
     "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching"
+    "errors.load.name": "Error name fetching",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense classes."
 }

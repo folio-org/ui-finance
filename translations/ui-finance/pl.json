@@ -381,5 +381,6 @@
     "transaction.fundValidation2": "Musisz wypełnić co najmniej jedno z „Przydział do” lub „Przydział od” w aktualnie przeglądanym budżecie.",
     "fiscalYear.code.isInUse": "Ten kod roku budżetowego jest już używany",
     "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching"
+    "errors.load.name": "Error name fetching",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense classes."
 }

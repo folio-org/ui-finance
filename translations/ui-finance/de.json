@@ -381,5 +381,6 @@
     "transaction.fundValidation2": "Sie müssen das aktuell betrachtete Budget entweder unter \"Zuweisung zu\" oder \"Zuweisung von\" eintragen",
     "fiscalYear.code.isInUse": "Dieser Code für das Haushaltsjahr wird bereits verwendet.",
     "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching"
+    "errors.load.name": "Error name fetching",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense classes."
 }

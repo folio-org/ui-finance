@@ -126,7 +126,7 @@
   "budget.actions.remove.success": "Budget has been deleted",
   "budget.actions.remove.error.genericError": "Budget has not been deleted",
   "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
-  "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
+  "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense class.",
   "budget.actionsRequired": "Actions required",
   "budget.allocated": "Allocated",
   "budget.allocationDate": "Allocation date",

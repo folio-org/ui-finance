@@ -8,8 +8,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  Paneset,
+  checkScope,
+  HasCommand,
   MultiColumnList,
+  Paneset,
 } from '@folio/stripes/components';
 import {
   FiltersPane,
@@ -89,76 +91,89 @@ const GroupsList = ({
     />
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => history.push(`${GROUPS_ROUTE}/create`),
+    },
+  ];
+
   return (
-    <Paneset data-test-groups-list>
-      {isFiltersOpened && (
-        <FiltersPane
-          toggleFilters={toggleFilters}
-          width="350px"
-        >
-          <FinanceNavigation />
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset data-test-groups-list>
+        {isFiltersOpened && (
+          <FiltersPane
+            toggleFilters={toggleFilters}
+            width="350px"
+          >
+            <FinanceNavigation />
 
-          <SingleSearchForm
-            applySearch={applySearch}
-            changeSearch={changeSearch}
-            searchQuery={searchQuery}
-            searchableIndexes={searchableIndexes}
-            changeSearchIndex={changeIndex}
-            selectedIndex={searchIndex}
-            isLoading={isLoading}
-            ariaLabelId="ui-finance.search"
-          />
+            <SingleSearchForm
+              applySearch={applySearch}
+              changeSearch={changeSearch}
+              searchQuery={searchQuery}
+              searchableIndexes={searchableIndexes}
+              changeSearchIndex={changeIndex}
+              selectedIndex={searchIndex}
+              isLoading={isLoading}
+              ariaLabelId="ui-finance.search"
+            />
 
-          <ResetButton
-            id="reset-groups-filters"
-            reset={resetFilters}
-            disabled={!location.search}
-          />
+            <ResetButton
+              id="reset-groups-filters"
+              reset={resetFilters}
+              disabled={!location.search}
+            />
 
-          <GroupsListFilters
-            activeFilters={filters}
-            applyFilters={applyFilters}
-          />
-        </FiltersPane>
-      )}
-
-      <ResultsPane
-        title={resultsPaneTitle}
-        count={groupsCount}
-        renderLastMenu={renderLastMenu}
-        toggleFiltersPane={toggleFilters}
-        filters={filters}
-        isFiltersOpened={isFiltersOpened}
-      >
-        <MultiColumnList
-          id="groups-list"
-          totalCount={groupsCount}
-          contentData={groups}
-          visibleColumns={visibleColumns}
-          columnMapping={columnMapping}
-          loading={isLoading}
-          autosize
-          virtualize
-          onNeedMoreData={onNeedMoreData}
-          sortOrder={sortingField}
-          sortDirection={sortingDirection}
-          onHeaderClick={changeSorting}
-          onRowClick={openGroupDetails}
-          isEmptyMessage={resultsStatusMessage}
-          pagingType="click"
-          hasMargin
-        />
-      </ResultsPane>
-
-      <Route
-        path={`${GROUPS_ROUTE}/:id/view`}
-        render={() => (
-          <CheckPermission perm="ui-finance.group.view">
-            <GroupDetailsContainer />
-          </CheckPermission>
+            <GroupsListFilters
+              activeFilters={filters}
+              applyFilters={applyFilters}
+            />
+          </FiltersPane>
         )}
-      />
-    </Paneset>
+
+        <ResultsPane
+          title={resultsPaneTitle}
+          count={groupsCount}
+          renderLastMenu={renderLastMenu}
+          toggleFiltersPane={toggleFilters}
+          filters={filters}
+          isFiltersOpened={isFiltersOpened}
+        >
+          <MultiColumnList
+            id="groups-list"
+            totalCount={groupsCount}
+            contentData={groups}
+            visibleColumns={visibleColumns}
+            columnMapping={columnMapping}
+            loading={isLoading}
+            autosize
+            virtualize
+            onNeedMoreData={onNeedMoreData}
+            sortOrder={sortingField}
+            sortDirection={sortingDirection}
+            onHeaderClick={changeSorting}
+            onRowClick={openGroupDetails}
+            isEmptyMessage={resultsStatusMessage}
+            pagingType="click"
+            hasMargin
+          />
+        </ResultsPane>
+
+        <Route
+          path={`${GROUPS_ROUTE}/:id/view`}
+          render={() => (
+            <CheckPermission perm="ui-finance.group.view">
+              <GroupDetailsContainer />
+            </CheckPermission>
+          )}
+        />
+      </Paneset>
+    </HasCommand>
   );
 };
 

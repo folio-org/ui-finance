@@ -8,8 +8,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  Paneset,
+  checkScope,
+  HasCommand,
   MultiColumnList,
+  Paneset,
 } from '@folio/stripes/components';
 import {
   FiltersPane,
@@ -81,6 +83,13 @@ const FundsList = ({
     [location.search],
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => history.push(`${FUNDS_ROUTE}/create`),
+    },
+  ];
+
   const renderLastMenu = useCallback(() => <FundsListLastMenu />, []);
   const resultsStatusMessage = (
     <NoResultsMessage
@@ -92,75 +101,81 @@ const FundsList = ({
   );
 
   return (
-    <Paneset data-test-funds-list>
-      {isFiltersOpened && (
-        <FiltersPane
-          toggleFilters={toggleFilters}
-          width="350px"
-        >
-          <FinanceNavigation />
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset data-test-funds-list>
+        {isFiltersOpened && (
+          <FiltersPane
+            toggleFilters={toggleFilters}
+            width="350px"
+          >
+            <FinanceNavigation />
 
-          <SingleSearchForm
-            applySearch={applySearch}
-            changeSearch={changeSearch}
-            searchQuery={searchQuery}
-            searchableIndexes={searchableIndexes}
-            changeSearchIndex={changeIndex}
-            selectedIndex={searchIndex}
-            isLoading={isLoading}
-            ariaLabelId="ui-finance.search"
-          />
+            <SingleSearchForm
+              applySearch={applySearch}
+              changeSearch={changeSearch}
+              searchQuery={searchQuery}
+              searchableIndexes={searchableIndexes}
+              changeSearchIndex={changeIndex}
+              selectedIndex={searchIndex}
+              isLoading={isLoading}
+              ariaLabelId="ui-finance.search"
+            />
 
-          <ResetButton
-            id="reset-funds-filters"
-            reset={resetFilters}
-            disabled={!location.search}
-          />
+            <ResetButton
+              id="reset-funds-filters"
+              reset={resetFilters}
+              disabled={!location.search}
+            />
 
-          <FundsListFiltersContainer
-            activeFilters={filters}
-            applyFilters={applyFilters}
-          />
-        </FiltersPane>
-      )}
-
-      <ResultsPane
-        title={resultsPaneTitle}
-        count={fundsCount}
-        renderLastMenu={renderLastMenu}
-        toggleFiltersPane={toggleFilters}
-        filters={filters}
-        isFiltersOpened={isFiltersOpened}
-      >
-        <MultiColumnList
-          id="funds-list"
-          totalCount={fundsCount}
-          contentData={funds}
-          visibleColumns={visibleColumns}
-          columnMapping={columnMapping}
-          loading={isLoading}
-          autosize
-          virtualize
-          onNeedMoreData={onNeedMoreData}
-          sortOrder={sortingField}
-          sortDirection={sortingDirection}
-          onHeaderClick={changeSorting}
-          onRowClick={openFundDetails}
-          isEmptyMessage={resultsStatusMessage}
-          pagingType="click"
-          hasMargin
-        />
-      </ResultsPane>
-
-      <Route
-        path={`${FUNDS_ROUTE}/view/:id`}
-        render={(props) => (
-          <CheckPermission perm="ui-finance.fund-budget.view">
-            <FundDetailsContainer {...props} />
-          </CheckPermission>
+            <FundsListFiltersContainer
+              activeFilters={filters}
+              applyFilters={applyFilters}
+            />
+          </FiltersPane>
         )}
-      />
-    </Paneset>
+
+        <ResultsPane
+          title={resultsPaneTitle}
+          count={fundsCount}
+          renderLastMenu={renderLastMenu}
+          toggleFiltersPane={toggleFilters}
+          filters={filters}
+          isFiltersOpened={isFiltersOpened}
+        >
+          <MultiColumnList
+            id="funds-list"
+            totalCount={fundsCount}
+            contentData={funds}
+            visibleColumns={visibleColumns}
+            columnMapping={columnMapping}
+            loading={isLoading}
+            autosize
+            virtualize
+            onNeedMoreData={onNeedMoreData}
+            sortOrder={sortingField}
+            sortDirection={sortingDirection}
+            onHeaderClick={changeSorting}
+            onRowClick={openFundDetails}
+            isEmptyMessage={resultsStatusMessage}
+            pagingType="click"
+            hasMargin
+          />
+        </ResultsPane>
+
+        <Route
+          path={`${FUNDS_ROUTE}/view/:id`}
+          render={(props) => (
+            <CheckPermission perm="ui-finance.fund-budget.view">
+              <FundDetailsContainer {...props} />
+            </CheckPermission>
+          )}
+        />
+      </Paneset>
+    </HasCommand>
   );
 };
 

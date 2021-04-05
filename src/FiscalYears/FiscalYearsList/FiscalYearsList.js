@@ -8,8 +8,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  Paneset,
+  checkScope,
+  HasCommand,
   MultiColumnList,
+  Paneset,
 } from '@folio/stripes/components';
 import {
   FiltersPane,
@@ -90,76 +92,89 @@ const FiscalYearsList = ({
     />
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => history.push(`${FISCAL_YEAR_ROUTE}/create`),
+    },
+  ];
+
   return (
-    <Paneset data-test-fiscal-years-list>
-      {isFiltersOpened && (
-        <FiltersPane
-          toggleFilters={toggleFilters}
-          width="350px"
-        >
-          <FinanceNavigation />
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset data-test-fiscal-years-list>
+        {isFiltersOpened && (
+          <FiltersPane
+            toggleFilters={toggleFilters}
+            width="350px"
+          >
+            <FinanceNavigation />
 
-          <SingleSearchForm
-            applySearch={applySearch}
-            changeSearch={changeSearch}
-            searchQuery={searchQuery}
-            searchableIndexes={searchableIndexes}
-            changeSearchIndex={changeIndex}
-            selectedIndex={searchIndex}
-            isLoading={isLoading}
-            ariaLabelId="ui-finance.search"
-          />
+            <SingleSearchForm
+              applySearch={applySearch}
+              changeSearch={changeSearch}
+              searchQuery={searchQuery}
+              searchableIndexes={searchableIndexes}
+              changeSearchIndex={changeIndex}
+              selectedIndex={searchIndex}
+              isLoading={isLoading}
+              ariaLabelId="ui-finance.search"
+            />
 
-          <ResetButton
-            id="reset-fiscal-years-filters"
-            reset={resetFilters}
-            disabled={!location.search}
-          />
+            <ResetButton
+              id="reset-fiscal-years-filters"
+              reset={resetFilters}
+              disabled={!location.search}
+            />
 
-          <FiscalYearsListFilter
-            activeFilters={filters}
-            applyFilters={applyFilters}
-          />
-        </FiltersPane>
-      )}
-
-      <ResultsPane
-        title={resultsPaneTitle}
-        count={fiscalYearsCount}
-        renderLastMenu={renderLastMenu}
-        toggleFiltersPane={toggleFilters}
-        filters={filters}
-        isFiltersOpened={isFiltersOpened}
-      >
-        <MultiColumnList
-          id="fiscal-years-list"
-          totalCount={fiscalYearsCount}
-          contentData={fiscalYears}
-          visibleColumns={visibleColumns}
-          columnMapping={columnMapping}
-          loading={isLoading}
-          autosize
-          virtualize
-          onNeedMoreData={onNeedMoreData}
-          sortOrder={sortingField}
-          sortDirection={sortingDirection}
-          onHeaderClick={changeSorting}
-          onRowClick={openFiscalYearDetails}
-          isEmptyMessage={resultsStatusMessage}
-          pagingType="click"
-          hasMargin
-        />
-      </ResultsPane>
-
-      <Route
-        path={`${FISCAL_YEAR_ROUTE}/:id/view`}
-        render={() => (
-          <CheckPermission perm="ui-finance.fiscal-year.view">
-            <FiscalYearDetails />
-          </CheckPermission>
+            <FiscalYearsListFilter
+              activeFilters={filters}
+              applyFilters={applyFilters}
+            />
+          </FiltersPane>
         )}
-      />
-    </Paneset>
+
+        <ResultsPane
+          title={resultsPaneTitle}
+          count={fiscalYearsCount}
+          renderLastMenu={renderLastMenu}
+          toggleFiltersPane={toggleFilters}
+          filters={filters}
+          isFiltersOpened={isFiltersOpened}
+        >
+          <MultiColumnList
+            id="fiscal-years-list"
+            totalCount={fiscalYearsCount}
+            contentData={fiscalYears}
+            visibleColumns={visibleColumns}
+            columnMapping={columnMapping}
+            loading={isLoading}
+            autosize
+            virtualize
+            onNeedMoreData={onNeedMoreData}
+            sortOrder={sortingField}
+            sortDirection={sortingDirection}
+            onHeaderClick={changeSorting}
+            onRowClick={openFiscalYearDetails}
+            isEmptyMessage={resultsStatusMessage}
+            pagingType="click"
+            hasMargin
+          />
+        </ResultsPane>
+
+        <Route
+          path={`${FISCAL_YEAR_ROUTE}/:id/view`}
+          render={() => (
+            <CheckPermission perm="ui-finance.fiscal-year.view">
+              <FiscalYearDetails />
+            </CheckPermission>
+          )}
+        />
+      </Paneset>
+    </HasCommand>
   );
 };
 

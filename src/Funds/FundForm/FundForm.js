@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { useHistory } from 'react-router';
 import {
   find,
   get,
@@ -13,8 +14,12 @@ import {
   Accordion,
   AccordionSet,
   AccordionStatus,
+  checkScope,
   Col,
+  collapseAllSections,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   KeyValue,
   Pane,
   Paneset,
@@ -35,6 +40,7 @@ import {
 import { FieldFundGroups } from '../FundGroups';
 import {
   CREATE_UNITS_PERM,
+  FUNDS_ROUTE,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
 import { validateDuplicateFieldValue } from '../../common/utils';
@@ -58,6 +64,8 @@ const FundForm = ({
   systemCurrency,
 }) => {
   const ky = useOkapiKy();
+  const accordionStatusRef = useRef();
+  const history = useHistory();
   const fundTypeOptions = fundTypes.map(
     ({ name, id }) => ({
       label: name,
@@ -155,203 +163,233 @@ const FundForm = ({
     />
   );
 
+  const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: closeForm,
+    },
+    {
+      name: 'save',
+      handler: handleSubmit,
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'search',
+      handler: () => history.push(FUNDS_ROUTE),
+    },
+  ];
+
   return (
     <form>
-      <Paneset>
-        <Pane
-          defaultWidth="fill"
-          dismissible
-          footer={paneFooter}
-          id="pane-fund-form"
-          onClose={closeForm}
-          paneSub={initialValues.fund.code}
-          paneTitle={paneTitle}
-        >
-          <Row>
-            <Col
-              xs={12}
-              md={8}
-              mdOffset={2}
-            >
-              <AccordionStatus>
-                <Row end="xs">
-                  <Col xs={12}>
-                    <ExpandAllButton />
-                  </Col>
-                </Row>
-                <AccordionSet>
-                  <Accordion
-                    id={SECTIONS_FUND.INFORMATION}
-                    label={<FormattedMessage id="ui-finance.fund.information.title" />}
-                  >
-                    {metadata && <ViewMetaData metadata={metadata} />}
-                    <Row>
-                      <Col
-                        data-test-col-name
-                        xs={3}
-                      >
-                        <Field
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.fund.information.name" />}
-                          name="fund.name"
-                          type="text"
-                          required
-                          validate={validateFundName}
-                          validateFields={[]}
-                        />
-                      </Col>
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <Paneset>
+          <Pane
+            defaultWidth="fill"
+            dismissible
+            footer={paneFooter}
+            id="pane-fund-form"
+            onClose={closeForm}
+            paneSub={initialValues.fund.code}
+            paneTitle={paneTitle}
+          >
+            <Row>
+              <Col
+                xs={12}
+                md={8}
+                mdOffset={2}
+              >
+                <AccordionStatus ref={accordionStatusRef}>
+                  <Row end="xs">
+                    <Col xs={12}>
+                      <ExpandAllButton />
+                    </Col>
+                  </Row>
+                  <AccordionSet>
+                    <Accordion
+                      id={SECTIONS_FUND.INFORMATION}
+                      label={<FormattedMessage id="ui-finance.fund.information.title" />}
+                    >
+                      {metadata && <ViewMetaData metadata={metadata} />}
+                      <Row>
+                        <Col
+                          data-test-col-name
+                          xs={3}
+                        >
+                          <Field
+                            component={TextField}
+                            label={<FormattedMessage id="ui-finance.fund.information.name" />}
+                            name="fund.name"
+                            type="text"
+                            required
+                            validate={validateFundName}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col
-                        data-test-col-code
-                        xs={3}
-                      >
-                        <Field
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.fund.information.code" />}
-                          name="fund.code"
-                          type="text"
-                          required
-                          validate={validateFundCode}
-                          validateFields={[]}
-                        />
-                      </Col>
+                        <Col
+                          data-test-col-code
+                          xs={3}
+                        >
+                          <Field
+                            component={TextField}
+                            label={<FormattedMessage id="ui-finance.fund.information.code" />}
+                            name="fund.code"
+                            type="text"
+                            required
+                            validate={validateFundCode}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col
-                        data-test-col-ledger
-                        xs={3}
-                      >
-                        <FieldSelection
-                          dataOptions={ledgerOptions}
-                          labelId="ui-finance.fund.information.ledger"
-                          name="fund.ledgerId"
-                          required
-                          validateFields={['fund.name']}
-                        />
-                      </Col>
+                        <Col
+                          data-test-col-ledger
+                          xs={3}
+                        >
+                          <FieldSelection
+                            dataOptions={ledgerOptions}
+                            labelId="ui-finance.fund.information.ledger"
+                            name="fund.ledgerId"
+                            required
+                            validateFields={['fund.name']}
+                          />
+                        </Col>
 
-                      <Col
-                        data-test-col-status
-                        xs={3}
-                      >
-                        <FieldSelection
-                          dataOptions={FUND_STATUSES_OPTIONS}
-                          labelId="ui-finance.fund.information.status"
-                          name="fund.fundStatus"
-                          required
-                          validate={validateRequired}
-                          validateFields={[]}
-                        />
-                      </Col>
-                    </Row>
+                        <Col
+                          data-test-col-status
+                          xs={3}
+                        >
+                          <FieldSelection
+                            dataOptions={FUND_STATUSES_OPTIONS}
+                            labelId="ui-finance.fund.information.status"
+                            name="fund.fundStatus"
+                            required
+                            validate={validateRequired}
+                            validateFields={[]}
+                          />
+                        </Col>
+                      </Row>
 
-                    <Row>
-                      <Col
-                        data-test-col-currency
-                        xs={3}
-                      >
-                        <KeyValue
-                          label={<FormattedMessage id="ui-finance.fund.information.currency" />}
-                          value={fundCurrency}
-                        />
-                      </Col>
+                      <Row>
+                        <Col
+                          data-test-col-currency
+                          xs={3}
+                        >
+                          <KeyValue
+                            label={<FormattedMessage id="ui-finance.fund.information.currency" />}
+                            value={fundCurrency}
+                          />
+                        </Col>
 
-                      <Col
-                        data-test-col-type
-                        xs={3}
-                      >
-                        <FieldSelection
-                          dataOptions={fundTypeOptions}
-                          labelId="ui-finance.fund.information.type"
-                          name="fund.fundTypeId"
-                          validateFields={[]}
-                        />
-                      </Col>
+                        <Col
+                          data-test-col-type
+                          xs={3}
+                        >
+                          <FieldSelection
+                            dataOptions={fundTypeOptions}
+                            labelId="ui-finance.fund.information.type"
+                            name="fund.fundTypeId"
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col data-test-col-fund-form-acq-units xs={3}>
-                        <AcqUnitsField
-                          name="fund.acqUnitIds"
-                          perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
-                          id="fund-acq-units"
-                          isEdit={isEditMode}
-                          isFinal
-                          preselectedUnits={initialValues.fund.acqUnitIds}
-                        />
-                      </Col>
-                      <Col
-                        data-test-col-group
-                        xs={3}
-                      >
-                        <FieldFundGroups name="groupIds" />
-                      </Col>
-                    </Row>
+                        <Col data-test-col-fund-form-acq-units xs={3}>
+                          <AcqUnitsField
+                            name="fund.acqUnitIds"
+                            perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                            id="fund-acq-units"
+                            isEdit={isEditMode}
+                            isFinal
+                            preselectedUnits={initialValues.fund.acqUnitIds}
+                          />
+                        </Col>
+                        <Col
+                          data-test-col-group
+                          xs={3}
+                        >
+                          <FieldFundGroups name="groupIds" />
+                        </Col>
+                      </Row>
 
-                    <Row>
-                      <Col
-                        data-test-col-transfer-from
-                        xs={3}
-                      >
-                        <FieldMultiSelection
-                          dataOptions={fundOptions}
-                          label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
-                          name="fund.allocatedFromIds"
-                          itemToString={itemToString}
-                          formatter={formatter}
-                          filter={filter}
-                          validateFields={[]}
-                        />
-                      </Col>
+                      <Row>
+                        <Col
+                          data-test-col-transfer-from
+                          xs={3}
+                        >
+                          <FieldMultiSelection
+                            dataOptions={fundOptions}
+                            label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
+                            name="fund.allocatedFromIds"
+                            itemToString={itemToString}
+                            formatter={formatter}
+                            filter={filter}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col
-                        data-test-col-transfer-to
-                        xs={3}
-                      >
-                        <FieldMultiSelection
-                          dataOptions={fundOptions}
-                          label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
-                          name="fund.allocatedToIds"
-                          itemToString={itemToString}
-                          formatter={formatter}
-                          filter={filter}
-                          validateFields={[]}
-                        />
-                      </Col>
+                        <Col
+                          data-test-col-transfer-to
+                          xs={3}
+                        >
+                          <FieldMultiSelection
+                            dataOptions={fundOptions}
+                            label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
+                            name="fund.allocatedToIds"
+                            itemToString={itemToString}
+                            formatter={formatter}
+                            filter={filter}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col
-                        data-test-col-external-account
-                        xs={3}
-                      >
-                        <Field
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.fund.information.externalAccount" />}
-                          name="fund.externalAccountNo"
-                          type="text"
-                          required
-                          validate={validateRequired}
-                          validateFields={[]}
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col
-                        data-test-col-description
-                        xs={6}
-                      >
-                        <Field
-                          component={TextArea}
-                          label={<FormattedMessage id="ui-finance.fund.information.description" />}
-                          name="fund.description"
-                          type="text"
-                          validateFields={[]}
-                        />
-                      </Col>
-                    </Row>
-                  </Accordion>
-                </AccordionSet>
-              </AccordionStatus>
-            </Col>
-          </Row>
-        </Pane>
-      </Paneset>
+                        <Col
+                          data-test-col-external-account
+                          xs={3}
+                        >
+                          <Field
+                            component={TextField}
+                            label={<FormattedMessage id="ui-finance.fund.information.externalAccount" />}
+                            name="fund.externalAccountNo"
+                            type="text"
+                            required
+                            validate={validateRequired}
+                            validateFields={[]}
+                          />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col
+                          data-test-col-description
+                          xs={6}
+                        >
+                          <Field
+                            component={TextArea}
+                            label={<FormattedMessage id="ui-finance.fund.information.description" />}
+                            name="fund.description"
+                            type="text"
+                            validateFields={[]}
+                          />
+                        </Col>
+                      </Row>
+                    </Accordion>
+                  </AccordionSet>
+                </AccordionStatus>
+              </Col>
+            </Row>
+          </Pane>
+        </Paneset>
+      </HasCommand>
     </form>
   );
 };

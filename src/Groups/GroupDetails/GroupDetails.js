@@ -1,17 +1,22 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router';
 
 import {
+  Accordion,
+  AccordionSet,
   AccordionStatus,
+  checkScope,
+  Col,
+  collapseAllSections,
+  ConfirmationModal,
+  ExpandAllButton,
+  expandAllSections,
+  HasCommand,
+  MenuSection,
   Pane,
   Row,
-  Col,
-  ExpandAllButton,
-  AccordionSet,
-  Accordion,
-  MenuSection,
-  ConfirmationModal,
 } from '@folio/stripes/components';
 import {
   useModalToggle,
@@ -22,6 +27,7 @@ import {
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
 import FinancialSummary from '../../common/FinancialSummary';
+import { GROUPS_ROUTE } from '../../common/const';
 import {
   GROUP_ACCORDTION,
   GROUP_ACCORDTION_LABELS,
@@ -42,6 +48,8 @@ const GroupDetails = ({
   onSelectFY,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
+  const accordionStatusRef = useRef();
+  const history = useHistory();
 
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
@@ -72,78 +80,103 @@ const GroupDetails = ({
     [removeGroup, toggleRemoveConfirmation],
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => history.push(`${GROUPS_ROUTE}/create`),
+    },
+    {
+      name: 'edit',
+      handler: editGroup,
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
   return (
-    <Pane
-      id="pane-group-details"
-      defaultWidth="fill"
-      dismissible
-      actionMenu={renderActionMenu}
-      paneTitle={group.name}
-      onClose={onClose}
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
     >
-      <AccordionStatus>
-        <Row end="xs">
-          <Col xs={12}>
-            <ExpandAllButton />
-          </Col>
-        </Row>
-        <AccordionSet>
-          <Accordion
-            id={GROUP_ACCORDTION.information}
-            label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.information]}
-          >
-            <GroupInformation
-              metadata={group.metadata}
-              name={group.name}
-              code={group.code}
-              status={group.status}
-              description={group.description}
-              acqUnitIds={group.acqUnitIds}
-              fiscalYears={fiscalYearsRecords}
-              selectedFiscalYearId={selectedFY.id}
-              onSelectFY={onSelectFY}
-            />
-          </Accordion>
-          <Accordion
-            id={GROUP_ACCORDTION.financialSummary}
-            label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.financialSummary]}
-          >
-            <FinancialSummary
-              data={groupSummary}
-              fiscalYearCurrency={selectedFY.currency}
-            />
-          </Accordion>
-          <Accordion
-            id={GROUP_ACCORDTION.fund}
-            label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
-          >
-            <GroupFund
-              currency={selectedFY.currency}
-              funds={funds}
+      <Pane
+        id="pane-group-details"
+        defaultWidth="fill"
+        dismissible
+        actionMenu={renderActionMenu}
+        paneTitle={group.name}
+        onClose={onClose}
+      >
+        <AccordionStatus ref={accordionStatusRef}>
+          <Row end="xs">
+            <Col xs={12}>
+              <ExpandAllButton />
+            </Col>
+          </Row>
+          <AccordionSet>
+            <Accordion
+              id={GROUP_ACCORDTION.information}
+              label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.information]}
+            >
+              <GroupInformation
+                metadata={group.metadata}
+                name={group.name}
+                code={group.code}
+                status={group.status}
+                description={group.description}
+                acqUnitIds={group.acqUnitIds}
+                fiscalYears={fiscalYearsRecords}
+                selectedFiscalYearId={selectedFY.id}
+                onSelectFY={onSelectFY}
+              />
+            </Accordion>
+            <Accordion
+              id={GROUP_ACCORDTION.financialSummary}
+              label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.financialSummary]}
+            >
+              <FinancialSummary
+                data={groupSummary}
+                fiscalYearCurrency={selectedFY.currency}
+              />
+            </Accordion>
+            <Accordion
+              id={GROUP_ACCORDTION.fund}
+              label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
+            >
+              <GroupFund
+                currency={selectedFY.currency}
+                funds={funds}
+                fiscalYearId={selectedFY.id}
+                groupId={group.id}
+              />
+            </Accordion>
+            <GroupExpenseClasses
               fiscalYearId={selectedFY.id}
               groupId={group.id}
+              currency={selectedFY.currency}
             />
-          </Accordion>
-          <GroupExpenseClasses
-            fiscalYearId={selectedFY.id}
-            groupId={group.id}
-            currency={selectedFY.currency}
-          />
-        </AccordionSet>
-      </AccordionStatus>
+          </AccordionSet>
+        </AccordionStatus>
 
-      {isRemoveConfirmation && (
-        <ConfirmationModal
-          id="group-remove-confirmation"
-          confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
-          heading={<FormattedMessage id="ui-finance.groups.actions.remove.heading" />}
-          message={<FormattedMessage id="ui-finance.groups.actions.remove.message" />}
-          onCancel={toggleRemoveConfirmation}
-          onConfirm={onRemove}
-          open
-        />
-      )}
-    </Pane>
+        {isRemoveConfirmation && (
+          <ConfirmationModal
+            id="group-remove-confirmation"
+            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+            heading={<FormattedMessage id="ui-finance.groups.actions.remove.heading" />}
+            message={<FormattedMessage id="ui-finance.groups.actions.remove.message" />}
+            onCancel={toggleRemoveConfirmation}
+            onConfirm={onRemove}
+            open
+          />
+        )}
+      </Pane>
+    </HasCommand>
   );
 };
 

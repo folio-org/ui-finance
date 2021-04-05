@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -17,10 +17,16 @@ import FinancialSummary from '../../../common/FinancialSummary';
 import { SECTIONS_BUDGET } from '../constants';
 import BudgetInformation from './BudgetInformation';
 
-const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fiscalYearCurrency }) => {
+const BudgetView = forwardRef(({
+  budget,
+  expenseClassesTotals,
+  fiscalStart,
+  fiscalEnd,
+  fiscalYearCurrency,
+}, ref) => {
   return (
     <>
-      <AccordionStatus>
+      <AccordionStatus ref={ref}>
         <Row end="xs">
           <Col xs={12}>
             <ExpandAllButton />
@@ -70,7 +76,7 @@ const BudgetView = ({ budget, expenseClassesTotals, fiscalStart, fiscalEnd, fisc
       </AccordionStatus>
     </>
   );
-};
+});
 
 BudgetView.propTypes = {
   budget: PropTypes.object.isRequired,

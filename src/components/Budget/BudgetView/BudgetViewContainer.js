@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
@@ -8,8 +8,12 @@ import {
 
 import {
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ConfirmationModal,
+  expandAllSections,
+  HasCommand,
   Icon,
   LoadingView,
   MenuSection,
@@ -48,6 +52,7 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [expenseClassesTotals, setExpenseClassesTotals] = useState();
   const showCallout = useShowCallout();
+  const accordionStatusRef = useRef();
 
   const fetchBudgetResources = useCallback(
     () => {
@@ -209,6 +214,25 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
     </MenuSection>
   );
 
+  const shortcuts = [
+    {
+      name: 'edit',
+      handler: editBudget,
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'search',
+      handler: () => history.push(FUNDS_ROUTE),
+    },
+  ];
+
   if (isLoading) {
     return (
       <LoadingView onClose={goToFundDetails} />
@@ -216,68 +240,75 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
   }
 
   return (
-    <Paneset>
-      <Pane
-        actionMenu={renderActionMenu}
-        defaultWidth="fill"
-        dismissible
-        id="pane-budget"
-        onClose={goToFundDetails}
-        paneTitle={paneTitle}
-      >
-        <Row>
-          <Col
-            xs={12}
-            md={8}
-            mdOffset={2}
-          >
-            <BudgetView
-              budget={budget}
-              expenseClassesTotals={expenseClassesTotals}
-              fiscalStart={fiscalYear.periodStart}
-              fiscalEnd={fiscalYear.periodEnd}
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset>
+        <Pane
+          actionMenu={renderActionMenu}
+          defaultWidth="fill"
+          dismissible
+          id="pane-budget"
+          onClose={goToFundDetails}
+          paneTitle={paneTitle}
+        >
+          <Row>
+            <Col
+              xs={12}
+              md={8}
+              mdOffset={2}
+            >
+              <BudgetView
+                ref={accordionStatusRef}
+                budget={budget}
+                expenseClassesTotals={expenseClassesTotals}
+                fiscalStart={fiscalYear.periodStart}
+                fiscalEnd={fiscalYear.periodEnd}
+                fiscalYearCurrency={fiscalYear.currency}
+              />
+            </Col>
+          </Row>
+
+          {isTransferModalOpened && (
+            <CreateTransaction
+              fundId={budget.fundId}
+              budgetName={budget.name}
+              transactionType={TRANSACTION_TYPES.transfer}
+              fiscalYearId={fiscalYear.id}
+              onClose={toggleTransferModal}
+              fetchBudgetResources={fetchBudgetResources}
               fiscalYearCurrency={fiscalYear.currency}
             />
-          </Col>
-        </Row>
+          )}
 
-        {isTransferModalOpened && (
-          <CreateTransaction
-            fundId={budget.fundId}
-            budgetName={budget.name}
-            transactionType={TRANSACTION_TYPES.transfer}
-            fiscalYearId={fiscalYear.id}
-            onClose={toggleTransferModal}
-            fetchBudgetResources={fetchBudgetResources}
-            fiscalYearCurrency={fiscalYear.currency}
-          />
-        )}
+          {isAllocateModalOpened && (
+            <CreateTransaction
+              fundId={budget.fundId}
+              budgetName={budget.name}
+              transactionType={TRANSACTION_TYPES.allocation}
+              fiscalYearId={fiscalYear.id}
+              onClose={toggleAllocateModal}
+              fetchBudgetResources={fetchBudgetResources}
+              fiscalYearCurrency={fiscalYear.currency}
+            />
+          )}
 
-        {isAllocateModalOpened && (
-          <CreateTransaction
-            fundId={budget.fundId}
-            budgetName={budget.name}
-            transactionType={TRANSACTION_TYPES.allocation}
-            fiscalYearId={fiscalYear.id}
-            onClose={toggleAllocateModal}
-            fetchBudgetResources={fetchBudgetResources}
-            fiscalYearCurrency={fiscalYear.currency}
-          />
-        )}
-
-        {isRemoveConfirmation && (
-          <ConfirmationModal
-            id="budget-remove-confirmation"
-            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
-            heading={<FormattedMessage id="ui-finance.budget.remove.heading" />}
-            message={<FormattedMessage id="ui-finance.budget.remove.message" />}
-            onCancel={toggleRemoveConfirmation}
-            onConfirm={onRemove}
-            open
-          />
-        )}
-      </Pane>
-    </Paneset>
+          {isRemoveConfirmation && (
+            <ConfirmationModal
+              id="budget-remove-confirmation"
+              confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+              heading={<FormattedMessage id="ui-finance.budget.remove.heading" />}
+              message={<FormattedMessage id="ui-finance.budget.remove.message" />}
+              onCancel={toggleRemoveConfirmation}
+              onConfirm={onRemove}
+              open
+            />
+          )}
+        </Pane>
+      </Paneset>
+    </HasCommand>
   );
 };
 

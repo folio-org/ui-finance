@@ -300,7 +300,7 @@
     "item.netTransfers": "Net transfers",
     "transaction.actions.load.error": "Error al cargar datos de la transacción",
     "transaction.expenseClass": "Clase de gastos",
-    "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
+    "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense class.",
     "transaction.transfer.notEnoughMoneyForTransferError": "Transfer was not successful. There is not enough money Available in the budget to complete this Transfer.",
     "ledger.code.isInUse": "This Ledger code is already in use.",
     "ledger.name.isInUse": "This Ledger name is already in use.",
@@ -381,5 +381,6 @@
     "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
     "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
     "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching"
+    "errors.load.name": "Error name fetching",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense classes."
 }

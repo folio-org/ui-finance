@@ -126,7 +126,7 @@
   "budget.actions.remove.success": "Budget has been deleted",
   "budget.actions.remove.error.genericError": "Budget has not been deleted",
   "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
-  "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense class.",
+  "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
   "budget.actionsRequired": "Actions required",
   "budget.allocated": "Allocated",
   "budget.allocationDate": "Allocation date",
@@ -361,7 +361,7 @@
   "expenseClass.name": "Name",
   "expenseClass.code": "Code",
   "expenseClass.account": "External account number extension",
-  "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense classes.",
+  "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
 
   "fundType.label": "Fund type",
   "fundType.label.plural": "Fund types",

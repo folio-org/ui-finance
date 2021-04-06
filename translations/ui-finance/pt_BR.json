@@ -378,8 +378,9 @@
     "permission.manually-release-encumbrances": "Finanças: Liberação manual da alocação",
     "ledger.rollover.setAllowances": "Definir custeio",
     "transaction.type.Rollover transfer": "Transferência de rolagem",
-    "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
+    "transaction.fundValidation2": "Você deve preencher pelo menos 1 de \"Alocação para\" ou \"Alocação de\" com o orçamento que está visualizando no momento",
     "fiscalYear.code.isInUse": "Este código de ano fiscal já está em uso",
     "errors.load.code": "Erro ao buscar código",
-    "errors.load.name": "Erro ao buscar nome"
+    "errors.load.name": "Erro ao buscar nome",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class."
 }

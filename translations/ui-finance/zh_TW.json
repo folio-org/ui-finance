@@ -380,6 +380,7 @@
     "transaction.type.Rollover transfer": "Rollover transfer",
     "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
     "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
-    "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching"
+    "errors.load.code": "獲取錯誤代碼",
+    "errors.load.name": "命名錯誤",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class."
 }

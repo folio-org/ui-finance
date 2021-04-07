@@ -3,9 +3,13 @@
 ## (IN PROGRESS)
 
 * Finance app: Apply baseline shortcut keys. Refs UIF-293.
+* Add help text to expense classes in settings area. Refs UIF-291.
+
+## [2.3.2](https://github.com/folio-org/ui-finance/tree/v2.3.2) (2021-04-07)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.1...v2.3.2)
+
 * Fix collapse/expand all accordions. Refs UIF-296.
 * Validations on FY, Ledger and Group. Refs UIF-292.
-* Add help text to expense classes in settings area. Refs UIF-291.
 
 ## [2.3.1](https://github.com/folio-org/ui-finance/tree/v2.3.1) (2021-03-18)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.0...v2.3.1)

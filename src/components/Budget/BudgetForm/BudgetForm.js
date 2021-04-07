@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router';
 
 import {
   Accordion,
   AccordionSet,
   AccordionStatus,
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   Icon,
   MenuSection,
   Pane,
@@ -23,6 +28,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import FinancialSummary from '../../../common/FinancialSummary';
+import { FUNDS_ROUTE } from '../../../common/const';
 import { SECTIONS_BUDGET } from '../constants';
 import BudgetInformationFields from './BudgetInformationFields';
 import BudgetExpenseClassesFields from './BudgetExpenseClassesFields';
@@ -37,6 +43,8 @@ const BudgetForm = ({
   submitting,
   values,
 }) => {
+  const accordionStatusRef = useRef();
+  const history = useHistory();
   const { periodStart, periodEnd, currency } = fiscalYear;
 
   const paneFooter = (
@@ -67,65 +75,95 @@ const BudgetForm = ({
     </MenuSection>
   );
 
+  const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: onClose,
+    },
+    {
+      name: 'save',
+      handler: handleSubmit,
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'search',
+      handler: () => history.push(FUNDS_ROUTE),
+    },
+  ];
+
   return (
     <form id="budget-edit-form">
-      <Paneset>
-        <Pane
-          actionMenu={renderActionMenu}
-          defaultWidth="fill"
-          dismissible
-          footer={paneFooter}
-          id="pane-budget"
-          onClose={onClose}
-          paneTitle={initialValues.name}
-        >
-          <Row>
-            <Col
-              xs={12}
-              md={8}
-              mdOffset={2}
-            >
-              <AccordionStatus>
-                <Row end="xs">
-                  <Col xs={12}>
-                    <ExpandAllButton />
-                  </Col>
-                </Row>
-                <AccordionSet>
-                  <Accordion
-                    label={<FormattedMessage id="ui-finance.budget.summary.title" />}
-                    id={SECTIONS_BUDGET.SUMMARY}
-                  >
-                    <ViewMetaData metadata={initialValues.metadata} />
-                    <FinancialSummary
-                      data={initialValues}
-                      fiscalYearCurrency={currency}
-                    />
-                  </Accordion>
-                  <Accordion
-                    label={<FormattedMessage id="ui-finance.budget.information.title" />}
-                    id={SECTIONS_BUDGET.INFORMATION}
-                  >
-                    <BudgetInformationFields
-                      fiscalEnd={periodEnd}
-                      fiscalStart={periodStart}
-                    />
-                  </Accordion>
-                  <Accordion
-                    label={<FormattedMessage id="ui-finance.budget.expenseClasses.title" />}
-                    id={SECTIONS_BUDGET.EXPENSE_CLASSES}
-                  >
-                    <BudgetExpenseClassesFields
-                      expenseClasses={expenseClasses}
-                      formValues={values}
-                    />
-                  </Accordion>
-                </AccordionSet>
-              </AccordionStatus>
-            </Col>
-          </Row>
-        </Pane>
-      </Paneset>
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <Paneset>
+          <Pane
+            actionMenu={renderActionMenu}
+            defaultWidth="fill"
+            dismissible
+            footer={paneFooter}
+            id="pane-budget"
+            onClose={onClose}
+            paneTitle={initialValues.name}
+          >
+            <Row>
+              <Col
+                xs={12}
+                md={8}
+                mdOffset={2}
+              >
+                <AccordionStatus ref={accordionStatusRef}>
+                  <Row end="xs">
+                    <Col xs={12}>
+                      <ExpandAllButton />
+                    </Col>
+                  </Row>
+                  <AccordionSet>
+                    <Accordion
+                      label={<FormattedMessage id="ui-finance.budget.summary.title" />}
+                      id={SECTIONS_BUDGET.SUMMARY}
+                    >
+                      <ViewMetaData metadata={initialValues.metadata} />
+                      <FinancialSummary
+                        data={initialValues}
+                        fiscalYearCurrency={currency}
+                      />
+                    </Accordion>
+                    <Accordion
+                      label={<FormattedMessage id="ui-finance.budget.information.title" />}
+                      id={SECTIONS_BUDGET.INFORMATION}
+                    >
+                      <BudgetInformationFields
+                        fiscalEnd={periodEnd}
+                        fiscalStart={periodStart}
+                      />
+                    </Accordion>
+                    <Accordion
+                      label={<FormattedMessage id="ui-finance.budget.expenseClasses.title" />}
+                      id={SECTIONS_BUDGET.EXPENSE_CLASSES}
+                    >
+                      <BudgetExpenseClassesFields
+                        expenseClasses={expenseClasses}
+                        formValues={values}
+                      />
+                    </Accordion>
+                  </AccordionSet>
+                </AccordionStatus>
+              </Col>
+            </Row>
+          </Pane>
+        </Paneset>
+      </HasCommand>
     </form>
 
   );

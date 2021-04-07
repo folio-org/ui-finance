@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -13,9 +13,13 @@ import {
   AccordionSet,
   AccordionStatus,
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ConfirmationModal,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   Icon,
   LoadingPane,
   MenuSection,
@@ -65,6 +69,7 @@ const FundDetailsContainer = ({
   const [currentFY, setCurrentFY] = useState();
   const [currentBudget, setCurrentBudget] = useState();
   const showToast = useShowCallout();
+  const accordionStatusRef = useRef();
 
   const fetchFund = useCallback(
     () => {
@@ -222,6 +227,25 @@ const FundDetailsContainer = ({
     </PaneMenu>
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => history.push(`${FUNDS_ROUTE}/create`),
+    },
+    {
+      name: 'edit',
+      handler: editFund,
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
   if (isLoading) {
     return (
       <LoadingPane onClose={closePane} />
@@ -230,90 +254,96 @@ const FundDetailsContainer = ({
 
   return (
     <>
-      <Pane
-        actionMenu={renderActionMenu}
-        defaultWidth="fill"
-        dismissible
-        id="pane-fund-details"
-        lastMenu={lastMenu}
-        onClose={closePane}
-        paneSub={fund.code}
-        paneTitle={fund.name}
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
       >
-        <AccordionStatus>
-          <Row end="xs">
-            <Col xs={12}>
-              <ExpandAllButton />
-            </Col>
-          </Row>
-          <AccordionSet>
-            <Accordion
-              label={<FormattedMessage id="ui-finance.fund.information.title" />}
-              id={SECTIONS_FUND.INFORMATION}
-            >
-              <ViewMetaData metadata={fund.metadata} />
-              <FundDetails
-                acqUnitIds={fund.acqUnitIds}
-                currency={currency}
-                fund={fund}
-                groupIds={compositeFund.groupIds}
-              />
-            </Accordion>
+        <Pane
+          actionMenu={renderActionMenu}
+          defaultWidth="fill"
+          dismissible
+          id="pane-fund-details"
+          lastMenu={lastMenu}
+          onClose={closePane}
+          paneSub={fund.code}
+          paneTitle={fund.name}
+        >
+          <AccordionStatus ref={accordionStatusRef}>
+            <Row end="xs">
+              <Col xs={12}>
+                <ExpandAllButton />
+              </Col>
+            </Row>
+            <AccordionSet>
+              <Accordion
+                label={<FormattedMessage id="ui-finance.fund.information.title" />}
+                id={SECTIONS_FUND.INFORMATION}
+              >
+                <ViewMetaData metadata={fund.metadata} />
+                <FundDetails
+                  acqUnitIds={fund.acqUnitIds}
+                  currency={currency}
+                  fund={fund}
+                  groupIds={compositeFund.groupIds}
+                />
+              </Accordion>
 
-            {currentFY && (
-              <FundCurrentBudget
-                budget={currentBudget}
-                currency={currentFY.currency}
-                history={history}
-                location={location}
-                openNewBudgetModal={openNewBudgetModal}
+              {currentFY && (
+                <FundCurrentBudget
+                  budget={currentBudget}
+                  currency={currentFY.currency}
+                  history={history}
+                  location={location}
+                  openNewBudgetModal={openNewBudgetModal}
+                />
+              )}
+              <FundExpenseClasses
+                budgetId={currentBudget?.id}
+                currency={currentFY?.currency}
               />
-            )}
-            <FundExpenseClasses
-              budgetId={currentBudget?.id}
-              currency={currentFY?.currency}
+              {currentFY && (
+                <FundPlannedBudgetsContainer
+                  currentFY={currentFY}
+                  fundId={fund.id}
+                  history={history}
+                  location={location}
+                  openNewBudgetModal={openNewBudgetModal}
+                />
+              )}
+              {currentFY && (
+                <FundPreviousBudgetsContainer
+                  currentFY={currentFY}
+                  fundId={fund.id}
+                  history={history}
+                  location={location}
+                />
+              )}
+            </AccordionSet>
+          </AccordionStatus>
+          {budgetStatusModal && (
+            <AddBudgetModal
+              budgetStatus={budgetStatusModal}
+              onClose={() => setBudgetStatusModal('')}
+              fund={fund}
+              history={history}
+              ledgerId={fund.ledgerId}
+              location={location}
             />
-            {currentFY && (
-              <FundPlannedBudgetsContainer
-                currentFY={currentFY}
-                fundId={fund.id}
-                history={history}
-                location={location}
-                openNewBudgetModal={openNewBudgetModal}
-              />
-            )}
-            {currentFY && (
-              <FundPreviousBudgetsContainer
-                currentFY={currentFY}
-                fundId={fund.id}
-                history={history}
-                location={location}
-              />
-            )}
-          </AccordionSet>
-        </AccordionStatus>
-        {budgetStatusModal && (
-          <AddBudgetModal
-            budgetStatus={budgetStatusModal}
-            onClose={() => setBudgetStatusModal('')}
-            fund={fund}
-            history={history}
-            ledgerId={fund.ledgerId}
-            location={location}
-          />
-        )}
-        {isRemoveConfirmation && (
-          <ConfirmationModal
-            id="fund-remove-confirmation"
-            confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
-            heading={<FormattedMessage id="ui-finance.fund.remove.heading" />}
-            message={<FormattedMessage id="ui-finance.fund.remove.message" />}
-            onCancel={toggleRemoveConfirmation}
-            onConfirm={onRemove}
-            open
-          />
-        )}
-      </Pane>
+          )}
+          {isRemoveConfirmation && (
+            <ConfirmationModal
+              id="fund-remove-confirmation"
+              confirmLabel={<FormattedMessage id="ui-finance.actions.remove.confirm" />}
+              heading={<FormattedMessage id="ui-finance.fund.remove.heading" />}
+              message={<FormattedMessage id="ui-finance.fund.remove.message" />}
+              onCancel={toggleRemoveConfirmation}
+              onConfirm={onRemove}
+              open
+            />
+          )}
+        </Pane>
+      </HasCommand>
       {isTagsPaneOpened && (
         <Tags
           putMutator={updateFundTagList}

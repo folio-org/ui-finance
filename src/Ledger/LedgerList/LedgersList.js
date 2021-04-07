@@ -10,6 +10,8 @@ import {
 } from 'react-intl';
 
 import {
+  checkScope,
+  HasCommand,
   MultiColumnList,
   Paneset,
 } from '@folio/stripes/components';
@@ -81,6 +83,13 @@ const LedgerList = ({
     [location.search],
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => history.push(`${LEDGERS_ROUTE}/create`),
+    },
+  ];
+
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoading}
@@ -91,71 +100,77 @@ const LedgerList = ({
   );
 
   return (
-    <Paneset data-test-ledgers-list>
-      {isFiltersOpened && (
-        <FiltersPane
-          toggleFilters={toggleFilters}
-          width="350px"
-        >
-          <FinanceNavigation />
-          <SingleSearchForm
-            applySearch={applySearch}
-            changeSearch={changeSearch}
-            searchQuery={searchQuery}
-            searchableIndexes={searchableIndexes}
-            changeSearchIndex={changeIndex}
-            selectedIndex={searchIndex}
-            isLoading={isLoading}
-            ariaLabelId="ui-finance.search"
-          />
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset data-test-ledgers-list>
+        {isFiltersOpened && (
+          <FiltersPane
+            toggleFilters={toggleFilters}
+            width="350px"
+          >
+            <FinanceNavigation />
+            <SingleSearchForm
+              applySearch={applySearch}
+              changeSearch={changeSearch}
+              searchQuery={searchQuery}
+              searchableIndexes={searchableIndexes}
+              changeSearchIndex={changeIndex}
+              selectedIndex={searchIndex}
+              isLoading={isLoading}
+              ariaLabelId="ui-finance.search"
+            />
 
-          <ResetButton
-            id="reset-ledgers-filters"
-            reset={resetFilters}
-            disabled={!location.search}
-          />
-          <LedgerListFilters
-            activeFilters={filters}
-            applyFilters={applyFilters}
-          />
-        </FiltersPane>
-      )}
-      <ResultsPane
-        title={title}
-        count={ledgersCount}
-        renderLastMenu={renderLastMenu}
-        toggleFiltersPane={toggleFilters}
-        filters={filters}
-        isFiltersOpened={isFiltersOpened}
-      >
-        <MultiColumnList
-          id="ledgers-list"
-          totalCount={ledgersCount}
-          contentData={ledgers}
-          visibleColumns={visibleColumns}
-          columnMapping={columnMapping}
-          loading={isLoading}
-          autosize
-          virtualize
-          onNeedMoreData={onNeedMoreData}
-          sortOrder={sortingField}
-          sortDirection={sortingDirection}
-          onHeaderClick={changeSorting}
-          onRowClick={openLedgerDetails}
-          isEmptyMessage={resultsStatusMessage}
-          pagingType="click"
-          hasMargin
-        />
-      </ResultsPane>
-      <Route
-        path="/finance/ledger/:id/view"
-        render={() => (
-          <CheckPermission perm="ui-finance.ledger.view">
-            <LedgerDetailsContainer />
-          </CheckPermission>
+            <ResetButton
+              id="reset-ledgers-filters"
+              reset={resetFilters}
+              disabled={!location.search}
+            />
+            <LedgerListFilters
+              activeFilters={filters}
+              applyFilters={applyFilters}
+            />
+          </FiltersPane>
         )}
-      />
-    </Paneset>
+        <ResultsPane
+          title={title}
+          count={ledgersCount}
+          renderLastMenu={renderLastMenu}
+          toggleFiltersPane={toggleFilters}
+          filters={filters}
+          isFiltersOpened={isFiltersOpened}
+        >
+          <MultiColumnList
+            id="ledgers-list"
+            totalCount={ledgersCount}
+            contentData={ledgers}
+            visibleColumns={visibleColumns}
+            columnMapping={columnMapping}
+            loading={isLoading}
+            autosize
+            virtualize
+            onNeedMoreData={onNeedMoreData}
+            sortOrder={sortingField}
+            sortDirection={sortingDirection}
+            onHeaderClick={changeSorting}
+            onRowClick={openLedgerDetails}
+            isEmptyMessage={resultsStatusMessage}
+            pagingType="click"
+            hasMargin
+          />
+        </ResultsPane>
+        <Route
+          path="/finance/ledger/:id/view"
+          render={() => (
+            <CheckPermission perm="ui-finance.ledger.view">
+              <LedgerDetailsContainer />
+            </CheckPermission>
+          )}
+        />
+      </Paneset>
+    </HasCommand>
   );
 };
 

@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Finance app: Apply baseline shortcut keys. Refs UIF-293.
 * Fix collapse/expand all accordions. Refs UIF-296.
 * Validations on FY, Ledger and Group. Refs UIF-292.
 * Add help text to expense classes in settings area. Refs UIF-291.

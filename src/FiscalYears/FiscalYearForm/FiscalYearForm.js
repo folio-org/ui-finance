@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
+import { useHistory } from 'react-router';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
@@ -16,6 +17,10 @@ import {
   Row,
   TextArea,
   TextField,
+  HasCommand,
+  checkScope,
+  expandAllSections,
+  collapseAllSections,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
@@ -29,6 +34,7 @@ import {
   CREATE_UNITS_PERM,
   MANAGE_UNITS_PERM,
   FISCAL_YEARS_API,
+  FISCAL_YEAR_ROUTE,
 } from '../../common/const';
 import {
   FISCAL_YEAR_ACCORDION_LABELS,
@@ -48,6 +54,8 @@ const FiscalYearForm = ({
   submitting,
 }) => {
   const ky = useOkapiKy();
+  const accordionStatusRef = useRef();
+  const history = useHistory();
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -81,111 +89,141 @@ const FiscalYearForm = ({
     />
   );
 
+  const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: onCancel,
+    },
+    {
+      name: 'save',
+      handler: handleSubmit,
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'search',
+      handler: () => history.push(FISCAL_YEAR_ROUTE),
+    },
+  ];
+
   return (
     <form>
-      <Paneset>
-        <Pane
-          defaultWidth="fill"
-          dismissible
-          footer={paneFooter}
-          id="pane-fiscal-year-form"
-          onClose={closeForm}
-          paneTitle={isEditMode ? EDIT_FISCAL_YEAR_TITLE : CREATE_FISCAL_YEAR_TITLE}
-        >
-          <Row>
-            <Col
-              xs={12}
-              md={8}
-              mdOffset={2}
-            >
-              <AccordionStatus>
-                <Row end="xs">
-                  <Col xs={12}>
-                    <ExpandAllButton />
-                  </Col>
-                </Row>
-                <AccordionSet>
-                  <Accordion
-                    id={FISCAL_YEAR_ACCORDION.information}
-                    label={FISCAL_YEAR_ACCORDION_LABELS.information}
-                  >
-                    {metadata && <ViewMetaData metadata={metadata} />}
-                    <Row>
-                      <Col xs={4}>
-                        <Field
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.fiscalYear.information.name" />}
-                          name="name"
-                          type="text"
-                          required
-                          validate={validateRequired}
-                          validateFields={[]}
-                        />
-                      </Col>
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <Paneset>
+          <Pane
+            defaultWidth="fill"
+            dismissible
+            footer={paneFooter}
+            id="pane-fiscal-year-form"
+            onClose={closeForm}
+            paneTitle={isEditMode ? EDIT_FISCAL_YEAR_TITLE : CREATE_FISCAL_YEAR_TITLE}
+          >
+            <Row>
+              <Col
+                xs={12}
+                md={8}
+                mdOffset={2}
+              >
+                <AccordionStatus ref={accordionStatusRef}>
+                  <Row end="xs">
+                    <Col xs={12}>
+                      <ExpandAllButton />
+                    </Col>
+                  </Row>
+                  <AccordionSet>
+                    <Accordion
+                      id={FISCAL_YEAR_ACCORDION.information}
+                      label={FISCAL_YEAR_ACCORDION_LABELS.information}
+                    >
+                      {metadata && <ViewMetaData metadata={metadata} />}
+                      <Row>
+                        <Col xs={4}>
+                          <Field
+                            component={TextField}
+                            label={<FormattedMessage id="ui-finance.fiscalYear.information.name" />}
+                            name="name"
+                            type="text"
+                            required
+                            validate={validateRequired}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col
-                        xs={4}
-                        data-test-col-fy-form-code
-                      >
-                        <DebouncingValidatingField
-                          component={TextField}
-                          label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
-                          name="code"
-                          type="text"
-                          required
-                          validate={validateCode}
-                          validateFields={[]}
-                        />
-                      </Col>
+                        <Col
+                          xs={4}
+                          data-test-col-fy-form-code
+                        >
+                          <DebouncingValidatingField
+                            component={TextField}
+                            label={<FormattedMessage id="ui-finance.fiscalYear.information.code" />}
+                            name="code"
+                            type="text"
+                            required
+                            validate={validateCode}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col xs={4}>
-                        <AcqUnitsField
-                          name="acqUnitIds"
-                          perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
-                          id="fy-acq-units"
-                          isEdit={isEditMode}
-                          isFinal
-                          preselectedUnits={initialValues.acqUnitIds}
-                        />
-                      </Col>
+                        <Col xs={4}>
+                          <AcqUnitsField
+                            name="acqUnitIds"
+                            perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                            id="fy-acq-units"
+                            isEdit={isEditMode}
+                            isFinal
+                            preselectedUnits={initialValues.acqUnitIds}
+                          />
+                        </Col>
 
-                      <Col xs={4}>
-                        <FieldDatepickerFinal
-                          labelId="ui-finance.fiscalYear.information.periodStart"
-                          name="periodStart"
-                          required
-                          validate={validateRequired}
-                          validateFields={[]}
-                        />
-                      </Col>
+                        <Col xs={4}>
+                          <FieldDatepickerFinal
+                            labelId="ui-finance.fiscalYear.information.periodStart"
+                            name="periodStart"
+                            required
+                            validate={validateRequired}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col xs={4}>
-                        <FieldDatepickerFinal
-                          labelId="ui-finance.fiscalYear.information.periodEnd"
-                          name="periodEnd"
-                          required
-                          validate={validateRequired}
-                          validateFields={[]}
-                        />
-                      </Col>
+                        <Col xs={4}>
+                          <FieldDatepickerFinal
+                            labelId="ui-finance.fiscalYear.information.periodEnd"
+                            name="periodEnd"
+                            required
+                            validate={validateRequired}
+                            validateFields={[]}
+                          />
+                        </Col>
 
-                      <Col xs={12}>
-                        <Field
-                          component={TextArea}
-                          label={<FormattedMessage id="ui-finance.fiscalYear.information.description" />}
-                          name="description"
-                          type="text"
-                          validateFields={[]}
-                        />
-                      </Col>
-                    </Row>
-                  </Accordion>
-                </AccordionSet>
-              </AccordionStatus>
-            </Col>
-          </Row>
-        </Pane>
-      </Paneset>
+                        <Col xs={12}>
+                          <Field
+                            component={TextArea}
+                            label={<FormattedMessage id="ui-finance.fiscalYear.information.description" />}
+                            name="description"
+                            type="text"
+                            validateFields={[]}
+                          />
+                        </Col>
+                      </Row>
+                    </Accordion>
+                  </AccordionSet>
+                </AccordionStatus>
+              </Col>
+            </Row>
+          </Pane>
+        </Paneset>
+      </HasCommand>
     </form>
   );
 };

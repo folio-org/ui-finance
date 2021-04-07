@@ -2,10 +2,13 @@ import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
+import { useHistory } from 'react-router';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
+  checkScope,
   Col,
+  HasCommand,
   Pane,
   Paneset,
   Row,
@@ -21,6 +24,7 @@ import {
 
 import {
   CREATE_UNITS_PERM,
+  GROUPS_ROUTE,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
 import { GROUP_STATUS_OPTIONS } from '../constants';
@@ -35,6 +39,7 @@ const GroupForm = ({
   pristine,
   submitting,
 }) => {
+  const history = useHistory();
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const isEditMode = Boolean(initialValues.id);
@@ -49,77 +54,99 @@ const GroupForm = ({
     />
   );
 
+  const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: closeForm,
+    },
+    {
+      name: 'save',
+      handler: handleSubmit,
+    },
+    {
+      name: 'search',
+      handler: () => history.push(GROUPS_ROUTE),
+    },
+  ];
+
   return (
     <form>
-      <Paneset>
-        <Pane
-          defaultWidth="fill"
-          dismissible
-          footer={paneFooter}
-          id="pane-group-form"
-          onClose={closeForm}
-          paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
-        >
-          <Row>
-            <Col xs={12} md={8} mdOffset={2}>
-              <Row>
-                <Col xs={3}>
-                  <Field
-                    component={TextField}
-                    label={<FormattedMessage id="ui-finance.groups.item.information.name" />}
-                    name="name"
-                    type="text"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <Paneset>
+          <Pane
+            defaultWidth="fill"
+            dismissible
+            footer={paneFooter}
+            id="pane-group-form"
+            onClose={closeForm}
+            paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
+          >
+            <Row>
+              <Col xs={12} md={8} mdOffset={2}>
+                <Row>
+                  <Col xs={3}>
+                    <Field
+                      component={TextField}
+                      label={<FormattedMessage id="ui-finance.groups.item.information.name" />}
+                      name="name"
+                      type="text"
+                      required
+                      validate={validateRequired}
+                    />
+                  </Col>
 
-                <Col xs={3}>
-                  <Field
-                    component={TextField}
-                    label={<FormattedMessage id="ui-finance.groups.item.information.code" />}
-                    name="code"
-                    type="text"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
+                  <Col xs={3}>
+                    <Field
+                      component={TextField}
+                      label={<FormattedMessage id="ui-finance.groups.item.information.code" />}
+                      name="code"
+                      type="text"
+                      required
+                      validate={validateRequired}
+                    />
+                  </Col>
 
-                <Col xs={3}>
-                  <FieldSelectionFinal
-                    dataOptions={GROUP_STATUS_OPTIONS}
-                    id="group-status"
-                    labelId="ui-finance.groups.item.information.status"
-                    name="status"
-                    required
-                    validate={validateRequired}
-                  />
-                </Col>
+                  <Col xs={3}>
+                    <FieldSelectionFinal
+                      dataOptions={GROUP_STATUS_OPTIONS}
+                      id="group-status"
+                      labelId="ui-finance.groups.item.information.status"
+                      name="status"
+                      required
+                      validate={validateRequired}
+                    />
+                  </Col>
 
-                <Col xs={3}>
-                  <AcqUnitsField
-                    name="acqUnitIds"
-                    perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
-                    id="group-acq-units"
-                    isEdit={isEditMode}
-                    preselectedUnits={initialValues.acqUnitIds}
-                    isFinal
-                  />
-                </Col>
+                  <Col xs={3}>
+                    <AcqUnitsField
+                      name="acqUnitIds"
+                      perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                      id="group-acq-units"
+                      isEdit={isEditMode}
+                      preselectedUnits={initialValues.acqUnitIds}
+                      isFinal
+                    />
+                  </Col>
 
-                <Col xs={6}>
-                  <Field
-                    component={TextArea}
-                    label={<FormattedMessage id="ui-finance.groups.item.information.description" />}
-                    name="description"
-                    type="text"
-                  />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Pane>
-      </Paneset>
+                  <Col xs={6}>
+                    <Field
+                      component={TextArea}
+                      label={<FormattedMessage id="ui-finance.groups.item.information.description" />}
+                      name="description"
+                      type="text"
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Pane>
+        </Paneset>
+      </HasCommand>
     </form>
   );
 };

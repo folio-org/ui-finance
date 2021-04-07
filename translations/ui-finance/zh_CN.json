@@ -381,5 +381,6 @@
     "transaction.fundValidation2": "必须使用当前正在查看的预算填充“分配至”或“分配自”中的至少1个",
     "fiscalYear.code.isInUse": "该财务年度代码已被使用",
     "errors.load.code": "错误代码提取",
-    "errors.load.name": "错误名称提取"
+    "errors.load.name": "错误名称提取",
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class."
 }

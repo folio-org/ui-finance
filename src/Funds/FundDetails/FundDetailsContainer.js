@@ -32,6 +32,7 @@ import {
   baseManifest,
   Tags,
   TagsBadge,
+  useAcqRestrictions,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -70,6 +71,10 @@ const FundDetailsContainer = ({
   const [currentBudget, setCurrentBudget] = useState();
   const showToast = useShowCallout();
   const accordionStatusRef = useRef();
+
+  const { perms, isLoading: isPermsLoading } = useAcqRestrictions(
+    compositeFund.fund.id, compositeFund.fund.acqUnitIds,
+  );
 
   const fetchFund = useCallback(
     () => {
@@ -189,6 +194,7 @@ const FundDetailsContainer = ({
           perm="finance.funds.item.put"
           onEdit={editFund}
           toggleActionMenu={onToggle}
+          disabled={isPermsLoading || perms.protectUpdate}
         />
         {currentBudget?.id && (
           <Button
@@ -208,10 +214,14 @@ const FundDetailsContainer = ({
           perm="finance.funds.item.delete"
           toggleActionMenu={onToggle}
           onRemove={toggleRemoveConfirmation}
+          disabled={isPermsLoading || perms.protectDelete}
         />
       </MenuSection>
     ),
-    [editFund, toggleRemoveConfirmation, currentBudget, goToTransactions],
+    [
+      editFund, toggleRemoveConfirmation, currentBudget, goToTransactions,
+      isPermsLoading, perms.protectDelete, perms.protectUpdate,
+    ],
   );
 
   const openNewBudgetModal = useCallback((status) => {

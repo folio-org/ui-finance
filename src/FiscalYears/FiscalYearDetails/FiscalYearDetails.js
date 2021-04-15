@@ -20,6 +20,7 @@ import {
 } from '@folio/stripes/components';
 import {
   useModalToggle,
+  useAcqRestrictions,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -51,6 +52,8 @@ const FiscalYearDetails = ({
   const accordionStatusRef = useRef();
   const history = useHistory();
 
+  const { perms, isLoading: isPermsLoading } = useAcqRestrictions(fiscalYear.id, fiscalYear.acqUnitIds);
+
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <MenuSection id="fiscal-year-details-actions">
@@ -58,15 +61,17 @@ const FiscalYearDetails = ({
           perm="finance.fiscal-years.item.put"
           onEdit={onEdit}
           toggleActionMenu={onToggle}
+          disabled={isPermsLoading || perms.protectUpdate}
         />
         <DetailsRemoveAction
           perm="finance.fiscal-years.item.delete"
           onRemove={toggleRemoveConfirmation}
           toggleActionMenu={onToggle}
+          disabled={isPermsLoading || perms.protectDelete}
         />
       </MenuSection>
     ),
-    [onEdit, toggleRemoveConfirmation],
+    [onEdit, toggleRemoveConfirmation, isPermsLoading, perms.protectDelete, perms.protectUpdate],
   );
 
   const shortcuts = [

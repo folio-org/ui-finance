@@ -122,7 +122,7 @@ const TransactionsList = ({
   );
 
   return (
-    <Paneset>
+    <Paneset isRoot>
       {isFiltersOpened && (
         <FiltersPane toggleFilters={toggleFilters}>
           <SingleSearchForm

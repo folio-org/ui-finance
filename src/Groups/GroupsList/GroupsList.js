@@ -11,17 +11,17 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
-  Paneset,
 } from '@folio/stripes/components';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
-  useToggle,
 } from '@folio/stripes-acq-components';
 
 import { GROUPS_ROUTE } from '../../common/const';
@@ -68,7 +68,7 @@ const GroupsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
-  const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/group/filters');
 
   const openGroupDetails = useCallback(
     (e, meta) => {
@@ -104,9 +104,14 @@ const GroupsList = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
-      <Paneset data-test-groups-list>
+      <PersistedPaneset
+        appId="ui-finance"
+        id="group-paneset"
+        data-test-groups-list
+      >
         {isFiltersOpened && (
           <FiltersPane
+            id="group-filters-pane"
             toggleFilters={toggleFilters}
             width="350px"
           >
@@ -137,6 +142,7 @@ const GroupsList = ({
         )}
 
         <ResultsPane
+          id="group-results-pane"
           title={resultsPaneTitle}
           count={groupsCount}
           renderLastMenu={renderLastMenu}
@@ -172,7 +178,7 @@ const GroupsList = ({
             </CheckPermission>
           )}
         />
-      </Paneset>
+      </PersistedPaneset>
     </HasCommand>
   );
 };

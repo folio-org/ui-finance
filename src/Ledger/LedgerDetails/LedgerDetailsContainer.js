@@ -159,7 +159,12 @@ const LedgerDetailsContainer = ({
   const [isClosedProgress] = useLocalStorage(`LedgerRolloverProgress-${rollover?.id}`);
 
   if (isLoading || isLoadingRolloverStatus) {
-    return <LoadingPane onClose={closePane} />;
+    return (
+      <LoadingPane
+        id="pane-ledger-details"
+        onClose={closePane}
+      />
+    );
   }
 
   if (

@@ -11,17 +11,17 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
-  Paneset,
 } from '@folio/stripes/components';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
-  useToggle,
 } from '@folio/stripes-acq-components';
 
 import { FISCAL_YEAR_ROUTE } from '../../common/const';
@@ -69,7 +69,7 @@ const FiscalYearsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
-  const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fiscalYear/filters');
 
   const openFiscalYearDetails = useCallback(
     (e, meta) => {
@@ -105,9 +105,14 @@ const FiscalYearsList = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
-      <Paneset data-test-fiscal-years-list>
+      <PersistedPaneset
+        appId="ui-finance"
+        id="fiscal-year-paneset"
+        data-test-fiscal-years-list
+      >
         {isFiltersOpened && (
           <FiltersPane
+            id="fiscal-year-filters-pane"
             toggleFilters={toggleFilters}
             width="350px"
           >
@@ -138,6 +143,7 @@ const FiscalYearsList = ({
         )}
 
         <ResultsPane
+          id="fiscal-year-results-pane"
           title={resultsPaneTitle}
           count={fiscalYearsCount}
           renderLastMenu={renderLastMenu}
@@ -173,7 +179,7 @@ const FiscalYearsList = ({
             </CheckPermission>
           )}
         />
-      </Paneset>
+      </PersistedPaneset>
     </HasCommand>
   );
 };

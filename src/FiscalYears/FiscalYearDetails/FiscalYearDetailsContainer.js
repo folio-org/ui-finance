@@ -145,7 +145,12 @@ const FiscalYearDetailsContainer = ({
   );
 
   if (isLoading) {
-    return <LoadingPane onClose={closePane} />;
+    return (
+      <LoadingPane
+        id="pane-fiscal-year-details"
+        onClose={closePane}
+      />
+    );
   }
 
   return (

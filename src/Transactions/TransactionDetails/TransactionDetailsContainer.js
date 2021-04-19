@@ -108,7 +108,13 @@ const TransactionDetailsContainer = ({
   const isLoading = !(transaction && transactionFunds && fiscalYear);
 
   if (isLoading) {
-    return <LoadingPane onClose={onClose} dismissible />;
+    return (
+      <LoadingPane
+        id="pane-transaction-details"
+        onClose={onClose}
+        dismissible
+      />
+    );
   }
 
   const fromFund = transactionFunds.find(({ id }) => id === transaction.fromFundId);

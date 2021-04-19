@@ -58,7 +58,7 @@ describe('Ledger details', () => {
     expect(ledgerDetails.funds.list().length).to.be.equal(1);
   });
 
-  it('fund unavaliable value should be equal $1,000.00', () => {
+  it('fund unavailable value should be equal $1,000.00', () => {
     expect(ledgerDetails.funds.list(0).values(4).value).to.be.equal('$1,000.00');
   });
 
@@ -68,7 +68,7 @@ describe('Ledger details', () => {
     });
 
     it('redirects to selected fund view page', () => {
-      expect(fundDetails.isPresent).to.be.false;
+      expect(fundDetails.isPresent).to.be.true;
     });
   });
 
@@ -78,7 +78,7 @@ describe('Ledger details', () => {
     });
 
     it('redirects to selected group view page', () => {
-      expect(fundDetails.isPresent).to.be.false;
+      expect(ledgerDetails.isPresent).to.be.false;
     });
   });
 

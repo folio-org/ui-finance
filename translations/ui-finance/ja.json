@@ -285,7 +285,7 @@
     "budget.expenseClasses.title": "経費クラス",
     "budget.expenseClasses.expenseClassName": "経費クラス",
     "budget.expenseClasses.encumbered": "Encumbered",
-    "budget.expenseClasses.awaitingPayment": "Awating payment",
+    "budget.expenseClasses.awaitingPayment": "Awaiting payment",
     "budget.expenseClasses.expended": "Expended",
     "budget.expenseClasses.percentageExpended": "Percent of total expended",
     "budget.expenseClasses.percentageExpended.undefined": "Undefined",

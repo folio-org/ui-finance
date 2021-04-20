@@ -23,6 +23,7 @@ import {
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 import {
+  useAcqRestrictions,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -56,6 +57,10 @@ const LedgerDetails = ({
   const accordionStatusRef = useRef();
   const history = useHistory();
 
+  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
+    ledger.id, ledger.acqUnitIds,
+  );
+
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
     ({ onToggle }) => {
@@ -65,11 +70,13 @@ const LedgerDetails = ({
             perm="finance.ledgers.item.put"
             onEdit={onEdit}
             toggleActionMenu={onToggle}
+            disabled={isRestrictionsLoading || restrictions.protectUpdate}
           />
           <DetailsRemoveAction
             perm="finance.ledgers.item.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
+            disabled={isRestrictionsLoading || restrictions.protectDelete}
           />
           <IfPermission perm="ui-finance.ledger.rollover">
             <Button
@@ -91,7 +98,10 @@ const LedgerDetails = ({
         </MenuSection>
       );
     },
-    [onEdit, toggleRemoveConfirmation, onRollover],
+    [
+      onEdit, toggleRemoveConfirmation, onRollover, isRestrictionsLoading,
+      restrictions.protectDelete, restrictions.protectUpdate,
+    ],
   );
 
   const onRemove = useCallback(

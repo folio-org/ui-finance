@@ -19,6 +19,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
+  useAcqRestrictions,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -51,6 +52,10 @@ const GroupDetails = ({
   const accordionStatusRef = useRef();
   const history = useHistory();
 
+  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
+    group.id, group.acqUnitIds,
+  );
+
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
     ({ onToggle }) => {
@@ -60,16 +65,21 @@ const GroupDetails = ({
             perm="finance.groups.item.put"
             onEdit={editGroup}
             toggleActionMenu={onToggle}
+            disabled={isRestrictionsLoading || restrictions.protectUpdate}
           />
           <DetailsRemoveAction
             perm="finance.groups.item.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
+            disabled={isRestrictionsLoading || restrictions.protectDelete}
           />
         </MenuSection>
       );
     },
-    [editGroup, toggleRemoveConfirmation],
+    [
+      editGroup, toggleRemoveConfirmation, isRestrictionsLoading,
+      restrictions.protectDelete, restrictions.protectUpdate,
+    ],
   );
 
   const onRemove = useCallback(

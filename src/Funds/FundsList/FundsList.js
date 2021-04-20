@@ -11,17 +11,17 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
-  Paneset,
 } from '@folio/stripes/components';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
-  useToggle,
 } from '@folio/stripes-acq-components';
 
 import { FUNDS_ROUTE } from '../../common/const';
@@ -70,7 +70,7 @@ const FundsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
-  const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fund/filters');
 
   const openFundDetails = useCallback(
     (e, meta) => {
@@ -106,9 +106,14 @@ const FundsList = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
-      <Paneset data-test-funds-list>
+      <PersistedPaneset
+        appId="ui-finance"
+        id="fund-paneset"
+        data-test-funds-list
+      >
         {isFiltersOpened && (
           <FiltersPane
+            id="fund-filters-pane"
             toggleFilters={toggleFilters}
             width="350px"
           >
@@ -139,6 +144,7 @@ const FundsList = ({
         )}
 
         <ResultsPane
+          id="fund-results-pane"
           title={resultsPaneTitle}
           count={fundsCount}
           renderLastMenu={renderLastMenu}
@@ -174,7 +180,7 @@ const FundsList = ({
             </CheckPermission>
           )}
         />
-      </Paneset>
+      </PersistedPaneset>
     </HasCommand>
   );
 };

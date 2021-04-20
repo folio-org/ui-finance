@@ -258,7 +258,10 @@ const FundDetailsContainer = ({
 
   if (isLoading) {
     return (
-      <LoadingPane onClose={closePane} />
+      <LoadingPane
+        id="pane-fund-details"
+        onClose={closePane}
+      />
     );
   }
 

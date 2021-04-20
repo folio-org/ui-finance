@@ -13,17 +13,17 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
-  Paneset,
 } from '@folio/stripes/components';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
-  useToggle,
 } from '@folio/stripes-acq-components';
 
 import { LEDGERS_ROUTE } from '../../common/const';
@@ -68,7 +68,7 @@ const LedgerList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData);
 
-  const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/ledger/filters');
 
   const renderLastMenu = useCallback(() => <LedgerListLastMenu />, []);
 
@@ -105,9 +105,14 @@ const LedgerList = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
-      <Paneset data-test-ledgers-list>
+      <PersistedPaneset
+        appId="ui-receiving"
+        id="invoice-paneset"
+        data-test-ledgers-list
+      >
         {isFiltersOpened && (
           <FiltersPane
+            id="ledger-filters-pane"
             toggleFilters={toggleFilters}
             width="350px"
           >
@@ -135,6 +140,7 @@ const LedgerList = ({
           </FiltersPane>
         )}
         <ResultsPane
+          id="ledger-results-pane"
           title={title}
           count={ledgersCount}
           renderLastMenu={renderLastMenu}
@@ -169,7 +175,7 @@ const LedgerList = ({
             </CheckPermission>
           )}
         />
-      </Paneset>
+      </PersistedPaneset>
     </HasCommand>
   );
 };

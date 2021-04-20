@@ -11,10 +11,8 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get, sortBy } from 'lodash';
 
-import {
-  Paneset,
-  MultiColumnList,
-} from '@folio/stripes/components';
+import { MultiColumnList } from '@folio/stripes/components';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   DESC_DIRECTION,
   FiltersPane,
@@ -25,9 +23,9 @@ import {
   SingleSearchForm,
   SORTING_DIRECTION_PARAMETER,
   SORTING_PARAMETER,
+  useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
-  useToggle,
 } from '@folio/stripes-acq-components';
 
 import CheckPermission from '../../common/CheckPermission';
@@ -99,7 +97,7 @@ const TransactionsList = ({
     sortingDirection,
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields, DEFAULT_SORTING);
-  const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/transaction/filters');
 
   const selectedItem = useCallback(
     (e, meta) => {
@@ -122,9 +120,16 @@ const TransactionsList = ({
   );
 
   return (
-    <Paneset isRoot>
+    <PersistedPaneset
+      isRoot
+      appId="ui-finance"
+      id="transaction-paneset"
+    >
       {isFiltersOpened && (
-        <FiltersPane toggleFilters={toggleFilters}>
+        <FiltersPane
+          id="transaction-filters-pane"
+          toggleFilters={toggleFilters}
+        >
           <SingleSearchForm
             applySearch={applySearch}
             changeSearch={changeSearch}
@@ -147,6 +152,7 @@ const TransactionsList = ({
       )}
 
       <ResultsPane
+        id="transaction-results-pane"
         title={resultsPaneTitle}
         count={transactionsCount}
         toggleFiltersPane={toggleFilters}
@@ -186,7 +192,7 @@ const TransactionsList = ({
           </CheckPermission>
         )}
       />
-    </Paneset>
+    </PersistedPaneset>
   );
 };
 

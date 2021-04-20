@@ -134,7 +134,12 @@ const GroupDetailsContainer = ({
   const { funds } = useAllFunds();
 
   if (isLoading) {
-    return <LoadingPane onClose={closePane} />;
+    return (
+      <LoadingPane
+        id="pane-group-details"
+        onClose={closePane}
+      />
+    );
   }
 
   return (

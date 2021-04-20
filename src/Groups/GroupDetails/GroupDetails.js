@@ -52,7 +52,7 @@ const GroupDetails = ({
   const accordionStatusRef = useRef();
   const history = useHistory();
 
-  const { perms, isLoading: isPermsLoading } = useAcqRestrictions(group.id, group.acqUnitIds);
+  const { restrictions, isLoading: isPermsLoading } = useAcqRestrictions(group.id, group.acqUnitIds);
 
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
@@ -63,18 +63,21 @@ const GroupDetails = ({
             perm="finance.groups.item.put"
             onEdit={editGroup}
             toggleActionMenu={onToggle}
-            disabled={isPermsLoading || perms.protectUpdate}
+            disabled={isPermsLoading || restrictions.protectUpdate}
           />
           <DetailsRemoveAction
             perm="finance.groups.item.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
-            disabled={isPermsLoading || perms.protectDelete}
+            disabled={isPermsLoading || restrictions.protectDelete}
           />
         </MenuSection>
       );
     },
-    [editGroup, toggleRemoveConfirmation, isPermsLoading, perms.protectDelete, perms.protectUpdate],
+    [
+      editGroup, toggleRemoveConfirmation, isPermsLoading,
+      restrictions.protectDelete, restrictions.protectUpdate,
+    ],
   );
 
   const onRemove = useCallback(

@@ -57,7 +57,7 @@ const LedgerDetails = ({
   const accordionStatusRef = useRef();
   const history = useHistory();
 
-  const { perms, isLoading: isPermsLoading } = useAcqRestrictions(ledger.id, ledger.acqUnitIds);
+  const { restrictions, isLoading: isPermsLoading } = useAcqRestrictions(ledger.id, ledger.acqUnitIds);
 
   // eslint-disable-next-line react/prop-types
   const renderActionMenu = useCallback(
@@ -68,13 +68,13 @@ const LedgerDetails = ({
             perm="finance.ledgers.item.put"
             onEdit={onEdit}
             toggleActionMenu={onToggle}
-            disabled={isPermsLoading || perms.protectUpdate}
+            disabled={isPermsLoading || restrictions.protectUpdate}
           />
           <DetailsRemoveAction
             perm="finance.ledgers.item.delete"
             toggleActionMenu={onToggle}
             onRemove={toggleRemoveConfirmation}
-            disabled={isPermsLoading || perms.protectDelete}
+            disabled={isPermsLoading || restrictions.protectDelete}
           />
           <IfPermission perm="ui-finance.ledger.rollover">
             <Button
@@ -96,7 +96,10 @@ const LedgerDetails = ({
         </MenuSection>
       );
     },
-    [onEdit, toggleRemoveConfirmation, onRollover, isPermsLoading, perms.protectDelete, perms.protectUpdate],
+    [
+      onEdit, toggleRemoveConfirmation, onRollover, isPermsLoading,
+      restrictions.protectDelete, restrictions.protectUpdate,
+    ],
   );
 
   const onRemove = useCallback(

@@ -52,7 +52,9 @@ const FiscalYearDetails = ({
   const accordionStatusRef = useRef();
   const history = useHistory();
 
-  const { restrictions, isLoading: isPermsLoading } = useAcqRestrictions(fiscalYear.id, fiscalYear.acqUnitIds);
+  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
+    fiscalYear.id, fiscalYear.acqUnitIds,
+  );
 
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
@@ -61,18 +63,18 @@ const FiscalYearDetails = ({
           perm="finance.fiscal-years.item.put"
           onEdit={onEdit}
           toggleActionMenu={onToggle}
-          disabled={isPermsLoading || restrictions.protectUpdate}
+          disabled={isRestrictionsLoading || restrictions.protectUpdate}
         />
         <DetailsRemoveAction
           perm="finance.fiscal-years.item.delete"
           onRemove={toggleRemoveConfirmation}
           toggleActionMenu={onToggle}
-          disabled={isPermsLoading || restrictions.protectDelete}
+          disabled={isRestrictionsLoading || restrictions.protectDelete}
         />
       </MenuSection>
     ),
     [
-      onEdit, toggleRemoveConfirmation, isPermsLoading,
+      onEdit, toggleRemoveConfirmation, isRestrictionsLoading,
       restrictions.protectDelete, restrictions.protectUpdate,
     ],
   );

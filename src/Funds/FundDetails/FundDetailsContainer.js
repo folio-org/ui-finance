@@ -72,7 +72,7 @@ const FundDetailsContainer = ({
   const showToast = useShowCallout();
   const accordionStatusRef = useRef();
 
-  const { restrictions, isLoading: isPermsLoading } = useAcqRestrictions(
+  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     compositeFund.fund.id, compositeFund.fund.acqUnitIds,
   );
 
@@ -194,7 +194,7 @@ const FundDetailsContainer = ({
           perm="finance.funds.item.put"
           onEdit={editFund}
           toggleActionMenu={onToggle}
-          disabled={isPermsLoading || restrictions.protectUpdate}
+          disabled={isRestrictionsLoading || restrictions.protectUpdate}
         />
         {currentBudget?.id && (
           <Button
@@ -214,13 +214,13 @@ const FundDetailsContainer = ({
           perm="finance.funds.item.delete"
           toggleActionMenu={onToggle}
           onRemove={toggleRemoveConfirmation}
-          disabled={isPermsLoading || restrictions.protectDelete}
+          disabled={isRestrictionsLoading || restrictions.protectDelete}
         />
       </MenuSection>
     ),
     [
       editFund, toggleRemoveConfirmation, currentBudget, goToTransactions,
-      isPermsLoading, restrictions.protectDelete, restrictions.protectUpdate,
+      isRestrictionsLoading, restrictions.protectDelete, restrictions.protectUpdate,
     ],
   );
 

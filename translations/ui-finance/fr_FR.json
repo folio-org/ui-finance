@@ -285,7 +285,7 @@
     "budget.expenseClasses.title": "Catégories de dépenses",
     "budget.expenseClasses.expenseClassName": "Classe de dépenses",
     "budget.expenseClasses.encumbered": "Engagé",
-    "budget.expenseClasses.awaitingPayment": "En attente de paiement",
+    "budget.expenseClasses.awaitingPayment": "En attente de règlement",
     "budget.expenseClasses.expended": "Dépensé",
     "budget.expenseClasses.percentageExpended": "Pourcentage du total dépensé",
     "budget.expenseClasses.percentageExpended.undefined": "Indéfini",

@@ -14,7 +14,6 @@ import {
 } from '@folio/stripes/components';
 
 import Main from './components/Main';
-
 import Settings from './settings';
 
 class Finance extends React.Component {

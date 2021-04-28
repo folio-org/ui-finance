@@ -63,7 +63,7 @@ const FundDetailsContainer = ({
   match: { params },
   location,
   mutator,
-  stripes: { currency },
+  stripes,
 }) => {
   const [compositeFund, setCompositeFund] = useState({ fund: {}, groupIds: [] });
   const [isLoading, setIsLoading] = useState(true);
@@ -240,11 +240,21 @@ const FundDetailsContainer = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${FUNDS_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.fund-budget.create')) {
+          history.push(`${FUNDS_ROUTE}/create`);
+        }
+      },
     },
     {
       name: 'edit',
-      handler: editFund,
+      handler: () => {
+        if (
+          stripes.hasPerm('ui-finance.fund-budget.edit') &&
+          !isRestrictionsLoading &&
+          !restrictions.protectUpdate
+        ) editFund();
+      },
     },
     {
       name: 'expandAllSections',
@@ -296,7 +306,7 @@ const FundDetailsContainer = ({
                 <ViewMetaData metadata={fund.metadata} />
                 <FundDetails
                   acqUnitIds={fund.acqUnitIds}
-                  currency={currency}
+                  currency={stripes.currency}
                   fund={fund}
                   groupIds={compositeFund.groupIds}
                 />

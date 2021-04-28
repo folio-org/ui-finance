@@ -7,6 +7,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   checkScope,
   HasCommand,
@@ -53,6 +54,7 @@ const FiscalYearsList = ({
   fiscalYears,
   fiscalYearsCount,
 }) => {
+  const stripes = useStripes();
   const [
     filters,
     searchQuery,
@@ -95,7 +97,11 @@ const FiscalYearsList = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${FISCAL_YEAR_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.fiscal-year.create')) {
+          history.push(`${FISCAL_YEAR_ROUTE}/create`);
+        }
+      },
     },
   ];
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -51,6 +52,7 @@ const FiscalYearDetails = ({
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
+  const stripes = useStripes();
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     fiscalYear.id, fiscalYear.acqUnitIds,
@@ -82,11 +84,21 @@ const FiscalYearDetails = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${FISCAL_YEAR_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.fiscal-year.create')) {
+          history.push(`${FISCAL_YEAR_ROUTE}/create`);
+        }
+      },
     },
     {
       name: 'edit',
-      handler: onEdit,
+      handler: () => {
+        if (
+          stripes.hasPerm('ui-finance.fiscal-year.edit') &&
+          !isRestrictionsLoading &&
+          !restrictions.protectUpdate
+        ) onEdit();
+      },
     },
     {
       name: 'expandAllSections',

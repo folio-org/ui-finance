@@ -45,7 +45,7 @@ import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';
 import { handleRemoveErrorResponse } from './utils';
 
-const BudgetViewContainer = ({ history, location, match, mutator }) => {
+const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => {
   const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
@@ -217,7 +217,9 @@ const BudgetViewContainer = ({ history, location, match, mutator }) => {
   const shortcuts = [
     {
       name: 'edit',
-      handler: editBudget,
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.fund-budget.edit')) editBudget();
+      },
     },
     {
       name: 'expandAllSections',
@@ -337,6 +339,7 @@ BudgetViewContainer.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
+  stripes: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(BudgetViewContainer);

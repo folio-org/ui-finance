@@ -7,6 +7,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   checkScope,
   HasCommand,
@@ -54,6 +55,7 @@ const FundsList = ({
   funds,
   fundsCount,
 }) => {
+  const stripes = useStripes();
   const [
     filters,
     searchQuery,
@@ -86,7 +88,11 @@ const FundsList = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${FUNDS_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.fund-budget.create')) {
+          history.push(`${FUNDS_ROUTE}/create`);
+        }
+      },
     },
   ];
 

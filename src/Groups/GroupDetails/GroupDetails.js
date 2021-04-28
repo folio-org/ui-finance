@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -51,6 +52,7 @@ const GroupDetails = ({
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
+  const stripes = useStripes();
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     group.id, group.acqUnitIds,
@@ -93,11 +95,21 @@ const GroupDetails = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${GROUPS_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.group.create')) {
+          history.push(`${GROUPS_ROUTE}/create`);
+        }
+      },
     },
     {
       name: 'edit',
-      handler: editGroup,
+      handler: () => {
+        if (
+          stripes.hasPerm('ui-finance.group.edit') &&
+          !isRestrictionsLoading &&
+          !restrictions.protectUpdate
+        ) editGroup();
+      },
     },
     {
       name: 'expandAllSections',

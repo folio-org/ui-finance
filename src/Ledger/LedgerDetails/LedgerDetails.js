@@ -21,7 +21,10 @@ import {
   Pane,
   Row,
 } from '@folio/stripes/components';
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   useAcqRestrictions,
   useModalToggle,
@@ -56,6 +59,7 @@ const LedgerDetails = ({
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
+  const stripes = useStripes();
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     ledger.id, ledger.acqUnitIds,
@@ -115,11 +119,21 @@ const LedgerDetails = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${LEDGERS_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.ledger.create')) {
+          history.push(`${LEDGERS_ROUTE}/create`);
+        }
+      },
     },
     {
       name: 'edit',
-      handler: onEdit,
+      handler: () => {
+        if (
+          stripes.hasPerm('ui-finance.ledger.edit') &&
+          !isRestrictionsLoading &&
+          !restrictions.protectUpdate
+        ) onEdit();
+      },
     },
     {
       name: 'expandAllSections',

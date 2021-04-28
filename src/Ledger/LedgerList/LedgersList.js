@@ -9,6 +9,7 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   checkScope,
   HasCommand,
@@ -52,6 +53,7 @@ const LedgerList = ({
   location,
   resetData,
 }) => {
+  const stripes = useStripes();
   const [
     filters,
     searchQuery,
@@ -86,7 +88,11 @@ const LedgerList = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => history.push(`${LEDGERS_ROUTE}/create`),
+      handler: () => {
+        if (stripes.hasPerm('ui-finance.ledger.create')) {
+          history.push(`${LEDGERS_ROUTE}/create`);
+        }
+      },
     },
   ];
 

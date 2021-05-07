@@ -315,7 +315,7 @@
     "ledger.rollover.adjustAllocation": "Adjust allocation, %",
     "ledger.rollover.available": "Rollover available",
     "ledger.rollover.allowableEncumbrance": "% d'engagement(s) autorisé(s)",
-    "ledger.rollover.allowableExpenditure": "Allowed expenditure, %",
+    "ledger.rollover.allowableExpenditure": "Dépenses autorisées,%",
     "ledger.rollover.addAvailableTo.allocation": "Allocation",
     "ledger.rollover.periodBeginDate": "Date de début de période",
     "ledger.rollover.periodEndDate": "Date de fin de période",

@@ -382,5 +382,5 @@
     "fiscalYear.code.isInUse": "该财务年度代码已被使用",
     "errors.load.code": "错误代码提取",
     "errors.load.name": "错误名称提取",
-    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class."
+    "expenseClass.helper": "费用类别可以在下面创建和编辑。创建费用类别后，可以导航到“财务”应用以根据需要将其分配给预算。一旦将费用类别分配给预算，用户就可以针对该费用类别负担或花费金钱。"
 }

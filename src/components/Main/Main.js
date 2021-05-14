@@ -1,6 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import {
+  Route,
+  Redirect,
+  Switch,
+  useRouteMatch,
+} from 'react-router-dom';
 
 import { useStripes } from '@folio/stripes/core';
 import {
@@ -19,7 +23,8 @@ import { FiscalYears } from '../../FiscalYears';
 import Transactions from '../../Transactions';
 import { getInitialRoute } from './utils';
 
-const Main = ({ match }) => {
+const Main = () => {
+  const match = useRouteMatch();
   const stripes = useStripes();
 
   return (
@@ -53,10 +58,6 @@ const Main = ({ match }) => {
       </Switch>
     </div>
   );
-};
-
-Main.propTypes = {
-  match: PropTypes.object,
 };
 
 export default Main;

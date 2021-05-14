@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
-  Switch,
+  useLocation,
+  useRouteMatch,
 } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -26,11 +27,9 @@ import {
 import Main from './components/Main';
 import Settings from './settings';
 
-const Finance = ({
-  match,
-  showSettings,
-  location,
-}) => {
+const Finance = ({ showSettings }) => {
+  const match = useRouteMatch();
+  const location = useLocation();
   const [isOpen, toggleModal] = useModalToggle();
   const focusSearchField = () => {
     const el = document.getElementById('input-record-search');
@@ -86,12 +85,10 @@ const Finance = ({
               </NavList>
             )}
           </AppContextMenu>
-          <Switch>
-            <Route
-              path={`${match.path}`}
-              render={() => <Main match={match} />}
-            />
-          </Switch>
+          <Route
+            path={`${match.path}`}
+            render={() => <Main />}
+          />
         </HasCommand>
       </CommandList>
       {isOpen && (
@@ -104,8 +101,6 @@ const Finance = ({
 };
 
 Finance.propTypes = {
-  match: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   showSettings: PropTypes.bool,
 };
 

@@ -30,7 +30,10 @@ describe('Transaction details', () => {
     });
 
     this.visit(`${TRANSACTIONS_ROUTE}/budget/${budget.id}/transaction/${transaction.id}/view`);
-    await details.whenLoaded();
+
+    const detailsLoaded = await details.whenLoaded();
+
+    return detailsLoaded;
   });
 
   it('status should be presented', () => {
@@ -38,13 +41,7 @@ describe('Transaction details', () => {
     expect(details.status.value).to.contain('Released');
   });
 
-  describe('click on source', function () {
-    beforeEach(async function () {
-      await details.sourceLink.click();
-    });
-
-    it('goes to po line details in Orders app', function () {
-      expect(details.isPresent).to.be.false;
-    });
+  it('source link to po line details in Orders app is presented', function () {
+    expect(details.sourceLink.isPresent).to.be.true;
   });
 });

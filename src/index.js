@@ -13,14 +13,13 @@ import {
   CommandList,
   defaultKeyboardShortcuts,
   HasCommand,
-  KeyboardShortcutsModal,
   NavList,
   NavListItem,
   NavListSection,
 } from '@folio/stripes/components';
 
 import {
-  acqCommands,
+  AcqKeyboardShortcutsModal,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -96,10 +95,8 @@ const Finance = ({
         </HasCommand>
       </CommandList>
       {isOpen && (
-        <KeyboardShortcutsModal
-          open
+        <AcqKeyboardShortcutsModal
           onClose={toggleModal}
-          allCommands={acqCommands}
         />
       )}
     </>

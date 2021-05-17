@@ -5,6 +5,7 @@
 * Finance app: Apply baseline shortcut keys. Refs UIF-293.
 * Add help text to expense classes in settings area. Refs UIF-291.
 * Acquisition units no longer restrict edit create or delete actions from action menu. Refs UIF-295.
+* Implement Keyboard shortcuts modal. Refs UIF-305.
 
 ## [2.3.3](https://github.com/folio-org/ui-finance/tree/v2.3.3) (2021-04-21)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.2...v2.3.3)

@@ -26,6 +26,7 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 import {
+  handleKeyCommand,
   useAcqRestrictions,
   useModalToggle,
 } from '@folio/stripes-acq-components';
@@ -119,21 +120,21 @@ const LedgerDetails = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.ledger.create')) {
           history.push(`${LEDGERS_ROUTE}/create`);
         }
-      },
+      }),
     },
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (
           stripes.hasPerm('ui-finance.ledger.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEdit();
-      },
+      }),
     },
     {
       name: 'expandAllSections',

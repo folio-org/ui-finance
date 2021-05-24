@@ -20,6 +20,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
+  handleKeyCommand,
   useAcqRestrictions,
   useModalToggle,
 } from '@folio/stripes-acq-components';
@@ -95,21 +96,21 @@ const GroupDetails = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.group.create')) {
           history.push(`${GROUPS_ROUTE}/create`);
         }
-      },
+      }),
     },
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (
           stripes.hasPerm('ui-finance.group.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) editGroup();
-      },
+      }),
     },
     {
       name: 'expandAllSections',

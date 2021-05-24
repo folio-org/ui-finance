@@ -27,6 +27,7 @@ import {
 } from '@folio/stripes/core';
 import {
   baseManifest,
+  handleKeyCommand,
   useModalToggle,
   useShowCallout,
   TRANSACTION_TYPES,
@@ -217,9 +218,9 @@ const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => 
   const shortcuts = [
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.fund-budget.edit')) editBudget();
-      },
+      }),
     },
     {
       name: 'expandAllSections',
@@ -231,7 +232,7 @@ const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => 
     },
     {
       name: 'search',
-      handler: () => history.push(FUNDS_ROUTE),
+      handler: handleKeyCommand(() => history.push(FUNDS_ROUTE)),
     },
   ];
 

@@ -30,6 +30,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   baseManifest,
+  handleKeyCommand,
   Tags,
   TagsBadge,
   useAcqRestrictions,
@@ -240,21 +241,21 @@ const FundDetailsContainer = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.fund-budget.create')) {
           history.push(`${FUNDS_ROUTE}/create`);
         }
-      },
+      }),
     },
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (
           stripes.hasPerm('ui-finance.fund-budget.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) editFund();
-      },
+      }),
     },
     {
       name: 'expandAllSections',

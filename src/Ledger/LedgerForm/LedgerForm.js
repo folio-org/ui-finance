@@ -26,6 +26,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
   FieldSelectionFinal,
+  handleKeyCommand,
   validateRequired,
   FormFooter,
 } from '@folio/stripes-acq-components';
@@ -76,11 +77,11 @@ const LedgerForm = ({
     {
       name: 'cancel',
       shortcut: 'esc',
-      handler: closeForm,
+      handler: handleKeyCommand(closeForm),
     },
     {
       name: 'save',
-      handler: handleSubmit,
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
     },
     {
       name: 'expandAllSections',
@@ -92,7 +93,7 @@ const LedgerForm = ({
     },
     {
       name: 'search',
-      handler: () => history.push(LEDGERS_ROUTE),
+      handler: handleKeyCommand(() => history.push(LEDGERS_ROUTE)),
     },
   ];
 

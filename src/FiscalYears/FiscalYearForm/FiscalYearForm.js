@@ -27,6 +27,7 @@ import {
   AcqUnitsField,
   FieldDatepickerFinal,
   FormFooter,
+  handleKeyCommand,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -93,11 +94,11 @@ const FiscalYearForm = ({
     {
       name: 'cancel',
       shortcut: 'esc',
-      handler: onCancel,
+      handler: handleKeyCommand(onCancel),
     },
     {
       name: 'save',
-      handler: handleSubmit,
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
     },
     {
       name: 'expandAllSections',
@@ -109,7 +110,7 @@ const FiscalYearForm = ({
     },
     {
       name: 'search',
-      handler: () => history.push(FISCAL_YEAR_ROUTE),
+      handler: handleKeyCommand(() => history.push(FISCAL_YEAR_ROUTE)),
     },
   ];
 

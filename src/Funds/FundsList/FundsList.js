@@ -16,6 +16,7 @@ import {
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
+  handleKeyCommand,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
@@ -88,11 +89,11 @@ const FundsList = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.fund-budget.create')) {
           history.push(`${FUNDS_ROUTE}/create`);
         }
-      },
+      }),
     },
   ];
 

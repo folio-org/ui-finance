@@ -16,6 +16,7 @@ import {
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
+  handleKeyCommand,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
@@ -97,11 +98,11 @@ const FiscalYearsList = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.fiscal-year.create')) {
           history.push(`${FISCAL_YEAR_ROUTE}/create`);
         }
-      },
+      }),
     },
   ];
 

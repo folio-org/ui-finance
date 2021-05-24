@@ -25,6 +25,7 @@ import { IfPermission } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   FormFooter,
+  handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
 import FinancialSummary from '../../../common/FinancialSummary';
@@ -79,11 +80,11 @@ const BudgetForm = ({
     {
       name: 'cancel',
       shortcut: 'esc',
-      handler: onClose,
+      handler: handleKeyCommand(onClose),
     },
     {
       name: 'save',
-      handler: handleSubmit,
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
     },
     {
       name: 'expandAllSections',
@@ -95,7 +96,7 @@ const BudgetForm = ({
     },
     {
       name: 'search',
-      handler: () => history.push(FUNDS_ROUTE),
+      handler: handleKeyCommand(() => history.push(FUNDS_ROUTE)),
     },
   ];
 

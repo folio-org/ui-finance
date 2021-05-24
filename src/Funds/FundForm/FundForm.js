@@ -34,6 +34,7 @@ import {
   FieldSelectionFinal as FieldSelection,
   FormFooter,
   FUNDS_API,
+  handleKeyCommand,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -167,11 +168,11 @@ const FundForm = ({
     {
       name: 'cancel',
       shortcut: 'esc',
-      handler: closeForm,
+      handler: handleKeyCommand(closeForm),
     },
     {
       name: 'save',
-      handler: handleSubmit,
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
     },
     {
       name: 'expandAllSections',
@@ -183,7 +184,7 @@ const FundForm = ({
     },
     {
       name: 'search',
-      handler: () => history.push(FUNDS_ROUTE),
+      handler: handleKeyCommand(() => history.push(FUNDS_ROUTE)),
     },
   ];
 

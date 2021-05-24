@@ -20,6 +20,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
+  handleKeyCommand,
   useModalToggle,
   useAcqRestrictions,
 } from '@folio/stripes-acq-components';
@@ -84,21 +85,21 @@ const FiscalYearDetails = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-finance.fiscal-year.create')) {
           history.push(`${FISCAL_YEAR_ROUTE}/create`);
         }
-      },
+      }),
     },
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (
           stripes.hasPerm('ui-finance.fiscal-year.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEdit();
-      },
+      }),
     },
     {
       name: 'expandAllSections',

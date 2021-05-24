@@ -19,6 +19,7 @@ import {
   AcqUnitsField,
   FieldSelectionFinal,
   FormFooter,
+  handleKeyCommand,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -58,15 +59,15 @@ const GroupForm = ({
     {
       name: 'cancel',
       shortcut: 'esc',
-      handler: closeForm,
+      handler: handleKeyCommand(closeForm),
     },
     {
       name: 'save',
-      handler: handleSubmit,
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
     },
     {
       name: 'search',
-      handler: () => history.push(GROUPS_ROUTE),
+      handler: handleKeyCommand(() => history.push(GROUPS_ROUTE)),
     },
   ];
 

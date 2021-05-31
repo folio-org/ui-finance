@@ -349,7 +349,8 @@
     "test:unit": "jest --ci --coverage",
     "test:unit:watch": "jest --ci --watch",
     "test:e2e": "yarn stripes test karma --karma.singleRun --karma.browsers ChromeDocker --karma.reporters mocha junit --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-finance ./translations/ui-finance/compiled"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -364,6 +365,7 @@
     "@folio/eslint-config-stripes": "^5.0.0",
     "@folio/stripes": "^6.0.0",
     "@folio/stripes-cli": "^2.0.0",
+    "@formatjs/cli": "^4.2.16",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
     "@testing-library/react-hooks": "^5.0.3",

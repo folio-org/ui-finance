@@ -30,6 +30,7 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
   const fundIds = useMemo(() => funds.map(({ id }) => id), [funds]);
 
   useEffect(() => {
+    setGroups([]);
     if (fundIds.length) {
       setIsLoading(true);
 

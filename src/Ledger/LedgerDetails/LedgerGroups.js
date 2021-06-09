@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -24,12 +24,14 @@ import ConnectionListing from '../../components/ConnectionListing';
 import { getLedgerGroupsSummary } from './utils';
 
 const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearId }) => {
-  const fundIds = funds.map(({ id }) => id);
   const [groups, setGroups] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const fundIds = useMemo(() => funds.map(({ id }) => id), [funds]);
+
   useEffect(() => {
-    if (funds.length) {
+    setGroups([]);
+    if (fundIds.length) {
       setIsLoading(true);
 
       batchFetch(mutator.groupFundFYByFundId, fundIds, (itemsChunk) => {
@@ -65,8 +67,7 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
         })
         .finally(() => setIsLoading(false));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [funds]);
+  }, [fiscalYearId, ledgerId, fundIds]);
 
   const openGroup = useCallback(
     (e, group) => {

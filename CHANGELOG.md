@@ -8,6 +8,7 @@
 * Implement Keyboard shortcuts modal. Refs UIF-305.
 * Compile Translation Files into AST Format. Refs UIF-298.
 * eslint@"^7.7.0" causes peer-dep inconsistency. Refs UIF-307.
+* Fix fetching ledger groups. Refs UIF-309.
 
 ## [2.3.3](https://github.com/folio-org/ui-finance/tree/v2.3.3) (2021-04-21)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.2...v2.3.3)

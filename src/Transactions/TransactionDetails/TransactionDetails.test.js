@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { noop } from 'lodash';
 
 import { TRANSACTION_TYPES } from '@folio/stripes-acq-components';
 
@@ -14,8 +13,8 @@ const defaultProps = {
   fiscalYearCode: 'fiscalYearCode',
   fundId: 'fundId',
   transaction: { transactionType: TRANSACTION_TYPES.allocation },
-  onClose: noop,
-  releaseTransaction: noop,
+  onClose: jest.fn(),
+  releaseTransaction: jest.fn(),
 };
 
 const renderTransactionDetails = (props = defaultProps) => (render(

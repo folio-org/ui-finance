@@ -24,7 +24,7 @@ const INITIAL_GROUP = {
   status: GROUP_STATUS.active,
 };
 
-const CreateGroup = ({ mutator, location, history }) => {
+export const CreateGroup = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();
   const intl = useIntl();
 

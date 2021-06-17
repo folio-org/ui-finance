@@ -5,22 +5,16 @@ import { Form } from 'react-final-form';
 import { render } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
-import {
-  HasCommand,
-  expandAllSections,
-  collapseAllSections,
-} from '@folio/stripes/components';
+import { HasCommand } from '@folio/stripes/components';
 
-import { FISCAL_YEAR_ROUTE } from '../../common/const';
-import FiscalYearForm from './FiscalYearForm';
+import { GROUPS_ROUTE } from '../../common/const';
+import GroupForm from './GroupForm';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
 });
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
-  expandAllSections: jest.fn(),
-  collapseAllSections: jest.fn(),
 }));
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
@@ -36,12 +30,12 @@ const defaultProps = {
   submitting: false,
 };
 
-const renderFiscalYearForm = (props = defaultProps) => (render(
+const renderGroupForm = (props = defaultProps) => (render(
   <MemoryRouter>
     <Form
       onSubmit={jest.fn}
       render={() => (
-        <FiscalYearForm
+        <GroupForm
           {...props}
         />
       )}
@@ -49,29 +43,29 @@ const renderFiscalYearForm = (props = defaultProps) => (render(
   </MemoryRouter>,
 ));
 
-describe('FiscalYearForm component', () => {
-  it('should display title for new fiscal year', () => {
-    const { getByText } = renderFiscalYearForm();
+describe('GroupForm component', () => {
+  it('should display title for new group', () => {
+    const { getByText } = renderGroupForm();
 
-    expect(getByText('ui-finance.fiscalYear.form.title.create')).toBeDefined();
+    expect(getByText('ui-finance.groups.form.title.create')).toBeDefined();
   });
 
-  it('should display title for editing fiscal year', () => {
-    const { getByText } = renderFiscalYearForm({ ...defaultProps, initialValues: { id: 'fiscalYearId' } });
+  it('should display title for editing group', () => {
+    const { getByText } = renderGroupForm({ ...defaultProps, initialValues: { id: 'groupId' } });
 
-    expect(getByText('ui-finance.fiscalYear.form.title.edit')).toBeDefined();
+    expect(getByText('ui-finance.groups.form.title.edit')).toBeDefined();
   });
 
   it('should display pane footer', () => {
-    const { getByText } = renderFiscalYearForm();
+    const { getByText } = renderGroupForm();
 
     expect(getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
     expect(getByText('ui-finance.saveAndClose')).toBeDefined();
   });
 
   describe('Close form', () => {
-    it('should close the fiscal year form', () => {
-      const { getByText } = renderFiscalYearForm();
+    it('should close the group form', () => {
+      const { getByText } = renderGroupForm();
 
       user.click(getByText('stripes-acq-components.FormFooter.cancel'));
 
@@ -82,26 +76,6 @@ describe('FiscalYearForm component', () => {
   describe('Shortcuts', () => {
     beforeEach(() => {
       HasCommand.mockClear();
-      expandAllSections.mockClear();
-      collapseAllSections.mockClear();
-    });
-
-    it('should call expandAllSections when expandAllSections shortcut is called', async () => {
-      expandAllSections.mockClear();
-      renderFiscalYearForm();
-
-      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
-
-      expect(expandAllSections).toHaveBeenCalled();
-    });
-
-    it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
-      collapseAllSections.mockClear();
-      renderFiscalYearForm();
-
-      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
-
-      expect(collapseAllSections).toHaveBeenCalled();
     });
 
     it('should cancel form when cancel shortcut is called', () => {
@@ -111,7 +85,7 @@ describe('FiscalYearForm component', () => {
         push: pushMock,
       });
 
-      renderFiscalYearForm();
+      renderGroupForm();
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'cancel').handler();
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
@@ -124,10 +98,10 @@ describe('FiscalYearForm component', () => {
         push: pushMock,
       });
 
-      renderFiscalYearForm();
+      renderGroupForm();
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'search').handler();
 
-      expect(pushMock).toHaveBeenCalledWith(FISCAL_YEAR_ROUTE);
+      expect(pushMock).toHaveBeenCalledWith(GROUPS_ROUTE);
     });
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import LedgerListContainer from './LedgerListContainer';
@@ -26,9 +26,13 @@ describe('LedgerListContainer', () => {
     defaultProps.mutator.ledgersListFinance.GET.mockClear();
   });
 
-  it('should display LedgersList', () => {
-    defaultProps.mutator.ledgersListFinance.GET.mockReturnValue(Promise.resolve([]));
-    renderLedgerListContainer();
+  it('should display LedgersList', async () => {
+    defaultProps.mutator.ledgersListFinance.GET.mockReturnValue(Promise.resolve({
+      ledgers: [],
+      totalRecords: 0,
+    }));
+
+    await act(async () => renderLedgerListContainer());
 
     expect(screen.getByText('LedgersList')).toBeDefined();
   });

@@ -11,8 +11,8 @@ import {
   collapseAllSections,
 } from '@folio/stripes/components';
 
-import { FISCAL_YEAR_ROUTE } from '../../common/const';
-import FiscalYearForm from './FiscalYearForm';
+import { LEDGERS_ROUTE } from '../../common/const';
+import LedgerForm from './LedgerForm';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
@@ -34,14 +34,15 @@ const defaultProps = {
   onSubmit: jest.fn(),
   pristine: false,
   submitting: false,
+  goToCreateFY: jest.fn(),
 };
 
-const renderFiscalYearForm = (props = defaultProps) => (render(
+const renderLedgerForm = (props = defaultProps) => (render(
   <MemoryRouter>
     <Form
       onSubmit={jest.fn}
       render={() => (
-        <FiscalYearForm
+        <LedgerForm
           {...props}
         />
       )}
@@ -49,33 +50,43 @@ const renderFiscalYearForm = (props = defaultProps) => (render(
   </MemoryRouter>,
 ));
 
-describe('FiscalYearForm component', () => {
-  it('should display title for new fiscal year', () => {
-    const { getByText } = renderFiscalYearForm();
+describe('LedgerForm component', () => {
+  it('should display title for new ledger', () => {
+    const { getByText } = renderLedgerForm();
 
-    expect(getByText('ui-finance.fiscalYear.form.title.create')).toBeDefined();
+    expect(getByText('ui-finance.ledger.form.title.create')).toBeDefined();
   });
 
-  it('should display title for editing fiscal year', () => {
-    const { getByText } = renderFiscalYearForm({ ...defaultProps, initialValues: { id: 'fiscalYearId' } });
+  it('should display title for editing ledger', () => {
+    const { getByText } = renderLedgerForm({ ...defaultProps, initialValues: { id: 'ledgerId' } });
 
-    expect(getByText('ui-finance.fiscalYear.form.title.edit')).toBeDefined();
+    expect(getByText('ui-finance.ledger.form.title.edit')).toBeDefined();
   });
 
   it('should display pane footer', () => {
-    const { getByText } = renderFiscalYearForm();
+    const { getByText } = renderLedgerForm();
 
     expect(getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
     expect(getByText('ui-finance.saveAndClose')).toBeDefined();
   });
 
   describe('Close form', () => {
-    it('should close the fiscal year form', () => {
-      const { getByText } = renderFiscalYearForm();
+    it('should close the ledger form', () => {
+      const { getByText } = renderLedgerForm();
 
       user.click(getByText('stripes-acq-components.FormFooter.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
+    });
+  });
+
+  describe('Open fiscal year form', () => {
+    it('should open the fiscal year form', () => {
+      const { getByText } = renderLedgerForm();
+
+      user.click(getByText('ui-finance.ledger.createNewFY'));
+
+      expect(defaultProps.goToCreateFY).toHaveBeenCalled();
     });
   });
 
@@ -88,7 +99,7 @@ describe('FiscalYearForm component', () => {
 
     it('should call expandAllSections when expandAllSections shortcut is called', async () => {
       expandAllSections.mockClear();
-      renderFiscalYearForm();
+      renderLedgerForm();
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
 
@@ -97,7 +108,7 @@ describe('FiscalYearForm component', () => {
 
     it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
       collapseAllSections.mockClear();
-      renderFiscalYearForm();
+      renderLedgerForm();
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
 
@@ -111,7 +122,7 @@ describe('FiscalYearForm component', () => {
         push: pushMock,
       });
 
-      renderFiscalYearForm();
+      renderLedgerForm();
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'cancel').handler();
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
@@ -124,10 +135,10 @@ describe('FiscalYearForm component', () => {
         push: pushMock,
       });
 
-      renderFiscalYearForm();
+      renderLedgerForm();
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'search').handler();
 
-      expect(pushMock).toHaveBeenCalledWith(FISCAL_YEAR_ROUTE);
+      expect(pushMock).toHaveBeenCalledWith(LEDGERS_ROUTE);
     });
   });
 });

@@ -18,7 +18,7 @@ import {
 import { ledgerByUrlIdResource } from '../../common/resources';
 import LedgerForm from '../LedgerForm';
 
-const EditLedger = ({ resources, mutator, match, history, location }) => {
+export const EditLedger = ({ resources, mutator, match, history, location }) => {
   const ledgerId = match.params.id;
   const intl = useIntl();
 

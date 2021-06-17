@@ -16,7 +16,7 @@ import { GROUPS_ROUTE } from '../../common/const';
 import { groupByUrlIdResource } from '../../common/resources';
 import { GroupForm } from '../GroupForm';
 
-const EditGroup = ({ resources, mutator, match, history, location }) => {
+export const EditGroup = ({ resources, mutator, match, history, location }) => {
   const groupId = match.params.id;
   const intl = useIntl();
 

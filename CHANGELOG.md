@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.4.0](https://github.com/folio-org/ui-finance/tree/v2.4.0) (2021-06-18)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.3...v2.4.0)
+
 * Finance app: Apply baseline shortcut keys. Refs UIF-293.
 * Add help text to expense classes in settings area. Refs UIF-291.
 * Acquisition units no longer restrict edit create or delete actions from action menu. Refs UIF-295.
@@ -9,6 +12,7 @@
 * Compile Translation Files into AST Format. Refs UIF-298.
 * eslint@"^7.7.0" causes peer-dep inconsistency. Refs UIF-307.
 * Fix fetching ledger groups. Refs UIF-309.
+* Resizable panes. Refs UIF-299.
 
 ## [2.3.3](https://github.com/folio-org/ui-finance/tree/v2.3.3) (2021-04-21)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.2...v2.3.3)

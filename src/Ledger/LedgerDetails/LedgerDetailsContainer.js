@@ -30,7 +30,7 @@ import { LedgerRolloverProgress } from './LedgerRolloverProgress';
 import useRolloverProgressPolling from './useRolloverProgressPolling';
 import LedgerDetails from './LedgerDetails';
 
-const LedgerDetailsContainer = ({
+export const LedgerDetailsContainer = ({
   mutator,
   match,
   history,

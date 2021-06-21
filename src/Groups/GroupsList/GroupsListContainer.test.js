@@ -39,7 +39,7 @@ describe('GroupsListContainer', () => {
   it('should load more data', async () => {
     await act(async () => renderGroupsListContainer());
 
-    GroupsList.mock.calls[0][0].onNeedMoreData()
+    GroupsList.mock.calls[0][0].onNeedMoreData();
 
     expect(defaultProps.mutator.groupsListGroups.GET).toHaveBeenCalled();
   });

@@ -10,7 +10,7 @@ const renderGroupsListLastMenu = () => render(
 );
 
 describe('GroupsListLastMenu', () => {
-  it('should render group list last menu', async () => {
+  it('should render group list last menu', () => {
     const { getByText } = renderGroupsListLastMenu();
 
     expect(getByText('stripes-smart-components.new')).toBeDefined();

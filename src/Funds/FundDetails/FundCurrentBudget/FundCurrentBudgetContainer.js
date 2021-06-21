@@ -17,7 +17,7 @@ import {
 import { BUDGET_STATUSES } from '../../../components/Budget/constants';
 import { SECTIONS_FUND } from '../../constants';
 
-const FundCurrentBudgetContainer = ({
+export const FundCurrentBudgetContainer = ({
   budget,
   currency,
   history,

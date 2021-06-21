@@ -17,11 +17,14 @@ const mutatorMock = {
 };
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
+  createHref: jest.fn(),
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { id: ledgerId } },
-  location: { state: { fiscalYearOneId: 'fyId' }, search: '' },
+  match: { params: { id: ledgerId }, path: 'path', url: 'url' },
+  location: { state: { fiscalYearOneId: 'fyId' }, search: 'search', hash: 'hash', pathname: 'pathname' },
   history: historyMock,
   resources: {
     ledgerEdit: {

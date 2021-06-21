@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { GROUPS_ROUTE } from '../../common/const';
@@ -16,6 +16,9 @@ jest.mock('@folio/stripes-acq-components', () => ({
 
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
+  createHref: jest.fn(),
 };
 const mutatorMock = {
   groupDetails: {
@@ -31,9 +34,9 @@ const mutatorMock = {
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { id: 'groupId' } },
+  match: { params: { id: 'groupId' }, path: 'path', url: 'url' },
   history: historyMock,
-  location: {},
+  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
 };
 const renderGroupDetailsContainer = (props = defaultProps) => render(
   <GroupDetailsContainer {...props} />,
@@ -45,7 +48,7 @@ describe('GroupDetailsContainer', () => {
     historyMock.push.mockClear();
   });
   it('should display GroupDetails', async () => {
-    renderGroupDetailsContainer();
+    await act(async () => renderGroupDetailsContainer());
 
     await screen.findByText('GroupDetails');
 
@@ -53,34 +56,36 @@ describe('GroupDetailsContainer', () => {
   });
 
   describe('Actions', () => {
-    it('should navigate to list close action is called', () => {
-      renderGroupDetailsContainer();
+    it('should navigate to list close action is called', async () => {
+      await act(async () => renderGroupDetailsContainer());
 
       GroupDetails.mock.calls[0][0].onClose();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(GROUPS_ROUTE);
     });
 
-    it('should navigate to form', () => {
-      renderGroupDetailsContainer();
+    it('should navigate to form', async () => {
+      await act(async () => renderGroupDetailsContainer());
 
       GroupDetails.mock.calls[0][0].editGroup();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${GROUPS_ROUTE}/${defaultProps.match.params.id}/edit`);
     });
 
-    it('select FY', () => {
+    it('select FY', async () => {
       getGroupSummary.mockReturnValue(Promise.resolve({}));
-      renderGroupDetailsContainer();
+
+      await act(async () => renderGroupDetailsContainer());
 
       GroupDetails.mock.calls[0][0].onSelectFY('newFYId');
 
       expect(getGroupSummary).toHaveBeenCalled();
     });
 
-    it('should remove', () => {
+    it('should remove', async () => {
       mutatorMock.groupDetails.DELETE.mockReturnValue(Promise.resolve({}));
-      renderGroupDetailsContainer();
+
+      await act(async () => renderGroupDetailsContainer());
 
       GroupDetails.mock.calls[0][0].removeGroup();
 

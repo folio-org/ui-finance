@@ -2,7 +2,14 @@ import React from 'react';
 import { act, render, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import ConnectionListing from '../../components/ConnectionListing';
 import LedgerGroups from './LedgerGroups';
+
+jest.mock('../../components/ConnectionListing', () => jest.fn().mockReturnValue('ConnectionListing'));
+
+const historyMock = {
+  push: jest.fn(),
+};
 
 const renderLedgerGroups = ({
   funds = [],
@@ -13,7 +20,7 @@ const renderLedgerGroups = ({
 }) => (render(
   <MemoryRouter>
     <LedgerGroups
-      history={{}}
+      history={historyMock}
       mutator={mutator}
       fiscalYearId={fiscalYearId}
       ledgerId={ledgerId}
@@ -64,5 +71,15 @@ describe('LedgerGroups', () => {
     expect(mutator.groupFundFYByFundId.GET).not.toHaveBeenCalled();
     expect(mutator.groups.GET).not.toHaveBeenCalled();
     expect(mutator.ledgerGroupSummaries.GET).not.toHaveBeenCalled();
+  });
+
+  it('should open item', async () => {
+    await act(async () => {
+      renderLedgerGroups({ mutator });
+    });
+
+    ConnectionListing.mock.calls[0][0].openItem({}, { id: 'id' });
+
+    expect(historyMock.push).not.toHaveBeenCalled();
   });
 });

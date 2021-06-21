@@ -1,57 +1,48 @@
 import React from 'react';
-import { act, render, cleanup } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 
-import BudgetViewContainer from './BudgetViewContainer';
+import { BudgetViewContainer } from './BudgetViewContainer';
 
-jest.mock('./BudgetView', () => {
-  return jest.fn(() => 'BudgetView');
-});
+jest.mock('./BudgetView', () => jest.fn().mockReturnValue('BudgetView'));
 
-const renderBudgetViewContainer = (mutator) => (render(
-  <IntlProvider locale="en">
-    <MemoryRouter>
-      <BudgetViewContainer
-        history={{}}
-        location={{}}
-        match={{ params: { id: '001' } }}
-        mutator={mutator}
-      />
-    </MemoryRouter>
-  </IntlProvider>,
-));
+const budgetId = 'budgetId';
+const mutatorMock = {
+  budgetById: {
+    GET: jest.fn().mockReturnValue(Promise.resolve({ id: budgetId, fundId: 'fundId' })),
+  },
+  expenseClassesTotals: {
+    GET: jest.fn().mockReturnValue(Promise.resolve([])),
+  },
+  budgetFiscalYear: {
+    GET: jest.fn().mockReturnValue(Promise.resolve({ id: 'fyId' })),
+  },
+};
+const historyMock = {
+  push: jest.fn(),
+  action: 'PUSH',
+};
+const defaultProps = {
+  mutator: mutatorMock,
+  match: { params: { budgetId }, path: 'path' },
+  location: { hash: 'hash' },
+  history: historyMock,
+  stripes: {},
+};
+
+const renderBudgetViewContainer = (props = defaultProps) => render(
+  <BudgetViewContainer
+    {...props}
+  />,
+  { wrapper: MemoryRouter },
+);
 
 describe('BudgetViewContainer', () => {
-  let mutator;
+  it('should display BudgetView', async () => {
+    renderBudgetViewContainer();
 
-  beforeEach(() => {
-    mutator = {
-      budgetById: {
-        GET: jest.fn(),
-      },
-      budgetFiscalYear: {
-        GET: jest.fn(),
-      },
-      expenseClassesTotals: {
-        GET: jest.fn(),
-      },
-    };
-  });
+    await screen.findByText('BudgetView');
 
-  afterEach(cleanup);
-
-  it('should load all data', async () => {
-    mutator.budgetById.GET.mockReturnValue(Promise.resolve({}));
-    mutator.budgetFiscalYear.GET.mockReturnValue(Promise.resolve({}));
-    mutator.expenseClassesTotals.GET.mockReturnValue(Promise.resolve([]));
-
-    await act(async () => {
-      renderBudgetViewContainer(mutator);
-    });
-
-    expect(mutator.budgetById.GET).toHaveBeenCalled();
-    expect(mutator.budgetFiscalYear.GET).toHaveBeenCalled();
-    expect(mutator.expenseClassesTotals.GET).toHaveBeenCalled();
+    expect(screen.getByText('BudgetView')).toBeDefined();
   });
 });

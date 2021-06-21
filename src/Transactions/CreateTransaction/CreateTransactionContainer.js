@@ -28,7 +28,7 @@ import {
 import CreateTransactionModal from './CreateTransactionModal';
 import { handleCreateTransactionErrorResponse } from './utils';
 
-const CreateTransactionContainer = ({
+export const CreateTransactionContainer = ({
   budgetName,
   transactionType,
   fiscalYearId,

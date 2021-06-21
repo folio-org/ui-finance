@@ -23,6 +23,7 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
+jest.mock('../../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
 
 const defaultProps = {
   initialValues: { name: 'budget' },

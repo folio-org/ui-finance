@@ -9,7 +9,7 @@ jest.mock('./AddBudgetModalForm', () => jest.fn().mockReturnValue('BudgetAddModa
 
 const mutatorMock = {
   fiscalYears: {
-    GET: jest.fn(),
+    GET: jest.fn().mockReturnValue(Promise.resolve([{ id: 'fyId' }])),
   },
   budget: {
     POST: jest.fn(),
@@ -21,8 +21,8 @@ const mutatorMock = {
 
 const defaultProps = {
   mutator: mutatorMock,
-  location: {},
-  history: {},
+  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
+  history: { action: 'PUSH', block: jest.fn(), createHref: jest.fn() },
   ledgerId: 'ledgerId',
   onClose: jest.fn(),
   budgetStatus: 'Active',
@@ -44,8 +44,8 @@ describe('AddBudgetModal', () => {
     expect(defaultProps.mutator.currentFiscalYear.GET).toHaveBeenCalled();
   });
 
-  it('should close the modal', () => {
-    renderAddBudgetModal();
+  it('should close the modal', async () => {
+    await act(async () => renderAddBudgetModal());
 
     BudgetAddModalForm.mock.calls[0][0].onClose();
 

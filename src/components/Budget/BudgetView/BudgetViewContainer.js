@@ -46,7 +46,7 @@ import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';
 import { handleRemoveErrorResponse } from './utils';
 
-const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => {
+export const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => {
   const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();

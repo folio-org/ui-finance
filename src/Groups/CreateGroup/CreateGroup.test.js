@@ -17,12 +17,15 @@ const mutatorMock = {
 };
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
+  createHref: jest.fn(),
 };
 const groupId = 'groupId';
 
 const renderCreateGroup = (props) => render(
   <CreateGroup
-    location={{}}
+    location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
     history={historyMock}
     mutator={mutatorMock}
     {...props}

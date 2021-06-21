@@ -25,6 +25,8 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
+jest.mock('./LedgerInformation', () => jest.fn().mockReturnValue('LedgerInformation'));
+jest.mock('./../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
 
 const defaultProps = {
   ledger: {},
@@ -35,7 +37,7 @@ const defaultProps = {
   onRollover: jest.fn(),
   funds: [],
   rolloverErrors: [],
-  rolloverToFY: jest.fn(),
+  rolloverToFY: {},
 };
 
 const renderLedgerDetails = (props = defaultProps) => (render(

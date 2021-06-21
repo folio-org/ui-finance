@@ -3,16 +3,21 @@ import { act, render, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import FundPreviousBudgetsContainer from './FundPreviousBudgetsContainer';
+import FundBudgets from '../FundBudgets';
 
 jest.mock('../FundBudgets', () => {
   return jest.fn(() => 'FundBudgets');
 });
 
+const historyMock = {
+  action: 'PUSH', block: jest.fn(), createHref: jest.fn(), push: jest.fn(),
+};
+
 const renderFundPreviousBudgetsContainer = (mutator) => (render(
   <MemoryRouter>
     <FundPreviousBudgetsContainer
-      history={{}}
-      location={{}}
+      history={historyMock}
+      location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
       mutator={mutator}
       currentFY={{}}
       fundId="fundId"
@@ -47,5 +52,18 @@ describe('FundPreviousBudgetsContainer', () => {
 
     expect(mutator.fundPreviousBudgets.GET).toHaveBeenCalled();
     expect(mutator.budgetsFiscalYears.GET).toHaveBeenCalled();
+  });
+
+  it('should open budget', async () => {
+    mutator.fundPreviousBudgets.GET.mockReturnValue(Promise.resolve([{ fiscalYearId: 'fyId' }]));
+    mutator.budgetsFiscalYears.GET.mockReturnValue(Promise.resolve([]));
+
+    await act(async () => {
+      renderFundPreviousBudgetsContainer(mutator);
+    });
+
+    FundBudgets.mock.calls[0][0].openBudget({}, { id: 'id ' });
+
+    expect(historyMock.push).toHaveBeenCalled();
   });
 });

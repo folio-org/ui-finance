@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import FundForm from './FundForm';
@@ -27,7 +27,7 @@ const defaultProps = {
   match: { params: {} },
   mutator: mutatorMock,
   onCancel: jest.fn(),
-  stripes: { hasPerm: jest.fn() },
+  stripes: { hasPerm: jest.fn(), hasInterface: jest.fn(), clone: jest.fn(), logger: {} },
 };
 
 const renderFundFormContainer = (props = defaultProps) => render(
@@ -50,8 +50,8 @@ describe('FundFormContainer', () => {
     expect(defaultProps.mutator.fundFormFund.GET).not.toHaveBeenCalled();
   });
 
-  it('should close fund form', () => {
-    renderFundFormContainer();
+  it('should close fund form', async () => {
+    await act(async () => renderFundFormContainer());
 
     FundForm.mock.calls[0][0].onCancel();
 

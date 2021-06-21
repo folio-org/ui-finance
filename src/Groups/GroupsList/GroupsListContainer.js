@@ -27,7 +27,8 @@ import {
 } from './GroupsListSearchConfig';
 
 const RESULT_COUNT_INCREMENT = 30;
-const buildGroupsQuery = makeQueryBuilder(
+
+export const buildGroupsQuery = makeQueryBuilder(
   'cql.allRecords=1',
   (query, qindex) => {
     if (qindex) {
@@ -42,7 +43,7 @@ const buildGroupsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const GroupsListContainer = ({ mutator: originMutator, location, history }) => {
+export const GroupsListContainer = ({ mutator: originMutator, location, history }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const mutator = useMemo(() => originMutator, []);
   const [groups, setGroups] = useState([]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
@@ -25,6 +25,8 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
+jest.mock('../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
+jest.mock('./FiscalYearInformation', () => jest.fn().mockReturnValue('FiscalYearInformation'));
 
 const defaultProps = {
   fiscalYear: {},
@@ -63,38 +65,38 @@ describe('FiscalYearDetails component', () => {
       collapseAllSections.mockClear();
     });
 
-    it('should call expandAllSections when expandAllSections shortcut is called', () => {
-      renderFiscalYearDetails();
+    it('should call expandAllSections when expandAllSections shortcut is called', async () => {
+      await act(async () => renderFiscalYearDetails());
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
 
       expect(expandAllSections).toHaveBeenCalled();
     });
 
-    it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
-      renderFiscalYearDetails();
+    it('should call collapseAllSections when collapseAllSections shortcut is called', async () => {
+      await act(async () => renderFiscalYearDetails());
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
 
       expect(collapseAllSections).toHaveBeenCalled();
     });
 
-    it('should navigate to edit view when edit shortcut is called', () => {
-      renderFiscalYearDetails();
+    it('should navigate to edit view when edit shortcut is called', async () => {
+      await act(async () => renderFiscalYearDetails());
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'edit').handler();
 
       expect(defaultProps.onEdit).toHaveBeenCalled();
     });
 
-    it('should navigate to new form when new shortcut is called', () => {
+    it('should navigate to new form when new shortcut is called', async () => {
       const pushMock = jest.fn();
 
       useHistory.mockClear().mockReturnValue({
         push: pushMock,
       });
 
-      renderFiscalYearDetails();
+      await act(async () => renderFiscalYearDetails());
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'new').handler();
 

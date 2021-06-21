@@ -18,13 +18,16 @@ const mutatorMock = {
 };
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
+  crateHref: jest.fn(),
 };
 const fyId = 'fyId';
 
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { id: fyId } },
-  location: {},
+  match: { params: { id: fyId }, path: 'path', url: 'url' },
+  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
   history: historyMock,
   resources: {
     fiscalYearEdit: {

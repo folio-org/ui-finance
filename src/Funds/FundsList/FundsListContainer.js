@@ -31,7 +31,8 @@ import {
 import { fetchFundLedgers } from './utils';
 
 const RESULT_COUNT_INCREMENT = 30;
-const buildFundsQuery = makeQueryBuilder(
+
+export const buildFundsQuery = makeQueryBuilder(
   'cql.allRecords=1',
   (query, qindex) => {
     if (qindex) {
@@ -49,7 +50,7 @@ const buildFundsQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const FundsListContainer = ({ mutator: originMutator, location, history }) => {
+export const FundsListContainer = ({ mutator: originMutator, location, history }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const mutator = useMemo(() => originMutator, []);
   const [funds, setFunds] = useState([]);

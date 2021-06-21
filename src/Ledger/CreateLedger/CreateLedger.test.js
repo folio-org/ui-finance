@@ -15,12 +15,15 @@ const mutatorMock = {
 };
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
+  createHref: jest.fn(),
 };
 const ledgerId = 'ledgerId';
 
 const renderCreateLedger = (props) => render(
   <CreateLedger
-    location={{}}
+    location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
     history={historyMock}
     mutator={mutatorMock}
     {...props}

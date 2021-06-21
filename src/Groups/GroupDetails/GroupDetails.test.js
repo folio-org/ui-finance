@@ -25,13 +25,15 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
+jest.mock('./GroupInformation', () => jest.fn().mockReturnValue('GroupInformation'));
+jest.mock('../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
 
 const defaultProps = {
   group: { name: 'group', status: 'Active' },
   onClose: jest.fn(),
   editGroup: jest.fn(),
   removeGroup: jest.fn(),
-  groupSummary: [],
+  groupSummary: {},
   fiscalYearsRecords: [],
   funds: [],
   selectedFY: {},

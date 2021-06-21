@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { useLocalStorage } from '@rehooks/local-storage';
 
@@ -15,6 +15,8 @@ jest.mock('@folio/stripes-acq-components', () => ({
 
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
 };
 const mutatorMock = {
   ledgerDetails: {
@@ -45,9 +47,9 @@ const mutatorMock = {
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { id: 'ledgerId' } },
+  match: { params: { id: 'ledgerId' }, path: 'path', url: 'url' },
   history: historyMock,
-  location: {},
+  location: { hash: 'hash' },
   stripes: { hasPerm: jest.fn() },
 };
 const renderLedgerDetailsContainer = (props = defaultProps) => render(
@@ -69,34 +71,34 @@ describe('LedgerDetailsContainer', () => {
   });
 
   describe('Actions', () => {
-    it('should navigate to list when close action is called', () => {
-      renderLedgerDetailsContainer();
+    it('should navigate to list when close action is called', async () => {
+      await act(async () => renderLedgerDetailsContainer());
 
       LedgerDetails.mock.calls[0][0].onClose();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(LEDGERS_ROUTE);
     });
 
-    it('should navigate to form', () => {
-      renderLedgerDetailsContainer();
+    it('should navigate to form', async () => {
+      await act(async () => renderLedgerDetailsContainer());
 
       LedgerDetails.mock.calls[0][0].onEdit();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/edit`);
     });
 
-    it('should navigate to rollover', () => {
-      renderLedgerDetailsContainer();
+    it('should navigate to rollover', async () => {
+      await act(async () => renderLedgerDetailsContainer());
 
       LedgerDetails.mock.calls[0][0].onRollover();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/rollover`);
     });
 
-    it('should remove', () => {
+    it('should remove', async () => {
       mutatorMock.ledgerDetails.DELETE.mockReturnValue(Promise.resolve({}));
 
-      renderLedgerDetailsContainer();
+      await act(async () => renderLedgerDetailsContainer());
 
       LedgerDetails.mock.calls[0][0].onDelete();
 

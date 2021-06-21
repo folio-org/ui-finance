@@ -1,8 +1,10 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import queryString from 'query-string';
 
-import FiscalYearsListContainer from './FiscalYearsListContainer';
+import { FiscalYearsListContainer, buildFiscalYearsQuery } from './FiscalYearsListContainer';
+import FiscalYearsList from './FiscalYearsList';
 
 jest.mock('./FiscalYearsList', () => jest.fn().mockReturnValue('FiscalYearsList'));
 
@@ -35,5 +37,27 @@ describe('FiscalYearsListContainer', () => {
     await act(async () => renderFiscalYearsListContainer());
 
     expect(screen.getByText('FiscalYearsList')).toBeDefined();
+  });
+
+  it('should load more data', async () => {
+    await act(async () => renderFiscalYearsListContainer());
+
+    FiscalYearsList.mock.calls[0][0].onNeedMoreData();
+
+    expect(defaultProps.mutator.fiscalYearsListFYears.GET).toHaveBeenCalled();
+  });
+
+  describe('search query', () => {
+    it('should build query when search is active', () => {
+      const expectedQuery = '(((name="FY*" or code="FY*" or description="FY*"))) sortby name/sort.ascending';
+
+      expect(buildFiscalYearsQuery(queryString.parse('?query=FY'))).toBe(expectedQuery);
+    });
+
+    it('should build query when search by field is active', () => {
+      const expectedQuery = '(((name=FY*))) sortby name/sort.ascending';
+
+      expect(buildFiscalYearsQuery(queryString.parse('?qindex=name&query=FY'))).toBe(expectedQuery);
+    });
   });
 });

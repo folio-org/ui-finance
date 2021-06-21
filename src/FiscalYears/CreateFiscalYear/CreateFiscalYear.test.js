@@ -17,12 +17,17 @@ const mutatorMock = {
 };
 const historyMock = {
   push: jest.fn(),
+  action: 'PUSH',
+  block: jest.fn(),
+  createHref: jest.fn(),
+  go: jest.fn(),
 };
 const fyId = 'fyId';
 
 const renderCreateFiscalYear = (props) => render(
   <CreateFiscalYear
-    location={{}}
+    location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
+    match={{ action: 'action' }}
     history={historyMock}
     mutator={mutatorMock}
     {...props}

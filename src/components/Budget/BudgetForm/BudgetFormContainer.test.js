@@ -26,11 +26,12 @@ const historyMock = {
   action: 'PUSH',
   block: jest.fn(),
   createHref: jest.fn(),
+  go: jest.fn(),
 };
 const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: budgetId }, path: 'path', url: 'url', search: 'search' },
-  location: { hash: 'hash', pathname: 'pathname' },
+  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
   history: historyMock,
 };
 

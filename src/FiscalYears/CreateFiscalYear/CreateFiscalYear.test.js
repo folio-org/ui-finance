@@ -27,7 +27,7 @@ const fyId = 'fyId';
 const renderCreateFiscalYear = (props) => render(
   <CreateFiscalYear
     location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
-    match={{ action: 'action' }}
+    match={{ action: 'action', url: 'url' }}
     history={historyMock}
     mutator={mutatorMock}
     {...props}

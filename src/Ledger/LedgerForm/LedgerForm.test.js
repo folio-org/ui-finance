@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 import {
@@ -51,10 +51,10 @@ const renderLedgerForm = (props = defaultProps) => (render(
 ));
 
 describe('LedgerForm component', () => {
-  it('should display title for new ledger', () => {
-    const { getByText } = renderLedgerForm();
+  it('should display title for new ledger', async () => {
+    await act(async () => renderLedgerForm());
 
-    expect(getByText('ui-finance.ledger.form.title.create')).toBeDefined();
+    expect(screen.getByText('ui-finance.ledger.form.title.create')).toBeDefined();
   });
 
   it('should display title for editing ledger', () => {

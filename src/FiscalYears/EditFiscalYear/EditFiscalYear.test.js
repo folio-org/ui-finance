@@ -20,7 +20,8 @@ const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
   block: jest.fn(),
-  crateHref: jest.fn(),
+  createHref: jest.fn(),
+  go: jest.fn(),
 };
 const fyId = 'fyId';
 

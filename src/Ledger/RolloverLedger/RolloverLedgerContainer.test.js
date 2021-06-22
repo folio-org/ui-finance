@@ -24,6 +24,7 @@ const historyMock = {
   action: 'PUSH',
   block: jest.fn(),
   createHref: jest.fn(),
+  go: jest.fn(),
 };
 const defaultProps = {
   mutator: {},

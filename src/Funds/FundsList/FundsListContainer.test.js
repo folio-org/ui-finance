@@ -18,7 +18,7 @@ const defaultProps = {
     },
   },
   location: {},
-  history: {},
+  history: { action: 'PUSH' },
 };
 
 const renderFundsListContainer = (props = defaultProps) => render(

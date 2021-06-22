@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { FISCAL_YEAR_ROUTE, LEDGERS_ROUTE } from '../../common/const';
@@ -11,6 +11,7 @@ jest.mock('./FiscalYearDetails', () => jest.fn().mockReturnValue('FiscalYearDeta
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
+  block: jest.fn(),
 };
 const mutatorMock = {
   fiscalYear: {
@@ -29,7 +30,7 @@ const mutatorMock = {
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { id: 'fyId' }, path: 'path' },
+  match: { params: { id: 'fyId' }, path: 'path', url: 'url' },
   history: historyMock,
   location: { hash: 'hash' },
 };
@@ -51,33 +52,33 @@ describe('FiscalYearDetailsContainer', () => {
   });
 
   describe('Actions', () => {
-    it('should navigate to list close action is called', () => {
-      renderFiscalYearDetailsContainer();
+    it('should navigate to list close action is called', async () => {
+      await act(async () => renderFiscalYearDetailsContainer());
 
       FiscalYearDetails.mock.calls[0][0].onClose();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(FISCAL_YEAR_ROUTE);
     });
 
-    it('should navigate to form', () => {
-      renderFiscalYearDetailsContainer();
+    it('should navigate to form', async () => {
+      await act(async () => renderFiscalYearDetailsContainer());
 
       FiscalYearDetails.mock.calls[0][0].onEdit();
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${FISCAL_YEAR_ROUTE}/${defaultProps.match.params.id}/edit`);
     });
 
-    it('should open ledger', () => {
-      renderFiscalYearDetailsContainer();
+    it('should open ledger', async () => {
+      await act(async () => renderFiscalYearDetailsContainer());
 
       FiscalYearDetails.mock.calls[0][0].openLedger({}, { id: 'ledgerId' });
 
       expect(historyMock.push).toHaveBeenCalledWith(`${LEDGERS_ROUTE}/ledgerId/view`);
     });
 
-    it('should remove', () => {
+    it('should remove', async () => {
       mutatorMock.fiscalYear.DELETE.mockReturnValue(Promise.resolve({}));
-      renderFiscalYearDetailsContainer();
+      await act(async () => renderFiscalYearDetailsContainer());
 
       FiscalYearDetails.mock.calls[0][0].onRemove();
 

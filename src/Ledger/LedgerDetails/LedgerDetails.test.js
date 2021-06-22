@@ -29,7 +29,7 @@ jest.mock('./LedgerInformation', () => jest.fn().mockReturnValue('LedgerInformat
 jest.mock('./../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
 
 const defaultProps = {
-  ledger: {},
+  ledger: { id: 'ledgerId' },
   fiscalYear: {},
   onClose: jest.fn(),
   onEdit: jest.fn(),

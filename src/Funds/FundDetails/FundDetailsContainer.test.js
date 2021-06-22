@@ -19,6 +19,8 @@ const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
   block: jest.fn(),
+  createHref: jest.fn(),
+  go: jest.fn(),
 };
 const mutatorMock = {
   fund: {
@@ -36,7 +38,7 @@ const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: 'fundId' }, path: 'path', url: 'url' },
   history: historyMock,
-  location: { hash: 'hash' },
+  location: { hash: 'hash', pathname: 'pathname' },
   stripes: { hasPerm: jest.fn() },
 };
 const renderFundDetailsContainer = (props = defaultProps) => render(

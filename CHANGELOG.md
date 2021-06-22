@@ -2,7 +2,10 @@
 
 ## (IN PROGRESS)
 
+* Cannot edit budget 'actions required' field. Refs UIF-311.
+* Should not display budget 'allocation date' field as it is NOT in the schema. Refs UIF-312.
 * UI tests replacement with RTL/Jest. Refs FAT-37.
+
 ## [2.4.0](https://github.com/folio-org/ui-finance/tree/v2.4.0) (2021-06-18)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.3...v2.4.0)
 

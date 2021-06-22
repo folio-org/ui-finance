@@ -36,22 +36,8 @@ const BudgetInformation = ({
 
     <Col xs={3}>
       <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.allocationDate" />}
-        value={<NoValue />}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.status" />}
         value={budgetStatus}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.actionsRequired" />}
-        value={<NoValue />}
       />
     </Col>
 

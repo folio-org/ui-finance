@@ -52,7 +52,7 @@ describe('LedgerGroups', () => {
   it('should load all data', async () => {
     mutator.groupFundFYByFundId.GET.mockReturnValue(Promise.resolve({}));
     mutator.groups.GET.mockReturnValue(Promise.resolve([]));
-    mutator.ledgerGroupSummaries.GET.mockReturnValue(Promise.resolve({}));
+    mutator.ledgerGroupSummaries.GET.mockReturnValue(Promise.resolve([]));
 
     await act(async () => {
       renderLedgerGroups({ mutator, funds: [{ id: 'fundId' }] });

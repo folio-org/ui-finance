@@ -2,6 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import {
+  DetailsEditAction,
+} from '../../common/DetailsActions';
 import { FundDetailsContainer } from './FundDetailsContainer';
 
 jest.mock('./FundDetails', () => jest.fn().mockReturnValue('FundDetails'));
@@ -13,6 +16,10 @@ jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
   expandAllSections: jest.fn(),
   collapseAllSections: jest.fn(),
+}));
+jest.mock('../../common/DetailsActions', () => ({
+  DetailsEditAction: jest.fn().mockReturnValue('DetailsEditAction'),
+  DetailsRemoveAction: jest.fn().mockReturnValue('DetailsRemoveAction'),
 }));
 
 const historyMock = {
@@ -50,11 +57,20 @@ describe('FundDetailsContainer', () => {
   beforeEach(() => {
     historyMock.push.mockClear();
   });
+
   it('should display FundDetails', async () => {
     renderFundDetailsContainer();
 
     await screen.findByText('FundDetails');
 
     expect(screen.getByText('FundDetails')).toBeDefined();
+  });
+
+  it('should navigate to edit', async () => {
+    renderFundDetailsContainer();
+
+    DetailsEditAction.mock.calls[0][0].onEdit();
+
+    expect(historyMock.push).toHaveBeenCalled();
   });
 });

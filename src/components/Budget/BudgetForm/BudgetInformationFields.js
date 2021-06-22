@@ -6,7 +6,6 @@ import { Field } from 'react-final-form';
 import {
   Col,
   KeyValue,
-  NoValue,
   Row,
   TextField,
 } from '@folio/stripes/components';
@@ -28,13 +27,6 @@ const BudgetInformationFields = ({
         fullWidth
         label={<FormattedMessage id="ui-finance.budget.name" />}
         name="name"
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.allocationDate" />}
-        value={<NoValue />}
       />
     </Col>
 

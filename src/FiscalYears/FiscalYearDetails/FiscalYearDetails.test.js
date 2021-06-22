@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
@@ -48,14 +48,14 @@ const renderFiscalYearDetails = (props = defaultProps) => (render(
 ));
 
 describe('FiscalYearDetails component', () => {
-  it('should display fy details accordions', () => {
-    const { getByText } = renderFiscalYearDetails();
+  it('should display fy details accordions', async () => {
+    await act(async () => renderFiscalYearDetails());
 
-    expect(getByText('ui-finance.fiscalYear.details.information')).toBeDefined();
-    expect(getByText('ui-finance.fiscalYear.details.ledger')).toBeDefined();
-    expect(getByText('ui-finance.fiscalYear.details.financialSummary')).toBeDefined();
-    expect(getByText('ui-finance.fiscalYear.details.group')).toBeDefined();
-    expect(getByText('ui-finance.fiscalYear.details.fund')).toBeDefined();
+    expect(screen.getByText('ui-finance.fiscalYear.details.information')).toBeDefined();
+    expect(screen.getByText('ui-finance.fiscalYear.details.ledger')).toBeDefined();
+    expect(screen.getByText('ui-finance.fiscalYear.details.financialSummary')).toBeDefined();
+    expect(screen.getByText('ui-finance.fiscalYear.details.group')).toBeDefined();
+    expect(screen.getByText('ui-finance.fiscalYear.details.fund')).toBeDefined();
   });
 
   describe('Shortcuts', () => {

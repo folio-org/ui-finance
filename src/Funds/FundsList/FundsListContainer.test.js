@@ -47,7 +47,7 @@ describe('FundsListContainer', () => {
   it('should load more data', async () => {
     await act(async () => renderFundsListContainer());
 
-    FundsList.mock.calls[0][0].onNeedMoreData();
+    await act(async () => FundsList.mock.calls[0][0].onNeedMoreData());
 
     expect(defaultProps.mutator.fundsListFunds.GET).toHaveBeenCalled();
   });

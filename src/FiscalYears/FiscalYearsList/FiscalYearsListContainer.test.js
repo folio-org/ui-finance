@@ -42,7 +42,7 @@ describe('FiscalYearsListContainer', () => {
   it('should load more data', async () => {
     await act(async () => renderFiscalYearsListContainer());
 
-    FiscalYearsList.mock.calls[0][0].onNeedMoreData();
+    await act(async () => FiscalYearsList.mock.calls[0][0].onNeedMoreData());
 
     expect(defaultProps.mutator.fiscalYearsListFYears.GET).toHaveBeenCalled();
   });

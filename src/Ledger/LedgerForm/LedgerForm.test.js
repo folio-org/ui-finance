@@ -57,34 +57,34 @@ describe('LedgerForm component', () => {
     expect(screen.getByText('ui-finance.ledger.form.title.create')).toBeDefined();
   });
 
-  it('should display title for editing ledger', () => {
-    const { getByText } = renderLedgerForm({ ...defaultProps, initialValues: { id: 'ledgerId' } });
+  it('should display title for editing ledger', async () => {
+    await act(async () => renderLedgerForm({ ...defaultProps, initialValues: { id: 'ledgerId' } }));
 
-    expect(getByText('ui-finance.ledger.form.title.edit')).toBeDefined();
+    expect(screen.getByText('ui-finance.ledger.form.title.edit')).toBeDefined();
   });
 
-  it('should display pane footer', () => {
-    const { getByText } = renderLedgerForm();
+  it('should display pane footer', async () => {
+    await act(async () => renderLedgerForm());
 
-    expect(getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
-    expect(getByText('ui-finance.saveAndClose')).toBeDefined();
+    expect(screen.getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
+    expect(screen.getByText('ui-finance.saveAndClose')).toBeDefined();
   });
 
   describe('Close form', () => {
-    it('should close the ledger form', () => {
-      const { getByText } = renderLedgerForm();
+    it('should close the ledger form', async () => {
+      await act(async () => renderLedgerForm());
 
-      user.click(getByText('stripes-acq-components.FormFooter.cancel'));
+      user.click(screen.getByText('stripes-acq-components.FormFooter.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });
   });
 
   describe('Open fiscal year form', () => {
-    it('should open the fiscal year form', () => {
-      const { getByText } = renderLedgerForm();
+    it('should open the fiscal year form', async () => {
+      await act(async () => renderLedgerForm());
 
-      user.click(getByText('ui-finance.ledger.createNewFY'));
+      user.click(screen.getByText('ui-finance.ledger.createNewFY'));
 
       expect(defaultProps.goToCreateFY).toHaveBeenCalled();
     });
@@ -99,43 +99,43 @@ describe('LedgerForm component', () => {
 
     it('should call expandAllSections when expandAllSections shortcut is called', async () => {
       expandAllSections.mockClear();
-      renderLedgerForm();
+      await act(async () => renderLedgerForm());
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
 
       expect(expandAllSections).toHaveBeenCalled();
     });
 
-    it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
+    it('should call collapseAllSections when collapseAllSections shortcut is called', async () => {
       collapseAllSections.mockClear();
-      renderLedgerForm();
+      await act(async () => renderLedgerForm());
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
 
       expect(collapseAllSections).toHaveBeenCalled();
     });
 
-    it('should cancel form when cancel shortcut is called', () => {
+    it('should cancel form when cancel shortcut is called', async () => {
       const pushMock = jest.fn();
 
       useHistory.mockClear().mockReturnValue({
         push: pushMock,
       });
 
-      renderLedgerForm();
+      await act(async () => renderLedgerForm());
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'cancel').handler();
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });
 
-    it('should navigate to list view when search shortcut is called', () => {
+    it('should navigate to list view when search shortcut is called', async () => {
       const pushMock = jest.fn();
 
       useHistory.mockClear().mockReturnValue({
         push: pushMock,
       });
 
-      renderLedgerForm();
+      await act(async () => renderLedgerForm());
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'search').handler();
 
       expect(pushMock).toHaveBeenCalledWith(LEDGERS_ROUTE);

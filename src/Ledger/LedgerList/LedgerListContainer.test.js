@@ -42,7 +42,7 @@ describe('LedgerListContainer', () => {
   it('should load more data', async () => {
     await act(async () => renderLedgerListContainer());
 
-    LedgersList.mock.calls[0][0].onNeedMoreData();
+    await act(async () => LedgersList.mock.calls[0][0].onNeedMoreData());
 
     expect(defaultProps.mutator.ledgersListFinance.GET).toHaveBeenCalled();
   });

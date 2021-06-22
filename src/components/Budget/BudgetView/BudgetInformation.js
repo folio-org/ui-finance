@@ -50,13 +50,6 @@ const BudgetInformation = ({
 
     <Col xs={3}>
       <KeyValue
-        label={<FormattedMessage id="ui-finance.budget.actionsRequired" />}
-        value={<NoValue />}
-      />
-    </Col>
-
-    <Col xs={3}>
-      <KeyValue
         label={<FormattedMessage id="ui-finance.budget.fiscalStart" />}
       >
         <FolioFormattedDate value={fiscalStart} />

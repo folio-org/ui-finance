@@ -128,7 +128,6 @@
   "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
   "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
   "budget.allocated": "Allocated",
-  "budget.allocationDate": "Allocation date",
   "budget.allowableEncumbrance": "Allowable encumbrance",
   "budget.allowableExpenditure": "Allowable expenditure",
   "budget.allowableEncumbrancePercentage": "Allowable encumbrance percentage",

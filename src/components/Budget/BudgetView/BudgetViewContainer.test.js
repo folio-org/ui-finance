@@ -21,11 +21,15 @@ const mutatorMock = {
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
+  block: jest.fn(),
+  createHref: jest.fn(),
+  go: jest.fn(),
+  listen: jest.fn(),
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { budgetId }, path: 'path' },
-  location: { hash: 'hash' },
+  match: { params: { budgetId }, path: 'path', url: 'url' },
+  location: { hash: 'hash', pathname: 'pathname' },
   history: historyMock,
   stripes: {},
 };

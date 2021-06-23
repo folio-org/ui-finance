@@ -5,7 +5,6 @@ import { MemoryRouter } from 'react-router-dom';
 import FundBudgets from './FundBudgets';
 
 const defaultProps = {
-  addBudgetButton: jest.fn(),
   budgets: [],
   budgetStatus: 'Active',
   currency: 'USD',

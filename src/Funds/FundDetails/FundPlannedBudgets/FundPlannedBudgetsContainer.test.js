@@ -10,7 +10,7 @@ jest.mock('../FundBudgets', () => {
 });
 
 const historyMock = {
-  action: 'PUSH', block: jest.fn(), createHref: jest.fn(), push: jest.fn(),
+  action: 'PUSH', block: jest.fn(), createHref: jest.fn(), push: jest.fn(), go: jest.fn(), listen: jest.fn(),
 };
 
 const renderFundPlannedBudgetsContainer = (mutator) => (render(

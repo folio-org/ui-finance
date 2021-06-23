@@ -19,6 +19,9 @@ const wrapper = ({ children }) => (
 
 describe('useRolloverData', () => {
   it('should call API', () => {
+    mutatorMock.funds.GET.mockClear().mockReturnValue(Promise.resolve([{ id: 'fundId', fundTypeId: 'fundTypeId' }]));
+    mutatorMock.ledgerCurrentFiscalYear.GET.mockClear().mockReturnValue(Promise.resolve({ id: 'fyId' }));
+
     renderHook(() => useRolloverData(mutatorMock), { wrapper });
 
     expect(mutatorMock.funds.GET).toHaveBeenCalled();

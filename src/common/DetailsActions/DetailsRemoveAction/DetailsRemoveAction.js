@@ -22,6 +22,7 @@ const DetailsRemoveAction = ({ disabled, perm, onRemove, toggleActionMenu }) => 
       <Button
         buttonStyle="dropdownItem"
         data-test-details-remove-action
+        data-testid="details-remove-action"
         onClick={remove}
         disabled={disabled}
       >

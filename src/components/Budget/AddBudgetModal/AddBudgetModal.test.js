@@ -22,7 +22,7 @@ const mutatorMock = {
 const defaultProps = {
   mutator: mutatorMock,
   location: { hash: 'hash', pathname: 'pathname', search: 'search' },
-  history: { action: 'PUSH', block: jest.fn(), createHref: jest.fn() },
+  history: { action: 'PUSH', block: jest.fn(), createHref: jest.fn(), go: jest.fn(), listen: jest.fn() },
   ledgerId: 'ledgerId',
   onClose: jest.fn(),
   budgetStatus: 'Active',

@@ -13,6 +13,8 @@ const historyMock = {
   action: 'PUSH',
   block: jest.fn(),
   createHref: jest.fn(),
+  go: jest.fn(),
+  listen: jest.fn(),
 };
 const defaultProps = {
   budget: { id: 'budgetId' },

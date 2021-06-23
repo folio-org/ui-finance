@@ -14,6 +14,7 @@ const DetailsEditAction = ({ disabled, perm, onEdit, toggleActionMenu }) => {
       <Button
         buttonStyle="dropdownItem"
         data-test-details-edit-action
+        data-testid="details-edit-action"
         onClick={() => {
           onEdit();
           toggleActionMenu();

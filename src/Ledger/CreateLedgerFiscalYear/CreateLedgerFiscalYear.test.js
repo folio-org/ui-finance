@@ -37,8 +37,8 @@ const history = createMemoryHistory();
 history.push = jest.fn();
 
 const renderFiscalYearForm = () => (render(
-  <Router history={history}>
-    <CreateLedgerFiscalYear match={{ action: 'PUSH' }} />
+  <Router history={history} match={{ action: 'PUSH' }}>
+    <CreateLedgerFiscalYear />
   </Router>,
 ));
 

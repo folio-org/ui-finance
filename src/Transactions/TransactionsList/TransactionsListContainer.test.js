@@ -28,7 +28,7 @@ const mutatorMock = {
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { budgetId: 'id' }, path: 'path' },
+  match: { params: { budgetId: 'id' }, path: 'path', url: 'url' },
   history: historyMock,
   resources: { fundsTransactionsList: { hasLoaded: true }, budget: { records: [{ id: 'id', name: 'budgetName' }] } },
   closePane: jest.fn(),

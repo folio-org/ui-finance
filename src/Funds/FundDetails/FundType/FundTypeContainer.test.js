@@ -43,4 +43,14 @@ describe('FundTypeContainer', () => {
 
     expect(mutator.fundType.GET).not.toHaveBeenCalled();
   });
+
+  it('should handle error when fetching data', async () => {
+    mutator.fundType.GET.mockClear().mockReturnValue(Promise.reject());
+
+    await act(async () => {
+      renderFundTypeContainer({ mutator, fundTypeId: 'fundId' });
+    });
+
+    expect(mutator.fundType.GET).toHaveBeenCalled();
+  });
 });

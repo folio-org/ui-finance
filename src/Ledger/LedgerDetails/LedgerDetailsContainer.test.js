@@ -17,6 +17,9 @@ const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
   block: jest.fn(),
+  createHref: jest.fn(),
+  go: jest.fn(),
+  listen: jest.fn(),
 };
 const mutatorMock = {
   ledgerDetails: {
@@ -49,7 +52,7 @@ const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: 'ledgerId' }, path: 'path', url: 'url' },
   history: historyMock,
-  location: { hash: 'hash' },
+  location: { hash: 'hash', pathname: 'pathname' },
   stripes: { hasPerm: jest.fn() },
 };
 const renderLedgerDetailsContainer = (props = defaultProps) => render(

@@ -12,6 +12,9 @@ const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
   block: jest.fn(),
+  createHref: jest.fn(),
+  go: jest.fn(),
+  listen: jest.fn(),
 };
 const mutatorMock = {
   fiscalYear: {
@@ -32,7 +35,7 @@ const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: 'fyId' }, path: 'path', url: 'url' },
   history: historyMock,
-  location: { hash: 'hash' },
+  location: { hash: 'hash', pathname: 'pathname' },
 };
 const renderFiscalYearDetailsContainer = (props = defaultProps) => render(
   <FiscalYearDetailsContainer {...props} />,

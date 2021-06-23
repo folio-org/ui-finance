@@ -20,6 +20,7 @@ const historyMock = {
   block: jest.fn(),
   createHref: jest.fn(),
   go: jest.fn(),
+  listen: jest.fn(),
 };
 const mutatorMock = {
   groupDetails: {

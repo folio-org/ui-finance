@@ -17,7 +17,7 @@ import {
 import { FiscalYearForm } from '../FiscalYearForm';
 import { useSaveFiscalYear } from '../utils';
 
-const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
+export const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
   const fiscalYearId = match.params.id;
 
   useEffect(

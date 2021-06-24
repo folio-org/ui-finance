@@ -28,7 +28,8 @@ import {
 import { FISCAL_YEAR_FILTERS } from '../constants';
 
 const RESULT_COUNT_INCREMENT = 30;
-const buildFiscalYearsQuery = makeQueryBuilder(
+
+export const buildFiscalYearsQuery = makeQueryBuilder(
   'cql.allRecords=1',
   (query, qindex) => {
     if (qindex) {
@@ -43,7 +44,7 @@ const buildFiscalYearsQuery = makeQueryBuilder(
 
 const resetData = () => { };
 
-const FiscalYearsListContainer = ({ mutator: originMutator, location, history }) => {
+export const FiscalYearsListContainer = ({ mutator: originMutator, location, history }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const mutator = useMemo(() => originMutator, []);
   const [fiscalYears, setFiscalYears] = useState([]);

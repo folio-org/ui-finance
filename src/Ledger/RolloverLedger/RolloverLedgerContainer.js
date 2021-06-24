@@ -27,14 +27,14 @@ import {
   ledgerRolloverResource,
 } from '../../common/resources';
 import RolloverLedger from './RolloverLedger';
-import useRolloverData from './useRolloverData';
+import { useRolloverData } from './useRolloverData';
 import { useRolloverFiscalYears } from './useRolloverFiscalYears';
 import {
   ADD_AVAILABLE_TO,
   ORDER_TYPE,
 } from '../constants';
 
-const RolloverLedgerContainer = ({ resources, mutator, match, history, location }) => {
+export const RolloverLedgerContainer = ({ resources, mutator, match, history, location }) => {
   const ledgerId = match.params.id;
 
   const showCallout = useShowCallout();

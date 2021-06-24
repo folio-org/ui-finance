@@ -21,6 +21,7 @@ const columnMapping = {
   status: <FormattedMessage id="ui-finance.budget.expenseClasses.status" />,
 };
 const getResultsFormatter = currency => ({
+  expenseClassName: expenseClass => (<span data-testid="nameColumn">{expenseClass.expenseClassName}</span>),
   encumbered: expenseClass => (
     <AmountWithCurrencyField
       amount={expenseClass.encumbered}

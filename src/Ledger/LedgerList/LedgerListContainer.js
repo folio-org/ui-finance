@@ -28,7 +28,7 @@ import {
 
 const RESULT_COUNT_INCREMENT = 30;
 
-const buildLedgersQuery = makeQueryBuilder(
+export const buildLedgersQuery = makeQueryBuilder(
   'cql.allRecords=1',
   (query, qindex) => {
     if (qindex) {
@@ -43,7 +43,7 @@ const buildLedgersQuery = makeQueryBuilder(
 
 const resetData = () => {};
 
-const LedgerListContainer = ({ mutator: originMutator, location, history }) => {
+export const LedgerListContainer = ({ mutator: originMutator, location, history }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const mutator = useMemo(() => originMutator, []);
   const [ledgers, setLedgers] = useState([]);

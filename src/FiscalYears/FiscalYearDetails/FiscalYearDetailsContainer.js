@@ -31,7 +31,7 @@ const buildLedgersQueryByFYIds = (fiscalYears) => {
   return query || '';
 };
 
-const FiscalYearDetailsContainer = ({
+export const FiscalYearDetailsContainer = ({
   mutator,
   match,
   location,

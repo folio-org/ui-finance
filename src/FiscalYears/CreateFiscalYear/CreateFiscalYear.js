@@ -17,7 +17,7 @@ import { FiscalYearForm } from '../FiscalYearForm';
 
 const INITIAL_FISCAL_YEAR = {};
 
-const CreateFiscalYear = ({ mutator, location, history }) => {
+export const CreateFiscalYear = ({ mutator, location, history }) => {
   const closeForm = useCallback(
     ({ id } = {}) => {
       history.push({

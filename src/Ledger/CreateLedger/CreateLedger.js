@@ -24,7 +24,7 @@ const INITIAL_LEDGER = {
   ledgerStatus: LEDGER_STATUS.active,
 };
 
-const CreateLedger = ({ mutator, location, history }) => {
+export const CreateLedger = ({ mutator, location, history }) => {
   const showCallout = useShowCallout();
   const [ledger, setLedger] = useState(INITIAL_LEDGER);
   const intl = useIntl();

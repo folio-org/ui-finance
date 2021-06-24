@@ -34,7 +34,7 @@ const customFiltersMap = {
   [FILTERS.TAGS]: buildArrayFieldQuery.bind(null, [FILTERS.TAGS]),
 };
 
-const TransactionsListContainer = ({ mutator, resources, closePane, match }) => {
+export const TransactionsListContainer = ({ mutator, resources, closePane, match }) => {
   const budgetId = match.params.budgetId;
   const onNeedMoreData = useCallback(
     () => mutator.resultCount.replace(resources.resultCount + RESULT_COUNT_INCREMENT),

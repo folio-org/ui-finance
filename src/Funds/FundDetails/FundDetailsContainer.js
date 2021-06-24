@@ -59,7 +59,7 @@ import FundPlannedBudgetsContainer from './FundPlannedBudgets';
 import FundPreviousBudgetsContainer from './FundPreviousBudgets';
 import { FundExpenseClasses } from './FundExpenseClasses';
 
-const FundDetailsContainer = ({
+export const FundDetailsContainer = ({
   history,
   match: { params },
   location,

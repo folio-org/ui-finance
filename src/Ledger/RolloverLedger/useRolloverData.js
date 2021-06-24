@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { batchFetch } from '@folio/stripes-acq-components';
 
-const useRolloverData = (mutator) => {
+export const useRolloverData = (mutator) => {
   const [budgets, setBudgets] = useState();
   const [currentFiscalYear, setCurrentFiscalYear] = useState();
   const [funds, setFunds] = useState();
@@ -47,5 +47,3 @@ const useRolloverData = (mutator) => {
     fundTypesMap,
   };
 };
-
-export default useRolloverData;

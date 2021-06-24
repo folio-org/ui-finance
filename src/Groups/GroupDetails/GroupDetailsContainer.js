@@ -23,7 +23,7 @@ import {
 import { getGroupSummary } from './utils';
 import GroupDetails from './GroupDetails';
 
-const GroupDetailsContainer = ({
+export const GroupDetailsContainer = ({
   mutator,
   match,
   history,

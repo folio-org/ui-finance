@@ -15,6 +15,7 @@ const mutatorMock = {
     reset: jest.fn(),
   },
 };
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
@@ -22,11 +23,12 @@ const historyMock = {
   createHref: jest.fn(),
   go: jest.fn(),
   listen: jest.fn(),
+  location: locationMock,
 };
 const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: ledgerId }, path: 'path', url: 'url' },
-  location: { state: { fiscalYearOneId: 'fyId' }, search: 'search', hash: 'hash', pathname: 'pathname' },
+  location: { state: { fiscalYearOneId: 'fyId' }, ...locationMock },
   history: historyMock,
   resources: {
     ledgerEdit: {

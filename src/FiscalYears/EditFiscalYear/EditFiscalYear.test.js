@@ -16,19 +16,22 @@ const mutatorMock = {
     reset: jest.fn(),
   },
 };
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
   block: jest.fn(),
   createHref: jest.fn(),
   go: jest.fn(),
+  listen: jest.fn(),
+  location: locationMock,
 };
 const fyId = 'fyId';
 
 const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: fyId }, path: 'path', url: 'url' },
-  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
+  location: locationMock,
   history: historyMock,
   resources: {
     fiscalYearEdit: {

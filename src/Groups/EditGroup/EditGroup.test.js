@@ -16,6 +16,7 @@ const mutatorMock = {
     reset: jest.fn(),
   },
 };
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
@@ -23,13 +24,14 @@ const historyMock = {
   createHref: jest.fn(),
   go: jest.fn(),
   listen: jest.fn(),
+  location: locationMock,
 };
 const groupId = 'groupId';
 
 const defaultProps = {
   mutator: mutatorMock,
   match: { params: { id: groupId }, path: 'path', url: 'url' },
-  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
+  location: locationMock,
   history: historyMock,
   resources: {
     groupEdit: {

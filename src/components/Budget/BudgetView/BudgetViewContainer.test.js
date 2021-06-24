@@ -18,6 +18,7 @@ const mutatorMock = {
     GET: jest.fn().mockReturnValue(Promise.resolve({ id: 'fyId' })),
   },
 };
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
@@ -25,11 +26,12 @@ const historyMock = {
   createHref: jest.fn(),
   go: jest.fn(),
   listen: jest.fn(),
+  location: locationMock,
 };
 const defaultProps = {
   mutator: mutatorMock,
-  match: { params: { budgetId }, path: 'path', url: 'url' },
-  location: { hash: 'hash', pathname: 'pathname' },
+  match: { params: { budgetId }, path: 'path', url: 'url', search: 'search' },
+  location: locationMock,
   history: historyMock,
   stripes: {},
 };

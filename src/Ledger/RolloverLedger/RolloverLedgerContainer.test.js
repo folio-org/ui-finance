@@ -19,6 +19,7 @@ jest.mock('./useRolloverFiscalYears', () => ({
   useRolloverFiscalYears: jest.fn().mockReturnValue({ fiscalYears: [] }),
 }));
 
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
@@ -26,11 +27,12 @@ const historyMock = {
   createHref: jest.fn(),
   go: jest.fn(),
   listen: jest.fn(),
+  location: locationMock,
 };
 const defaultProps = {
   mutator: {},
   history: historyMock,
-  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
+  location: locationMock,
   match: { params: { id: 'id' }, path: 'path', url: 'url' },
   resources: {
     rolloverLedger: {

@@ -8,6 +8,7 @@ import { BUDGET_ROUTE, BUDGET_VIEW_ROUTE } from '../../../common/const';
 
 jest.mock('../FundBudgets', () => jest.fn().mockReturnValue('FundBudgets'));
 
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
@@ -15,12 +16,13 @@ const historyMock = {
   createHref: jest.fn(),
   go: jest.fn(),
   listen: jest.fn(),
+  location: locationMock,
 };
 const defaultProps = {
   budget: { id: 'budgetId' },
   currency: 'USD',
   history: historyMock,
-  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
+  location: locationMock,
   openNewBudgetModal: jest.fn(),
 };
 const renderFundCurrentBudgetContainer = (props = defaultProps) => render(

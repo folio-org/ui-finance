@@ -18,11 +18,11 @@ const mutatorMock = {
     GET: jest.fn().mockReturnValue(Promise.resolve({ id: 'fyId', series: 'series' })),
   },
 };
-
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const defaultProps = {
   mutator: mutatorMock,
-  location: { hash: 'hash', pathname: 'pathname', search: 'search' },
-  history: { action: 'PUSH', block: jest.fn(), createHref: jest.fn(), go: jest.fn(), listen: jest.fn() },
+  location: locationMock,
+  history: { push: jest.fn(), action: 'PUSH', block: jest.fn(), createHref: jest.fn(), go: jest.fn(), listen: jest.fn(), location: locationMock },
   ledgerId: 'ledgerId',
   onClose: jest.fn(),
   budgetStatus: 'Active',

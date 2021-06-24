@@ -15,6 +15,7 @@ const mutatorMock = {
     POST: jest.fn(),
   },
 };
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
   push: jest.fn(),
   action: 'PUSH',
@@ -22,12 +23,13 @@ const historyMock = {
   createHref: jest.fn(),
   go: jest.fn(),
   listen: jest.fn(),
+  location: locationMock,
 };
 const fyId = 'fyId';
 
 const renderCreateFiscalYear = (props) => render(
   <CreateFiscalYear
-    location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
+    location={locationMock}
     match={{ action: 'action', url: 'url' }}
     history={historyMock}
     mutator={mutatorMock}

@@ -9,15 +9,16 @@ jest.mock('../FundBudgets', () => {
   return jest.fn(() => 'FundBudgets');
 });
 
+const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };
 const historyMock = {
-  action: 'PUSH', block: jest.fn(), createHref: jest.fn(), push: jest.fn(), go: jest.fn(), listen: jest.fn(),
+  action: 'PUSH', block: jest.fn(), createHref: jest.fn(), push: jest.fn(), go: jest.fn(), listen: jest.fn(), location: locationMock,
 };
 
 const renderFundPreviousBudgetsContainer = (mutator) => (render(
   <MemoryRouter>
     <FundPreviousBudgetsContainer
       history={historyMock}
-      location={{ hash: 'hash', pathname: 'pathname', search: 'search' }}
+      location={locationMock}
       mutator={mutator}
       currentFY={{}}
       fundId="fundId"

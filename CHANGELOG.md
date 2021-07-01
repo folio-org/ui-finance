@@ -4,6 +4,7 @@
 
 * Cannot edit budget 'actions required' field. Refs UIF-311.
 * Should not display budget 'allocation date' field as it is NOT in the schema. Refs UIF-312.
+* Cannot allocate or transfer cents as system considers them negative numbers. Refs UIF-314.
 
 ## [2.4.0](https://github.com/folio-org/ui-finance/tree/v2.4.0) (2021-06-18)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.3.3...v2.4.0)

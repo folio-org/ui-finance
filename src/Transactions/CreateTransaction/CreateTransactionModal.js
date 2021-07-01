@@ -16,7 +16,7 @@ import {
 import {
   FieldSelectFinal,
   FieldTags,
-  validateRequiredPositiveNumber,
+  validateRequiredPositiveAmount,
 } from '@folio/stripes-acq-components';
 
 import { validateTransactionForm } from '../../common/utils';
@@ -97,7 +97,7 @@ const CreateTransactionModal = ({
               name="amount"
               type="number"
               required
-              validate={validateRequiredPositiveNumber}
+              validate={validateRequiredPositiveAmount}
             />
           </Col>
 

@@ -70,6 +70,6 @@ describe('CreateTransactionModal', () => {
     userEvent.type(screen.getByLabelText('ui-finance.transaction.amount*'), '-1000');
     userEvent.click(screen.getByText('ui-finance.transaction.button.confirm'));
     expect(onSubmit).not.toHaveBeenCalled();
-    expect(screen.getByText('stripes-acq-components.validation.shouldBePositive')).toBeDefined();
+    expect(screen.getByText('stripes-acq-components.validation.shouldBePositiveAmount')).toBeDefined();
   });
 });

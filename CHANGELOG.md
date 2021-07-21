@@ -4,6 +4,7 @@
 
 * UI tests replacement with RTL/Jest. Refs FAT-37.
 
+## [2.4.1](https://github.com/folio-org/ui-finance/tree/v2.4.1) (2021-07-21)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.4.0...v2.4.1)
 
 * Cannot edit budget 'actions required' field. Refs UIF-311.

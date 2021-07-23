@@ -380,5 +380,6 @@
     "fiscalYear.code.isInUse": "Ten kod roku budżetowego jest już używany",
     "errors.load.code": "Error code fetching",
     "errors.load.name": "Error name fetching",
-    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class."
+    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
 }

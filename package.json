@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",

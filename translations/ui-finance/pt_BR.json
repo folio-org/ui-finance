@@ -381,5 +381,5 @@
     "errors.load.code": "Erro ao buscar código",
     "errors.load.name": "Erro ao buscar nome",
     "expenseClass.helper": "As classes de despesa podem ser criadas e editadas abaixo. Depois de criar classes de despesas, você pode navegar até o aplicativo Finanças para atribuí-las aos seus orçamentos conforme desejado. Uma vez que uma classe de despesas tenha sido atribuída a um orçamento, os usuários podem alocar ou gastar dinheiro contra essa classe de despesas.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "O ano fiscal não foi salvo. A data de término do período do ano fiscal é anterior à data de início"
 }

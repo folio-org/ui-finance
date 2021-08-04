@@ -380,6 +380,6 @@
     "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
     "errors.load.code": "Error code fetching",
     "errors.load.name": "Error name fetching",
-    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
+    "expenseClass.helper": "Las clases de gastos se pueden crear y editar a continuación. Una vez que haya creado las clases de gastos, puede navegar a la aplicación Finanzas para asignarlas a sus presupuestos como desee. Una vez que se ha asignado una clase de gastos a un presupuesto, los usuarios pueden gravar o gastar dinero en la clase de gastos.",
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "El año fiscal no se ha guardado. La fecha de finalización del período del año fiscal es anterior a la fecha de inicio."
 }

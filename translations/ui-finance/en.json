@@ -297,7 +297,6 @@
   "item.unavailable": "Unavailable",
 
   "transaction.actions.load.error": "Failed to load transaction data",
-  "transaction.allocate": "Allocate",
   "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
   "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
   "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
@@ -352,6 +351,9 @@
   "transaction.releaseEncumbrance.success": "Encumbrance was released",
   "transaction.releaseEncumbrance.error.default": "Error while releasing encumbrance",
   "transaction.releaseEncumbrance.error.genericError": "All expected transactions already processed",
+  "transaction.increaseAllocation": "Increase allocation",
+  "transaction.decreaseAllocation": "Decrease allocation",
+  "transaction.moveAllocation": "Move allocation",
 
   "transactions.search": "Search transactions",
 

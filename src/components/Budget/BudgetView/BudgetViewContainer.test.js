@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import user from '@testing-library/user-event';
 
 import { BudgetViewContainer } from './BudgetViewContainer';
 
 jest.mock('./BudgetView', () => jest.fn().mockReturnValue('BudgetView'));
+jest.mock('../../../Transactions/CreateTransaction', () => jest.fn().mockReturnValue('Create transaction'));
 
 const budgetId = 'budgetId';
 const mutatorMock = {
@@ -50,5 +52,35 @@ describe('BudgetViewContainer', () => {
     await screen.findByText('BudgetView');
 
     expect(screen.getByText('BudgetView')).toBeDefined();
+  });
+
+  it('should open Increase allocation modal', async () => {
+    renderBudgetViewContainer();
+
+    await screen.findByText('BudgetView');
+    user.click(screen.getByTestId('increase-allocation-button'));
+    await screen.findByText('Create transaction');
+
+    expect(screen.getByText('Create transaction')).toBeDefined();
+  });
+
+  it('should open Decrease allocation modal', async () => {
+    renderBudgetViewContainer();
+
+    await screen.findByText('BudgetView');
+    user.click(screen.getByTestId('decrease-allocation-button'));
+    await screen.findByText('Create transaction');
+
+    expect(screen.getByText('Create transaction')).toBeDefined();
+  });
+
+  it('should open Move allocation modal', async () => {
+    renderBudgetViewContainer();
+
+    await screen.findByText('BudgetView');
+    user.click(screen.getByTestId('move-allocation-button'));
+    await screen.findByText('Create transaction');
+
+    expect(screen.getByText('Create transaction')).toBeDefined();
   });
 });

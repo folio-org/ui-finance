@@ -19,6 +19,11 @@ const FUNDS = [
 
 const renderComponent = ({
   fundsOptions = FUNDS,
+  initialValues = { fundId: '1', toFundId: '1' },
+  fundLabelId,
+  isFundDisabled,
+  isFromFundVisible,
+  isToFundVisible,
   onSubmit = () => { },
   onClose = () => { },
 }) => (render(
@@ -30,16 +35,24 @@ const renderComponent = ({
         onSubmit={onSubmit}
         onClose={onClose}
         title="test title"
-        initialValues={{
-          fundId: '1',
-          toFundId: '1',
-        }}
+        initialValues={initialValues}
+        fundLabelId={fundLabelId}
+        isFundDisabled={isFundDisabled}
+        isFromFundVisible={isFromFundVisible}
+        isToFundVisible={isToFundVisible}
       />
     </MemoryRouter>
   </IntlProvider>,
 ));
 
 describe('CreateTransactionModal', () => {
+  it('should display from and to fund fields', () => {
+    renderComponent({});
+
+    expect(screen.queryByText('ui-finance.transaction.to')).toBeInTheDocument();
+    expect(screen.queryByText('ui-finance.transaction.from')).toBeInTheDocument();
+  });
+
   it('should preselect fund', () => {
     renderComponent({});
     expect(screen.getByLabelText('ui-finance.transaction.to').value).toBe('1');
@@ -71,5 +84,33 @@ describe('CreateTransactionModal', () => {
     userEvent.click(screen.getByText('ui-finance.transaction.button.confirm'));
     expect(onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText('stripes-acq-components.validation.shouldBePositiveAmount')).toBeDefined();
+  });
+
+  it('should display only one disabled fund selection with predefined value for increase allocation', () => {
+    renderComponent({
+      initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
+      fundLabelId: 'ui-finance.fund',
+      isToFundVisible: false,
+      isFundDisabled: true,
+    });
+
+    expect(screen.getByLabelText('ui-finance.fund').value).toBe(FUNDS[0].value);
+    expect(screen.getByLabelText('ui-finance.fund')).toHaveAttribute('disabled');
+    expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
+    expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
+  });
+
+  it('should display only one disabled fund selection with predefined value for decrease allocation', () => {
+    renderComponent({
+      initialValues: { fundId: FUNDS[0].value, toFundId: FUNDS[0].value },
+      fundLabelId: 'ui-finance.fund',
+      isFromFundVisible: false,
+      isFundDisabled: true,
+    });
+
+    expect(screen.getByLabelText('ui-finance.fund').value).toBe(FUNDS[0].value);
+    expect(screen.getByLabelText('ui-finance.fund')).toHaveAttribute('disabled');
+    expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
+    expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
   });
 });

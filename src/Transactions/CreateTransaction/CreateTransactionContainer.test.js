@@ -26,6 +26,8 @@ const defaultProps = {
   onClose: jest.fn(),
   stripes: { hasPerm: jest.fn(), hasInterface: jest.fn(), clone: jest.fn(), logger: {} },
   fetchBudgetResources: jest.fn(),
+  allocationType: 'decrease',
+  labelId: 'decreaseAllocation',
 };
 
 const renderCreateTransactionContainer = (props = defaultProps) => render(

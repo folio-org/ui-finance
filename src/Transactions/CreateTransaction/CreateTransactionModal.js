@@ -25,9 +25,13 @@ const CreateTransactionModal = ({
   fundId,
   handleSubmit,
   onClose,
-  fundsOptions,
+  fundsOptions = [],
   title,
   values: formValues,
+  isFundDisabled = false,
+  isFromFundVisible = true,
+  isToFundVisible = true,
+  fundLabelId,
 }) => {
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
@@ -73,21 +77,27 @@ const CreateTransactionModal = ({
     >
       <form>
         <Row>
-          <Col xs>
-            <FieldSelectFinal
-              dataOptions={optionsFrom}
-              label={<FormattedMessage id="ui-finance.transaction.from" />}
-              name="fromFundId"
-            />
-          </Col>
+          {isFromFundVisible && (
+            <Col xs>
+              <FieldSelectFinal
+                dataOptions={optionsFrom}
+                label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.from'} />}
+                name="fromFundId"
+                disabled={isFundDisabled}
+              />
+            </Col>
+          )}
 
-          <Col xs>
-            <FieldSelectFinal
-              dataOptions={optionsTo}
-              label={<FormattedMessage id="ui-finance.transaction.to" />}
-              name="toFundId"
-            />
-          </Col>
+          {isToFundVisible && (
+            <Col xs>
+              <FieldSelectFinal
+                dataOptions={optionsTo}
+                label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.to'} />}
+                name="toFundId"
+                disabled={isFundDisabled}
+              />
+            </Col>
+          )}
         </Row>
         <Row>
           <Col xs>
@@ -126,10 +136,10 @@ CreateTransactionModal.propTypes = {
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
   values: PropTypes.object.isRequired,
-};
-
-CreateTransactionModal.defaultProps = {
-  fundsOptions: [],
+  isFundDisabled: PropTypes.bool,
+  isFromFundVisible: PropTypes.bool,
+  isToFundVisible: PropTypes.bool,
+  fundLabelId: PropTypes.string,
 };
 
 export default stripesFinalForm({

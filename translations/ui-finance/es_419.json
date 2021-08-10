@@ -147,7 +147,6 @@
     "transaction.type": "Tipo",
     "budget.transactions.view": "Ver transacciones",
     "transactions.search": "Buscar transacciones",
-    "transaction.allocate": "Asignar",
     "transaction.allocation.title": "Asignación",
     "transaction.allocation.hasBeenCreated": "{amount} se asignó correctamente al presupuesto {budgetName}",
     "ledger.fund": "Fondo",
@@ -377,9 +376,12 @@
     "ledger.rollover.setAllowances": "Set allowances",
     "transaction.type.Rollover transfer": "Rollover transfer",
     "transaction.fundValidation2": "You must populate at least 1 of \"Allocation to\" or \"Allocation from\" with the budget you are currently viewing",
-    "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
-    "errors.load.code": "Error code fetching",
-    "errors.load.name": "Error name fetching",
+    "fiscalYear.code.isInUse": "Este código de año fiscal ya está en uso",
+    "errors.load.code": "Obteniendo código de error",
+    "errors.load.name": "Error al obtener el nombre",
     "expenseClass.helper": "Las clases de gastos se pueden crear y editar a continuación. Una vez que haya creado las clases de gastos, puede navegar a la aplicación Finanzas para asignarlas a sus presupuestos como desee. Una vez que se ha asignado una clase de gastos a un presupuesto, los usuarios pueden gravar o gastar dinero en la clase de gastos.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "El año fiscal no se ha guardado. La fecha de finalización del período del año fiscal es anterior a la fecha de inicio."
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "El año fiscal no se ha guardado. La fecha de finalización del período del año fiscal es anterior a la fecha de inicio.",
+    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.decreaseAllocation": "Decrease allocation",
+    "transaction.moveAllocation": "Move allocation"
 }

@@ -147,7 +147,6 @@
     "transaction.type": "Type",
     "budget.transactions.view": "Voir les transactions",
     "transactions.search": "Rechercher des transactions",
-    "transaction.allocate": "Allouer",
     "transaction.allocation.title": "Allocation",
     "transaction.allocation.hasBeenCreated": "{amount} été alloué avec succès au budget {budgetName}",
     "ledger.fund": "Poste budgétaire",
@@ -381,5 +380,8 @@
     "errors.load.code": "Erreur lors de la récupération du code",
     "errors.load.name": "Erreur lors de la récupération du nom",
     "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date",
+    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.decreaseAllocation": "Decrease allocation",
+    "transaction.moveAllocation": "Move allocation"
 }

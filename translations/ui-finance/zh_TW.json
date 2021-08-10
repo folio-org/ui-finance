@@ -147,7 +147,6 @@
     "transaction.type": "类型",
     "budget.transactions.view": "瀏覽紀錄",
     "transactions.search": "查詢紀錄",
-    "transaction.allocate": "分配",
     "transaction.allocation.title": "分配",
     "transaction.allocation.hasBeenCreated": "{amount}已成功分配到预算{budgetName}",
     "ledger.fund": "经费",
@@ -381,5 +380,8 @@
     "errors.load.code": "獲取錯誤代碼",
     "errors.load.name": "命名錯誤",
     "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date",
+    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.decreaseAllocation": "Decrease allocation",
+    "transaction.moveAllocation": "Move allocation"
 }

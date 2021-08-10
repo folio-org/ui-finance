@@ -5,6 +5,7 @@ import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 
 import CreateTransactionModal from './CreateTransactionModal';
+import { ALLOCATION_TYPE } from '../constants';
 
 const FUNDS = [
   {
@@ -18,12 +19,9 @@ const FUNDS = [
 ];
 
 const renderComponent = ({
+  allocationType,
   fundsOptions = FUNDS,
   initialValues = { fundId: '1', toFundId: '1' },
-  fundLabelId,
-  isFundDisabled,
-  isFromFundVisible,
-  isToFundVisible,
   onSubmit = () => { },
   onClose = () => { },
 }) => (render(
@@ -36,10 +34,7 @@ const renderComponent = ({
         onClose={onClose}
         title="test title"
         initialValues={initialValues}
-        fundLabelId={fundLabelId}
-        isFundDisabled={isFundDisabled}
-        isFromFundVisible={isFromFundVisible}
-        isToFundVisible={isToFundVisible}
+        allocationType={allocationType}
       />
     </MemoryRouter>
   </IntlProvider>,
@@ -88,10 +83,8 @@ describe('CreateTransactionModal', () => {
 
   it('should display only one disabled fund selection with predefined value for increase allocation', () => {
     renderComponent({
-      initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
-      fundLabelId: 'ui-finance.fund',
-      isToFundVisible: false,
-      isFundDisabled: true,
+      initialValues: { fundId: FUNDS[0].value, toFundId: FUNDS[0].value },
+      allocationType: ALLOCATION_TYPE.increase,
     });
 
     expect(screen.getByLabelText('ui-finance.fund').value).toBe(FUNDS[0].value);
@@ -102,10 +95,8 @@ describe('CreateTransactionModal', () => {
 
   it('should display only one disabled fund selection with predefined value for decrease allocation', () => {
     renderComponent({
-      initialValues: { fundId: FUNDS[0].value, toFundId: FUNDS[0].value },
-      fundLabelId: 'ui-finance.fund',
-      isFromFundVisible: false,
-      isFundDisabled: true,
+      initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
+      allocationType: ALLOCATION_TYPE.decrease,
     });
 
     expect(screen.getByLabelText('ui-finance.fund').value).toBe(FUNDS[0].value);

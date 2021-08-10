@@ -20,21 +20,31 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { validateTransactionForm } from '../../common/utils';
+import { ALLOCATION_TYPE } from '../constants';
 
 const CreateTransactionModal = ({
+  allocationType,
   fundId,
   handleSubmit,
   onClose,
   fundsOptions = [],
   title,
   values: formValues,
-  isFundDisabled = false,
-  isFromFundVisible = true,
-  isToFundVisible = true,
-  fundLabelId,
 }) => {
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
+  const fundLabelId = allocationType ? 'ui-finance.fund' : '';
+
+  let isToFundVisible = true;
+  let isFromFundVisible = true;
+
+  if (allocationType && allocationType === ALLOCATION_TYPE.increase) {
+    isFromFundVisible = false;
+  }
+
+  if (allocationType && allocationType === ALLOCATION_TYPE.decrease) {
+    isToFundVisible = false;
+  }
 
   const optionsFrom = (
     (!hasToFundIdProperty ||
@@ -83,7 +93,7 @@ const CreateTransactionModal = ({
                 dataOptions={optionsFrom}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.from'} />}
                 name="fromFundId"
-                disabled={isFundDisabled}
+                disabled={!!allocationType}
               />
             </Col>
           )}
@@ -94,7 +104,7 @@ const CreateTransactionModal = ({
                 dataOptions={optionsTo}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.to'} />}
                 name="toFundId"
-                disabled={isFundDisabled}
+                disabled={!!allocationType}
               />
             </Col>
           )}
@@ -136,10 +146,7 @@ CreateTransactionModal.propTypes = {
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
   values: PropTypes.object.isRequired,
-  isFundDisabled: PropTypes.bool,
-  isFromFundVisible: PropTypes.bool,
-  isToFundVisible: PropTypes.bool,
-  fundLabelId: PropTypes.string,
+  allocationType: PropTypes.string,
 };
 
 export default stripesFinalForm({

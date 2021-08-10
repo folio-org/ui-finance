@@ -57,14 +57,6 @@ export const CreateTransactionContainer = ({
     });
   }, [fundId, allocationType]);
 
-  const allocationProps = useMemo(() => {
-    if (!allocationType) return {};
-
-    return allocationType === ALLOCATION_TYPE.decrease
-      ? { isToFundVisible: false, isFundDisabled: true, fundLabelId: 'ui-finance.fund' }
-      : { isFromFundVisible: false, isFundDisabled: true, fundLabelId: 'ui-finance.fund' };
-  }, [allocationType]);
-
   const saveTransaction = useCallback(
     async ({ fundId: _, ...formValue }) => {
       const mutatorObject = mutator[transactionType];
@@ -114,7 +106,7 @@ export const CreateTransactionContainer = ({
       onClose={onClose}
       onSubmit={saveTransaction}
       title={<FormattedMessage id={labelId} />}
-      {...allocationProps}
+      allocationType={allocationType}
     />
   );
 };

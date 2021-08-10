@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { CreateTransactionContainer } from './CreateTransactionContainer';
 import CreateTransactionModal from './CreateTransactionModal';
+import { ALLOCATION_TYPE } from '../constants';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
@@ -26,7 +27,7 @@ const defaultProps = {
   onClose: jest.fn(),
   stripes: { hasPerm: jest.fn(), hasInterface: jest.fn(), clone: jest.fn(), logger: {} },
   fetchBudgetResources: jest.fn(),
-  allocationType: 'decrease',
+  allocationType: ALLOCATION_TYPE.decrease,
   labelId: 'decreaseAllocation',
 };
 

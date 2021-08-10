@@ -42,6 +42,7 @@ import {
   FISCAL_YEARS_API,
   FUNDS_ROUTE,
 } from '../../../common/const';
+import { ALLOCATION_TYPE } from '../../../Transactions/constants';
 import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';
 import { handleRemoveErrorResponse } from './utils';
@@ -87,7 +88,9 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
   const paneTitle = budget?.name;
 
   const [isTransferModalOpened, toggleTransferModal] = useModalToggle();
-  const [isAllocateModalOpened, toggleAllocateModal] = useModalToggle();
+  const [isMoveAllocationModalOpened, toggleMoveAllocationModal] = useModalToggle();
+  const [isIncreaseAllocationModalOpened, toggleIncreaseAllocationModal] = useModalToggle();
+  const [isDecreaseAllocationModalOpened, toggleDecreaseAllocationModal] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
 
   const editBudget = useCallback(
@@ -162,17 +165,50 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
       <IfPermission perm="finance.allocations.item.post">
         <Button
           buttonStyle="dropdownItem"
-          data-test-add-allocation-menu-button
+          data-testid="increase-allocation-button"
           onClick={() => {
             onToggle();
-            toggleAllocateModal();
+            toggleIncreaseAllocationModal();
           }}
         >
           <Icon
             size="small"
             icon="allocate"
           >
-            <FormattedMessage id="ui-finance.transaction.allocate" />
+            <FormattedMessage id="ui-finance.transaction.increaseAllocation" />
+          </Icon>
+        </Button>
+
+        <Button
+          buttonStyle="dropdownItem"
+          data-testid="decrease-allocation-button"
+          onClick={() => {
+            onToggle();
+            toggleDecreaseAllocationModal();
+          }}
+        >
+          <Icon
+            size="small"
+            icon="allocate"
+          >
+            <FormattedMessage id="ui-finance.transaction.decreaseAllocation" />
+          </Icon>
+        </Button>
+
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-move-allocation-menu-button
+          data-testid="move-allocation-button"
+          onClick={() => {
+            onToggle();
+            toggleMoveAllocationModal();
+          }}
+        >
+          <Icon
+            size="small"
+            icon="allocate"
+          >
+            <FormattedMessage id="ui-finance.transaction.moveAllocation" />
           </Icon>
         </Button>
       </IfPermission>
@@ -283,18 +319,48 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
               onClose={toggleTransferModal}
               fetchBudgetResources={fetchBudgetResources}
               fiscalYearCurrency={fiscalYear.currency}
+              labelId="ui-finance.transaction.transfer.title"
             />
           )}
 
-          {isAllocateModalOpened && (
+          {isMoveAllocationModalOpened && (
             <CreateTransaction
               fundId={budget.fundId}
               budgetName={budget.name}
               transactionType={TRANSACTION_TYPES.allocation}
               fiscalYearId={fiscalYear.id}
-              onClose={toggleAllocateModal}
+              onClose={toggleMoveAllocationModal}
               fetchBudgetResources={fetchBudgetResources}
               fiscalYearCurrency={fiscalYear.currency}
+              labelId="ui-finance.transaction.moveAllocation"
+            />
+          )}
+
+          {isIncreaseAllocationModalOpened && (
+            <CreateTransaction
+              fundId={budget.fundId}
+              budgetName={budget.name}
+              transactionType={TRANSACTION_TYPES.allocation}
+              fiscalYearId={fiscalYear.id}
+              onClose={toggleIncreaseAllocationModal}
+              fetchBudgetResources={fetchBudgetResources}
+              fiscalYearCurrency={fiscalYear.currency}
+              labelId="ui-finance.transaction.increaseAllocation"
+              allocationType={ALLOCATION_TYPE.increase}
+            />
+          )}
+
+          {isDecreaseAllocationModalOpened && (
+            <CreateTransaction
+              fundId={budget.fundId}
+              budgetName={budget.name}
+              transactionType={TRANSACTION_TYPES.allocation}
+              fiscalYearId={fiscalYear.id}
+              onClose={toggleDecreaseAllocationModal}
+              fetchBudgetResources={fetchBudgetResources}
+              fiscalYearCurrency={fiscalYear.currency}
+              labelId="ui-finance.transaction.decreaseAllocation"
+              allocationType={ALLOCATION_TYPE.decrease}
             />
           )}
 

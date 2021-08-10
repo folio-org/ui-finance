@@ -20,17 +20,31 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { validateTransactionForm } from '../../common/utils';
+import { ALLOCATION_TYPE } from '../constants';
 
 const CreateTransactionModal = ({
+  allocationType,
   fundId,
   handleSubmit,
   onClose,
-  fundsOptions,
+  fundsOptions = [],
   title,
   values: formValues,
 }) => {
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
+  const fundLabelId = allocationType ? 'ui-finance.fund' : '';
+
+  let isToFundVisible = true;
+  let isFromFundVisible = true;
+
+  if (allocationType && allocationType === ALLOCATION_TYPE.increase) {
+    isFromFundVisible = false;
+  }
+
+  if (allocationType && allocationType === ALLOCATION_TYPE.decrease) {
+    isToFundVisible = false;
+  }
 
   const optionsFrom = (
     (!hasToFundIdProperty ||
@@ -73,21 +87,27 @@ const CreateTransactionModal = ({
     >
       <form>
         <Row>
-          <Col xs>
-            <FieldSelectFinal
-              dataOptions={optionsFrom}
-              label={<FormattedMessage id="ui-finance.transaction.from" />}
-              name="fromFundId"
-            />
-          </Col>
+          {isFromFundVisible && (
+            <Col xs>
+              <FieldSelectFinal
+                dataOptions={optionsFrom}
+                label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.from'} />}
+                name="fromFundId"
+                disabled={!!allocationType}
+              />
+            </Col>
+          )}
 
-          <Col xs>
-            <FieldSelectFinal
-              dataOptions={optionsTo}
-              label={<FormattedMessage id="ui-finance.transaction.to" />}
-              name="toFundId"
-            />
-          </Col>
+          {isToFundVisible && (
+            <Col xs>
+              <FieldSelectFinal
+                dataOptions={optionsTo}
+                label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.to'} />}
+                name="toFundId"
+                disabled={!!allocationType}
+              />
+            </Col>
+          )}
         </Row>
         <Row>
           <Col xs>
@@ -126,10 +146,7 @@ CreateTransactionModal.propTypes = {
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node.isRequired,
   values: PropTypes.object.isRequired,
-};
-
-CreateTransactionModal.defaultProps = {
-  fundsOptions: [],
+  allocationType: PropTypes.string,
 };
 
 export default stripesFinalForm({

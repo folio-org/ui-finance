@@ -29,3 +29,8 @@ export const TRANSACTION_SOURCE_OPTIONS = Object.values(TRANSACTION_SOURCE).map(
   label: <FormattedMessage id={`ui-finance.transaction.source.${source}`} />,
   value: source,
 }));
+
+export const ALLOCATION_TYPE = {
+  increase: 'increase',
+  decrease: 'decrease',
+};

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 
 import {
@@ -23,32 +23,39 @@ import {
   transfersResource,
 } from '../../common/resources';
 import {
+  ALLOCATION_TYPE,
   TRANSACTION_SOURCE,
 } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
 import { handleCreateTransactionErrorResponse } from './utils';
 
 export const CreateTransactionContainer = ({
+  allocationType,
   budgetName,
-  transactionType,
+  fetchBudgetResources,
+  fiscalYearCurrency,
   fiscalYearId,
   fundId,
+  labelId,
   mutator,
   onClose,
   stripes,
-  fetchBudgetResources,
-  intl,
-  fiscalYearCurrency,
+  transactionType,
 }) => {
+  const intl = useIntl();
   const showCallout = useShowCallout();
   const locale = stripes.locale;
   const currency = fiscalYearCurrency || stripes.currency;
 
   const transactionTypeKey = transactionType.toLowerCase();
-  const initialValues = useMemo(() => ({
-    fundId,
-    toFundId: fundId,
-  }), [fundId]);
+  const initialValues = useMemo(() => {
+    const values = allocationType === ALLOCATION_TYPE.decrease ? { fromFundId: fundId } : { toFundId: fundId };
+
+    return ({
+      fundId,
+      ...values,
+    });
+  }, [fundId, allocationType]);
 
   const saveTransaction = useCallback(
     async ({ fundId: _, ...formValue }) => {
@@ -98,7 +105,8 @@ export const CreateTransactionContainer = ({
       initialValues={initialValues}
       onClose={onClose}
       onSubmit={saveTransaction}
-      title={<FormattedMessage id={`ui-finance.transaction.${transactionTypeKey}.title`} />}
+      title={<FormattedMessage id={labelId} />}
+      allocationType={allocationType}
     />
   );
 };
@@ -119,8 +127,9 @@ CreateTransactionContainer.propTypes = {
   onClose: PropTypes.func.isRequired,
   stripes: stripesShape.isRequired,
   fetchBudgetResources: PropTypes.func.isRequired,
-  intl: PropTypes.object,
   fiscalYearCurrency: PropTypes.string,
+  labelId: PropTypes.string.isRequired,
+  allocationType: PropTypes.string,
 };
 
-export default stripesConnect(injectIntl(CreateTransactionContainer));
+export default stripesConnect(CreateTransactionContainer);

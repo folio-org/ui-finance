@@ -147,7 +147,6 @@
     "transaction.type": "Tipologia",
     "budget.transactions.view": "Visualizza transazioni",
     "transactions.search": "Cerca transazioni",
-    "transaction.allocate": "Assegnare",
     "transaction.allocation.title": "Assegnazione",
     "transaction.allocation.hasBeenCreated": "{amount} è stato assegnato correttamente al budget {budgetName}",
     "ledger.fund": "Fondi",
@@ -381,5 +380,8 @@
     "errors.load.code": "Recupero del codice di erroreErrore nel recupero del codice",
     "errors.load.name": "Recupero del codice di erroreErrore nel recupero del nome",
     "expenseClass.helper": "Le classi di spesa possono essere create e modificate di seguito. Dopo aver creato le classi di spesa, puoi accedere all'app Finanze per assegnarle ai tuoi budget come desiderato. Una volta assegnata una classe di spesa a un budget, gli utenti possono gravare o spendere denaro per la classe di spesa.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date",
+    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.decreaseAllocation": "Decrease allocation",
+    "transaction.moveAllocation": "Move allocation"
 }

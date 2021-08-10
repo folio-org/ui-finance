@@ -147,7 +147,6 @@
     "transaction.type": "类型",
     "budget.transactions.view": "查看交易",
     "transactions.search": "搜索交易",
-    "transaction.allocate": "分配",
     "transaction.allocation.title": "分配",
     "transaction.allocation.hasBeenCreated": "{amount}已成功分配到预算{budgetName}",
     "ledger.fund": "经费",
@@ -381,5 +380,8 @@
     "errors.load.code": "错误代码提取",
     "errors.load.name": "错误名称提取",
     "expenseClass.helper": "费用类别可以在下面创建和编辑。创建费用类别后，可以导航到“财务”应用以根据需要将其分配给预算。一旦将费用类别分配给预算，用户就可以针对该费用类别负担或花费金钱。",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "财务年度尚未保存。财务年度期间的结束日期早于开始日期"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "财务年度尚未保存。财务年度期间的结束日期早于开始日期",
+    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.decreaseAllocation": "Decrease allocation",
+    "transaction.moveAllocation": "Move allocation"
 }

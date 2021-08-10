@@ -147,7 +147,6 @@
     "transaction.type": "النوع",
     "budget.transactions.view": "عرض المعاملات",
     "transactions.search": "بحث المعاملات",
-    "transaction.allocate": "تخصيص",
     "transaction.allocation.title": "تخصيص",
     "transaction.allocation.hasBeenCreated": "تم تخصيص {amount} بنجاح للميزانية {budgetName}",
     "ledger.fund": "تمويل",
@@ -381,5 +380,8 @@
     "errors.load.code": "خطأ أثناء جلب الكود",
     "errors.load.name": "خطأ أثناء جلب الاسم",
     "expenseClass.helper": "يمكن إنشاء فئات المصروفات وتحريرها أدناه. بمجرد إنشاء فئات المصروفات، يمكنك الانتقال إلى تطبيق الشؤون المالية لتخصيصها لميزانياتك حسب الرغبة. بمجرد تعيين فئة المصروفات إلى الميزانية، يمكن للمستخدمين تحميل أو إنفاق الأموال مقابل فئات المصروفات.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "لم يتم حفظ السنة المالية. تاريخ انتهاء فترة السنة المالية أقدم من تاريخ البدء"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "لم يتم حفظ السنة المالية. تاريخ انتهاء فترة السنة المالية أقدم من تاريخ البدء",
+    "transaction.increaseAllocation": "زيادة التخصيص",
+    "transaction.decreaseAllocation": "تقليل التخصيص",
+    "transaction.moveAllocation": "نقل التخصيص"
 }

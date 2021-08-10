@@ -147,7 +147,6 @@
     "transaction.type": "種類",
     "budget.transactions.view": "トランザクションを表示",
     "transactions.search": "Search transactions",
-    "transaction.allocate": "Allocate",
     "transaction.allocation.title": "Allocation",
     "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
     "ledger.fund": "ファンド",
@@ -381,5 +380,8 @@
     "errors.load.code": "Error code fetching",
     "errors.load.name": "Error name fetching",
     "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
-    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date"
+    "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date",
+    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.decreaseAllocation": "Decrease allocation",
+    "transaction.moveAllocation": "Move allocation"
 }

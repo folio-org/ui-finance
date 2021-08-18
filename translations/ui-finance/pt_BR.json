@@ -381,7 +381,7 @@
     "errors.load.name": "Erro ao buscar nome",
     "expenseClass.helper": "As classes de despesa podem ser criadas e editadas abaixo. Depois de criar classes de despesas, você pode navegar até o aplicativo Finanças para atribuí-las aos seus orçamentos conforme desejado. Uma vez que uma classe de despesas tenha sido atribuída a um orçamento, os usuários podem alocar ou gastar dinheiro contra essa classe de despesas.",
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "O ano fiscal não foi salvo. A data de término do período do ano fiscal é anterior à data de início",
-    "transaction.increaseAllocation": "Increase allocation",
-    "transaction.decreaseAllocation": "Decrease allocation",
-    "transaction.moveAllocation": "Move allocation"
+    "transaction.increaseAllocation": "Aumentar a alocação",
+    "transaction.decreaseAllocation": "Diminuir a alocação",
+    "transaction.moveAllocation": "Mover alocação"
 }

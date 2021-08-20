@@ -5,6 +5,7 @@ import { Settings } from '@folio/stripes/smart-components';
 
 import FundTypeSettings from './FundTypeSettings';
 import ExpenseClassSettings from './ExpenseClassSettings';
+import ExportFundSettings from './ExportFundSettings';
 
 export default class FinanceSettings extends React.Component {
   pages = [
@@ -17,6 +18,11 @@ export default class FinanceSettings extends React.Component {
       component: ExpenseClassSettings,
       label: <FormattedMessage id="ui-finance.settings.expenseClasses.title" />,
       route: 'expense-classes',
+    },
+    {
+      component: ExportFundSettings,
+      label: <FormattedMessage id="ui-finance.settings.exportFund.title" />,
+      route: 'export-fund',
     },
   ];
 

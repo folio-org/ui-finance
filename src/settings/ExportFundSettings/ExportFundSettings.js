@@ -1,66 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 
 import {
-  Pane,
   Button,
-  Select,
+  Col,
   Label,
   Loading,
+  LoadingPane,
+  Pane,
+  PaneFooter,
   Row,
-  Col,
+  Select,
 } from '@folio/stripes/components';
-import { exportCsv } from '@folio/stripes/util';
-import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { useFiscalYearOptions } from './useFiscalYearOptions';
 import { useExportFund } from './useExportFund';
 import css from './ExportFundSettings.css';
-import { EXPORT_FUND_FIELDS } from './constants';
 
 const ExportFundSettings = () => {
-  const showCallout = useShowCallout();
-  const [fiscalYearId, setFiscalYearId] = useState();
+  const [fiscalYearCode, setFiscalYearCode] = useState();
+  const [isExportLoading, setIsExportLoading] = useState(false);
   const { fiscalYearOptions, isLoading: isFYLoading } = useFiscalYearOptions();
 
-  const { fetchExportFund } = useExportFund(fiscalYearId);
+  const { fetchExportFund } = useExportFund(fiscalYearCode);
 
   const onChangeFY = (e) => {
-    setFiscalYearId(e.target.value);
+    setFiscalYearCode(e.target.value);
   };
 
-  const onExportFund = async () => {
-    const { data: exportFund, isError } = await fetchExportFund();
+  const onExportFund = useCallback(async () => {
+    setIsExportLoading(true);
 
-    if (isError) {
-      return showCallout({
-        messageId: 'ui-finance.fund.actions.load.error',
-        type: 'error',
-      });
-    }
+    await fetchExportFund(fiscalYearCode);
 
-    const filename = `fund-codes-export-${moment().format('YYYY-MM-DD-hh:mm')}`;
+    setIsExportLoading(false);
+  }, [fetchExportFund, fiscalYearCode]);
 
-    await exportCsv(
-      [EXPORT_FUND_FIELDS, ...(exportFund?.fundCodeVsExpClassesTypes || [])],
-      {
-        header: false,
-        filename,
-      },
+  const paneFooter = useMemo(() => {
+    const end = (
+      <Button
+        buttonStyle="primary"
+        onClick={onExportFund}
+        disabled={!fiscalYearCode}
+        data-testid="export-fund-button"
+      >
+        <FormattedMessage id="ui-finance.settings.button.export" />
+      </Button>
     );
 
-    return showCallout({
-      messageId: 'ui-finance.settings.exportFund.success',
-      type: 'success',
-    });
-  };
+    return (
+      <PaneFooter renderEnd={end} />
+    );
+  }, [fiscalYearCode, onExportFund]);
+
+  if (isExportLoading) return <LoadingPane />;
 
   return (
     <Pane
       defaultWidth="fill"
       id="pane-export-fund-settings"
       paneTitle={<FormattedMessage id="ui-finance.settings.exportFund.title" />}
+      footer={paneFooter}
     >
       <div className={css.helperText}>
         <FormattedMessage id="ui-finance.settings.exportFund.helperText" />
@@ -84,15 +84,6 @@ const ExportFundSettings = () => {
             )}
         </Col>
       </Row>
-
-      <Button
-        buttonStyle="primary"
-        onClick={onExportFund}
-        disabled={!fiscalYearId}
-        data-testid="export-fund-button"
-      >
-        <FormattedMessage id="ui-finance.settings.button.export" />
-      </Button>
     </Pane>
   );
 };

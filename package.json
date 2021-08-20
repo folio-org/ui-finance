@@ -63,8 +63,7 @@
         "permissionName": "settings.finance.enabled",
         "displayName": "Settings (Finance): Can view and edit settings",
         "subPermissions": [
-          "settings.enabled",
-          "finance.fund-codes-expense-classes.collection.get"
+          "settings.enabled"
         ],
         "visible": false
       },
@@ -120,7 +119,8 @@
         "subPermissions": [
           "settings.finance.enabled",
           "finance.expense-classes.all",
-          "finance.fund-types.all"
+          "finance.fund-types.all",
+          "finance.fund-codes-expense-classes.collection.get"
         ]
       },
       {

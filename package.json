@@ -119,7 +119,8 @@
         "subPermissions": [
           "settings.finance.enabled",
           "finance.expense-classes.all",
-          "finance.fund-types.all"
+          "finance.fund-types.all",
+          "finance.fund-codes-expense-classes.collection.get"
         ]
       },
       {

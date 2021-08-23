@@ -15,3 +15,4 @@ export const TRANSACTIONS_API = 'finance/transactions';
 export const TRANSFERS_API = 'finance/transfers';
 export const LEDGER_CURRENT_FISCAL_YEAR_API = `${LEDGERS_API}/:{id}/current-fiscal-year`;
 export const RELEASE_ENCUMBRANCE_API = 'finance/release-encumbrance/:{id}';
+export const FUND_CODES_EXPENSE_CLASSES_API = 'finance/fund-codes-expense-classes';

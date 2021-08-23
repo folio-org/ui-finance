@@ -29,19 +29,19 @@ const ExportFundSettings = () => {
     setFiscalYearCode(e.target.value);
   };
 
-  const onError = useCallback(() => showCallout({
+  const onError = () => showCallout({
     messageId: 'ui-finance.fund.actions.load.error',
     type: 'error',
-  }), [showCallout]);
+  });
 
-  const onSuccess = useCallback(async (data) => {
+  const onSuccess = async (data) => {
     await exportCsvFunds(fiscalYearCode, data?.fundCodeVsExpClassesTypes);
 
     return showCallout({
       messageId: 'ui-finance.settings.exportFund.success',
       type: 'success',
     });
-  }, [fiscalYearCode, showCallout]);
+  };
 
   const { fetchExportFund } = useExportFund(fiscalYearCode, { onSuccess, onError });
 

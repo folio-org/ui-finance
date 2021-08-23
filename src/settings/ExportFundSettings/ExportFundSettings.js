@@ -12,21 +12,38 @@ import {
   Row,
   Select,
 } from '@folio/stripes/components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { useFiscalYearOptions } from './useFiscalYearOptions';
 import { useExportFund } from './useExportFund';
+import { exportCsvFunds } from './utils';
 import css from './ExportFundSettings.css';
 
 const ExportFundSettings = () => {
+  const showCallout = useShowCallout();
   const [fiscalYearCode, setFiscalYearCode] = useState();
   const [isExportLoading, setIsExportLoading] = useState(false);
   const { fiscalYearOptions, isLoading: isFYLoading } = useFiscalYearOptions();
 
-  const { fetchExportFund } = useExportFund(fiscalYearCode);
-
   const onChangeFY = (e) => {
     setFiscalYearCode(e.target.value);
   };
+
+  const onError = useCallback(() => showCallout({
+    messageId: 'ui-finance.fund.actions.load.error',
+    type: 'error',
+  }), [showCallout]);
+
+  const onSuccess = useCallback(async (data) => {
+    await exportCsvFunds(fiscalYearCode, data?.fundCodeVsExpClassesTypes);
+
+    return showCallout({
+      messageId: 'ui-finance.settings.exportFund.success',
+      type: 'success',
+    });
+  }, [fiscalYearCode, showCallout]);
+
+  const { fetchExportFund } = useExportFund(fiscalYearCode, { onSuccess, onError });
 
   const onExportFund = useCallback(async () => {
     setIsExportLoading(true);

@@ -82,6 +82,9 @@ const ExportFundSettings = () => {
       <div className={css.helperText}>
         <FormattedMessage id="ui-finance.settings.exportFund.helperText" />
       </div>
+      <Label>
+        <FormattedMessage id="ui-finance.settings.exportFund.exportSettings" />
+      </Label>
       <Row>
         <Col xs={3}>
           {!isFYLoading

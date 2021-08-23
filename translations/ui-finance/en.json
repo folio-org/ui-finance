@@ -372,6 +372,7 @@
   "settings.expenseClasses.title": "Expense classes",
   "settings.exportFund.title": "Export fund and expense class codes",
   "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
+  "settings.exportFund.exportSettings": "Export settings",
   "settings.exportFund.success": "Combing code list was successfully exported.",
   "settings.fundTypes.title": "Fund types",
 

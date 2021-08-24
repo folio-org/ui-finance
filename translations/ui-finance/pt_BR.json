@@ -383,5 +383,10 @@
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "O ano fiscal não foi salvo. A data de término do período do ano fiscal é anterior à data de início",
     "transaction.increaseAllocation": "Aumentar a alocação",
     "transaction.decreaseAllocation": "Diminuir a alocação",
-    "transaction.moveAllocation": "Mover alocação"
+    "transaction.moveAllocation": "Mover alocação",
+    "settings.button.export": "Export",
+    "settings.exportFund.title": "Export fund and expense class codes",
+    "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
+    "settings.exportFund.exportSettings": "Export settings",
+    "settings.exportFund.success": "Combing code list was successfully exported."
 }

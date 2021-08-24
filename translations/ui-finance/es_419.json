@@ -383,5 +383,10 @@
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "El año fiscal no se ha guardado. La fecha de finalización del período del año fiscal es anterior a la fecha de inicio.",
     "transaction.increaseAllocation": "Aumentar la asignación",
     "transaction.decreaseAllocation": "Disminuir la asignación",
-    "transaction.moveAllocation": "Mover asignación"
+    "transaction.moveAllocation": "Mover asignación",
+    "settings.button.export": "Export",
+    "settings.exportFund.title": "Export fund and expense class codes",
+    "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
+    "settings.exportFund.exportSettings": "Export settings",
+    "settings.exportFund.success": "Combing code list was successfully exported."
 }

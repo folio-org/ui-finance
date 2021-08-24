@@ -50,6 +50,8 @@ const ExportFundSettings = () => {
 
     await fetchExportFund(fiscalYearCode);
 
+    setFiscalYearCode();
+
     setIsExportLoading(false);
   }, [fetchExportFund, fiscalYearCode]);
 

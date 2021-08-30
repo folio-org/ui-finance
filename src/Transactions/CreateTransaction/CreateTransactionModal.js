@@ -14,7 +14,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldSelectFinal,
+  FieldSelectionFinal,
   FieldTags,
   validateRequiredPositiveAmount,
 } from '@folio/stripes-acq-components';
@@ -84,12 +84,13 @@ const CreateTransactionModal = ({
       label={title}
       footer={footer}
       open
+      enforceFocus={false}
     >
       <form>
         <Row>
           {isFromFundVisible && (
             <Col xs>
-              <FieldSelectFinal
+              <FieldSelectionFinal
                 dataOptions={optionsFrom}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.from'} />}
                 name="fromFundId"
@@ -100,7 +101,7 @@ const CreateTransactionModal = ({
 
           {isToFundVisible && (
             <Col xs>
-              <FieldSelectFinal
+              <FieldSelectionFinal
                 dataOptions={optionsTo}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.to'} />}
                 name="toFundId"

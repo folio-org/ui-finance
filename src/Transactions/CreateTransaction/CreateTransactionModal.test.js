@@ -50,7 +50,8 @@ describe('CreateTransactionModal', () => {
 
   it('should preselect fund', () => {
     renderComponent({});
-    expect(screen.getByLabelText('ui-finance.transaction.to').value).toBe('1');
+
+    expect(screen.getByRole('button', { name: 'ui-finance.transaction.to fund 1' })).toBeInTheDocument();
   });
 
   it('should call submit', () => {
@@ -87,7 +88,7 @@ describe('CreateTransactionModal', () => {
       allocationType: ALLOCATION_TYPE.increase,
     });
 
-    expect(screen.getByLabelText('ui-finance.fund').value).toBe(FUNDS[0].value);
+    expect(screen.getByRole('button', { name: 'ui-finance.fund fund 2' })).toBeInTheDocument();
     expect(screen.getByLabelText('ui-finance.fund')).toHaveAttribute('disabled');
     expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
@@ -99,7 +100,7 @@ describe('CreateTransactionModal', () => {
       allocationType: ALLOCATION_TYPE.decrease,
     });
 
-    expect(screen.getByLabelText('ui-finance.fund').value).toBe(FUNDS[0].value);
+    expect(screen.getByRole('button', { name: 'ui-finance.fund fund 2' })).toBeInTheDocument();
     expect(screen.getByLabelText('ui-finance.fund')).toHaveAttribute('disabled');
     expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();

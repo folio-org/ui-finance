@@ -4,6 +4,7 @@
 
 * UI tests replacement with RTL/Jest. Refs FAT-37.
 * Export combined Fund code list. Refs UIF-320.
+* Add fund code as an option for allocation/transfer. Refs UIF-322.
 
 ## [2.4.2](https://github.com/folio-org/ui-finance/tree/v2.4.2) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.4.1...v2.4.2)

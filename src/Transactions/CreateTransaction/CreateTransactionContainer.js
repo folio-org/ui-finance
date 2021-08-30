@@ -7,6 +7,7 @@ import {
 
 import {
   getAmountWithCurrency,
+  getFundsForSelect,
   useAllFunds,
   useShowCallout,
   TRANSACTION_TYPES,
@@ -96,7 +97,7 @@ export const CreateTransactionContainer = ({
   );
 
   const { funds } = useAllFunds();
-  const fundsOptions = useMemo(() => funds?.map(f => ({ label: f.name, value: f.id })), [funds]);
+  const fundsOptions = useMemo(() => getFundsForSelect(funds), [funds]);
 
   return (
     <CreateTransactionModal

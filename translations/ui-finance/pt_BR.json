@@ -384,9 +384,9 @@
     "transaction.increaseAllocation": "Aumentar a alocação",
     "transaction.decreaseAllocation": "Diminuir a alocação",
     "transaction.moveAllocation": "Mover alocação",
-    "settings.button.export": "Export",
-    "settings.exportFund.title": "Export fund and expense class codes",
-    "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
-    "settings.exportFund.exportSettings": "Export settings",
-    "settings.exportFund.success": "Combing code list was successfully exported."
+    "settings.button.export": "Exportar",
+    "settings.exportFund.title": "Exportar fundos e códigos de classe de despesas",
+    "settings.exportFund.helperText": "Ao exportar os códigos combinados de fundos e classes de despesas, você receberá um arquivo delimitado que inclui todos os códigos de fundos e todas as combinações de códigos de fundos e classes de despesas onde a classe de despesas tem um status de 'ativo'.",
+    "settings.exportFund.exportSettings": "Configurações de exportação",
+    "settings.exportFund.success": "A lista de códigos de combinação foi exportada com sucesso."
 }

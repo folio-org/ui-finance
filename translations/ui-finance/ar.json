@@ -384,9 +384,9 @@
     "transaction.increaseAllocation": "زيادة التخصيص",
     "transaction.decreaseAllocation": "تقليل التخصيص",
     "transaction.moveAllocation": "نقل التخصيص",
-    "settings.button.export": "Export",
+    "settings.button.export": "تصدير",
     "settings.exportFund.title": "Export fund and expense class codes",
     "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
-    "settings.exportFund.exportSettings": "Export settings",
+    "settings.exportFund.exportSettings": "إعدادات التصدير",
     "settings.exportFund.success": "Combing code list was successfully exported."
 }

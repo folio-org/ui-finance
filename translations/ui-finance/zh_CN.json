@@ -381,12 +381,12 @@
     "errors.load.name": "错误名称提取",
     "expenseClass.helper": "费用类别可以在下面创建和编辑。创建费用类别后，可以导航到“财务”应用以根据需要将其分配给预算。一旦将费用类别分配给预算，用户就可以针对该费用类别负担或花费金钱。",
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "财务年度尚未保存。财务年度期间的结束日期早于开始日期",
-    "transaction.increaseAllocation": "Increase allocation",
-    "transaction.decreaseAllocation": "Decrease allocation",
-    "transaction.moveAllocation": "Move allocation",
-    "settings.button.export": "Export",
-    "settings.exportFund.title": "Export fund and expense class codes",
-    "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
-    "settings.exportFund.exportSettings": "Export settings",
-    "settings.exportFund.success": "Combing code list was successfully exported."
+    "transaction.increaseAllocation": "增加分配",
+    "transaction.decreaseAllocation": "减少分配",
+    "transaction.moveAllocation": "移动分配",
+    "settings.button.export": "导出",
+    "settings.exportFund.title": "导出经费和支出类别代码",
+    "settings.exportFund.helperText": "导出组合的经费和支出类别代码时，将收到一个分隔文件，其中包括所有经费代码和所有经费代码与支出类别代码组合，其中支出类别的状态为“激活”。",
+    "settings.exportFund.exportSettings": "导出设置",
+    "settings.exportFund.success": "组合代码列表成功导出。"
 }

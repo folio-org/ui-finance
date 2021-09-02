@@ -34,10 +34,4 @@ describe('validateDuplicateFieldValue fn', () => {
 
     expect(result.props).toHaveProperty('id', 'stripes-acq-components.validation.required');
   });
-
-  it('should return validate colon error', async () => {
-    const result = await validateDuplicateFieldValue({ ...params, ky, fieldValue: 'co:de' });
-
-    expect(result.props).toHaveProperty('id', 'ui-finance.validation.mustNotIncludeColon');
-  });
 });

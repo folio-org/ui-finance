@@ -18,8 +18,6 @@ export const validateDuplicateFieldValue = async ({
     return errorRequired;
   }
 
-  if (fieldValue?.includes(':')) return <FormattedMessage id="ui-finance.validation.mustNotIncludeColon" />;
-
   const _query = id ? query.concat(` and id<>"${id}"`) : query;
 
   try {

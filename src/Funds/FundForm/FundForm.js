@@ -102,18 +102,26 @@ const FundForm = ({
   );
 
   const validateFundCode = useCallback(
-    (fieldValue) => {
-      const errorMessage = <FormattedMessage id="ui-finance.fund.code.isInUse" />;
-      const params = {
-        ky,
-        api: FUNDS_API,
-        id: fundId,
-        fieldValue,
-        errorMessage,
-        fieldName: 'code',
-      };
+    async (fieldValue) => {
+      let validationMessage;
 
-      return validateDuplicateFieldValue(params);
+      if (fieldValue?.includes(':')) {
+        validationMessage = <FormattedMessage id="ui-finance.validation.mustNotIncludeColon" />;
+      } else {
+        const errorMessage = <FormattedMessage id="ui-finance.fund.code.isInUse" />;
+        const params = {
+          ky,
+          api: FUNDS_API,
+          id: fundId,
+          fieldValue,
+          errorMessage,
+          fieldName: 'code',
+        };
+
+        validationMessage = await validateDuplicateFieldValue(params);
+      }
+
+      return validationMessage;
     },
     [fundId],
   );

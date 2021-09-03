@@ -22,9 +22,16 @@ describe('validateDuplicateFieldValue fn', () => {
   });
 
   it('should call API if value passed', () => {
-    validateDuplicateFieldValue({ ...params, ky });
+    ky.get.mockClear();
+
     validateDuplicateFieldValue({ ...params, ky, id: 'id' });
 
     expect(ky.get).toHaveBeenCalled();
+  });
+
+  it('should return validate required error', async () => {
+    const result = await validateDuplicateFieldValue({ ...params, ky, fieldValue: '' });
+
+    expect(result.props).toHaveProperty('id', 'stripes-acq-components.validation.required');
   });
 });

@@ -388,6 +388,8 @@
   "ledger.name.isInUse": "This Ledger name is already in use.",
   "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
 
+  "validation.mustNotIncludeColon": "Code must not include a colon",
+
   "noPermissionsMessage": "You do not have permissions for this page.",
   "permission.acq.unit.assignment.assign": "Finance: Assign acquisition units to new record",
   "permission.acq.unit.assignment.manage": "Finance: Manage acquisition units",

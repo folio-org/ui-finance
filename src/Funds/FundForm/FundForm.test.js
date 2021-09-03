@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 import {
@@ -48,7 +48,7 @@ const renderFundForm = (props = defaultProps) => (render(
   </MemoryRouter>,
 ));
 
-describe('FiscalYearForm component', () => {
+describe('FundForm component', () => {
   it('should display title for new fund', () => {
     const { getByText } = renderFundForm();
 
@@ -69,6 +69,30 @@ describe('FiscalYearForm component', () => {
       user.click(getByText('stripes-acq-components.FormFooter.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
+    });
+  });
+
+  describe('Validate fund code', () => {
+    it('should display validate colon error', async () => {
+      renderFundForm();
+
+      const field = screen.getByRole('textbox', { name: /code/i });
+
+      user.type(field, ':');
+      user.click(screen.getByText('ui-finance.saveAndClose'));
+
+      await waitFor(() => expect(screen.getByText('ui-finance.validation.mustNotIncludeColon')).toBeInTheDocument());
+    });
+
+    it('should display validate required error', async () => {
+      renderFundForm();
+
+      const field = screen.getByRole('textbox', { name: /code/i });
+
+      user.type(field, '');
+      user.click(screen.getByText('ui-finance.saveAndClose'));
+
+      await waitFor(() => expect(screen.queryByText('stripes-acq-components.validation.required')).toBeInTheDocument());
     });
   });
 

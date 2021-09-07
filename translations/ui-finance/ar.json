@@ -385,8 +385,9 @@
     "transaction.decreaseAllocation": "تقليل التخصيص",
     "transaction.moveAllocation": "نقل التخصيص",
     "settings.button.export": "تصدير",
-    "settings.exportFund.title": "Export fund and expense class codes",
+    "settings.exportFund.title": "تصدير رموز فئات المصروفات والتمويلات",
     "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
     "settings.exportFund.exportSettings": "إعدادات التصدير",
-    "settings.exportFund.success": "Combing code list was successfully exported."
+    "settings.exportFund.success": "Combing code list was successfully exported.",
+    "validation.mustNotIncludeColon": "يجب ألا يتضمن الرمز نقطتين"
 }

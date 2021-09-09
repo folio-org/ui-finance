@@ -6,7 +6,6 @@ import { LEDGER_CREATE_ROUTE } from '../../../../../src/common/const';
 import setupApplication from '../../../helpers/setup-application';
 import LedgerFormInteractor from '../../../interactors/ledgers/LedgerForm';
 import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
-import LedgersListInteractor from '../../../interactors/ledgers/LedgersList';
 
 describe('Ledger create', function () {
   setupApplication();
@@ -14,7 +13,6 @@ describe('Ledger create', function () {
   this.timeout(10000);
 
   const ledgerForm = new LedgerFormInteractor();
-  const ledgerList = new LedgersListInteractor();
 
   beforeEach(async function () {
     this.server.create('fiscalYear', {
@@ -46,29 +44,6 @@ describe('Ledger create', function () {
 
     it('should not close form', () => {
       expect(ledgerForm.isPresent).to.be.true;
-    });
-  });
-
-  describe('Save form with all required fields', () => {
-    beforeEach(async function () {
-      await ledgerForm.fyOneList.focus();
-      await ledgerForm.fyOneList.selectAndBlur('FY');
-
-      await ledgerForm.name.focus();
-      await ledgerForm.name.fillAndBlur('Test Ledger');
-
-      await ledgerForm.code.focus();
-      await ledgerForm.code.fillAndBlur('LDGR');
-
-      await ledgerForm.name.focus().timeout(10000);
-
-      await ledgerForm.saveButton.click();
-
-      await ledgerList.whenLoaded();
-    });
-
-    it('should close ledger form', () => {
-      expect(ledgerList.isPresent).to.be.true;
     });
   });
 

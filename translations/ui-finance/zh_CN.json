@@ -388,5 +388,6 @@
     "settings.exportFund.title": "导出经费和支出类别代码",
     "settings.exportFund.helperText": "导出组合的经费和支出类别代码时，将收到一个分隔文件，其中包括所有经费代码和所有经费代码与支出类别代码组合，其中支出类别的状态为“激活”。",
     "settings.exportFund.exportSettings": "导出设置",
-    "settings.exportFund.success": "组合代码列表成功导出。"
+    "settings.exportFund.success": "组合代码列表成功导出。",
+    "validation.mustNotIncludeColon": "Code must not include a colon"
 }

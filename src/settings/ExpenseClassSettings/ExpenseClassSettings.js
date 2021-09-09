@@ -18,6 +18,13 @@ const columnMapping = {
   code: <FormattedMessage id="ui-finance.expenseClass.code" />,
   externalAccountNumberExt: <FormattedMessage id="ui-finance.expenseClass.account" />,
 };
+const validate = (item) => {
+  if (!item.code) return ({ code: <FormattedMessage id="stripes-acq-components.validation.required" /> });
+
+  return ({ code: item.code?.includes(':')
+    ? <FormattedMessage id="ui-finance.validation.mustNotIncludeColon" />
+    : undefined });
+};
 
 const ConnectedControlledVocab = stripesConnect(ControlledVocab);
 
@@ -39,6 +46,7 @@ const ExpenseClassSettings = ({ stripes }) => {
       stripes={stripes}
       visibleFields={visibleFields}
       rowFilter={<ExpenseClassHelper />}
+      validate={validate}
     />
   );
 };

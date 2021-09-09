@@ -8,8 +8,10 @@ import LedgerDetailsInteractor from '../../../interactors/ledgers/LedgerDetailsI
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 import LedgerRolloverInteractor from '../../../interactors/ledgers/LedgerRolloverInteractor';
 
-describe('Ledger details', () => {
+describe('Ledger details', function () {
   setupApplication();
+
+  this.timeout(10000);
 
   const ledgerDetails = new LedgerDetailsInteractor();
   const fundDetails = new FundDetailsInteractor();

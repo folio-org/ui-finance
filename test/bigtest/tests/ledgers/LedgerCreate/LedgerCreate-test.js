@@ -8,8 +8,10 @@ import LedgerFormInteractor from '../../../interactors/ledgers/LedgerForm';
 import FiscalYearFormInteractor from '../../../interactors/fiscalYear/FiscalYearForm';
 import LedgersListInteractor from '../../../interactors/ledgers/LedgersList';
 
-describe('Ledger create', () => {
+describe('Ledger create', function () {
   setupApplication();
+
+  this.timeout(10000);
 
   const ledgerForm = new LedgerFormInteractor();
   const ledgerList = new LedgersListInteractor();
@@ -49,9 +51,17 @@ describe('Ledger create', () => {
 
   describe('Save form with all required fields', () => {
     beforeEach(async function () {
+      await ledgerForm.fyOneList.focus();
+      await ledgerForm.fyOneList.selectAndBlur('FY');
+
+      await ledgerForm.name.focus();
       await ledgerForm.name.fillAndBlur('Test Ledger');
+
+      await ledgerForm.code.focus();
       await ledgerForm.code.fillAndBlur('LDGR');
-      await ledgerForm.fyOneList.selectAndBlur('FY').timeout(5000);
+
+      await ledgerForm.name.focus().timeout(10000);
+
       await ledgerForm.saveButton.click();
 
       await ledgerList.whenLoaded();

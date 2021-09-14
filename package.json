@@ -400,8 +400,8 @@
     "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "~2.4.0",
-    "@folio/stripes-data-transfer-components": "^5.0.0",
+    "@folio/stripes-acq-components": "~3.0.0",
+    "@folio/stripes-data-transfer-components": "~5.0.0",
     "@rehooks/local-storage": "2.4.0",
     "final-form-arrays": "^3.0.1",
     "final-form-set-field-data": "^1.0.2",

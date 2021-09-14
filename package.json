@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "2.4.2",
+  "version": "3.0.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -365,7 +365,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
-    "@folio/stripes": "^6.0.0",
+    "@folio/stripes": "^7.0.0",
     "@folio/stripes-cli": "^2.0.0",
     "@formatjs/cli": "^4.2.16",
     "@testing-library/jest-dom": "^5.11.1",
@@ -389,8 +389,8 @@
     "jest-junit": "^12.0.0",
     "miragejs": "^0.1.32",
     "moment": "~2.29.0",
-    "react": "~16.14.0",
-    "react-dom": "~16.14.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-intl": "^5.7.1",
     "react-query": "^3.6.0",
     "react-router": "^5.2.0",
@@ -400,8 +400,8 @@
     "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "~2.4.0",
-    "@folio/stripes-data-transfer-components": "^4.0.0",
+    "@folio/stripes-acq-components": "~3.0.0",
+    "@folio/stripes-data-transfer-components": "~5.0.0",
     "@rehooks/local-storage": "2.4.0",
     "final-form-arrays": "^3.0.1",
     "final-form-set-field-data": "^1.0.2",
@@ -419,9 +419,10 @@
     "babel-eslint/@babel/parser": "7.7.5"
   },
   "peerDependencies": {
-    "@folio/stripes": "^6.0.0",
+    "@folio/stripes": "^7.0.0",
     "moment": "^2.24.0",
-    "react": "*",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-intl": "^5.7.1",
     "react-query": "^3.6.0",
     "react-router": "^5.2.0",

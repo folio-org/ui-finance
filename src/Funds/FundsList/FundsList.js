@@ -21,9 +21,11 @@ import {
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  PrevNextPagination,
   useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
+  useItemToView,
 } from '@folio/stripes-acq-components';
 
 import { FUNDS_ROUTE } from '../../common/const';
@@ -55,6 +57,7 @@ const FundsList = ({
   resetData,
   funds,
   fundsCount,
+  pagination,
 }) => {
   const stripes = useStripes();
   const [
@@ -107,6 +110,8 @@ const FundsList = ({
     />
   );
 
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('funds-list');
+
   return (
     <HasCommand
       commands={shortcuts}
@@ -152,6 +157,7 @@ const FundsList = ({
 
         <ResultsPane
           id="fund-results-pane"
+          autosize
           title={resultsPaneTitle}
           count={fundsCount}
           renderLastMenu={renderLastMenu}
@@ -159,24 +165,39 @@ const FundsList = ({
           filters={filters}
           isFiltersOpened={isFiltersOpened}
         >
-          <MultiColumnList
-            id="funds-list"
-            totalCount={fundsCount}
-            contentData={funds}
-            visibleColumns={visibleColumns}
-            columnMapping={columnMapping}
-            loading={isLoading}
-            autosize
-            virtualize
-            onNeedMoreData={onNeedMoreData}
-            sortOrder={sortingField}
-            sortDirection={sortingDirection}
-            onHeaderClick={changeSorting}
-            onRowClick={openFundDetails}
-            isEmptyMessage={resultsStatusMessage}
-            pagingType="click"
-            hasMargin
-          />
+          {({ height, width }) => (
+            <>
+              <MultiColumnList
+                id="funds-list"
+                totalCount={fundsCount}
+                contentData={funds}
+                visibleColumns={visibleColumns}
+                columnMapping={columnMapping}
+                loading={isLoading}
+                onNeedMoreData={onNeedMoreData}
+                sortOrder={sortingField}
+                sortDirection={sortingDirection}
+                onHeaderClick={changeSorting}
+                onRowClick={openFundDetails}
+                isEmptyMessage={resultsStatusMessage}
+                pagingType="none"
+                hasMargin
+                height={height - PrevNextPagination.HEIGHT}
+                width={width}
+                itemToView={itemToView}
+                onMarkPosition={setItemToView}
+                onResetMark={deleteItemToView}
+              />
+              {funds.length > 0 && (
+                <PrevNextPagination
+                  {...pagination}
+                  totalCount={fundsCount}
+                  disabled={isLoading}
+                  onChange={onNeedMoreData}
+                />
+              )}
+            </>
+          )}
         </ResultsPane>
 
         <Route
@@ -200,6 +221,7 @@ FundsList.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  pagination: PropTypes.object.isRequired,
 };
 
 FundsList.defaultProps = {

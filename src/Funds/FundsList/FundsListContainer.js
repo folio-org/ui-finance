@@ -12,7 +12,7 @@ import { fetchFundLedgers } from './utils';
 import { useFunds } from './hooks';
 import { ledgersResource } from '../../common/resources';
 
-const RESULT_COUNT_INCREMENT = 100;
+const RESULT_COUNT_INCREMENT = 50;
 
 const resetData = () => {};
 

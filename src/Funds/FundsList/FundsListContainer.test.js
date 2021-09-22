@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
 import { FundsListContainer } from './FundsListContainer';
-import { useFunds } from './hooks/useFunds/useFunds';
+import { useFunds } from './hooks';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),

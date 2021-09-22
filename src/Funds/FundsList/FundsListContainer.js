@@ -5,14 +5,15 @@ import React, {
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { usePagination } from '@folio/stripes-acq-components';
+import {
+  RESULT_COUNT_INCREMENT,
+  usePagination,
+} from '@folio/stripes-acq-components';
 
 import FundsList from './FundsList';
 import { fetchFundLedgers } from './utils';
 import { useFunds } from './hooks';
 import { ledgersResource } from '../../common/resources';
-
-const RESULT_COUNT_INCREMENT = 50;
 
 const resetData = () => {};
 

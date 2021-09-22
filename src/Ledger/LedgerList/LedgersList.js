@@ -23,9 +23,11 @@ import {
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  PrevNextPagination,
   useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
+  useItemToView,
 } from '@folio/stripes-acq-components';
 
 import { LEDGERS_ROUTE } from '../../common/const';
@@ -53,6 +55,7 @@ const LedgerList = ({
   ledgersCount,
   location,
   resetData,
+  pagination,
 }) => {
   const stripes = useStripes();
   const [
@@ -96,6 +99,8 @@ const LedgerList = ({
       }),
     },
   ];
+
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('ledgers-list');
 
   const resultsStatusMessage = (
     <NoResultsMessage
@@ -148,6 +153,7 @@ const LedgerList = ({
         )}
         <ResultsPane
           id="ledger-results-pane"
+          autosize
           title={title}
           count={ledgersCount}
           renderLastMenu={renderLastMenu}
@@ -155,24 +161,39 @@ const LedgerList = ({
           filters={filters}
           isFiltersOpened={isFiltersOpened}
         >
-          <MultiColumnList
-            id="ledgers-list"
-            totalCount={ledgersCount}
-            contentData={ledgers}
-            visibleColumns={visibleColumns}
-            columnMapping={columnMapping}
-            loading={isLoading}
-            autosize
-            virtualize
-            onNeedMoreData={onNeedMoreData}
-            sortOrder={sortingField}
-            sortDirection={sortingDirection}
-            onHeaderClick={changeSorting}
-            onRowClick={openLedgerDetails}
-            isEmptyMessage={resultsStatusMessage}
-            pagingType="click"
-            hasMargin
-          />
+          {({ height, width }) => (
+            <>
+              <MultiColumnList
+                id="ledgers-list"
+                totalCount={ledgersCount}
+                contentData={ledgers}
+                visibleColumns={visibleColumns}
+                columnMapping={columnMapping}
+                loading={isLoading}
+                onNeedMoreData={onNeedMoreData}
+                sortOrder={sortingField}
+                sortDirection={sortingDirection}
+                onHeaderClick={changeSorting}
+                onRowClick={openLedgerDetails}
+                isEmptyMessage={resultsStatusMessage}
+                pagingType="none"
+                hasMargin
+                height={height - PrevNextPagination.HEIGHT}
+                width={width}
+                itemToView={itemToView}
+                onMarkPosition={setItemToView}
+                onResetMark={deleteItemToView}
+              />
+              {ledgers?.length > 0 && (
+                <PrevNextPagination
+                  {...pagination}
+                  totalCount={ledgersCount}
+                  disabled={isLoading}
+                  onChange={onNeedMoreData}
+                />
+              )}
+            </>
+          )}
         </ResultsPane>
         <Route
           path="/finance/ledger/:id/view"
@@ -195,6 +216,7 @@ LedgerList.propTypes = {
   resetData: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  pagination: PropTypes.object.isRequired,
 };
 
 export default withRouter(LedgerList);

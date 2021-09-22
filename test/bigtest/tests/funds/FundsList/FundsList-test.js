@@ -45,14 +45,11 @@ describe('Funds list', () => {
       const ledgersList = new LedgersListInteractor();
 
       beforeEach(async function () {
-        this.server.createList('ledger', FUNDS_COUNT);
-
         await fundsList.navigation.ledgersNavBtn.click();
-        await ledgersList.whenLoaded();
       });
 
-      it('should make ledgers tab primary', () => {
-        expect(fundsList.navigation.ledgersNavBtn.isPrimary).to.be.true;
+      it('should open the ledgers list', () => {
+        expect(ledgersList.newButton.isPresent).to.be.true;
       });
     });
 

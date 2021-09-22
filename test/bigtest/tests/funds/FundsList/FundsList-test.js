@@ -6,6 +6,7 @@ import setupApplication from '../../../helpers/setup-application';
 import FundsListInteractor from '../../../interactors/funds/FundsList';
 import LedgersListInteractor from '../../../interactors/ledgers/LedgersList';
 import FiscalYearListInteractor from '../../../interactors/fiscalYear/FiscalYearList';
+import { FUNDS_ROUTE } from '../../../../../src/common/const';
 
 const FUNDS_COUNT = 15;
 
@@ -17,7 +18,7 @@ describe('Funds list', () => {
   beforeEach(async function () {
     this.server.createList('fund', FUNDS_COUNT);
 
-    this.visit('/finance/fund');
+    this.visit(`${FUNDS_ROUTE}?fundStatus=Active&limit=100&offset=0`);
     await fundsList.whenLoaded();
   });
 

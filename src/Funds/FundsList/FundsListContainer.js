@@ -19,8 +19,8 @@ const resetData = () => {};
 export const FundsListContainer = ({ mutator: originMutator }) => {
   const mutator = useMemo(() => originMutator, []);
 
-  const fetchReferences = useCallback(async funds => {
-    const ledgersResponse = await fetchFundLedgers(mutator.fundsListLedgers, funds, {});
+  const fetchReferences = useCallback(async fundsResponse => {
+    const ledgersResponse = await fetchFundLedgers(mutator.fundsListLedgers, fundsResponse, {});
 
     const ledgersMap = ledgersResponse.reduce((acc, ledgerItem) => {
       acc[ledgerItem.id] = ledgerItem;

@@ -43,11 +43,11 @@ export const useFunds = ({
 
   const { search } = useLocation();
   const queryParams = queryString.parse(search);
-  const query = buildFundsQuery(queryParams);
+  const fundsQuery = buildFundsQuery(queryParams);
   const filtersCount = getFiltersCount(queryParams);
 
   const defaultSearchParams = {
-    query,
+    query: fundsQuery,
     limit: pagination.limit,
     offset: pagination.offset,
   };

@@ -18,6 +18,7 @@ jest.mock('@folio/stripes-acq-components', () => {
     useFiltersToogle: jest.fn().mockReturnValue({ isFiltersOpened: true, toggleFilters: jest.fn() }),
     ResetButton: () => <span>ResetButton</span>,
     SingleSearchForm: () => <span>SingleSearchForm</span>,
+    useItemToView: jest.fn().mockReturnValue({}),
   };
 });
 
@@ -33,8 +34,7 @@ const defaultProps = {
   fiscalYearsCount: 1,
   fiscalYears: [{}],
   isLoading: false,
-  history: {},
-  location: {},
+  pagination: {},
 };
 const renderFiscalYearsList = (props = defaultProps) => (render(
   <FiscalYearsList {...props} />,

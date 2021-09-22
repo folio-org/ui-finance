@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
-  withRouter,
+  useLocation,
+  useHistory,
 } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { useStripes } from '@folio/stripes/core';
@@ -18,10 +18,13 @@ import {
   FiltersPane,
   handleKeyCommand,
   NoResultsMessage,
+  PrevNextPagination,
   ResetButton,
+  RESULT_COUNT_INCREMENT,
   ResultsPane,
   SingleSearchForm,
   useFiltersToogle,
+  useItemToView,
   useLocationFilters,
   useLocationSorting,
 } from '@folio/stripes-acq-components';
@@ -47,15 +50,16 @@ const columnMapping = {
 };
 
 const FiscalYearsList = ({
-  history,
   isLoading,
-  location,
   onNeedMoreData,
   resetData,
   fiscalYears,
   fiscalYearsCount,
+  pagination,
 }) => {
   const stripes = useStripes();
+  const history = useHistory();
+  const location = useLocation();
   const [
     filters,
     searchQuery,
@@ -73,6 +77,7 @@ const FiscalYearsList = ({
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fiscalYear/filters');
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('fiscal-years-list');
 
   const openFiscalYearDetails = useCallback(
     (e, meta) => {
@@ -151,6 +156,7 @@ const FiscalYearsList = ({
 
         <ResultsPane
           id="fiscal-year-results-pane"
+          autosize
           title={resultsPaneTitle}
           count={fiscalYearsCount}
           renderLastMenu={renderLastMenu}
@@ -158,24 +164,40 @@ const FiscalYearsList = ({
           filters={filters}
           isFiltersOpened={isFiltersOpened}
         >
-          <MultiColumnList
-            id="fiscal-years-list"
-            totalCount={fiscalYearsCount}
-            contentData={fiscalYears}
-            visibleColumns={visibleColumns}
-            columnMapping={columnMapping}
-            loading={isLoading}
-            autosize
-            virtualize
-            onNeedMoreData={onNeedMoreData}
-            sortOrder={sortingField}
-            sortDirection={sortingDirection}
-            onHeaderClick={changeSorting}
-            onRowClick={openFiscalYearDetails}
-            isEmptyMessage={resultsStatusMessage}
-            pagingType="click"
-            hasMargin
-          />
+          {(({ height, width }) => (
+            <>
+              <MultiColumnList
+                id="fiscal-years-list"
+                totalCount={fiscalYearsCount}
+                contentData={fiscalYears}
+                visibleColumns={visibleColumns}
+                columnMapping={columnMapping}
+                loading={isLoading}
+                onNeedMoreData={onNeedMoreData}
+                onRowClick={openFiscalYearDetails}
+                sortOrder={sortingField}
+                sortDirection={sortingDirection}
+                onHeaderClick={changeSorting}
+                isEmptyMessage={resultsStatusMessage}
+                hasMargin
+                pageAmount={RESULT_COUNT_INCREMENT}
+                pagingType="none"
+                height={height - PrevNextPagination.HEIGHT}
+                width={width}
+                itemToView={itemToView}
+                onMarkPosition={setItemToView}
+                onResetMark={deleteItemToView}
+              />
+              {fiscalYears.length > 0 && (
+                <PrevNextPagination
+                  {...pagination}
+                  totalCount={fiscalYearsCount}
+                  disabled={isLoading}
+                  onChange={onNeedMoreData}
+                />
+              )}
+            </>
+          ))}
         </ResultsPane>
 
         <Route
@@ -197,8 +219,7 @@ FiscalYearsList.propTypes = {
   fiscalYearsCount: PropTypes.number,
   isLoading: PropTypes.bool,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
-  history: ReactRouterPropTypes.history.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
+  pagination: PropTypes.object.isRequired,
 };
 
 FiscalYearsList.defaultProps = {
@@ -207,4 +228,4 @@ FiscalYearsList.defaultProps = {
   fiscalYears: [],
 };
 
-export default withRouter(FiscalYearsList);
+export default FiscalYearsList;

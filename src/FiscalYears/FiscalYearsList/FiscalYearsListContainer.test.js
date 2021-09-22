@@ -1,63 +1,28 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import queryString from 'query-string';
 
-import { FiscalYearsListContainer, buildFiscalYearsQuery } from './FiscalYearsListContainer';
-import FiscalYearsList from './FiscalYearsList';
+import FiscalYearsListContainer from './FiscalYearsListContainer';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  usePagination: () => ({}),
+}));
 jest.mock('./FiscalYearsList', () => jest.fn().mockReturnValue('FiscalYearsList'));
+jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
+  useFiscalYears: jest.fn().mockReturnValue({}),
+}));
 
-const defaultProps = {
-  mutator: {
-    fiscalYearsListFYears: {
-      GET: jest.fn(),
-    },
-  },
-  location: {},
-  history: {},
-};
-
-const renderFiscalYearsListContainer = (props = defaultProps) => render(
-  <FiscalYearsListContainer {...props} />,
+const renderFiscalYearsListContainer = () => render(
+  <FiscalYearsListContainer />,
   { wrapper: MemoryRouter },
 );
 
 describe('FiscalYearsListContainer', () => {
-  beforeEach(() => {
-    defaultProps.mutator.fiscalYearsListFYears.GET.mockClear();
-  });
-
-  it('should display GroupsList', async () => {
-    defaultProps.mutator.fiscalYearsListFYears.GET.mockReturnValue(Promise.resolve({
-      fiscalYears: [],
-      totalRecords: 0,
-    }));
-
+  it('should display FiscalYearList', async () => {
     await act(async () => renderFiscalYearsListContainer());
 
     expect(screen.getByText('FiscalYearsList')).toBeDefined();
-  });
-
-  it('should load more data', async () => {
-    await act(async () => renderFiscalYearsListContainer());
-
-    await act(async () => FiscalYearsList.mock.calls[0][0].onNeedMoreData());
-
-    expect(defaultProps.mutator.fiscalYearsListFYears.GET).toHaveBeenCalled();
-  });
-
-  describe('search query', () => {
-    it('should build query when search is active', () => {
-      const expectedQuery = '(((name="FY*" or code="FY*" or description="FY*"))) sortby name/sort.ascending';
-
-      expect(buildFiscalYearsQuery(queryString.parse('?query=FY'))).toBe(expectedQuery);
-    });
-
-    it('should build query when search by field is active', () => {
-      const expectedQuery = '(((name=FY*))) sortby name/sort.ascending';
-
-      expect(buildFiscalYearsQuery(queryString.parse('?qindex=name&query=FY'))).toBe(expectedQuery);
-    });
   });
 });

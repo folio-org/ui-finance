@@ -51,8 +51,8 @@ describe('Funds list', () => {
         await ledgersList.whenLoaded();
       });
 
-      it('should open the ledgers list', () => {
-        expect(ledgersList.isPresent).to.be.true;
+      it('should make ledgers tab primary', () => {
+        expect(fundsList.navigation.ledgersNavBtn.isPrimary).to.be.true;
       });
     });
 

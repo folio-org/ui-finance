@@ -5,7 +5,6 @@ import { GROUPS_ROUTE } from '../../../../../src/common/const';
 
 import setupApplication from '../../../helpers/setup-application';
 import GroupFormInteractor from '../../../interactors/groups/GroupFormInteractor';
-import GroupsListInteractor from '../../../interactors/groups/GroupsListInteractor';
 
 const TEST_VALUE_NAME = 'test edit name';
 
@@ -28,13 +27,10 @@ describe('Group edit', () => {
   });
 
   describe('Save after edit', () => {
-    const groupsList = new GroupsListInteractor();
-
     beforeEach(async function () {
       await groupForm.name.fill('new name');
 
       await groupForm.saveButton.click();
-      await groupsList.whenLoaded();
     });
 
     it('should close form', () => {

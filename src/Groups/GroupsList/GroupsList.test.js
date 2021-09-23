@@ -18,6 +18,7 @@ jest.mock('@folio/stripes-acq-components', () => {
     useFiltersToogle: jest.fn().mockReturnValue({ isFiltersOpened: true, toggleFilters: jest.fn() }),
     ResetButton: () => <span>ResetButton</span>,
     SingleSearchForm: () => <span>SingleSearchForm</span>,
+    useItemToView: jest.fn().mockReturnValue({}),
   };
 });
 
@@ -33,8 +34,6 @@ const defaultProps = {
   groupsCount: 1,
   groups: [{}],
   isLoading: false,
-  history: {},
-  location: {},
 };
 
 const renderGroupsList = (props = defaultProps) => (render(

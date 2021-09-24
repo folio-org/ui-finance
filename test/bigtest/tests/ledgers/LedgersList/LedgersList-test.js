@@ -17,7 +17,7 @@ describe('Ledgers list', () => {
   beforeEach(async function () {
     this.server.createList('ledger', LEDGERS_COUNT);
 
-    this.visit(LEDGERS_ROUTE);
+    this.visit(`${LEDGERS_ROUTE}?ledgerStatus=Active&ledgerStatus=Frozen&ledgerStatus=Inactive&limit=50&offset=0`);
     await ledgersList.whenLoaded();
   });
 

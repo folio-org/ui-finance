@@ -17,7 +17,7 @@ describe('Groups list', () => {
   beforeEach(async function () {
     this.server.createList('group', GROUPS_COUNT);
 
-    this.visit(GROUPS_ROUTE);
+    this.visit(`${GROUPS_ROUTE}?status=Active&limit=50&offset=0`);
     await groupsList.whenLoaded();
   });
 

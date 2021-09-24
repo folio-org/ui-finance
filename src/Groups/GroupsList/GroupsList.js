@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
-  withRouter,
+  useLocation,
+  useHistory,
 } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { useStripes } from '@folio/stripes/core';
@@ -18,10 +18,13 @@ import {
   FiltersPane,
   handleKeyCommand,
   NoResultsMessage,
+  PrevNextPagination,
   ResetButton,
+  RESULT_COUNT_INCREMENT,
   ResultsPane,
   SingleSearchForm,
   useFiltersToogle,
+  useItemToView,
   useLocationFilters,
   useLocationSorting,
 } from '@folio/stripes-acq-components';
@@ -46,14 +49,15 @@ const columnMapping = {
 };
 
 const GroupsList = ({
-  history,
   isLoading,
-  location,
   onNeedMoreData,
   resetData,
   groups,
   groupsCount,
+  pagination,
 }) => {
+  const history = useHistory();
+  const location = useLocation();
   const stripes = useStripes();
   const [
     filters,
@@ -72,6 +76,7 @@ const GroupsList = ({
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/group/filters');
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('groups-list');
 
   const openGroupDetails = useCallback(
     (e, meta) => {
@@ -150,6 +155,7 @@ const GroupsList = ({
 
         <ResultsPane
           id="group-results-pane"
+          autosize
           title={resultsPaneTitle}
           count={groupsCount}
           renderLastMenu={renderLastMenu}
@@ -157,24 +163,40 @@ const GroupsList = ({
           filters={filters}
           isFiltersOpened={isFiltersOpened}
         >
-          <MultiColumnList
-            id="groups-list"
-            totalCount={groupsCount}
-            contentData={groups}
-            visibleColumns={visibleColumns}
-            columnMapping={columnMapping}
-            loading={isLoading}
-            autosize
-            virtualize
-            onNeedMoreData={onNeedMoreData}
-            sortOrder={sortingField}
-            sortDirection={sortingDirection}
-            onHeaderClick={changeSorting}
-            onRowClick={openGroupDetails}
-            isEmptyMessage={resultsStatusMessage}
-            pagingType="click"
-            hasMargin
-          />
+          {(({ height, width }) => (
+            <>
+              <MultiColumnList
+                id="groups-list"
+                totalCount={groupsCount}
+                contentData={groups}
+                visibleColumns={visibleColumns}
+                columnMapping={columnMapping}
+                loading={isLoading}
+                onNeedMoreData={onNeedMoreData}
+                onRowClick={openGroupDetails}
+                sortOrder={sortingField}
+                sortDirection={sortingDirection}
+                onHeaderClick={changeSorting}
+                isEmptyMessage={resultsStatusMessage}
+                hasMargin
+                pageAmount={RESULT_COUNT_INCREMENT}
+                pagingType="none"
+                height={height - PrevNextPagination.HEIGHT}
+                width={width}
+                itemToView={itemToView}
+                onMarkPosition={setItemToView}
+                onResetMark={deleteItemToView}
+              />
+              {groups.length > 0 && (
+                <PrevNextPagination
+                  {...pagination}
+                  totalCount={groupsCount}
+                  disabled={isLoading}
+                  onChange={onNeedMoreData}
+                />
+              )}
+            </>
+          ))}
         </ResultsPane>
 
         <Route
@@ -196,8 +218,7 @@ GroupsList.propTypes = {
   groupsCount: PropTypes.number,
   isLoading: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.object),
-  history: ReactRouterPropTypes.history.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
+  pagination: PropTypes.object,
 };
 
 GroupsList.defaultProps = {
@@ -206,4 +227,4 @@ GroupsList.defaultProps = {
   groups: [],
 };
 
-export default withRouter(GroupsList);
+export default GroupsList;

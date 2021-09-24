@@ -7,6 +7,7 @@
 * Add fund code as an option for allocation/transfer. Refs UIF-322.
 * Add validation for special character to Fund Code and Expense class code so user can't save invalid code. Refs UIF-323.
 * increment stripes to v7. Refs UIF-321.
+* Groups - Implement MCL Next/Previous pagination. Refs UIF-326.
 
 ## [2.4.2](https://github.com/folio-org/ui-finance/tree/v2.4.2) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.4.1...v2.4.2)

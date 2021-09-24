@@ -25,7 +25,7 @@ describe('Group create', () => {
     expect(groupForm.isPresent).to.be.true;
   });
 
-  describe('Save not filled (missed requried) form', () => {
+  describe('Save not filled (missed required) form', () => {
     beforeEach(async function () {
       await groupForm.name.fill('test name');
       await groupForm.saveButton.click();
@@ -44,11 +44,10 @@ describe('Group create', () => {
       await groupForm.code.fill('TSD');
 
       await groupForm.saveButton.click();
-      await groupsList.whenLoaded();
     });
 
     it('should close form and display the list of groups', () => {
-      expect(groupsList.isPresent).to.be.true;
+      expect(groupsList.newGroupButton.isPresent).to.be.true;
     });
   });
 

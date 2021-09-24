@@ -14,7 +14,7 @@ describe('Fund create', () => {
 
   beforeEach(async function () {
     this.server.createList('fund', 2);
-    this.visit(FUNDS_ROUTE);
+    this.visit(`${FUNDS_ROUTE}?fundStatus=Active&limit=100&offset=0`);
     await fundsList.whenLoaded();
     await fundsList.newButton.click();
   });

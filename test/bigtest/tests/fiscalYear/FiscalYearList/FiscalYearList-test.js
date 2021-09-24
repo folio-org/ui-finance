@@ -15,7 +15,7 @@ describe('Fiscal year list', () => {
   beforeEach(async function () {
     this.server.createList('fiscalYear', YEARS_COUNT);
 
-    this.visit('/finance/fiscalyear');
+    this.visit('/finance/fiscalyear?limit=50&offset=0&currency=usd');
     await fiscalYearList.whenLoaded();
   });
 

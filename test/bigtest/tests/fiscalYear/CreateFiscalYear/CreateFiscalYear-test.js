@@ -16,7 +16,6 @@ describe('Fiscal year create form', () => {
   beforeEach(async function () {
     this.server.createList('fiscalYear', 2);
     this.visit(FISCAL_YEAR_ROUTE);
-    await fiscalYearList.whenLoaded();
     await fiscalYearList.newButton.click();
   });
 

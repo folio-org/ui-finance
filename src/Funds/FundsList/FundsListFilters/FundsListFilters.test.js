@@ -20,7 +20,7 @@ describe('FundsListFilters component', () => {
     const { getByText } = renderFundsListFilters();
 
     expect(getByText('ui-finance.fund.filters.ledger')).toBeDefined();
-    expect(getByText('ui-finance.fund.filters.acqUnits')).toBeDefined();
+    expect(getByText('stripes-acq-components.filter.acqUnit')).toBeDefined();
     expect(getByText('ui-finance.fund.filters.status')).toBeDefined();
     expect(getByText('ui-finance.fund.filters.type')).toBeDefined();
     expect(getByText('ui-finance.fund.filters.group')).toBeDefined();

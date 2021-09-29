@@ -19,6 +19,6 @@ describe('FiscalYearsListFilter component', () => {
   it('should display fiscal year list filters', () => {
     const { getByText } = renderFiscalYearsListFilter();
 
-    expect(getByText('ui-finance.fiscalYear.filters.acqUnits')).toBeDefined();
+    expect(getByText('stripes-acq-components.filter.acqUnit')).toBeDefined();
   });
 });

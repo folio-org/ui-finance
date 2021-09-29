@@ -33,7 +33,6 @@ const GroupsListFilters = ({ activeFilters, applyFilters }) => {
       <AcqUnitFilter
         id={GROUPS_FILTERS.ACQUISITIONS_UNIT}
         activeFilters={activeFilters[GROUPS_FILTERS.ACQUISITIONS_UNIT]}
-        labelId="ui-finance.groups.acqUnits"
         name={GROUPS_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
       />

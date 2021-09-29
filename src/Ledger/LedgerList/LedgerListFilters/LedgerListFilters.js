@@ -35,7 +35,6 @@ const LedgerListFilters = ({ activeFilters, applyFilters }) => {
       <AcqUnitFilter
         id={LEDGER_FILTERS.ACQUISITIONS_UNIT}
         activeFilters={activeFilters[LEDGER_FILTERS.ACQUISITIONS_UNIT]}
-        labelId="ui-finance.ledger.acqUnits"
         name={LEDGER_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
       />

@@ -20,6 +20,6 @@ describe('GroupsListFilters component', () => {
     const { getByText } = renderGroupsListFilters();
 
     expect(getByText('ui-finance.groups.status')).toBeDefined();
-    expect(getByText('ui-finance.groups.acqUnits')).toBeDefined();
+    expect(getByText('stripes-acq-components.filter.acqUnit')).toBeDefined();
   });
 });

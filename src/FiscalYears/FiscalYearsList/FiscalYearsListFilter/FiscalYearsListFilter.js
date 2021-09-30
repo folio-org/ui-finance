@@ -25,7 +25,6 @@ const FiscalYearsListFilter = ({ activeFilters, applyFilters }) => {
       <AcqUnitFilter
         id={FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT}
         activeFilters={activeFilters[FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT]}
-        labelId="ui-finance.fiscalYear.filters.acqUnits"
         name={FISCAL_YEAR_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
       />

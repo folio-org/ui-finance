@@ -20,6 +20,6 @@ describe('LedgerListFilters component', () => {
     const { getByText } = renderLedgerListFilters();
 
     expect(getByText('ui-finance.ledger.status')).toBeDefined();
-    expect(getByText('ui-finance.ledger.acqUnits')).toBeDefined();
+    expect(getByText('stripes-acq-components.filter.acqUnit')).toBeDefined();
   });
 });

@@ -66,7 +66,6 @@ const FundsListFilters = ({
       <AcqUnitFilter
         id={FUND_FILTERS.ACQUISITIONS_UNIT}
         activeFilters={activeFilters[FUND_FILTERS.ACQUISITIONS_UNIT]}
-        labelId="ui-finance.fund.filters.acqUnits"
         name={FUND_FILTERS.ACQUISITIONS_UNIT}
         onChange={adaptedApplyFilters}
       />

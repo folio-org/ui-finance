@@ -11,7 +11,6 @@
   "errors.load.code": "Error code fetching",
   "errors.load.name": "Error name fetching",
 
-  "ledger.acqUnits": "Acquisition units",
   "ledger.actions.remove.error": "Ledger has not been deleted",
   "ledger.actions.remove.success": "Ledger has been deleted",
   "ledger.actions.save.error": "Ledger has not been saved",
@@ -103,7 +102,6 @@
   "fiscalYear.details.information": "Fiscal year information",
   "fiscalYear.details.financialSummary": "Financial summary",
   "fiscalYear.details.ledger": "Ledger",
-  "fiscalYear.filters.acqUnits": "Acquisition units",
   "fiscalYear.form.title.create": "Create fiscal year",
   "fiscalYear.form.title.edit": "Edit fiscal year",
   "fiscalYear.information.code": "Code",
@@ -206,7 +204,6 @@
   "fund.budget.name": "Name",
   "fund.currentBudget.title": "Current budget",
   "fund.currentExpenseClasses": "Current expense classes",
-  "fund.filters.acqUnits": "Acquisition units",
   "fund.filters.group": "Group",
   "fund.filters.ledger": "Ledger",
   "fund.filters.status": "Status",
@@ -248,7 +245,6 @@
   "fund": "Fund",
 
   "group": "Group",
-  "groups.acqUnits": "Acquisition units",
 
   "groups.status": "Status",
   "groups.status.active": "Active",

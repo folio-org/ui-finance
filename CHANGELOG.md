@@ -11,6 +11,7 @@
 * Fiscal years Tab - Implement MCL Next/Previous pagination. Refs UIF-328.
 * Funds - Implement MCL Next/Previous pagination. Refs UIF-325.
 * Ledgers Tab - Implement MCL Next/Previous pagination. Refs UIF-327.
+* Filter label contains extra 's'. Refs UIF-331.
 
 ## [2.4.2](https://github.com/folio-org/ui-finance/tree/v2.4.2) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.4.1...v2.4.2)

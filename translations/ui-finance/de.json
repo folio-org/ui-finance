@@ -317,7 +317,7 @@
     "ledger.rollover.noFundType": "Kein Fondstyp",
     "ledger.rollover.addAvailableTo.transfer": "Transfer",
     "ledger.rollover.addAvailableAs": "Restmittel hinzufügen als",
-    "ledger.rollover.orderType": "Bestelltyp",
+    "ledger.rollover.orderType": "Bestellungstyp",
     "ledger.rollover.orderType.ongoing": "Laufende Bindungen",
     "ledger.rollover.orderType.ongoingSubscription": "Bindungen durch laufende Abonnements",
     "ledger.rollover.orderType.onetime": "Einmalige Bindungen",

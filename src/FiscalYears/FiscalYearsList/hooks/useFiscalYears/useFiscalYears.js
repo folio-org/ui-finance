@@ -6,7 +6,6 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import { getFiltersCount } from '@folio/stripes-acq-components';
 
 import { FISCAL_YEARS_API } from '../../../../common/const';
 import { useBuildQuery } from '../useBuildQuery';
@@ -19,7 +18,6 @@ export const useFiscalYears = ({ pagination }) => {
   const buildQuery = useBuildQuery();
   const queryParams = queryString.parse(search);
   const query = buildQuery(queryParams);
-  const filtersCount = getFiltersCount(queryParams);
 
   const searchParams = {
     query,
@@ -28,15 +26,8 @@ export const useFiscalYears = ({ pagination }) => {
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = () => {
-    if (!filtersCount) {
-      return { fiscalYears: [], totalRecords: 0 };
-    }
+  const queryFn = () => ky.get(FISCAL_YEARS_API, { searchParams }).json();
 
-    return (
-      ky.get(FISCAL_YEARS_API, { searchParams }).json()
-    );
-  };
   const options = {
     enabled: Boolean(pagination.timestamp),
     keepPreviousData: true,

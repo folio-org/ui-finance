@@ -45,7 +45,7 @@ describe('useFiscalYears', () => {
       });
   });
 
-  it('should return an empty list if there no filters were passed in the query', async () => {
+  it('should return fetched fiscal years by default', async () => {
     useLocation
       .mockClear()
       .mockReturnValue({ search: '' });
@@ -56,11 +56,7 @@ describe('useFiscalYears', () => {
 
     await waitFor(() => !result.current.isFetching);
 
-    expect(result.current).toEqual({
-      fiscalYears: [],
-      totalRecords: 0,
-      isFetching: false,
-    });
+    expect(result.current.totalRecords).toEqual(fiscalYears.length);
   });
 
   it('should return fetched fiscal years list', async () => {

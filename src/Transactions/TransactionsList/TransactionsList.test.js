@@ -16,6 +16,7 @@ jest.mock('@folio/stripes-acq-components', () => {
     useFiltersToogle: jest.fn().mockReturnValue({ isFiltersOpened: true, toggleFilters: jest.fn() }),
     ResetButton: () => <span>ResetButton</span>,
     SingleSearchForm: () => <span>SingleSearchForm</span>,
+    useItemToView: jest.fn().mockReturnValue({}),
   };
 });
 
@@ -25,9 +26,6 @@ jest.mock('../TransactionDetails', () => ({
 jest.mock('./TransactionsFilters', () => jest.fn().mockReturnValue('TransactionsFilters'));
 
 const defaultProps = {
-  history: {},
-  location: {},
-  match: {},
   onNeedMoreData: jest.fn(),
   resetData: jest.fn(),
   refreshList: jest.fn(),
@@ -36,6 +34,7 @@ const defaultProps = {
   isLoadingTransactions: false,
   funds: [],
   fundId: 'fundId',
+  pagination: {},
 };
 const renderTransactionsList = (props = defaultProps) => (render(
   <TransactionsList {...props} />,

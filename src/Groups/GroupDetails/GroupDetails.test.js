@@ -27,6 +27,11 @@ jest.mock('react-router', () => ({
 }));
 jest.mock('./GroupInformation', () => jest.fn().mockReturnValue('GroupInformation'));
 jest.mock('../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
+jest.mock('./GroupFund/hooks', () => ({
+  ...jest.requireActual('./GroupFund/hooks'),
+  useFund: jest.fn().mockReturnValue({}),
+  useFundMutation: jest.fn().mockReturnValue({}),
+}));
 
 const defaultProps = {
   group: { name: 'group', status: 'Active' },

@@ -20,6 +20,7 @@ import {
   groupSummariesResource,
 } from '../../common/resources';
 
+import { useFundsGroupMutation } from './hooks';
 import { getGroupSummary } from './utils';
 import GroupDetails from './GroupDetails';
 
@@ -34,6 +35,10 @@ export const GroupDetailsContainer = ({
   const [selectedFY, setSelectedFY] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowCallout();
+  const { mutateFundsGroup: addFundsGroup } = useFundsGroupMutation(fund => ({
+    ...fund,
+    groupIds: [...fund.groupIds, groupId],
+  }));
 
   useEffect(
     () => {
@@ -116,7 +121,7 @@ export const GroupDetailsContainer = ({
     (newSelectedFY) => {
       setSelectedFY(newSelectedFY);
 
-      getGroupSummary(mutator.groupSummaries, groupId, newSelectedFY.id)
+      return getGroupSummary(mutator.groupSummaries, groupId, newSelectedFY.id)
         .then(groupSummary => {
           setGroupData(prevGroupData => ({
             ...prevGroupData,
@@ -130,6 +135,22 @@ export const GroupDetailsContainer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [groupId, showToast],
   );
+
+  const onAddFundToGroup = async funds => {
+    setIsLoading(true);
+
+    addFundsGroup(funds)
+      .then(() => {
+        showToast({ messageId: 'ui-finance.groups.actions.addFunds.success' });
+      })
+      .catch(() => {
+        showToast({ messageId: 'ui-finance.groups.actions.addFunds.error', type: 'error' });
+      })
+      .then(() => {
+        selectFY(selectedFY);
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   const { funds } = useAllFunds();
 
@@ -152,6 +173,7 @@ export const GroupDetailsContainer = ({
       editGroup={editGroup}
       removeGroup={removeGroup}
       selectedFY={selectedFY}
+      onAddFundToGroup={onAddFundToGroup}
       onSelectFY={selectFY}
     />
   );

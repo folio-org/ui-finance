@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * Transactions - Implement MCL Next/Previous pagination. Refs UIF-342.
+* Allow user to add multiple funds to a group from group view. Refs UIF-339.
 
 ## [3.0.1](https://github.com/folio-org/ui-finance/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.0...v3.0.1)

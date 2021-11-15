@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  useStripes,
+  IfPermission,
+  Pluggable,
+} from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -49,6 +53,7 @@ const GroupDetails = ({
   removeGroup,
   selectedFY,
   onSelectFY,
+  onAddFundToGroup,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const accordionStatusRef = useRef();
@@ -122,6 +127,21 @@ const GroupDetails = ({
     },
   ];
 
+  const groupFundActions = (
+    <IfPermission perm="finance.funds.item.put">
+      <Pluggable
+        aria-haspopup="true"
+        type="find-fund"
+        dataKey="group-funds"
+        searchButtonStyle="default"
+        searchLabel={<FormattedMessage id="ui-finance.groups.actions.addFunds" />}
+        addFunds={onAddFundToGroup}
+      >
+        <span>Not found</span>
+      </Pluggable>
+    </IfPermission>
+  );
+
   return (
     <HasCommand
       commands={shortcuts}
@@ -171,6 +191,7 @@ const GroupDetails = ({
             <Accordion
               id={GROUP_ACCORDTION.fund}
               label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
+              displayWhenOpen={groupFundActions}
             >
               <GroupFund
                 currency={selectedFY.currency}
@@ -217,6 +238,7 @@ GroupDetails.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   selectedFY: PropTypes.object.isRequired,
   onSelectFY: PropTypes.func.isRequired,
+  onAddFundToGroup: PropTypes.func.isRequired,
 };
 
 GroupDetails.defaultProps = {

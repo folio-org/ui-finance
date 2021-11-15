@@ -277,6 +277,9 @@
   "groups.actions.save.success": "Group has been saved",
   "groups.actions.load.error": "Failed to load group data",
   "groups.actions.load.summary.error": "Failed to load group summary",
+  "groups.actions.addFunds": "Add to group",
+  "groups.actions.addFunds.success": "Fund(s) have been added to group",
+  "groups.actions.addFunds.error": "Something went wrong, please try again later",
 
   "groups.form.title.create": "Create group",
   "groups.form.title.edit": "Edit group",

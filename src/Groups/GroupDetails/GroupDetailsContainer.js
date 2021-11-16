@@ -136,10 +136,10 @@ export const GroupDetailsContainer = ({
     [groupId, showToast],
   );
 
-  const onAddFundToGroup = async funds => {
+  const onAddFundToGroup = async newFunds => {
     setIsLoading(true);
 
-    addFundsGroup(funds)
+    addFundsGroup(newFunds)
       .then(() => {
         showToast({ messageId: 'ui-finance.groups.actions.addFunds.success' });
       })

@@ -8,7 +8,7 @@ export const useFundsGroupMutation = hydrate => {
   const mutateFundsGroup = funds => {
     if (!funds?.length) return Promise.resolve([]);
 
-    return chunk(funds, 1).reduce((acc, fundsChunk) => {
+    return chunk(funds, 5).reduce((acc, fundsChunk) => {
       return acc.then(() => {
         const chunkRequests = fundsChunk.map(fund => mutateFundGroup({ fund, hydrate }));
 

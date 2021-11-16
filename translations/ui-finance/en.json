@@ -412,5 +412,7 @@
   "permission.ledger.rollover": "Finance: Execute fiscal year rollover",
   "permission.settings.all": "Settings (Finance): View, edit, create, delete",
   "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
-  "permission.transfers.create": "Finance: Create transfers"
+  "permission.transfers.create": "Finance: Create transfers",
+
+  "plugin.findFund.notFound": "Find fund plugin is not enabled"
 }

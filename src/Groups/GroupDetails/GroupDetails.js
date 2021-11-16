@@ -137,7 +137,9 @@ const GroupDetails = ({
         searchLabel={<FormattedMessage id="ui-finance.groups.actions.addFunds" />}
         addFunds={onAddFundToGroup}
       >
-        <span>Not found</span>
+        <span>
+          <FormattedMessage id="ui-finance.plugin.findFund.notFound" />
+        </span>
       </Pluggable>
     </IfPermission>
   );

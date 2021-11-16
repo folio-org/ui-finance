@@ -54,11 +54,14 @@ const GroupDetails = ({
   selectedFY,
   onSelectFY,
   onAddFundToGroup,
+  onRemoveFundFromGroup,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
+  const isFundGroupRemovable = stripes.hasPerm('finance.funds.item.put');
+  const removeFundProp = isFundGroupRemovable ? { onRemoveFundFromGroup } : {};
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     group.id, group.acqUnitIds,
@@ -200,6 +203,7 @@ const GroupDetails = ({
                 funds={funds}
                 fiscalYearId={selectedFY.id}
                 groupId={group.id}
+                {...removeFundProp}
               />
             </Accordion>
             <GroupExpenseClasses
@@ -241,6 +245,7 @@ GroupDetails.propTypes = {
   selectedFY: PropTypes.object.isRequired,
   onSelectFY: PropTypes.func.isRequired,
   onAddFundToGroup: PropTypes.func.isRequired,
+  onRemoveFundFromGroup: PropTypes.func.isRequired,
 };
 
 GroupDetails.defaultProps = {

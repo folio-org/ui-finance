@@ -20,7 +20,10 @@ import {
   groupSummariesResource,
 } from '../../common/resources';
 
-import { useFundsGroupMutation } from './hooks';
+import {
+  useFundGroupMutation,
+  useFundsGroupMutation,
+} from './hooks';
 import { getGroupSummary } from './utils';
 import GroupDetails from './GroupDetails';
 
@@ -39,6 +42,7 @@ export const GroupDetailsContainer = ({
     ...fund,
     groupIds: [...fund.groupIds, groupId],
   }));
+  const { mutateFundGroup } = useFundGroupMutation();
 
   useEffect(
     () => {
@@ -152,6 +156,30 @@ export const GroupDetailsContainer = ({
       .finally(() => setIsLoading(false));
   };
 
+  const onRemoveFundFromGroup = async (e, fundToRemove) => {
+    const fundCode = fundToRemove.code;
+
+    setIsLoading(true);
+
+    mutateFundGroup({
+      fund: fundToRemove,
+      hydrate: fund => ({
+        ...fund,
+        groupIds: fund?.groupIds.filter(id => id !== groupId) || [],
+      }),
+    })
+      .then(() => {
+        showToast({ messageId: 'ui-finance.groups.actions.removeFund.success', values: { fundCode } });
+      })
+      .catch(() => {
+        showToast({ messageId: 'ui-finance.groups.actions.removeFund.error', values: { fundCode }, type: 'error' });
+      })
+      .then(() => {
+        selectFY(selectedFY);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
   const { funds } = useAllFunds();
 
   if (isLoading) {
@@ -175,6 +203,7 @@ export const GroupDetailsContainer = ({
       selectedFY={selectedFY}
       onAddFundToGroup={onAddFundToGroup}
       onSelectFY={selectFY}
+      onRemoveFundFromGroup={onRemoveFundFromGroup}
     />
   );
 };

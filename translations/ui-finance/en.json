@@ -280,6 +280,8 @@
   "groups.actions.addFunds": "Add to group",
   "groups.actions.addFunds.success": "Fund(s) have been added to group",
   "groups.actions.addFunds.error": "Something went wrong, please try again later",
+  "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
+  "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
 
   "groups.form.title.create": "Create group",
   "groups.form.title.edit": "Edit group",

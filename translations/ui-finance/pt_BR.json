@@ -385,5 +385,11 @@
     "settings.exportFund.helperText": "Ao exportar os códigos combinados de fundos e classes de despesas, você receberá um arquivo delimitado que inclui todos os códigos de fundos e todas as combinações de códigos de fundos e classes de despesas onde a classe de despesas tem um status de 'ativo'.",
     "settings.exportFund.exportSettings": "Configurações de exportação",
     "settings.exportFund.success": "A lista de códigos de combinação foi exportada com sucesso.",
-    "validation.mustNotIncludeColon": "O código não deve incluir dois pontos"
+    "validation.mustNotIncludeColon": "O código não deve incluir dois pontos",
+    "groups.actions.addFunds": "Add to group",
+    "groups.actions.addFunds.success": "Fund(s) have been added to group",
+    "groups.actions.addFunds.error": "Something went wrong, please try again later",
+    "plugin.findFund.notFound": "Find fund plugin is not enabled",
+    "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
+    "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group"
 }

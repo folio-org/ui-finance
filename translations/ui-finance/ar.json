@@ -385,5 +385,11 @@
     "settings.exportFund.helperText": "عند تصدير رموز فئات المصروفات والتمويل المجمعة، ستتلقى ملفاً محداً يتضمن جميع رموز التمويل وجميع مجموعات رموز فئات المصروفات ورموز التمويلات حيث ستكون لفئة المصروفات حالة 'نشطة'.",
     "settings.exportFund.exportSettings": "إعدادات التصدير",
     "settings.exportFund.success": "تم تصدير قائمة الرموز المجمعة بنجاح.",
-    "validation.mustNotIncludeColon": "يجب ألا يتضمن الرمز نقطتين"
+    "validation.mustNotIncludeColon": "يجب ألا يتضمن الرمز نقطتين",
+    "groups.actions.addFunds": "أضف إلى المجموعة",
+    "groups.actions.addFunds.success": "تمت إضافة التمويل إلى المجموعة",
+    "groups.actions.addFunds.error": "حدث خطأ ما، يرجى إعادة المحاولة مرة أخرى لاحقاً",
+    "plugin.findFund.notFound": "Find fund plugin is not enabled",
+    "groups.actions.removeFund.success": "تمت إزالة التمويل <b>{fundCode}</b> من المجموعة",
+    "groups.actions.removeFund.error": "لم تتم إزالة التمويل <b>{fundCode}</b> من المجموعة"
 }

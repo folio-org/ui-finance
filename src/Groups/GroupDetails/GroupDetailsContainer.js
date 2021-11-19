@@ -44,35 +44,49 @@ export const GroupDetailsContainer = ({
   }));
   const { mutateFundGroup } = useFundGroupMutation();
 
+  const fetchGroupDetails = (id, fiscalYear) => {
+    const groupDetailsPromise = mutator.groupDetails.GET();
+    const groupFiscalYearsPromise = mutator.groupFiscalYears.GET();
+
+    return Promise.all([groupDetailsPromise, groupFiscalYearsPromise])
+      .then(responses => {
+        const groupDetails = responses[0];
+        const groupFiscalYears = responses[1];
+
+        setGroupData(prevGroupData => ({
+          ...prevGroupData,
+          groupDetails,
+          groupFiscalYears,
+        }));
+
+        let newFiscalYear = {};
+
+        if (groupFiscalYears[0] && fiscalYear?.id) {
+          newFiscalYear = fiscalYear;
+        } else if (groupFiscalYears[0]) {
+          newFiscalYear = groupFiscalYears[0];
+        }
+
+        setSelectedFY(newFiscalYear);
+
+        return getGroupSummary(mutator.groupSummaries, id, newFiscalYear.id);
+      })
+      .then(groupSummary => {
+        setGroupData(prevGroupData => ({
+          ...prevGroupData,
+          groupSummary,
+        }));
+      })
+      .catch(() => {
+        showToast({ messageId: 'ui-finance.groups.actions.load.error', type: 'error' });
+      });
+  };
+
   useEffect(
     () => {
       setIsLoading(true);
-      const groupDetailsPromise = mutator.groupDetails.GET();
-      const groupFiscalYearsPromise = mutator.groupFiscalYears.GET();
 
-      Promise.all([groupDetailsPromise, groupFiscalYearsPromise])
-        .then(responses => {
-          const groupDetails = responses[0];
-          const groupFiscalYears = responses[1];
-
-          setGroupData(prevGroupData => ({
-            ...prevGroupData,
-            groupDetails,
-            groupFiscalYears,
-          }));
-          setSelectedFY(groupFiscalYears[0] || {});
-
-          return getGroupSummary(mutator.groupSummaries, groupId, get(groupFiscalYears, [0, 'id']));
-        })
-        .then(groupSummary => {
-          setGroupData(prevGroupData => ({
-            ...prevGroupData,
-            groupSummary,
-          }));
-        })
-        .catch(() => {
-          showToast({ messageId: 'ui-finance.groups.actions.load.error', type: 'error' });
-        })
+      fetchGroupDetails(groupId)
         .finally(() => {
           setIsLoading(false);
         });
@@ -151,7 +165,7 @@ export const GroupDetailsContainer = ({
         showToast({ messageId: 'ui-finance.groups.actions.addFunds.error', type: 'error' });
       })
       .then(() => {
-        selectFY(selectedFY);
+        fetchGroupDetails(groupId, selectedFY);
       })
       .finally(() => setIsLoading(false));
   };
@@ -175,7 +189,7 @@ export const GroupDetailsContainer = ({
         showToast({ messageId: 'ui-finance.groups.actions.removeFund.error', values: { fundCode }, type: 'error' });
       })
       .then(() => {
-        selectFY(selectedFY);
+        fetchGroupDetails(groupId, selectedFY);
       })
       .finally(() => setIsLoading(false));
   };

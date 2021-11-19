@@ -5,6 +5,7 @@
 * Transactions - Implement MCL Next/Previous pagination. Refs UIF-342.
 * Allow user to add multiple funds to a group from group view. Refs UIF-339.
 * Allow user to remove Fund from Fund group. Refs UIF-340.
+* Fiscal year is empty after adding funds to new group. Refs UIF-345.
 
 ## [3.0.1](https://github.com/folio-org/ui-finance/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.0...v3.0.1)

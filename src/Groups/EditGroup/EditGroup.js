@@ -43,9 +43,9 @@ export const EditGroup = ({ resources, mutator, match, history, location }) => {
   );
 
   const saveGroup = useCallback(
-    async (group) => {
+    async (groupValues) => {
       try {
-        const savedGroup = await mutator.groupEdit.PUT(group);
+        const savedGroup = await mutator.groupEdit.PUT(groupValues);
 
         showCallout({ messageId: 'ui-finance.groups.actions.save.success' });
         closeEdit();

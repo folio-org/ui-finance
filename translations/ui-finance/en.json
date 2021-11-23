@@ -72,6 +72,7 @@
   "ledger.rollover.rollover": "Rollover",
   "ledger.rollover.basedOn": "Based on",
   "ledger.rollover.basedOn.expended": "Expended",
+  "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance",
   "ledger.rollover.basedOn.remaining": "Remaining",
   "ledger.rollover.increaseBy": "Increase by, %",
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",

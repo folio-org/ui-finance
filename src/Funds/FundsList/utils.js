@@ -9,9 +9,7 @@ export const fetchFundLedgers = (mutator, funds, fetchedLedgersMap) => {
     .filter(fund => !fetchedLedgersMap[fund.ledgerId])
     .map(fund => fund.ledgerId);
 
-  const ledgersPromise = unfetchedLedgers.length
+  return unfetchedLedgers.length
     ? batchFetch(mutator, uniq(unfetchedLedgers))
     : Promise.resolve([]);
-
-  return ledgersPromise;
 };

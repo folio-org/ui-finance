@@ -38,7 +38,7 @@
       "finance.order-transaction-summaries": "1.0",
       "finance.transactions": "4.0",
       "invoice": "7.0",
-      "order-lines": "2.0",
+      "order-lines": "3.0",
       "tags": "1.0",
       "users": "15.0"
     },

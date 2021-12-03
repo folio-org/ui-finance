@@ -249,8 +249,8 @@
     "permission.transfers.create": "Finanze: crea trasferimenti",
     "transaction.status.Pending": "In attesa",
     "transaction.transfer.missingFundId": "Manca l'id del fondo a/da",
-    "permission.acq.unit.assignment.assign": "Finanze: assegna unità di acquisizione a un nuovo record",
-    "permission.acq.unit.assignment.manage": "Finanze: gestisci le unità di acquisizione",
+    "permission.acq.unit.assignment.assign": "Finanze: Assegnare unità di acquisizione a un nuovo record",
+    "permission.acq.unit.assignment.manage": "Finanze: Gestire le unità di acquisizione",
     "permission.fiscal-year.create": "Finanze: visualizza, modifica, crea l'anno fiscale",
     "permission.fiscal-year.delete": "Finanze: visualizza, modifica, elimina l'anno fiscale",
     "permission.fiscal-year.edit": "Finanze: visualizza, modifica l'anno fiscale",
@@ -391,5 +391,6 @@
     "groups.actions.addFunds.error": "Something went wrong, please try again later",
     "plugin.findFund.notFound": "Find fund plugin is not enabled",
     "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
-    "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group"
+    "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
+    "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance"
 }

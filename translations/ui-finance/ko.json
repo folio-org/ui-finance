@@ -1,7 +1,7 @@
 {
     "search": "Search",
     "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
-    "meta.title": "예산",
+    "meta.title": "회계(Finance)",
     "ledger.name": "Name",
     "ledger.code": "Code",
     "ledger.status": "Status",
@@ -17,7 +17,7 @@
     "fund": "Fund",
     "fund.remove.heading": "Delete fund",
     "fund.remove.message": "Are you sure you want to delete fund?",
-    "group": "그룹",
+    "group": "Group",
     "actions.edit": "Edit",
     "actions.remove": "Delete",
     "actions.remove.confirm": "Delete",
@@ -27,7 +27,7 @@
     "fund.information.status": "상태",
     "fund.information.currency": "통화",
     "fund.information.type": "유형",
-    "fund.information.group": "그룹",
+    "fund.information.group": "Group",
     "fund.information.acqUnits": "수서 단위",
     "fund.information.transferFrom": "다음에서 전송",
     "fund.information.transferTo": "다음으로 전송",
@@ -391,5 +391,6 @@
     "groups.actions.addFunds.error": "Something went wrong, please try again later",
     "plugin.findFund.notFound": "Find fund plugin is not enabled",
     "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
-    "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group"
+    "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
+    "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance"
 }

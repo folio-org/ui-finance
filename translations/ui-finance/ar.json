@@ -389,7 +389,8 @@
     "groups.actions.addFunds": "أضف إلى المجموعة",
     "groups.actions.addFunds.success": "تمت إضافة التمويل إلى المجموعة",
     "groups.actions.addFunds.error": "حدث خطأ ما، يرجى إعادة المحاولة مرة أخرى لاحقاً",
-    "plugin.findFund.notFound": "Find fund plugin is not enabled",
+    "plugin.findFund.notFound": "لم يتم تفعيل برنامج باحث التمويل المساعد",
     "groups.actions.removeFund.success": "تمت إزالة التمويل <b>{fundCode}</b> من المجموعة",
-    "groups.actions.removeFund.error": "لم تتم إزالة التمويل <b>{fundCode}</b> من المجموعة"
+    "groups.actions.removeFund.error": "لم تتم إزالة التمويل <b>{fundCode}</b> من المجموعة",
+    "ledger.rollover.basedOn.initialEncumbrance": "التكلفة المبدئية"
 }

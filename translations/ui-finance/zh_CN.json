@@ -386,10 +386,11 @@
     "settings.exportFund.exportSettings": "导出设置",
     "settings.exportFund.success": "组合代码列表成功导出。",
     "validation.mustNotIncludeColon": "代码不得包含冒号",
-    "groups.actions.addFunds": "Add to group",
-    "groups.actions.addFunds.success": "Fund(s) have been added to group",
-    "groups.actions.addFunds.error": "Something went wrong, please try again later",
-    "plugin.findFund.notFound": "Find fund plugin is not enabled",
-    "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
-    "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group"
+    "groups.actions.addFunds": "添加到组",
+    "groups.actions.addFunds.success": "经费已添加到组",
+    "groups.actions.addFunds.error": "发生错误。请稍后再试",
+    "plugin.findFund.notFound": "未启用查找经费插件",
+    "groups.actions.removeFund.success": "经费<b> {fundCode} </b>已从组中移除",
+    "groups.actions.removeFund.error": "经费<b> {fundCode} </b>尚未从组中移除",
+    "ledger.rollover.basedOn.initialEncumbrance": "初始预支"
 }

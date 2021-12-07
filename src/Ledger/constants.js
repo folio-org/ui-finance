@@ -56,7 +56,7 @@ export const ADD_AVAILABLE_TO_OPTIONS = Object.values(ADD_AVAILABLE_TO).map(d =>
 
 export const BASED_ON = {
   expended: 'Expended',
-  initialEncumbrance: 'Initial encumbrance',
+  initialEncumbrance: 'InitialAmount',
   remaining: 'Remaining',
 };
 

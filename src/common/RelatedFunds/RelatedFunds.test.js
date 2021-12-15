@@ -1,20 +1,23 @@
 import React from 'react';
 import { act, render, cleanup } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useHistory } from 'react-router-dom';
 
 import RelatedFunds from './RelatedFunds';
 import ConnectionListing from '../../components/ConnectionListing';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: jest.fn(),
+}));
 jest.mock('../../components/ConnectionListing', () => jest.fn().mockReturnValue('ConnectionListing'));
 
-const historyMock = {
+const history = {
   push: jest.fn(),
 };
 
-const renderRelatedFunds = (mutator, query) => (render(
+const renderRelatedFunds = ({ mutator, query }) => (render(
   <MemoryRouter>
     <RelatedFunds
-      history={historyMock}
       query={query}
       mutator={mutator}
     />
@@ -25,6 +28,7 @@ describe('RelatedFunds', () => {
   let mutator;
 
   beforeEach(() => {
+    useHistory.mockClear().mockReturnValue(history);
     mutator = {
       relatedBudgets: {
         GET: jest.fn(),
@@ -38,7 +42,7 @@ describe('RelatedFunds', () => {
     mutator.relatedBudgets.GET.mockReturnValue(Promise.resolve([]));
 
     await act(async () => {
-      renderRelatedFunds(mutator, 'budgetQuery');
+      renderRelatedFunds({ mutator, query: 'budgetQuery' });
     });
 
     expect(mutator.relatedBudgets.GET).toHaveBeenCalled();
@@ -46,7 +50,7 @@ describe('RelatedFunds', () => {
 
   it('should not load related budget data', async () => {
     await act(async () => {
-      renderRelatedFunds(mutator);
+      renderRelatedFunds({ mutator });
     });
 
     expect(mutator.relatedBudgets.GET).not.toHaveBeenCalled();
@@ -54,11 +58,11 @@ describe('RelatedFunds', () => {
 
   it('should open item', async () => {
     await act(async () => {
-      renderRelatedFunds(mutator);
+      renderRelatedFunds({ mutator });
     });
 
-    ConnectionListing.mock.calls[0][0].openItem({}, { id: 'id' });
+    ConnectionListing.mock.calls[0][0].openItem({ target: {} }, { id: 'id' });
 
-    expect(historyMock.push).not.toHaveBeenCalled();
+    expect(history.push).toHaveBeenCalled();
   });
 });

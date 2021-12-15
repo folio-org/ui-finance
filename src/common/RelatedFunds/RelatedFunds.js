@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -14,12 +13,19 @@ import {
 } from '../resources';
 import { getFundsToDisplay } from '../utils';
 
-const RelatedFunds = ({ mutator, query, history, currency, funds }) => {
+const RelatedFunds = ({ mutator, query, currency, funds, onRemoveFund }) => {
+  const history = useHistory();
   const openFund = useCallback(
-    (e, fund) => {
-      const path = `/finance/fund/view/${fund.id}`;
+    ({ target }, fund) => {
+      if (!(
+        target.classList?.contains('icon-times-circle') ||
+        target.parentElement?.classList?.contains('icon-times-circle') ||
+        target.id === 'remove-item-button'
+      )) {
+        const path = `/finance/fund/view/${fund.id}`;
 
-      history.push(path);
+        history.push(path);
+      }
     },
     [history],
   );
@@ -64,16 +70,17 @@ const RelatedFunds = ({ mutator, query, history, currency, funds }) => {
       items={fundsToDisplay}
       currency={currency}
       openItem={openFund}
+      onRemoveItem={onRemoveFund}
     />
   );
 };
 
 RelatedFunds.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
   mutator: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.object),
   currency: PropTypes.string,
   query: PropTypes.string,
+  onRemoveFund: PropTypes.func,
 };
 
 RelatedFunds.defaultProps = {
@@ -89,4 +96,4 @@ RelatedFunds.manifest = Object.freeze({
   },
 });
 
-export default withRouter(stripesConnect(RelatedFunds));
+export default stripesConnect(RelatedFunds);

@@ -56,11 +56,13 @@ export const ADD_AVAILABLE_TO_OPTIONS = Object.values(ADD_AVAILABLE_TO).map(d =>
 
 export const BASED_ON = {
   expended: 'Expended',
+  initialEncumbrance: 'InitialAmount',
   remaining: 'Remaining',
 };
 
 export const BASED_ON_LABEL_ID = {
   [BASED_ON.expended]: 'ui-finance.ledger.rollover.basedOn.expended',
+  [BASED_ON.initialEncumbrance]: 'ui-finance.ledger.rollover.basedOn.initialEncumbrance',
   [BASED_ON.remaining]: 'ui-finance.ledger.rollover.basedOn.remaining',
 };
 

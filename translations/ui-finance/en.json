@@ -74,6 +74,7 @@
   "ledger.rollover.rollover": "Rollover",
   "ledger.rollover.basedOn": "Based on",
   "ledger.rollover.basedOn.expended": "Expended",
+  "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance",
   "ledger.rollover.basedOn.remaining": "Remaining",
   "ledger.rollover.increaseBy": "Increase by, %",
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
@@ -279,6 +280,11 @@
   "groups.actions.save.success": "Group has been saved",
   "groups.actions.load.error": "Failed to load group data",
   "groups.actions.load.summary.error": "Failed to load group summary",
+  "groups.actions.addFunds": "Add to group",
+  "groups.actions.addFunds.success": "Fund(s) have been added to group",
+  "groups.actions.addFunds.error": "Something went wrong, please try again later",
+  "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
+  "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
 
   "groups.form.title.create": "Create group",
   "groups.form.title.edit": "Edit group",
@@ -411,5 +417,7 @@
   "permission.ledger.rollover": "Finance: Execute fiscal year rollover",
   "permission.settings.all": "Settings (Finance): View, edit, create, delete",
   "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
-  "permission.transfers.create": "Finance: Create transfers"
+  "permission.transfers.create": "Finance: Create transfers",
+
+  "plugin.findFund.notFound": "Find fund plugin is not enabled"
 }

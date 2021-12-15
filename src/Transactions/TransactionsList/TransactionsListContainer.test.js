@@ -1,36 +1,27 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
-import TransactionsList from './TransactionsList';
-import { TransactionsListContainer } from './TransactionsListContainer';
+import TransactionsListContainer from './TransactionsListContainer';
+import { useBudget } from './hooks';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router'),
+  useRouteMatch: jest.fn().mockReturnValue({ params: { budgetId: 'budgetId' } }),
+}));
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  usePagination: () => ({}),
+  useAllFunds: () => ({}),
+}));
+jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
+  useBudget: jest.fn().mockReturnValue({}),
+  useTransactions: jest.fn().mockReturnValue({}),
+}));
 jest.mock('./TransactionsList', () => jest.fn().mockReturnValue('TransactionsList'));
 
-const historyMock = {
-  push: jest.fn(),
-  action: 'PUSH',
-  block: jest.fn(),
-};
-const mutatorMock = {
-  budget: {
-    GET: jest.fn(),
-  },
-  fundsTransactionsList: {
-    GET: jest.fn(),
-  },
-  transactions: {
-    GET: jest.fn(),
-  },
-  resultCount: {
-    replace: jest.fn(),
-  },
-};
 const defaultProps = {
-  mutator: mutatorMock,
-  match: { params: { budgetId: 'id' }, path: 'path', url: 'url' },
-  history: historyMock,
-  resources: { fundsTransactionsList: { hasLoaded: true }, budget: { records: [{ id: 'id', name: 'budgetName' }] } },
   closePane: jest.fn(),
 };
 const renderTransactionsListContainer = (props = defaultProps) => render(
@@ -40,30 +31,13 @@ const renderTransactionsListContainer = (props = defaultProps) => render(
 
 describe('TransactionsListContainer', () => {
   beforeEach(() => {
-    historyMock.push.mockClear();
-    mutatorMock.resultCount.replace.mockClear();
+    useBudget.mockClear().mockReturnValue({ budget: { fundId: 'fundId' } });
   });
   it('should display TransactionsList', async () => {
-    renderTransactionsListContainer();
+    await act(async () => renderTransactionsListContainer());
 
     await screen.findByText('TransactionsList');
 
     expect(screen.getByText('TransactionsList')).toBeDefined();
-  });
-
-  it('should fetch more data', async () => {
-    await act(async () => renderTransactionsListContainer());
-
-    TransactionsList.mock.calls[0][0].onNeedMoreData();
-
-    expect(mutatorMock.resultCount.replace).toHaveBeenCalled();
-  });
-
-  it('should reset data', async () => {
-    await act(async () => renderTransactionsListContainer());
-
-    TransactionsList.mock.calls[0][0].resetData();
-
-    expect(mutatorMock.resultCount.replace).toHaveBeenCalled();
   });
 });

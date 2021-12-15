@@ -38,7 +38,7 @@
       "finance.order-transaction-summaries": "1.0",
       "finance.transactions": "4.0",
       "invoice": "7.0",
-      "order-lines": "2.0",
+      "order-lines": "2.0 3.0",
       "tags": "1.0",
       "users": "15.0"
     },
@@ -427,5 +427,8 @@
     "react-query": "^3.6.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
+  },
+  "optionalDependencies": {
+    "@folio/plugin-find-fund": "*"
   }
 }

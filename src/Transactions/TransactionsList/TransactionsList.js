@@ -5,9 +5,10 @@ import React, {
 import PropTypes from 'prop-types';
 import {
   Route,
-  withRouter,
+  useLocation,
+  useHistory,
+  useRouteMatch,
 } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get, sortBy } from 'lodash';
 
@@ -18,12 +19,15 @@ import {
   FiltersPane,
   FolioFormattedTime,
   NoResultsMessage,
+  PrevNextPagination,
   ResetButton,
+  RESULT_COUNT_INCREMENT,
   ResultsPane,
   SingleSearchForm,
   SORTING_DIRECTION_PARAMETER,
   SORTING_PARAMETER,
   useFiltersToogle,
+  useItemToView,
   useLocationFilters,
   useLocationSorting,
 } from '@folio/stripes-acq-components';
@@ -79,11 +83,12 @@ const TransactionsList = ({
   transactionsCount,
   isLoadingTransactions,
   transactions,
-  history,
-  location,
-  match,
   fundId,
+  pagination,
 }) => {
+  const history = useHistory();
+  const location = useLocation();
+  const match = useRouteMatch();
   const [
     filters,
     searchQuery,
@@ -98,6 +103,7 @@ const TransactionsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields, DEFAULT_SORTING);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/transaction/filters');
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('transactions-list');
 
   const selectedItem = useCallback(
     (e, meta) => {
@@ -153,32 +159,49 @@ const TransactionsList = ({
 
       <ResultsPane
         id="transaction-results-pane"
+        autosize
         title={resultsPaneTitle}
         count={transactionsCount}
         toggleFiltersPane={toggleFilters}
         filters={filters}
         isFiltersOpened={isFiltersOpened}
       >
-        <MultiColumnList
-          id="transactions-list"
-          totalCount={transactionsCount}
-          contentData={isLoadingTransactions ? [] : transactions}
-          formatter={resultsFormatter}
-          visibleColumns={visibleColumns}
-          columnMapping={columnMapping}
-          loading={isLoadingTransactions}
-          autosize
-          virtualize
-          onNeedMoreData={onNeedMoreData}
-          onRowClick={selectedItem}
-          sortOrder={sortingField}
-          sortDirection={sortingDirection}
-          onHeaderClick={changeSorting}
-          isEmptyMessage={resultsStatusMessage}
-          pagingType="click"
-          hasMargin
-          nonInteractiveHeaders={nonInteractiveHeaders}
-        />
+        {(({ height, width }) => (
+          <>
+            <MultiColumnList
+              id="transactions-list"
+              totalCount={transactionsCount}
+              contentData={isLoadingTransactions ? [] : transactions}
+              formatter={resultsFormatter}
+              visibleColumns={visibleColumns}
+              columnMapping={columnMapping}
+              loading={isLoadingTransactions}
+              onNeedMoreData={onNeedMoreData}
+              onRowClick={selectedItem}
+              sortOrder={sortingField}
+              sortDirection={sortingDirection}
+              onHeaderClick={changeSorting}
+              isEmptyMessage={resultsStatusMessage}
+              hasMargin
+              nonInteractiveHeaders={nonInteractiveHeaders}
+              pageAmount={RESULT_COUNT_INCREMENT}
+              pagingType="none"
+              height={height - PrevNextPagination.HEIGHT}
+              width={width}
+              itemToView={itemToView}
+              onMarkPosition={setItemToView}
+              onResetMark={deleteItemToView}
+            />
+            {transactions.length > 0 && (
+              <PrevNextPagination
+                {...pagination}
+                totalCount={transactionsCount}
+                disabled={isLoadingTransactions}
+                onChange={onNeedMoreData}
+              />
+            )}
+          </>
+        ))}
       </ResultsPane>
 
       <Route
@@ -199,20 +222,19 @@ const TransactionsList = ({
 TransactionsList.propTypes = {
   onNeedMoreData: PropTypes.func.isRequired,
   resetData: PropTypes.func.isRequired,
-  funds: PropTypes.arrayOf(PropTypes.object).isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object),
   transactionsCount: PropTypes.number,
   isLoadingTransactions: PropTypes.bool,
   transactions: PropTypes.arrayOf(PropTypes.object),
-  history: ReactRouterPropTypes.history.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
   fundId: PropTypes.string.isRequired,
+  pagination: PropTypes.object.isRequired,
 };
 
 TransactionsList.defaultProps = {
   transactionsCount: 0,
   isLoadingTransactions: false,
   transactions: [],
+  funds: [],
 };
 
-export default withRouter(TransactionsList);
+export default TransactionsList;

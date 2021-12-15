@@ -1,4 +1,3 @@
-export * from './acqUnitsResource';
 export * from './budget';
 export * from './fiscalYear';
 export * from './fund';

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { acqUnitsManifest } from '@folio/stripes-acq-components';
 
 import {
-  acqUnitsResource,
   fundTypesResource,
   groupsResource,
   ledgersResource,
@@ -31,7 +31,7 @@ const FundsListFiltersContainer = ({ resources, activeFilters, applyFilters }) =
 };
 
 FundsListFiltersContainer.manifest = Object.freeze({
-  acqUnits: acqUnitsResource,
+  acqUnits: acqUnitsManifest,
   fundTypes: fundTypesResource,
   groups: groupsResource,
   ledgers: ledgersResource,

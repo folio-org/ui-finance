@@ -179,6 +179,8 @@ const LedgerDetails = ({
                 description={ledger.description}
                 acqUnitIds={ledger.acqUnitIds}
                 fiscalYearCode={fiscalYear.code}
+                restrictEncumbrance={ledger.restrictEncumbrance}
+                restrictExpenditures={ledger.restrictExpenditures}
               />
             </Accordion>
             <Accordion

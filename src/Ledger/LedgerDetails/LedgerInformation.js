@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Checkbox,
   Row,
   Col,
   KeyValue,
@@ -19,6 +20,8 @@ const LedgerInformation = ({
   metadata,
   name,
   status,
+  restrictEncumbrance,
+  restrictExpenditures,
 }) => {
   return (
     <>
@@ -67,6 +70,24 @@ const LedgerInformation = ({
           <AcqUnitsView units={acqUnitIds} />
         </Col>
 
+        <Col xs={3}>
+          <Checkbox
+            checked={!restrictEncumbrance}
+            disabled
+            label={<FormattedMessage id="ui-finance.ledger.restrictEncumbrance" />}
+            vertical
+          />
+        </Col>
+
+        <Col xs={3}>
+          <Checkbox
+            checked={!restrictExpenditures}
+            disabled
+            label={<FormattedMessage id="ui-finance.ledger.restrictExpenditures" />}
+            vertical
+          />
+        </Col>
+
         <Col xs={9}>
           <KeyValue
             data-testid="description"
@@ -87,6 +108,8 @@ LedgerInformation.propTypes = {
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   fiscalYearCode: PropTypes.string,
+  restrictEncumbrance: PropTypes.bool.isRequired,
+  restrictExpenditures: PropTypes.bool.isRequired,
 };
 
 export default LedgerInformation;

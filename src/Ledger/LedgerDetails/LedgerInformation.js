@@ -108,8 +108,8 @@ LedgerInformation.propTypes = {
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   fiscalYearCode: PropTypes.string,
-  restrictEncumbrance: PropTypes.string.isRequired,
-  restrictExpenditures: PropTypes.string.isRequired,
+  restrictEncumbrance: PropTypes.bool.isRequired,
+  restrictExpenditures: PropTypes.bool.isRequired,
 };
 
 export default LedgerInformation;

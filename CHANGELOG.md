@@ -6,7 +6,7 @@
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.0...v3.0.1)
 
 * Users having difficulty finding fiscal years as they don't know what to search. Refs UIF-335.
-* Display "Do not restrict _____" ledger toggles in ledger view. Refs UIF-348.
+* Display "Do not restrict encumbrance/expenditures" ledger toggles in ledger view. Refs UIF-348.
 
 ## [3.0.0](https://github.com/folio-org/ui-finance/tree/v3.0.0) (2021-10-07)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.4.2...v3.0.0)

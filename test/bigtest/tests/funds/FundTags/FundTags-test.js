@@ -5,7 +5,7 @@ import setupApplication from '../../../helpers/setup-application';
 import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 import TagsPaneInteractor from '../../../interactors/common/tags/TagsPane';
 
-describe('Fund details tags', function () {
+describe('Fund details tags', () => {
   this.timeout(10000);
   setupApplication();
 

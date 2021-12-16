@@ -346,11 +346,11 @@
   "scripts": {
     "start": "yarn stripes serve",
     "build": "yarn stripes build --output ./output",
-    "test": "yarn run test:unit && yarn run test:e2e",
+    "test": "yarn run test:unit",
     "test:unit": "jest --ci --coverage && yarn run test:unit:report",
     "test:unit:watch": "jest --ci --watch",
     "test:unit:report": "cp -r ./artifacts/coverage-jest ./artifacts/coverage",
-    "test:e2e": "yarn stripes test karma --karma.singleRun --karma.browsers ChromeDocker",
+    "test:e2e": "yarn stripes test karma --karma.browsers ChromeDocker",
     "lint": "eslint .",
     "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-finance ./translations/ui-finance/compiled"
   },

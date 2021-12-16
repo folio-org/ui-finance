@@ -12,6 +12,7 @@ import {
   AccordionStatus,
   Button,
   checkScope,
+  Checkbox,
   Col,
   collapseAllSections,
   ExpandAllButton,
@@ -180,6 +181,31 @@ const LedgerForm = ({
                             isEdit={isEditMode}
                             preselectedUnits={initialValues.acqUnitIds}
                             isFinal
+                          />
+                        </Col>
+
+                        <Col data-test-col-ledger-form-encumbrance-restriction xs={3}>
+                          <Field
+                            component={Checkbox}
+                            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbrance" />}
+                            name="restrictEncumbrance"
+                            type="checkbox"
+                            validateFields={[]}
+                            vertical
+                          />
+                        </Col>
+
+                        <Col
+                          xs={3}
+                          data-test-col-ledger-form-restrict-expenditures
+                        >
+                          <Field
+                            component={Checkbox}
+                            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpenditures" />}
+                            name="restrictExpenditures"
+                            type="checkbox"
+                            validateFields={[]}
+                            vertical
                           />
                         </Col>
 

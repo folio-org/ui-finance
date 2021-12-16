@@ -6,7 +6,6 @@ import FundDetailsInteractor from '../../../interactors/funds/FundDetails';
 import TagsPaneInteractor from '../../../interactors/common/tags/TagsPane';
 
 describe('Fund details tags', function () {
-  this.timeout(10000);
   setupApplication();
 
   const fundDetails = new FundDetailsInteractor();

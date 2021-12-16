@@ -21,8 +21,6 @@
   "ledger.allocated": "Allocated",
   "ledger.available": "Available",
   "ledger.description": "Description",
-  "ledger.restrictEncumbrance": "Do not restrict encumbrances",
-  "ledger.restrictExpenditures": "Do not restrict expenditures",
   "ledger.code": "Code",
   "ledger.currentFiscalYear": "Current fiscal year",
   "ledger.edit": "Edit",

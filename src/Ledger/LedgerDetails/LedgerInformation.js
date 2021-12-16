@@ -72,18 +72,18 @@ const LedgerInformation = ({
 
         <Col xs={3}>
           <Checkbox
-            checked={!restrictEncumbrance}
+            checked={restrictEncumbrance}
             disabled
-            label={<FormattedMessage id="ui-finance.ledger.restrictEncumbrance" />}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbrance" />}
             vertical
           />
         </Col>
 
         <Col xs={3}>
           <Checkbox
-            checked={!restrictExpenditures}
+            checked={restrictExpenditures}
             disabled
-            label={<FormattedMessage id="ui-finance.ledger.restrictExpenditures" />}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpenditures" />}
             vertical
           />
         </Col>

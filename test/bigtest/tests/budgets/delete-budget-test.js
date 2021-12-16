@@ -5,6 +5,7 @@ import setupApplication from '../../helpers/setup-application';
 import BudgetDetailsInteractor from '../../interactors/budgets/BudgetDetails';
 
 describe('Budget delete', () => {
+  this.timeout(10000);
   setupApplication();
 
   const budgetDetails = new BudgetDetailsInteractor();

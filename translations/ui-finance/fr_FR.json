@@ -390,7 +390,7 @@
     "groups.actions.addFunds.success": "Le(s) poste(s) budgétaire(s) a/ont été ajouté(s) au groupe",
     "groups.actions.addFunds.error": "Une erreur s'est produite, veuillez réessayer ultérieurement",
     "plugin.findFund.notFound": "Find fund plugin is not enabled",
-    "groups.actions.removeFund.success": "Le poste budgétaire a été retiré du groupe",
+    "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
     "groups.actions.removeFund.error": "Le poste budgétaire <b>{fundCode}</b> n'a pas été retiré du groupe",
     "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance"
 }

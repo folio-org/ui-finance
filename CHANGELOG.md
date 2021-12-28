@@ -9,6 +9,7 @@
 * Tech debt: reducing code smells, usage of consts and resources from stripes-acq. Refs UIF-346.
 * Allow user to base encumbrance on "Initial encumbrance" during rollover. Refs UIF-324.
 * Edit restrictExpenditures, restrictEncumbrance ledger toggles in create/edit form. Refs UIF-349.
+* Add a return to Finance default search to app context menu dropdown. Refs UIF-350.
 
 ## [3.0.1](https://github.com/folio-org/ui-finance/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.0...v3.0.1)

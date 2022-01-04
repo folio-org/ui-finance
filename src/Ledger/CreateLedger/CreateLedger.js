@@ -22,8 +22,8 @@ import LedgerForm from '../LedgerForm';
 
 const INITIAL_LEDGER = {
   ledgerStatus: LEDGER_STATUS.active,
-  restrictEncumbrance: false,
-  restrictExpenditures: false,
+  restrictEncumbrance: true,
+  restrictExpenditures: true,
 };
 
 export const CreateLedger = ({ mutator, location, history }) => {

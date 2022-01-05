@@ -313,7 +313,7 @@
     "ledger.rollover.periodBeginDate": "Date de début de période",
     "ledger.rollover.periodEndDate": "Date de fin de période",
     "ledger.rollover.restrictEncumbrance": "Ne pas restreindre les engagements",
-    "ledger.rollover.restrictExpenditures": "Do not restrict expenditures",
+    "ledger.rollover.restrictExpenditures": "Enforce all budget expenditure limits",
     "ledger.rollover.noFundType": "Aucun type de poste budgétaire",
     "ledger.rollover.addAvailableTo.transfer": "Transfert/transférer",
     "ledger.rollover.addAvailableAs": "Ajouter disponible en tant que",

@@ -386,11 +386,11 @@
     "settings.exportFund.exportSettings": "Configurações de exportação",
     "settings.exportFund.success": "A lista de códigos de combinação foi exportada com sucesso.",
     "validation.mustNotIncludeColon": "O código não deve incluir dois pontos",
-    "groups.actions.addFunds": "Add to group",
+    "groups.actions.addFunds": "Adicionar ao grupo",
     "groups.actions.addFunds.success": "Fund(s) have been added to group",
     "groups.actions.addFunds.error": "Something went wrong, please try again later",
     "plugin.findFund.notFound": "Find fund plugin is not enabled",
     "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
     "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
-    "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance"
+    "ledger.rollover.basedOn.initialEncumbrance": "Ônus inicial"
 }

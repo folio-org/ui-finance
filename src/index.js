@@ -25,6 +25,7 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
+import { LEDGERS_ROUTE } from './common/const';
 import Main from './components/Main';
 import Settings from './settings';
 
@@ -73,6 +74,16 @@ const Finance = ({ showSettings }) => {
             {handleToggle => (
               <NavList>
                 <NavListSection>
+                  <NavListItem
+                    id="finance-app-search-item"
+                    to={LEDGERS_ROUTE}
+                    onClick={() => {
+                      handleToggle();
+                      focusSearchField();
+                    }}
+                  >
+                    <FormattedMessage id="ui-finance.appMenu.financeAppSearch" />
+                  </NavListItem>
                   <NavListItem
                     id="keyboard-shortcuts-item"
                     onClick={() => {

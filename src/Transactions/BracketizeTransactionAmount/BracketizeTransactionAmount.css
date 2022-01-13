@@ -1,5 +1,13 @@
 @import "@folio/stripes-components/lib/variables";
 
+.flex {
+  display: flex;
+}
+
+.icon {
+  padding: 0 .25rem;
+}
+
 .open {
   fill: var(--primary);
 }

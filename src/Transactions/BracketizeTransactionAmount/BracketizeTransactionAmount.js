@@ -24,6 +24,7 @@ export function BracketizeTransactionAmount({
     <IconButton
       ref={ref}
       icon="info"
+      innerClassName={css.icon}
       iconClassName={open ? css.open : ''}
       iconSize={iconSize}
       onClick={e => {
@@ -34,7 +35,7 @@ export function BracketizeTransactionAmount({
   );
 
   return (
-    <>
+    <div className={css.flex}>
       <span className={isVoided ? css.voided : ''}>
         <AmountWithCurrencyField
           amount={amount}
@@ -43,14 +44,17 @@ export function BracketizeTransactionAmount({
         />
       </span>
       {isVoided && (
-        <div onFocus={e => e.stopPropagation()}>
+        <div
+          className={css.flex}
+          onFocus={e => e.stopPropagation()}
+        >
           <InfoPopover
             renderTrigger={renderTrigger}
             content={<FormattedMessage id="ui-finance.transaction.voided" />}
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

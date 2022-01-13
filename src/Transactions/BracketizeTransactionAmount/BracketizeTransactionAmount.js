@@ -30,7 +30,6 @@ export function BracketizeTransactionAmount({
         e.stopPropagation();
         toggle();
       }}
-      onFocus={e => e.stopPropagation()}
     />
   );
 
@@ -44,10 +43,12 @@ export function BracketizeTransactionAmount({
         />
       </span>
       {isVoided && (
-        <InfoPopover
-          renderTrigger={renderTrigger}
-          content={<FormattedMessage id="ui-finance.transaction.voided" />}
-        />
+        <div onFocus={e => e.stopPropagation()}>
+          <InfoPopover
+            renderTrigger={renderTrigger}
+            content={<FormattedMessage id="ui-finance.transaction.voided" />}
+          />
+        </div>
       )}
     </>
   );

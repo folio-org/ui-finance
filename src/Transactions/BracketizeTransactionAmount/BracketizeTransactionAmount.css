@@ -1,0 +1,9 @@
+@import "@folio/stripes-components/lib/variables";
+
+.open {
+  fill: var(--primary);
+}
+
+.voided {
+  text-decoration: line-through;
+}

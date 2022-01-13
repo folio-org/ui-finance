@@ -67,6 +67,7 @@ const TransactionInformation = ({
             <BracketizeTransactionAmount
               fundId={fundId}
               transaction={transaction}
+              iconSize="small"
             />
           </KeyValue>
         </Col>

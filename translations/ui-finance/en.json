@@ -358,6 +358,7 @@
   "transaction.increaseAllocation": "Increase allocation",
   "transaction.decreaseAllocation": "Decrease allocation",
   "transaction.moveAllocation": "Move allocation",
+  "transaction.voided": "Voided transaction",
 
   "transactions.search": "Search transactions",
 

@@ -103,6 +103,8 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
       needCloseBudgets: true,
       fromFiscalYearId: currentFiscalYear?.id,
+      restrictEncumbrance: true,
+      restrictExpenditures: true,
     };
 
     if (toFiscalYearId && toFiscalYearSeries === series) {

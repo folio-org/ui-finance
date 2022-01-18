@@ -312,8 +312,8 @@
     "ledger.rollover.addAvailableTo.allocation": "تخصيص",
     "ledger.rollover.periodBeginDate": "تاريخ بداية الفترة",
     "ledger.rollover.periodEndDate": "تاريخ انتهاء الفترة",
-    "ledger.rollover.restrictEncumbrance": "عدم تقييد التكاليف",
-    "ledger.rollover.restrictExpenditures": "عدم تقييد النفقات",
+    "ledger.rollover.restrictEncumbrance": "فرض كل حدود أعباء الميزانية",
+    "ledger.rollover.restrictExpenditures": "فرض كل حدود نفقات الميزانية",
     "ledger.rollover.noFundType": "لا يوجد نوع تمويل",
     "ledger.rollover.addAvailableTo.transfer": "تحويل",
     "ledger.rollover.addAvailableAs": "إضافة المتاح كـ",
@@ -392,5 +392,7 @@
     "plugin.findFund.notFound": "لم يتم تفعيل برنامج باحث التمويل المساعد",
     "groups.actions.removeFund.success": "تمت إزالة التمويل <b>{fundCode}</b> من المجموعة",
     "groups.actions.removeFund.error": "لم تتم إزالة التمويل <b>{fundCode}</b> من المجموعة",
-    "ledger.rollover.basedOn.initialEncumbrance": "التكلفة المبدئية"
+    "ledger.rollover.basedOn.initialEncumbrance": "التكلفة المبدئية",
+    "appMenu.financeAppSearch": "بحث تطبيق الشؤون المالية",
+    "transaction.voided": "معاملة ملغاة"
 }

@@ -392,5 +392,7 @@
     "plugin.findFund.notFound": "Find fund plugin is not enabled",
     "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
     "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
-    "ledger.rollover.basedOn.initialEncumbrance": "Ônus inicial"
+    "ledger.rollover.basedOn.initialEncumbrance": "Ônus inicial",
+    "appMenu.financeAppSearch": "Finance app Search",
+    "transaction.voided": "Voided transaction"
 }

@@ -392,5 +392,7 @@
     "plugin.findFund.notFound": "기금 찾기 플러그인이 활성화되어 있지 않습니다",
     "groups.actions.removeFund.success": "<b> {fundCode} </b> 기금이 그룹에서 제거되었습니다.",
     "groups.actions.removeFund.error": "<b> {fundCode} </b> 기금이 그룹에서 제거되지 않았습니다.",
-    "ledger.rollover.basedOn.initialEncumbrance": "초기 예산가집행"
+    "ledger.rollover.basedOn.initialEncumbrance": "초기 예산가집행",
+    "appMenu.financeAppSearch": "Finance app Search",
+    "transaction.voided": "Voided transaction"
 }

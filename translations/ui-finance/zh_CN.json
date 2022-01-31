@@ -312,8 +312,8 @@
     "ledger.rollover.addAvailableTo.allocation": "分配",
     "ledger.rollover.periodBeginDate": "周期开始日期",
     "ledger.rollover.periodEndDate": "周期终止日期",
-    "ledger.rollover.restrictEncumbrance": "不限制预留",
-    "ledger.rollover.restrictExpenditures": "不限制支出",
+    "ledger.rollover.restrictEncumbrance": "强制执行所有预算预支限制",
+    "ledger.rollover.restrictExpenditures": "强制执行所有预算支出限制",
     "ledger.rollover.noFundType": "无经费类型",
     "ledger.rollover.addAvailableTo.transfer": "转移",
     "ledger.rollover.addAvailableAs": "可添加",
@@ -393,6 +393,6 @@
     "groups.actions.removeFund.success": "经费<b> {fundCode} </b>已从组中移除",
     "groups.actions.removeFund.error": "经费<b> {fundCode} </b>尚未从组中移除",
     "ledger.rollover.basedOn.initialEncumbrance": "初始预支",
-    "appMenu.financeAppSearch": "Finance app Search",
-    "transaction.voided": "Voided transaction"
+    "appMenu.financeAppSearch": "金融应用搜索",
+    "transaction.voided": "无效交易"
 }

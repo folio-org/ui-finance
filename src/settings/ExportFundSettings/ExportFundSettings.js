@@ -12,7 +12,7 @@ import {
   Row,
   Select,
 } from '@folio/stripes/components';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import { useShowCallout, usePaneFocus } from '@folio/stripes-acq-components';
 
 import { useFiscalYearOptions } from './useFiscalYearOptions';
 import { useExportFund } from './useExportFund';
@@ -20,6 +20,7 @@ import { exportCsvFunds } from './utils';
 import css from './ExportFundSettings.css';
 
 const ExportFundSettings = () => {
+  const { paneTitleRef } = usePaneFocus();
   const showCallout = useShowCallout();
   const [fiscalYearCode, setFiscalYearCode] = useState();
   const [isExportLoading, setIsExportLoading] = useState(false);
@@ -79,6 +80,7 @@ const ExportFundSettings = () => {
       defaultWidth="fill"
       id="pane-export-fund-settings"
       paneTitle={<FormattedMessage id="ui-finance.settings.exportFund.title" />}
+      paneTitleRef={paneTitleRef}
       footer={paneFooter}
     >
       <div className={css.helperText}>

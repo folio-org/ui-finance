@@ -12,8 +12,8 @@ export function BracketizeTransactionAmount({
   transaction,
   iconSize,
 }) {
-  const amount = Math.abs(transaction.amount);
   const isVoided = transaction.invoiceCancelled;
+  const amount = Math.abs(isVoided ? transaction.voidedAmount : transaction.amount);
   let showBrackets = false;
 
   if (transaction.toFundId === fundId && transaction.amount < 0) showBrackets = true;

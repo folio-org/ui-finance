@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
@@ -31,6 +31,8 @@ const headLabels = (
 );
 
 const RolloverLedgerBudgets = ({ fundTypesMap }) => {
+  const intl = useIntl();
+
   const renderBudgetFields = useCallback((elem, index, fields) => {
     const { setAllowances } = fields.value[index];
 
@@ -42,7 +44,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         <Col xs={2}>
           <Field
             component={Checkbox}
-            label={null}
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.allocation' })}
             name={`${elem}.rolloverAllocation`}
             type="checkbox"
             validateFields={[]}
@@ -52,7 +54,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         <Col xs={1}>
           <Field
             component={TextField}
-            label={null}
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.adjustAllocation' })}
             name={`${elem}.adjustAllocation`}
             type="number"
             validateFields={[]}
@@ -61,7 +63,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         <Col xs={2}>
           <Field
             component={Checkbox}
-            label={null}
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.available' })}
             name={`${elem}.rolloverAvailable`}
             type="checkbox"
             validateFields={[]}
@@ -70,8 +72,9 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         </Col>
         <Col xs={2}>
           <FieldSelectFinal
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.addAvailableAs' })}
             dataOptions={ADD_AVAILABLE_TO_OPTIONS}
-            id="add-available-to"
+            id={`${elem}.addAvailableTo`}
             name={`${elem}.addAvailableTo`}
             required
             validateFields={[]}
@@ -87,7 +90,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
           <Field
             component={TextField}
             disabled={!setAllowances}
-            label={null}
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.allowableEncumbrance' })}
             name={`${elem}.allowableEncumbrance`}
             type="number"
             validateFields={[]}
@@ -97,7 +100,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
           <Field
             component={TextField}
             disabled={!setAllowances}
-            label={null}
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.allowableExpenditure' })}
             name={`${elem}.allowableExpenditure`}
             type="number"
             validateFields={[]}
@@ -105,7 +108,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
         </Col>
       </Row>
     );
-  }, [fundTypesMap]);
+  }, [fundTypesMap, intl]);
 
   const fieldArrayProps = useFieldArray('budgetsRollover');
 

@@ -16,6 +16,7 @@
 * Refactor psets away from backend ".all" permissions.Refs UIF-333.
 * Voided amount not displayed for voided transactions. Refs UINV-358.
 * Avoid undefined backend permissions. Refs UIF-362.
+* Accessibility analysis. Refs UIF-361.
 
 ## [3.0.1](https://github.com/folio-org/ui-finance/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.0...v3.0.1)

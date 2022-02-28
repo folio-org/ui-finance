@@ -41,6 +41,7 @@ const footer = (onClose, onSave) => (
 const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
   <Modal
     id="add-budget-modal"
+    aria-label={label}
     label={label}
     footer={footer(onClose, handleSubmit)}
     open
@@ -102,7 +103,7 @@ const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
 BudgetAddModalForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  label: PropTypes.object,
+  label: PropTypes.string,
   disabled: PropTypes.bool,
 };
 

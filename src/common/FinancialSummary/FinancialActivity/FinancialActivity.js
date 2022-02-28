@@ -44,6 +44,7 @@ const FinancialActivity = ({ data, currency }) => {
       formatter={resultsFormatter}
       visibleColumns={visibleColumns}
       interactive={false}
+      columnIdPrefix="financial-activity"
     />
   );
 };

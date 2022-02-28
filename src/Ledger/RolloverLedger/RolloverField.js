@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Field, useForm } from 'react-final-form';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 
 import {
   Checkbox,
@@ -8,6 +9,7 @@ import {
 
 function RolloverField({ rollover, elem }) {
   const { batch, change, resetFieldState } = useForm();
+  const intl = useIntl();
 
   const onChange = useCallback(() => {
     if (rollover) {
@@ -26,7 +28,7 @@ function RolloverField({ rollover, elem }) {
   return (
     <Field
       component={Checkbox}
-      label={null}
+      aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.rollover' })}
       name={`${elem}.rollover`}
       onChange={onChange}
       type="checkbox"

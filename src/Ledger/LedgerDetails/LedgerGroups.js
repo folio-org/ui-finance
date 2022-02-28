@@ -92,6 +92,7 @@ const LedgerGroups = ({ history, funds, currency, mutator, ledgerId, fiscalYearI
       items={groups}
       currency={currency}
       openItem={openGroup}
+      columnIdPrefix="group-list"
     />
   );
 };

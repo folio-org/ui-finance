@@ -27,6 +27,7 @@ const FundBudgets = ({
       items={budgets}
       openItem={openBudget}
       visibleColumns={budgetColumns}
+      columnIdPrefix="budget-list"
     />
   </Accordion>
 );

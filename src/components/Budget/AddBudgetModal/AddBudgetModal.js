@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
@@ -34,6 +34,7 @@ const getPlannedFYId = (currentFYId, FYoptions = []) => {
 };
 
 const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerId, location }) => {
+  const intl = useIntl();
   const [isLoading, setIsLoading] = useState(false);
   const [currentFYId, setCurrentFYId] = useState('');
   const [fiscalYearsOptions, setFiscalYearsOptions] = useState();
@@ -105,10 +106,11 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
   }
 
   const budgetModalLabel = isCurrentBudget
-    ? <FormattedMessage id="ui-finance.fund.currentBudget.title" />
-    : <FormattedMessage id="ui-finance.fund.plannedBudget.title" />;
+    ? intl.formatMessage({ id: 'ui-finance.fund.currentBudget.title' })
+    : intl.formatMessage({ id: 'ui-finance.fund.plannedBudget.title' });
 
   const plannedFYId = _getPlannedFYId(currentFYId, fiscalYearsOptions);
+  const modalLabel = intl.formatMessage({ id: 'ui-finance.fund.plannedBudget.noUpcomingFY.label' });
 
   if (!isCurrentBudget && !plannedFYId) {
     const footer = (
@@ -127,7 +129,8 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
     return (
       <Modal
         id="modal-no-upcoming-fy"
-        label={<FormattedMessage id="ui-finance.fund.plannedBudget.noUpcomingFY.label" />}
+        aria-label={modalLabel}
+        label={modalLabel}
         open
         scope="module"
         size="small"

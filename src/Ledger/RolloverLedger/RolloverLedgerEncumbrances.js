@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
+import { useIntl } from 'react-intl';
 
 import {
   Col,
@@ -27,6 +28,8 @@ const headLabels = (
 );
 
 const RolloverLedgerEncumbrances = () => {
+  const intl = useIntl();
+
   const renderFields = useCallback((elem, index, fields) => {
     const { orderType, rollover } = fields.value[index];
 
@@ -43,9 +46,10 @@ const RolloverLedgerEncumbrances = () => {
         </Col>
         <Col xs={2}>
           <FieldSelectFinal
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.basedOn' })}
             dataOptions={BASED_ON_OPTIONS}
             disabled={!rollover}
-            id="based-on"
+            id={`${elem}.basedOn`}
             name={`${elem}.basedOn`}
             required={!!rollover}
             validateFields={[]}
@@ -55,7 +59,7 @@ const RolloverLedgerEncumbrances = () => {
           <Field
             component={TextField}
             disabled={!rollover}
-            label={null}
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.increaseBy' })}
             name={`${elem}.increaseBy`}
             type="number"
             validateFields={[]}
@@ -63,7 +67,7 @@ const RolloverLedgerEncumbrances = () => {
         </Col>
       </Row>
     );
-  }, []);
+  }, [intl]);
 
   const fieldArrayProps = useFieldArray('encumbrancesRollover');
 

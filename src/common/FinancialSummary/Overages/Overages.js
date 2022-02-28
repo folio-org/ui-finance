@@ -33,6 +33,7 @@ const Overages = ({ data, currency }) => {
       formatter={resultsFormatter}
       visibleColumns={visibleColumns}
       interactive={false}
+      columnIdPrefix="financial-overages"
     />
   );
 };

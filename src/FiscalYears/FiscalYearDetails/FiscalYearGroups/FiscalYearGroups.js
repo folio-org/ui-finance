@@ -60,6 +60,7 @@ const FiscalYearGroups = ({
       items={fiscalYearGroups}
       currency={fiscalYear.currency}
       openItem={openGroup}
+      columnIdPrefix="group-list"
     />
   );
 };

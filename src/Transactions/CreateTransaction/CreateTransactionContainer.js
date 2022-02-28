@@ -1,9 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormattedMessage,
-  useIntl,
-} from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   getAmountWithCurrency,
@@ -106,7 +103,7 @@ export const CreateTransactionContainer = ({
       initialValues={initialValues}
       onClose={onClose}
       onSubmit={saveTransaction}
-      title={<FormattedMessage id={labelId} />}
+      title={intl.formatMessage({ id: labelId })}
       allocationType={allocationType}
     />
   );

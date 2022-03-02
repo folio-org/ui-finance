@@ -304,19 +304,13 @@
         "permissionName": "ui-finance.acq.unit.assignment.assign",
         "displayName": "Finance: Assign acquisition units to new record",
         "description": "",
-        "visible": true,
-        "subPermissions": [
-          "finance.acquisitions-units-assignments.assign"
-        ]
+        "visible": true
       },
       {
         "permissionName": "ui-finance.acq.unit.assignment.manage",
         "displayName": "Finance: Manage acquisition units",
         "description": "",
-        "visible": true,
-        "subPermissions": [
-          "finance.acquisitions-units-assignments.manage"
-        ]
+        "visible": true
       },
       {
         "permissionName": "ui-finance.allocations.create",

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Field, useForm } from 'react-final-form';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 
 import {
   Checkbox,
@@ -8,6 +9,7 @@ import {
 
 function SetAllowancesField({ setAllowances, elem }) {
   const { batch, change } = useForm();
+  const intl = useIntl();
 
   const onChange = useCallback(() => {
     if (setAllowances) {
@@ -24,7 +26,7 @@ function SetAllowancesField({ setAllowances, elem }) {
   return (
     <Field
       component={Checkbox}
-      label={null}
+      aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.setAllowances' })}
       name={`${elem}.setAllowances`}
       onChange={onChange}
       type="checkbox"

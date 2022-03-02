@@ -32,7 +32,7 @@ const sorters = {
   'available': ({ available }) => available,
 };
 
-const ConnectionListing = ({ items, currency, openItem, visibleColumns, onRemoveItem }) => {
+const ConnectionListing = ({ items, currency, openItem, visibleColumns, onRemoveItem, columnIdPrefix }) => {
   const intl = useIntl();
   const isRemovable = Boolean(onRemoveItem);
   const _visibleColumns = isRemovable ? [...visibleColumns, COLUMN_REMOVE_ITEM] : visibleColumns;
@@ -88,6 +88,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns, onRemove
       sortedColumn={COLUMN_NAME}
       sorters={sorters}
       visibleColumns={_visibleColumns}
+      columnIdPrefix={columnIdPrefix}
       {...rowProps}
     />
   );
@@ -99,11 +100,13 @@ ConnectionListing.propTypes = {
   currency: PropTypes.string,
   visibleColumns: PropTypes.arrayOf(PropTypes.string),
   onRemoveItem: PropTypes.func,
+  columnIdPrefix: PropTypes.string,
 };
 
 ConnectionListing.defaultProps = {
   items: [],
   visibleColumns: defaultColumns,
+  columnIdPrefix: '',
 };
 
 export default ConnectionListing;

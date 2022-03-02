@@ -166,6 +166,7 @@ const FiscalYearDetails = ({
                 items={ledgers}
                 currency={fiscalYear.currency}
                 openItem={openLedger}
+                columnIdPrefix="ledger-list"
               />
             </Accordion>
 

@@ -81,6 +81,7 @@ const CreateTransactionModal = ({
   return (
     <Modal
       id="add-transfer-modal"
+      aria-label={title}
       label={title}
       footer={footer}
       open
@@ -145,7 +146,7 @@ CreateTransactionModal.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
   values: PropTypes.object.isRequired,
   allocationType: PropTypes.string,
 };

@@ -22,8 +22,8 @@ const FinanceNavigation = ({ history, match: { path } }) => {
     >
       <IfPermission perm="ui-finance.fiscal-year.view">
         <Button
-          onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
-          buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FISCAL_YAER)}
+          onClick={() => goToTab(FINANCE_NAVIGATION_TABS.FISCAL_YEAR)}
+          buttonStyle={getTabStyle(FINANCE_NAVIGATION_TABS.FISCAL_YEAR)}
           data-test-finance-navigation-fiscalyear
         >
           <FormattedMessage id="ui-finance.fiscalyear" />

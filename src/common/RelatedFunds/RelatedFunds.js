@@ -71,6 +71,7 @@ const RelatedFunds = ({ mutator, query, currency, funds, onRemoveFund }) => {
       currency={currency}
       openItem={openFund}
       onRemoveItem={onRemoveFund}
+      columnIdPrefix="fund-list"
     />
   );
 };

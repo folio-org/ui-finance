@@ -52,6 +52,7 @@ const FundingInformation = ({ data, currency, isFiscalYear }) => {
       formatter={resultsFormatter}
       visibleColumns={visibleColumns}
       interactive={false}
+      columnIdPrefix="financial-summary"
     />
   );
 };

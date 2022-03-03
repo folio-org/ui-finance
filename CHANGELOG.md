@@ -8,13 +8,14 @@
 * Fiscal year is empty after adding funds to new group. Refs UIF-345.
 * Tech debt: reducing code smells, usage of consts and resources from stripes-acq. Refs UIF-346.
 * Allow user to base encumbrance on "Initial encumbrance" during rollover. Refs UIF-324.
+* Display "Do not restrict encumbrance/expenditures" ledger toggles in ledger view. Refs UIF-348.
 * Edit restrictExpenditures, restrictEncumbrance ledger toggles in create/edit form. Refs UIF-349.
 * Add a return to Finance default search to app context menu dropdown. Refs UIF-350.
 * Display transactions as Voided for canceled invoices. Refs UIF-316.
 * Set enforce limit toggles to True by default in Rollover settings form. Refs UIF-352.
 * Settings > Finance > change focus. Refs UIF-354.
 * Refactor psets away from backend ".all" permissions.Refs UIF-333.
-* Voided amount not displayed for voided transactions. Refs UINV-358.
+* Voided amount not displayed for voided transactions. Refs UIF-363.
 * Avoid undefined backend permissions. Refs UIF-362.
 * Accessibility analysis. Refs UIF-361.
 
@@ -22,7 +23,6 @@
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.0...v3.0.1)
 
 * Users having difficulty finding fiscal years as they don't know what to search. Refs UIF-335.
-* Display "Do not restrict encumbrance/expenditures" ledger toggles in ledger view. Refs UIF-348.
 
 ## [3.0.0](https://github.com/folio-org/ui-finance/tree/v3.0.0) (2021-10-07)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v2.4.2...v3.0.0)

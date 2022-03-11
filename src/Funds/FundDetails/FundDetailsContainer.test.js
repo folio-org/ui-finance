@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
   DetailsEditAction,
@@ -21,6 +22,17 @@ jest.mock('../../common/DetailsActions', () => ({
   DetailsEditAction: jest.fn().mockReturnValue('DetailsEditAction'),
   DetailsRemoveAction: jest.fn().mockReturnValue('DetailsRemoveAction'),
 }));
+
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  </MemoryRouter>
+);
 
 const historyMock = {
   push: jest.fn(),
@@ -51,7 +63,7 @@ const defaultProps = {
 };
 const renderFundDetailsContainer = (props = defaultProps) => render(
   <FundDetailsContainer {...props} />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('FundDetailsContainer', () => {

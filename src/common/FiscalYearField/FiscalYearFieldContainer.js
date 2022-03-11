@@ -9,8 +9,16 @@ import { getFiscalYearsForSelect } from '../utils';
 
 import FiscalYearField from './FiscalYearField';
 
-function FiscalYearFieldContainer({ resources, name, required, label, disabled, validateFields }) {
-  const fiscalYears = getFiscalYearsForSelect(resources);
+function FiscalYearFieldContainer({
+  dataOptions,
+  disabled,
+  label,
+  name,
+  resources,
+  required,
+  validateFields,
+}) {
+  const fiscalYears = dataOptions || getFiscalYearsForSelect(resources);
 
   return (
     <FiscalYearField
@@ -29,6 +37,7 @@ FiscalYearFieldContainer.manifest = Object.freeze({
 });
 
 FiscalYearFieldContainer.propTypes = {
+  dataOptions: PropTypes.arrayOf(PropTypes.object),
   label: PropTypes.node,
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,

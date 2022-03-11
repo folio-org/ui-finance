@@ -53,6 +53,7 @@ import {
 } from '../../common/const';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import { SECTIONS_FUND } from '../constants';
+import { useBudgetsFiscalYears } from '../hooks';
 import FundDetails from './FundDetails';
 import FundCurrentBudget from './FundCurrentBudget';
 import FundPlannedBudgetsContainer from './FundPlannedBudgets';
@@ -70,8 +71,13 @@ export const FundDetailsContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
   const [currentBudget, setCurrentBudget] = useState();
+  const [plannedBudgets, setPlannedBudgets] = useState();
   const showToast = useShowCallout();
   const accordionStatusRef = useRef();
+  const {
+    fiscalYears: budgetsFiscalYears,
+    isLoading: isFiscalYearsLoading,
+  } = useBudgetsFiscalYears(currentFY);
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     compositeFund.fund.id, compositeFund.fund.acqUnitIds,
@@ -267,7 +273,7 @@ export const FundDetailsContainer = ({
     },
   ];
 
-  if (isLoading) {
+  if (isLoading || isFiscalYearsLoading) {
     return (
       <LoadingPane
         id="pane-fund-details"
@@ -329,10 +335,14 @@ export const FundDetailsContainer = ({
               {currentFY && (
                 <FundPlannedBudgetsContainer
                   currentFY={currentFY}
+                  fiscalYears={budgetsFiscalYears}
                   fundId={fund.id}
                   history={history}
                   location={location}
-                  openNewBudgetModal={openNewBudgetModal}
+                  openNewBudgetModal={(status, budgets) => {
+                    setPlannedBudgets(budgets);
+                    openNewBudgetModal(status, budgets);
+                  }}
                 />
               )}
               {currentFY && (
@@ -348,11 +358,14 @@ export const FundDetailsContainer = ({
           {budgetStatusModal && (
             <AddBudgetModal
               budgetStatus={budgetStatusModal}
+              currentFY={currentFY}
+              fiscalYears={budgetsFiscalYears}
               onClose={() => setBudgetStatusModal('')}
               fund={fund}
               history={history}
               ledgerId={fund.ledgerId}
               location={location}
+              plannedBudgets={plannedBudgets}
             />
           )}
           {isRemoveConfirmation && (

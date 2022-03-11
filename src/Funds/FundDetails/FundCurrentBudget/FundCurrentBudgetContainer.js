@@ -36,8 +36,8 @@ export const FundCurrentBudgetContainer = ({
     [history, location.search],
   );
 
-  const addBudgetButton = useCallback((status, count) => {
-    return !count
+  const addBudgetButton = useCallback((status, budgets) => {
+    return !budgets.length
       ? (
         <IfPermission perm="finance.budgets.item.post">
           <Button

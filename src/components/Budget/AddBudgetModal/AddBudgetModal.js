@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -7,11 +7,8 @@ import {
   Button,
   Modal,
   ModalFooter,
-  Spinner,
 } from '@folio/stripes/components';
 import {
-  baseManifest,
-  LIMIT_MAX,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 import { stripesConnect } from '@folio/stripes/core';
@@ -19,61 +16,48 @@ import { stripesConnect } from '@folio/stripes/core';
 import BudgetAddModalForm from './AddBudgetModalForm';
 import {
   budgetResource,
-  fiscalYearsResource,
 } from '../../../common/resources';
-import { LEDGERS_API } from '../../../common/const';
+import { getPlannedFiscalYears } from '../../../Funds/utils';
 import { BUDGET_STATUSES } from '../constants';
 
-// `FYoptions` here is expected as an array sorted by `periodStart`
-const getPlannedFYId = (currentFYId, FYoptions = []) => {
-  const currentFYindex = FYoptions.findIndex(d => d.id === currentFYId);
-
-  return currentFYindex !== -1 && FYoptions[currentFYindex + 1]
-    ? FYoptions[currentFYindex + 1].id
-    : '';
-};
-
-const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerId, location }) => {
+const AddBudgetModal = ({
+  budgetStatus,
+  currentFY,
+  fiscalYears,
+  fund,
+  history,
+  mutator,
+  location,
+  onClose,
+  plannedBudgets,
+}) => {
   const intl = useIntl();
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentFYId, setCurrentFYId] = useState('');
-  const [fiscalYearsOptions, setFiscalYearsOptions] = useState();
   const showCallout = useShowCallout();
   const isCurrentBudget = budgetStatus === BUDGET_STATUSES.ACTIVE;
 
-  useEffect(() => {
-    setIsLoading(true);
-    setCurrentFYId('');
-    mutator.currentFiscalYear.GET()
-      .then(({ id, series }) => {
-        setCurrentFYId(id);
+  const plannedFiscalYears = useMemo(
+    () => getPlannedFiscalYears(fiscalYears, plannedBudgets),
+    [fiscalYears, plannedBudgets],
+  );
 
-        return series;
-      })
-      .catch(() => {
-        showCallout({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
-      })
-      .then(series => {
-        return series
-          ? mutator.fiscalYears.GET({
-            params: {
-              limit: `${LIMIT_MAX}`,
-              query: `series==${series} sortby periodStart`,
-            },
-          })
-          : [];
-      })
-      .then(setFiscalYearsOptions)
-      .finally(() => setIsLoading(false));
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [ledgerId]);
+  const fiscalYearsOptions = useMemo(
+    () => (
+      (isCurrentBudget ? fiscalYears : plannedFiscalYears)
+        .map(({ code, id }) => ({
+          label: code,
+          value: id,
+        }))
+    ),
+    [
+      fiscalYears,
+      isCurrentBudget,
+      plannedFiscalYears,
+    ],
+  );
 
   const getFiscalYearOption = useCallback((fiscalYearId) => {
-    return fiscalYearsOptions.find(year => year.id === fiscalYearId);
-  }, [fiscalYearsOptions]);
-
-  const _getPlannedFYId = useCallback(getPlannedFYId, [currentFYId, fiscalYearsOptions]);
+    return fiscalYears.find(year => year.id === fiscalYearId);
+  }, [fiscalYears]);
 
   const createBudget = useCallback(
     async (formValue) => {
@@ -101,15 +85,11 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
     [getFiscalYearOption, fund.id, fund.code, fund.name, showCallout, history, location.search],
   );
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
   const budgetModalLabel = isCurrentBudget
     ? intl.formatMessage({ id: 'ui-finance.fund.currentBudget.title' })
     : intl.formatMessage({ id: 'ui-finance.fund.plannedBudget.title' });
 
-  const plannedFYId = _getPlannedFYId(currentFYId, fiscalYearsOptions);
+  const plannedFYId = plannedFiscalYears[0]?.id || '';
   const modalLabel = intl.formatMessage({ id: 'ui-finance.fund.plannedBudget.noUpcomingFY.label' });
 
   if (!isCurrentBudget && !plannedFYId) {
@@ -144,7 +124,7 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
   }
 
   const initialValues = {
-    fiscalYearId: isCurrentBudget ? currentFYId : plannedFYId,
+    fiscalYearId: isCurrentBudget ? currentFY?.id : plannedFYId,
     budgetStatus,
     allowableExpenditure: 100,
     allowableEncumbrance: 100,
@@ -152,42 +132,34 @@ const AddBudgetModal = ({ history, mutator, onClose, fund, budgetStatus, ledgerI
 
   return (
     <BudgetAddModalForm
+      disabled={isCurrentBudget || plannedFiscalYears?.length <= 1}
+      fiscalYears={fiscalYearsOptions}
       initialValues={initialValues}
       label={budgetModalLabel}
       onClose={onClose}
       onSubmit={createBudget}
-      disabled
     />
   );
 };
 
 AddBudgetModal.manifest = Object.freeze({
-  fiscalYears: {
-    ...fiscalYearsResource,
-    accumulate: true,
-    fetch: false,
-  },
   budget: {
     ...budgetResource,
     fetch: false,
     accumulate: true,
   },
-  currentFiscalYear: {
-    ...baseManifest,
-    path: `${LEDGERS_API}/!{ledgerId}/current-fiscal-year`,
-    accumulate: true,
-    fetch: false,
-  },
 });
 
 AddBudgetModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  currentFY: PropTypes.object.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object).isRequired,
   fund: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   budgetStatus: PropTypes.string,
-  ledgerId: PropTypes.string,
+  plannedBudgets: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default stripesConnect(AddBudgetModal);

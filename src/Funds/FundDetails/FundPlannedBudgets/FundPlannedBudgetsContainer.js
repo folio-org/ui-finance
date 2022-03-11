@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -19,8 +19,10 @@ import { budgetsResource, fiscalYearsResource } from '../../../common/resources'
 import FundBudgets from '../FundBudgets';
 import { BUDGET_STATUSES } from '../../../components/Budget/constants';
 import { SECTIONS_FUND } from '../../constants';
+import { getPlannedFiscalYears } from '../../utils';
 
 const FundPlannedBudgetsContainer = ({
+  fiscalYears,
   fundId,
   history,
   location,
@@ -32,6 +34,11 @@ const FundPlannedBudgetsContainer = ({
   const [plannedBudgets, setPlannedBudgets] = useState([]);
   const showToast = useShowCallout();
   const prevFYStartDate = moment.utc(currentFY.periodStart).add(1, 'day').format(DATE_FORMAT);
+
+  const plannedFiscalYears = useMemo(
+    () => getPlannedFiscalYears(fiscalYears, plannedBudgets),
+    [fiscalYears, plannedBudgets],
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,9 +56,9 @@ const FundPlannedBudgetsContainer = ({
       }, () => {
         showToast({ messageId: 'ui-finance.budget.actions.load.error', type: 'error' });
       })
-      .then(fiscalYears => {
+      .then(fiscalYearsResponse => {
         setPlannedBudgets(budgets => budgets.map((budget) => {
-          const fiscalYear = fiscalYears.find(({ id }) => id === budget.fiscalYearId);
+          const fiscalYear = fiscalYearsResponse.find(({ id }) => id === budget.fiscalYearId);
 
           return {
             ...budget,
@@ -76,20 +83,23 @@ const FundPlannedBudgetsContainer = ({
     [history, location.search],
   );
 
-  const addBudgetButton = useCallback((status, count) => {
-    return !count
+  const addBudgetButton = useCallback((status, budgets) => {
+    return plannedFiscalYears.length
       ? (
         <IfPermission perm="finance.budgets.item.post">
           <Button
             data-test-add-planned-budget-button
-            onClick={() => openNewBudgetModal(status)}
+            onClick={() => openNewBudgetModal(status, budgets)}
           >
             <FormattedMessage id="ui-finance.budget.button.new" />
           </Button>
         </IfPermission>
       )
       : null;
-  }, [openNewBudgetModal]);
+  }, [
+    plannedFiscalYears,
+    openNewBudgetModal,
+  ]);
 
   if (isLoading) {
     return (
@@ -129,6 +139,7 @@ FundPlannedBudgetsContainer.manifest = Object.freeze({
 
 FundPlannedBudgetsContainer.propTypes = {
   currentFY: PropTypes.object.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
   fundId: PropTypes.string.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,

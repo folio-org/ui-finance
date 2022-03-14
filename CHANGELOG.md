@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+* exportCsv is deprecated in stripes-utils. Refs UIF-364.
+
+## [3.1.0](https://github.com/folio-org/ui-finance/tree/v3.1.0) (2022-03-08)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.1...v3.1.0)
+
 * Transactions - Implement MCL Next/Previous pagination. Refs UIF-342.
 * Allow user to add multiple funds to a group from group view. Refs UIF-339.
 * Allow user to remove Fund from Fund group. Refs UIF-340.

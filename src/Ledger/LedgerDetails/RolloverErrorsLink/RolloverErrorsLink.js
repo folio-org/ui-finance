@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import {
   Headline,
   TextLink,
+  exportToCsv,
 } from '@folio/stripes/components';
-import { exportCsv } from '@folio/stripes/util';
 import css from './RolloverErrorsLink.css';
 
 function RolloverErrorsLink({ errors, ledgerName, toYearCode }) {
   const exportErrorsFilename = `${ledgerName}-rollover-errors-${toYearCode}`;
 
   const exportErrors = useCallback(() => {
-    exportCsv(
+    exportToCsv(
       [
         {
           ledgerRolloverId: 'Ledger rollover ID',

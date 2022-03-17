@@ -38,7 +38,13 @@ const footer = (onClose, onSave) => (
   </ModalFooter>
 );
 
-const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
+const BudgetAddModalForm = ({
+  disabled,
+  fiscalYears,
+  handleSubmit,
+  label,
+  onClose,
+}) => (
   <Modal
     id="add-budget-modal"
     aria-label={label}
@@ -50,6 +56,7 @@ const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
       <Row>
         <Col xs>
           <FiscalYearField
+            dataOptions={fiscalYears}
             name="fiscalYearId"
             required
             disabled={disabled}
@@ -87,6 +94,7 @@ const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
       <Row>
         <Col xs>
           <Field
+            data-testid="budget-allocated-field"
             component={TextField}
             label={<FormattedMessage id="ui-finance.budget.allocated" />}
             name="allocated"
@@ -101,6 +109,7 @@ const BudgetAddModalForm = ({ handleSubmit, onClose, label, disabled }) => (
 );
 
 BudgetAddModalForm.propTypes = {
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
   onClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   label: PropTypes.string,

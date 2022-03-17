@@ -18,7 +18,7 @@ const FundBudgets = ({
   sectionId,
 }) => (
   <Accordion
-    displayWhenOpen={addBudgetButton(budgetStatus, budgets.length)}
+    displayWhenOpen={addBudgetButton(budgetStatus, budgets)}
     id={sectionId}
     label={<FormattedMessage id={labelId} />}
   >

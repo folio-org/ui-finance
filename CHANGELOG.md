@@ -4,6 +4,7 @@
 
 * exportCsv is deprecated in stripes-utils. Refs UIF-364.
 * Allow user to create multiple planned budgets. Refs UIF-359.
+* Select filter should announce the number of Results in the Results List pane header. Refs UIF-371.
 
 ## [3.1.0](https://github.com/folio-org/ui-finance/tree/v3.1.0) (2022-03-08)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.1...v3.1.0)

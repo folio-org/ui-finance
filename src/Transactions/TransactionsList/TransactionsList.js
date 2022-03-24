@@ -165,6 +165,7 @@ const TransactionsList = ({
         toggleFiltersPane={toggleFilters}
         filters={filters}
         isFiltersOpened={isFiltersOpened}
+        isLoading={isLoadingTransactions}
       >
         {(({ height, width }) => (
           <>

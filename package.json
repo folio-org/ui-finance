@@ -347,6 +347,7 @@
   "scripts": {
     "start": "yarn stripes serve",
     "build": "yarn stripes build --output ./output",
+    "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
     "test": "yarn run test:unit",
     "test:unit": "jest --ci --coverage && yarn run test:unit:report",
     "test:unit:watch": "jest --ci --watch",

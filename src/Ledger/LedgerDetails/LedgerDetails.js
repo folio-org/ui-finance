@@ -33,6 +33,7 @@ import {
 
 import {
   DetailsEditAction,
+  DetailsExportAction,
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
 import FinancialSummary from '../../common/FinancialSummary';
@@ -45,6 +46,7 @@ import LedgerInformation from './LedgerInformation';
 import LedgerGroups from './LedgerGroups';
 import LedgerFunds from './LedgerFunds';
 import RolloverErrorsLink from './RolloverErrorsLink';
+import { ExportSettingsModal } from './ExportSettingsModal';
 
 const LedgerDetails = ({
   ledger,
@@ -57,6 +59,7 @@ const LedgerDetails = ({
   rolloverErrors,
   rolloverToFY,
 }) => {
+  const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
@@ -76,6 +79,11 @@ const LedgerDetails = ({
             onEdit={onEdit}
             toggleActionMenu={onToggle}
             disabled={isRestrictionsLoading || restrictions.protectUpdate}
+          />
+          <DetailsExportAction
+            perm="ui-finance.exportCSV"
+            onExportCSV={toggleExportConfirmation}
+            toggleActionMenu={onToggle}
           />
           <DetailsRemoveAction
             perm="finance.ledgers.item.delete"
@@ -243,6 +251,13 @@ const LedgerDetails = ({
             open
           />
         )}
+
+        <ExportSettingsModal
+          open={isExportConfirmation}
+          onCancel={toggleExportConfirmation}
+          onExportCSV={toggleExportConfirmation}
+        />
+
       </Pane>
     </HasCommand>
   );

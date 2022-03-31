@@ -340,6 +340,13 @@
         "subPermissions": [
           "finance.release-encumbrance.item.post"
         ]
+      },
+      {
+        "permissionName": "ui-finance.exportCSV",
+        "displayName": "Finance: Export finance records",
+        "description": "",
+        "visible": true,
+        "subPermissions": []
       }
 
     ]

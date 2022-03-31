@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -304,13 +304,19 @@
         "permissionName": "ui-finance.acq.unit.assignment.assign",
         "displayName": "Finance: Assign acquisition units to new record",
         "description": "",
-        "visible": true
+        "visible": true,
+        "subPermissions": [
+          "finance.acquisitions-units-assignments.assign"
+        ]
       },
       {
         "permissionName": "ui-finance.acq.unit.assignment.manage",
         "displayName": "Finance: Manage acquisition units",
         "description": "",
-        "visible": true
+        "visible": true,
+        "subPermissions": [
+          "finance.acquisitions-units-assignments.manage"
+        ]
       },
       {
         "permissionName": "ui-finance.allocations.create",

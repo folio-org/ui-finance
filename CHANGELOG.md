@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-04-31)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)
+
 * exportCsv is deprecated in stripes-utils. Refs UIF-364.
 
 ## [3.1.0](https://github.com/folio-org/ui-finance/tree/v3.1.0) (2022-03-08)

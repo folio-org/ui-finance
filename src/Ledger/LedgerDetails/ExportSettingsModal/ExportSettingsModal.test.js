@@ -1,48 +1,68 @@
 import React from 'react';
-import user from '@testing-library/user-event';
+import { Form } from 'react-final-form';
+import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
+import user from '@testing-library/user-event';
 
-import { ExportSettingsModal } from './ExportSettingsModal';
+import ExportSettingsModal from './ExportSettingsModal';
+
+const FY = {
+  id: 'fyId',
+  code: 'FY2022',
+  series: 'FY',
+};
 
 const defaultProps = {
-  onExportCSV: jest.fn(),
+  fiscalYear: FY,
+  onSubmit: jest.fn(),
+  handleSubmit: jest.fn(),
   onCancel: jest.fn(),
-  open: true,
+  initialValues: { fiscalYearId: 'fiscalYearId' },
+  values: { fiscalYearId: 'fiscalYearId' },
 };
 
 const renderExportSettingsModal = (props = {}) => render(
-  <ExportSettingsModal
-    {...defaultProps}
-    {...props}
+  <Form
+    onSubmit={jest.fn()}
+    render={() => (
+      <ExportSettingsModal
+        {...defaultProps}
+        {...props}
+      />
+    )}
   />,
+  { wrapper: MemoryRouter },
 );
 
 describe('ExportSettingsModal', () => {
-  it('should render Export Settings Modal', () => {
+  beforeEach(() => {
+    defaultProps.onCancel.mockClear();
+    defaultProps.handleSubmit.mockClear();
+  });
+
+  it('should render Export Settings Modal elements', async () => {
     renderExportSettingsModal();
 
     expect(screen.getByText('ui-finance.exportCSV.exportSettings.heading')).toBeInTheDocument();
-  });
-});
-
-describe('ExportSettingsModal actions', () => {
-  beforeEach(() => {
-    defaultProps.onCancel.mockClear();
-    defaultProps.onExportCSV.mockClear();
+    expect(screen.getByText('ui-finance.exportCSV.exportSettings.message')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.budget.fiscalYear')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.exportCSV.exportSettings.expenseClasses')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.exportCSV.exportSettings.cancel')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.exportCSV.exportSettings.export')).toBeInTheDocument();
   });
 
-  it('should call \'onExportCSV\' when \'Export\' button was clicked', () => {
+  it('should call \'onSubmit\' when \'Export\' button was clicked', () => {
     renderExportSettingsModal();
 
-    user.click(screen.getByText('ui-finance.exportCSV.exportSettings.export'));
+    user.click(screen.getByRole('button', { name: 'ui-finance.exportCSV.exportSettings.export' }));
 
-    expect(defaultProps.onExportCSV).toHaveBeenCalled();
+    expect(defaultProps.onSubmit).toHaveBeenCalled();
   });
 
-  it('should close Export Settings Modal when \'Cancel\' button was clicked', () => {
+  it('should call \'onCancel\' when \'Cancel\' button was clicked', () => {
     renderExportSettingsModal();
 
-    user.click(screen.getByText('ui-finance.exportCSV.exportSettings.cancel'));
+    user.click(screen.getByRole('button', { name: 'ui-finance.exportCSV.exportSettings.cancel' }));
 
     expect(defaultProps.onCancel).toHaveBeenCalled();
   });

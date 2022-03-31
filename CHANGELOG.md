@@ -4,6 +4,7 @@
 
 * Allow user to create multiple planned budgets. Refs UIF-359.
 * Select filter should announce the number of Results in the Results List pane header. Refs UIF-371.
+* Display export action for ledger. Refs UIF-365.
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)

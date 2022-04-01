@@ -394,5 +394,11 @@
     "groups.actions.removeFund.error": "Le poste budgétaire <b>{fundCode}</b> n'a pas été retiré du groupe",
     "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance",
     "appMenu.financeAppSearch": "Finance app Search",
-    "transaction.voided": "Voided transaction"
+    "transaction.voided": "Voided transaction",
+    "exportCSV.exportSettings.heading": "Export settings",
+    "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
+    "exportCSV.exportSettings.cancel": "Cancel",
+    "exportCSV.exportSettings.export": "Export",
+    "actions.exportCSV": "Export budget information (CSV)",
+    "permission.exportCSV": "Finance: Export finance records"
 }

@@ -394,5 +394,11 @@
     "groups.actions.removeFund.error": "لم تتم إزالة التمويل <b>{fundCode}</b> من المجموعة",
     "ledger.rollover.basedOn.initialEncumbrance": "التكلفة المبدئية",
     "appMenu.financeAppSearch": "بحث تطبيق الشؤون المالية",
-    "transaction.voided": "معاملة ملغاة"
+    "transaction.voided": "معاملة ملغاة",
+    "exportCSV.exportSettings.heading": "إعدادات التصدير",
+    "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
+    "exportCSV.exportSettings.cancel": "إلغاء",
+    "exportCSV.exportSettings.export": "تصدير",
+    "actions.exportCSV": "تصدير بيانات الميزانية (CSV)",
+    "permission.exportCSV": "الشؤون المالية: صدّر التسجيلات المالية"
 }

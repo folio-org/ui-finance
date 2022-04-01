@@ -394,5 +394,11 @@
     "groups.actions.removeFund.error": "经费<b> {fundCode} </b>尚未从组中移除",
     "ledger.rollover.basedOn.initialEncumbrance": "初始预支",
     "appMenu.financeAppSearch": "金融应用搜索",
-    "transaction.voided": "无效交易"
+    "transaction.voided": "无效交易",
+    "exportCSV.exportSettings.heading": "Export settings",
+    "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
+    "exportCSV.exportSettings.cancel": "Cancel",
+    "exportCSV.exportSettings.export": "Export",
+    "actions.exportCSV": "Export budget information (CSV)",
+    "permission.exportCSV": "Finance: Export finance records"
 }

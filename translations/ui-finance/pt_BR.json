@@ -395,10 +395,10 @@
     "ledger.rollover.basedOn.initialEncumbrance": "Ônus inicial",
     "appMenu.financeAppSearch": "Busca no aplicativo de Finanças",
     "transaction.voided": "Transação anulada",
-    "exportCSV.exportSettings.heading": "Export settings",
-    "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
-    "exportCSV.exportSettings.cancel": "Cancel",
-    "exportCSV.exportSettings.export": "Export",
-    "actions.exportCSV": "Export budget information (CSV)",
-    "permission.exportCSV": "Finance: Export finance records"
+    "exportCSV.exportSettings.heading": "Configurações de exportação",
+    "exportCSV.exportSettings.message": "Esta exportação pode levar alguns minutos. Se você recarregar ou fechar a página, a exportação não será concluída. Quando o arquivo estiver pronto, poderá levar mais um minuto para que seu navegador termine de descarregar o arquivo. Você pode continuar a trabalhar com registros financeiros em uma aba diferente do navegador, se necessário.",
+    "exportCSV.exportSettings.cancel": "Cancelar",
+    "exportCSV.exportSettings.export": "Exportar",
+    "actions.exportCSV": "Exportar informações de orçamento (CSV)",
+    "permission.exportCSV": "Finanças: exportar registros de finanças"
 }

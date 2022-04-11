@@ -6,6 +6,7 @@ import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Col,
+  Loading,
   Modal,
   ModalFooter,
   Row,
@@ -17,6 +18,7 @@ import { getExportExpenseClassesOptions } from './utils';
 
 const ExportSettingsModal = ({
   fiscalYear,
+  isExporting,
   handleSubmit,
   onCancel,
   values,
@@ -31,7 +33,7 @@ const ExportSettingsModal = ({
       <Button
         buttonStyle="primary"
         onClick={handleSubmit}
-        disabled={!fiscalYearId}
+        disabled={!fiscalYearId || isExporting}
         marginBottom0
       >
         <FormattedMessage id="ui-finance.exportCSV.exportSettings.export" />
@@ -39,6 +41,7 @@ const ExportSettingsModal = ({
       <Button
         marginBottom0
         onClick={onCancel}
+        disabled={isExporting}
       >
         <FormattedMessage id="ui-finance.exportCSV.exportSettings.cancel" />
       </Button>
@@ -58,27 +61,33 @@ const ExportSettingsModal = ({
         tagName="p"
       />
 
-      <form>
-        <Row>
-          <Col xs={3}>
-            <FiscalYearField
-              name="fiscalYearId"
-              series={fiscalYear.series}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={3}>
-            <Field
-              component={Select}
-              dataOptions={getExportExpenseClassesOptions(intl)}
-              id="expense-classes"
-              label={<FormattedMessage id="ui-finance.exportCSV.exportSettings.expenseClasses" />}
-              name="expenseClasses"
-            />
-          </Col>
-        </Row>
-      </form>
+      {
+        isExporting
+          ? <Loading size="large" />
+          : (
+            <form>
+              <Row>
+                <Col xs={3}>
+                  <FiscalYearField
+                    name="fiscalYearId"
+                    series={fiscalYear.series}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={3}>
+                  <Field
+                    component={Select}
+                    dataOptions={getExportExpenseClassesOptions(intl)}
+                    id="expense-classes"
+                    label={<FormattedMessage id="ui-finance.exportCSV.exportSettings.expenseClasses" />}
+                    name="expenseClasses"
+                  />
+                </Col>
+              </Row>
+            </form>
+          )
+      }
 
     </Modal>
   );
@@ -86,6 +95,7 @@ const ExportSettingsModal = ({
 
 ExportSettingsModal.propTypes = {
   fiscalYear: PropTypes.object.isRequired,
+  isExporting: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,

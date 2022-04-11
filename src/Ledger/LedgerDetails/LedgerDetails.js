@@ -255,6 +255,7 @@ const LedgerDetails = ({
         {isExportConfirmation && (
           <ExportSettingsModal
             fiscalYear={fiscalYear}
+            ledger={ledger}
             onCancel={toggleExportConfirmation}
             toggleModal={toggleExportConfirmation}
           />

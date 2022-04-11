@@ -5,9 +5,9 @@ import { fetchExportDataByIds } from '@folio/stripes-acq-components';
 import { FUND_TYPES_API } from '../../../../common/const';
 import { getUniqItems } from './getUniqItems';
 
-export const getFundTypesData = (ky) => async (funds) => {
+export const getFundTypesData = (ky) => async (fundsMap) => {
   const fundTypeIds = getUniqItems(
-    funds,
+    fundsMap,
     ({ fundTypeId }) => fundTypeId,
   );
 

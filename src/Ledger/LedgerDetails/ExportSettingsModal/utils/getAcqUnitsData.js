@@ -7,9 +7,9 @@ import {
 
 import { getUniqItems } from './getUniqItems';
 
-export const getAcqUnitsData = (ky) => async (funds) => {
+export const getAcqUnitsData = (ky) => async (fundsMap) => {
   const acquisitionUnitIds = getUniqItems(
-    funds,
+    fundsMap,
     ({ acqUnitIds }) => acqUnitIds,
   );
 

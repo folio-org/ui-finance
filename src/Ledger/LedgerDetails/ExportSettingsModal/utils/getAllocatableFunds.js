@@ -10,11 +10,11 @@ import {
 
 import { getUniqItems } from './getUniqItems';
 
-export const getAllocatableFunds = (ky) => async (ledgerFunds) => {
-  const ledgerFundIds = Object.keys(ledgerFunds);
+export const getAllocatableFunds = (ky) => async (ledgerFundsMap) => {
+  const ledgerFundIds = Object.keys(ledgerFundsMap);
 
   const allocatableFundIds = getUniqItems(
-    ledgerFunds,
+    ledgerFundsMap,
     ({ allocatedFromIds, allocatedToIds }) => [...allocatedFromIds, ...allocatedToIds],
   );
 
@@ -30,7 +30,7 @@ export const getAllocatableFunds = (ky) => async (ledgerFunds) => {
   return allocatableFundIds.reduce((acc, allocatableFundId) => {
     return {
       ...acc,
-      [allocatableFundId]: fetchedFunds[allocatableFundId] || ledgerFunds[allocatableFundId],
+      [allocatableFundId]: fetchedFunds[allocatableFundId] || ledgerFundsMap[allocatableFundId],
     };
   }, {});
 };

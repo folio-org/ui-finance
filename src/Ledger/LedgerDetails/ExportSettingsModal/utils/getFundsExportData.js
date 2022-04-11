@@ -31,17 +31,17 @@ const getAllLedgerFunds = (ky) => async (ledger) => {
   return keyBy(funds, 'id');
 };
 
-const getFundsRelatedData = (ky) => async ({ funds, fiscalYearId }) => {
+const getFundsRelatedData = (ky) => async (fundsMap, fiscalYearId) => {
   const [
     acqUnitsMap,
     allocatableFundsMap,
     fundGroupsMap,
     fundTypesMap,
   ] = await Promise.all([
-    getAcqUnitsData(ky)(funds),
-    getAllocatableFunds(ky)(funds),
-    getFundGroupsData(ky)({ funds, fiscalYearId }),
-    getFundTypesData(ky)(funds),
+    getAcqUnitsData(ky)(fundsMap),
+    getAllocatableFunds(ky)(fundsMap),
+    getFundGroupsData(ky)(fundsMap, fiscalYearId),
+    getFundTypesData(ky)(fundsMap),
   ]);
 
   return {
@@ -53,15 +53,15 @@ const getFundsRelatedData = (ky) => async ({ funds, fiscalYearId }) => {
 };
 
 export const getFundsExportData = (ky) => async ({ ledger, fiscalYearId }) => {
-  const funds = await getAllLedgerFunds(ky)(ledger);
+  const fundsMap = await getAllLedgerFunds(ky)(ledger);
   const {
     acqUnitsMap,
     allocatableFundsMap,
     fundGroupsMap,
     fundTypesMap,
-  } = await getFundsRelatedData(ky)({ funds, fiscalYearId });
+  } = await getFundsRelatedData(ky)(fundsMap, fiscalYearId);
 
-  return Object.entries(funds).reduce((acc, [fundId, data]) => {
+  return Object.entries(fundsMap).reduce((acc, [fundId, data]) => {
     return {
       ...acc,
       [fundId]: {

@@ -25,11 +25,11 @@ const buildQueryByFundIds = (fiscalYearId) => (itemsChunk) => {
     .join(' and ');
 };
 
-const getGroupFundFiscalYears = (ky) => async ({ funds, fiscalYearId }) => {
+const getGroupFundFiscalYears = (ky) => async (fundsMap, fiscalYearId) => {
   const groupFundFiscalYears = await fetchExportDataByIds({
     api: GROUP_FUND_FISCAL_YEARS_API,
     buildQuery: buildQueryByFundIds(fiscalYearId),
-    ids: Object.keys(funds),
+    ids: Object.keys(fundsMap),
     ky,
     records: 'groupFundFiscalYears',
   });
@@ -37,11 +37,11 @@ const getGroupFundFiscalYears = (ky) => async ({ funds, fiscalYearId }) => {
   return groupBy('fundId', groupFundFiscalYears);
 };
 
-export const getFundGroupsData = (ky) => async ({ funds, fiscalYearId }) => {
-  const groupFundFiscalYears = await getGroupFundFiscalYears(ky)({ funds, fiscalYearId });
+export const getFundGroupsData = (ky) => async (fundsMap, fiscalYearId) => {
+  const groupFundFiscalYearsMap = await getGroupFundFiscalYears(ky)(fundsMap, fiscalYearId);
 
   const groupIds = getUniqItems(
-    groupFundFiscalYears,
+    groupFundFiscalYearsMap,
     (groupsMap) => groupsMap.map(({ groupId }) => groupId),
   );
 
@@ -52,7 +52,7 @@ export const getFundGroupsData = (ky) => async ({ funds, fiscalYearId }) => {
     records: 'groups',
   }).then(keyBy('id'));
 
-  const fundGroups = Object.entries(groupFundFiscalYears).reduce(
+  return Object.entries(groupFundFiscalYearsMap).reduce(
     (acc, [fundId, groupsMap]) => {
       return {
         ...acc,
@@ -61,6 +61,4 @@ export const getFundGroupsData = (ky) => async ({ funds, fiscalYearId }) => {
     },
     {},
   );
-
-  return fundGroups;
 };

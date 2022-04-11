@@ -1,7 +1,7 @@
 import {
   chunk,
   keyBy,
-} from 'lodash/fp';
+} from 'lodash';
 
 import {
   EXPENSE_CLASSES_API,
@@ -14,38 +14,39 @@ import { getUniqItems } from './getUniqItems';
 
 const CONCURRENT_REQUESTS_COUNT = 5;
 
-const getBudgetExpenseClassTotals = (ky) => async ({ budgetIds, expenseClassesConfig }) => {
-  const budgetExpenseClassTotalsData = await chunk(CONCURRENT_REQUESTS_COUNT, budgetIds)
-    .reduce(async (acc, budgetIdsChunk) => {
-      const accResolved = await acc;
+const fetchBudgetExpenseClassesTotals = (ky) => ({ budgetId, expenseClassesConfig }) => (
+  ky
+    .get(`${BUDGETS_API}/${budgetId}/expense-classes-totals`)
+    .json()
+    .then(({ budgetExpenseClassTotals }) => {
+      return budgetExpenseClassTotals.filter(
+        ({ expenseClassStatus }) => (
+          EXPORT_EXPENSE_CLASS_STATUSES_MAP[expenseClassesConfig]?.includes(expenseClassStatus)
+        ),
+      );
+    })
+    .then((budgetExpenseClassTotals) => ({ budgetId, budgetExpenseClassTotals }))
+);
 
-      const chunkResponsesMap = await Promise.all(budgetIdsChunk.map(budgetId => (
-        ky
-          .get(`${BUDGETS_API}/${budgetId}/expense-classes-totals`)
-          .json()
-          .then(({ budgetExpenseClassTotals }) => {
-            return budgetExpenseClassTotals.filter(
-              ({ expenseClassStatus }) => (
-                EXPORT_EXPENSE_CLASS_STATUSES_MAP[expenseClassesConfig]?.includes(expenseClassStatus)
-              ),
-            );
-          })
-          .then((budgetExpenseClassTotals) => ({ budgetId, budgetExpenseClassTotals }))
-      )))
-        .then(responses => {
-          return responses.reduce((responsesMap, { budgetId, budgetExpenseClassTotals }) => {
-            return {
+const getBudgetsExpenseClassesTotals = (ky) => async ({ budgetIds, expenseClassesConfig }) => {
+  return (
+    chunk(budgetIds, CONCURRENT_REQUESTS_COUNT)
+      .reduce(async (acc, budgetIdsChunk) => {
+        const accResolved = await acc;
+
+        const chunkResponsesMap = await Promise.all(budgetIdsChunk.map(budgetId => {
+          return fetchBudgetExpenseClassesTotals(ky)({ budgetId, expenseClassesConfig });
+        }))
+          .then(responses => {
+            return responses.reduce((responsesMap, { budgetId, budgetExpenseClassTotals }) => ({
               ...responsesMap,
               [budgetId]: budgetExpenseClassTotals,
-            };
-          }, {});
-        });
+            }), {});
+          });
 
-      return Promise
-        .resolve({ ...accResolved, ...chunkResponsesMap });
-    }, Promise.resolve({}));
-
-  return budgetExpenseClassTotalsData;
+        return Promise.resolve({ ...accResolved, ...chunkResponsesMap });
+      }, Promise.resolve({}))
+  );
 };
 
 const getExpenseClasses = (ky) => async (expenseClassIds) => {
@@ -56,7 +57,7 @@ const getExpenseClasses = (ky) => async (expenseClassIds) => {
     records: 'expenseClasses',
   });
 
-  return keyBy('id', expenseClasses);
+  return keyBy(expenseClasses, 'id');
 };
 
 export const getBudgetExpenseClassesExportData = (ky) => async ({
@@ -65,17 +66,19 @@ export const getBudgetExpenseClassesExportData = (ky) => async ({
 }) => {
   if (!EXPORT_EXPENSE_CLASS_STATUSES_MAP[expenseClassesConfig]) return Promise.resolve([]);
 
-  const budgetIds = Object.keys(budgetsData);
-  const budgetExpenseClassTotalsMap = await getBudgetExpenseClassTotals(ky)({ budgetIds, expenseClassesConfig });
+  const budgetsExpenseClassesTotalsMap = await getBudgetsExpenseClassesTotals(ky)({
+    budgetIds: Object.keys(budgetsData),
+    expenseClassesConfig,
+  });
 
   const expenseClassIds = getUniqItems(
-    budgetExpenseClassTotalsMap,
+    budgetsExpenseClassesTotalsMap,
     (expenseClasses) => expenseClasses.map(({ id }) => id),
   );
 
   const expenseClassesMap = await getExpenseClasses(ky)(expenseClassIds);
 
-  const expenseClassesExportData = Object.entries(budgetExpenseClassTotalsMap).reduce(
+  return Object.entries(budgetsExpenseClassesTotalsMap).reduce(
     (acc, [budgetId, totals]) => {
       return {
         ...acc,
@@ -89,6 +92,4 @@ export const getBudgetExpenseClassesExportData = (ky) => async ({
     },
     {},
   );
-
-  return expenseClassesExportData;
 };

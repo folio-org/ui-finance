@@ -1,8 +1,8 @@
 import { keyBy } from 'lodash';
 
 import {
+  fetchAllRecords,
   FUNDS_API,
-  LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
 import { getAcqUnitsData } from './getAcqUnitsData';
@@ -11,22 +11,16 @@ import { getFundGroupsData } from './getFundGroupsData';
 import { getAllocatableFunds } from './getAllocatableFunds';
 
 const getAllLedgerFunds = (ky) => async (ledger) => {
-  const fetchFunds = async (offset = 0, acc = []) => {
-    const { funds: fundsChunk = [] } = await ky.get(FUNDS_API, {
-      searchParams: {
-        offset,
-        limit: LIMIT_MAX,
-        query: `ledgerId==${ledger.id}`,
+  const funds = await fetchAllRecords(
+    {
+      GET: async ({ params: searchParams }) => {
+        const { funds: fundsResponse } = await ky.get(FUNDS_API, { searchParams }).json();
+
+        return fundsResponse;
       },
-    })
-      .json();
-
-    return fundsChunk.length
-      ? fetchFunds(offset + LIMIT_MAX, [...acc, ...fundsChunk])
-      : [...acc, ...fundsChunk];
-  };
-
-  const funds = await fetchFunds();
+    },
+    `ledgerId==${ledger.id}`,
+  );
 
   return keyBy(funds, 'id');
 };

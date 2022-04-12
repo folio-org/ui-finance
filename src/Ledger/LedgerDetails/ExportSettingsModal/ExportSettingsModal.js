@@ -41,7 +41,6 @@ const ExportSettingsModal = ({
       <Button
         marginBottom0
         onClick={onCancel}
-        disabled={isExporting}
       >
         <FormattedMessage id="ui-finance.exportCSV.exportSettings.cancel" />
       </Button>

@@ -54,7 +54,7 @@ const renderExportSettingsModalContainer = (props = {}) => render(
 
 const mockExportCSV = {
   isLoading: false,
-  runExportCSV: jest.fn(),
+  runExportCSV: jest.fn(() => Promise.resolve({})),
 };
 
 describe('ExportSettingsModalContainer', () => {

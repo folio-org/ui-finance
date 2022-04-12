@@ -43,10 +43,9 @@ export const ExportSettingsModalContainer = ({
       values: { name: ledger.name },
     });
 
-    runExportCSV(configs, {
-      onSuccess: () => completeWithStatus('success'),
-      onError: () => completeWithStatus('error'),
-    });
+    runExportCSV(configs)
+      .then(() => completeWithStatus('success'))
+      .catch(() => completeWithStatus('error'));
   }, [
     completeWithStatus,
     ledger,

@@ -7,7 +7,12 @@ import {
   useNamespace,
 } from '@folio/stripes/core';
 
-import { EXPORT_DATA_FIELDS } from '../../constants';
+import {
+  EXPORT_FUND_FIELDS,
+  EXPORT_BUDGET_FIELDS,
+  EXPORT_EXPENSE_CLASS_FIELDS,
+  EXPORT_EXPENSE_CLASS_STATUSES_MAP,
+} from '../../constants';
 import {
   createExportReport,
   getBudgetExpenseClassesExportData,
@@ -48,9 +53,14 @@ export const useLedgerExportCSV = (ledger) => {
       },
     );
 
+    const reportFields = EXPORT_EXPENSE_CLASS_STATUSES_MAP[configs.expenseClasses]
+      ? Object.keys({ ...EXPORT_FUND_FIELDS, ...EXPORT_BUDGET_FIELDS, ...EXPORT_EXPENSE_CLASS_FIELDS })
+      : Object.keys({ ...EXPORT_FUND_FIELDS, ...EXPORT_BUDGET_FIELDS });
+
     exportToCsv(
-      [{ ...EXPORT_DATA_FIELDS }, ...exportReport],
+      [{ ...EXPORT_FUND_FIELDS, ...EXPORT_BUDGET_FIELDS, ...EXPORT_EXPENSE_CLASS_FIELDS }, ...exportReport],
       {
+        onlyFields: reportFields,
         filename: `Export-${ledger.code}-${fiscalYearData.code}`,
         header: false,
       },

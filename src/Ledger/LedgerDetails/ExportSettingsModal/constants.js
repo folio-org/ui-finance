@@ -12,8 +12,7 @@ export const EXPORT_EXPENSE_CLASS_STATUSES_MAP = {
   [EXPORT_EXPENSE_CLASSES_VALUES.none]: null,
 };
 
-export const EXPORT_DATA_FIELDS = {
-  // Fund fields
+export const EXPORT_FUND_FIELDS = {
   fundName: 'Fund name',
   fundCode: 'Fund code',
   fundStatus: 'Fund status',
@@ -24,8 +23,9 @@ export const EXPORT_DATA_FIELDS = {
   transferTo: 'Transfer to',
   externalAccountNo: 'External account number',
   fundDescription: 'Description',
+};
 
-  // Budget fields
+export const EXPORT_BUDGET_FIELDS = {
   budgetName: 'Budget name',
   budgetStatus: 'Budget status',
   allowableEncumbrance: 'Allowable encumbrance',
@@ -45,8 +45,9 @@ export const EXPORT_DATA_FIELDS = {
   overExpended: 'Over expended',
   cashBalance: 'Cash balance',
   available: 'Available',
+};
 
-  // Expense class fields
+export const EXPORT_EXPENSE_CLASS_FIELDS = {
   expenseClassName: 'Expense class name',
   expenseClassCode: 'Expense class code',
   expenseClassStatus: 'Expense class status',

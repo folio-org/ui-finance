@@ -393,12 +393,12 @@
     "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
     "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
     "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance",
-    "appMenu.financeAppSearch": "Finance app Search",
-    "transaction.voided": "Voided transaction",
-    "exportCSV.exportSettings.heading": "Export settings",
-    "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
-    "exportCSV.exportSettings.cancel": "Cancel",
+    "appMenu.financeAppSearch": "Vyhledávání v aplikaci Rozpočet",
+    "transaction.voided": "Zrušená transakce",
+    "exportCSV.exportSettings.heading": "Nastavení exportu",
+    "exportCSV.exportSettings.message": "Tento export může trvat několik minut. Pokud stránku znovu načtete nebo zavřete, export se nedokončí. Jakmile bude soubor připraven, může vašemu prohlížeči dokončení stahování souboru trvat další minutu. V případě potřeby můžete pokračovat v práci s finančními záznamy na jiné kartě prohlížeče.",
+    "exportCSV.exportSettings.cancel": "Zrušit",
     "exportCSV.exportSettings.export": "Export",
-    "actions.exportCSV": "Export budget information (CSV)",
-    "permission.exportCSV": "Finance: Export finance records"
+    "actions.exportCSV": "Exportovat informace o rozpočtu (CSV)",
+    "permission.exportCSV": "Rozpočet: Export finančních záznamů"
 }

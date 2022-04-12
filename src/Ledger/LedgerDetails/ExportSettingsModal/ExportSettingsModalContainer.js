@@ -11,7 +11,6 @@ export const ExportSettingsModalContainer = ({
   fiscalYear,
   ledger,
   onCancel,
-  toggleModal,
 }) => {
   const showCallout = useShowCallout();
   const {
@@ -31,11 +30,11 @@ export const ExportSettingsModalContainer = ({
       values: { name: ledger.name },
     });
 
-    toggleModal();
+    onCancel();
   }, [
     ledger,
     showCallout,
-    toggleModal,
+    onCancel,
   ]);
 
   const onExportCSV = useCallback((configs) => {
@@ -70,5 +69,4 @@ ExportSettingsModalContainer.propTypes = {
   fiscalYear: PropTypes.object.isRequired,
   ledger: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
 };

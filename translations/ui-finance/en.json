@@ -9,6 +9,7 @@
   "save": "Save",
   "saveAndClose": "Save & Close",
   "close": "Close",
+  "invalidReference": "Invalid reference",
 
   "errors.load.code": "Error code fetching",
   "errors.load.name": "Error name fetching",

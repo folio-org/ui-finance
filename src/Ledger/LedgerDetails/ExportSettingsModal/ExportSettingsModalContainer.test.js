@@ -27,7 +27,6 @@ const defaultProps = {
   ledger,
   fiscalYear: FY,
   onCancel: jest.fn(),
-  toggleModal: jest.fn(),
 };
 
 const queryClient = new QueryClient();
@@ -61,7 +60,6 @@ const mockExportCSV = {
 describe('ExportSettingsModalContainer', () => {
   beforeEach(() => {
     defaultProps.onCancel.mockClear();
-    defaultProps.toggleModal.mockClear();
     useLedgerExportCSV.mockClear().mockReturnValue(mockExportCSV);
   });
 

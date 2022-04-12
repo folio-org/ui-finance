@@ -6,8 +6,6 @@ import {
 
 import { formatDateTime } from '@folio/stripes-acq-components';
 
-const joinFields = (dataArray, field = 'code') => dataArray.map(data => `"${data[field]}"`).join(' | ');
-
 export const createExportReport = async (
   {
     budgetsData,
@@ -18,11 +16,20 @@ export const createExportReport = async (
     intl,
   },
 ) => {
+  const invalidReference = intl.formatMessage({ id: 'ui-finance.invalidReference' });
+
+  const joinFields = (dataArray, field = 'code') => {
+    return dataArray
+      .map(data => (data?.[field] ? `"${data[field]}"` : null))
+      .filter(Boolean)
+      .join(' | ');
+  };
+
   const getFundFields = (fundData) => ({
     fundName: fundData.name,
     fundCode: fundData.code,
     fundStatus: fundData.fundStatus,
-    fundType: fundData.fundType?.name,
+    fundType: fundData.fundType?.name ?? invalidReference,
     fundGroups: joinFields(fundData.fundGroups),
     acqUnits: joinFields(fundData.acqUnits, 'name'),
     transferFrom: joinFields(fundData.transferFrom),

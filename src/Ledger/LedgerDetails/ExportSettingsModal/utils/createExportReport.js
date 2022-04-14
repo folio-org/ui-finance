@@ -16,8 +16,6 @@ export const createExportReport = async (
     intl,
   },
 ) => {
-  const invalidReference = intl.formatMessage({ id: 'ui-finance.invalidReference' });
-
   const joinFields = (dataArray, field = 'code') => {
     return dataArray
       .map(data => (data?.[field] ? `"${data[field]}"` : null))
@@ -29,7 +27,7 @@ export const createExportReport = async (
     fundName: fundData.name,
     fundCode: fundData.code,
     fundStatus: fundData.fundStatus,
-    fundType: fundData.fundType?.name ?? invalidReference,
+    fundType: fundData.fundType?.name,
     fundGroups: joinFields(fundData.fundGroups),
     acqUnits: joinFields(fundData.acqUnits, 'name'),
     transferFrom: joinFields(fundData.transferFrom),

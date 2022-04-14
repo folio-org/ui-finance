@@ -252,11 +252,13 @@ const LedgerDetails = ({
           />
         )}
 
-        <ExportSettingsModal
-          open={isExportConfirmation}
-          onCancel={toggleExportConfirmation}
-          onExportCSV={toggleExportConfirmation}
-        />
+        {isExportConfirmation && (
+          <ExportSettingsModal
+            fiscalYear={fiscalYear}
+            ledger={ledger}
+            onCancel={toggleExportConfirmation}
+          />
+        )}
 
       </Pane>
     </HasCommand>

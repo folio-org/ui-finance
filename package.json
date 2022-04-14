@@ -352,7 +352,13 @@
         "displayName": "Finance: Export finance records",
         "description": "",
         "visible": true,
-        "subPermissions": []
+        "subPermissions": [
+          "finance.budgets-expense-classes-totals.collection.get",
+          "finance.expense-classes.collection.get",
+          "finance.fiscal-years.collection.get",
+          "finance.fiscal-years.item.get",
+          "finance.fund-types.collection.get"
+        ]
       }
 
     ]

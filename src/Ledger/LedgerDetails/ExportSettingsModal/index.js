@@ -1,1 +1,1 @@
-export { ExportSettingsModal } from './ExportSettingsModal';
+export { ExportSettingsModalContainer as ExportSettingsModal } from './ExportSettingsModalContainer';

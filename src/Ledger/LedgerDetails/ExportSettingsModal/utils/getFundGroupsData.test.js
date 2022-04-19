@@ -1,5 +1,3 @@
-import { keyBy } from 'lodash';
-
 import { fundsData } from '../../../../../test/jest/fixtures/export';
 import {
   GROUPS_API,

@@ -393,12 +393,21 @@
     "groups.actions.removeFund.success": "Fund <b>{fundCode}</b> has been removed from group",
     "groups.actions.removeFund.error": "Fund <b>{fundCode}</b> has not been removed from group",
     "ledger.rollover.basedOn.initialEncumbrance": "Impegno iniziale",
-    "appMenu.financeAppSearch": "Finance app Search",
+    "appMenu.financeAppSearch": "Ricerca app Finanza",
     "transaction.voided": "Transazione annullata",
     "exportCSV.exportSettings.heading": "Export settings",
     "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
     "exportCSV.exportSettings.cancel": "Cancel",
     "exportCSV.exportSettings.export": "Export",
     "actions.exportCSV": "Export budget information (CSV)",
-    "permission.exportCSV": "Finance: Export finance records"
+    "permission.exportCSV": "Finance: Export finance records",
+    "exportCSV.exportSettings.export.start": "Export of <b>{name}</b> data has started",
+    "exportCSV.exportSettings.export.success": "<b>{name}</b> data was successfully exported to CSV",
+    "exportCSV.exportSettings.export.error": "Export of <b>{name}</b> data was failed",
+    "exportCSV.exportSettings.expenseClasses": "Export expense classes",
+    "exportCSV.exportSettings.expenseClasses.all": "All",
+    "exportCSV.exportSettings.expenseClasses.active": "Attiva",
+    "exportCSV.exportSettings.expenseClasses.inactive": "Inattiva",
+    "exportCSV.exportSettings.expenseClasses.none": "None",
+    "exportCSV.report.budget.notFound": "No budget found"
 }

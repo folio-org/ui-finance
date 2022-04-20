@@ -400,5 +400,14 @@
     "exportCSV.exportSettings.cancel": "Cancel",
     "exportCSV.exportSettings.export": "Export",
     "actions.exportCSV": "Export budget information (CSV)",
-    "permission.exportCSV": "Finance: Export finance records"
+    "permission.exportCSV": "Finance: Export finance records",
+    "exportCSV.exportSettings.export.start": "Export of <b>{name}</b> data has started",
+    "exportCSV.exportSettings.export.success": "<b>{name}</b> data was successfully exported to CSV",
+    "exportCSV.exportSettings.export.error": "Export of <b>{name}</b> data was failed",
+    "exportCSV.exportSettings.expenseClasses": "Export expense classes",
+    "exportCSV.exportSettings.expenseClasses.all": "All",
+    "exportCSV.exportSettings.expenseClasses.active": "Active",
+    "exportCSV.exportSettings.expenseClasses.inactive": "Inactive",
+    "exportCSV.exportSettings.expenseClasses.none": "None",
+    "exportCSV.report.budget.notFound": "No budget found"
 }

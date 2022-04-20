@@ -400,5 +400,14 @@
     "exportCSV.exportSettings.cancel": "إلغاء",
     "exportCSV.exportSettings.export": "تصدير",
     "actions.exportCSV": "تصدير بيانات الميزانية (CSV)",
-    "permission.exportCSV": "الشؤون المالية: صدّر التسجيلات المالية"
+    "permission.exportCSV": "الشؤون المالية: صدّر التسجيلات المالية",
+    "exportCSV.exportSettings.export.start": "بدأ تصدير بيانات <b>{name}</b>",
+    "exportCSV.exportSettings.export.success": "تم تصدير بيانات <b>{name}</b> بنجاح إلى ملف CSV",
+    "exportCSV.exportSettings.export.error": "فشل تصدير بيانات <b>{name}</b>",
+    "exportCSV.exportSettings.expenseClasses": "تصدير فئات المصروفات",
+    "exportCSV.exportSettings.expenseClasses.all": "الكل",
+    "exportCSV.exportSettings.expenseClasses.active": "نشط",
+    "exportCSV.exportSettings.expenseClasses.inactive": "غير نشط",
+    "exportCSV.exportSettings.expenseClasses.none": "لا شيء",
+    "exportCSV.report.budget.notFound": "لم يتم العثور على ميزانية"
 }

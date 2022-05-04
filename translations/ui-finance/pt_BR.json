@@ -401,13 +401,13 @@
     "exportCSV.exportSettings.export": "Exportar",
     "actions.exportCSV": "Exportar informações de orçamento (CSV)",
     "permission.exportCSV": "Finanças: exportar registros de finanças",
-    "exportCSV.exportSettings.export.start": "Export of <b>{name}</b> data has started",
-    "exportCSV.exportSettings.export.success": "<b>{name}</b> data was successfully exported to CSV",
-    "exportCSV.exportSettings.export.error": "Export of <b>{name}</b> data was failed",
-    "exportCSV.exportSettings.expenseClasses": "Export expense classes",
-    "exportCSV.exportSettings.expenseClasses.all": "All",
-    "exportCSV.exportSettings.expenseClasses.active": "Active",
-    "exportCSV.exportSettings.expenseClasses.inactive": "Inactive",
-    "exportCSV.exportSettings.expenseClasses.none": "None",
-    "exportCSV.report.budget.notFound": "No budget found"
+    "exportCSV.exportSettings.export.start": "A exportação de dados <b> {name} </b> foi iniciada",
+    "exportCSV.exportSettings.export.success": "Os dados de <b> {name} </b> foram exportados com sucesso para arquivo CSV",
+    "exportCSV.exportSettings.export.error": "A exportação de dados <b> {name} </b> foi iniciada",
+    "exportCSV.exportSettings.expenseClasses": "Exportar classes de despesas",
+    "exportCSV.exportSettings.expenseClasses.all": "Todas",
+    "exportCSV.exportSettings.expenseClasses.active": "Ativa",
+    "exportCSV.exportSettings.expenseClasses.inactive": "Inativa",
+    "exportCSV.exportSettings.expenseClasses.none": "Nenhuma",
+    "exportCSV.report.budget.notFound": "Nenhum orçamento encontrado"
 }

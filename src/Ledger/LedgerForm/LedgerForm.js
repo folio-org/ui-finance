@@ -39,8 +39,8 @@ import {
   MANAGE_UNITS_PERM,
 } from '../../common/const';
 import {
-  LEDGER_ACCORDTION_LABELS,
-  LEDGER_ACCORDTION,
+  LEDGER_ACCORDION_LABELS,
+  LEDGER_ACCORDION,
   LEDGER_STATUS_OPTIONS,
 } from '../constants';
 import FieldLedgerCode from './FieldLedgerCode';
@@ -128,8 +128,8 @@ const LedgerForm = ({
                   </Row>
                   <AccordionSet>
                     <Accordion
-                      id={LEDGER_ACCORDTION.information}
-                      label={LEDGER_ACCORDTION_LABELS.information}
+                      id={LEDGER_ACCORDION.information}
+                      label={LEDGER_ACCORDION_LABELS.information}
                     >
                       {metadata && <ViewMetaData metadata={metadata} />}
                       <Row>

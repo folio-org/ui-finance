@@ -39,8 +39,8 @@ import {
 import FinancialSummary from '../../common/FinancialSummary';
 import { LEDGERS_ROUTE } from '../../common/const';
 import {
-  LEDGER_ACCORDTION,
-  LEDGER_ACCORDTION_LABELS,
+  LEDGER_ACCORDION,
+  LEDGER_ACCORDION_LABELS,
 } from '../constants';
 import LedgerInformation from './LedgerInformation';
 import LedgerGroups from './LedgerGroups';
@@ -176,8 +176,8 @@ const LedgerDetails = ({
           </Row>
           <AccordionSet>
             <Accordion
-              id={LEDGER_ACCORDTION.information}
-              label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.information]}
+              id={LEDGER_ACCORDION.information}
+              label={LEDGER_ACCORDION_LABELS[LEDGER_ACCORDION.information]}
             >
               <LedgerInformation
                 metadata={ledger.metadata}
@@ -192,8 +192,8 @@ const LedgerDetails = ({
               />
             </Accordion>
             <Accordion
-              id={LEDGER_ACCORDTION.financialSummary}
-              label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.financialSummary]}
+              id={LEDGER_ACCORDION.financialSummary}
+              label={LEDGER_ACCORDION_LABELS[LEDGER_ACCORDION.financialSummary]}
             >
               <FinancialSummary
                 data={ledger}
@@ -201,8 +201,8 @@ const LedgerDetails = ({
               />
             </Accordion>
             <Accordion
-              id={LEDGER_ACCORDTION.group}
-              label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.group]}
+              id={LEDGER_ACCORDION.group}
+              label={LEDGER_ACCORDION_LABELS[LEDGER_ACCORDION.group]}
             >
               <LedgerGroups
                 funds={funds}
@@ -212,8 +212,8 @@ const LedgerDetails = ({
               />
             </Accordion>
             <Accordion
-              id={LEDGER_ACCORDTION.fund}
-              label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.fund]}
+              id={LEDGER_ACCORDION.fund}
+              label={LEDGER_ACCORDION_LABELS[LEDGER_ACCORDION.fund]}
             >
               <LedgerFunds
                 funds={funds}
@@ -224,8 +224,8 @@ const LedgerDetails = ({
             </Accordion>
             {!rolloverErrors.length ? null : (
               <Accordion
-                id={LEDGER_ACCORDTION.rolloverErrors}
-                label={LEDGER_ACCORDTION_LABELS[LEDGER_ACCORDTION.rolloverErrors]}
+                id={LEDGER_ACCORDION.rolloverErrors}
+                label={LEDGER_ACCORDION_LABELS[LEDGER_ACCORDION.rolloverErrors]}
               >
                 <Label>
                   <FormattedMessage id="ui-finance.ledger.rolloverErrorsLabel" />

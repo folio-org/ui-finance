@@ -1,18 +1,18 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export const GROUP_ACCORDTION = {
+export const GROUP_ACCORDION = {
   information: 'information',
   financialSummary: 'financial-summary',
   fund: 'fund',
   expenseClasses: 'expenseClasses',
 };
 
-export const GROUP_ACCORDTION_LABELS = {
-  [GROUP_ACCORDTION.information]: <FormattedMessage id="ui-finance.groups.item.information" />,
-  [GROUP_ACCORDTION.financialSummary]: <FormattedMessage id="ui-finance.groups.item.financialSummary" />,
-  [GROUP_ACCORDTION.fund]: <FormattedMessage id="ui-finance.groups.item.fund" />,
-  [GROUP_ACCORDTION.expenseClasses]: <FormattedMessage id="ui-finance.groups.item.expenseClasses" />,
+export const GROUP_ACCORDION_LABELS = {
+  [GROUP_ACCORDION.information]: <FormattedMessage id="ui-finance.groups.item.information" />,
+  [GROUP_ACCORDION.financialSummary]: <FormattedMessage id="ui-finance.groups.item.financialSummary" />,
+  [GROUP_ACCORDION.fund]: <FormattedMessage id="ui-finance.groups.item.fund" />,
+  [GROUP_ACCORDION.expenseClasses]: <FormattedMessage id="ui-finance.groups.item.expenseClasses" />,
 };
 
 export const GROUP_STATUS = {

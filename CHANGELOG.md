@@ -9,6 +9,7 @@
 * Start export budgets with confirmed settings. Refs UIF-367.
 * Create csv file with all budget data. Refs UIF-368.
 * Replace `babel-eslint` with `@babel/eslint-parser`. Refs UIF-374.
+* UI-Finance: module warnings analysis. Refs UIF-376.
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)

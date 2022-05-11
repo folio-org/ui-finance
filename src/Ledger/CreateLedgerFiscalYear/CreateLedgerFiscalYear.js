@@ -60,7 +60,7 @@ CreateLedgerFiscalYear.propTypes = {
   mutator: PropTypes.object.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
-  match: ReactRouterPropTypes.history.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default withRouter(stripesConnect(CreateLedgerFiscalYear));

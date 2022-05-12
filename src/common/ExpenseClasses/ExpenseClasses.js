@@ -44,7 +44,12 @@ const getResultsFormatter = currency => ({
     ? `${expenseClass.percentageExpended}%`
     : <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended.undefined" />
   ),
-  status: expenseClass => <FormattedMessage id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`} />,
+  status: expenseClass => (
+    <FormattedMessage
+      id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`}
+      defaultMessage="-"
+    />
+  ),
 });
 
 const SORTERS = {

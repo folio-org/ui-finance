@@ -6,7 +6,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
 import ExpenseClasses from '../../../common/ExpenseClasses';
-import { GROUP_ACCORDTION, GROUP_ACCORDTION_LABELS } from '../../constants';
+import { GROUP_ACCORDION, GROUP_ACCORDION_LABELS } from '../../constants';
 
 const VISIBLE_COLUMNS = ['expenseClassName', 'encumbered', 'awaitingPayment', 'expended', 'percentageExpended'];
 
@@ -20,8 +20,8 @@ function GroupExpenseClasses({
 
   return (
     <Accordion
-      label={GROUP_ACCORDTION_LABELS.expenseClasses}
-      id={GROUP_ACCORDTION.expenseClasses}
+      label={GROUP_ACCORDION_LABELS.expenseClasses}
+      id={GROUP_ACCORDION.expenseClasses}
     >
       <ExpenseClasses
         expenseClassesTotals={records}

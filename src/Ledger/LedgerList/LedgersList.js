@@ -213,7 +213,7 @@ LedgerList.propTypes = {
   ledgers: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool.isRequired,
   onNeedMoreData: PropTypes.func.isRequired,
-  ledgersCount: PropTypes.number.isRequired,
+  ledgersCount: PropTypes.number,
   resetData: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,

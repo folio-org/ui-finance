@@ -13,11 +13,11 @@ export const EXPORT_EXPENSE_CLASS_STATUSES_MAP = {
 };
 
 export const EXPORT_FUND_FIELDS = {
-  fundName: 'Fund name',
-  fundCode: 'Fund code',
-  fundStatus: 'Fund status',
+  fundName: 'Name (Fund)',
+  fundCode: 'Code (Fund)',
+  fundStatus: 'Status (Fund)',
   fundType: 'Type',
-  fundGroups: 'Group',
+  fundGroups: 'Group (Code)',
   acqUnits: 'Acquisition unit',
   transferFrom: 'Transfer from',
   transferTo: 'Transfer to',
@@ -26,20 +26,20 @@ export const EXPORT_FUND_FIELDS = {
 };
 
 export const EXPORT_BUDGET_FIELDS = {
-  budgetName: 'Budget name',
-  budgetStatus: 'Budget status',
+  budgetName: 'Name (Budget)',
+  budgetStatus: 'Status (Budget)',
   allowableEncumbrance: 'Allowable encumbrance',
   allowableExpenditure: 'Allowable expenditure',
-  createdDate: 'Date created',
+  createdDate: 'Date created (Budget)',
   initialAllocation: 'Initial allocation',
   allocatedIncrease: 'Increase',
   allocatedDecrease: 'Decrease',
   totalAllocated: 'Total allocation',
   transfers: 'Transfers',
   totalFunding: 'Total Funding',
-  budgetEncumbered: 'Encumbered on budget',
-  awaitingPayment: 'Awaiting payment (budget)',
-  expended: 'Expended (budget)',
+  budgetEncumbered: 'Encumbered (Budget)',
+  awaitingPayment: 'Awaiting payment (Budget)',
+  expended: 'Expended (Budget)',
   unavailable: 'Unavailable',
   overEncumbered: 'Over encumbered',
   overExpended: 'Over expended',
@@ -48,11 +48,11 @@ export const EXPORT_BUDGET_FIELDS = {
 };
 
 export const EXPORT_EXPENSE_CLASS_FIELDS = {
-  expenseClassName: 'Expense class name',
-  expenseClassCode: 'Expense class code',
-  expenseClassStatus: 'Expense class status',
-  expenseClassEncumbered: 'Encumbered for expense class',
-  expenseClassAwaitingPayment: 'Awaiting payment',
-  expenseClassExpended: 'Expended',
+  expenseClassName: 'Name (Exp Class)',
+  expenseClassCode: 'Code (Exp Class)',
+  expenseClassStatus: 'Status (Exp Class)',
+  expenseClassEncumbered: 'Encumbered (Exp Class)',
+  expenseClassAwaitingPayment: 'Awaiting payment (Exp Class)',
+  expenseClassExpended: 'Expended (Exp Class)',
   percentageOfTotalExpended: 'Percentage of total expended',
 };

@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.1.2](https://github.com/folio-org/ui-finance/tree/v3.1.2) (2022-06-02)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.1...v3.1.2)
+
 * Backport recent zh_TW translations. Refs UIF-387.
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-04-31)

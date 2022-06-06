@@ -17,6 +17,7 @@ import {
   LoadingView,
 } from '@folio/stripes/components';
 import {
+  ERROR_CODE_CONFLICT,
   ERROR_CODE_GENERIC,
   useModalToggle,
   useShowCallout,
@@ -45,6 +46,7 @@ const FundFormContainer = ({
   const [fundTypes, setFundTypes] = useState([]);
   const [ledgers, setLedgers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorCode, setErrorCode] = useState();
 
   useEffect(() => {
     mutator.fundFormFunds.GET().then(setFunds);
@@ -102,26 +104,31 @@ const FundFormContainer = ({
 
       setTimeout(() => onCancel(savedFund.fund.id));
     } catch (e) {
-      let errorCode = null;
+      let respErrorCode = null;
 
       try {
         const responseJson = await e.json();
 
-        errorCode = get(responseJson, 'errors.0.code', ERROR_CODE_GENERIC);
+        respErrorCode = get(responseJson, 'errors.0.code', ERROR_CODE_GENERIC);
       } catch (parsingException) {
-        errorCode = ERROR_CODE_GENERIC;
+        respErrorCode = ERROR_CODE_GENERIC;
       }
-      const message = (
-        <FormattedMessage
-          id={`ui-finance.fund.actions.save.error.${errorCode}`}
-          defaultMessage={intl.formatMessage({ id: `ui-finance.fund.actions.save.error.${ERROR_CODE_GENERIC}` })}
-        />
-      );
 
-      showCallout({
-        message,
-        type: 'error',
-      });
+      if (respErrorCode === ERROR_CODE_CONFLICT) {
+        setErrorCode(respErrorCode);
+      } else {
+        const message = (
+          <FormattedMessage
+            id={`ui-finance.fund.actions.save.error.${respErrorCode}`}
+            defaultMessage={intl.formatMessage({ id: `ui-finance.fund.actions.save.error.${ERROR_CODE_GENERIC}` })}
+          />
+        );
+
+        showCallout({
+          message,
+          type: 'error',
+        });
+      }
 
       return { [FORM_ERROR]: 'FY was not saved' };
     }
@@ -144,6 +151,7 @@ const FundFormContainer = ({
         funds={funds}
         fundTypes={fundTypes}
         ledgers={ledgers}
+        errorCode={errorCode}
       />
       {
         isNotUniqueNameOpen && (

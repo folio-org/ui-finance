@@ -26,15 +26,20 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   FormFooter,
   handleKeyCommand,
+  OptimisticLockingBanner,
 } from '@folio/stripes-acq-components';
 
 import FinancialSummary from '../../../common/FinancialSummary';
-import { FUNDS_ROUTE } from '../../../common/const';
+import {
+  BUDGET_ROUTE,
+  FUNDS_ROUTE,
+} from '../../../common/const';
 import { SECTIONS_BUDGET } from '../constants';
 import BudgetInformationFields from './BudgetInformationFields';
 import BudgetExpenseClassesFields from './BudgetExpenseClassesFields';
 
 const BudgetForm = ({
+  errorCode,
   expenseClasses,
   fiscalYear,
   handleSubmit,
@@ -123,6 +128,10 @@ const BudgetForm = ({
                 md={8}
                 mdOffset={2}
               >
+                <OptimisticLockingBanner
+                  errorCode={errorCode}
+                  latestVersionLink={`${BUDGET_ROUTE}${initialValues.id}/view`}
+                />
                 <AccordionStatus ref={accordionStatusRef}>
                   <Row end="xs">
                     <Col xs={12}>
@@ -179,6 +188,7 @@ BudgetForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
+  errorCode: PropTypes.string,
 };
 
 export default stripesFinalForm({

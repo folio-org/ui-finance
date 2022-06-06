@@ -37,7 +37,7 @@ const RolloverLedgerCreateFiscalYear = ({ mutator }) => {
     [history, ledgerId, location.search],
   );
 
-  const saveFiscalYear = useSaveFiscalYear(mutator.createLedgerFiscalYear, closeForm);
+  const { saveFiscalYear } = useSaveFiscalYear(mutator.createLedgerFiscalYear, closeForm);
 
   return (
     <FiscalYearForm

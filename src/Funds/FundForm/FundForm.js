@@ -35,6 +35,7 @@ import {
   FormFooter,
   FUNDS_API,
   handleKeyCommand,
+  OptimisticLockingBanner,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -63,6 +64,7 @@ const FundForm = ({
   fundTypes,
   ledgers,
   systemCurrency,
+  errorCode,
 }) => {
   const ky = useOkapiKy();
   const accordionStatusRef = useRef();
@@ -219,6 +221,10 @@ const FundForm = ({
                 md={8}
                 mdOffset={2}
               >
+                <OptimisticLockingBanner
+                  errorCode={errorCode}
+                  latestVersionLink={`${FUNDS_ROUTE}/view/${fundId}`}
+                />
                 <AccordionStatus ref={accordionStatusRef}>
                   <Row end="xs">
                     <Col xs={12}>
@@ -414,6 +420,7 @@ FundForm.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   fundTypes: PropTypes.arrayOf(PropTypes.object),
   ledgers: PropTypes.arrayOf(PropTypes.object),
+  errorCode: PropTypes.string,
 };
 
 FundForm.defaultProps = {

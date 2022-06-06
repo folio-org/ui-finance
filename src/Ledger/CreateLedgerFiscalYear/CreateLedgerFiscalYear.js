@@ -38,7 +38,7 @@ const CreateLedgerFiscalYear = ({ mutator, location, history, match }) => {
     [location.search],
   );
 
-  const saveFiscalYear = useSaveFiscalYear(mutator.createLedgerFiscalYear, closeForm);
+  const { saveFiscalYear } = useSaveFiscalYear(mutator.createLedgerFiscalYear, closeForm);
 
   return (
     <FiscalYearForm

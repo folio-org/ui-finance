@@ -262,7 +262,9 @@
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",
+          "invoice.invoices.collection.get",
           "invoice.invoices.item.get",
+          "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
           "tags.collection.get",
           "users.collection.get"

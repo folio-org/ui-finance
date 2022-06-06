@@ -1,4 +1,5 @@
 import React from 'react';
+import user from '@testing-library/user-event';
 import { act, render, screen } from '@testing-library/react';
 
 import { useOkapiKy } from '@folio/stripes/core';
@@ -30,8 +31,8 @@ describe('TransactionsFilters component', () => {
     useOkapiKy.mockClear().mockReturnValue({
       get: jest.fn(() => ({
         json: () => Promise.resolve({
-          invoices: [{ id: 'invoiceId', vendorInvoiceNo: 'vendorInvoiceNo' }],
-          poLines: [{ id: 'poLineId', poLineNumber: 'poLineNumber' }],
+          invoices: [{ id: 'invoiceId', vendorInvoiceNo: '11111' }],
+          poLines: [{ id: 'poLineId', poLineNumber: '10001' }],
         }),
       })),
     });
@@ -40,11 +41,27 @@ describe('TransactionsFilters component', () => {
   it('should display transaction list filters', async () => {
     await act(async () => {
       renderTransactionFilters();
-      jest.advanceTimersByTime(1500);
     });
 
     expect(screen.getByText('ui-finance.transaction.type')).toBeDefined();
     expect(screen.getByText('ui-finance.transaction.source')).toBeDefined();
     expect(screen.getByText('ui-finance.transaction.expenseClass')).toBeDefined();
+  });
+
+  it('should apply filter when an option from selection was selected', async () => {
+    await act(async () => {
+      renderTransactionFilters();
+    });
+
+    const input = screen.getAllByLabelText('stripes-components.selection.filterOptionsLabel')[2];
+
+    await act(async () => {
+      user.type(input, '1');
+      jest.advanceTimersByTime(1500);
+    });
+
+    user.click(screen.getByText(/11111/));
+
+    expect(defaultProps.applyFilters).toHaveBeenCalled();
   });
 });

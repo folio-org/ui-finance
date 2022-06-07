@@ -409,5 +409,7 @@
     "exportCSV.exportSettings.expenseClasses.active": "نشط",
     "exportCSV.exportSettings.expenseClasses.inactive": "غير نشط",
     "exportCSV.exportSettings.expenseClasses.none": "لا شيء",
-    "exportCSV.report.budget.notFound": "لم يتم العثور على ميزانية"
+    "exportCSV.report.budget.notFound": "لم يتم العثور على ميزانية",
+    "transaction.source.Invoice.number": "رقم فاتورة المصدر",
+    "transaction.source.PoLine.number": "رقم سطر أمر شراء المصدر"
 }

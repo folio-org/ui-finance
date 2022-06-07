@@ -409,5 +409,7 @@
     "exportCSV.exportSettings.expenseClasses.active": "Aktivní",
     "exportCSV.exportSettings.expenseClasses.inactive": "Neaktivní",
     "exportCSV.exportSettings.expenseClasses.none": "Žádné",
-    "exportCSV.report.budget.notFound": "Nebyl nalezen žádný rozpočet"
+    "exportCSV.report.budget.notFound": "Nebyl nalezen žádný rozpočet",
+    "transaction.source.Invoice.number": "Zdrojové číslo faktury",
+    "transaction.source.PoLine.number": "Zdrojové číslo POL"
 }

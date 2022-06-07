@@ -11,6 +11,7 @@
 * Replace `babel-eslint` with `@babel/eslint-parser`. Refs UIF-374.
 * UI-Finance: module warnings analysis. Refs UIF-376.
 * Identify record type for common fields in budget export. Refs UIF-384.
+* Filter transactions by source POL or Vendor invoice number. Refs UIF-383.
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)

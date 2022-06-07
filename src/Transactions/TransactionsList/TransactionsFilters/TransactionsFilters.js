@@ -8,6 +8,9 @@ import {
 import {
   AcqCheckboxFilter,
   AcqTagsFilter,
+  DynamicSelectionFilter,
+  INVOICES_API,
+  LINES_API,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -18,12 +21,15 @@ import { ExpenseClassFilter } from './ExpenseClassFilter';
 
 export const FILTERS = {
   SOURCE: 'source',
+  SOURCE_PO_LINE: 'encumbrance.sourcePoLineId',
+  SOURCE_INVOICE: 'sourceInvoiceId',
   TRANSACTION_TYPE: 'transactionType',
   TAGS: 'tags.tagList',
   EXPENSE_CLASS: 'expenseClassId',
 };
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+const getSourceQueryBuilder = (field) => (value) => `${field}="${value || ''}*" sortby ${field}/sort.ascending`;
 
 const TransactionsFilters = ({
   activeFilters,
@@ -52,6 +58,30 @@ const TransactionsFilters = ({
         name={FILTERS.SOURCE}
         onChange={adaptedApplyFilters}
         options={TRANSACTION_SOURCE_OPTIONS}
+      />
+
+      <DynamicSelectionFilter
+        activeFilters={activeFilters[FILTERS.SOURCE_PO_LINE]}
+        api={LINES_API}
+        dataFormatter={({ poLines }) => poLines.map(({ id, poLineNumber }) => ({ label: poLineNumber, value: id }))}
+        id={`filter-${FILTERS.SOURCE_PO_LINE}`}
+        labelId="ui-finance.transaction.source.PoLine.number"
+        name={FILTERS.SOURCE_PO_LINE}
+        onChange={adaptedApplyFilters}
+        queryBuilder={getSourceQueryBuilder('poLineNumber')}
+      />
+
+      <DynamicSelectionFilter
+        activeFilters={activeFilters[FILTERS.SOURCE_INVOICE]}
+        api={INVOICES_API}
+        dataFormatter={({ invoices }) => invoices.map(
+          ({ id, vendorInvoiceNo }) => ({ label: vendorInvoiceNo, value: id }),
+        )}
+        id={`filter-${FILTERS.SOURCE_INVOICE}`}
+        labelId="ui-finance.transaction.source.Invoice.number"
+        name={FILTERS.SOURCE_INVOICE}
+        onChange={adaptedApplyFilters}
+        queryBuilder={getSourceQueryBuilder('vendorInvoiceNo')}
       />
 
       <AcqTagsFilter

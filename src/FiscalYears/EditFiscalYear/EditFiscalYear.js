@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -19,7 +19,6 @@ import { useSaveFiscalYear } from '../utils';
 
 export const EditFiscalYear = ({ resources, mutator, match, history, location }) => {
   const fiscalYearId = match.params.id;
-  const [errorCode, setErrorCode] = useState();
 
   useEffect(
     () => {
@@ -43,10 +42,6 @@ export const EditFiscalYear = ({ resources, mutator, match, history, location })
 
   const { saveFiscalYear, error } = useSaveFiscalYear(mutator.fiscalYearEdit, closeEdit, 'PUT');
 
-  useEffect(() => {
-    setErrorCode(error);
-  }, [error]);
-
   const isLoading = !get(resources, ['fiscalYearEdit', 'hasLoaded']);
   const fiscalYear = get(resources, ['fiscalYearEdit', 'records', '0']);
 
@@ -61,7 +56,7 @@ export const EditFiscalYear = ({ resources, mutator, match, history, location })
       initialValues={fiscalYear}
       onSubmit={saveFiscalYear}
       onCancel={closeEdit}
-      errorCode={errorCode}
+      errorCode={error}
     />
   );
 };

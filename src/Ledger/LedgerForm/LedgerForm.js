@@ -27,9 +27,10 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsField,
   FieldSelectionFinal,
-  handleKeyCommand,
-  validateRequired,
   FormFooter,
+  handleKeyCommand,
+  OptimisticLockingBanner,
+  validateRequired,
 } from '@folio/stripes-acq-components';
 
 import { FiscalYearField } from '../../common/FiscalYearField';
@@ -57,6 +58,7 @@ const LedgerForm = ({
   onCancel,
   submitting,
   pristine,
+  errorCode,
 }) => {
   const accordionStatusRef = useRef();
   const history = useHistory();
@@ -120,6 +122,10 @@ const LedgerForm = ({
                 md={8}
                 mdOffset={2}
               >
+                <OptimisticLockingBanner
+                  errorCode={errorCode}
+                  latestVersionLink={`${LEDGERS_ROUTE}/${initialValues.id}/view`}
+                />
                 <AccordionStatus ref={accordionStatusRef}>
                   <Row end="xs">
                     <Col xs={12}>
@@ -238,6 +244,7 @@ LedgerForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
+  errorCode: PropTypes.string,
 };
 
 LedgerForm.defaultProps = {

@@ -28,7 +28,7 @@ jest.mock('../../FiscalYears', () => {
         </button>
       </>
     ),
-    useSaveFiscalYear: () => mockSaveFiscalYear(),
+    useSaveFiscalYear: () => ({ saveFiscalYear: mockSaveFiscalYear }),
   };
 });
 

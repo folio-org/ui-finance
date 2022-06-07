@@ -20,6 +20,7 @@ import {
   FieldSelectionFinal,
   FormFooter,
   handleKeyCommand,
+  OptimisticLockingBanner,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -39,6 +40,7 @@ const GroupForm = ({
   handleSubmit,
   pristine,
   submitting,
+  errorCode,
 }) => {
   const history = useHistory();
   const closeForm = useCallback(() => onCancel(), [onCancel]);
@@ -89,6 +91,10 @@ const GroupForm = ({
           >
             <Row>
               <Col xs={12} md={8} mdOffset={2}>
+                <OptimisticLockingBanner
+                  errorCode={errorCode}
+                  latestVersionLink={`${GROUPS_ROUTE}/${initialValues.id}/view`}
+                />
                 <Row>
                   <Col xs={3}>
                     <Field
@@ -158,6 +164,7 @@ GroupForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   initialValues: PropTypes.object,
+  errorCode: PropTypes.string,
 };
 
 GroupForm.defaultProps = {

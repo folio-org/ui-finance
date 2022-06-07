@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { stripesConnect } from '@folio/stripes/core';
 import { LoadingView } from '@folio/stripes/components';
 import {
+  ERROR_CODE_CONFLICT,
   getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -17,6 +18,7 @@ import { groupByUrlIdResource } from '../../common/resources';
 import { GroupForm } from '../GroupForm';
 
 export const EditGroup = ({ resources, mutator, match, history, location }) => {
+  const [errorCode, setErrorCode] = useState();
   const groupId = match.params.id;
   const intl = useIntl();
 
@@ -52,19 +54,23 @@ export const EditGroup = ({ resources, mutator, match, history, location }) => {
 
         return savedGroup;
       } catch (response) {
-        const errorCode = await getErrorCodeFromResponse(response);
+        const respErrorCode = await getErrorCodeFromResponse(response);
 
-        const errorMessage = (
-          <FormattedMessage
-            id={`ui-finance.groups.actions.save.error.${errorCode}`}
-            defaultMessage={intl.formatMessage({ id: 'ui-finance.groups.actions.save.error.genericError' })}
-          />
-        );
+        if (respErrorCode === ERROR_CODE_CONFLICT) {
+          setErrorCode(respErrorCode);
+        } else {
+          const errorMessage = (
+            <FormattedMessage
+              id={`ui-finance.groups.actions.save.error.${respErrorCode}`}
+              defaultMessage={intl.formatMessage({ id: 'ui-finance.groups.actions.save.error.genericError' })}
+            />
+          );
 
-        showCallout({
-          message: errorMessage,
-          type: 'error',
-        });
+          showCallout({
+            message: errorMessage,
+            type: 'error',
+          });
+        }
 
         return { id: 'Unable to edit group' };
       }
@@ -81,6 +87,7 @@ export const EditGroup = ({ resources, mutator, match, history, location }) => {
         initialValues={group}
         onSubmit={saveGroup}
         onCancel={closeEdit}
+        errorCode={errorCode}
       />
     )
     : (<LoadingView onClose={closeEdit} />);

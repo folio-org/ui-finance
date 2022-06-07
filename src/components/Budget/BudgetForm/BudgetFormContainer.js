@@ -5,7 +5,9 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { LoadingView } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  ERROR_CODE_CONFLICT,
   expenseClassesManifest,
+  getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -21,6 +23,7 @@ const BudgetFormContainer = ({ history, mutator, location, match }) => {
   const [budget, setBudget] = useState();
   const [fiscalYear, setFiscalYear] = useState();
   const [expenseClasses, setExpenseClasses] = useState();
+  const [errorCode, setErrorCode] = useState();
   const showCallout = useShowCallout();
 
   useEffect(() => {
@@ -70,7 +73,13 @@ const BudgetFormContainer = ({ history, mutator, location, match }) => {
         showCallout({ messageId: 'ui-finance.budget.hasBeenSaved', values: { name } });
         setTimeout(() => goToBudgetView(), 0);
       } catch (e) {
-        showCallout({ messageId: 'ui-finance.budget.hasNotBeenSaved', type: 'error', values: { name } });
+        const respErrorCode = await getErrorCodeFromResponse(e);
+
+        if (respErrorCode === ERROR_CODE_CONFLICT) {
+          setErrorCode(respErrorCode);
+        } else {
+          showCallout({ messageId: 'ui-finance.budget.hasNotBeenSaved', type: 'error', values: { name } });
+        }
       }
     },
     [mutator.budget, showCallout, goToBudgetView],
@@ -89,6 +98,7 @@ const BudgetFormContainer = ({ history, mutator, location, match }) => {
       initialValues={budget}
       onClose={goToBudgetView}
       onSubmit={saveBudget}
+      errorCode={errorCode}
     />
   );
 };

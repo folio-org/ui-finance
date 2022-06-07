@@ -40,7 +40,7 @@ export const EditFiscalYear = ({ resources, mutator, match, history, location })
     [fiscalYearId, location.search],
   );
 
-  const saveFiscalYear = useSaveFiscalYear(mutator.fiscalYearEdit, closeEdit, 'PUT');
+  const { saveFiscalYear, error } = useSaveFiscalYear(mutator.fiscalYearEdit, closeEdit, 'PUT');
 
   const isLoading = !get(resources, ['fiscalYearEdit', 'hasLoaded']);
   const fiscalYear = get(resources, ['fiscalYearEdit', 'records', '0']);
@@ -56,6 +56,7 @@ export const EditFiscalYear = ({ resources, mutator, match, history, location })
       initialValues={fiscalYear}
       onSubmit={saveFiscalYear}
       onCancel={closeEdit}
+      errorCode={error}
     />
   );
 };

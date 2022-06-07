@@ -28,6 +28,7 @@ import {
   FieldDatepickerFinal,
   FormFooter,
   handleKeyCommand,
+  OptimisticLockingBanner,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -53,6 +54,7 @@ const FiscalYearForm = ({
   handleSubmit,
   pristine,
   submitting,
+  errorCode,
 }) => {
   const ky = useOkapiKy();
   const accordionStatusRef = useRef();
@@ -136,6 +138,10 @@ const FiscalYearForm = ({
                 md={8}
                 mdOffset={2}
               >
+                <OptimisticLockingBanner
+                  errorCode={errorCode}
+                  latestVersionLink={`${FISCAL_YEAR_ROUTE}/${initialValues.id}/view`}
+                />
                 <AccordionStatus ref={accordionStatusRef}>
                   <Row end="xs">
                     <Col xs={12}>
@@ -235,6 +241,7 @@ FiscalYearForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   initialValues: PropTypes.object,
+  errorCode: PropTypes.string,
 };
 
 FiscalYearForm.defaultProps = {

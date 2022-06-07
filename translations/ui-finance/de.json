@@ -409,5 +409,7 @@
     "exportCSV.exportSettings.expenseClasses.active": "Aktiv",
     "exportCSV.exportSettings.expenseClasses.inactive": "Inaktiv",
     "exportCSV.exportSettings.expenseClasses.none": "Keine",
-    "exportCSV.report.budget.notFound": "Kein Budget gefunden"
+    "exportCSV.report.budget.notFound": "Kein Budget gefunden",
+    "transaction.source.Invoice.number": "Source Invoice number",
+    "transaction.source.PoLine.number": "Source POL number"
 }

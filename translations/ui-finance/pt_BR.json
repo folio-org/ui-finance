@@ -410,6 +410,6 @@
     "exportCSV.exportSettings.expenseClasses.inactive": "Inativa",
     "exportCSV.exportSettings.expenseClasses.none": "Nenhuma",
     "exportCSV.report.budget.notFound": "Nenhum orçamento encontrado",
-    "transaction.source.Invoice.number": "Source Invoice number",
-    "transaction.source.PoLine.number": "Source POL number"
+    "transaction.source.Invoice.number": "Número da fatura de origem",
+    "transaction.source.PoLine.number": "Número da Linha de Ordem de compra de origem"
 }

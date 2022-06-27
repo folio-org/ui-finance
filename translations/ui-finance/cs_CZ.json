@@ -291,7 +291,7 @@
     "budget.expenseClasses.accountNumber": "Account number extension",
     "budget.netTransfers": "Net transfers",
     "item.netTransfers": "Čisté převody",
-    "transaction.actions.load.error": "Failed to load transaction data",
+    "transaction.actions.load.error": "Nepodařilo se načíst data transakce",
     "transaction.expenseClass": "Expense class",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "Unable to delete budget. You can not delete a budget that has been assigned one or more expense classes.",
     "transaction.transfer.notEnoughMoneyForTransferError": "Transfer was not successful. There is not enough money Available in the budget to complete this Transfer.",

@@ -12,6 +12,7 @@ export const LedgerListContainer = () => {
   const {
     pagination,
     changePage,
+    refreshPage,
   } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
 
   const {
@@ -28,6 +29,7 @@ export const LedgerListContainer = () => {
       isLoading={isFetching}
       ledgers={ledgers}
       pagination={pagination}
+      refreshList={refreshPage}
     />
   );
 };

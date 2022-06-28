@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useLocation } from 'react-router';
 
 import {
   PaneMenu,
@@ -10,6 +11,8 @@ import { IfPermission } from '@folio/stripes/core';
 import { GROUPS_ROUTE } from '../../common/const';
 
 const GroupsListLastMenu = () => {
+  const location = useLocation();
+
   return (
     <IfPermission perm="finance.groups.item.post">
       <PaneMenu>
@@ -18,7 +21,10 @@ const GroupsListLastMenu = () => {
             <Button
               id="clickable-newGroup"
               aria-label={ariaLabel}
-              to={`${GROUPS_ROUTE}/create`}
+              to={{
+                pathname: `${GROUPS_ROUTE}/create`,
+                search: location.search,
+              }}
               buttonStyle="primary"
               marginBottom0
             >

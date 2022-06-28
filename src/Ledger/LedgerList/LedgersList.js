@@ -56,6 +56,7 @@ const LedgerList = ({
   location,
   resetData,
   pagination,
+  refreshList,
 }) => {
   const stripes = useStripes();
   const [
@@ -200,7 +201,7 @@ const LedgerList = ({
           path="/finance/ledger/:id/view"
           render={() => (
             <CheckPermission perm="ui-finance.ledger.view">
-              <LedgerDetailsContainer />
+              <LedgerDetailsContainer refreshList={refreshList} />
             </CheckPermission>
           )}
         />
@@ -218,6 +219,7 @@ LedgerList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   pagination: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 export default withRouter(LedgerList);

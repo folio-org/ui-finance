@@ -55,6 +55,7 @@ const GroupsList = ({
   groups,
   groupsCount,
   pagination,
+  refreshList,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -204,7 +205,7 @@ const GroupsList = ({
           path={`${GROUPS_ROUTE}/:id/view`}
           render={() => (
             <CheckPermission perm="ui-finance.group.view">
-              <GroupDetailsContainer />
+              <GroupDetailsContainer refreshList={refreshList} />
             </CheckPermission>
           )}
         />
@@ -220,6 +221,7 @@ GroupsList.propTypes = {
   isLoading: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.object),
   pagination: PropTypes.object,
+  refreshList: PropTypes.func.isRequired,
 };
 
 GroupsList.defaultProps = {

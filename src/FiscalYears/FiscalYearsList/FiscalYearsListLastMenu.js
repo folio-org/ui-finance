@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useLocation } from 'react-router';
 
 import {
   PaneMenu,
@@ -10,6 +11,8 @@ import { IfPermission } from '@folio/stripes/core';
 import { FISCAL_YEAR_ROUTE } from '../../common/const';
 
 const FiscalYearsListLastMenu = () => {
+  const location = useLocation();
+
   return (
     <IfPermission perm="finance.fiscal-years.item.post">
       <PaneMenu>
@@ -18,7 +21,10 @@ const FiscalYearsListLastMenu = () => {
             <Button
               id="clickable-newFiscalYear"
               aria-label={ariaLabel}
-              to={`${FISCAL_YEAR_ROUTE}/create`}
+              to={{
+                pathname: `${FISCAL_YEAR_ROUTE}/create`,
+                search: location.search,
+              }}
               buttonStyle="primary"
               marginBottom0
             >

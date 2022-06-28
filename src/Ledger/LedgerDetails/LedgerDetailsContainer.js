@@ -36,6 +36,7 @@ export const LedgerDetailsContainer = ({
   history,
   location,
   stripes,
+  refreshList,
 }) => {
   const ledgerId = match.params.id;
   const [isLoading, setIsLoading] = useState(true);
@@ -137,13 +138,15 @@ export const LedgerDetailsContainer = ({
             pathname: LEDGERS_ROUTE,
             search: location.search,
           });
+
+          refreshList();
         })
         .catch(() => {
           showToast({ messageId: 'ui-finance.ledger.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ledgerId, showToast, history, location.search],
+    [ledgerId, showToast, history, location.search, refreshList],
   );
 
   const onRollover = useCallback(
@@ -233,6 +236,7 @@ LedgerDetailsContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   stripes: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 export default withRouter(stripesConnect(LedgerDetailsContainer));

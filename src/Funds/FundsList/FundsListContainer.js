@@ -35,6 +35,7 @@ export const FundsListContainer = ({ mutator: originMutator }) => {
   const {
     pagination,
     changePage,
+    refreshPage,
   } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
   const { funds, totalRecords, isFetching } = useFunds({ pagination, fetchReferences });
 
@@ -46,6 +47,7 @@ export const FundsListContainer = ({ mutator: originMutator }) => {
       isLoading={isFetching}
       funds={funds}
       pagination={pagination}
+      refreshList={refreshPage}
     />
   );
 };

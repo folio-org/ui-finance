@@ -58,6 +58,7 @@ const FundsList = ({
   funds,
   fundsCount,
   pagination,
+  refreshList,
 }) => {
   const stripes = useStripes();
   const [
@@ -205,7 +206,7 @@ const FundsList = ({
           path={`${FUNDS_ROUTE}/view/:id`}
           render={(props) => (
             <CheckPermission perm="ui-finance.fund-budget.view">
-              <FundDetailsContainer {...props} />
+              <FundDetailsContainer refreshList={refreshList} {...props} />
             </CheckPermission>
           )}
         />
@@ -223,6 +224,7 @@ FundsList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   pagination: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 FundsList.defaultProps = {

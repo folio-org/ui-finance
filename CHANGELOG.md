@@ -13,6 +13,7 @@
 * Identify record type for common fields in budget export. Refs UIF-384.
 * Filter transactions by source POL or Vendor invoice number. Refs UIF-383.
 * Finance optimistic locking. Refs UIF-379.
+* Deleted item name remains in the list on the pane (fiscal year, ledger, group, fund). Refs UIF-390.
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)

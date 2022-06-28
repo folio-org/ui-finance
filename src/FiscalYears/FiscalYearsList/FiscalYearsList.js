@@ -56,6 +56,7 @@ const FiscalYearsList = ({
   fiscalYears,
   fiscalYearsCount,
   pagination,
+  refreshList,
 }) => {
   const stripes = useStripes();
   const history = useHistory();
@@ -205,7 +206,7 @@ const FiscalYearsList = ({
           path={`${FISCAL_YEAR_ROUTE}/:id/view`}
           render={() => (
             <CheckPermission perm="ui-finance.fiscal-year.view">
-              <FiscalYearDetails />
+              <FiscalYearDetails refreshList={refreshList} />
             </CheckPermission>
           )}
         />
@@ -221,6 +222,7 @@ FiscalYearsList.propTypes = {
   isLoading: PropTypes.bool,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
   pagination: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 FiscalYearsList.defaultProps = {

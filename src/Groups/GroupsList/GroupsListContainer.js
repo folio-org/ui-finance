@@ -14,6 +14,7 @@ const GroupsListContainer = () => {
   const {
     pagination,
     changePage,
+    refreshPage,
   } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
   const {
     groups,
@@ -29,6 +30,7 @@ const GroupsListContainer = () => {
       isLoading={isFetching}
       groups={groups}
       pagination={pagination}
+      refreshList={refreshPage}
     />
   );
 };

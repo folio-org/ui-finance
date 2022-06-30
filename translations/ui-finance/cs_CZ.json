@@ -206,7 +206,7 @@
     "fundType.label": "Fund type",
     "fundType.label.plural": "Typy fondů",
     "fundType.name": "Name",
-    "settings.fundTypes.title": "Fund types",
+    "settings.fundTypes.title": "Typy fondů",
     "ledger.actions.load.error": "Failed to load ledger data",
     "ledger.actions.load.error.noFiscalYear": "No current fiscal year found",
     "groups.actions.load.error": "Failed to load group data",

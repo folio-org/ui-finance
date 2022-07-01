@@ -277,7 +277,7 @@ const FundForm = ({
                             labelId="ui-finance.fund.information.ledger"
                             name="fund.ledgerId"
                             required
-                            validateFields={['fund.name']}
+                            validateFields={['fund.name', 'fund.code']}
                           />
                         </Col>
 
@@ -291,7 +291,7 @@ const FundForm = ({
                             name="fund.fundStatus"
                             required
                             validate={validateRequired}
-                            validateFields={[]}
+                            validateFields={['fund.name', 'fund.code']}
                           />
                         </Col>
                       </Row>
@@ -315,7 +315,7 @@ const FundForm = ({
                             dataOptions={fundTypeOptions}
                             labelId="ui-finance.fund.information.type"
                             name="fund.fundTypeId"
-                            validateFields={[]}
+                            validateFields={['fund.name', 'fund.code']}
                           />
                         </Col>
 

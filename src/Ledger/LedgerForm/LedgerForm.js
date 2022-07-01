@@ -175,7 +175,7 @@ const LedgerForm = ({
                             name="ledgerStatus"
                             required
                             validate={validateRequired}
-                            validateFields={[]}
+                            validateFields={['name', 'code']}
                           />
                         </Col>
 

@@ -9,6 +9,8 @@
   "save": "Save",
   "saveAndClose": "Save & Close",
   "close": "Close",
+  "cancel": "Cancel",
+  "continue": "Continue",
 
   "errors.load.code": "Error code fetching",
   "errors.load.name": "Error name fetching",
@@ -314,6 +316,16 @@
   "item.name": "Name",
   "item.netTransfers": "Net transfers",
   "item.unavailable": "Unavailable",
+
+  "invoice.vendorInvoiceNo": "Vendor invoice number",
+  "invoice.vendor": "Vendor",
+  "invoice.invoiceDate": "Invoice data",
+  "invoice.status": "Status",
+  "invoice.invoiceTotal": "Total amount (system)",
+  "invoice.status.Approved": "Approved",
+  "invoice.status.Open": "Open",
+  "invoice.status.Reviewed": "Reviewed",
+  "invoice.unpaidInvoices": "Unpaid invoices",
 
   "transaction.actions.load.error": "Failed to load transaction data",
   "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",

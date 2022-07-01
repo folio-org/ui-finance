@@ -4,12 +4,16 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  useOkapiKy,
+} from '@folio/stripes/core';
 import {
   ConfirmationModal,
   LoadingView,
 } from '@folio/stripes/components';
 import {
+  INVOICES_API,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -27,18 +31,24 @@ import {
   ledgerRolloverResource,
 } from '../../common/resources';
 import RolloverLedger from './RolloverLedger';
-import { useRolloverData } from './useRolloverData';
-import { useRolloverFiscalYears } from './useRolloverFiscalYears';
+import { UnpaidInvoiceListModal } from './UnpaidInvoiceListModal';
+import {
+  useRolloverData,
+  useRolloverFiscalYears,
+} from './hooks';
 import {
   ADD_AVAILABLE_TO,
+  INVOICE_STATUS,
   ORDER_TYPE,
 } from '../constants';
 
 export const RolloverLedgerContainer = ({ resources, mutator, match, history, location }) => {
+  const ky = useOkapiKy();
   const ledgerId = match.params.id;
 
   const showCallout = useShowCallout();
   const [showRolloverConfirmation, toggleRolloverConfirmation] = useModalToggle();
+  const [showUnpaidInvoiceList, toggleUnpaidInvoiceList] = useModalToggle();
   const [savingValues, setSavingValues] = useState();
 
   const close = useCallback(
@@ -73,10 +83,6 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     setSavingValues(rolloverValues);
     toggleRolloverConfirmation();
   }, [toggleRolloverConfirmation]);
-
-  const callRollover = useCallback(() => {
-    return rollover(savingValues);
-  }, [rollover, savingValues]);
 
   const isLoading = !resources.rolloverLedger.hasLoaded;
   const ledger = resources.rolloverLedger.records[0];
@@ -114,6 +120,18 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     return initValues;
   }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
+  const callRollover = useCallback(async () => {
+    const hasUnpaidInvoices = await ky.get(INVOICES_API, { searchParams: {
+      limit: 1,
+      query: `(metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}) and
+        (status=="${INVOICE_STATUS.open}" or status=="${INVOICE_STATUS.approved}" or status=="${INVOICE_STATUS.reviewed}")`,
+    } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
+
+    toggleRolloverConfirmation();
+
+    return hasUnpaidInvoices ? toggleUnpaidInvoiceList() : rollover(savingValues);
+  }, [rollover, savingValues, currentFiscalYear, ky, toggleUnpaidInvoiceList, toggleRolloverConfirmation]);
+
   const goToCreateFY = useCallback(() => {
     history.push({
       pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-create-fy`,
@@ -122,6 +140,12 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   }, [history, ledgerId, location.search]);
 
   const { fiscalYears } = useRolloverFiscalYears(series);
+
+  const onContinue = useCallback(() => {
+    toggleUnpaidInvoiceList();
+
+    return rollover(savingValues);
+  }, [savingValues, rollover, toggleUnpaidInvoiceList]);
 
   if (isLoading || !budgets || !currentFiscalYear || !funds || !fundTypesMap) {
     return (
@@ -159,6 +183,13 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
           onCancel={toggleRolloverConfirmation}
           onConfirm={callRollover}
           open
+        />
+      )}
+      {showUnpaidInvoiceList && (
+        <UnpaidInvoiceListModal
+          fiscalYear={currentFiscalYear}
+          onContinue={onContinue}
+          onCancel={toggleUnpaidInvoiceList}
         />
       )}
     </>

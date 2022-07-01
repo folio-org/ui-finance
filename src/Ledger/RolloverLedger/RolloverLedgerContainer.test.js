@@ -6,17 +6,15 @@ import RolloverLedger from './RolloverLedger';
 import { RolloverLedgerContainer } from './RolloverLedgerContainer';
 import { LEDGERS_ROUTE } from '../../common/const';
 
-jest.mock('./useRolloverData', () => ({
+jest.mock('./RolloverLedger', () => jest.fn().mockReturnValue('RolloverLedger'));
+jest.mock('./hooks', () => ({
+  useRolloverFiscalYears: jest.fn().mockReturnValue({ fiscalYears: [] }),
   useRolloverData: jest.fn().mockReturnValue({
     budgets: [],
     currentFiscalYear: { id: 'fyId' },
     funds: [],
     fundTypesMap: {},
   }),
-}));
-jest.mock('./RolloverLedger', () => jest.fn().mockReturnValue('RolloverLedger'));
-jest.mock('./useRolloverFiscalYears', () => ({
-  useRolloverFiscalYears: jest.fn().mockReturnValue({ fiscalYears: [] }),
 }));
 
 const locationMock = { hash: 'hash', pathname: 'pathname', search: 'search' };

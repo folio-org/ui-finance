@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { FISCAL_YEARS_API } from '../../common/const';
+import { FISCAL_YEARS_API } from '../../../../common/const';
 
 export const useRolloverFiscalYears = (series) => {
   const ky = useOkapiKy();

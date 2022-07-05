@@ -323,7 +323,7 @@
     "ledger.rollover.orderType.onetime": "Gravámenes de una sola vez",
     "ledger.rollover.rollover": "Rollover",
     "ledger.rollover.basedOn": "Based on",
-    "ledger.rollover.basedOn.expended": "Expended",
+    "ledger.rollover.basedOn.expended": "Gastado",
     "ledger.rollover.basedOn.remaining": "Remaining",
     "ledger.rollover.increaseBy": "Increase by, %",
     "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
@@ -411,5 +411,6 @@
     "exportCSV.exportSettings.expenseClasses.none": "None",
     "exportCSV.report.budget.notFound": "No budget found",
     "transaction.source.Invoice.number": "Source Invoice number",
-    "transaction.source.PoLine.number": "Número de la fuente POL"
+    "transaction.source.PoLine.number": "Número de la fuente POL",
+    "ledger.rolloverInProgress.rollingOverFinished.withErrors": "Rollover has completed with errors, Budget close {budgetsStatus}, Order rollover {ordersStatus}, Financial rollover {financialStatus}."
 }

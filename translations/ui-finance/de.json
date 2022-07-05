@@ -411,5 +411,6 @@
     "exportCSV.exportSettings.expenseClasses.none": "Keine",
     "exportCSV.report.budget.notFound": "Kein Budget gefunden",
     "transaction.source.Invoice.number": "Source Invoice number",
-    "transaction.source.PoLine.number": "Source POL number"
+    "transaction.source.PoLine.number": "Source POL number",
+    "ledger.rolloverInProgress.rollingOverFinished.withErrors": "Rollover has completed with errors, Budget close {budgetsStatus}, Order rollover {ordersStatus}, Financial rollover {financialStatus}."
 }

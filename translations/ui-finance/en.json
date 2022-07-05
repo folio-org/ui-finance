@@ -99,6 +99,7 @@
   "ledger.rollover.setAllowances": "Set allowances",
   "ledger.rolloverInProgress.rollingOver": "Rolling over",
   "ledger.rolloverInProgress.rollingOverFinished": "Rollover is complete",
+  "ledger.rolloverInProgress.rollingOverFinished.withErrors": "Rollover has completed with errors, Budget close {budgetsStatus}, Order rollover {ordersStatus}, Financial rollover {financialStatus}.",
   "ledger.rolloverInProgress.close": "Close & view ledger details",
   "ledger.rolloverInProgress.header": "Rollover {fromYearCode} to {toYearCode}",
   "ledger.rolloverInProgress.errorLoadingToFiscalYear": "Error loading To fiscal year code",

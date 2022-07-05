@@ -20,12 +20,13 @@ export const useUnpaidInvoices = (fy = {}, options = {}) => {
   const [namespace] = useNamespace({ key: 'unpaid-invoices' });
   const [pagination, setPagination] = useState({ limit: RESULT_COUNT_INCREMENT, timestamp: new Date(), offset: 0 });
 
+  const fyQuery = `metadata.createdDate>=${fy?.periodStart} and metadata.createdDate<=${fy?.periodEnd}`;
+  const invoiceStatuses = [INVOICE_STATUS.open, INVOICE_STATUS.approved, INVOICE_STATUS.reviewed];
+  const query = invoiceStatuses.map(status => `status=="${status}" and ${fyQuery}`).join(' or ');
   const searchParams = {
     limit: pagination.limit,
     offset: pagination.offset,
-    query: `(metadata.createdDate>=${fy.periodStart} and metadata.createdDate<=${fy.periodEnd}) and
-      (status=="${INVOICE_STATUS.open}" or status=="${INVOICE_STATUS.approved}" or status=="${INVOICE_STATUS.reviewed}")
-      sortby metadata.createdDate/sort.descending`,
+    query: `${query} sortby invoiceDate/sort.descending`,
   };
 
   const { data = {}, isFetching } = useQuery(

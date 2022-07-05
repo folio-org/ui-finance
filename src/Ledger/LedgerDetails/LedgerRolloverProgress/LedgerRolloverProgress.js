@@ -43,6 +43,21 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
     });
   }, [history, location.search, rollover.ledgerId, rollover.id]);
 
+  const completedMessage = errors.length
+    ? <FormattedMessage
+        id="ui-finance.ledger.rolloverInProgress.rollingOverFinished.withErrors"
+        values={{
+          budgetsStatus: rolloverStatus.budgetsClosingRolloverStatus,
+          ordersStatus: rolloverStatus.ordersRolloverStatus,
+          financialStatus: rolloverStatus.financialRolloverStatus,
+        }}
+      />
+    : <FormattedMessage id="ui-finance.ledger.rolloverInProgress.rollingOverFinished" />;
+
+  const completedProgressClass = errors.length
+    ? [css.progressCompleted, css.withErrors].join(' ')
+    : css.progressCompleted;
+
   return (
     <Pane
       id="pane-ledger-rollover-in-progress"
@@ -67,7 +82,7 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
       >
         <Progress
           current={inProgressStages.length}
-          progressCurrentClassName={isInProgress ? undefined : css.progressCompleted}
+          progressCurrentClassName={isInProgress ? undefined : completedProgressClass}
           progressInfoType="none"
           total={STAGE_ATTRS.length}
         />
@@ -82,9 +97,7 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
                 <Loading />
               </>
             )
-            : (
-              <FormattedMessage id="ui-finance.ledger.rolloverInProgress.rollingOverFinished" />
-            )
+            : completedMessage
           }
         </Headline>
       </Card>

@@ -7,14 +7,13 @@ import {
   Accordion,
   AccordionSet,
   AccordionStatus,
+  Button,
   Col,
   Pane,
+  PaneFooter,
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import {
-  FormFooter,
-} from '@folio/stripes-acq-components';
 
 import RolloverFiscalYears from './RolloverFiscalYears';
 import RolloverLedgerBudgets from './RolloverLedgerBudgets';
@@ -41,13 +40,39 @@ const RolloverLedger = ({
   pristine,
   submitting,
 }) => {
+  const start = (
+    <Button
+      buttonStyle="default mega"
+      onClick={onCancel}
+    >
+      <FormattedMessage id="stripes-acq-components.FormFooter.cancel" />
+    </Button>
+  );
+
+  const end = (
+    <>
+      <Button
+        buttonStyle="default mega"
+        disabled
+        type="submit"
+      >
+        <FormattedMessage id="ui-finance.ledger.rollover.testBtn" />
+      </Button>
+      <Button
+        buttonStyle="primary mega"
+        disabled={pristine || submitting}
+        onClick={handleSubmit}
+        type="submit"
+      >
+        <FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />
+      </Button>
+    </>
+  );
+
   const paneFooter = (
-    <FormFooter
-      label={<FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />}
-      handleSubmit={handleSubmit}
-      submitting={submitting}
-      onCancel={onCancel}
-      pristine={pristine}
+    <PaneFooter
+      renderStart={start}
+      renderEnd={end}
     />
   );
 

@@ -411,5 +411,6 @@
     "exportCSV.exportSettings.expenseClasses.none": "لا شيء",
     "exportCSV.report.budget.notFound": "لم يتم العثور على ميزانية",
     "transaction.source.Invoice.number": "رقم فاتورة المصدر",
-    "transaction.source.PoLine.number": "رقم سطر أمر شراء المصدر"
+    "transaction.source.PoLine.number": "رقم سطر أمر شراء المصدر",
+    "ledger.rolloverInProgress.rollingOverFinished.withErrors": "Rollover has completed with errors, Budget close {budgetsStatus}, Order rollover {ordersStatus}, Financial rollover {financialStatus}."
 }

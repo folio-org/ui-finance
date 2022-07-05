@@ -121,10 +121,12 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
   const callRollover = useCallback(async () => {
+    const fyQuery = `metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}`;
+    const invoiceStatuses = [INVOICE_STATUS.open, INVOICE_STATUS.approved, INVOICE_STATUS.reviewed];
+    const query = invoiceStatuses.map(status => `(status=="${status}" and ${fyQuery})`).join(' or ');
     const hasUnpaidInvoices = await ky.get(INVOICES_API, { searchParams: {
       limit: 1,
-      query: `(metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}) and
-        (status=="${INVOICE_STATUS.open}" or status=="${INVOICE_STATUS.approved}" or status=="${INVOICE_STATUS.reviewed}")`,
+      query,
     } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
 
     toggleRolloverConfirmation();

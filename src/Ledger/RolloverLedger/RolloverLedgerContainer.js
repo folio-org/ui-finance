@@ -14,6 +14,7 @@ import {
 } from '@folio/stripes/components';
 import {
   INVOICES_API,
+  INVOICE_STATUS,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -38,18 +39,29 @@ import {
 } from './hooks';
 import {
   ADD_AVAILABLE_TO,
-  INVOICE_STATUS,
   ORDER_TYPE,
 } from '../constants';
 
-export const RolloverLedgerContainer = ({ resources, mutator, match, history, location }) => {
+export const RolloverLedgerContainer = ({ resources, mutator, match, history, location, stripes }) => {
   const ky = useOkapiKy();
   const ledgerId = match.params.id;
 
   const showCallout = useShowCallout();
   const [showRolloverConfirmation, toggleRolloverConfirmation] = useModalToggle();
+  const [showTestRolloverConfirmation, toggleTestRolloverConfirmation] = useModalToggle();
   const [showUnpaidInvoiceList, toggleUnpaidInvoiceList] = useModalToggle();
   const [savingValues, setSavingValues] = useState();
+  const {
+    budgets,
+    currentFiscalYear,
+    funds,
+    fundTypesMap,
+  } = useRolloverData(mutator);
+
+  const isLoading = !resources.rolloverLedger.hasLoaded;
+  const ledger = resources.rolloverLedger.records[0];
+  const { toFiscalYearId, toFiscalYearSeries } = location.state || {};
+  const series = currentFiscalYear?.series;
 
   const close = useCallback(
     () => {
@@ -79,21 +91,31 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     [close, showCallout],
   );
 
-  const showConfirmation = useCallback((rolloverValues) => {
-    setSavingValues(rolloverValues);
-    toggleRolloverConfirmation();
-  }, [toggleRolloverConfirmation]);
+  const testRollover = useCallback(
+    () => {
+      showCallout({ messageId: 'ui-finance.ledger.rolloverTest.start.success', values: { ledgerName: ledger?.name } });
+      close();
+    },
+    [close, showCallout, ledger],
+  );
 
-  const isLoading = !resources.rolloverLedger.hasLoaded;
-  const ledger = resources.rolloverLedger.records[0];
-  const {
-    budgets,
-    currentFiscalYear,
-    funds,
-    fundTypesMap,
-  } = useRolloverData(mutator);
-  const { toFiscalYearId, toFiscalYearSeries } = location.state || {};
-  const series = currentFiscalYear?.series;
+  const showConfirmation = useCallback(async (rolloverValues) => {
+    setSavingValues(rolloverValues);
+
+    const fyQuery = `metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}`;
+    const invoiceStatuses = [INVOICE_STATUS.open, INVOICE_STATUS.approved, INVOICE_STATUS.reviewed];
+    const query = invoiceStatuses.map(status => `(status=="${status}" and ${fyQuery})`).join(' or ');
+    const hasUnpaidInvoices = await ky.get(INVOICES_API, { searchParams: {
+      limit: 1,
+      query,
+    } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
+
+    const toggleConfirmationModal = rolloverValues?.isPreview
+      ? toggleTestRolloverConfirmation
+      : toggleRolloverConfirmation;
+
+    return hasUnpaidInvoices ? toggleUnpaidInvoiceList() : toggleConfirmationModal();
+  }, [toggleTestRolloverConfirmation, toggleRolloverConfirmation, toggleUnpaidInvoiceList, currentFiscalYear, ky]);
 
   const initial = useMemo(() => {
     const initValues = {
@@ -120,19 +142,11 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     return initValues;
   }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
-  const callRollover = useCallback(async () => {
-    const fyQuery = `metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}`;
-    const invoiceStatuses = [INVOICE_STATUS.open, INVOICE_STATUS.approved, INVOICE_STATUS.reviewed];
-    const query = invoiceStatuses.map(status => `(status=="${status}" and ${fyQuery})`).join(' or ');
-    const hasUnpaidInvoices = await ky.get(INVOICES_API, { searchParams: {
-      limit: 1,
-      query,
-    } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
+  const callRollover = useCallback(() => {
+    const { isPreview, values } = savingValues;
 
-    toggleRolloverConfirmation();
-
-    return hasUnpaidInvoices ? toggleUnpaidInvoiceList() : rollover(savingValues);
-  }, [rollover, savingValues, currentFiscalYear, ky, toggleUnpaidInvoiceList, toggleRolloverConfirmation]);
+    return isPreview ? testRollover(values) : rollover(values);
+  }, [rollover, savingValues, testRollover]);
 
   const goToCreateFY = useCallback(() => {
     history.push({
@@ -143,11 +157,11 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
 
   const { fiscalYears } = useRolloverFiscalYears(series);
 
-  const onContinue = useCallback(() => {
+  const toggleConfirmation = useCallback(() => {
     toggleUnpaidInvoiceList();
 
-    return rollover(savingValues);
-  }, [savingValues, rollover, toggleUnpaidInvoiceList]);
+    return savingValues?.isPreview ? toggleTestRolloverConfirmation() : toggleRolloverConfirmation();
+  }, [savingValues, toggleTestRolloverConfirmation, toggleRolloverConfirmation, toggleUnpaidInvoiceList]);
 
   if (isLoading || !budgets || !currentFiscalYear || !funds || !fundTypesMap) {
     return (
@@ -183,14 +197,36 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
             />
           )}
           onCancel={toggleRolloverConfirmation}
-          onConfirm={callRollover}
+          onConfirm={() => {
+            toggleRolloverConfirmation();
+            callRollover();
+          }}
+          open
+        />
+      )}
+      {showTestRolloverConfirmation && (
+        <ConfirmationModal
+          id="test-rollover-confirmation"
+          confirmLabel={<FormattedMessage id="ui-finance.ledger.rollover.confirm.btn" />}
+          heading={<FormattedMessage id="ui-finance.ledger.rolloverTest.confirm.heading" />}
+          message={(
+            <FormattedMessage
+              id="ui-finance.ledger.rolloverTest.confirm.message"
+              values={{ email: stripes.user?.user?.email }}
+            />
+          )}
+          onCancel={toggleTestRolloverConfirmation}
+          onConfirm={() => {
+            toggleTestRolloverConfirmation();
+            callRollover();
+          }}
           open
         />
       )}
       {showUnpaidInvoiceList && (
         <UnpaidInvoiceListModal
           fiscalYear={currentFiscalYear}
-          onContinue={onContinue}
+          onContinue={toggleConfirmation}
           onCancel={toggleUnpaidInvoiceList}
         />
       )}
@@ -233,6 +269,7 @@ RolloverLedgerContainer.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  stripes: PropTypes.object.isRequired,
 };
 
 export default withRouter(stripesConnect(RolloverLedgerContainer));

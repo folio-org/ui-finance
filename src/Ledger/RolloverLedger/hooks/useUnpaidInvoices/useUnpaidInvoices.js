@@ -9,11 +9,10 @@ import {
 import {
   batchRequest,
   INVOICES_API,
+  INVOICE_STATUS,
   RESULT_COUNT_INCREMENT,
   VENDORS_API,
 } from '@folio/stripes-acq-components';
-
-import { INVOICE_STATUS } from '../../../constants';
 
 export const useUnpaidInvoices = (fy = {}, options = {}) => {
   const ky = useOkapiKy();

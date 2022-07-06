@@ -2,9 +2,25 @@
 
 ## (IN PROGRESS)
 
-* exportCsv is deprecated in stripes-utils. Refs UIF-364.
 * Allow user to create multiple planned budgets. Refs UIF-359.
 * Select filter should announce the number of Results in the Results List pane header. Refs UIF-371.
+* Display export action for ledger. Refs UIF-365.
+* User must select fiscal year and expense class settings for export. Refs UIF-366.
+* Start export budgets with confirmed settings. Refs UIF-367.
+* Create csv file with all budget data. Refs UIF-368.
+* Replace `babel-eslint` with `@babel/eslint-parser`. Refs UIF-374.
+* UI-Finance: module warnings analysis. Refs UIF-376.
+* Identify record type for common fields in budget export. Refs UIF-384.
+* Filter transactions by source POL or Vendor invoice number. Refs UIF-383.
+* Finance optimistic locking. Refs UIF-379.
+* Deleted item name remains in the list on the pane (fiscal year, ledger, group, fund). Refs UIF-390.
+* Warning message for already existing field does not appear when click after duplicated field on the dropdown with filter options list. Refs UIF-391.
+* Order rollover errors are not reported. Refs UIF-392.
+
+## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)
+
+* exportCsv is deprecated in stripes-utils. Refs UIF-364.
 
 ## [3.1.0](https://github.com/folio-org/ui-finance/tree/v3.1.0) (2022-03-08)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.0.1...v3.1.0)

@@ -31,7 +31,11 @@ export const useSourceLink = (transaction, intl) => {
 
   const queryFn = queryFnsMap[transaction.source];
 
-  const { isLoading, data } = useQuery(['finance', 'transaction-source-value', transaction.id], () => queryFn(ky, transaction));
+  const { isLoading, data } = useQuery(
+    ['finance', 'transaction-source-value', transaction.id],
+    () => queryFn(ky, transaction),
+    { enabled: Boolean(queryFn) },
+  );
 
   if (isLoading) return <Loading />;
 

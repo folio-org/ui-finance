@@ -1,7 +1,5 @@
 export const GROUPS_ROUTE = '/finance/groups';
 export const FISCAL_YEAR_ROUTE = '/finance/fiscalyear';
-export const FISCAL_YEAR_VIEW_ROUTE = `${FISCAL_YEAR_ROUTE}/view/`;
-export const FISCAL_YEAR_EDIT_ROUTE = `${FISCAL_YEAR_ROUTE}/edit/`;
 export const FUNDS_ROUTE = '/finance/fund';
 export const LEDGERS_ROUTE = '/finance/ledger';
 export const LEDGER_CREATE_ROUTE = `${LEDGERS_ROUTE}/create`;

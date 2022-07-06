@@ -66,6 +66,7 @@ export const FundDetailsContainer = ({
   location,
   mutator,
   stripes,
+  refreshList,
 }) => {
   const [compositeFund, setCompositeFund] = useState({ fund: {}, groupIds: [] });
   const [isLoading, setIsLoading] = useState(true);
@@ -160,17 +161,19 @@ export const FundDetailsContainer = ({
             pathname: FUNDS_ROUTE,
             search: location.search,
           });
+
+          refreshList();
         })
         .catch(() => {
           showToast({ messageId: 'ui-finance.fund.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fund.id, showToast, history, location.search],
+    [fund.id, showToast, history, location.search, refreshList],
   );
 
   const onRemove = useCallback(
-    () => {
+    async () => {
       toggleRemoveConfirmation();
       removeFund();
     },
@@ -416,6 +419,7 @@ FundDetailsContainer.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 export default stripesConnect(FundDetailsContainer);

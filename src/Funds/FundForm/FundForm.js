@@ -35,6 +35,7 @@ import {
   FormFooter,
   FUNDS_API,
   handleKeyCommand,
+  OptimisticLockingBanner,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -63,6 +64,7 @@ const FundForm = ({
   fundTypes,
   ledgers,
   systemCurrency,
+  errorCode,
 }) => {
   const ky = useOkapiKy();
   const accordionStatusRef = useRef();
@@ -219,6 +221,10 @@ const FundForm = ({
                 md={8}
                 mdOffset={2}
               >
+                <OptimisticLockingBanner
+                  errorCode={errorCode}
+                  latestVersionLink={`${FUNDS_ROUTE}/view/${fundId}`}
+                />
                 <AccordionStatus ref={accordionStatusRef}>
                   <Row end="xs">
                     <Col xs={12}>
@@ -271,7 +277,7 @@ const FundForm = ({
                             labelId="ui-finance.fund.information.ledger"
                             name="fund.ledgerId"
                             required
-                            validateFields={['fund.name']}
+                            validateFields={['fund.name', 'fund.code']}
                           />
                         </Col>
 
@@ -285,7 +291,7 @@ const FundForm = ({
                             name="fund.fundStatus"
                             required
                             validate={validateRequired}
-                            validateFields={[]}
+                            validateFields={['fund.name', 'fund.code']}
                           />
                         </Col>
                       </Row>
@@ -309,7 +315,7 @@ const FundForm = ({
                             dataOptions={fundTypeOptions}
                             labelId="ui-finance.fund.information.type"
                             name="fund.fundTypeId"
-                            validateFields={[]}
+                            validateFields={['fund.name', 'fund.code']}
                           />
                         </Col>
 
@@ -414,6 +420,7 @@ FundForm.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   fundTypes: PropTypes.arrayOf(PropTypes.object),
   ledgers: PropTypes.arrayOf(PropTypes.object),
+  errorCode: PropTypes.string,
 };
 
 FundForm.defaultProps = {

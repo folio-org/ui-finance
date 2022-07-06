@@ -36,8 +36,8 @@ import {
 import FinancialSummary from '../../common/FinancialSummary';
 import { GROUPS_ROUTE } from '../../common/const';
 import {
-  GROUP_ACCORDTION,
-  GROUP_ACCORDTION_LABELS,
+  GROUP_ACCORDION,
+  GROUP_ACCORDION_LABELS,
 } from '../constants';
 import GroupInformation from './GroupInformation';
 import GroupFund from './GroupFund';
@@ -169,8 +169,8 @@ const GroupDetails = ({
           </Row>
           <AccordionSet>
             <Accordion
-              id={GROUP_ACCORDTION.information}
-              label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.information]}
+              id={GROUP_ACCORDION.information}
+              label={GROUP_ACCORDION_LABELS[GROUP_ACCORDION.information]}
             >
               <GroupInformation
                 metadata={group.metadata}
@@ -185,8 +185,8 @@ const GroupDetails = ({
               />
             </Accordion>
             <Accordion
-              id={GROUP_ACCORDTION.financialSummary}
-              label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.financialSummary]}
+              id={GROUP_ACCORDION.financialSummary}
+              label={GROUP_ACCORDION_LABELS[GROUP_ACCORDION.financialSummary]}
             >
               <FinancialSummary
                 data={groupSummary}
@@ -194,8 +194,8 @@ const GroupDetails = ({
               />
             </Accordion>
             <Accordion
-              id={GROUP_ACCORDTION.fund}
-              label={GROUP_ACCORDTION_LABELS[GROUP_ACCORDTION.fund]}
+              id={GROUP_ACCORDION.fund}
+              label={GROUP_ACCORDION_LABELS[GROUP_ACCORDION.fund]}
               displayWhenOpen={groupFundActions}
             >
               <GroupFund

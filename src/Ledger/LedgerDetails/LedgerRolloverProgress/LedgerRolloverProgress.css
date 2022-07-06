@@ -4,4 +4,8 @@
   height: 100%;
   border-radius: var(--radius);
   background-color: var(--success);
+
+  &.withErrors {
+    background-color: var(--error);
+  }
 }

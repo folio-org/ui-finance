@@ -36,6 +36,7 @@ export const FiscalYearDetailsContainer = ({
   match,
   location,
   history,
+  refreshList,
 }) => {
   const fiscalYearId = match.params.id;
   const [fiscalYear, setFiscalYear] = useState({});
@@ -135,13 +136,15 @@ export const FiscalYearDetailsContainer = ({
             pathname: FISCAL_YEAR_ROUTE,
             search: location.search,
           });
+
+          refreshList();
         })
         .catch(() => {
           showToast({ messageId: 'ui-finance.fiscalYear.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fiscalYear.id, showToast, history, location.search],
+    [fiscalYear.id, showToast, history, location.search, refreshList],
   );
 
   if (isLoading) {
@@ -199,6 +202,7 @@ FiscalYearDetailsContainer.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 export default withRouter(stripesConnect(FiscalYearDetailsContainer));

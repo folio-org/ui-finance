@@ -14,7 +14,7 @@ describe('useSaveFiscalYear', () => {
   it('should send POST request and close fiscal year form', () => {
     const { result } = renderHook(() => useSaveFiscalYear(mutator));
 
-    const saveFiscalYear = result.current;
+    const { saveFiscalYear } = result.current;
 
     act(() => {
       saveFiscalYear();

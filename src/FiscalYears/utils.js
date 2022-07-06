@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FORM_ERROR } from 'final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
+  ERROR_CODE_CONFLICT,
   getErrorCodeFromResponse,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -10,6 +11,7 @@ import {
 export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
   const showCallout = useShowCallout();
   const intl = useIntl();
+  const [error, setError] = useState();
 
   const saveFiscalYear = useCallback(
     async (fiscalYearValues) => {
@@ -25,17 +27,21 @@ export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
       } catch (response) {
         const errorCode = await getErrorCodeFromResponse(response);
 
-        const errorMessage = (
-          <FormattedMessage
-            id={`ui-finance.fiscalYear.actions.save.error.${errorCode}`}
-            defaultMessage={intl.formatMessage({ id: 'ui-finance.fiscalYear.actions.save.error.genericError' })}
-          />
-        );
+        if (errorCode === ERROR_CODE_CONFLICT) {
+          setError(errorCode);
+        } else {
+          const errorMessage = (
+            <FormattedMessage
+              id={`ui-finance.fiscalYear.actions.save.error.${errorCode}`}
+              defaultMessage={intl.formatMessage({ id: 'ui-finance.fiscalYear.actions.save.error.genericError' })}
+            />
+          );
 
-        showCallout({
-          message: errorMessage,
-          type: 'error',
-        });
+          showCallout({
+            message: errorMessage,
+            type: 'error',
+          });
+        }
 
         return { [FORM_ERROR]: 'FY was not saved' };
       }
@@ -43,5 +49,5 @@ export const useSaveFiscalYear = (mutator, onSave, method = 'POST') => {
     [method, onSave, showCallout],
   );
 
-  return saveFiscalYear;
+  return { saveFiscalYear, error };
 };

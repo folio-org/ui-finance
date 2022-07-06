@@ -4,39 +4,11 @@ import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
-import { Field } from 'redux-form';
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
-import {
-  TextArea,
-  TextField,
-} from '@folio/stripes/components';
 
 import { FUND_TYPES_API } from '../../common/const';
 import { fundTypesResource } from '../../common/resources';
-
-const fieldComponents = {
-  // eslint-disable-next-line react/prop-types
-  name: ({ fieldProps }) => {
-    return (
-      <Field
-        {...fieldProps}
-        component={TextField}
-        fullWidth
-      />
-    );
-  },
-  // eslint-disable-next-line react/prop-types
-  description: ({ fieldProps }) => {
-    return (
-      <Field
-        {...fieldProps}
-        component={TextArea}
-        fullWidth
-      />
-    );
-  },
-};
 
 const hiddenFields = ['numberOfObjects', 'lastUpdated'];
 const visibleFields = ['name'];
@@ -65,7 +37,6 @@ const FundTypeSettings = ({
       visibleFields={visibleFields}
       columnMapping={columnMapping}
       hiddenFields={hiddenFields}
-      fieldComponents={fieldComponents}
       nameKey="name"
       id="fundTypes"
     />

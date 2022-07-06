@@ -29,7 +29,7 @@ export const CreateFiscalYear = ({ mutator, location, history }) => {
     [location.search],
   );
 
-  const saveFiscalYear = useSaveFiscalYear(mutator.createFiscalYear, closeForm);
+  const { saveFiscalYear } = useSaveFiscalYear(mutator.createFiscalYear, closeForm);
 
   return (
     <FiscalYearForm

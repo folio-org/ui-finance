@@ -31,6 +31,7 @@ export const GroupDetailsContainer = ({
   match,
   history,
   location,
+  refreshList,
 }) => {
   const groupId = match.params.id;
   const [groupData, setGroupData] = useState({});
@@ -125,13 +126,15 @@ export const GroupDetailsContainer = ({
             pathname: GROUPS_ROUTE,
             search: location.search,
           });
+
+          refreshList();
         })
         .catch(() => {
           showToast({ messageId: 'ui-finance.groups.actions.remove.error', type: 'error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [groupId, showToast, history, location.search],
+    [groupId, showToast, history, location.search, refreshList],
   );
 
   const selectFY = useCallback(
@@ -244,6 +247,7 @@ GroupDetailsContainer.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 export default withRouter(stripesConnect(GroupDetailsContainer));

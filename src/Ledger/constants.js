@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export const LEDGER_ACCORDTION = {
+export const LEDGER_ACCORDION = {
   information: 'information',
   financialSummary: 'financial-summary',
   fund: 'fund',
@@ -9,12 +9,12 @@ export const LEDGER_ACCORDTION = {
   rolloverErrors: 'rolloverErrors',
 };
 
-export const LEDGER_ACCORDTION_LABELS = {
-  [LEDGER_ACCORDTION.information]: <FormattedMessage id="ui-finance.ledger.information" />,
-  [LEDGER_ACCORDTION.financialSummary]: <FormattedMessage id="ui-finance.ledger.financialSummary" />,
-  [LEDGER_ACCORDTION.fund]: <FormattedMessage id="ui-finance.ledger.fund" />,
-  [LEDGER_ACCORDTION.group]: <FormattedMessage id="ui-finance.ledger.group" />,
-  [LEDGER_ACCORDTION.rolloverErrors]: <FormattedMessage id="ui-finance.ledger.rolloverErrors" />,
+export const LEDGER_ACCORDION_LABELS = {
+  [LEDGER_ACCORDION.information]: <FormattedMessage id="ui-finance.ledger.information" />,
+  [LEDGER_ACCORDION.financialSummary]: <FormattedMessage id="ui-finance.ledger.financialSummary" />,
+  [LEDGER_ACCORDION.fund]: <FormattedMessage id="ui-finance.ledger.fund" />,
+  [LEDGER_ACCORDION.group]: <FormattedMessage id="ui-finance.ledger.group" />,
+  [LEDGER_ACCORDION.rolloverErrors]: <FormattedMessage id="ui-finance.ledger.rolloverErrors" />,
 };
 
 export const LEDGER_FILTERS = {

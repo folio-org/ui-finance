@@ -14,6 +14,7 @@ const FiscalYearsListContainer = () => {
   const {
     pagination,
     changePage,
+    refreshPage,
   } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
   const {
     fiscalYears,
@@ -29,6 +30,7 @@ const FiscalYearsListContainer = () => {
       isLoading={isFetching}
       fiscalYears={fiscalYears}
       pagination={pagination}
+      refreshList={refreshPage}
     />
   );
 };

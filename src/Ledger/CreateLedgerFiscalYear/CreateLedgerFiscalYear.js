@@ -38,7 +38,7 @@ const CreateLedgerFiscalYear = ({ mutator, location, history, match }) => {
     [location.search],
   );
 
-  const saveFiscalYear = useSaveFiscalYear(mutator.createLedgerFiscalYear, closeForm);
+  const { saveFiscalYear } = useSaveFiscalYear(mutator.createLedgerFiscalYear, closeForm);
 
   return (
     <FiscalYearForm
@@ -60,7 +60,7 @@ CreateLedgerFiscalYear.propTypes = {
   mutator: PropTypes.object.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
-  match: ReactRouterPropTypes.history.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default withRouter(stripesConnect(CreateLedgerFiscalYear));

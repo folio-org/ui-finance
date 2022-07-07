@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
   Button,
+  Layout,
+  Loading,
   Modal,
-  ModalFooter,
   MultiColumnList,
   NoValue,
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
   FolioFormattedDate,
+  ModalFooter,
   PrevNextPagination,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { useUnpaidInvoices } from '../hooks';
+import {
+  useUnpaidInvoices,
+  useUnpaidInvoicesExport,
+} from '../hooks';
 
 const visibleColumns = ['vendorInvoiceNo', 'vendor', 'invoiceDate', 'status', 'invoiceTotal'];
 const columnMapping = {
@@ -41,25 +47,63 @@ const resultsFormatter = {
 
 const UnpaidInvoiceListModal = ({ onContinue, onCancel, fiscalYear }) => {
   const intl = useIntl();
-  const { isFetching, invoices, totalRecords, pagination, setPagination } = useUnpaidInvoices(fiscalYear);
+  const showCallout = useShowCallout();
+  const {
+    isFetching,
+    invoices,
+    totalRecords,
+    query,
+    pagination,
+    setPagination,
+  } = useUnpaidInvoices(fiscalYear);
+  const { isLoading, runExportCSV } = useUnpaidInvoicesExport();
   const modalLabel = intl.formatMessage({ id: 'ui-finance.invoice.unpaidInvoices' });
 
-  const footer = (
-    <ModalFooter>
+  const onExport = useCallback(() => {
+    showCallout({ messageId: 'ui-finance.invoice.unpaidInvoices.exportCSV.started' });
+    runExportCSV({ query })
+      .catch(() => showCallout({
+        messageId: 'ui-finance.invoice.unpaidInvoices.exportCSV.error',
+        type: 'error',
+      }));
+  }, [query, runExportCSV, showCallout]);
+
+  const start = (
+    <Button
+      onClick={onCancel}
+      marginBottom0
+    >
+      <FormattedMessage id="ui-finance.cancel" />
+    </Button>
+  );
+
+  const end = (
+    <>
+      <Layout className="flex">
+        {isLoading && <Loading />}
+      </Layout>
+      <Button
+        onClick={onExport}
+        marginBottom0
+        disabled={isLoading}
+      >
+        <FormattedMessage id="ui-finance.invoice.unpaidInvoices.exportCSV" />
+      </Button>
       <Button
         onClick={onContinue}
         buttonStyle="primary"
+        marginBottom0
       >
         <FormattedMessage id="ui-finance.continue" />
       </Button>
+    </>
+  );
 
-      <Button
-        onClick={onCancel}
-      >
-        <FormattedMessage id="ui-finance.cancel" />
-      </Button>
-
-    </ModalFooter>
+  const footer = (
+    <ModalFooter
+      renderStart={start}
+      renderEnd={end}
+    />
   );
 
   const onPageChange = newPagination => {

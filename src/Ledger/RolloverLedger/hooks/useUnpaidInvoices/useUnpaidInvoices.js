@@ -57,6 +57,7 @@ export const useUnpaidInvoices = (fy = {}, options = {}) => {
     },
     {
       enabled: Boolean(fy.periodStart && fy.periodEnd),
+      keepPreviousData: true,
       ...options,
     },
   );
@@ -65,6 +66,7 @@ export const useUnpaidInvoices = (fy = {}, options = {}) => {
     invoices: data?.invoices || [],
     isFetching,
     pagination,
+    query,
     setPagination,
     totalRecords: data?.totalRecords,
   });

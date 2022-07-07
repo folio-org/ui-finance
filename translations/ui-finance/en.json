@@ -330,6 +330,9 @@
   "invoice.status.Open": "Open",
   "invoice.status.Reviewed": "Reviewed",
   "invoice.unpaidInvoices": "Unpaid invoices",
+  "invoice.unpaidInvoices.exportCSV": "Export list",
+  "invoice.unpaidInvoices.exportCSV.started": "Invoice export has started successfully",
+  "invoice.unpaidInvoices.exportCSV.error": "Failed to export invoices",
 
   "transaction.actions.load.error": "Failed to load transaction data",
   "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",

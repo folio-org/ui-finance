@@ -5,6 +5,7 @@
 * Alert user of unpaid invoices during rollover. Refs UIF-378.
 * Add test rollover action to rollover settings. Refs UIF-393.
 * Fiscal year rollover test confirmation modal. Refs UIF-395.
+* Export list of unpaid invoices. Refs UIF-394.
 
 ## [3.2.0](https://github.com/folio-org/ui-finance/tree/v3.2.0) (2022-07-08)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.1...v3.2.0)

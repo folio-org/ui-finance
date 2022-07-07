@@ -4,11 +4,15 @@ import user from '@testing-library/user-event';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
-import { useUnpaidInvoices } from '../hooks';
+import {
+  useUnpaidInvoices,
+  useUnpaidInvoicesExport,
+} from '../hooks';
 import UnpaidInvoiceListModal from './UnpaidInvoiceListModal';
 
 jest.mock('../hooks', () => ({
   useUnpaidInvoices: jest.fn(),
+  useUnpaidInvoicesExport: jest.fn(),
 }));
 
 const fiscalYear = {
@@ -37,6 +41,10 @@ describe('UnpaidInvoiceListModal', () => {
       invoices: [{ currency: 'USD', vendorInvoiceNo: '1', invoiceTotal: 10 }],
       totalRecords: 1,
       isFetching: false,
+    });
+    useUnpaidInvoicesExport.mockClear().mockReturnValue({
+      runExportCSV: jest.fn(),
+      isLoading: false,
     });
 
     onCancel = jest.fn().mockClear();

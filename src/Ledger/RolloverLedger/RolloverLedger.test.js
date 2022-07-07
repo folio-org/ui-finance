@@ -85,4 +85,15 @@ describe('RolloverLedger', () => {
     renderRolloverLedger({ initialValues });
     expect(screen.getByText('ui-finance.ledger.rollover.orderType.onetime')).toBeDefined();
   });
+
+  it('should display test rollover button', () => {
+    const initialValues = {
+      ledgerId: '7cef8378-7cbd-1fae-bcdd-8b9d7c0af9de',
+      budgetsRollover: [],
+      encumbrancesRollover: [],
+    };
+
+    renderRolloverLedger({ currentFiscalYear: CURRENT_FISCAL_YEAR, initialValues });
+    expect(screen.getByText('ui-finance.ledger.rollover.testBtn')).toBeDefined();
+  });
 });

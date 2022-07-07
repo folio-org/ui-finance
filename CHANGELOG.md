@@ -16,6 +16,7 @@
 * Deleted item name remains in the list on the pane (fiscal year, ledger, group, fund). Refs UIF-390.
 * Alert user of unpaid invoices during rollover. Refs UIF-378.
 * Add test rollover action to rollover settings. Refs UIF-393.
+* Fiscal year rollover test confirmation modal. Refs UIF-395.
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)

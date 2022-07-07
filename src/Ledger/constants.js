@@ -82,10 +82,3 @@ export const ORDER_TYPE_LABEL = {
   [ORDER_TYPE.ongoingSubscription]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.ongoingSubscription" />,
   [ORDER_TYPE.onetime]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.onetime" />,
 };
-
-// TODO: move to stripes-acq-components
-export const INVOICE_STATUS = {
-  open: 'Open',
-  approved: 'Approved',
-  reviewed: 'Reviewed',
-};

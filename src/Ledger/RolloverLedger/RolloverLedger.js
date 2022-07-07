@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -32,6 +32,7 @@ export const ROLLOVER_LEDGER_ACCORDION_LABELS = {
 const RolloverLedger = ({
   currentFiscalYear,
   fiscalYears,
+  form: { change },
   fundTypesMap,
   goToCreateFY,
   handleSubmit,
@@ -40,6 +41,11 @@ const RolloverLedger = ({
   pristine,
   submitting,
 }) => {
+  const testRolloverSubmit = useCallback(() => {
+    change('isPreview', true);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
   const start = (
     <Button
       buttonStyle="default mega"
@@ -53,7 +59,8 @@ const RolloverLedger = ({
     <>
       <Button
         buttonStyle="default mega"
-        disabled
+        disabled={pristine || submitting}
+        onClick={testRolloverSubmit}
         type="submit"
       >
         <FormattedMessage id="ui-finance.ledger.rollover.testBtn" />
@@ -130,6 +137,7 @@ const RolloverLedger = ({
 RolloverLedger.propTypes = {
   currentFiscalYear: PropTypes.object,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
+  form: PropTypes.object.isRequired,
   fundTypesMap: PropTypes.object,
   goToCreateFY: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,

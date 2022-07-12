@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -7,14 +7,13 @@ import {
   Accordion,
   AccordionSet,
   AccordionStatus,
+  Button,
   Col,
   Pane,
+  PaneFooter,
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import {
-  FormFooter,
-} from '@folio/stripes-acq-components';
 
 import RolloverFiscalYears from './RolloverFiscalYears';
 import RolloverLedgerBudgets from './RolloverLedgerBudgets';
@@ -33,6 +32,7 @@ export const ROLLOVER_LEDGER_ACCORDION_LABELS = {
 const RolloverLedger = ({
   currentFiscalYear,
   fiscalYears,
+  form: { change },
   fundTypesMap,
   goToCreateFY,
   handleSubmit,
@@ -41,13 +41,45 @@ const RolloverLedger = ({
   pristine,
   submitting,
 }) => {
+  const testRolloverSubmit = useCallback(() => {
+    change('isPreview', true);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
+  const start = (
+    <Button
+      buttonStyle="default mega"
+      onClick={onCancel}
+    >
+      <FormattedMessage id="stripes-acq-components.FormFooter.cancel" />
+    </Button>
+  );
+
+  const end = (
+    <>
+      <Button
+        buttonStyle="default mega"
+        disabled={pristine || submitting}
+        onClick={testRolloverSubmit}
+        type="submit"
+      >
+        <FormattedMessage id="ui-finance.ledger.rollover.testBtn" />
+      </Button>
+      <Button
+        buttonStyle="primary mega"
+        disabled={pristine || submitting}
+        onClick={handleSubmit}
+        type="submit"
+      >
+        <FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />
+      </Button>
+    </>
+  );
+
   const paneFooter = (
-    <FormFooter
-      label={<FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />}
-      handleSubmit={handleSubmit}
-      submitting={submitting}
-      onCancel={onCancel}
-      pristine={pristine}
+    <PaneFooter
+      renderStart={start}
+      renderEnd={end}
     />
   );
 
@@ -105,6 +137,7 @@ const RolloverLedger = ({
 RolloverLedger.propTypes = {
   currentFiscalYear: PropTypes.object,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
+  form: PropTypes.object.isRequired,
   fundTypesMap: PropTypes.object,
   goToCreateFY: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,

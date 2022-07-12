@@ -23,6 +23,7 @@ const defaultProps = {
   budgetName: 'budgetName',
   transactionType: 'Allocation',
   fiscalYearId: 'fiscalYearId',
+  fiscalYearCurrency: 'USD',
   fundId: 'fundId',
   onClose: jest.fn(),
   stripes: { hasPerm: jest.fn(), hasInterface: jest.fn(), clone: jest.fn(), logger: {} },

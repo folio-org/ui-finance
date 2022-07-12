@@ -5,8 +5,24 @@ import { renderHook } from '@testing-library/react-hooks';
 import { useRolloverData } from './useRolloverData';
 
 const mutatorMock = {
-  funds: { GET: jest.fn() },
-  ledgerCurrentFiscalYear: { GET: jest.fn() },
+  funds: {
+    GET: jest.fn(),
+    reset: jest.fn(),
+  },
+  fundTypes: {
+    GET: jest.fn(() => [{
+      id: 'fundTypeId',
+    }]),
+    reset: jest.fn(),
+  },
+  currentBudgets: {
+    GET: jest.fn(),
+    reset: jest.fn(),
+  },
+  ledgerCurrentFiscalYear: {
+    GET: jest.fn(),
+    reset: jest.fn(),
+  },
 };
 
 const queryClient = new QueryClient();

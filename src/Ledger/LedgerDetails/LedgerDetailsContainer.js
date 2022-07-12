@@ -159,6 +159,15 @@ export const LedgerDetailsContainer = ({
     [history, location.search, ledgerId],
   );
 
+  const onRolloverLogs = useCallback(
+    () => {
+      history.push({
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-logs`,
+      });
+    },
+    [history, ledgerId],
+  );
+
   const [isClosedProgress] = useLocalStorage(`LedgerRolloverProgress-${rollover?.id}`);
 
   if (isLoading || isLoadingRolloverStatus) {
@@ -196,6 +205,7 @@ export const LedgerDetailsContainer = ({
       onEdit={editLedger}
       onDelete={removeLedger}
       onRollover={onRollover}
+      onRolloverLogs={onRolloverLogs}
       funds={funds}
       rolloverErrors={rolloverErrors}
       rolloverToFY={rolloverToFY}

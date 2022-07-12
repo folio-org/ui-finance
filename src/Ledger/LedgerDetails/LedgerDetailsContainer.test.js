@@ -98,6 +98,14 @@ describe('LedgerDetailsContainer', () => {
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/rollover`);
     });
 
+    it('should navigate to rollover logs view', async () => {
+      await act(async () => renderLedgerDetailsContainer());
+
+      LedgerDetails.mock.calls[0][0].onRolloverLogs();
+
+      expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/rollover-logs`);
+    });
+
     it('should remove', async () => {
       mutatorMock.ledgerDetails.DELETE.mockReturnValue(Promise.resolve({}));
 

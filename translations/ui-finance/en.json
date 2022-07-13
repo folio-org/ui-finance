@@ -422,6 +422,7 @@
   "actions.remove": "Delete",
   "actions.remove.confirm": "Delete",
   "actions.rollover": "Rollover",
+  "actions.rolloverLogs": "Rollover logs",
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
   "fund.code.isInUse": "This Fund code is already in use.",
   "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",

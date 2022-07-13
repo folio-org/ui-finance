@@ -55,6 +55,7 @@ const LedgerDetails = ({
   onEdit,
   onDelete,
   onRollover,
+  onRolloverLogs,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -107,13 +108,32 @@ const LedgerDetails = ({
                 <FormattedMessage id="ui-finance.actions.rollover" />
               </Icon>
             </Button>
+
+            <Button
+              data-testid="action-rollover-logs"
+              buttonStyle="dropdownItem"
+              onClick={onRolloverLogs}
+            >
+              <Icon
+                size="small"
+                icon="calendar"
+              >
+                <FormattedMessage id="ui-finance.actions.rolloverLogs" />
+              </Icon>
+            </Button>
           </IfPermission>
         </MenuSection>
       );
     },
     [
-      onEdit, toggleRemoveConfirmation, onRollover, isRestrictionsLoading,
-      restrictions.protectDelete, restrictions.protectUpdate,
+      history,
+      isRestrictionsLoading,
+      ledger,
+      onEdit,
+      onRollover,
+      restrictions,
+      toggleExportConfirmation,
+      toggleRemoveConfirmation,
     ],
   );
 
@@ -270,6 +290,7 @@ LedgerDetails.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onRollover: PropTypes.func.isRequired,
+  onRolloverLogs: PropTypes.func.isRequired,
   ledger: PropTypes.object,
   fiscalYear: PropTypes.object,
   funds: PropTypes.arrayOf(PropTypes.object),

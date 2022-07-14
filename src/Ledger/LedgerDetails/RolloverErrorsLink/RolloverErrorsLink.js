@@ -4,36 +4,20 @@ import PropTypes from 'prop-types';
 import {
   Headline,
   TextLink,
-  exportToCsv,
 } from '@folio/stripes/components';
+
+import { exportRolloverErrors } from '../../../common/utils';
+
 import css from './RolloverErrorsLink.css';
 
 function RolloverErrorsLink({ errors, ledgerName, toYearCode }) {
   const exportErrorsFilename = `${ledgerName}-rollover-errors-${toYearCode}`;
 
   const exportErrors = useCallback(() => {
-    exportToCsv(
-      [
-        {
-          ledgerRolloverId: 'Ledger rollover ID',
-          errorType: 'Error type',
-          failedAction: 'Failed action',
-          errorMessage: 'Error message',
-          'details.amount': 'Amount',
-          'details.fundId': 'Fund ID',
-          'details.fundCode': 'Fund code',
-          'details.purchaseOrderId': 'Purchase order ID',
-          'details.polNumber': 'Purchase order line number',
-          'details.poLineId': 'Purchase order line ID',
-        },
-        ...errors,
-      ],
-      {
-        excludeFields: ['id', 'metadata'],
-        filename: exportErrorsFilename,
-        header: false,
-      },
-    );
+    exportRolloverErrors({
+      errors,
+      filename: exportErrorsFilename,
+    });
   }, [errors, exportErrorsFilename]);
 
   return (

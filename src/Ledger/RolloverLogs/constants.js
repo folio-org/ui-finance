@@ -2,14 +2,9 @@ import { omit } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  FolioFormattedTime,
-} from '@folio/stripes-acq-components';
-
-import {
   OVERALL_ROLLOVER_STATUS,
   LEDGER_ROLLOVER_TYPES,
 } from '../../common/const';
-import { RolloverLogLink } from './RolloverLogLink';
 
 export const LOGS_RESULTS_PANE_TITLE = <FormattedMessage id="ui-finance.actions.rolloverLogs" />;
 
@@ -58,24 +53,3 @@ export const LEDGER_ROLLOVER_LINK_TYPES = {
   error: 'error',
   result: 'result',
 };
-
-export const ROLLOVER_LOGS_RESULTS_FORMATTER = ({
-  startDate: item => <FolioFormattedTime dateString={item.startDate} />,
-  endDate: item => <FolioFormattedTime dateString={item.endDate} />,
-  status: item => LEDGER_ROLLOVER_STATUS_MAP[item.status],
-  errors: item => (
-    <RolloverLogLink
-      type={LEDGER_ROLLOVER_LINK_TYPES.error}
-      rolloverLog={item}
-    />
-  ),
-  results: item => (
-    (
-      <RolloverLogLink
-        type={LEDGER_ROLLOVER_LINK_TYPES.result}
-        rolloverLog={item}
-      />
-    )
-  ),
-  source: item => LEDGER_ROLLOVER_SOURCE_MAP[item.ledgerRolloverType],
-});

@@ -19,17 +19,39 @@ import {
   usePagination,
   RESULT_COUNT_INCREMENT,
   PrevNextPagination,
+  FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
 import {
+  LEDGER_ROLLOVER_LINK_TYPES,
+  LEDGER_ROLLOVER_SOURCE_MAP,
+  LEDGER_ROLLOVER_STATUS_MAP,
   ROLLOVER_LOGS_COLUMNS_MAPPING,
-  ROLLOVER_LOGS_RESULTS_FORMATTER,
   ROLLOVER_LOGS_VISIBLE_COLUMNS,
 } from './constants';
 import { useRolloverLogs } from './hooks';
-import { RolloverLogsFilters } from './RolloverLogsFilters/RolloverLogsFilters';
+import { RolloverLogsFilters } from './RolloverLogsFilters';
+import { RolloverLogLink } from './RolloverLogLink';
 
 const resultsPaneTitle = <FormattedMessage id="ui-finance.actions.rolloverLogs" />;
+const formatter = ({
+  startDate: item => <FolioFormattedTime dateString={item.startDate} />,
+  endDate: item => <FolioFormattedTime dateString={item.endDate} />,
+  status: item => LEDGER_ROLLOVER_STATUS_MAP[item.status],
+  errors: item => (
+    <RolloverLogLink
+      type={LEDGER_ROLLOVER_LINK_TYPES.error}
+      rolloverLog={item}
+    />
+  ),
+  results: item => (
+    <RolloverLogLink
+      type={LEDGER_ROLLOVER_LINK_TYPES.result}
+      rolloverLog={item}
+    />
+  ),
+  source: item => LEDGER_ROLLOVER_SOURCE_MAP[item.ledgerRolloverType],
+});
 
 export const RolloverLogs = () => {
   const history = useHistory();
@@ -97,7 +119,7 @@ export const RolloverLogs = () => {
               columnIdPrefix="rollover-logs"
               columnMapping={ROLLOVER_LOGS_COLUMNS_MAPPING}
               contentData={rolloverLogs}
-              formatter={ROLLOVER_LOGS_RESULTS_FORMATTER}
+              formatter={formatter}
               hasMargin
               interactive={false}
               isEmptyMessage={resultsStatusMessage}

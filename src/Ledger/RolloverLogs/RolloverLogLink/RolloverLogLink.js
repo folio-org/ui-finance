@@ -30,14 +30,10 @@ export const RolloverLogLink = ({
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
 
-  const {
-    budgetsLink,
-    endDate,
-    errorsLink,
-  } = rolloverLog;
-
+  const { budgetsLink, endDate, errorsLink } = rolloverLog;
   const filename = exportFileName || `${formatDate(endDate, intl, TIMEZONE)}-${type}`;
-  const link = type === LEDGER_ROLLOVER_LINK_TYPES.error
+  const isErrorLink = type === LEDGER_ROLLOVER_LINK_TYPES.error;
+  const link = isErrorLink
     ? errorsLink
     : budgetsLink;
 
@@ -45,18 +41,16 @@ export const RolloverLogLink = ({
     try {
       const data = await ky.get(link).json();
 
-      if (type === LEDGER_ROLLOVER_LINK_TYPES.error) {
-        return exportRolloverErrors({ errors: data, filename });
-      }
-
-      return exportRolloverResult({ data, filename });
+      return isErrorLink
+        ? exportRolloverErrors({ errors: data, filename })
+        : exportRolloverResult({ data, filename });
     } catch {
       return showCallout({
         messageId: 'ui-finance.ledger.rollover.logs.export.failed',
         type: 'error',
       });
     }
-  }, [filename, ky, link, showCallout, type]);
+  }, [filename, isErrorLink, ky, link, showCallout]);
 
   if (!link) return <NoValue />;
 
@@ -72,7 +66,7 @@ export const RolloverLogLink = ({
 };
 
 RolloverLogLink.propTypes = {
-  type: PropTypes.oneOf(['error', 'result']).isRequired,
+  type: PropTypes.oneOf(Object.values(LEDGER_ROLLOVER_LINK_TYPES)).isRequired,
   rolloverLog: PropTypes.object.isRequired,
   exportFileName: PropTypes.string,
 };

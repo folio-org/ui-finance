@@ -62,6 +62,7 @@ export const RolloverLogLink = ({
 
   return (
     <TextLink
+      data-testid="rollover-log-link"
       className={css.link}
       onClick={onClick}
     >
@@ -71,7 +72,7 @@ export const RolloverLogLink = ({
 };
 
 RolloverLogLink.propTypes = {
-  type: PropTypes.oneOfType(['error', 'result']).isRequired,
+  type: PropTypes.oneOf(['error', 'result']).isRequired,
   rolloverLog: PropTypes.object.isRequired,
   exportFileName: PropTypes.string,
 };

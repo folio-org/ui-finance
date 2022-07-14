@@ -7,6 +7,7 @@
 * Fiscal year rollover test confirmation modal. Refs UIF-395.
 * Export list of unpaid invoices. Refs UIF-394.
 * Add `Rollover logs` action to `Ledger` menu. Refs UIF-396.
+* Implement `Rollover logs` view. Refs UIF-397.
 
 ## [3.2.0](https://github.com/folio-org/ui-finance/tree/v3.2.0) (2022-07-08)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.1...v3.2.0)

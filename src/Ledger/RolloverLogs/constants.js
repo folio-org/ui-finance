@@ -6,8 +6,6 @@ import {
   LEDGER_ROLLOVER_TYPES,
 } from '../../common/const';
 
-export const LOGS_RESULTS_PANE_TITLE = <FormattedMessage id="ui-finance.actions.rolloverLogs" />;
-
 export const LEDGER_ROLLOVER_SOURCE_MAP = {
   [LEDGER_ROLLOVER_TYPES.commit]: <FormattedMessage id="ui-finance.ledger.rollover.rollover" />,
   [LEDGER_ROLLOVER_TYPES.preview]: <FormattedMessage id="ui-finance.ledger.rollover.rolloverTest" />,

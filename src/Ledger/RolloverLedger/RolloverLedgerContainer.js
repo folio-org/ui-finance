@@ -143,7 +143,7 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
   const callRollover = useCallback(() => {
-    const { isPreview, values } = savingValues;
+    const { isPreview, ...values } = savingValues;
 
     return isPreview ? testRollover(values) : rollover(values);
   }, [rollover, savingValues, testRollover]);

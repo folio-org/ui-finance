@@ -126,11 +126,10 @@ const LedgerDetails = ({
       );
     },
     [
-      history,
       isRestrictionsLoading,
-      ledger,
       onEdit,
       onRollover,
+      onRolloverLogs,
       restrictions,
       toggleExportConfirmation,
       toggleRemoveConfirmation,

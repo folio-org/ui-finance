@@ -8,6 +8,7 @@
 * Export list of unpaid invoices. Refs UIF-394.
 * Add `Rollover logs` action to `Ledger` menu. Refs UIF-396.
 * Implement `Rollover logs` view. Refs UIF-397.
+* Settings: Export code list typo in the green toast message. Refs UIF-403.
 
 ## [3.2.0](https://github.com/folio-org/ui-finance/tree/v3.2.0) (2022-07-08)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.1...v3.2.0)

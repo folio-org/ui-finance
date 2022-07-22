@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
+  Headline,
   Layout,
   Loading,
   Modal,
@@ -120,6 +121,9 @@ const UnpaidInvoiceListModal = ({ onContinue, onCancel, fiscalYear }) => {
       onClose={onCancel}
       open
     >
+      <Headline tag="h1" margin="none" weight="regular">
+        <FormattedMessage id="ui-finance.invoice.unpaidInvoices.header" />
+      </Headline>
       <MultiColumnList
         columnIdPrefix="unpaid-invoices"
         columnMapping={columnMapping}

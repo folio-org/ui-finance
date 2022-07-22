@@ -55,6 +55,7 @@ describe('UnpaidInvoiceListModal', () => {
     renderUnpaidInvoiceListModal({ onCancel, onContinue });
 
     expect(screen.getByText('ui-finance.invoice.unpaidInvoices')).toBeDefined();
+    expect(screen.getByText('ui-finance.invoice.unpaidInvoices.header')).toBeDefined();
   });
 
   it('should call onCancel prop', () => {

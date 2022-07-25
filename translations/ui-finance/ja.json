@@ -384,7 +384,7 @@
     "settings.exportFund.title": "ファンドおよび経費クラスコードのエクスポート",
     "settings.exportFund.helperText": "ファンドコードと経費クラスコードを結合してエクスポートすると、すべてのファンドコードと、経費クラスのステータスが「active」であるファンドコードと経費クラスコードの組み合わせを含む区切りファイルが作成されます。",
     "settings.exportFund.exportSettings": "設定のエクスポート",
-    "settings.exportFund.success": "Combing code list was successfully exported.",
+    "settings.exportFund.success": "Combined code list was successfully exported.",
     "validation.mustNotIncludeColon": "Code must not include a colon",
     "groups.actions.addFunds": "Add to group",
     "groups.actions.addFunds.success": "Fund(s) have been added to group",
@@ -431,5 +431,18 @@
     "invoice.unpaidInvoices.exportCSV": "Export list",
     "invoice.unpaidInvoices.exportCSV.started": "Invoice export has started successfully",
     "invoice.unpaidInvoices.exportCSV.error": "Failed to export invoices",
-    "actions.rolloverLogs": "Rollover logs"
+    "actions.rolloverLogs": "Rollover logs",
+    "ledger.rollover.logs.endDate": "End time",
+    "ledger.rollover.logs.errors": "Errors",
+    "ledger.rollover.logs.export.failed": "Failed to export rollover logs",
+    "ledger.rollover.logs.results": "Results",
+    "ledger.rollover.logs.startDate": "Start time",
+    "ledger.rollover.logs.status": "Status",
+    "ledger.rollover.logs.source": "Source",
+    "ledger.rollover.rolloverTest": "Rollover test",
+    "ledger.rollover.status.error": "Failed",
+    "ledger.rollover.status.inProgress": "In progress",
+    "ledger.rollover.status.notStarted": "Not started",
+    "ledger.rollover.status.success": "Successful",
+    "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue."
 }

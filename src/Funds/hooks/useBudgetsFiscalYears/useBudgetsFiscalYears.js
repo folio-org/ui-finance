@@ -21,7 +21,7 @@ export const useBudgetsFiscalYears = ({
     offset: 0,
   };
 
-  const queryKey = [namespace];
+  const queryKey = [namespace, series, periodStart];
   const queryFn = () => ky.get(FISCAL_YEARS_API, { searchParams }).json();
   const options = {
     enabled: Boolean(series && periodStart),

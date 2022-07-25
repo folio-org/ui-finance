@@ -384,7 +384,7 @@
     "settings.exportFund.title": "Export fund and expense class codes",
     "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
     "settings.exportFund.exportSettings": "Export settings",
-    "settings.exportFund.success": "Combing code list was successfully exported.",
+    "settings.exportFund.success": "Combined code list was successfully exported.",
     "validation.mustNotIncludeColon": "Code must not include a colon",
     "groups.actions.addFunds": "Ajouter au groupe",
     "groups.actions.addFunds.success": "Le(s) poste(s) budgétaire(s) a/ont été ajouté(s) au groupe",
@@ -431,5 +431,18 @@
     "invoice.unpaidInvoices.exportCSV": "Export list",
     "invoice.unpaidInvoices.exportCSV.started": "Invoice export has started successfully",
     "invoice.unpaidInvoices.exportCSV.error": "Failed to export invoices",
-    "actions.rolloverLogs": "Rollover logs"
+    "actions.rolloverLogs": "Rollover logs",
+    "ledger.rollover.logs.endDate": "Heure de fin",
+    "ledger.rollover.logs.errors": "Erreurs",
+    "ledger.rollover.logs.export.failed": "Failed to export rollover logs",
+    "ledger.rollover.logs.results": "Résultats",
+    "ledger.rollover.logs.startDate": "Heure de début",
+    "ledger.rollover.logs.status": "Statut",
+    "ledger.rollover.logs.source": "Source",
+    "ledger.rollover.rolloverTest": "Rollover test",
+    "ledger.rollover.status.error": "Échoué",
+    "ledger.rollover.status.inProgress": "En cours",
+    "ledger.rollover.status.notStarted": "Pas encore commencé",
+    "ledger.rollover.status.success": "Réussi",
+    "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue."
 }

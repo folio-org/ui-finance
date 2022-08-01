@@ -122,6 +122,7 @@
           "finance.expense-classes.item.delete",
           "finance.expense-classes.item.post",
           "finance.expense-classes.item.put",
+          "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
           "finance.fund-types.item.delete",

@@ -384,7 +384,7 @@
     "settings.exportFund.title": "Kódy tříd exportních fondů a výdajů",
     "settings.exportFund.helperText": "Při exportu kombinovaných kódů tříd fondů a výdajů obdržíte soubor s oddělovači, který obsahuje všechny kódy fondu a všechny kombinace kódů kódů fondů a tříd výdajů, kde má třída výdajů stav \"aktivní\".",
     "settings.exportFund.exportSettings": "Nastavení exportu",
-    "settings.exportFund.success": "Seznam kódů pro česání byl úspěšně exportován.",
+    "settings.exportFund.success": "Kombinovaný číselník byl úspěšně exportován.",
     "validation.mustNotIncludeColon": "Code must not include a colon",
     "groups.actions.addFunds": "Přidejte do skupiny",
     "groups.actions.addFunds.success": "Fond(y) byly přidány do skupiny",

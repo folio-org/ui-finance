@@ -384,7 +384,7 @@
     "settings.exportFund.title": "ファンドおよび経費クラスコードのエクスポート",
     "settings.exportFund.helperText": "ファンドコードと経費クラスコードを結合してエクスポートすると、すべてのファンドコードと、経費クラスのステータスが「active」であるファンドコードと経費クラスコードの組み合わせを含む区切りファイルが作成されます。",
     "settings.exportFund.exportSettings": "設定のエクスポート",
-    "settings.exportFund.success": "Combing code list was successfully exported.",
+    "settings.exportFund.success": "Combined code list was successfully exported.",
     "validation.mustNotIncludeColon": "Code must not include a colon",
     "groups.actions.addFunds": "Add to group",
     "groups.actions.addFunds.success": "Fund(s) have been added to group",

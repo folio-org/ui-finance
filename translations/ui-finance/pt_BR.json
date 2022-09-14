@@ -412,7 +412,7 @@
     "exportCSV.report.budget.notFound": "Nenhum orçamento encontrado",
     "transaction.source.Invoice.number": "Número da fatura de origem",
     "transaction.source.PoLine.number": "Número da Linha de Ordem de compra de origem",
-    "ledger.rolloverInProgress.rollingOverFinished.withErrors": "A transposição (rollover) foi completada com erros, Orçamento fechado {budgetsStatus}, Transposição de pedidos {ordensStatus}, Transposição financeira {financialStatus}.",
+    "ledger.rolloverInProgress.rollingOverFinished.withErrors": "A transposição (rollover) foi completada com erros, Orçamento fechado {budgetsStatus}, Transposição de pedidos {ordersStatus}, Transposição financeira {financialStatus}.",
     "cancel": "Cancelar",
     "continue": "Continuar",
     "ledger.rollover.testBtn": "Testar rollover",

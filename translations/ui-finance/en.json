@@ -102,6 +102,7 @@
   "ledger.rollover.basedOn.remaining": "Remaining",
   "ledger.rollover.increaseBy": "Increase by, %",
   "ledger.rollover.closeAllCurrentBudgets": "Close all current budgets",
+  "ledger.rollover.error.conflict": "Ledger <b>{name}</b> was already rollovered from the current fiscal year (<b>{code}</b>)",
   "ledger.rollover.errorExecute": "Error on executing rollover process",
   "ledger.rollover.confirm.btn": "Confirm",
   "ledger.rollover.confirm.heading": "Fiscal year rollover",

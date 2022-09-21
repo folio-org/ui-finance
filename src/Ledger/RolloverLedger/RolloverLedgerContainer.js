@@ -35,6 +35,7 @@ import RolloverLedger from './RolloverLedger';
 import { UnpaidInvoiceListModal } from './UnpaidInvoiceListModal';
 import {
   useRolloverData,
+  useRolloverErrorHandler,
   useRolloverFiscalYears,
 } from './hooks';
 import {
@@ -63,6 +64,8 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   const { toFiscalYearId, toFiscalYearSeries } = location.state || {};
   const series = currentFiscalYear?.series;
 
+  const handleRolloverErrors = useRolloverErrorHandler({ ledger, currentFiscalYear });
+
   const close = useCallback(
     () => {
       history.push({
@@ -84,11 +87,11 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
           encumbrancesRollover,
         });
       } catch (e) {
-        showCallout({ messageId: 'ui-finance.ledger.rollover.errorExecute', type: 'error' });
+        handleRolloverErrors(e);
       }
       close();
     },
-    [close, showCallout],
+    [close, handleRolloverErrors, mutator.ledgerRollover],
   );
 
   const testRollover = useCallback(

@@ -223,7 +223,7 @@
     "transaction.initialEncumbrance": "Prvotní břemeno",
     "transaction.source.FiscalYear": "Fiskální rok",
     "transaction.source.Invoice": "Faktura",
-    "transaction.source.PoLine": "Řádek PO",
+    "transaction.source.PoLine": "Řádek NO",
     "transaction.status": "Stav",
     "transaction.status.Released": "Uvolněno",
     "transaction.status.Unreleased": "Neuvolněno",
@@ -411,7 +411,7 @@
     "exportCSV.exportSettings.expenseClasses.none": "Žádné",
     "exportCSV.report.budget.notFound": "Nebyl nalezen žádný rozpočet",
     "transaction.source.Invoice.number": "Zdrojové číslo faktury",
-    "transaction.source.PoLine.number": "Zdrojové číslo POL",
+    "transaction.source.PoLine.number": "Zdrojové číslo ŘNO",
     "ledger.rolloverInProgress.rollingOverFinished.withErrors": "Převrácení bylo dokončeno s chybami, Uzavření rozpočtu {budgetsStatus}, Převrácení objednávky {ordersStatus}, Finanční převrácení {financialStatus}.",
     "cancel": "Zrušit",
     "continue": "Pokračovat",
@@ -444,5 +444,6 @@
     "ledger.rollover.status.inProgress": "Probíhá",
     "ledger.rollover.status.notStarted": "Nebylo zahájeno",
     "ledger.rollover.status.success": "Úspěšný",
-    "invoice.unpaidInvoices.header": "FOLIO nalezlo faktury, které ještě nebyly uhrazeny nebo zrušeny. Pokud jste si jisti, že chcete pokračovat v prolongování, klikněte na tlačítko pokračovat."
+    "invoice.unpaidInvoices.header": "FOLIO nalezlo faktury, které ještě nebyly uhrazeny nebo zrušeny. Pokud jste si jisti, že chcete pokračovat v prolongování, klikněte na tlačítko pokračovat.",
+    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>"
 }

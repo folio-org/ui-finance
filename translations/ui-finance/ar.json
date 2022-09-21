@@ -444,5 +444,6 @@
     "ledger.rollover.status.inProgress": "قيد التقدم",
     "ledger.rollover.status.notStarted": "لم يبدأ",
     "ledger.rollover.status.success": "نجاح",
-    "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue."
+    "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue.",
+    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>"
 }

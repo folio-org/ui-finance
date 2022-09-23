@@ -40,7 +40,7 @@
       "invoice": "7.0",
       "order-lines": "2.0 3.0",
       "tags": "1.0",
-      "users": "15.0"
+      "users": "15.0 16.0"
     },
     "queryResource": "query",
     "icons": [

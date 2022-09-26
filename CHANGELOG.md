@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* support `users` interface version `16.0`. Refs UIF-405.
 * Alert user of unpaid invoices during rollover. Refs UIF-378.
 * Add test rollover action to rollover settings. Refs UIF-393.
 * Fiscal year rollover test confirmation modal. Refs UIF-395.

@@ -445,5 +445,5 @@
     "ledger.rollover.status.notStarted": "Nebylo zahájeno",
     "ledger.rollover.status.success": "Úspěšný",
     "invoice.unpaidInvoices.header": "FOLIO nalezlo faktury, které ještě nebyly uhrazeny nebo zrušeny. Pokud jste si jisti, že chcete pokračovat v prolongování, klikněte na tlačítko pokračovat.",
-    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>"
+    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> již byl převeden z fiskálního roku <b>{fromFYcode}</b> do fiskálního roku <b>{toFYcode}</b>"
 }

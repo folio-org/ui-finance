@@ -11,19 +11,20 @@ import {
   makeQueryBuilder,
 } from '@folio/stripes-acq-components';
 
-// TODO: remove fixture and connect data from BE
-import { rolloverLogs } from '../../../../../test/jest/fixtures/rollover';
-
 import { LEDGER_ROLLOVER_LOGS_API } from '../../../../common/const';
 
-export const useRolloverLogs = ({ ledgerId, pagination }) => {
+export const useRolloverLogs = ({
+  // TODO: use ledger id to filter logs after BE part is ready
+  // ledgerId,
+  pagination,
+}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'ledger-rollover-logs' });
   const { search } = useLocation();
 
   const queryParams = queryString.parse(search);
   const query = makeQueryBuilder(
-    `ledgerId=="${ledgerId}"`,
+    'cql.allRecords==1',
     null,
     'sortby startDate/sort.descending',
     {
@@ -32,7 +33,6 @@ export const useRolloverLogs = ({ ledgerId, pagination }) => {
     },
   )({
     ...queryParams,
-    ledgerId,
   });
 
   const searchParams = {
@@ -42,10 +42,9 @@ export const useRolloverLogs = ({ ledgerId, pagination }) => {
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  // const queryFn = () => ky.get(LEDGER_ROLLOVER_LOGS_API, { searchParams }).json();
-  const queryFn = () => Promise.resolve({ rolloverLogs, totalRecords: rolloverLogs.length });
+  const queryFn = () => ky.get(LEDGER_ROLLOVER_LOGS_API, { searchParams }).json();
   const options = {
-    enabled: Boolean(ledgerId) && Boolean(pagination.timestamp),
+    enabled: Boolean(pagination.timestamp),
     keepPreviousData: true,
   };
 
@@ -59,7 +58,7 @@ export const useRolloverLogs = ({ ledgerId, pagination }) => {
   return {
     isFetching,
     isLoading,
-    rolloverLogs: data?.rolloverLogs || [],
+    rolloverLogs: data?.ledgerFiscalYearRolloverLogs || [],
     refetch,
     totalRecords: data?.totalRecords,
   };

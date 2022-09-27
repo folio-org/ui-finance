@@ -39,9 +39,9 @@ export const RolloverLogsFilters = ({
       <AcqCheckboxFilter
         id="rollover-logs-status-filter"
         disabled={disabled}
-        activeFilters={activeFilters?.status}
+        activeFilters={activeFilters?.rolloverStatus}
         labelId="ui-finance.ledger.rollover.logs.status"
-        name="status"
+        name="rolloverStatus"
         onChange={({ name, values }) => applyFilters(name, values)}
         options={LEDGER_ROLLOVER_STATUS_OPTIONS}
         closedByDefault={false}

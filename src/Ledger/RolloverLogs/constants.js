@@ -51,3 +51,8 @@ export const LEDGER_ROLLOVER_LINK_TYPES = {
   error: 'error',
   result: 'result',
 };
+
+export const LEDGER_ROLLOVER_LINK_TYPES_MAP = {
+  [OVERALL_ROLLOVER_STATUS.error]: LEDGER_ROLLOVER_LINK_TYPES.error,
+  [OVERALL_ROLLOVER_STATUS.success]: LEDGER_ROLLOVER_LINK_TYPES.result,
+};

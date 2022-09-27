@@ -35,6 +35,7 @@
       "finance.ledger-rollovers-progress": "1.0",
       "finance.ledger-rollovers": "1.0 2.0",
       "finance.ledgers": "1.5 2.0",
+      "finance.ledger-rollovers-logs": "1.0",
       "finance.order-transaction-summaries": "1.0",
       "finance.transactions": "4.0 5.0",
       "invoice": "7.0",
@@ -190,7 +191,8 @@
           "finance.ledger-rollovers.collection.get",
           "finance.ledger-rollovers.item.get",
           "finance.ledger-rollovers.item.post",
-          "finance.ledgers.current-fiscal-year.item.get"
+          "finance.ledgers.current-fiscal-year.item.get",
+          "finance.ledger-rollovers-logs.collection.get"
         ]
       },
       {

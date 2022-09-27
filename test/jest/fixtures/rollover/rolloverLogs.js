@@ -1,22 +1,22 @@
 export const rolloverLogs = [
   {
+    ledgerRolloverId: '9f3549de-cca8-452d-83b4-82f87a9b1e87',
     startDate: '2022-07-13T07:53:30.472+00:00',
     endDate: '2022-07-13T07:53:30.472+00:00',
-    status: 'Success',
-    budgetsLink: 'https://okapi-bugfest-lotus.int.aws.folio.org/finance/ledger-rollovers-budgets?query=ledgerRolloverId==123',
+    rolloverStatus: 'Success',
     ledgerRolloverType: 'Preview',
   },
   {
+    ledgerRolloverId: '2f24a74c-b40d-4f5c-9743-7d416b7f448a',
     startDate: '2022-07-13T07:53:30.472+00:00',
-    status: 'In Progress',
+    rolloverStatus: 'In Progress',
     ledgerRolloverType: 'Commit',
   },
   {
+    ledgerRolloverId: 'aead4424-0001-440f-bd5c-e2d6545b8ad3',
     startDate: '2022-07-13T07:53:30.472+00:00',
     endDate: '2022-07-13T07:53:30.472+00:00',
-    status: 'Error',
-    errorsLink: 'https://okapi-bugfest-lotus.int.aws.folio.org/finance/ledger-rollovers-errors?query=ledgerRolloverId==123',
-    budgetsLink: 'https://okapi-bugfest-lotus.int.aws.folio.org/finance/ledger-rollovers-budgets?query=ledgerRolloverId==123',
+    rolloverStatus: 'Error',
     ledgerRolloverType: 'Commit',
   },
 ];

@@ -44,8 +44,8 @@ import {
   ORDER_TYPE,
 } from '../constants';
 
-const ifRolloverPreview = (ledger) => {
-  return ledger.rolloverType === LEDGER_ROLLOVER_TYPES.preview;
+const ifRolloverPreview = (values) => {
+  return values.rolloverType === LEDGER_ROLLOVER_TYPES.preview;
 };
 
 export const RolloverLedgerContainer = ({ resources, mutator, match, history, location, stripes }) => {
@@ -117,7 +117,7 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       query,
     } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
 
-    const toggleConfirmationModal = rolloverValues?.isPreview
+    const toggleConfirmationModal = ifRolloverPreview(rolloverValues)
       ? toggleTestRolloverConfirmation
       : toggleRolloverConfirmation;
 
@@ -175,7 +175,9 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   const toggleConfirmation = useCallback(() => {
     toggleUnpaidInvoiceList();
 
-    return savingValues?.isPreview ? toggleTestRolloverConfirmation() : toggleRolloverConfirmation();
+    return ifRolloverPreview(savingValues)
+      ? toggleTestRolloverConfirmation()
+      : toggleRolloverConfirmation();
   }, [savingValues, toggleTestRolloverConfirmation, toggleRolloverConfirmation, toggleUnpaidInvoiceList]);
 
   if (isLoading || !budgets || !currentFiscalYear || !funds || !fundTypesMap) {

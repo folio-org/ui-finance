@@ -15,6 +15,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import { LEDGER_ROLLOVER_TYPES } from '../../common/const';
 import RolloverFiscalYears from './RolloverFiscalYears';
 import RolloverLedgerBudgets from './RolloverLedgerBudgets';
 import RolloverLedgerEncumbrances from './RolloverLedgerEncumbrances';
@@ -41,8 +42,8 @@ const RolloverLedger = ({
   pristine,
   submitting,
 }) => {
-  const testRolloverSubmit = useCallback(() => {
-    change('isPreview', true);
+  const onRolloverSubmit = useCallback((rolloverType) => {
+    change('rolloverType', rolloverType);
     handleSubmit();
   }, [change, handleSubmit]);
 
@@ -60,7 +61,7 @@ const RolloverLedger = ({
       <Button
         buttonStyle="default mega"
         disabled={pristine || submitting}
-        onClick={testRolloverSubmit}
+        onClick={() => onRolloverSubmit(LEDGER_ROLLOVER_TYPES.preview)}
         type="submit"
       >
         <FormattedMessage id="ui-finance.ledger.rollover.testBtn" />
@@ -68,7 +69,7 @@ const RolloverLedger = ({
       <Button
         buttonStyle="primary mega"
         disabled={pristine || submitting}
-        onClick={handleSubmit}
+        onClick={() => onRolloverSubmit(LEDGER_ROLLOVER_TYPES.commit)}
         type="submit"
       >
         <FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />

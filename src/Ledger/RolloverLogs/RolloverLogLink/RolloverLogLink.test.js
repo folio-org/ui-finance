@@ -81,15 +81,16 @@ describe('RolloverLogLink', () => {
   });
 
   describe('Actions:', () => {
-    it('should start export rollover results', async () => {
-      renderRolloverLogs();
+    // TODO: uncoment after results export implementation
+    // it('should start export rollover results', async () => {
+    //   renderRolloverLogs();
 
-      const link = screen.getByTestId('rollover-log-link');
+    //   const link = screen.getByTestId('rollover-log-link');
 
-      await act(async () => user.click(link));
+    //   await act(async () => user.click(link));
 
-      expect(exportRolloverResult).toHaveBeenCalled();
-    });
+    //   expect(exportRolloverResult).toHaveBeenCalled();
+    // });
 
     it('should start export rollover errors', async () => {
       useOkapiKy.mockReturnValue(getMockedKy({ data: rolloverErrors }));
@@ -112,7 +113,10 @@ describe('RolloverLogLink', () => {
       useShowCallout.mockReturnValue(showCallout);
       useOkapiKy.mockReturnValue(getMockedKy({ isResolved: false }));
 
-      renderRolloverLogs();
+      renderRolloverLogs({
+        type: LEDGER_ROLLOVER_LINK_TYPES.error,
+        rolloverLog: rolloverLogs[2],
+      });
 
       const link = screen.getByTestId('rollover-log-link');
 

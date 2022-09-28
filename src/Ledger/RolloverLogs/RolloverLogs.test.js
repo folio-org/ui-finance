@@ -16,6 +16,7 @@ jest.mock('@folio/stripes-acq-components', () => {
     ...jest.requireActual('@folio/stripes-acq-components'),
     useFiltersToogle: jest.fn().mockReturnValue({ isFiltersOpened: true, toggleFilters: jest.fn() }),
     ResetButton: () => <span>ResetButton</span>,
+    ResultsPane: jest.fn(({ children }) => children({ height: 600, width: 900 })),
   };
 });
 jest.mock('./hooks', () => ({
@@ -26,7 +27,7 @@ jest.mock('./hooks', () => ({
 const queryClient = new QueryClient();
 // eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
-  <MemoryRouter>
+  <MemoryRouter initialEntries={[{ pathname: '/', search: '?rolloverStatus="Preview"' }]}>
     <QueryClientProvider client={queryClient}>
       {children}
     </QueryClientProvider>
@@ -50,7 +51,7 @@ describe('RolloverLogs', () => {
       });
   });
 
-  it('should display filters', () => {
+  it('should display filters and results', async () => {
     renderRolloverLogs();
 
     expect(screen.getByText('stripes-acq-components.searchAndFilter')).toBeInTheDocument();

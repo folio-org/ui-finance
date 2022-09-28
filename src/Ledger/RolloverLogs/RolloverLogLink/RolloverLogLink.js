@@ -15,11 +15,16 @@ import {
 
 import {
   exportRolloverErrors,
-  exportRolloverResult,
 } from '../../../common/utils';
-import { LEDGER_ROLLOVER_LINK_TYPES } from '../constants';
+import {
+  LEDGER_ROLLOVER_LINK_TYPES,
+  LEDGER_ROLLOVER_LINK_TYPES_MAP,
+} from '../constants';
 
 import css from './RolloverLogLink.css';
+import {
+  LEDGER_ROLLOVER_ERRORS_API,
+} from '../../../common/const';
 
 export const RolloverLogLink = ({
   type,
@@ -30,29 +35,56 @@ export const RolloverLogLink = ({
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
 
-  const { budgetsLink, endDate, errorsLink } = rolloverLog;
+  const {
+    ledgerRolloverId,
+    endDate,
+    rolloverStatus,
+  } = rolloverLog;
+
   const filename = exportFileName || `${formatDate(endDate, intl, TIMEZONE)}-${type}`;
   const isErrorLink = type === LEDGER_ROLLOVER_LINK_TYPES.error;
-  const link = isErrorLink
-    ? errorsLink
-    : budgetsLink;
+
+  const getLedgerRolloverErrors = useCallback(() => {
+    const searchParams = {
+      query: `ledgerRolloverId=="${ledgerRolloverId}"`,
+    };
+
+    return ky.get(LEDGER_ROLLOVER_ERRORS_API, { searchParams })
+      .json()
+      .then(({ ledgerFiscalYearRolloverErrors }) => ({
+        errors: ledgerFiscalYearRolloverErrors,
+        filename,
+      }))
+      .then(exportRolloverErrors);
+  }, [ledgerRolloverId, ky, filename]);
+
+  const getLedgerRolloverResults = useCallback(() => {
+    // TODO: implement when BE API is ready
+    console.log('Export rollover budgets');
+
+    return Promise.resolve();
+  }, []);
 
   const onClick = useCallback(async () => {
-    try {
-      const data = await ky.get(link).json();
+    const handler = isErrorLink
+      ? getLedgerRolloverErrors
+      : getLedgerRolloverResults;
 
-      return isErrorLink
-        ? exportRolloverErrors({ errors: data, filename })
-        : exportRolloverResult({ data, filename });
-    } catch {
-      return showCallout({
-        messageId: 'ui-finance.ledger.rollover.logs.export.failed',
-        type: 'error',
+    return handler()
+      .catch(() => {
+        showCallout({
+          messageId: 'ui-finance.ledger.rollover.logs.export.failed',
+          type: 'error',
+        });
       });
-    }
-  }, [filename, isErrorLink, ky, link, showCallout]);
+  }, [
+    getLedgerRolloverErrors,
+    getLedgerRolloverResults,
+    isErrorLink,
+    showCallout,
+  ]);
 
-  if (!link) return <NoValue />;
+  if (type !== LEDGER_ROLLOVER_LINK_TYPES_MAP[rolloverStatus]) return <NoValue />;
 
   return (
     <TextLink

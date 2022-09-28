@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { useShowCallout } from '@folio/stripes-acq-components';
 
-import { OVERALL_ROLLOVER_STATUS } from '../../common/const';
+import {
+  LEDGER_ROLLOVER_TYPES,
+  OVERALL_ROLLOVER_STATUS,
+} from '../../common/const';
 
 function useRolloverProgressPolling({
   ledgerId,
@@ -19,7 +22,7 @@ function useRolloverProgressPolling({
 
   useEffect(() => {
     setIsLoading(true);
-    const params = { query: `ledgerId=="${ledgerId}" sortby metadata.createdDate/sort.descending` };
+    const params = { query: `(ledgerId=="${ledgerId}" and rolloverType=="${LEDGER_ROLLOVER_TYPES.commit}") sortby metadata.createdDate/sort.descending` };
 
     mutatorLedgerRollover.GET({ params }).then(([first, ..._rest]) => {
       setRollover(first);

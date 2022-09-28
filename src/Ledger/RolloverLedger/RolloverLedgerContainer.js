@@ -21,6 +21,7 @@ import {
 
 import {
   LEDGERS_ROUTE,
+  LEDGER_ROLLOVER_TYPES,
 } from '../../common/const';
 import {
   budgetsResource,
@@ -42,6 +43,10 @@ import {
   ADD_AVAILABLE_TO,
   ORDER_TYPE,
 } from '../constants';
+
+const ifRolloverPreview = (values) => {
+  return values.rolloverType === LEDGER_ROLLOVER_TYPES.preview;
+};
 
 export const RolloverLedgerContainer = ({ resources, mutator, match, history, location, stripes }) => {
   const ky = useOkapiKy();
@@ -81,25 +86,24 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       const encumbrancesRollover = rolloverValues.encumbrancesRollover.filter(d => d.rollover);
 
       encumbrancesRollover.forEach((d) => delete d.rollover);
-      try {
-        await mutator.ledgerRollover.POST({
-          ...rolloverValues,
-          encumbrancesRollover,
-        });
-      } catch (e) {
-        handleRolloverErrors(e);
-      }
-      close();
+
+      return mutator.ledgerRollover.POST({
+        ...rolloverValues,
+        encumbrancesRollover,
+      });
     },
-    [close, handleRolloverErrors, mutator.ledgerRollover],
+    [mutator.ledgerRollover],
   );
 
   const testRollover = useCallback(
-    () => {
-      showCallout({ messageId: 'ui-finance.ledger.rolloverTest.start.success', values: { ledgerName: ledger?.name } });
-      close();
+    (rolloverValues) => {
+      return rollover(rolloverValues)
+        .then(() => showCallout({
+          messageId: 'ui-finance.ledger.rolloverTest.start.success',
+          values: { ledgerName: ledger?.name },
+        }));
     },
-    [close, showCallout, ledger],
+    [ledger, rollover, showCallout],
   );
 
   const showConfirmation = useCallback(async (rolloverValues) => {
@@ -113,7 +117,7 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       query,
     } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
 
-    const toggleConfirmationModal = rolloverValues?.isPreview
+    const toggleConfirmationModal = ifRolloverPreview(rolloverValues)
       ? toggleTestRolloverConfirmation
       : toggleRolloverConfirmation;
 
@@ -146,10 +150,18 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
   const callRollover = useCallback(() => {
-    const { isPreview, ...values } = savingValues;
+    const rolloverCb = ifRolloverPreview(savingValues) ? testRollover : rollover;
 
-    return isPreview ? testRollover(values) : rollover(values);
-  }, [rollover, savingValues, testRollover]);
+    return rolloverCb(savingValues)
+      .catch(handleRolloverErrors)
+      .finally(close);
+  }, [
+    close,
+    handleRolloverErrors,
+    rollover,
+    savingValues,
+    testRollover,
+  ]);
 
   const goToCreateFY = useCallback(() => {
     history.push({
@@ -163,7 +175,9 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   const toggleConfirmation = useCallback(() => {
     toggleUnpaidInvoiceList();
 
-    return savingValues?.isPreview ? toggleTestRolloverConfirmation() : toggleRolloverConfirmation();
+    return ifRolloverPreview(savingValues)
+      ? toggleTestRolloverConfirmation()
+      : toggleRolloverConfirmation();
   }, [savingValues, toggleTestRolloverConfirmation, toggleRolloverConfirmation, toggleUnpaidInvoiceList]);
 
   if (isLoading || !budgets || !currentFiscalYear || !funds || !fundTypesMap) {

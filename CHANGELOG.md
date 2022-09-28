@@ -11,6 +11,7 @@
 * Implement `Rollover logs` view. Refs UIF-397.
 * Add message to unpaid invoices modal. Refs UIF-399.
 * Update the error for rollover uniqueness. Refs UIF-412.
+* Integrate `Rollover logs` list with BE. Refs UIF-413.
 
 ## [3.2.1](https://github.com/folio-org/ui-finance/tree/v3.2.1) (2022-08-03)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.2.0...v3.2.1)

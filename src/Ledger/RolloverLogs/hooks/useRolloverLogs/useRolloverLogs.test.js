@@ -39,7 +39,7 @@ describe('useRolloverLogs', () => {
       .mockReturnValue({
         get: () => ({
           json: () => Promise.resolve({
-            rolloverLogs,
+            ledgerFiscalYearRolloverLogs: rolloverLogs,
             totalRecords: rolloverLogs.length,
           }),
         }),

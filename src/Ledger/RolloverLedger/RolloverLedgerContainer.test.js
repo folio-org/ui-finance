@@ -1,11 +1,17 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import user from '@testing-library/user-event';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import { useOkapiKy } from '@folio/stripes/core';
 
 import RolloverLedger from './RolloverLedger';
 import { RolloverLedgerContainer } from './RolloverLedgerContainer';
-import { LEDGERS_ROUTE } from '../../common/const';
+import { LEDGERS_ROUTE, LEDGER_ROLLOVER_TYPES } from '../../common/const';
 
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  useOkapiKy: jest.fn(() => jest.fn()),
+}));
 jest.mock('./RolloverLedger', () => jest.fn().mockReturnValue('RolloverLedger'));
 jest.mock('./hooks', () => ({
   ...jest.requireActual('./hooks'),
@@ -29,7 +35,11 @@ const historyMock = {
   location: locationMock,
 };
 const defaultProps = {
-  mutator: {},
+  mutator: {
+    ledgerRollover: {
+      POST: jest.fn(() => Promise.resolve()),
+    },
+  },
   history: historyMock,
   location: locationMock,
   match: { params: { id: 'id' }, path: 'path', url: 'url' },
@@ -39,15 +49,26 @@ const defaultProps = {
       records: [{ id: 'id' }],
     },
   },
+  stripes: {
+    user: { user: { email: 'ex@mp.le' } },
+  },
 };
 const renderRolloverLedgerContainer = (props = defaultProps) => render(
   <RolloverLedgerContainer {...props} />,
   { wrapper: MemoryRouter },
 );
 
+const kyMock = {
+  get: jest.fn(() => ({
+    json: () => Promise.resolve({ totalRecords: 0 }),
+  })),
+};
+
 describe('RolloverLedgerContainer', () => {
   beforeEach(() => {
     historyMock.push.mockClear();
+    useOkapiKy.mockClear().mockReturnValue(kyMock);
+    RolloverLedger.mockClear();
   });
 
   it('should display RolloverLedger', () => {
@@ -70,5 +91,32 @@ describe('RolloverLedgerContainer', () => {
     RolloverLedger.mock.calls[0][0].goToCreateFY();
 
     expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/rollover-create-fy`);
+  });
+
+  describe('Rollover preview', () => {
+    beforeEach(async () => {
+      renderRolloverLedgerContainer();
+
+      await act(async () => RolloverLedger.mock.calls[0][0].onSubmit({
+        rolloverType: LEDGER_ROLLOVER_TYPES.preview,
+        encumbrancesRollover: [{
+          orderType: 'Ongoing',
+          basedOn: 'Expended',
+          increaseBy: '1',
+        }],
+      }));
+    });
+
+    it('should display rollover preview confirmation modal', async () => {
+      expect(screen.getByText('ui-finance.ledger.rolloverTest.confirm.message')).toBeInTheDocument();
+    });
+
+    it('should call test rollover callback', async () => {
+      const confirmBtn = screen.getByText('ui-finance.ledger.rollover.confirm.btn');
+
+      await act(async () => user.click(confirmBtn));
+
+      expect(defaultProps.mutator.ledgerRollover.POST).toHaveBeenCalled();
+    });
   });
 });

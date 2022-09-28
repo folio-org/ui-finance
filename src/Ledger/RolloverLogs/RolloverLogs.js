@@ -37,7 +37,7 @@ const resultsPaneTitle = <FormattedMessage id="ui-finance.actions.rolloverLogs" 
 const formatter = ({
   startDate: item => <FolioFormattedTime dateString={item.startDate} />,
   endDate: item => <FolioFormattedTime dateString={item.endDate} />,
-  status: item => LEDGER_ROLLOVER_STATUS_MAP[item.status],
+  status: item => LEDGER_ROLLOVER_STATUS_MAP[item.rolloverStatus],
   errors: item => (
     <RolloverLogLink
       type={LEDGER_ROLLOVER_LINK_TYPES.error}

@@ -14,8 +14,7 @@ import {
 import { LEDGER_ROLLOVER_LOGS_API } from '../../../../common/const';
 
 export const useRolloverLogs = ({
-  // TODO: use ledger id to filter logs after BE part is ready
-  // ledgerId,
+  ledgerId,
   pagination,
 }) => {
   const ky = useOkapiKy();
@@ -24,7 +23,7 @@ export const useRolloverLogs = ({
 
   const queryParams = queryString.parse(search);
   const query = makeQueryBuilder(
-    'cql.allRecords==1',
+    `ledgerId=="${ledgerId}"`,
     null,
     'sortby startDate/sort.descending',
     {
@@ -32,6 +31,7 @@ export const useRolloverLogs = ({
       endDate: buildDateRangeQuery.bind(null, ['endDate']),
     },
   )({
+    ledgerId,
     ...queryParams,
   });
 
@@ -41,10 +41,10 @@ export const useRolloverLogs = ({
     offset: pagination.offset,
   };
 
-  const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
+  const queryKey = [namespace, ledgerId, pagination.timestamp, pagination.limit, pagination.offset];
   const queryFn = () => ky.get(LEDGER_ROLLOVER_LOGS_API, { searchParams }).json();
   const options = {
-    enabled: Boolean(pagination.timestamp),
+    enabled: Boolean(ledgerId && pagination.timestamp),
     keepPreviousData: true,
   };
 

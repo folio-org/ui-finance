@@ -163,9 +163,10 @@ export const LedgerDetailsContainer = ({
     () => {
       history.push({
         pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-logs`,
+        state: { search: location.search },
       });
     },
-    [history, ledgerId],
+    [history, ledgerId, location.search],
   );
 
   const [isClosedProgress] = useLocalStorage(`LedgerRolloverProgress-${rollover?.id}`);

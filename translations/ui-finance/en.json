@@ -83,6 +83,7 @@
   "ledger.rollover.logs.errors": "Errors",
   "ledger.rollover.logs.export.failed": "Failed to export rollover logs",
   "ledger.rollover.logs.results": "Results",
+  "ledger.rollover.logs.results.export.start": "Export of budget results has been started",
   "ledger.rollover.logs.startDate": "Start time",
   "ledger.rollover.logs.status": "Status",
   "ledger.rollover.logs.source": "Source",

@@ -14,7 +14,13 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  LEDGER_ROLLOVER_BUDGETS_API,
+  LEDGER_ROLLOVER_ERRORS_API,
+} from '../../../common/const';
+import {
+  generateBudgetsReport,
   exportRolloverErrors,
+  exportRolloverResult,
 } from '../../../common/utils';
 import {
   LEDGER_ROLLOVER_LINK_TYPES,
@@ -22,9 +28,6 @@ import {
 } from '../constants';
 
 import css from './RolloverLogLink.css';
-import {
-  LEDGER_ROLLOVER_ERRORS_API,
-} from '../../../common/const';
 
 export const RolloverLogLink = ({
   type,
@@ -45,25 +48,34 @@ export const RolloverLogLink = ({
   const isErrorLink = type === LEDGER_ROLLOVER_LINK_TYPES.error;
 
   const getLedgerRolloverErrors = useCallback(() => {
-    const searchParams = {
-      query: `ledgerRolloverId=="${ledgerRolloverId}"`,
-    };
-
-    return ky.get(LEDGER_ROLLOVER_ERRORS_API, { searchParams })
+    return ky.get(LEDGER_ROLLOVER_ERRORS_API, {
+      searchParams: {
+        query: `ledgerRolloverId=="${ledgerRolloverId}"`,
+      },
+    })
       .json()
       .then(({ ledgerFiscalYearRolloverErrors }) => ({
         errors: ledgerFiscalYearRolloverErrors,
         filename,
       }))
       .then(exportRolloverErrors);
-  }, [ledgerRolloverId, ky, filename]);
+  }, [filename, ky, ledgerRolloverId]);
 
   const getLedgerRolloverResults = useCallback(() => {
-    // TODO: implement when BE API is ready
-    console.log('Export rollover budgets');
+    showCallout({
+      messageId: 'ui-finance.ledger.rollover.logs.results.export.start',
+    });
 
-    return Promise.resolve();
-  }, []);
+    return ky.get(LEDGER_ROLLOVER_BUDGETS_API, {
+      searchParams: {
+        query: `ledgerRolloverId=="${ledgerRolloverId}"`,
+      },
+    })
+      .json()
+      .then(({ ledgerFiscalYearRolloverBudgets }) => ledgerFiscalYearRolloverBudgets)
+      .then(generateBudgetsReport(ky))
+      .then((data) => exportRolloverResult({ data, filename }));
+  }, [filename, ky, ledgerRolloverId, showCallout]);
 
   const onClick = useCallback(async () => {
     const handler = isErrorLink

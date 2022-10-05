@@ -1,3 +1,5 @@
+import { omit } from 'lodash';
+
 import { exportToCsv } from '@folio/stripes/components';
 
 import {
@@ -11,7 +13,7 @@ export const exportRolloverResult = ({ data, filename }) => {
     [
       {
         ...EXPORT_FUND_FIELDS,
-        ...EXPORT_BUDGET_FIELDS,
+        ...omit(EXPORT_BUDGET_FIELDS, 'createdDate'),
         ...EXPORT_EXPENSE_CLASS_FIELDS,
       },
       ...data,

@@ -12,6 +12,7 @@ import {
 import {
   exportRolloverErrors,
   exportRolloverResult,
+  generateBudgetsReport,
 } from '../../../common/utils';
 import { RolloverLogLink } from './RolloverLogLink';
 import { LEDGER_ROLLOVER_LINK_TYPES } from '../constants';
@@ -28,6 +29,7 @@ jest.mock('../../../common/utils', () => ({
   ...jest.requireActual('../../../common/utils'),
   exportRolloverErrors: jest.fn(),
   exportRolloverResult: jest.fn(),
+  generateBudgetsReport: jest.fn(),
 }));
 
 const defaultProps = {
@@ -52,6 +54,7 @@ describe('RolloverLogLink', () => {
   beforeEach(() => {
     exportRolloverErrors.mockClear();
     exportRolloverResult.mockClear();
+    generateBudgetsReport.mockClear();
     useShowCallout.mockClear();
 
     useOkapiKy
@@ -81,16 +84,16 @@ describe('RolloverLogLink', () => {
   });
 
   describe('Actions:', () => {
-    // TODO: uncoment after results export implementation
-    // it('should start export rollover results', async () => {
-    //   renderRolloverLogs();
+    it('should start export rollover results', async () => {
+      renderRolloverLogs();
 
-    //   const link = screen.getByTestId('rollover-log-link');
+      const link = screen.getByTestId('rollover-log-link');
 
-    //   await act(async () => user.click(link));
+      await act(async () => user.click(link));
 
-    //   expect(exportRolloverResult).toHaveBeenCalled();
-    // });
+      expect(generateBudgetsReport).toHaveBeenCalled();
+      expect(exportRolloverResult).toHaveBeenCalled();
+    });
 
     it('should start export rollover errors', async () => {
       useOkapiKy.mockReturnValue(getMockedKy({ data: rolloverErrors }));

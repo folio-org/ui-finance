@@ -312,8 +312,8 @@
     "ledger.rollover.addAvailableTo.allocation": "Zuweisung",
     "ledger.rollover.periodBeginDate": "Beginn des Zeitraums",
     "ledger.rollover.periodEndDate": "Ende des Zeitraums",
-    "ledger.rollover.restrictEncumbrance": "Bindungen nicht beschränken",
-    "ledger.rollover.restrictExpenditures": "Ausgaben nicht beschränken",
+    "ledger.rollover.restrictEncumbrance": "Enforce all budget encumbrance limits",
+    "ledger.rollover.restrictExpenditures": "Enforce all budget expenditure limits",
     "ledger.rollover.noFundType": "Kein Fondstyp",
     "ledger.rollover.addAvailableTo.transfer": "Transfer",
     "ledger.rollover.addAvailableAs": "Restmittel hinzufügen als",
@@ -445,5 +445,6 @@
     "ledger.rollover.status.notStarted": "Not started",
     "ledger.rollover.status.success": "Successful",
     "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue.",
-    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>"
+    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>",
+    "ledger.rollover.logs.results.export.start": "Export of budget results has been started"
 }

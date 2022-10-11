@@ -445,5 +445,6 @@
     "ledger.rollover.status.notStarted": "Não iniciado",
     "ledger.rollover.status.success": "Efetuado com sucesso",
     "invoice.unpaidInvoices.header": "O FOLIO encontrou faturas que ainda não foram pagas ou canceladas. Se você tem certeza de que quer continuar com o rollover, clique em continuar.",
-    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>"
+    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>",
+    "ledger.rollover.logs.results.export.start": "Export of budget results has been started"
 }

@@ -2,7 +2,10 @@
 
 ## (IN PROGRESS)
 
-* support `users` interface version `16.0`. Refs UIF-405.
+## [3.3.0](https://github.com/folio-org/ui-finance/tree/v3.3.0) (2022-10-25)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.2.1...v3.3.0)
+
+* Support `users` interface version `16.0`. Refs UIF-405.
 * Alert user of unpaid invoices during rollover. Refs UIF-378.
 * Add test rollover action to rollover settings. Refs UIF-393.
 * Fiscal year rollover test confirmation modal. Refs UIF-395.
@@ -10,9 +13,10 @@
 * Add `Rollover logs` action to `Ledger` menu. Refs UIF-396.
 * Implement `Rollover logs` view. Refs UIF-397.
 * Add message to unpaid invoices modal. Refs UIF-399.
+* Missing interfaces causes failure of platform-complete build. Refs UIF-401.
 * Update the error for rollover uniqueness. Refs UIF-412.
 * Integrate `Rollover logs` list with BE. Refs UIF-413.
-* Download budget results from `Rollover logs` page. Refs UIF-415.8
+* Download budget results from `Rollover logs` page. Refs UIF-415.
 * Possibility to close `Rollover logs` pane. Refs UIF-416.
 
 ## [3.2.1](https://github.com/folio-org/ui-finance/tree/v3.2.1) (2022-08-03)

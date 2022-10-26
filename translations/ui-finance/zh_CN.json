@@ -445,6 +445,6 @@
     "ledger.rollover.status.notStarted": "未启动",
     "ledger.rollover.status.success": "成功",
     "invoice.unpaidInvoices.header": "FOLIO 发现尚未支付或取消的发票。如果确定要继续展期，请单击继续。",
-    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>",
-    "ledger.rollover.logs.results.export.start": "Export of budget results has been started"
+    "ledger.rollover.error.conflict": "<b> {ledgerName} </b>已经从财务年度<b> {fromFYcode} </b>滚动到财务年度<b> {toFYcode} </b>",
+    "ledger.rollover.logs.results.export.start": "已开始导出预算结果"
 }

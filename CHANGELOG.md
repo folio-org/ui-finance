@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* UX: Spacing of rollover buttons on Finance app. Refs  UIF-417.
+
 ## [3.3.0](https://github.com/folio-org/ui-finance/tree/v3.3.0) (2022-10-25)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.2.1...v3.3.0)
 

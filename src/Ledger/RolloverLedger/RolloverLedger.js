@@ -20,6 +20,8 @@ import RolloverFiscalYears from './RolloverFiscalYears';
 import RolloverLedgerBudgets from './RolloverLedgerBudgets';
 import RolloverLedgerEncumbrances from './RolloverLedgerEncumbrances';
 
+import css from './RolloverLedger.css';
+
 export const ROLLOVER_LEDGER_ACCORDION = {
   budgets: 'budgets',
   encumbrances: 'encumbrances',
@@ -57,7 +59,7 @@ const RolloverLedger = ({
   );
 
   const end = (
-    <>
+    <div className={css.paneFooterEnd}>
       <Button
         buttonStyle="default mega"
         disabled={pristine || submitting}
@@ -74,7 +76,7 @@ const RolloverLedger = ({
       >
         <FormattedMessage id="ui-finance.ledger.rollover.saveBtn" />
       </Button>
-    </>
+    </div>
   );
 
   const paneFooter = (

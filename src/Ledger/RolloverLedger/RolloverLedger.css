@@ -1,0 +1,6 @@
+@import "@folio/stripes-components/lib/variables.css";
+
+.paneFooterEnd {
+  display: flex;
+  gap: var(--gutter);
+}

@@ -7,7 +7,10 @@ import {
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import { stripesConnect } from '@folio/stripes/core';
-import { EXPENSE_CLASSES_API } from '@folio/stripes-acq-components';
+import {
+  EXPENSE_CLASSES_API,
+  getControlledVocabTranslations,
+} from '@folio/stripes-acq-components';
 
 import { ExpenseClassHelper } from './ExpenseClassHelper';
 
@@ -38,7 +41,7 @@ const ExpenseClassSettings = ({ stripes }) => {
       hiddenFields={hiddenFields}
       id="expenseClasses"
       label={intl.formatMessage({ id: 'ui-finance.expenseClass.label.plural' })}
-      labelSingular={intl.formatMessage({ id: 'ui-finance.expenseClass.label' })}
+      translations={getControlledVocabTranslations('ui-finance.settings.expenseClasses')}
       nameKey="name"
       objectLabel={intl.formatMessage({ id: 'ui-finance.expenseClass.label' })}
       records="expenseClasses"

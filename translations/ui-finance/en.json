@@ -426,6 +426,11 @@
 
   "settings.button.export": "Export",
   "settings.expenseClasses.title": "Expense classes",
+  "settings.expenseClasses.cannotDeleteTermHeader": "Cannot delete expense class",
+  "settings.expenseClasses.cannotDeleteTermMessage": "This expense class cannot be deleted, as it is in use by one or more records.",
+  "settings.expenseClasses.deleteEntry": "Delete expense class",
+  "settings.expenseClasses.termDeleted": "The expense class <b>{term}</b> was successfully <b>deleted</b>",
+  "settings.expenseClasses.termWillBeDeleted": "The expense class <b>{term}</b> will be <b>deleted.</b>",
   "settings.exportFund.title": "Export fund and expense class codes",
   "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
   "settings.exportFund.exportSettings": "Export settings",

@@ -436,6 +436,11 @@
   "settings.exportFund.exportSettings": "Export settings",
   "settings.exportFund.success": "Combined code list was successfully exported.",
   "settings.fundTypes.title": "Fund types",
+  "settings.fundTypes.cannotDeleteTermHeader": "Cannot delete fund type",
+  "settings.fundTypes.cannotDeleteTermMessage": "This fund type cannot be deleted, as it is in use by one or more records.",
+  "settings.fundTypes.deleteEntry": "Delete fund type",
+  "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
+  "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
 
   "actions.edit": "Edit",
   "actions.exportCSV": "Export budget information (CSV)",

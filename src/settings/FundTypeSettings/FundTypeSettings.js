@@ -6,6 +6,7 @@ import {
 } from 'react-intl';
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
+import { getControlledVocabTranslations } from '@folio/stripes-acq-components';
 
 import { FUND_TYPES_API } from '../../common/const';
 import { fundTypesResource } from '../../common/resources';
@@ -32,7 +33,7 @@ const FundTypeSettings = ({
       baseUrl={FUND_TYPES_API}
       records="fundTypes"
       label={intl.formatMessage({ id: 'ui-finance.fundType.label.plural' })}
-      labelSingular={intl.formatMessage({ id: 'ui-finance.fundType.label' })}
+      translations={getControlledVocabTranslations('ui-finance.settings.fundTypes')}
       objectLabel={fundTypeLabel}
       visibleFields={visibleFields}
       columnMapping={columnMapping}

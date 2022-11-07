@@ -4,6 +4,7 @@
 
 * UX: Spacing of rollover buttons on Finance app. Refs  UIF-417.
 * Provide local translations to `ControlledVocab`. Refs UIF-408.
+* Previous fiscal year selected by default when viewing group records. Refs UIF-419.
 
 ## [3.3.0](https://github.com/folio-org/ui-finance/tree/v3.3.0) (2022-10-25)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.2.1...v3.3.0)

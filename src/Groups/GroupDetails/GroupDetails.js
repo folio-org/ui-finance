@@ -240,7 +240,10 @@ GroupDetails.propTypes = {
     unavailable: PropTypes.number,
     available: PropTypes.number,
   }),
-  fiscalYearsRecords: PropTypes.arrayOf(PropTypes.object),
+  fiscalYearsRecords: PropTypes.shape({
+    current: PropTypes.arrayOf(PropTypes.object),
+    previous: PropTypes.arrayOf(PropTypes.object),
+  }),
   funds: PropTypes.arrayOf(PropTypes.object),
   selectedFY: PropTypes.object.isRequired,
   onSelectFY: PropTypes.func.isRequired,
@@ -250,7 +253,7 @@ GroupDetails.propTypes = {
 
 GroupDetails.defaultProps = {
   groupSummary: {},
-  fiscalYearsRecords: [],
+  fiscalYearsRecords: { current: [], previous: [] },
   funds: [],
 };
 

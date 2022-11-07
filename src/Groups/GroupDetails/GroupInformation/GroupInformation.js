@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Row,
@@ -23,12 +23,29 @@ const GroupInformation = ({
   selectedFiscalYearId,
   onSelectFY,
 }) => {
-  const fiscalYearsOptions = fiscalYears.map(fy => ({
-    label: fy.code,
-    value: fy.id,
-  }));
+  const intl = useIntl();
+
+  const fiscalYearsOptions = useMemo(() => {
+    return (
+      Object.entries(fiscalYears).map(([aggregator, _fiscalYears]) => (
+        !!_fiscalYears.length && (
+          <optgroup
+            key={aggregator}
+            label={intl.formatMessage({ id: `ui-finance.groups.item.information.fiscalYear.${aggregator}` })}
+          >
+            {_fiscalYears.map(fy => (
+              <option key={fy.id} value={fy.id}>{fy.code}</option>
+            ))}
+          </optgroup>
+        )
+      )).filter(Boolean)
+    );
+  }, [fiscalYears, intl]);
+
   const selectFY = useCallback(({ target: { value } }) => {
-    onSelectFY(fiscalYears.find(fy => fy.id === value) || {});
+    const groupFiscalYears = Object.values(fiscalYears).flatMap(values => values);
+
+    onSelectFY(groupFiscalYears.find(fy => fy.id === value) || {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSelectFY, selectedFiscalYearId]);
 
@@ -65,10 +82,11 @@ const GroupInformation = ({
         >
           <KeyValue label={<FormattedMessage id="ui-finance.groups.item.information.fiscalYear" />}>
             <Select
-              dataOptions={fiscalYearsOptions}
               onChange={selectFY}
               value={selectedFiscalYearId}
-            />
+            >
+              {fiscalYearsOptions}
+            </Select>
           </KeyValue>
         </Col>
 
@@ -106,7 +124,10 @@ GroupInformation.propTypes = {
   status: PropTypes.string.isRequired,
   description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
-  fiscalYears: PropTypes.arrayOf(PropTypes.object),
+  fiscalYears: PropTypes.shape({
+    current: PropTypes.arrayOf(PropTypes.object),
+    previous: PropTypes.arrayOf(PropTypes.object),
+  }),
   selectedFiscalYearId: PropTypes.string.isRequired,
   onSelectFY: PropTypes.func.isRequired,
 };

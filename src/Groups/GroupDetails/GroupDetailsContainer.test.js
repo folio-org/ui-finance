@@ -12,7 +12,12 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useAllFunds: jest.fn().mockReturnValue({ funds: [] }),
 }));
-jest.mock('./utils', () => ({ getGroupSummary: jest.fn() }));
+jest.mock('./utils', () => ({
+  ...jest.requireActual('./utils'),
+  getGroupLedgers: jest.fn(() => () => Promise.resolve({ ledgers: [{ id: 'ledgerId' }] })),
+  getGroupSummary: jest.fn(),
+  getLedgersCurrentFiscalYears: jest.fn(() => () => Promise.resolve(['fyId'])),
+}));
 jest.mock('./hooks', () => ({
   useFundsGroupMutation: jest.fn(),
   useFundGroupMutation: jest.fn(),

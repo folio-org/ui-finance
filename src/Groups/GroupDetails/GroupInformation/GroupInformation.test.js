@@ -1,4 +1,4 @@
-import React from 'react';
+import user from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 
@@ -55,7 +55,12 @@ const DEFAULT_GROUP = {
   },
 };
 
-const renderComponent = (group = DEFAULT_GROUP, groupSummary = {}, selectedFY = FY) => (render(
+const renderComponent = ({
+  group = DEFAULT_GROUP,
+  groupSummary = {},
+  selectedFY = FY,
+  ...props
+} = {}) => (render(
   <IntlProvider locale="en" messages={MESSAGES}>
     <GroupInformation
       metadata={group.metadata}
@@ -64,13 +69,13 @@ const renderComponent = (group = DEFAULT_GROUP, groupSummary = {}, selectedFY = 
       status={group.status}
       description={group.description}
       acqUnitIds={group.acqUnitIds}
-      fiscalYears={[]}
       allocated={groupSummary.allocated}
       unavailable={groupSummary.unavailable}
       available={groupSummary.available}
       selectedFiscalYearId={selectedFY.id}
       onSelectFY={() => { }}
       fiscalYearCurrency={selectedFY.currency}
+      {...props}
     />
   </IntlProvider>,
 ));
@@ -81,5 +86,31 @@ describe('GroupInformation component', () => {
     const description = screen.getByTestId('description').querySelector('[data-test-kv-value]');
 
     expect(description).toHaveTextContent('-');
+  });
+
+  it('should display selected FY', () => {
+    renderComponent({
+      fiscalYears: {
+        current: [FY],
+      },
+    });
+
+    expect(screen.getByText(FY.code));
+  });
+
+  it('should call "onSelectFY" when a FY was selected', () => {
+    const onSelectFY = jest.fn();
+    const newFY = { ...FY, id: 'testFYId', code: 'TST2019' };
+
+    renderComponent({
+      fiscalYears: {
+        current: [FY, newFY],
+      },
+      onSelectFY,
+    });
+
+    user.selectOptions(screen.getByRole('combobox'), [newFY.id]);
+
+    expect(onSelectFY).toHaveBeenCalled();
   });
 });

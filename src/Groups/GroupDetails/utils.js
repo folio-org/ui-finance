@@ -44,6 +44,6 @@ export const getGroupSummary = (groupSummariesMutator, groupId, fiscalYearId) =>
 };
 
 // sort by periodStart (desc) and series (asc)
-export const sortGroupFiscalYears = (fiscalYears) => fiscalYears.sort((a, b) => {
+export const sortGroupFiscalYears = (fiscalYears = []) => [...fiscalYears].sort((a, b) => {
   return new Date(b.periodStart) - new Date(a.periodStart) || a.series.localeCompare(b.series);
 });

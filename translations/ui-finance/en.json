@@ -296,6 +296,8 @@
   "groups.item.information.name": "Name",
   "groups.item.information.code": "Code",
   "groups.item.information.fiscalYear": "Fiscal year",
+  "groups.item.information.fiscalYear.current": "Current:",
+  "groups.item.information.fiscalYear.previous": "Previous:",
   "groups.item.information.status": "Status",
   "groups.item.information.allocated": "Allocated",
   "groups.item.information.unavailable": "Unavailable",

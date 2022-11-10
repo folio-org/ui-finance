@@ -2,8 +2,15 @@ import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
+import {
+  differenceBy,
+  uniq,
+} from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  useOkapiKy,
+} from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
 import {
   useAllFunds,
@@ -23,7 +30,12 @@ import {
   useFundGroupMutation,
   useFundsGroupMutation,
 } from './hooks';
-import { getGroupSummary } from './utils';
+import {
+  getGroupLedgers,
+  getGroupSummary,
+  getLedgersCurrentFiscalYears,
+  sortGroupFiscalYears,
+} from './utils';
 import GroupDetails from './GroupDetails';
 
 export const GroupDetailsContainer = ({
@@ -37,6 +49,7 @@ export const GroupDetailsContainer = ({
   const [groupData, setGroupData] = useState({});
   const [selectedFY, setSelectedFY] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const ky = useOkapiKy();
   const showToast = useShowCallout();
   const { mutateFundsGroup: addFundsGroup } = useFundsGroupMutation(fund => ({
     ...fund,
@@ -44,27 +57,37 @@ export const GroupDetailsContainer = ({
   }));
   const { mutateFundGroup } = useFundGroupMutation();
 
-  const fetchGroupDetails = (id, fiscalYear) => {
+  const fetchGroupDetails = async (id, fiscalYear) => {
     const groupDetailsPromise = mutator.groupDetails.GET();
     const groupFiscalYearsPromise = mutator.groupFiscalYears.GET();
+    const groupLedgersPromise = getGroupLedgers(ky)(groupId).then(({ ledgers }) => ledgers);
 
-    return Promise.all([groupDetailsPromise, groupFiscalYearsPromise])
-      .then(responses => {
-        const groupDetails = responses[0];
-        const groupFiscalYears = responses[1];
+    return Promise.all([groupDetailsPromise, groupFiscalYearsPromise, groupLedgersPromise])
+      .then(async ([
+        groupDetails,
+        groupFiscalYears,
+        groupLedgers,
+      ]) => {
+        const ledgerIds = uniq(groupLedgers.map(({ id: ledgerId }) => ledgerId));
+        const currentFYs = await getLedgersCurrentFiscalYears(ky)(ledgerIds).then(sortGroupFiscalYears);
+
+        const aggregatedFiscalYears = {
+          current: currentFYs,
+          previous: sortGroupFiscalYears(differenceBy(groupFiscalYears, currentFYs, 'id')),
+        };
 
         setGroupData(prevGroupData => ({
           ...prevGroupData,
           groupDetails,
-          groupFiscalYears,
+          groupFiscalYears: aggregatedFiscalYears,
         }));
 
         let newFiscalYear = {};
 
-        if (groupFiscalYears[0] && fiscalYear?.id) {
+        if (currentFYs[0] && fiscalYear?.id) {
           newFiscalYear = fiscalYear;
-        } else if (groupFiscalYears[0]) {
-          newFiscalYear = groupFiscalYears[0];
+        } else if (currentFYs[0]) {
+          newFiscalYear = currentFYs[0];
         }
 
         setSelectedFY(newFiscalYear);

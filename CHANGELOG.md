@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.3.1](https://github.com/folio-org/ui-finance/tree/v3.3.1) (2022-11-11)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.0...v3.3.1)
+
 * Previous fiscal year selected by default when viewing group records. Refs UIF-419.
 
 ## [3.3.0](https://github.com/folio-org/ui-finance/tree/v3.3.0) (2022-10-25)

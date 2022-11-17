@@ -12,6 +12,7 @@ import {
 import {
   stripesConnect,
   stripesShape,
+  useOkapiKy,
 } from '@folio/stripes/core';
 
 import {
@@ -20,6 +21,7 @@ import {
   encumbrancesResource,
   transfersResource,
 } from '../../common/resources';
+import { getFundActiveBudget } from '../../common/utils';
 import {
   ALLOCATION_TYPE,
   TRANSACTION_SOURCE,
@@ -40,6 +42,7 @@ export const CreateTransactionContainer = ({
   stripes,
   transactionType,
 }) => {
+  const ky = useOkapiKy();
   const intl = useIntl();
   const showCallout = useShowCallout();
   const locale = stripes.locale;
@@ -68,13 +71,17 @@ export const CreateTransactionContainer = ({
           source: TRANSACTION_SOURCE.user,
         });
 
-        const { amount } = transfer;
+        const { amount, toFundId } = transfer;
+
+        const toBudgetName = toFundId === fundId
+          ? budgetName
+          : await getFundActiveBudget(ky)(toFundId).then(({ name }) => name);
 
         showCallout({
           messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
           values: {
             amount: getAmountWithCurrency(locale, currency, amount),
-            budgetName,
+            budgetName: toBudgetName,
           },
         });
         onClose();

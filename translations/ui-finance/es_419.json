@@ -420,7 +420,7 @@
     "ledger.rolloverTest.confirm.message": "Please confirm that you have completed the necessary details and are ready to proceed with your rollover TEST. This process may take several minutes to complete. A link to the results will be sent to <b>{email}</b> when the process is complete.",
     "ledger.rolloverTest.start.success": "<b>{ledgerName}</b> rollover test has started successfully",
     "invoice.vendorInvoiceNo": "Vendor invoice number",
-    "invoice.vendor": "Vendor",
+    "invoice.vendor": "Proveedor",
     "invoice.invoiceDate": "Invoice data",
     "invoice.status": "Status",
     "invoice.invoiceTotal": "Total amount (system)",
@@ -446,5 +446,17 @@
     "ledger.rollover.status.success": "Successful",
     "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue.",
     "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>",
-    "ledger.rollover.logs.results.export.start": "Export of budget results has been started"
+    "ledger.rollover.logs.results.export.start": "Export of budget results has been started",
+    "settings.expenseClasses.cannotDeleteTermHeader": "Cannot delete expense class",
+    "settings.expenseClasses.cannotDeleteTermMessage": "This expense class cannot be deleted, as it is in use by one or more records.",
+    "settings.expenseClasses.deleteEntry": "Delete expense class",
+    "settings.expenseClasses.termDeleted": "The expense class <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.expenseClasses.termWillBeDeleted": "The expense class <b>{term}</b> will be <b>deleted.</b>",
+    "settings.fundTypes.cannotDeleteTermHeader": "Cannot delete fund type",
+    "settings.fundTypes.cannotDeleteTermMessage": "This fund type cannot be deleted, as it is in use by one or more records.",
+    "settings.fundTypes.deleteEntry": "Delete fund type",
+    "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
+    "groups.item.information.fiscalYear.current": "Actuales",
+    "groups.item.information.fiscalYear.previous": "Anteriormente"
 }

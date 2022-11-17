@@ -446,5 +446,17 @@
     "ledger.rollover.status.success": "成功",
     "invoice.unpaidInvoices.header": "FOLIO 发现尚未支付或取消的发票。如果确定要继续展期，请单击继续。",
     "ledger.rollover.error.conflict": "<b> {ledgerName} </b>已经从财务年度<b> {fromFYcode} </b>滚动到财务年度<b> {toFYcode} </b>",
-    "ledger.rollover.logs.results.export.start": "已开始导出预算结果"
+    "ledger.rollover.logs.results.export.start": "已开始导出预算结果",
+    "settings.expenseClasses.cannotDeleteTermHeader": "Cannot delete expense class",
+    "settings.expenseClasses.cannotDeleteTermMessage": "This expense class cannot be deleted, as it is in use by one or more records.",
+    "settings.expenseClasses.deleteEntry": "Delete expense class",
+    "settings.expenseClasses.termDeleted": "The expense class <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.expenseClasses.termWillBeDeleted": "The expense class <b>{term}</b> will be <b>deleted.</b>",
+    "settings.fundTypes.cannotDeleteTermHeader": "Cannot delete fund type",
+    "settings.fundTypes.cannotDeleteTermMessage": "This fund type cannot be deleted, as it is in use by one or more records.",
+    "settings.fundTypes.deleteEntry": "Delete fund type",
+    "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
+    "groups.item.information.fiscalYear.current": "Current:",
+    "groups.item.information.fiscalYear.previous": "Previous:"
 }

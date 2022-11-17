@@ -446,5 +446,17 @@
     "ledger.rollover.status.success": "Úspěšný",
     "invoice.unpaidInvoices.header": "FOLIO nalezlo faktury, které ještě nebyly uhrazeny nebo zrušeny. Pokud jste si jisti, že chcete pokračovat v prolongování, klikněte na tlačítko pokračovat.",
     "ledger.rollover.error.conflict": "<b>{ledgerName}</b> již byl převeden z fiskálního roku <b>{fromFYcode}</b> do fiskálního roku <b>{toFYcode}</b>",
-    "ledger.rollover.logs.results.export.start": "Byl zahájen export výsledků rozpočtu"
+    "ledger.rollover.logs.results.export.start": "Byl zahájen export výsledků rozpočtu",
+    "settings.expenseClasses.cannotDeleteTermHeader": "Nelze smazat třídu výdajů",
+    "settings.expenseClasses.cannotDeleteTermMessage": "Tuto třídu výdajů nelze smazat, protože je používána jedním nebo více záznamy.",
+    "settings.expenseClasses.deleteEntry": "Smazat třídu výdajů",
+    "settings.expenseClasses.termDeleted": "Třída <b>výdajů {term}</b> byla úspěšně <b>smazána</b>",
+    "settings.expenseClasses.termWillBeDeleted": "Třída <b>výdajů {term}</b> bude <b>smazána.</b>",
+    "settings.fundTypes.cannotDeleteTermHeader": "Nelze smazat typ fondu",
+    "settings.fundTypes.cannotDeleteTermMessage": "Tento typ fondu nelze smazat, protože je používán jedním nebo více záznamy.",
+    "settings.fundTypes.deleteEntry": "Smazat typ fondu",
+    "settings.fundTypes.termDeleted": "Typ fondu <b>{term}</b> byl úspěšně <b>smazán</b>",
+    "settings.fundTypes.termWillBeDeleted": "Typ fondu <b>{term}</b> bude <b>smazán.</b>",
+    "groups.item.information.fiscalYear.current": "Současný:",
+    "groups.item.information.fiscalYear.previous": "Předchozí:"
 }

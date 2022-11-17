@@ -446,5 +446,17 @@
     "ledger.rollover.status.success": "Efetuado com sucesso",
     "invoice.unpaidInvoices.header": "O FOLIO encontrou faturas que ainda não foram pagas ou canceladas. Se você tem certeza de que quer continuar com o rollover, clique em continuar.",
     "ledger.rollover.error.conflict": "<b> {ledgerName} </b> já foi transferido do ano fiscal <b> {fromFYcode} </b> para o ano fiscal <b> {toFYcode} </b>",
-    "ledger.rollover.logs.results.export.start": "A exportação dos resultados do orçamento foi iniciada"
+    "ledger.rollover.logs.results.export.start": "A exportação dos resultados do orçamento foi iniciada",
+    "settings.expenseClasses.cannotDeleteTermHeader": "Não é possível excluir a classe de despesas",
+    "settings.expenseClasses.cannotDeleteTermMessage": "Esta classe de despesa não pode ser excluída, pois está em uso por um ou mais registros.",
+    "settings.expenseClasses.deleteEntry": "Excluir classe de despesas",
+    "settings.expenseClasses.termDeleted": "A classe de despesas <b>{term}</b> foi <b>excluída</b> com sucesso",
+    "settings.expenseClasses.termWillBeDeleted": "A classe de despesa <b> {term} </b> será <b> excluída. </b>",
+    "settings.fundTypes.cannotDeleteTermHeader": "Não é possível excluir o tipo de fundo",
+    "settings.fundTypes.cannotDeleteTermMessage": "Este tipo de fundo não pode ser excluído, pois está em uso por um ou mais registros.",
+    "settings.fundTypes.deleteEntry": "Excluir tipo de fundo",
+    "settings.fundTypes.termDeleted": "O tipo de fundo <b>{term}</b> foi <b>excluído</b> com sucesso",
+    "settings.fundTypes.termWillBeDeleted": "O tipo de fundo <b> {term} </b> será <b> excluído. </b>",
+    "groups.item.information.fiscalYear.current": "Atual:",
+    "groups.item.information.fiscalYear.previous": "Anterior:"
 }

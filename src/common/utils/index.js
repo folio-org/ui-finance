@@ -3,6 +3,7 @@ export * from './exportRolloverResult';
 export * from './fundValidation';
 export * from './generateBudgetsReport';
 export * from './getFiscalYearsForSelect';
+export * from './getFundActiveBudget';
 export * from './getExpenseClassesForSelect';
 export * from './getFundToDisplay';
 export * from './getGroupsWithTotals';

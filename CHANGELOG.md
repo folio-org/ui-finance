@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * Handle fiscal year code validation error `invalidFiscalYearCode`. Refs UIF-422.
+* Incorrect fund name in the toast message for successful moving allocation. Refs UIF-414.
 
 ## [3.3.1](https://github.com/folio-org/ui-finance/tree/v3.3.1) (2022-11-11)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.0...v3.3.1)

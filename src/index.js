@@ -76,7 +76,10 @@ const Finance = ({ showSettings }) => {
                 <NavListSection>
                   <NavListItem
                     id="finance-app-search-item"
-                    to={LEDGERS_ROUTE}
+                    to={{
+                      pathname: LEDGERS_ROUTE,
+                      state: { resetFilters: true },
+                    }}
                     onClick={() => {
                       handleToggle();
                       focusSearchField();

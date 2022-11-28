@@ -457,6 +457,6 @@
     "react-router-dom": "^5.2.0"
   },
   "optionalDependencies": {
-    "@folio/plugin-find-fund": "*"
+    "@folio/plugin-find-fund": "^1.2.0"
   }
 }

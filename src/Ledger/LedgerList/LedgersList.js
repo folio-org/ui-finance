@@ -24,6 +24,7 @@ import {
   ResultsPane,
   SingleSearchForm,
   PrevNextPagination,
+  useFiltersReset,
   useFiltersToogle,
   useLocationFilters,
   useLocationSorting,
@@ -74,6 +75,8 @@ const LedgerList = ({
     sortingDirection,
     changeSorting,
   ] = useLocationSorting(location, history, resetData);
+
+  useFiltersReset(resetFilters);
 
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/ledger/filters');
 

@@ -259,6 +259,7 @@
           "finance.fiscal-years.item.get",
           "finance.fund-types.collection.get",
           "finance.fund-types.item.get",
+          "finance.funds.budget.item.get",
           "finance.funds.collection.get",
           "finance.funds.item.get",
           "finance.groups.collection.get",

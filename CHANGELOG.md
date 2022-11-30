@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.3.2](https://github.com/folio-org/ui-finance/tree/v3.3.2) (2022-11-30)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.1...v3.3.2)
+
 * Handle fiscal year code validation error `invalidFiscalYearCode`. Refs UIF-422.
 * Incorrect fund name in the toast message for successful moving allocation. Refs UIF-414.
 * Loose plugin dependencies permit incompatible versions. Refs UIF-423.

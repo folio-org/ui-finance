@@ -199,7 +199,6 @@
     "close": "Chiudi",
     "budget.status.inactive": "Inattivo",
     "ledger.createNewFY": "Nuovo anno fiscale",
-    "fiscalYear.actions.save.error.-1": "Il formato del codice dell'anno fiscale deve essere un carattere alfabetico seguito da quattro cifre numeriche. Esempio FY2020",
     "fiscalYear.actions.save.error.genericError": "L'anno fiscale non è stato salvato",
     "fund.actions.save.error.genericError": "Le voci di spesa non sono state salvate",
     "fund.actions.save.error.fiscalYearsNotFound": "Impossibile trovare l'anno fiscale corrente per la voce di spesa specificato",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:"
+    "groups.item.information.fiscalYear.previous": "Previous:",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020"
 }

@@ -14,6 +14,7 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
+  TextLink,
 } from '@folio/stripes/components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
@@ -32,6 +33,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { LEDGERS_ROUTE } from '../../common/const';
+import { useSelectedRow } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
 import CheckPermission from '../../common/CheckPermission';
 import LedgerListFilters from './LedgerListFilters';
@@ -48,6 +50,10 @@ const columnMapping = {
   'code': <FormattedMessage id="ui-finance.ledger.code" />,
 };
 
+const getResultsFormatter = ({ search }) => ({
+  name: data => <TextLink to={`${LEDGERS_ROUTE}/${data.id}/view${search}`}>{data.name}</TextLink>,
+});
+
 const LedgerList = ({
   ledgers,
   history,
@@ -55,6 +61,7 @@ const LedgerList = ({
   onNeedMoreData,
   ledgersCount,
   location,
+  match,
   resetData,
   pagination,
   refreshList,
@@ -82,16 +89,7 @@ const LedgerList = ({
 
   const renderLastMenu = useCallback(() => <LedgerListLastMenu />, []);
 
-  const openLedgerDetails = useCallback(
-    (e, meta) => {
-      history.push({
-        pathname: `${LEDGERS_ROUTE}/${meta.id}/view`,
-        search: location.search,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
-  );
+  const isRowSelected = useSelectedRow(`${match.path}/:id/view`);
 
   const shortcuts = [
     {
@@ -172,6 +170,7 @@ const LedgerList = ({
                 id="ledgers-list"
                 totalCount={ledgersCount}
                 contentData={ledgers}
+                formatter={getResultsFormatter(location)}
                 visibleColumns={visibleColumns}
                 columnMapping={columnMapping}
                 loading={isLoading}
@@ -179,8 +178,8 @@ const LedgerList = ({
                 sortOrder={sortingField}
                 sortDirection={sortingDirection}
                 onHeaderClick={changeSorting}
-                onRowClick={openLedgerDetails}
                 isEmptyMessage={resultsStatusMessage}
+                isSelected={isRowSelected}
                 pagingType="none"
                 hasMargin
                 height={height - PrevNextPagination.HEIGHT}
@@ -221,6 +220,7 @@ LedgerList.propTypes = {
   resetData: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   pagination: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
 };

@@ -12,7 +12,10 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { get, sortBy } from 'lodash';
 
-import { MultiColumnList } from '@folio/stripes/components';
+import {
+  MultiColumnList,
+  TextLink,
+} from '@folio/stripes/components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   DESC_DIRECTION,
@@ -33,6 +36,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import CheckPermission from '../../common/CheckPermission';
+import { useSelectedRow } from '../../common/hooks';
 import TransactionDetails from '../TransactionDetails';
 import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
@@ -53,7 +57,11 @@ const columnMapping = {
   source: <FormattedMessage id="ui-finance.transaction.source" />,
   [COL_TAGS]: <FormattedMessage id="ui-finance.transaction.tags" />,
 };
-const getResultsFormatter = (funds, fundId) => {
+const getResultsFormatter = (
+  funds,
+  fundId,
+  { location, match },
+) => {
   const fundsMap = funds.reduce((acc, fund) => {
     acc[fund.id] = fund.code;
 
@@ -61,7 +69,11 @@ const getResultsFormatter = (funds, fundId) => {
   }, {});
 
   return ({
-    [COL_TRANS_DATE]: item => <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />,
+    [COL_TRANS_DATE]: item => (
+      <TextLink to={`${match.url}/transaction/${item.id}/view${location.search}`}>
+        <FolioFormattedTime dateString={get(item, 'metadata.createdDate')} />
+      </TextLink>
+    ),
     transactionType: item => <FormattedMessage id={`ui-finance.transaction.type.${item.transactionType}`} />,
     amount: item => (
       <BracketizeTransactionAmount
@@ -102,20 +114,11 @@ const TransactionsList = ({
     sortingDirection,
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields, DEFAULT_SORTING);
+
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/transaction/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('transactions-list');
+  const isRowSelected = useSelectedRow(`${match.url}/transaction/:id/view`);
 
-  const selectedItem = useCallback(
-    (e, meta) => {
-      history.push({
-        pathname: `${match.url}/transaction/${meta.id}/view`,
-        search: location.search,
-      });
-    },
-    [history, location.search, match.url],
-  );
-
-  const resultsFormatter = useMemo(() => getResultsFormatter(funds, fundId), [fundId, funds]);
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoadingTransactions}
@@ -173,16 +176,16 @@ const TransactionsList = ({
               id="transactions-list"
               totalCount={transactionsCount}
               contentData={transactions}
-              formatter={resultsFormatter}
+              formatter={getResultsFormatter(funds, fundId, { match, location })}
               visibleColumns={visibleColumns}
               columnMapping={columnMapping}
               loading={isLoadingTransactions}
               onNeedMoreData={onNeedMoreData}
-              onRowClick={selectedItem}
               sortOrder={sortingField}
               sortDirection={sortingDirection}
               onHeaderClick={changeSorting}
               isEmptyMessage={resultsStatusMessage}
+              isSelected={isRowSelected}
               hasMargin
               nonInteractiveHeaders={nonInteractiveHeaders}
               pageAmount={RESULT_COUNT_INCREMENT}

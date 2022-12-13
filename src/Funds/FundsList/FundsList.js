@@ -12,6 +12,7 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
+  TextLink,
 } from '@folio/stripes/components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
@@ -29,6 +30,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { FUNDS_ROUTE } from '../../common/const';
+import { useSelectedRow } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
 import CheckPermission from '../../common/CheckPermission';
 
@@ -49,10 +51,15 @@ const columnMapping = {
   ledger: <FormattedMessage id="ui-finance.fund.list.ledger" />,
 };
 
+const getResultsFormatter = ({ search }) => ({
+  name: data => <TextLink to={`${FUNDS_ROUTE}/view/${data.id}${search}`}>{data.name}</TextLink>,
+});
+
 const FundsList = ({
   history,
   isLoading,
   location,
+  match,
   onNeedMoreData,
   resetData,
   funds,
@@ -78,17 +85,7 @@ const FundsList = ({
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fund/filters');
-
-  const openFundDetails = useCallback(
-    (e, meta) => {
-      history.push({
-        pathname: `${FUNDS_ROUTE}/view/${meta.id}`,
-        search: location.search,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
-  );
+  const isRowSelected = useSelectedRow(`${match.path}/view/:id`);
 
   const shortcuts = [
     {
@@ -173,6 +170,7 @@ const FundsList = ({
                 id="funds-list"
                 totalCount={fundsCount}
                 contentData={funds}
+                formatter={getResultsFormatter(location)}
                 visibleColumns={visibleColumns}
                 columnMapping={columnMapping}
                 loading={isLoading}
@@ -180,8 +178,8 @@ const FundsList = ({
                 sortOrder={sortingField}
                 sortDirection={sortingDirection}
                 onHeaderClick={changeSorting}
-                onRowClick={openFundDetails}
                 isEmptyMessage={resultsStatusMessage}
+                isSelected={isRowSelected}
                 pagingType="none"
                 hasMargin
                 height={height - PrevNextPagination.HEIGHT}
@@ -223,6 +221,7 @@ FundsList.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   pagination: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
 };

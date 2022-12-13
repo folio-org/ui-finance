@@ -199,7 +199,6 @@
     "close": "Schließen",
     "budget.status.inactive": "Inaktiv",
     "ledger.createNewFY": "Neues Haushaltsjahr",
-    "fiscalYear.actions.save.error.-1": "Der Code für das Haushaltsjahr muss mit mindestens einem Buchstaben beginnen und von einer vierstelligen Zahl gefolgt sein, z.B. Beispiel H2020",
     "fiscalYear.actions.save.error.genericError": "Haushaltsjahr wurde nicht gespeichert",
     "fund.actions.save.error.genericError": "Fonds wurde nicht gespeichert",
     "fund.actions.save.error.fiscalYearsNotFound": "Kein aktuelles Haushaltsjahr für diesen Etat gefunden",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:"
+    "groups.item.information.fiscalYear.previous": "Previous:",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020"
 }

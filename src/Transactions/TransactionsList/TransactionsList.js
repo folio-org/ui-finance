@@ -1,7 +1,3 @@
-import React, {
-  useCallback,
-  useMemo,
-} from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,

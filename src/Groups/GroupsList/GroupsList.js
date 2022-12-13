@@ -97,6 +97,12 @@ const GroupsList = ({
     />
   );
 
+  const renderGroupDetails = useCallback(() => (
+    <CheckPermission perm="ui-finance.group.view">
+      <GroupDetailsContainer refreshList={refreshList} />
+    </CheckPermission>
+  ), [refreshList]);
+
   const isRowSelected = useSelectedRow(`${match.path}/:id/view`);
 
   const shortcuts = [
@@ -203,11 +209,7 @@ const GroupsList = ({
 
         <Route
           path={`${GROUPS_ROUTE}/:id/view`}
-          render={() => (
-            <CheckPermission perm="ui-finance.group.view">
-              <GroupDetailsContainer refreshList={refreshList} />
-            </CheckPermission>
-          )}
+          render={renderGroupDetails}
         />
       </PersistedPaneset>
     </HasCommand>

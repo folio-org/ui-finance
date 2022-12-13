@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import {
   Route,
   useLocation,
@@ -124,6 +125,15 @@ const TransactionsList = ({
     />
   );
 
+  const renderTransactionDetails = useCallback(() => (
+    <CheckPermission perm="ui-finance.fund-budget.view">
+      <TransactionDetails
+        baseUrl={match.url}
+        fundId={fundId}
+      />
+    </CheckPermission>
+  ), [fundId, match.url]);
+
   return (
     <PersistedPaneset
       isRoot
@@ -206,14 +216,7 @@ const TransactionsList = ({
 
       <Route
         path={`${match.path}/transaction/:id/view`}
-        render={() => (
-          <CheckPermission perm="ui-finance.fund-budget.view">
-            <TransactionDetails
-              baseUrl={match.url}
-              fundId={fundId}
-            />
-          </CheckPermission>
-        )}
+        render={renderTransactionDetails}
       />
     </PersistedPaneset>
   );

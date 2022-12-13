@@ -110,6 +110,12 @@ const FundsList = ({
 
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('funds-list');
 
+  const renderFundDetails = useCallback((props) => (
+    <CheckPermission perm="ui-finance.fund-budget.view">
+      <FundDetailsContainer refreshList={refreshList} {...props} />
+    </CheckPermission>
+  ), [refreshList]);
+
   return (
     <HasCommand
       commands={shortcuts}
@@ -202,11 +208,7 @@ const FundsList = ({
 
         <Route
           path={`${FUNDS_ROUTE}/view/:id`}
-          render={(props) => (
-            <CheckPermission perm="ui-finance.fund-budget.view">
-              <FundDetailsContainer refreshList={refreshList} {...props} />
-            </CheckPermission>
-          )}
+          render={renderFundDetails}
         />
       </PersistedPaneset>
     </HasCommand>

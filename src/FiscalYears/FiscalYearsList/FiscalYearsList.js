@@ -100,6 +100,12 @@ const FiscalYearsList = ({
     />
   );
 
+  const renderFiscalYearDetails = useCallback(() => (
+    <CheckPermission perm="ui-finance.fiscal-year.view">
+      <FiscalYearDetails refreshList={refreshList} />
+    </CheckPermission>
+  ), [refreshList]);
+
   const shortcuts = [
     {
       name: 'new',
@@ -204,11 +210,7 @@ const FiscalYearsList = ({
 
         <Route
           path={`${FISCAL_YEAR_ROUTE}/:id/view`}
-          render={() => (
-            <CheckPermission perm="ui-finance.fiscal-year.view">
-              <FiscalYearDetails refreshList={refreshList} />
-            </CheckPermission>
-          )}
+          render={renderFiscalYearDetails}
         />
       </PersistedPaneset>
     </HasCommand>

@@ -89,6 +89,12 @@ const LedgerList = ({
 
   const renderLastMenu = useCallback(() => <LedgerListLastMenu />, []);
 
+  const renderLedgerDetails = useCallback(() => (
+    <CheckPermission perm="ui-finance.ledger.view">
+      <LedgerDetailsContainer refreshList={refreshList} />
+    </CheckPermission>
+  ), [refreshList]);
+
   const isRowSelected = useSelectedRow(`${match.path}/:id/view`);
 
   const shortcuts = [
@@ -201,11 +207,7 @@ const LedgerList = ({
         </ResultsPane>
         <Route
           path="/finance/ledger/:id/view"
-          render={() => (
-            <CheckPermission perm="ui-finance.ledger.view">
-              <LedgerDetailsContainer refreshList={refreshList} />
-            </CheckPermission>
-          )}
+          render={renderLedgerDetails}
         />
       </PersistedPaneset>
     </HasCommand>

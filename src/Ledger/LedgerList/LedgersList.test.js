@@ -1,9 +1,12 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import user from '@testing-library/user-event';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import LedgersList from './LedgersList';
 
+jest.mock('react-virtualized-auto-sizer', () => jest.fn(
+  (props) => <div>{props.children({ width: 123 })}</div>,
+));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
@@ -22,9 +25,6 @@ jest.mock('@folio/stripes-acq-components', () => {
   };
 });
 
-jest.mock('../LedgerDetails', () => ({
-  LedgerDetailsContainer: jest.fn().mockReturnValue('LedgerDetailsContainer'),
-}));
 jest.mock('./LedgerListFilters', () => jest.fn().mockReturnValue('LedgerListFilters'));
 
 const defaultProps = {
@@ -32,16 +32,17 @@ const defaultProps = {
   resetData: jest.fn(),
   refreshList: jest.fn(),
   ledgersCount: 1,
-  ledgers: [{}],
+  ledgers: [{ id: 'ledgerId', name: 'testLedgerName', code: 'TSTLDGR' }],
+  pagination: {},
   isLoading: false,
   history: {},
   location: {},
 };
 
-const renderLedgersList = (props = defaultProps) => (render(
+const renderLedgersList = (props = defaultProps) => render(
   <LedgersList {...props} />,
   { wrapper: MemoryRouter },
-));
+);
 
 describe('LedgersList', () => {
   it('should display search control', () => {
@@ -60,5 +61,14 @@ describe('LedgersList', () => {
     const { getByText } = renderLedgersList();
 
     expect(getByText('LedgerListFilters')).toBeDefined();
+  });
+
+  it('should render ledger results list', async () => {
+    renderLedgersList();
+
+    await act(async () => user.click(screen.getByText(defaultProps.ledgers[0].name)));
+
+    expect(await screen.findByText('ui-finance.ledger.name')).toBeInTheDocument();
+    expect(await screen.findByText('ui-finance.ledger.code')).toBeInTheDocument();
   });
 });

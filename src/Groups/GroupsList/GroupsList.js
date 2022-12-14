@@ -4,6 +4,7 @@ import {
   Route,
   useLocation,
   useHistory,
+  useRouteMatch,
 } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,6 +13,7 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
+  TextLink,
 } from '@folio/stripes/components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
@@ -30,6 +32,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { GROUPS_ROUTE } from '../../common/const';
+import { useSelectedRow } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
 import CheckPermission from '../../common/CheckPermission';
 
@@ -48,6 +51,10 @@ const columnMapping = {
   code: <FormattedMessage id="ui-finance.groups.list.code" />,
 };
 
+const getResultsFormatter = ({ search }) => ({
+  name: data => <TextLink to={`${GROUPS_ROUTE}/${data.id}/view${search}`}>{data.name}</TextLink>,
+});
+
 const GroupsList = ({
   isLoading,
   onNeedMoreData,
@@ -59,6 +66,7 @@ const GroupsList = ({
 }) => {
   const history = useHistory();
   const location = useLocation();
+  const match = useRouteMatch();
   const stripes = useStripes();
   const [
     filters,
@@ -79,17 +87,6 @@ const GroupsList = ({
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/group/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('groups-list');
 
-  const openGroupDetails = useCallback(
-    (e, meta) => {
-      history.push({
-        pathname: `${GROUPS_ROUTE}/${meta.id}/view`,
-        search: location.search,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
-  );
-
   const renderLastMenu = useCallback(() => <GroupsListLastMenu />, []);
   const resultsStatusMessage = (
     <NoResultsMessage
@@ -99,6 +96,14 @@ const GroupsList = ({
       toggleFilters={toggleFilters}
     />
   );
+
+  const renderGroupDetails = useCallback(() => (
+    <CheckPermission perm="ui-finance.group.view">
+      <GroupDetailsContainer refreshList={refreshList} />
+    </CheckPermission>
+  ), [refreshList]);
+
+  const isRowSelected = useSelectedRow(`${match.path}/:id/view`);
 
   const shortcuts = [
     {
@@ -171,15 +176,16 @@ const GroupsList = ({
                 id="groups-list"
                 totalCount={groupsCount}
                 contentData={groups}
+                formatter={getResultsFormatter(location)}
                 visibleColumns={visibleColumns}
                 columnMapping={columnMapping}
                 loading={isLoading}
                 onNeedMoreData={onNeedMoreData}
-                onRowClick={openGroupDetails}
                 sortOrder={sortingField}
                 sortDirection={sortingDirection}
                 onHeaderClick={changeSorting}
                 isEmptyMessage={resultsStatusMessage}
+                isSelected={isRowSelected}
                 hasMargin
                 pageAmount={RESULT_COUNT_INCREMENT}
                 pagingType="none"
@@ -203,11 +209,7 @@ const GroupsList = ({
 
         <Route
           path={`${GROUPS_ROUTE}/:id/view`}
-          render={() => (
-            <CheckPermission perm="ui-finance.group.view">
-              <GroupDetailsContainer refreshList={refreshList} />
-            </CheckPermission>
-          )}
+          render={renderGroupDetails}
         />
       </PersistedPaneset>
     </HasCommand>

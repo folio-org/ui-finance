@@ -4,6 +4,7 @@ import {
   Route,
   useLocation,
   useHistory,
+  useRouteMatch,
 } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,6 +13,7 @@ import {
   checkScope,
   HasCommand,
   MultiColumnList,
+  TextLink,
 } from '@folio/stripes/components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
@@ -30,6 +32,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { FISCAL_YEAR_ROUTE } from '../../common/const';
+import { useSelectedRow } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
 import CheckPermission from '../../common/CheckPermission';
 
@@ -49,6 +52,10 @@ const columnMapping = {
   description: <FormattedMessage id="ui-finance.fiscalYear.list.description" />,
 };
 
+const getResultsFormatter = ({ search }) => ({
+  name: data => <TextLink to={`${FISCAL_YEAR_ROUTE}/${data.id}/view${search}`}>{data.name}</TextLink>,
+});
+
 const FiscalYearsList = ({
   isLoading,
   onNeedMoreData,
@@ -61,6 +68,7 @@ const FiscalYearsList = ({
   const stripes = useStripes();
   const history = useHistory();
   const location = useLocation();
+  const match = useRouteMatch();
   const [
     filters,
     searchQuery,
@@ -80,16 +88,7 @@ const FiscalYearsList = ({
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fiscalYear/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('fiscal-years-list');
 
-  const openFiscalYearDetails = useCallback(
-    (e, meta) => {
-      history.push({
-        pathname: `${FISCAL_YEAR_ROUTE}/${meta.id}/view`,
-        search: location.search,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
-  );
+  const isRowSelected = useSelectedRow(`${match.path}/:id/view`);
 
   const renderLastMenu = useCallback(() => <FiscalYearsListLastMenu />, []);
   const resultsStatusMessage = (
@@ -100,6 +99,12 @@ const FiscalYearsList = ({
       toggleFilters={toggleFilters}
     />
   );
+
+  const renderFiscalYearDetails = useCallback(() => (
+    <CheckPermission perm="ui-finance.fiscal-year.view">
+      <FiscalYearDetails refreshList={refreshList} />
+    </CheckPermission>
+  ), [refreshList]);
 
   const shortcuts = [
     {
@@ -172,15 +177,16 @@ const FiscalYearsList = ({
                 id="fiscal-years-list"
                 totalCount={fiscalYearsCount}
                 contentData={fiscalYears}
+                formatter={getResultsFormatter(location)}
                 visibleColumns={visibleColumns}
                 columnMapping={columnMapping}
                 loading={isLoading}
                 onNeedMoreData={onNeedMoreData}
-                onRowClick={openFiscalYearDetails}
                 sortOrder={sortingField}
                 sortDirection={sortingDirection}
                 onHeaderClick={changeSorting}
                 isEmptyMessage={resultsStatusMessage}
+                isSelected={isRowSelected}
                 hasMargin
                 pageAmount={RESULT_COUNT_INCREMENT}
                 pagingType="none"
@@ -204,11 +210,7 @@ const FiscalYearsList = ({
 
         <Route
           path={`${FISCAL_YEAR_ROUTE}/:id/view`}
-          render={() => (
-            <CheckPermission perm="ui-finance.fiscal-year.view">
-              <FiscalYearDetails refreshList={refreshList} />
-            </CheckPermission>
-          )}
+          render={renderFiscalYearDetails}
         />
       </PersistedPaneset>
     </HasCommand>

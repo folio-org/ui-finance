@@ -1,9 +1,12 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import user from '@testing-library/user-event';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import FiscalYearsList from './FiscalYearsList';
 
+jest.mock('react-virtualized-auto-sizer', () => jest.fn(
+  (props) => <div>{props.children({ width: 123 })}</div>,
+));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
@@ -32,7 +35,7 @@ const defaultProps = {
   resetData: jest.fn(),
   refreshList: jest.fn(),
   fiscalYearsCount: 1,
-  fiscalYears: [{}],
+  fiscalYears: [{ id: 'fyId', code: 'FY2022', name: 'FY 2022' }],
   isLoading: false,
   pagination: {},
 };
@@ -58,5 +61,14 @@ describe('FiscalYearsList', () => {
     const { getByText } = renderFiscalYearsList();
 
     expect(getByText('FiscalYearsListFilter')).toBeDefined();
+  });
+
+  it('should render fiscal year results list', async () => {
+    renderFiscalYearsList();
+
+    await act(async () => user.click(screen.getByText(defaultProps.fiscalYears[0].name)));
+
+    expect(screen.getByText('ui-finance.fiscalYear.list.name')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.fiscalYear.list.code')).toBeInTheDocument();
   });
 });

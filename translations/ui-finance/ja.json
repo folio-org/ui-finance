@@ -199,7 +199,6 @@
     "close": "閉じる",
     "budget.status.inactive": "非アクティブ",
     "ledger.createNewFY": "新規会計年度",
-    "fiscalYear.actions.save.error.-1": "会計年度のコード形式は、アルファベットの後に4桁の数字が必要です。例）FY2020",
     "fiscalYear.actions.save.error.genericError": "会計年度は保存されていません",
     "fund.actions.save.error.genericError": "Fund has not been saved",
     "fund.actions.save.error.fiscalYearsNotFound": "指定された元帳の現在の会計年度を見つけることができません。",
@@ -406,8 +405,8 @@
     "exportCSV.exportSettings.export.error": "Export of <b>{name}</b> data was failed",
     "exportCSV.exportSettings.expenseClasses": "Export expense classes",
     "exportCSV.exportSettings.expenseClasses.all": "All",
-    "exportCSV.exportSettings.expenseClasses.active": "Active",
-    "exportCSV.exportSettings.expenseClasses.inactive": "Inactive",
+    "exportCSV.exportSettings.expenseClasses.active": "有効",
+    "exportCSV.exportSettings.expenseClasses.inactive": "非アクティブ",
     "exportCSV.exportSettings.expenseClasses.none": "None",
     "exportCSV.report.budget.notFound": "No budget found",
     "transaction.source.Invoice.number": "Source Invoice number",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:"
+    "groups.item.information.fiscalYear.previous": "Previous:",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020"
 }

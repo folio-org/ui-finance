@@ -199,7 +199,6 @@
     "close": "إغلاق",
     "budget.status.inactive": "غير نشط",
     "ledger.createNewFY": "سنة مالية جديدة",
-    "fiscalYear.actions.save.error.-1": "يجب أن يكون تنسيق رمز السنة المالية أبجديًا متبوعًا بأربعة أرقام. مثال:ExampleFY2020",
     "fiscalYear.actions.save.error.genericError": "لم يتم حفظ السنة المالية",
     "fund.actions.save.error.genericError": "لم يتم حفظ التمويل",
     "fund.actions.save.error.fiscalYearsNotFound": "لا يمكن العثور على السنة المالية للدفتر المحدد",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:"
+    "groups.item.information.fiscalYear.previous": "Previous:",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020"
 }

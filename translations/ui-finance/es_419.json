@@ -199,7 +199,6 @@
     "close": "Cerrar",
     "budget.status.inactive": "Inactivo",
     "ledger.createNewFY": "Nuevo año fiscal",
-    "fiscalYear.actions.save.error.-1": "El formato del código del ejercicio debe ser un Alfa seguido de un número de cuatro dígitos. Ejemplo: FY202020",
     "fiscalYear.actions.save.error.genericError": "No se ha grabado el año fiscal",
     "fund.actions.save.error.genericError": "El fondo no se ha guardado",
     "fund.actions.save.error.fiscalYearsNotFound": "No se puede encontrar el año fiscal actual para el libro mayor especificado",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Actuales",
-    "groups.item.information.fiscalYear.previous": "Anteriormente"
+    "groups.item.information.fiscalYear.previous": "Anteriormente",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Año fiscal El formato del código debe ser un alfabeto seguido de un número de cuatro dígitos. Ej. EjemploFY2020"
 }

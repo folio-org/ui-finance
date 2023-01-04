@@ -1,5 +1,5 @@
 {
-    "search": "Suche",
+    "search": "Suchen",
     "resultCount": "{count, number} {count, plural, one {Datensatz} other {Datensätze}} gefunden",
     "meta.title": "Finanzen",
     "ledger.name": "Name",
@@ -199,7 +199,6 @@
     "close": "Schließen",
     "budget.status.inactive": "Inaktiv",
     "ledger.createNewFY": "Neues Haushaltsjahr",
-    "fiscalYear.actions.save.error.-1": "Der Code für das Haushaltsjahr muss mit mindestens einem Buchstaben beginnen und von einer vierstelligen Zahl gefolgt sein, z.B. Beispiel H2020",
     "fiscalYear.actions.save.error.genericError": "Haushaltsjahr wurde nicht gespeichert",
     "fund.actions.save.error.genericError": "Fonds wurde nicht gespeichert",
     "fund.actions.save.error.fiscalYearsNotFound": "Kein aktuelles Haushaltsjahr für diesen Etat gefunden",
@@ -393,7 +392,7 @@
     "groups.actions.removeFund.success": "Fonds <b>{fundCode}</b> wurde aus der Gruppe entfernt",
     "groups.actions.removeFund.error": "Fonds <b>{fundCode}</b> wurde nicht aus der Gruppe entfernt",
     "ledger.rollover.basedOn.initialEncumbrance": "Ursprüngliche Bindung",
-    "appMenu.financeAppSearch": "Suche in Finanzen",
+    "appMenu.financeAppSearch": "Suche in Finanzen-App",
     "transaction.voided": "Ungültig gemachter Vorgang",
     "exportCSV.exportSettings.heading": "Exporteinstellungen",
     "exportCSV.exportSettings.message": "Dieser Export kann einige Minuten dauern. Wenn Sie die Seite neu laden oder schließen, wird der Export nicht abgeschlossen. Sobald die Datei fertig ist, kann es eine weitere Minute dauern, bis Ihr Browser das Herunterladen der Datei beendet hat. Sie können bei Bedarf in einer anderen Browser-Registerkarte weiter mit Bestellungen und Bestellposten arbeiten.",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:"
+    "groups.item.information.fiscalYear.previous": "Previous:",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020"
 }

@@ -199,7 +199,6 @@
     "close": "Fermer",
     "budget.status.inactive": "Inactif",
     "ledger.createNewFY": "Nouvel exercice fiscal",
-    "fiscalYear.actions.save.error.-1": "Le code de l'exercice fiscal doit être de deux caractères alphabétiques suivis de quatre chiffres. Par exemple. FY2020",
     "fiscalYear.actions.save.error.genericError": "L'exercice fiscal n'a pas été enregistré",
     "fund.actions.save.error.genericError": "Le poste budgétaire n'a pas été sauvegardé",
     "fund.actions.save.error.fiscalYearsNotFound": "Impossible de trouver l'exercice fiscal en cours pour le registre spécifié",
@@ -458,5 +457,6 @@
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:"
+    "groups.item.information.fiscalYear.previous": "Précédent",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020"
 }

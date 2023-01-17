@@ -420,7 +420,7 @@
     "ledger.rolloverTest.start.success": "<b>{ledgerName}</b> rollover test has started successfully",
     "invoice.vendorInvoiceNo": "Rechnungsnummer des Lieferanten",
     "invoice.vendor": "Vendor",
-    "invoice.invoiceDate": "Invoice data",
+    "invoice.invoiceDate": "Rechnungsdaten",
     "invoice.status": "Status",
     "invoice.invoiceTotal": "Total amount (system)",
     "invoice.status.Approved": "Approved",

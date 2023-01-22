@@ -8,13 +8,13 @@ import { noop } from 'lodash';
 import { useOkapiKy } from '@folio/stripes/core';
 import { useModalToggle } from '@folio/stripes-acq-components';
 
-import { getFundActiveBudget } from '../../common/utils';
-import { ALLOCATION_TYPE } from '../constants';
-import { createTransactionFlow } from './createTransactionFlow';
+import { getFundActiveBudget } from '../../../common/utils';
+import { ALLOCATION_TYPE } from '../../constants';
+import { createTransactionFlow } from '../createTransactionFlow';
 import {
   isDecreaseAllocationType,
   isTransferTransaction,
-} from './utils';
+} from '../utils';
 
 const ALLOCATIONS_WITHIN_ONE_FUND = [ALLOCATION_TYPE.increase, ALLOCATION_TYPE.decrease];
 

@@ -25,9 +25,11 @@ import {
   TRANSACTION_SOURCE,
 } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
-import { useCreateTransactionFlow } from './useCreateTransactionFlow';
+import {
+  useCreateTransactionErrorHandler,
+  useCreateTransactionFlow,
+} from './hooks';
 import { isDecreaseAllocationType } from './utils';
-import { useCreateTransactionErrorHandler } from './useCreateTransactionErrorHandler';
 
 export const CreateTransactionContainer = ({
   allocationType,

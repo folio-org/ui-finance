@@ -10,8 +10,8 @@ const getAccumulatedDataObject = (stepResult) => {
 export const createTransactionFlow = (...steps) => {
   return async (formValues = {}, accumulateData = {}, { onError } = {}) => {
     const abort = () => {
-      // eslint-disable-next-line no-throw-literal
-      throw { abortedCreateTransactionFlow: true };
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject({ abortedCreateTransactionFlow: true });
     };
 
     const result = await steps.reduce(async (acc, step) => {

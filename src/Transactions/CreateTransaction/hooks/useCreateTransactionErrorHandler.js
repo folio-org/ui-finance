@@ -7,8 +7,8 @@ import {
   getErrorCodeFromResponse,
 } from '@folio/stripes-acq-components';
 
-import { ERROR_CODES } from '../constants';
-import { getFundActiveBudget } from '../../common/utils';
+import { ERROR_CODES } from '../../constants';
+import { getFundActiveBudget } from '../../../common/utils';
 
 const getGenericErrorPayload = async ({ amountWithCurrency, budgetName }) => ({
   values: {

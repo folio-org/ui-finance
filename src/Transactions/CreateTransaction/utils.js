@@ -1,38 +1,10 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
 import {
-  ERROR_CODE_GENERIC,
+  TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 
-export const handleCreateTransactionErrorResponse = async (
-  intl,
-  errorResponse,
-  amountWithCurrency,
-  budgetName,
-  transactionTypeKey,
-) => {
-  let errorCode = null;
+import {
+  ALLOCATION_TYPE,
+} from '../constants';
 
-  try {
-    const responseJson = await errorResponse.json();
-
-    errorCode = responseJson?.errors?.[0]?.code || ERROR_CODE_GENERIC;
-  } catch (parsingException) {
-    errorCode = ERROR_CODE_GENERIC;
-  }
-
-  return (
-    <FormattedMessage
-      id={`ui-finance.transaction.${transactionTypeKey}.${errorCode}`}
-      defaultMessage={intl.formatMessage(
-        { id: `ui-finance.transaction.${transactionTypeKey}.${ERROR_CODE_GENERIC}` },
-        { amount: amountWithCurrency, budgetName },
-      )}
-      values={{
-        amount: amountWithCurrency,
-        budgetName,
-      }}
-    />
-  );
-};
+export const isTransferTransaction = (transactionType) => transactionType === TRANSACTION_TYPES.transfer;
+export const isDecreaseAllocationType = (allocationType) => allocationType === ALLOCATION_TYPE.decrease;

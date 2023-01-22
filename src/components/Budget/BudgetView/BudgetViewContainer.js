@@ -313,6 +313,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
           {isTransferModalOpened && (
             <CreateTransaction
               fundId={budget.fundId}
+              budget={budget}
               budgetName={budget.name}
               transactionType={TRANSACTION_TYPES.transfer}
               fiscalYearId={fiscalYear.id}
@@ -326,6 +327,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
           {isMoveAllocationModalOpened && (
             <CreateTransaction
               fundId={budget.fundId}
+              budget={budget}
               budgetName={budget.name}
               transactionType={TRANSACTION_TYPES.allocation}
               fiscalYearId={fiscalYear.id}
@@ -339,6 +341,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
           {isIncreaseAllocationModalOpened && (
             <CreateTransaction
               fundId={budget.fundId}
+              budget={budget}
               budgetName={budget.name}
               transactionType={TRANSACTION_TYPES.allocation}
               fiscalYearId={fiscalYear.id}
@@ -353,6 +356,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
           {isDecreaseAllocationModalOpened && (
             <CreateTransaction
               fundId={budget.fundId}
+              budget={budget}
               budgetName={budget.name}
               transactionType={TRANSACTION_TYPES.allocation}
               fiscalYearId={fiscalYear.id}

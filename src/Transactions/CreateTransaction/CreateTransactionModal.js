@@ -26,6 +26,7 @@ const CreateTransactionModal = ({
   allocationType,
   fundId,
   handleSubmit,
+  isLoading,
   onClose,
   fundsOptions = [],
   title,
@@ -45,6 +46,8 @@ const CreateTransactionModal = ({
   if (allocationType && allocationType === ALLOCATION_TYPE.decrease) {
     isToFundVisible = false;
   }
+
+  const isConfirmButtonDisabled = isLoading;
 
   const optionsFrom = (
     (!hasToFundIdProperty ||
@@ -66,6 +69,7 @@ const CreateTransactionModal = ({
         buttonStyle="primary"
         data-test-add-transfer-save
         onClick={handleSubmit}
+        disabled={isConfirmButtonDisabled}
       >
         <FormattedMessage id="ui-finance.transaction.button.confirm" />
       </Button>
@@ -144,6 +148,7 @@ const CreateTransactionModal = ({
 CreateTransactionModal.propTypes = {
   fundId: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,

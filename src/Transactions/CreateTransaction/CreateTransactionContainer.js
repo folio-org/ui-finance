@@ -126,7 +126,6 @@ export const CreateTransactionContainer = ({
       .catch(async (errorResponse) => {
         const message = await handleCreateTransactionErrorResponse({
           ...accumulatedData,
-          intl,
           errorResponse,
           formValues,
           transactionTypeKey,
@@ -142,7 +141,6 @@ export const CreateTransactionContainer = ({
     fundId,
     funds,
     handleCreateTransactionErrorResponse,
-    intl,
     locale,
     runCreateTransactionFlow,
     saveTransactionStep,

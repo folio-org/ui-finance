@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import { omit } from 'lodash';
 
 import {
   getAmountWithCurrency,
   getFundsForSelect,
+  TRANSACTION_TYPES,
   useAllFunds,
   useShowCallout,
-  TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 import {
   stripesConnect,
   stripesShape,
-  useOkapiKy,
 } from '@folio/stripes/core';
 
 import {
@@ -21,16 +21,17 @@ import {
   encumbrancesResource,
   transfersResource,
 } from '../../common/resources';
-import { getFundActiveBudget } from '../../common/utils';
 import {
-  ALLOCATION_TYPE,
   TRANSACTION_SOURCE,
 } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
-import { handleCreateTransactionErrorResponse } from './utils';
+import { useCreateTransactionFlow } from './useCreateTransactionFlow';
+import { isDecreaseAllocationType } from './utils';
+import { useCreateTransactionErrorHandler } from './useCreateTransactionErrorHandler';
 
 export const CreateTransactionContainer = ({
   allocationType,
+  budget,
   budgetName,
   fetchBudgetResources,
   fiscalYearCurrency,
@@ -42,15 +43,22 @@ export const CreateTransactionContainer = ({
   stripes,
   transactionType,
 }) => {
-  const ky = useOkapiKy();
   const intl = useIntl();
   const showCallout = useShowCallout();
+
   const locale = stripes.locale;
   const currency = fiscalYearCurrency || stripes.currency;
-
   const transactionTypeKey = transactionType.toLowerCase();
+
+  const { funds } = useAllFunds();
+  const { handleCreateTransactionErrorResponse } = useCreateTransactionErrorHandler();
+  const {
+    isLoading,
+    runCreateTransactionFlow,
+  } = useCreateTransactionFlow();
+
   const initialValues = useMemo(() => {
-    const values = allocationType === ALLOCATION_TYPE.decrease ? { fromFundId: fundId } : { toFundId: fundId };
+    const values = isDecreaseAllocationType(allocationType) ? { fromFundId: fundId } : { toFundId: fundId };
 
     return ({
       fundId,
@@ -58,49 +66,89 @@ export const CreateTransactionContainer = ({
     });
   }, [fundId, allocationType]);
 
-  const saveTransaction = useCallback(
-    async ({ fundId: _, ...formValue }) => {
-      const mutatorObject = mutator[transactionType];
+  const saveTransactionStep = useCallback(async (formValues, { resultBudgetName }) => {
+    const mutatorObject = mutator[transactionType];
 
-      try {
-        const transfer = await mutatorObject.POST({
-          ...formValue,
-          fiscalYearId,
-          currency,
-          transactionType,
-          source: TRANSACTION_SOURCE.user,
+    const transfer = await mutatorObject.POST({
+      ...omit(formValues, 'fundId'),
+      fiscalYearId,
+      currency,
+      transactionType,
+      source: TRANSACTION_SOURCE.user,
+    });
+
+    showCallout({
+      messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
+      values: {
+        amount: getAmountWithCurrency(locale, currency, transfer.amount),
+        budgetName: resultBudgetName,
+      },
+    });
+    onClose();
+    fetchBudgetResources();
+  },
+  [
+    currency,
+    fetchBudgetResources,
+    fiscalYearId,
+    locale,
+    mutator,
+    onClose,
+    showCallout,
+    transactionType,
+    transactionTypeKey,
+  ]);
+
+  const onSubmitTransactionForm = useCallback(async (formValues) => {
+    const { toFundId, fromFundId } = formValues;
+
+    const fund = funds.find(({ id }) => id === fundId);
+    const contragentFundId = [toFundId, fromFundId].find((_fundId) => _fundId !== fundId);
+    const contragentFund = funds.find(({ id: cFundId }) => cFundId === contragentFundId);
+
+    const amountWithCurrency = getAmountWithCurrency(locale, currency, formValues.amount);
+
+    const accumulatedData = {
+      allocationType,
+      amountWithCurrency,
+      budget,
+      budgetName,
+      fund,
+      fundId,
+      contragentFund,
+      contragentFundId,
+      transactionType,
+    };
+
+    await runCreateTransactionFlow(saveTransactionStep)(formValues, accumulatedData)
+      .catch(async (errorResponse) => {
+        const message = await handleCreateTransactionErrorResponse({
+          ...accumulatedData,
+          intl,
+          errorResponse,
+          formValues,
+          transactionTypeKey,
         });
-
-        const { amount, toFundId } = transfer;
-
-        const toBudgetName = toFundId === fundId
-          ? budgetName
-          : await getFundActiveBudget(ky)(toFundId).then(({ name }) => name);
-
-        showCallout({
-          messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
-          values: {
-            amount: getAmountWithCurrency(locale, currency, amount),
-            budgetName: toBudgetName,
-          },
-        });
-        onClose();
-        fetchBudgetResources();
-      } catch (errorResponse) {
-        const amountWithCurrency = getAmountWithCurrency(locale, currency, formValue.amount);
-
-        const message = await handleCreateTransactionErrorResponse(
-          intl, errorResponse, amountWithCurrency, budgetName, transactionTypeKey,
-        );
 
         showCallout({ message, type: 'error' });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [budgetName, currency, fiscalYearId, showCallout],
-  );
+      });
+  }, [
+    allocationType,
+    budget,
+    budgetName,
+    currency,
+    fundId,
+    funds,
+    handleCreateTransactionErrorResponse,
+    intl,
+    locale,
+    runCreateTransactionFlow,
+    saveTransactionStep,
+    showCallout,
+    transactionType,
+    transactionTypeKey,
+  ]);
 
-  const { funds } = useAllFunds();
   const fundsOptions = useMemo(() => getFundsForSelect(funds), [funds]);
 
   return (
@@ -108,8 +156,9 @@ export const CreateTransactionContainer = ({
       fundId={fundId}
       fundsOptions={fundsOptions}
       initialValues={initialValues}
+      isLoading={isLoading}
       onClose={onClose}
-      onSubmit={saveTransaction}
+      onSubmit={onSubmitTransactionForm}
       title={intl.formatMessage({ id: labelId })}
       allocationType={allocationType}
     />
@@ -124,6 +173,7 @@ CreateTransactionContainer.manifest = Object.freeze({
 });
 
 CreateTransactionContainer.propTypes = {
+  budget: PropTypes.object.isRequired,
   budgetName: PropTypes.string.isRequired,
   transactionType: PropTypes.string.isRequired,
   fiscalYearId: PropTypes.string.isRequired,

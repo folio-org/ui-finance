@@ -6,6 +6,7 @@
 * Provide local translations to `ControlledVocab`. Refs UIF-408.
 * Results List | Hyperlink one column to improve accessibility. Refs UIF-410.
 * Refactoring flow and error handling to create a transaction. Refs UIF-429.
+* Show alert when the transfer will result in a negative amount. Refs UIF-427.
 
 ## [3.3.2](https://github.com/folio-org/ui-finance/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.1...v3.3.2)

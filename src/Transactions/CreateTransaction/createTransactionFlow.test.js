@@ -83,13 +83,13 @@ describe('createTransactionFlow', () => {
       to: initAccumulatedData.contragentBudget.name,
     };
 
-    const [_formValues, accumulated] = await runCreateTransactionFlow(formValues, initAccumulatedData);
+    const { data, formValues: values } = await runCreateTransactionFlow(formValues, initAccumulatedData);
 
-    expect(_formValues).toEqual(formValues);
-    expect(accumulated.budget.available).toEqual(budgetAvailable);
-    expect(accumulated.contragentBudget.available).toEqual(contragentBudgetAvailable);
-    expect(accumulated[initAccumulatedData.budget.name]).toEqual(budgetAvailable - formValues.amount);
-    expect(accumulated[initAccumulatedData.contragentBudget.name]).toEqual(
+    expect(values).toEqual(formValues);
+    expect(data.budget.available).toEqual(budgetAvailable);
+    expect(data.contragentBudget.available).toEqual(contragentBudgetAvailable);
+    expect(data[initAccumulatedData.budget.name]).toEqual(budgetAvailable - formValues.amount);
+    expect(data[initAccumulatedData.contragentBudget.name]).toEqual(
       contragentBudgetAvailable + formValues.amount,
     );
   });

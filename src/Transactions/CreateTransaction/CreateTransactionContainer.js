@@ -119,8 +119,12 @@ export const CreateTransactionContainer = ({
     };
 
     await runCreateTransactionFlow(saveTransactionStep)(formValues, accumulatedData)
-      .then(onClose)
-      .then(fetchBudgetResources)
+      .then(({ isAborted }) => {
+        if (!isAborted) {
+          onClose();
+          fetchBudgetResources();
+        }
+      })
       .catch(async (errorResponse) => {
         const message = await handleCreateTransactionErrorResponse({
           ...accumulatedData,

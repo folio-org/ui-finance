@@ -96,12 +96,12 @@ describe('useCreateTransactionFlow', () => {
       };
 
       await act(async () => {
-        const [, accumulated] = await runAllocationTransactionFlow(
+        const { data } = await runAllocationTransactionFlow(
           values,
           { allocationType: ALLOCATION_TYPE.increase },
         );
 
-        expect(accumulated.newAmounts[fund.id]).toEqual(150);
+        expect(data.newAmounts[fund.id]).toEqual(150);
       });
     });
 
@@ -112,12 +112,12 @@ describe('useCreateTransactionFlow', () => {
       };
 
       await act(async () => {
-        const [, accumulated] = await runAllocationTransactionFlow(
+        const { data } = await runAllocationTransactionFlow(
           values,
           { allocationType: ALLOCATION_TYPE.decrease },
         );
 
-        expect(accumulated.newAmounts[fund.id]).toEqual(70);
+        expect(data.newAmounts[fund.id]).toEqual(70);
       });
     });
 
@@ -129,10 +129,10 @@ describe('useCreateTransactionFlow', () => {
       };
 
       await act(async () => {
-        const [, accumulated] = await runAllocationTransactionFlow(values);
+        const { data } = await runAllocationTransactionFlow(values);
 
-        expect(accumulated.newAmounts[fund.id]).toEqual(113);
-        expect(accumulated.newAmounts[contragentFund.id]).toEqual(17);
+        expect(data.newAmounts[fund.id]).toEqual(113);
+        expect(data.newAmounts[contragentFund.id]).toEqual(17);
       });
     });
   });
@@ -157,10 +157,10 @@ describe('useCreateTransactionFlow', () => {
       };
 
       await act(async () => {
-        const [, accumulated] = await runTransferTransactionFlow(values);
+        const { data } = await runTransferTransactionFlow(values);
 
-        expect(accumulated.newAmounts[fund.id]).toEqual(58);
-        expect(accumulated.newAmounts[contragentFund.id]).toEqual(72);
+        expect(data.newAmounts[fund.id]).toEqual(58);
+        expect(data.newAmounts[contragentFund.id]).toEqual(72);
       });
     });
 
@@ -172,10 +172,10 @@ describe('useCreateTransactionFlow', () => {
       };
 
       await act(async () => {
-        const [, accumulated] = await runTransferTransactionFlow(values);
+        const { data } = await runTransferTransactionFlow(values);
 
-        expect(accumulated.newAmounts[fund.id]).toEqual(129);
-        expect(accumulated.newAmounts[contragentFund.id]).toEqual(1);
+        expect(data.newAmounts[fund.id]).toEqual(129);
+        expect(data.newAmounts[contragentFund.id]).toEqual(1);
       });
     });
   });

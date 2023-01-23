@@ -8,13 +8,17 @@ const getAccumulatedDataObject = (stepResult) => {
 };
 
 export const createTransactionFlow = (...steps) => {
+  let isAborted = false;
+
   return async (formValues = {}, accumulateData = {}, { onError } = {}) => {
     const abort = () => {
+      isAborted = true;
+
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ abortedCreateTransactionFlow: true });
     };
 
-    const result = await steps.reduce(async (acc, step) => {
+    const data = await steps.reduce(async (acc, step) => {
       const prevAccumulatedData = await acc.then((res) => getAccumulatedDataObject(res));
       const newAccumulatedData = await step(formValues, prevAccumulatedData, { abort });
 
@@ -29,6 +33,10 @@ export const createTransactionFlow = (...steps) => {
       throw errorResponse;
     });
 
-    return [formValues, result];
+    return {
+      formValues,
+      data,
+      isAborted,
+    };
   };
 };

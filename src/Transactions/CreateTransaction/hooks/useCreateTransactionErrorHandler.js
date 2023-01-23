@@ -17,7 +17,12 @@ const getGenericErrorPayload = async ({ amountWithCurrency, budgetName }) => ({
   },
 });
 
-const getNotFoundBudgetErrorPayload = async ({ amountWithCurrency, contragentFund }) => ({
+const getNotFoundBudgetErrorPayload = async ({
+  amountWithCurrency,
+  contragentFund,
+  transactionTypeKey,
+}) => ({
+  id: `ui-finance.transaction.${transactionTypeKey}.${ERROR_CODES.budgetNotFoundForTransaction}`,
   values: {
     amount: amountWithCurrency,
     fundCode: contragentFund?.code,
@@ -71,24 +76,13 @@ export const useCreateTransactionErrorHandler = () => {
     transactionTypeKey,
     ...accumulatedData
   }) => {
-    let messageId;
     const errorCode = await getErrorCodeFromResponse(errorResponse);
-    const { values } = await getSpecifiedErrorPayload(ky)(errorCode, accumulatedData);
-
-    switch (errorCode) {
-      case ERROR_CODES.currentBudgetNotFound:
-      case ERROR_CODES.budgetNotFoundForTransaction: {
-        messageId = `ui-finance.transaction.${transactionTypeKey}.${ERROR_CODES.budgetNotFoundForTransaction}`;
-        break;
-      }
-      default: {
-        messageId = `ui-finance.transaction.${transactionTypeKey}.${ERROR_CODES[errorCode] || ERROR_CODES[ERROR_CODE_GENERIC]}`;
-      }
-    }
+    const { id, values } = await getSpecifiedErrorPayload(ky)(errorCode, { ...accumulatedData, transactionTypeKey });
+    const defaultMessageId = `ui-finance.transaction.${transactionTypeKey}.${ERROR_CODES[errorCode] || ERROR_CODES[ERROR_CODE_GENERIC]}`;
 
     return (
       <FormattedMessage
-        id={messageId}
+        id={id || defaultMessageId}
         values={values}
       />
     );

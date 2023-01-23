@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { omit } from 'lodash';
 
+import { ConfirmationModal } from '@folio/stripes/components';
 import {
   getAmountWithCurrency,
   getFundsForSelect,
@@ -55,6 +56,8 @@ export const CreateTransactionContainer = ({
   const { funds } = useAllFunds();
   const { handleCreateTransactionErrorResponse } = useCreateTransactionErrorHandler();
   const {
+    confirmModalProps,
+    isConfirmCreateTransactionModalOpen,
     isLoading,
     runCreateTransactionFlow,
   } = useCreateTransactionFlow();
@@ -156,16 +159,27 @@ export const CreateTransactionContainer = ({
   const fundsOptions = useMemo(() => getFundsForSelect(funds), [funds]);
 
   return (
-    <CreateTransactionModal
-      fundId={fundId}
-      fundsOptions={fundsOptions}
-      initialValues={initialValues}
-      isLoading={isLoading}
-      onClose={onClose}
-      onSubmit={onSubmitTransactionForm}
-      title={intl.formatMessage({ id: labelId })}
-      allocationType={allocationType}
-    />
+    <>
+      <CreateTransactionModal
+        fundId={fundId}
+        fundsOptions={fundsOptions}
+        initialValues={initialValues}
+        isLoading={isLoading}
+        onClose={onClose}
+        onSubmit={onSubmitTransactionForm}
+        title={intl.formatMessage({ id: labelId })}
+        allocationType={allocationType}
+      />
+
+      {
+        isConfirmCreateTransactionModalOpen && (
+          <ConfirmationModal
+            open
+            {...confirmModalProps}
+          />
+        )
+      }
+    </>
   );
 };
 

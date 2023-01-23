@@ -3,10 +3,17 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useIntl } from 'react-intl';
 import { noop } from 'lodash';
 
-import { useOkapiKy } from '@folio/stripes/core';
-import { useModalToggle } from '@folio/stripes-acq-components';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
+import {
+  getMoneyMultiplier,
+  useModalToggle,
+} from '@folio/stripes-acq-components';
 
 import { getFundActiveBudget } from '../../../common/utils';
 import { ALLOCATION_TYPE } from '../../constants';
@@ -18,25 +25,41 @@ import {
 
 const ALLOCATIONS_WITHIN_ONE_FUND = [ALLOCATION_TYPE.increase, ALLOCATION_TYPE.decrease];
 
+const CONFIRM_MODAL_TYPES = {
+  negativeAvailableAmount: 'negativeAvailableAmount',
+}
+
 const getTransactionFundActiveBudget = (ky) => (transactionFundId) => {
   return getFundActiveBudget(ky)(transactionFundId).catch(({ response }) => { throw response; });
 };
 
-export const useCreateTransactionFlow = () => {
-  const ky = useOkapiKy();
-  const [isConfirmCreateTransactionModalOpen, toggleConfirmModal] = useModalToggle();
-  const [isLoading, setIsLoading] = useState(false);
-  const transactionCreateRef = useRef({ resolve: Promise.resolve, reject: Promise.reject });
+const getBudgetsNamesWithNegativeAmmount = (formVales, accumulatedData, currency) => {
+  const { amount, fromFundId } = formVales;
+  const { budget, contragentBudget } = accumulatedData;
+  const multiplier = getMoneyMultiplier(currency);
 
-  const showConfirmTransactionCreateModal = useCallback(({ abort }) => {
-    return new Promise((resolve, reject) => {
-      transactionCreateRef.current = { resolve, reject };
+  return [budget, contragentBudget]
+    .map(({ available, name, fundId }) => {
+      const sign = fromFundId === fundId ? -1 : 1;
 
-      toggleConfirmModal();
+      return {
+        name,
+        available: Math.round((multiplier * available) + ( sign * multiplier * amount)) / multiplier,
+      }
     })
-      .catch(abort)
-      .finally(toggleConfirmModal);
-  }, [toggleConfirmModal]);
+    .reduce((acc, { name, available }) => available < 0 ? [...acc, name] : acc, []);
+}
+
+export const useCreateTransactionFlow = () => {
+  const intl = useIntl();
+  const ky = useOkapiKy();
+  const stripes = useStripes();
+
+  const [isConfirmCreateTransactionModalOpen, toggleConfirmModal] = useModalToggle();
+  const [confirmModalProps, setConfirmModalProps] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const transactionCreateRef = useRef({ resolve: Promise.resolve, reject: Promise.reject });
 
   const confirmModalCreateTransaction = useCallback(() => {
     transactionCreateRef.current.resolve();
@@ -45,6 +68,24 @@ export const useCreateTransactionFlow = () => {
   const cancelModalCreateTransaction = useCallback(() => {
     transactionCreateRef.current.reject();
   }, []);
+
+  const showConfirmTransactionCreateModal = useCallback(({ abort, values, confirmModalType }) => {
+    setConfirmModalProps({
+      heading: intl.formatMessage({ id: `ui-finance.transaction.confirmModal.${confirmModalType}.heading` }),
+      message: intl.formatMessage({ id: `ui-finance.transaction.confirmModal.${confirmModalType}.message` }, values),
+      confirmLabel: intl.formatMessage({ id: 'ui-finance.transaction.button.confirm' }),
+      onCancel: cancelModalCreateTransaction,
+      onConfirm: confirmModalCreateTransaction,
+    });
+
+    return new Promise((resolve, reject) => {
+      transactionCreateRef.current = { resolve, reject };
+
+      toggleConfirmModal();
+    })
+      .catch(abort)
+      .finally(toggleConfirmModal);
+  }, [toggleConfirmModal]);
 
   const prepareContragentBudgetDataStep = useCallback(async (_formValues, { contragentFundId, allocationType }) => {
     const shouldFetchContragentBudget = !ALLOCATIONS_WITHIN_ONE_FUND.includes(allocationType);
@@ -65,10 +106,18 @@ export const useCreateTransactionFlow = () => {
     const isCheckRequired = isTransferTransaction(transactionType);
 
     if (isCheckRequired) {
-      // TODO: check resulting available amount for budgets (UIF-427)
-      const isAmountWillBeNegative = noop(formValues, data);
+      const budgetNamesWithResultingNegativeAmount = getBudgetsNamesWithNegativeAmmount(formValues, data, stripes.currency);
+      const isAmountWillBeNegative = !!budgetNamesWithResultingNegativeAmount.length;
 
-      if (isAmountWillBeNegative) await showConfirmTransactionCreateModal({ abort });
+      if (isAmountWillBeNegative) {
+        const values = { budgetName: budgetNamesWithResultingNegativeAmount.join(', ') };
+
+        await showConfirmTransactionCreateModal({
+          abort,
+          confirmModalType: CONFIRM_MODAL_TYPES.negativeAvailableAmount,
+          values
+        })
+      };
     }
   }, [showConfirmTransactionCreateModal]);
 
@@ -115,10 +164,9 @@ export const useCreateTransactionFlow = () => {
   ]);
 
   return {
-    runCreateTransactionFlow,
-    confirmModalCreateTransaction,
+    confirmModalProps,
     isConfirmCreateTransactionModalOpen,
     isLoading,
-    cancelModalCreateTransaction,
+    runCreateTransactionFlow,
   };
 };

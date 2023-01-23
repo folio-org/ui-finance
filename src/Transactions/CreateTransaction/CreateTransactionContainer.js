@@ -86,16 +86,12 @@ export const CreateTransactionContainer = ({
         budgetName: resultBudgetName,
       },
     });
-    onClose();
-    fetchBudgetResources();
   },
   [
     currency,
-    fetchBudgetResources,
     fiscalYearId,
     locale,
     mutator,
-    onClose,
     showCallout,
     transactionType,
     transactionTypeKey,
@@ -123,6 +119,8 @@ export const CreateTransactionContainer = ({
     };
 
     await runCreateTransactionFlow(saveTransactionStep)(formValues, accumulatedData)
+      .then(onClose)
+      .then(fetchBudgetResources)
       .catch(async (errorResponse) => {
         const message = await handleCreateTransactionErrorResponse({
           ...accumulatedData,
@@ -138,10 +136,12 @@ export const CreateTransactionContainer = ({
     budget,
     budgetName,
     currency,
+    fetchBudgetResources,
     fundId,
     funds,
     handleCreateTransactionErrorResponse,
     locale,
+    onClose,
     runCreateTransactionFlow,
     saveTransactionStep,
     showCallout,

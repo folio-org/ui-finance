@@ -27,7 +27,7 @@ const ALLOCATIONS_WITHIN_ONE_FUND = [ALLOCATION_TYPE.increase, ALLOCATION_TYPE.d
 
 const CONFIRM_MODAL_TYPES = {
   negativeAvailableAmount: 'negativeAvailableAmount',
-}
+};
 
 const getTransactionFundActiveBudget = (ky) => (transactionFundId) => {
   return getFundActiveBudget(ky)(transactionFundId).catch(({ response }) => { throw response; });
@@ -44,11 +44,11 @@ const getBudgetsNamesWithNegativeAmmount = (formVales, accumulatedData, currency
 
       return {
         name,
-        available: Math.round((multiplier * available) + ( sign * multiplier * amount)) / multiplier,
-      }
+        available: Math.round((multiplier * available) + (sign * multiplier * amount)) / multiplier,
+      };
     })
-    .reduce((acc, { name, available }) => available < 0 ? [...acc, name] : acc, []);
-}
+    .reduce((acc, { name, available }) => (available < 0 ? [...acc, name] : acc), []);
+};
 
 export const useCreateTransactionFlow = () => {
   const intl = useIntl();
@@ -85,7 +85,12 @@ export const useCreateTransactionFlow = () => {
     })
       .catch(abort)
       .finally(toggleConfirmModal);
-  }, [toggleConfirmModal]);
+  }, [
+    cancelModalCreateTransaction,
+    confirmModalCreateTransaction,
+    intl,
+    toggleConfirmModal,
+  ]);
 
   const prepareContragentBudgetDataStep = useCallback(async (_formValues, { contragentFundId, allocationType }) => {
     const shouldFetchContragentBudget = !ALLOCATIONS_WITHIN_ONE_FUND.includes(allocationType);
@@ -106,20 +111,20 @@ export const useCreateTransactionFlow = () => {
     const isCheckRequired = isTransferTransaction(transactionType);
 
     if (isCheckRequired) {
-      const budgetNamesWithResultingNegativeAmount = getBudgetsNamesWithNegativeAmmount(formValues, data, stripes.currency);
-      const isAmountWillBeNegative = !!budgetNamesWithResultingNegativeAmount.length;
+      const budgetNamesWithNegativeAmount = getBudgetsNamesWithNegativeAmmount(formValues, data, stripes.currency);
+      const isAmountWillBeNegative = !!budgetNamesWithNegativeAmount.length;
 
       if (isAmountWillBeNegative) {
-        const values = { budgetName: budgetNamesWithResultingNegativeAmount.join(', ') };
+        const values = { budgetName: budgetNamesWithNegativeAmount.join(', ') };
 
         await showConfirmTransactionCreateModal({
           abort,
           confirmModalType: CONFIRM_MODAL_TYPES.negativeAvailableAmount,
-          values
-        })
-      };
+          values,
+        });
+      }
     }
-  }, [showConfirmTransactionCreateModal]);
+  }, [showConfirmTransactionCreateModal, stripes.currency]);
 
   const prepareResultBudgetNameStep = useCallback(async (formValues, accumulatedData) => {
     const {

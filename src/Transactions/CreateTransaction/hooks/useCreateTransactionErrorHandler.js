@@ -36,13 +36,13 @@ const getNotEnoughMoneyErrorPayload = async (accumulatedData, ky) => {
     contragentFundId,
     formValues,
   } = accumulatedData;
-  const contragentBudget = await getFundActiveBudget(ky)(contragentFundId).catch(() => null);
+  const contragentBudget = contragentFundId && await getFundActiveBudget(ky)(contragentFundId).catch(() => null);
 
-  if (!contragentBudget) return getNotFoundBudgetErrorPayload(accumulatedData);
+  if (contragentFundId && !contragentBudget) return getNotFoundBudgetErrorPayload(accumulatedData);
 
   const { toFundId, fromFundId } = formValues;
 
-  const budgets = [budget, contragentBudget];
+  const budgets = [budget, contragentBudget].filter(Boolean);
   const toBudgetName = budgets.find(({ fundId }) => fundId === toFundId)?.name;
   const fromBudgetName = budgets.find(({ fundId }) => fundId === fromFundId)?.name;
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  ERROR_CODE_GENERIC,
   TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 
@@ -33,4 +34,14 @@ export const TRANSACTION_SOURCE_OPTIONS = Object.values(TRANSACTION_SOURCE).map(
 export const ALLOCATION_TYPE = {
   increase: 'increase',
   decrease: 'decrease',
+};
+
+export const ERROR_CODES = {
+  [ERROR_CODE_GENERIC]: ERROR_CODE_GENERIC,
+  allowableAllocationIdsMismatch: 'allowableAllocationIdsMismatch',
+  budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
+  currentBudgetNotFound: 'currentBudgetNotFound',
+  missingFundId: 'missingFundId',
+  notEnoughMoneyForAllocationError: 'notEnoughMoneyForAllocationError',
+  notEnoughMoneyForTransferError: 'notEnoughMoneyForTransferError',
 };

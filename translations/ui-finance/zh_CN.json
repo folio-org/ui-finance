@@ -458,5 +458,10 @@
     "settings.fundTypes.termWillBeDeleted": "经费类型<b> {term} </b>将被<b>删除。 </b>",
     "groups.item.information.fiscalYear.current": "当前：",
     "groups.item.information.fiscalYear.previous": "上一个：",
-    "fiscalYear.actions.save.error.invalidFiscalYearCode": "财务年度代码格式必须为字母后跟四位数字，例如FY2020"
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "财务年度代码格式必须为字母后跟四位数字，例如FY2020",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount}未成功分配，因为<b> {fundCode} </b>没有预算",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount}未成功分配给预算<b> {toBudgetName} </b> ，因为它超过了<b> {fromBudgetName} </b>的总分配金额",
+    "transaction.confirmModal.negativeAvailableAmount.heading": "负可用金额",
+    "transaction.confirmModal.negativeAvailableAmount.message": "完成此转移将导致<b> {budgetName} </b>的可用金额为负。确定要完成此交易吗？",
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount}未成功转移，因为<b> {fundCode} </b>没有预算"
 }

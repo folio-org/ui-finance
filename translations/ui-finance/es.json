@@ -458,5 +458,10 @@
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
     "groups.item.information.fiscalYear.current": "Actuales",
     "groups.item.information.fiscalYear.previous": "Anteriormente",
-    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Año fiscal El formato del código debe ser un alfabeto seguido de un número de cuatro dígitos. Ej. EjemploFY2020"
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Año fiscal El formato del código debe ser un alfabeto seguido de un número de cuatro dígitos. Ej. EjemploFY2020",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
+    "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
+    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget"
 }

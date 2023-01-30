@@ -458,5 +458,10 @@
     "settings.fundTypes.termWillBeDeleted": "기금 유형 <b> {term} </b> 은 <b> 삭제됩니다. </b>",
     "groups.item.information.fiscalYear.current": "현재:",
     "groups.item.information.fiscalYear.previous": "이전",
-    "fiscalYear.actions.save.error.invalidFiscalYearCode": "회계 연도 코드 형식은 알파벳 뒤에 4자리 숫자가 와야 합니다. 예. FY2020"
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "회계 연도 코드 형식은 알파벳 뒤에 4자리 숫자가 와야 합니다. 예. FY2020",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
+    "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
+    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget"
 }

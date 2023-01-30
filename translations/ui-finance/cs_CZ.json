@@ -458,5 +458,10 @@
     "settings.fundTypes.termWillBeDeleted": "Typ fondu <b>{term}</b> bude <b>smazán.</b>",
     "groups.item.information.fiscalYear.current": "Současný:",
     "groups.item.information.fiscalYear.previous": "Předchozí:",
-    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Kód fiskálního roku musí být ve formátu Alfa, za kterým následuje čtyřmístný číselný kód. Př. PříkladFY2020"
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Kód fiskálního roku musí být ve formátu Alfa, za kterým následuje čtyřmístný číselný kód. Př. PříkladFY2020",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
+    "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
+    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget"
 }

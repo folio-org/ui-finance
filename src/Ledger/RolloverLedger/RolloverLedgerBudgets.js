@@ -13,7 +13,10 @@ import {
 } from '@folio/stripes/components';
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
-import { ADD_AVAILABLE_TO_OPTIONS } from '../constants';
+import {
+  ADD_AVAILABLE_TO_OPTIONS,
+  ROLLOVER_BUDGET_VALUE_OPTIONS,
+} from '../constants';
 import HeadLabel from './HeadLabel';
 import SetAllowancesField from './SetAllowancesField';
 
@@ -22,8 +25,8 @@ const headLabels = (
     <HeadLabel translationId="ui-finance.ledger.rollover.fundType" />
     <HeadLabel translationId="ui-finance.ledger.rollover.allocation" />
     <HeadLabel translationId="ui-finance.ledger.rollover.adjustAllocation" size={1} />
-    <HeadLabel translationId="ui-finance.ledger.rollover.available" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.addAvailableAs" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.rolloverBudgetValue" required />
+    <HeadLabel translationId="ui-finance.ledger.rollover.rolloverValueAs" required />
     <HeadLabel translationId="ui-finance.ledger.rollover.setAllowances" size={1} />
     <HeadLabel translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
     <HeadLabel translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
@@ -61,13 +64,13 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
           />
         </Col>
         <Col xs={2}>
-          <Field
-            component={Checkbox}
-            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.available' })}
-            name={`${elem}.rolloverAvailable`}
-            type="checkbox"
+          <FieldSelectFinal
+            aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.rolloverBudgetValue' })}
+            dataOptions={ROLLOVER_BUDGET_VALUE_OPTIONS}
+            id={`${elem}.rolloverBudgetValue`}
+            name={`${elem}.rolloverBudgetValue`}
+            required
             validateFields={[]}
-            vertical
           />
         </Col>
         <Col xs={2}>

@@ -42,6 +42,7 @@ import {
 import {
   ADD_AVAILABLE_TO,
   ORDER_TYPE,
+  ROLLOVER_BUDGET_VALUE,
 } from '../constants';
 
 const ifRolloverPreview = (values) => {
@@ -133,6 +134,7 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
         return fundTypeIdsSet;
       }, new Set()) || [])].map(fundTypeId => ({
         addAvailableTo: ADD_AVAILABLE_TO.transfer,
+        rolloverBudgetValue: ROLLOVER_BUDGET_VALUE.none,
         fundTypeId,
       })),
       encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
@@ -153,8 +155,8 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     const rolloverCb = ifRolloverPreview(savingValues) ? testRollover : rollover;
 
     return rolloverCb(savingValues)
-      .catch(handleRolloverErrors)
-      .finally(close);
+      .then(close)
+      .catch(handleRolloverErrors);
   }, [
     close,
     handleRolloverErrors,

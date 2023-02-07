@@ -23,6 +23,7 @@ export const ROLLOVER_LOGS_VISIBLE_COLUMNS = [
   'status',
   'errors',
   'results',
+  'settings',
   'source',
 ];
 

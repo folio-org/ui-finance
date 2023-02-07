@@ -37,7 +37,7 @@ describe('useLedger', () => {
 
     await waitFor(() => !result.current.isFetching);
 
-    expect(mockGet).toHaveBeenCalledWith(`${LEDGERS_API}/${ledger.id}`);
+    expect(mockGet).toHaveBeenCalledWith(`${LEDGERS_API}/${ledger.id}`, expect.objectContaining({}));
     expect(result.current.ledger).toEqual(ledger);
   });
 });

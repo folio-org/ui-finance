@@ -120,7 +120,9 @@ export const RolloverLedgerBudgetsView = ({ rollover }) => {
   return (
     <ul className={css.rolloverList}>
       {!!budgetsRollover.length && <li>{ROLLOVER_LEDGER_BUDGETS_HEAD_LABELS}</li>}
-      {budgetsRollover.map((budgetRollover) => <li>{renderBudgetFields(budgetRollover)}</li>)}
+      {budgetsRollover.map(
+        (budgetRollover, i) => <li key={budgetRollover.fundTypeId || i}>{renderBudgetFields(budgetRollover)}</li>,
+      )}
     </ul>
   );
 };

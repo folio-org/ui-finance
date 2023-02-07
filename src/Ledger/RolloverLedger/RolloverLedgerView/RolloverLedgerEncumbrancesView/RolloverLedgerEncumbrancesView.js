@@ -65,7 +65,9 @@ export const RolloverLedgerEncumbrancesView = ({ rollover }) => {
   return (
     <ul className={css.rolloverList}>
       {!!encumbrancesRollover.length && <li>{ROLLOVER_ENCUMBRANCES_HEAD_LABELS}</li>}
-      {encumbrancesRollover.map((encumbranceRollover) => <li>{renderFields(encumbranceRollover)}</li>)}
+      {encumbrancesRollover.map(
+        (encumbranceRollover) => <li key={encumbranceRollover.orderType}>{renderFields(encumbranceRollover)}</li>,
+      )}
     </ul>
   );
 };

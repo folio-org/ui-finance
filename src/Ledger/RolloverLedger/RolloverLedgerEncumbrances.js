@@ -14,18 +14,10 @@ import { FieldSelectFinal } from '@folio/stripes-acq-components';
 import {
   BASED_ON_OPTIONS,
   ORDER_TYPE_LABEL,
+  ROLLOVER_ENCUMBRANCES_HEAD_LABELS,
 } from '../constants';
-import HeadLabel from './HeadLabel';
-import RolloverField from './RolloverField';
 
-const headLabels = (
-  <Row>
-    <HeadLabel translationId="ui-finance.ledger.rollover.orderType" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.rollover" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.basedOn" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.increaseBy" />
-  </Row>
-);
+import RolloverField from './RolloverField';
 
 const RolloverLedgerEncumbrances = () => {
   const intl = useIntl();
@@ -73,7 +65,7 @@ const RolloverLedgerEncumbrances = () => {
 
   return (
     <RepeatableField
-      headLabels={headLabels}
+      headLabels={ROLLOVER_ENCUMBRANCES_HEAD_LABELS}
       id="encumbrances-rollover"
       onRemove={false}
       renderField={renderFields}

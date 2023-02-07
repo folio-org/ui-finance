@@ -1,0 +1,8 @@
+@import '@folio/stripes-components/lib/variables.css';
+
+.rolloverList {
+  margin: var(--gutter) 0;
+  padding-left: 0;
+  list-style-type: none;
+  line-height: var(--line-height);
+}

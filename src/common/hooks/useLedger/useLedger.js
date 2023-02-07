@@ -17,7 +17,7 @@ export const useLedger = (ledgerId) => {
     isLoading,
   } = useQuery(
     [namespace, ledgerId],
-    async () => ky.get(`${LEDGERS_API}/${ledgerId}`).json(),
+    async ({ signal }) => ky.get(`${LEDGERS_API}/${ledgerId}`, { signal }).json(),
     {
       enabled: Boolean(ledgerId),
     },

@@ -1,0 +1,1 @@
+export { useFundTypesBatch } from './useFundTypesBatch'

@@ -82,3 +82,20 @@ export const ORDER_TYPE_LABEL = {
   [ORDER_TYPE.ongoingSubscription]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.ongoingSubscription" />,
   [ORDER_TYPE.onetime]: <FormattedMessage id="ui-finance.ledger.rollover.orderType.onetime" />,
 };
+
+export const ROLLOVER_BUDGET_VALUE = {
+  none: 'None',
+  available: 'Available',
+  cashBalance: 'CashBalance',
+};
+
+export const ROLLOVER_BUDGET_VALUE_LABELS = {
+  [ROLLOVER_BUDGET_VALUE.none]: 'ui-finance.ledger.rollover.rolloverBudgetValue.none',
+  [ROLLOVER_BUDGET_VALUE.available]: 'ui-finance.ledger.rollover.rolloverBudgetValue.available',
+  [ROLLOVER_BUDGET_VALUE.cashBalance]: 'ui-finance.ledger.rollover.rolloverBudgetValue.cashBalance',
+};
+
+export const ROLLOVER_BUDGET_VALUE_OPTIONS = Object.values(ROLLOVER_BUDGET_VALUE).map(value => ({
+  labelId: ROLLOVER_BUDGET_VALUE_LABELS[value],
+  value,
+}));

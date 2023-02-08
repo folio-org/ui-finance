@@ -1,1 +1,1 @@
-export { useFundTypesBatch } from './useFundTypesBatch'
+export { useFundTypesBatch } from './useFundTypesBatch';

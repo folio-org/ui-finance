@@ -126,6 +126,7 @@ export const RolloverLedgerView = () => {
                 </Row>
 
                 <RolloverFiscalYearsView rollover={rollover} />
+
                 <AccordionSet>
                   <Accordion
                     id={ROLLOVER_LEDGER_ACCORDION.budgets}
@@ -133,6 +134,7 @@ export const RolloverLedgerView = () => {
                   >
                     <RolloverLedgerBudgetsView rollover={rollover} />
                   </Accordion>
+
                   <Accordion
                     id={ROLLOVER_LEDGER_ACCORDION.encumbrances}
                     label={ROLLOVER_LEDGER_ACCORDION_LABELS.encumbrances}

@@ -83,7 +83,9 @@ export const RolloverLedgerBudgetsView = ({ rollover }) => {
         <Col xs={2}>
           <RolloverListValue
             aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.rolloverBudgetValue' })}
-            value={<FormattedMessage id={ROLLOVER_BUDGET_VALUE_LABELS[rolloverBudgetValue || ROLLOVER_BUDGET_VALUE.none]} />}
+            value={(
+              <FormattedMessage id={ROLLOVER_BUDGET_VALUE_LABELS[rolloverBudgetValue || ROLLOVER_BUDGET_VALUE.none]} />
+            )}
           />
         </Col>
         <Col xs={2}>

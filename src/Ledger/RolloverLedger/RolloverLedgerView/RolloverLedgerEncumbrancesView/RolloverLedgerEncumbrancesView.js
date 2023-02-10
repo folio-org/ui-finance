@@ -27,7 +27,6 @@ export const RolloverLedgerEncumbrancesView = ({ rollover }) => {
       basedOn,
       increaseBy,
       orderType,
-      rollover: isRollover,
     } = encumbranceRollover;
 
     return (
@@ -41,7 +40,7 @@ export const RolloverLedgerEncumbrancesView = ({ rollover }) => {
         <Col xs={2}>
           <Checkbox
             aria-label={intl.formatMessage({ id: 'ui-finance.ledger.rollover.rollover' })}
-            checked={!!isRollover}
+            checked
             disabled
             vertical
           />

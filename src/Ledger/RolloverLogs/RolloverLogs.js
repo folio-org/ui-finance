@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
+  Link,
   useHistory,
   useLocation,
   useParams,
@@ -16,15 +17,16 @@ import {
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
-  ResetButton,
-  ResultsPane,
+  FolioFormattedTime,
+  formatDate,
   NoResultsMessage,
+  PrevNextPagination,
+  ResetButton,
+  RESULT_COUNT_INCREMENT,
+  ResultsPane,
   useFiltersToogle,
   useLocationFilters,
   usePagination,
-  RESULT_COUNT_INCREMENT,
-  PrevNextPagination,
-  FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
 import { LEDGERS_ROUTE } from '../../common/const';
@@ -41,7 +43,7 @@ import { RolloverLogsFilters } from './RolloverLogsFilters';
 import { RolloverLogLink } from './RolloverLogLink';
 
 const resultsPaneTitle = <FormattedMessage id="ui-finance.actions.rolloverLogs" />;
-const formatter = ({
+const getFormatter = ({ intl, location }) => ({
   startDate: item => <FolioFormattedTime dateString={item.startDate} />,
   endDate: item => <FolioFormattedTime dateString={item.endDate} />,
   status: item => LEDGER_ROLLOVER_STATUS_MAP[item.rolloverStatus],
@@ -57,10 +59,30 @@ const formatter = ({
       rolloverLog={item}
     />
   ),
+  settings: item => {
+    const {
+      endDate,
+      ledgerId,
+      ledgerRolloverId,
+    } = item;
+    const value = formatDate(endDate, intl);
+
+    return (
+      <Link
+        to={{
+          pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-settings/${ledgerRolloverId}`,
+          state: { backPathname: `${location.pathname}${location.search}` },
+        }}
+      >
+        {`${value}-settings`}
+      </Link>
+    );
+  },
   source: item => LEDGER_ROLLOVER_SOURCE_MAP[item.ledgerRolloverType],
 });
 
 export const RolloverLogs = () => {
+  const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
   const { id: ledgerId } = useParams();
@@ -143,7 +165,7 @@ export const RolloverLogs = () => {
                   columnIdPrefix="rollover-logs"
                   columnMapping={ROLLOVER_LOGS_COLUMNS_MAPPING}
                   contentData={rolloverLogs}
-                  formatter={formatter}
+                  formatter={getFormatter({ intl, location })}
                   hasMargin
                   interactive={false}
                   isEmptyMessage={resultsStatusMessage}

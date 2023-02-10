@@ -11,12 +11,13 @@ import CheckPermission from '../common/CheckPermission';
 import {
   LEDGER_CREATE_ROUTE,
   LEDGERS_ROUTE,
+  LEDGER_ROLLOVER_SETTINGS_ROUTE,
 } from '../common/const';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
 import { LedgerListContainer } from './LedgerList';
-import RolloverLedgerContainer from './RolloverLedger';
+import RolloverLedgerContainer, { RolloverLedgerView } from './RolloverLedger';
 import RolloverLedgerCreateFiscalYear from './RolloverLedgerCreateFiscalYear';
 import { RolloverLogs } from './RolloverLogs';
 
@@ -79,6 +80,14 @@ const Ledger = () => {
       >
         <RolloverLogs />
       </PermissionedRoute>
+      <Route
+        path={LEDGER_ROLLOVER_SETTINGS_ROUTE}
+        render={() => (
+          <CheckPermission perm="ui-finance.ledger.rollover">
+            <RolloverLedgerView />
+          </CheckPermission>
+        )}
+      />
       <Route
         path={LEDGERS_ROUTE}
         render={() => (

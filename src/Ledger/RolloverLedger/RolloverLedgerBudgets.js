@@ -16,22 +16,10 @@ import { FieldSelectFinal } from '@folio/stripes-acq-components';
 import {
   ADD_AVAILABLE_TO_OPTIONS,
   ROLLOVER_BUDGET_VALUE_OPTIONS,
+  ROLLOVER_LEDGER_BUDGETS_HEAD_LABELS,
 } from '../constants';
-import HeadLabel from './HeadLabel';
-import SetAllowancesField from './SetAllowancesField';
 
-const headLabels = (
-  <Row>
-    <HeadLabel translationId="ui-finance.ledger.rollover.fundType" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.allocation" />
-    <HeadLabel translationId="ui-finance.ledger.rollover.adjustAllocation" size={1} />
-    <HeadLabel translationId="ui-finance.ledger.rollover.rolloverBudgetValue" required />
-    <HeadLabel translationId="ui-finance.ledger.rollover.rolloverValueAs" required />
-    <HeadLabel translationId="ui-finance.ledger.rollover.setAllowances" size={1} />
-    <HeadLabel translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
-    <HeadLabel translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
-  </Row>
-);
+import SetAllowancesField from './SetAllowancesField';
 
 const RolloverLedgerBudgets = ({ fundTypesMap }) => {
   const intl = useIntl();
@@ -117,7 +105,7 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
 
   return (
     <RepeatableField
-      headLabels={headLabels}
+      headLabels={ROLLOVER_LEDGER_BUDGETS_HEAD_LABELS}
       id="budgetsRollover"
       onRemove={false}
       renderField={renderBudgetFields}

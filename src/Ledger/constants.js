@@ -1,6 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { Row } from '@folio/stripes/components';
+
+import HeadLabel from './RolloverLedger/HeadLabel';
+
 export const LEDGER_ACCORDION = {
   information: 'information',
   financialSummary: 'financial-summary',
@@ -99,3 +103,25 @@ export const ROLLOVER_BUDGET_VALUE_OPTIONS = Object.values(ROLLOVER_BUDGET_VALUE
   labelId: ROLLOVER_BUDGET_VALUE_LABELS[value],
   value,
 }));
+
+export const ROLLOVER_LEDGER_BUDGETS_HEAD_LABELS = (
+  <Row>
+    <HeadLabel translationId="ui-finance.ledger.rollover.fundType" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.allocation" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.adjustAllocation" size={1} />
+    <HeadLabel translationId="ui-finance.ledger.rollover.rolloverBudgetValue" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.rolloverValueAs" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.setAllowances" size={1} />
+    <HeadLabel translationId="ui-finance.ledger.rollover.allowableEncumbrance" size={1} />
+    <HeadLabel translationId="ui-finance.ledger.rollover.allowableExpenditure" size={1} />
+  </Row>
+);
+
+export const ROLLOVER_ENCUMBRANCES_HEAD_LABELS = (
+  <Row>
+    <HeadLabel translationId="ui-finance.ledger.rollover.orderType" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.rollover" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.basedOn" />
+    <HeadLabel translationId="ui-finance.ledger.rollover.increaseBy" />
+  </Row>
+);

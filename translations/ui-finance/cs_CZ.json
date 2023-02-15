@@ -463,5 +463,11 @@
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} nebyl úspěšně přidělen do rozpočtu {toBudgetName}, protože překračuje celkovou částku přidělení <b>{fromBudgetName}</b> <b></b>",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Záporná dostupná částka",
     "transaction.confirmModal.negativeAvailableAmount.message": "Dokončení tohoto převodu povede k tomu, že <b>{budgetName}</b> bude mít zápornou dostupnou částku. Opravdu chcete dokončit tuto transakci?",
-    "transaction.transfer.budgetNotFoundForTransaction": "{amount} nebyl úspěšně převeden, protože <b>{fundCode}</b> nemá žádný rozpočet"
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount} nebyl úspěšně převeden, protože <b>{fundCode}</b> nemá žádný rozpočet",
+    "ledger.rollover.rolloverBudgetValue": "Hodnota rozpočtu při převrácení",
+    "ledger.rollover.rolloverBudgetValue.available": "Dostupný",
+    "ledger.rollover.rolloverBudgetValue.none": "Žádný",
+    "ledger.rollover.rolloverBudgetValue.cashBalance": "Zůstatek hotovosti",
+    "ledger.rollover.rolloverValueAs": "Hodnota převrácení jako",
+    "ledger.rollover.logs.settings": "Nastavení"
 }

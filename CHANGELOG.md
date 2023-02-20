@@ -10,6 +10,7 @@
 * *BREAKING*: Update `@folio/stripes` to `8.0.0`. Refs UIF-430.
 * Add rollover budget "Cash balance" setting to rollover screen. Refs UIF-440.
 * Add possibility to display FY rollover settings for each rollover AND test rollover. Refs UIF-443.
+* Unpin `@rehooks/local-storage` now that it's no longer broken. Refs UIF-431.
 
 ## [3.3.2](https://github.com/folio-org/ui-finance/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.1...v3.3.2)

@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [4.0.0](https://github.com/folio-org/ui-finance/tree/v4.0.0) (2023-02-23)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.2...v4.0.0)
+
 * UX: Spacing of rollover buttons on Finance app. Refs  UIF-417.
 * Provide local translations to `ControlledVocab`. Refs UIF-408.
 * Results List | Hyperlink one column to improve accessibility. Refs UIF-410.

@@ -459,15 +459,15 @@
     "groups.item.information.fiscalYear.current": "Atual:",
     "groups.item.information.fiscalYear.previous": "Anterior:",
     "fiscalYear.actions.save.error.invalidFiscalYearCode": "O formato do código do ano fiscal deve ser alfanumérico seguido por um número de quatro dígitos. Por exemplo: FY2020",
-    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
-    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
-    "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
-    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
-    "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount} não foi alocado com sucesso porque <b> {fundCode} </b> não tem orçamento",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} não foi alocado com sucesso para o orçamento <b> {toBudgetName} </b> porque excede o valor total de alocação de <b> {fromBudgetName} </b>",
+    "transaction.confirmModal.negativeAvailableAmount.heading": "Montante disponível negativo",
+    "transaction.confirmModal.negativeAvailableAmount.message": "A conclusão desta transferência resultará em <b> {budgetName} </b> com um valor disponível negativo. Tem certeza de que deseja concluir esta transação?",
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount} não foi transferido com sucesso porque <b> {fundCode} </b> não tem orçamento",
     "ledger.rollover.rolloverBudgetValue": "Valor do orçamento de rolagem",
     "ledger.rollover.rolloverBudgetValue.available": "Disponível",
     "ledger.rollover.rolloverBudgetValue.none": "Nenhum",
     "ledger.rollover.rolloverBudgetValue.cashBalance": "Saldo de caixa",
     "ledger.rollover.rolloverValueAs": "Valor de rolagem como",
-    "ledger.rollover.logs.settings": "Settings"
+    "ledger.rollover.logs.settings": "Configurações"
 }

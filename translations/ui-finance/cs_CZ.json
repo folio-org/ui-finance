@@ -133,7 +133,7 @@
     "transaction.source.User": "Uživatel",
     "transaction.source.Voucher": "Poukaz",
     "transaction.source": "Zdroj",
-    "transaction.tags": "Tagy",
+    "transaction.tags": "Štítky",
     "transaction.to": "Na",
     "transaction.transfer.hasBeenCreated": "{amount} byla úspěšně převedena do rozpočtu {budgetName}",
     "transaction.transfer.title": "Převod",

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router';
 import { GROUPS_ROUTE } from '../../common/const';
 import GroupDetails from './GroupDetails';
 import { GroupDetailsContainer } from './GroupDetailsContainer';
-import { getGroupSummary } from './utils';
+import { getGroupSummary, getLedgersCurrentFiscalYears } from './utils';
 import { useFundsGroupMutation, useFundGroupMutation } from './hooks';
 
 jest.mock('@folio/stripes-acq-components', () => ({
@@ -16,7 +16,7 @@ jest.mock('./utils', () => ({
   ...jest.requireActual('./utils'),
   getGroupLedgers: jest.fn(() => () => Promise.resolve({ ledgers: [{ id: 'ledgerId' }] })),
   getGroupSummary: jest.fn(),
-  getLedgersCurrentFiscalYears: jest.fn(() => () => Promise.resolve(['fyId'])),
+  getLedgersCurrentFiscalYears: jest.fn(() => () => Promise.resolve([{ id: 'fyId' }])),
 }));
 jest.mock('./hooks', () => ({
   useFundsGroupMutation: jest.fn(),
@@ -32,13 +32,16 @@ const historyMock = {
   go: jest.fn(),
   listen: jest.fn(),
 };
+
+const mockFY = { id: 'fyId' };
+
 const mutatorMock = {
   groupDetails: {
     GET: jest.fn(),
     DELETE: jest.fn(),
   },
   groupFiscalYears: {
-    GET: jest.fn().mockReturnValue(Promise.resolve([{ id: 'fyId' }])),
+    GET: jest.fn().mockReturnValue(Promise.resolve([mockFY])),
   },
   groupSummaries: {
     GET: jest.fn().mockReturnValue(Promise.resolve([{}])),
@@ -60,6 +63,9 @@ const mutateFundGroupMock = jest.fn().mockReturnValue(Promise.resolve());
 describe('GroupDetailsContainer', () => {
   beforeEach(() => {
     historyMock.push.mockClear();
+    GroupDetails.mockClear();
+    getLedgersCurrentFiscalYears.mockClear();
+    mutatorMock.groupFiscalYears.GET.mockClear();
 
     useFundsGroupMutation.mockClear().mockReturnValue({ mutateFundsGroup: mutateFundsGroupMock });
     useFundGroupMutation.mockClear().mockReturnValue({ mutateFundGroup: mutateFundGroupMock });
@@ -71,6 +77,23 @@ describe('GroupDetailsContainer', () => {
     await screen.findByText('GroupDetails');
 
     expect(screen.getByText('GroupDetails')).toBeDefined();
+  });
+
+  it('should select first current FY as default', async () => {
+    await act(async () => renderGroupDetailsContainer());
+
+    expect(GroupDetails.mock.calls[0][0].selectedFY).toEqual(mockFY);
+  });
+
+  it('should select first previous FY as default if there are no current FYs', async () => {
+    const mockPrevFY = { id: 'prevFYId' };
+
+    mutatorMock.groupFiscalYears.GET.mockReturnValue(Promise.resolve([mockPrevFY]));
+    getLedgersCurrentFiscalYears.mockReturnValue(() => Promise.resolve([]));
+
+    await act(async () => renderGroupDetailsContainer());
+
+    expect(GroupDetails.mock.calls[0][0].selectedFY).toEqual(mockPrevFY);
   });
 
   describe('Actions', () => {

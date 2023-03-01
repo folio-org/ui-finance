@@ -70,10 +70,11 @@ export const GroupDetailsContainer = ({
       ]) => {
         const ledgerIds = uniq(groupLedgers.map(({ id: ledgerId }) => ledgerId));
         const currentFYs = await getLedgersCurrentFiscalYears(ky)(ledgerIds).then(sortGroupFiscalYears);
+        const previousFYs = sortGroupFiscalYears(differenceBy(groupFiscalYears, currentFYs, 'id'));
 
         const aggregatedFiscalYears = {
           current: currentFYs,
-          previous: sortGroupFiscalYears(differenceBy(groupFiscalYears, currentFYs, 'id')),
+          previous: previousFYs,
         };
 
         setGroupData(prevGroupData => ({
@@ -88,6 +89,8 @@ export const GroupDetailsContainer = ({
           newFiscalYear = fiscalYear;
         } else if (currentFYs[0]) {
           newFiscalYear = currentFYs[0];
+        } else if (previousFYs[0]) {
+          newFiscalYear = previousFYs[0];
         }
 
         setSelectedFY(newFiscalYear);

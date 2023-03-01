@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* NPE in GroupDetails if a Ledger does not have an active fiscal year. Refs UIF-446
+
 ## [4.0.0](https://github.com/folio-org/ui-finance/tree/v4.0.0) (2023-02-23)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.2...v4.0.0)
 

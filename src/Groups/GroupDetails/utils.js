@@ -18,9 +18,13 @@ export const getLedgersCurrentFiscalYears = (ky) => (ledgerIds = []) => {
     .reduce(async (acc, ledgerIdsChunk) => {
       const data = await acc;
 
-      const currentFiscalYears = await Promise.all(ledgerIdsChunk.map(ledgerId => {
+      const currentFiscalYearsSettled = await Promise.allSettled(ledgerIdsChunk.map(ledgerId => {
         return ky.get(`finance/ledgers/${ledgerId}/current-fiscal-year`).json();
       }));
+
+      const currentFiscalYears = currentFiscalYearsSettled
+        .map(({ value }) => value)
+        .filter(Boolean);
 
       return data.concat(currentFiscalYears);
     }, Promise.resolve([]))

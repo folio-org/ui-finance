@@ -464,10 +464,10 @@
     "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
     "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
     "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget",
-    "ledger.rollover.rolloverBudgetValue": "Rollover budget value",
-    "ledger.rollover.rolloverBudgetValue.available": "Available",
-    "ledger.rollover.rolloverBudgetValue.none": "None",
-    "ledger.rollover.rolloverBudgetValue.cashBalance": "Cash balance",
-    "ledger.rollover.rolloverValueAs": "Rollover value as",
+    "ledger.rollover.rolloverBudgetValue": "ロールオーバー予算値",
+    "ledger.rollover.rolloverBudgetValue.available": "利用可能",
+    "ledger.rollover.rolloverBudgetValue.none": "なし",
+    "ledger.rollover.rolloverBudgetValue.cashBalance": "現金残高",
+    "ledger.rollover.rolloverValueAs": "ロールオーバー値",
     "ledger.rollover.logs.settings": "Settings"
 }

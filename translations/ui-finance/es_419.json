@@ -444,7 +444,7 @@
     "ledger.rollover.status.notStarted": "Not started",
     "ledger.rollover.status.success": "Successful",
     "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue.",
-    "ledger.rollover.error.conflict": "<b>{ledgerName}</b> was already rolled over from the fiscal year <b>{fromFYcode}</b> to the fiscal year <b>{toFYcode}</b>",
+    "ledger.rollover.error.conflict": "<b> {ledgerName} </b> ya se transfirió del año fiscal <b> {fromFYcode} </b> al año fiscal <b> {toFYcode} </b>",
     "ledger.rollover.logs.results.export.start": "Se ha iniciado la exportación de los resultados presupuestarios",
     "settings.expenseClasses.cannotDeleteTermHeader": "No se puede eliminar la clase de gasto",
     "settings.expenseClasses.cannotDeleteTermMessage": "Esta clase de gasto no puede eliminarse, ya que está siendo utilizada por uno o más registros.",

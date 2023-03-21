@@ -460,7 +460,7 @@
     "groups.item.information.fiscalYear.previous": "Anteriormente",
     "fiscalYear.actions.save.error.invalidFiscalYearCode": "Año fiscal El formato del código debe ser un alfabeto seguido de un número de cuatro dígitos. Ej. EjemploFY2020",
     "transaction.allocation.budgetNotFoundForTransaction": "{amount} no se ha asignado correctamente porque <b>{fundCode}</b> no tiene presupuesto",
-    "transaction.allocation.notEnoughMoneyForAllocationError": "{importe} no se ha asignado correctamente al presupuesto <b>{aNombrePresupuesto}</b> porque supera el importe total de la asignación de <b>{deNombrePresupuesto}</b>.",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} no se ha asignado correctamente al presupuesto <b>{toBudgetName}</b> porque supera el importe total de la asignación de <b>{fromBudgetName}</b>.",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Importe disponible negativo",
     "transaction.confirmModal.negativeAvailableAmount.message": "Completar esta transferencia hará que <b>{budgetName}</b> tenga un importe disponible negativo. Está seguro de que desea completar esta transacción?",
     "transaction.transfer.budgetNotFoundForTransaction": "{amount} no se ha transferido correctamente porque <b>{fundCode}</b> no tiene presupuesto",

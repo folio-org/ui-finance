@@ -7,12 +7,24 @@ import {
   Col,
   KeyValue,
   NoValue,
+  FormattedDate,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsView,
-  FolioFormattedDate,
 } from '@folio/stripes-acq-components';
+
+const renderUTCTime = value => (
+  <FormattedDate
+    value={value}
+    year="numeric"
+    month="numeric"
+    day="numeric"
+    hour="numeric"
+    minute="numeric"
+    timeZone="UTC"
+  />
+);
 
 const FiscalYearInformation = ({
   acqUnitIds,
@@ -52,9 +64,9 @@ const FiscalYearInformation = ({
           xs={3}
         >
           <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.periodStart" />}
+            label={<FormattedMessage id="ui-finance.fiscalYear.information.periodEndUTC" />}
           >
-            <FolioFormattedDate value={periodStart} />
+            {renderUTCTime(periodStart)}
           </KeyValue>
         </Col>
 
@@ -63,9 +75,9 @@ const FiscalYearInformation = ({
           xs={3}
         >
           <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.periodEnd" />}
+            label={<FormattedMessage id="ui-finance.fiscalYear.information.periodEndUTC" />}
           >
-            <FolioFormattedDate value={periodEnd} />
+            {renderUTCTime(periodEnd)}
           </KeyValue>
         </Col>
 

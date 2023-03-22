@@ -195,7 +195,7 @@ const FiscalYearForm = ({
 
                         <Col xs={4}>
                           <FieldDatepickerFinal
-                            labelId="ui-finance.fiscalYear.information.periodStart"
+                            labelId="ui-finance.fiscalYear.information.periodStartUTC"
                             name="periodStart"
                             required
                             validate={validateRequired}
@@ -205,7 +205,7 @@ const FiscalYearForm = ({
 
                         <Col xs={4}>
                           <FieldDatepickerFinal
-                            labelId="ui-finance.fiscalYear.information.periodEnd"
+                            labelId="ui-finance.fiscalYear.information.periodEndUTC"
                             name="periodEnd"
                             required
                             validate={validateRequired}

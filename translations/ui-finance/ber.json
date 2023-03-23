@@ -469,5 +469,7 @@
     "ledger.rollover.rolloverBudgetValue.none": "None",
     "ledger.rollover.rolloverBudgetValue.cashBalance": "Cash balance",
     "ledger.rollover.rolloverValueAs": "Rollover value as",
-    "ledger.rollover.logs.settings": "Settings"
+    "ledger.rollover.logs.settings": "Settings",
+    "fiscalYear.information.periodEndUTC": "Period End Date (UTC)",
+    "fiscalYear.information.periodStartUTC": "Period Begin Date (UTC)"
 }

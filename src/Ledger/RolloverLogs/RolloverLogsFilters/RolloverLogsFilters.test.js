@@ -1,5 +1,5 @@
 import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { useOkapiKy } from '@folio/stripes/core';
 
@@ -10,7 +10,11 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: jest.fn(() => ({ search: '' })),
 }));
-jest.mock('@folio/stripes-core/src/useOkapiKy', () => jest.fn(() => ({})));
+
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  useOkapiKy: jest.fn(() => ({})),
+}));
 
 const defaultProps = {
   activeFilters: {},

@@ -469,5 +469,7 @@
     "ledger.rollover.rolloverBudgetValue.none": "なし",
     "ledger.rollover.rolloverBudgetValue.cashBalance": "現金残高",
     "ledger.rollover.rolloverValueAs": "ロールオーバー値",
-    "ledger.rollover.logs.settings": "Settings"
+    "ledger.rollover.logs.settings": "Settings",
+    "fiscalYear.information.periodEndUTC": "Period End Date (UTC)",
+    "fiscalYear.information.periodStartUTC": "Period Begin Date (UTC)"
 }

@@ -469,5 +469,7 @@
     "ledger.rollover.rolloverBudgetValue.none": "Ninguno",
     "ledger.rollover.rolloverBudgetValue.cashBalance": "Saldo de caja",
     "ledger.rollover.rolloverValueAs": "Valor de prórroga como",
-    "ledger.rollover.logs.settings": "Configuración"
+    "ledger.rollover.logs.settings": "Configuración",
+    "fiscalYear.information.periodEndUTC": "Fecha de fin de período (UTC)",
+    "fiscalYear.information.periodStartUTC": "Fecha de inicio del período (UTC)"
 }

@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+## [4.0.3](https://github.com/folio-org/ui-finance/tree/v4.0.3) (2023-03-24)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.2...v4.0.3)
+
+* translation updates
+
 ## [4.0.2](https://github.com/folio-org/ui-finance/tree/v4.0.2) (2023-03-24)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.1...v4.0.2)
 

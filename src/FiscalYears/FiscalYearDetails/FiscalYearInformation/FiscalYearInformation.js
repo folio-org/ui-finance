@@ -64,7 +64,7 @@ const FiscalYearInformation = ({
           xs={3}
         >
           <KeyValue
-            label={<FormattedMessage id="ui-finance.fiscalYear.information.periodEndUTC" />}
+            label={<FormattedMessage id="ui-finance.fiscalYear.information.periodStartUTC" />}
           >
             {renderUTCTime(periodStart)}
           </KeyValue>

@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [4.0.2](https://github.com/folio-org/ui-finance/tree/v4.0.2) (2023-03-24)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.1...v4.0.2)
+
 * Display FY start/end in UTC. Refs UIF-357.
 
 ## [4.0.1](https://github.com/folio-org/ui-finance/tree/v4.0.1) (2023-03-10)

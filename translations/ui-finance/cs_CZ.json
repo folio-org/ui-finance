@@ -469,5 +469,7 @@
     "ledger.rollover.rolloverBudgetValue.none": "Žádný",
     "ledger.rollover.rolloverBudgetValue.cashBalance": "Zůstatek hotovosti",
     "ledger.rollover.rolloverValueAs": "Hodnota převrácení jako",
-    "ledger.rollover.logs.settings": "Nastavení"
+    "ledger.rollover.logs.settings": "Nastavení",
+    "fiscalYear.information.periodEndUTC": "Datum ukončení období (UTC)",
+    "fiscalYear.information.periodStartUTC": "Datum začátku období (UTC)"
 }

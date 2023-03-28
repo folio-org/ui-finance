@@ -416,7 +416,7 @@
     "continue": "继续",
     "ledger.rollover.testBtn": "测试展期",
     "ledger.rolloverTest.confirm.heading": "财务年度展期测试",
-    "ledger.rolloverTest.confirm.message": "请确认已完成必要的详细信息并准备好继续展期测试。此过程可能需要几分钟才能完成。该过程完成后，将向<b> {email} </b>发送一个指向结果的链接。",
+    "ledger.rolloverTest.confirm.message": "请确认已完成必要的详请并准备好继续展期测试。此过程可能需要几分钟才能完成。该过程完成后，将向<b> {email} </b>发送一个指向结果的链接。",
     "ledger.rolloverTest.start.success": "<b> {ledgerName} </b>展期测试已成功开始",
     "invoice.vendorInvoiceNo": "供应商发票号",
     "invoice.vendor": "供应商",
@@ -470,6 +470,6 @@
     "ledger.rollover.rolloverBudgetValue.cashBalance": "现金余额",
     "ledger.rollover.rolloverValueAs": "展期值为",
     "ledger.rollover.logs.settings": "设置",
-    "fiscalYear.information.periodEndUTC": "Period End Date (UTC)",
-    "fiscalYear.information.periodStartUTC": "Period Begin Date (UTC)"
+    "fiscalYear.information.periodEndUTC": "期间结束日期(UTC)",
+    "fiscalYear.information.periodStartUTC": "期间开始日期(UTC)"
 }

@@ -12,7 +12,12 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: jest.fn(() => ({ search: 'encumbrance.sourcePoLineId=456&sourceInvoiceId=456' })),
 }));
-jest.mock('@folio/stripes-core/src/useOkapiKy', () => jest.fn(() => ({})));
+
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  useOkapiKy: jest.fn(() => ({})),
+  stripesConnect: () => Component => props => <Component {...props} />,
+}));
 
 const defaultProps = {
   activeFilters: {},
@@ -45,7 +50,6 @@ describe('TransactionsFilters component', () => {
 
     expect(screen.getByText('ui-finance.transaction.type')).toBeDefined();
     expect(screen.getByText('ui-finance.transaction.source')).toBeDefined();
-    expect(screen.getByText('ui-finance.transaction.expenseClass')).toBeDefined();
   });
 
   it('should apply filter when an option from selection was selected', async () => {

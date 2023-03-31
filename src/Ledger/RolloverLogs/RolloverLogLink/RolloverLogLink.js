@@ -9,6 +9,7 @@ import {
 } from '@folio/stripes/components';
 import {
   formatDate,
+  LIMIT_MAX,
   TIMEZONE,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -51,6 +52,7 @@ export const RolloverLogLink = ({
     return ky.get(LEDGER_ROLLOVER_ERRORS_API, {
       searchParams: {
         query: `ledgerRolloverId=="${ledgerRolloverId}"`,
+        limit: LIMIT_MAX,
       },
     })
       .json()
@@ -69,6 +71,7 @@ export const RolloverLogLink = ({
     return ky.get(LEDGER_ROLLOVER_BUDGETS_API, {
       searchParams: {
         query: `ledgerRolloverId=="${ledgerRolloverId}"`,
+        limit: LIMIT_MAX,
       },
     })
       .json()

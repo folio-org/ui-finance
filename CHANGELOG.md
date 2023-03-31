@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* After performing the test rollover, only the last 10 budgets are displayed. Refs UIF-455
+
 ## [4.0.3](https://github.com/folio-org/ui-finance/tree/v4.0.3) (2023-03-24)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.2...v4.0.3)
 

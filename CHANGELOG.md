@@ -6,6 +6,7 @@
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.3...v4.0.4)
 
 * After performing the test rollover, only the last 10 budgets are displayed. Refs UIF-455
+* Avoid private paths in stripes-core imports. Refs UIF-453.
 
 ## [4.0.3](https://github.com/folio-org/ui-finance/tree/v4.0.3) (2023-03-24)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.2...v4.0.3)
@@ -16,7 +17,6 @@
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.1...v4.0.2)
 
 * Display FY start/end in UTC. Refs UIF-357.
-* Avoid private paths in stripes-core imports. Refs UIF-453.
 
 ## [4.0.1](https://github.com/folio-org/ui-finance/tree/v4.0.1) (2023-03-10)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.0...v4.0.1)

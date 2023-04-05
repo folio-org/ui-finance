@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+## [3.3.3](https://github.com/folio-org/ui-finance/tree/v3.3.3) (2023-04-05)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.2...v3.3.3)
+
+* After performing the test rollover, only the last 10 budgets are displayed. Refs UIF-456.
+
 ## [3.3.2](https://github.com/folio-org/ui-finance/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.3.1...v3.3.2)
 

@@ -1,6 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Field } from 'react-final-form';
 import { useHistory } from 'react-router';
 import {
@@ -45,7 +45,10 @@ import {
   FUNDS_ROUTE,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
-import { validateDuplicateFieldValue } from '../../common/utils';
+import {
+  getFormattedOptions,
+  validateDuplicateFieldValue,
+} from '../../common/utils';
 import {
   FUND_STATUSES_OPTIONS,
   SECTIONS_FUND,
@@ -66,6 +69,7 @@ const FundForm = ({
   systemCurrency,
   errorCode,
 }) => {
+  const intl = useIntl();
   const ky = useOkapiKy();
   const accordionStatusRef = useRef();
   const history = useHistory();
@@ -135,6 +139,8 @@ const FundForm = ({
       currency,
     }),
   );
+
+  const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
 
   const paneTitle = fundId
     ? initialValues.fund.name
@@ -286,7 +292,7 @@ const FundForm = ({
                           xs={3}
                         >
                           <FieldSelection
-                            dataOptions={FUND_STATUSES_OPTIONS}
+                            dataOptions={fundStatusOptions}
                             labelId="ui-finance.fund.information.status"
                             name="fund.fundStatus"
                             required

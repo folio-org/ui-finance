@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { useCallback, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { useHistory } from 'react-router';
@@ -29,6 +29,7 @@ import {
   GROUPS_ROUTE,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
+import { getFormattedOptions } from '../../common/utils';
 import { GROUP_STATUS_OPTIONS } from '../constants';
 
 const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
@@ -42,8 +43,11 @@ const GroupForm = ({
   submitting,
   errorCode,
 }) => {
+  const intl = useIntl();
   const history = useHistory();
   const closeForm = useCallback(() => onCancel(), [onCancel]);
+
+  const groupStatusOptions = useMemo(() => getFormattedOptions(intl, GROUP_STATUS_OPTIONS), [intl]);
 
   const isEditMode = Boolean(initialValues.id);
 
@@ -120,7 +124,7 @@ const GroupForm = ({
 
                   <Col xs={3}>
                     <FieldSelectionFinal
-                      dataOptions={GROUP_STATUS_OPTIONS}
+                      dataOptions={groupStatusOptions}
                       id="group-status"
                       labelId="ui-finance.groups.item.information.status"
                       name="status"

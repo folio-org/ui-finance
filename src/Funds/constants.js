@@ -15,7 +15,6 @@ export const FUND_STATUSES = {
   FROZEN: 'Frozen',
 };
 
-// use already formatted labels in selections
 export const FUND_STATUSES_OPTIONS = [
   { labelId: 'ui-finance.fund.status.active', value: FUND_STATUSES.ACTIVE },
   { labelId: 'ui-finance.fund.status.inactive', value: FUND_STATUSES.INACTIVE },

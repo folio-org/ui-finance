@@ -54,7 +54,7 @@ import {
   SECTIONS_FUND,
 } from '../constants';
 
-const itemToString = item => item;
+const parseMultiSelectionValue = (items) => items.map(({ value }) => value);
 
 const FundForm = ({
   handleSubmit,
@@ -134,13 +134,13 @@ const FundForm = ({
     [fundId],
   );
 
-  const ledgerOptions = ledgers.map(
+  const ledgerOptions = useMemo(() => ledgers.map(
     ({ name, id, currency }) => ({
       label: name,
       value: id,
       currency,
     }),
-  );
+  ), [ledgers]);
 
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
 
@@ -150,25 +150,29 @@ const FundForm = ({
   const metadata = initialValues.fund.metadata;
   const selectedLedger = find(ledgerOptions, ['value', fundLedgerId]);
   const fundCurrency = get(selectedLedger, 'currency') || systemCurrency;
-  const fundOptions = funds.map(({ id }) => id);
 
-  const formatter = ({ option }) => {
-    const item = find(funds, { id: option }) || option;
+  const fundOptions = useMemo(() => {
+    return funds.map(({ id, name }) => ({ value: id, label: name }));
+  }, [funds]);
 
-    if (!item) return option;
+  const formatFundsFieldValue = useCallback((parsedIds) => {
+    return parsedIds?.map(id => {
+      const fund = find(funds, { id });
 
-    return item.name;
-  };
+      return {
+        label: fund?.name || id,
+        value: id,
+      };
+    });
+  }, [funds]);
 
-  const filter = (filterText, list) => {
+  const filter = useCallback((filterText, list) => {
     const renderedItems = filterText
-      ? funds
-        .filter(fund => fund.name.toLowerCase().includes(filterText.toLowerCase()))
-        .map(({ id }) => id)
+      ? list.filter(({ label }) => label.toLowerCase().includes(filterText.toLowerCase()))
       : list;
 
     return { renderedItems };
-  };
+  }, []);
 
   const isEditMode = Boolean(fundId);
 
@@ -354,8 +358,8 @@ const FundForm = ({
                             dataOptions={fundOptions}
                             label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
                             name="fund.allocatedFromIds"
-                            itemToString={itemToString}
-                            formatter={formatter}
+                            parse={parseMultiSelectionValue}
+                            format={formatFundsFieldValue}
                             filter={filter}
                             validateFields={[]}
                           />
@@ -369,8 +373,8 @@ const FundForm = ({
                             dataOptions={fundOptions}
                             label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
                             name="fund.allocatedToIds"
-                            itemToString={itemToString}
-                            formatter={formatter}
+                            parse={parseMultiSelectionValue}
+                            format={formatFundsFieldValue}
                             filter={filter}
                             validateFields={[]}
                           />

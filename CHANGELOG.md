@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * A user cannot type anything in the list of filter options for the "Status" field in the fund form. Refs UIF-458.
+* Filter in "Transfer from" and "Transfer to" fields does not work when creating a new fund. Refs UIF-457.
 
 ## [4.0.4](https://github.com/folio-org/ui-finance/tree/v4.0.4) (2023-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.3...v4.0.4)

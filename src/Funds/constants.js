@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 export const SECTIONS_FUND = {
   INFORMATION: 'information',
@@ -16,9 +15,9 @@ export const FUND_STATUSES = {
 };
 
 export const FUND_STATUSES_OPTIONS = [
-  { label: <FormattedMessage id="ui-finance.fund.status.active" />, value: FUND_STATUSES.ACTIVE },
-  { label: <FormattedMessage id="ui-finance.fund.status.inactive" />, value: FUND_STATUSES.INACTIVE },
-  { label: <FormattedMessage id="ui-finance.fund.status.frozen" />, value: FUND_STATUSES.FROZEN },
+  { labelId: 'ui-finance.fund.status.active', value: FUND_STATUSES.ACTIVE },
+  { labelId: 'ui-finance.fund.status.inactive', value: FUND_STATUSES.INACTIVE },
+  { labelId: 'ui-finance.fund.status.frozen', value: FUND_STATUSES.FROZEN },
 ];
 
 export const FUND_FILTERS = {

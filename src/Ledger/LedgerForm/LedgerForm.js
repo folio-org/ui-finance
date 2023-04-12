@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { useHistory } from 'react-router';
@@ -39,6 +39,7 @@ import {
   LEDGERS_ROUTE,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
+import { getFormattedOptions } from '../../common/utils';
 import {
   LEDGER_ACCORDION_LABELS,
   LEDGER_ACCORDION,
@@ -60,9 +61,12 @@ const LedgerForm = ({
   pristine,
   errorCode,
 }) => {
+  const intl = useIntl();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const closeForm = useCallback(() => onCancel(), [onCancel]);
+
+  const ledgerStatusOptions = useMemo(() => getFormattedOptions(intl, LEDGER_STATUS_OPTIONS), [intl]);
 
   const isEditMode = Boolean(initialValues.id);
   const paneFooter = (
@@ -169,7 +173,7 @@ const LedgerForm = ({
 
                         <Col data-test-col-ledger-form-status xs={3}>
                           <FieldSelectionFinal
-                            dataOptions={LEDGER_STATUS_OPTIONS}
+                            dataOptions={ledgerStatusOptions}
                             id="ledger-status"
                             labelId="ui-finance.ledger.status"
                             name="ledgerStatus"

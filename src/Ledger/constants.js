@@ -32,14 +32,14 @@ export const LEDGER_STATUS = {
   inactive: 'Inactive',
 };
 
-export const LEDGER_STATUS_LABEL = {
-  [LEDGER_STATUS.active]: <FormattedMessage id="ui-finance.ledger.status.active" />,
-  [LEDGER_STATUS.frozen]: <FormattedMessage id="ui-finance.ledger.status.frozen" />,
-  [LEDGER_STATUS.inactive]: <FormattedMessage id="ui-finance.ledger.status.inactive" />,
+export const LEDGER_STATUS_LABEL_ID = {
+  [LEDGER_STATUS.active]: 'ui-finance.ledger.status.active',
+  [LEDGER_STATUS.frozen]: 'ui-finance.ledger.status.frozen',
+  [LEDGER_STATUS.inactive]: 'ui-finance.ledger.status.inactive',
 };
 
 export const LEDGER_STATUS_OPTIONS = Object.values(LEDGER_STATUS).map(status => ({
-  label: LEDGER_STATUS_LABEL[status],
+  labelId: LEDGER_STATUS_LABEL_ID[status],
   value: status,
 }));
 

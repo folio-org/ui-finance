@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 import {
@@ -35,18 +35,25 @@ const defaultProps = {
   submitting: false,
 };
 
-const renderFundForm = (props = defaultProps) => (render(
+const renderFundForm = (props = {}) => (render(
   <MemoryRouter>
     <Form
       onSubmit={jest.fn}
       render={() => (
         <FundForm
+          {...defaultProps}
           {...props}
         />
       )}
     />
   </MemoryRouter>,
 ));
+
+const funds = [
+  { id: 'fund-1', name: 'Foo' },
+  { id: 'fund-2', name: 'Bar' },
+  { id: 'fund-3', name: 'Baz' },
+];
 
 describe('FundForm component', () => {
   it('should display title for new fund', () => {
@@ -93,6 +100,41 @@ describe('FundForm component', () => {
       user.click(screen.getByText('ui-finance.saveAndClose'));
 
       await waitFor(() => expect(screen.queryByText('stripes-acq-components.validation.required')).toBeInTheDocument());
+    });
+
+    it('should filter funds in the \'Transfer from\' field', async () => {
+      renderFundForm({ funds });
+
+      const container = (await screen.findByText('ui-finance.fund.information.transferFrom')).parentNode;
+      const label = within(container).getByText('ui-finance.fund.information.transferFrom');
+
+      user.click(label);
+
+      // Options before filtering
+      funds.forEach((async ({ name }) => {
+        expect(within(container).getByText(name)).toBeInTheDocument();
+      }));
+
+      user.type(document.activeElement, 'foo');
+
+      // Options after filtering
+      expect(within(container).queryByText(funds[0].name)).toBeInTheDocument();
+      expect(within(container).queryByText(funds[1].name)).not.toBeInTheDocument();
+      expect(within(container).queryByText(funds[2].name)).not.toBeInTheDocument();
+
+      screen.debug(container, 100000);
+    });
+
+    it('should select funds options in the \'Transfer to\' field', async () => {
+      renderFundForm({ funds });
+
+      const container = (await screen.findByText('ui-finance.fund.information.transferTo')).parentNode;
+
+      funds.forEach(({ name }) => {
+        user.click(within(container).queryByText(name));
+      });
+
+      expect(within(container).getByText(`${funds.length} items selected`)).toBeInTheDocument();
     });
   });
 

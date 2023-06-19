@@ -99,17 +99,26 @@ export const RolloverLogLink = ({
     showCallout,
   ]);
 
-  if (type !== LEDGER_ROLLOVER_LINK_TYPES_MAP[rolloverStatus]) return <NoValue />;
-
-  return (
-    <TextLink
-      data-testid="rollover-log-link"
-      className={css.link}
-      onClick={onClick}
-    >
-      {filename}
-    </TextLink>
+  const hasErrorLink = (
+    type === LEDGER_ROLLOVER_LINK_TYPES.error
+    && type === LEDGER_ROLLOVER_LINK_TYPES_MAP[rolloverStatus]
   );
+  const hasResultLink = (
+    type === LEDGER_ROLLOVER_LINK_TYPES.result
+    && Boolean(LEDGER_ROLLOVER_LINK_TYPES_MAP[rolloverStatus])
+  );
+
+  return hasErrorLink || hasResultLink
+    ? (
+      <TextLink
+        data-testid="rollover-log-link"
+        className={css.link}
+        onClick={onClick}
+      >
+        {filename}
+      </TextLink>
+    )
+    : <NoValue />;
 };
 
 RolloverLogLink.propTypes = {

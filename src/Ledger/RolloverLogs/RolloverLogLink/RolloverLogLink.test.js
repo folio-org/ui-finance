@@ -62,13 +62,19 @@ describe('RolloverLogLink', () => {
       .mockReturnValue(getMockedKy({ data: exportReport }));
   });
 
-  it('should display link for rollover result', () => {
+  it('should display result link for successful rollover', () => {
     renderRolloverLogs();
 
     expect(screen.getByText(/-result/)).toBeInTheDocument();
   });
 
-  it('should display link for rollover error', () => {
+  it('should not display error link for successful rollover', () => {
+    renderRolloverLogs({ type: LEDGER_ROLLOVER_LINK_TYPES.error });
+
+    expect(screen.queryByText(/-error/)).not.toBeInTheDocument();
+  });
+
+  it('should display error link for failed rollover', () => {
     renderRolloverLogs({
       type: LEDGER_ROLLOVER_LINK_TYPES.error,
       rolloverLog: rolloverLogs[2],
@@ -77,10 +83,31 @@ describe('RolloverLogLink', () => {
     expect(screen.getByText(/-error/)).toBeInTheDocument();
   });
 
-  it('should NOT display link to result or error if rollover in progress', () => {
-    renderRolloverLogs({ rolloverLog: rolloverLogs[1] });
+  it('should display result link for failed rollover', () => {
+    renderRolloverLogs({
+      type: LEDGER_ROLLOVER_LINK_TYPES.result,
+      rolloverLog: rolloverLogs[2],
+    });
 
-    expect(screen.queryByText(/-result/)).not.toBeInTheDocument();
+    expect(screen.getByText(/-result/)).toBeInTheDocument();
+  });
+
+  it('should NOT display link to result if rollover in progress', () => {
+    renderRolloverLogs({
+      type: LEDGER_ROLLOVER_LINK_TYPES.result,
+      rolloverLog: rolloverLogs[1],
+    });
+
+    expect(screen.queryByText(/-error/)).not.toBeInTheDocument();
+  });
+
+  it('should NOT display link to errors if rollover in progress', () => {
+    renderRolloverLogs({
+      type: LEDGER_ROLLOVER_LINK_TYPES.error,
+      rolloverLog: rolloverLogs[1],
+    });
+
+    expect(screen.queryByText(/-error/)).not.toBeInTheDocument();
   });
 
   describe('Actions:', () => {

@@ -111,50 +111,6 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     [ledger, rollover, showCallout],
   );
 
-  const showConfirmation = useCallback(async (rolloverValues) => {
-    setSavingValues(rolloverValues);
-
-    const fyQuery = `metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}`;
-    const invoiceStatuses = [INVOICE_STATUS.open, INVOICE_STATUS.approved, INVOICE_STATUS.reviewed];
-    const query = invoiceStatuses.map(status => `(status=="${status}" and ${fyQuery})`).join(' or ');
-    const hasUnpaidInvoices = await ky.get(INVOICES_API, { searchParams: {
-      limit: 1,
-      query,
-    } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
-
-    const toggleConfirmationModal = ifRolloverPreview(rolloverValues)
-      ? toggleTestRolloverConfirmation
-      : toggleRolloverConfirmation;
-
-    return hasUnpaidInvoices ? toggleUnpaidInvoiceList() : toggleConfirmationModal();
-  }, [toggleTestRolloverConfirmation, toggleRolloverConfirmation, toggleUnpaidInvoiceList, currentFiscalYear, ky]);
-
-  const initial = useMemo(() => {
-    const initValues = {
-      ledgerId: ledger?.id,
-      budgetsRollover: [...(budgets?.reduce((fundTypeIdsSet, budget) => {
-        fundTypeIdsSet.add(funds?.find(({ id }) => id === budget.fundId)?.fundTypeId);
-
-        return fundTypeIdsSet;
-      }, new Set()) || [])].map(fundTypeId => ({
-        addAvailableTo: ADD_AVAILABLE_TO.transfer,
-        rolloverBudgetValue: ROLLOVER_BUDGET_VALUE.none,
-        fundTypeId,
-      })),
-      encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
-      needCloseBudgets: true,
-      fromFiscalYearId: currentFiscalYear?.id,
-      restrictEncumbrance: true,
-      restrictExpenditures: true,
-    };
-
-    if (toFiscalYearId && toFiscalYearSeries === series) {
-      initValues.toFiscalYearId = toFiscalYearId;
-    }
-
-    return initValues;
-  }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
-
   const checkIsRolloverAlreadyExist = useCallback(async (currentRollover) => {
     try {
       const { fromFiscalYearId: fromFY, toFiscalYearId: toFY } = currentRollover;
@@ -191,18 +147,70 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     }
   }, [fiscalYears, intl, ky, ledger, ledgerId, showCallout]);
 
-  const callRollover = useCallback(async () => {
-    const rolloverCb = ifRolloverPreview(savingValues) ? testRollover : rollover;
-    const isRolloverExist = await checkIsRolloverAlreadyExist(savingValues);
+  const showConfirmation = useCallback(async (rolloverValues) => {
+    const isRolloverExist = await checkIsRolloverAlreadyExist(rolloverValues);
 
-    if (!isRolloverExist) {
-      return rolloverCb(savingValues)
-        .then(close)
-        .catch(handleRolloverErrors);
+    if (isRolloverExist) {
+      return null;
     }
 
-    return false;
-  }, [close, handleRolloverErrors, checkIsRolloverAlreadyExist, rollover, savingValues, testRollover]);
+    setSavingValues(rolloverValues);
+
+    const fyQuery = `metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}`;
+    const invoiceStatuses = [INVOICE_STATUS.open, INVOICE_STATUS.approved, INVOICE_STATUS.reviewed];
+    const query = invoiceStatuses.map(status => `(status=="${status}" and ${fyQuery})`).join(' or ');
+    const hasUnpaidInvoices = await ky.get(INVOICES_API, { searchParams: {
+      limit: 1,
+      query,
+    } }).json().then(({ totalRecords }) => Boolean(totalRecords)).catch(() => false);
+
+    const toggleConfirmationModal = ifRolloverPreview(rolloverValues)
+      ? toggleTestRolloverConfirmation
+      : toggleRolloverConfirmation;
+
+    return hasUnpaidInvoices ? toggleUnpaidInvoiceList() : toggleConfirmationModal();
+  }, [
+    ky,
+    toggleTestRolloverConfirmation,
+    toggleRolloverConfirmation,
+    toggleUnpaidInvoiceList,
+    currentFiscalYear,
+    checkIsRolloverAlreadyExist,
+  ]);
+
+  const initial = useMemo(() => {
+    const initValues = {
+      ledgerId: ledger?.id,
+      budgetsRollover: [...(budgets?.reduce((fundTypeIdsSet, budget) => {
+        fundTypeIdsSet.add(funds?.find(({ id }) => id === budget.fundId)?.fundTypeId);
+
+        return fundTypeIdsSet;
+      }, new Set()) || [])].map(fundTypeId => ({
+        addAvailableTo: ADD_AVAILABLE_TO.transfer,
+        rolloverBudgetValue: ROLLOVER_BUDGET_VALUE.none,
+        fundTypeId,
+      })),
+      encumbrancesRollover: Object.values(ORDER_TYPE).map((orderType) => ({ orderType })),
+      needCloseBudgets: true,
+      fromFiscalYearId: currentFiscalYear?.id,
+      restrictEncumbrance: true,
+      restrictExpenditures: true,
+    };
+
+    if (toFiscalYearId && toFiscalYearSeries === series) {
+      initValues.toFiscalYearId = toFiscalYearId;
+    }
+
+    return initValues;
+  }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
+
+  const callRollover = useCallback(async () => {
+    const rolloverCb = ifRolloverPreview(savingValues) ? testRollover : rollover;
+
+    return rolloverCb(savingValues)
+      .then(close)
+      .catch(handleRolloverErrors);
+  }, [close, handleRolloverErrors, rollover, savingValues, testRollover]);
 
   const goToCreateFY = useCallback(() => {
     history.push({

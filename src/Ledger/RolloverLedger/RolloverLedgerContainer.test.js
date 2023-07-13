@@ -192,12 +192,6 @@ describe('RolloverLedgerContainer', () => {
         toFiscalYearId: fiscalYears[1].id,
       }));
 
-      await act(async () => user.click(screen.getByText('ui-finance.continue')));
-
-      const confirmBtn = await screen.findByText('ui-finance.ledger.rollover.confirm.btn');
-
-      await act(async () => user.click(confirmBtn));
-
       expect(defaultProps.mutator.ledgerRollover.POST).toHaveBeenCalled();
       await waitFor(() => expect(showCallout).toHaveBeenCalledWith({
         'message': 'ui-finance.ledger.rollover.error.conflict',

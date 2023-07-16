@@ -470,6 +470,6 @@
     "ledger.rollover.rolloverBudgetValue.cashBalance": "Kassenbestand",
     "ledger.rollover.rolloverValueAs": "Wert übertragen als",
     "ledger.rollover.logs.settings": "Einstellungen",
-    "fiscalYear.information.periodEndUTC": "Period End Date (UTC)",
-    "fiscalYear.information.periodStartUTC": "Period Begin Date (UTC)"
+    "fiscalYear.information.periodEndUTC": "Ende des Zeitraums (UTC)",
+    "fiscalYear.information.periodStartUTC": "Beginn des Zeitraums (UTC)"
 }

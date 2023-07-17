@@ -112,36 +112,42 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   );
 
   const checkIsRolloverAlreadyExist = useCallback(async (currentRollover) => {
-    const { fromFiscalYearId: fromFY, toFiscalYearId: toFY } = currentRollover;
-    const query = `ledgerId==${ledgerId} and rolloverType=="${LEDGER_ROLLOVER_TYPES.commit}" and fromFiscalYearId==${fromFY} and toFiscalYearId==${toFY}`;
-    const { totalRecords } = await ky.get(LEDGER_ROLLOVER_API, { searchParams: { query } }).json();
+    try {
+      const { fromFiscalYearId: fromFY, toFiscalYearId: toFY } = currentRollover;
+      const query = `ledgerId==${ledgerId} and rolloverType=="${LEDGER_ROLLOVER_TYPES.commit}" and fromFiscalYearId==${fromFY} and toFiscalYearId==${toFY}`;
+      const { totalRecords } = await ky.get(LEDGER_ROLLOVER_API, { searchParams: { query } }).json();
 
-    if (totalRecords) {
-      const { name: ledgerName } = ledger || {};
-      const fromFYcode = fiscalYears?.find(({ id }) => id === fromFY)?.code;
-      const toFYcode = fiscalYears?.find(({ id }) => id === toFY)?.code;
+      if (totalRecords) {
+        const { name: ledgerName } = ledger || {};
+        const fromFYcode = fiscalYears?.find(({ id }) => id === fromFY)?.code;
+        const toFYcode = fiscalYears?.find(({ id }) => id === toFY)?.code;
 
-      const message = intl.formatMessage(
-        {
-          id: 'ui-finance.ledger.rollover.error.conflict',
-        },
-        {
-          ledgerName,
-          fromFYcode,
-          toFYcode,
-        },
-      );
+        const message = intl.formatMessage(
+          {
+            id: 'ui-finance.ledger.rollover.error.conflict',
+          },
+          {
+            ledgerName,
+            fromFYcode,
+            toFYcode,
+          },
+        );
 
-      showCallout({
-        message,
-        type: 'error',
-      });
+        showCallout({
+          message,
+          type: 'error',
+        });
 
-      return true;
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      handleRolloverErrors(error);
+
+      return false;
     }
-
-    return false;
-  }, [fiscalYears, intl, ky, ledger, ledgerId, showCallout]);
+  }, [fiscalYears, handleRolloverErrors, intl, ky, ledger, ledgerId, showCallout]);
 
   const showConfirmation = useCallback(async (rolloverValues) => {
     const isRolloverExist = await checkIsRolloverAlreadyExist(rolloverValues);

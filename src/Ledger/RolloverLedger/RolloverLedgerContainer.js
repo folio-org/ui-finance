@@ -145,7 +145,7 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     } catch (error) {
       handleRolloverErrors(error);
 
-      return false;
+      return true;
     }
   }, [fiscalYears, handleRolloverErrors, intl, ky, ledger, ledgerId, showCallout]);
 

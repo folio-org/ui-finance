@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   stripesConnect,
@@ -21,6 +21,7 @@ import {
 
 import {
   LEDGERS_ROUTE,
+  LEDGER_ROLLOVER_API,
   LEDGER_ROLLOVER_TYPES,
 } from '../../common/const';
 import {
@@ -52,6 +53,7 @@ const ifRolloverPreview = (values) => {
 export const RolloverLedgerContainer = ({ resources, mutator, match, history, location, stripes }) => {
   const ky = useOkapiKy();
   const ledgerId = match.params.id;
+  const intl = useIntl();
 
   const showCallout = useShowCallout();
   const [showRolloverConfirmation, toggleRolloverConfirmation] = useModalToggle();
@@ -69,6 +71,8 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
   const ledger = resources.rolloverLedger.records[0];
   const { toFiscalYearId, toFiscalYearSeries } = location.state || {};
   const series = currentFiscalYear?.series;
+
+  const { fiscalYears } = useRolloverFiscalYears(series);
 
   const handleRolloverErrors = useRolloverErrorHandler({ ledger, currentFiscalYear });
 
@@ -107,7 +111,51 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     [ledger, rollover, showCallout],
   );
 
+  const checkIsRolloverAlreadyExist = useCallback(async (currentRollover) => {
+    try {
+      const { fromFiscalYearId: fromFY, toFiscalYearId: toFY } = currentRollover;
+      const query = `ledgerId==${ledgerId} and rolloverType=="${LEDGER_ROLLOVER_TYPES.commit}" and fromFiscalYearId==${fromFY} and toFiscalYearId==${toFY}`;
+      const { totalRecords } = await ky.get(LEDGER_ROLLOVER_API, { searchParams: { query } }).json();
+
+      if (totalRecords) {
+        const { name: ledgerName } = ledger || {};
+        const fromFYcode = fiscalYears?.find(({ id }) => id === fromFY)?.code;
+        const toFYcode = fiscalYears?.find(({ id }) => id === toFY)?.code;
+
+        const message = intl.formatMessage(
+          {
+            id: 'ui-finance.ledger.rollover.error.conflict',
+          },
+          {
+            ledgerName,
+            fromFYcode,
+            toFYcode,
+          },
+        );
+
+        showCallout({
+          message,
+          type: 'error',
+        });
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      handleRolloverErrors(error);
+
+      return true;
+    }
+  }, [fiscalYears, handleRolloverErrors, intl, ky, ledger, ledgerId, showCallout]);
+
   const showConfirmation = useCallback(async (rolloverValues) => {
+    const isRolloverExist = await checkIsRolloverAlreadyExist(rolloverValues);
+
+    if (isRolloverExist) {
+      return null;
+    }
+
     setSavingValues(rolloverValues);
 
     const fyQuery = `metadata.createdDate>=${currentFiscalYear?.periodStart} and metadata.createdDate<=${currentFiscalYear?.periodEnd}`;
@@ -123,7 +171,14 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       : toggleRolloverConfirmation;
 
     return hasUnpaidInvoices ? toggleUnpaidInvoiceList() : toggleConfirmationModal();
-  }, [toggleTestRolloverConfirmation, toggleRolloverConfirmation, toggleUnpaidInvoiceList, currentFiscalYear, ky]);
+  }, [
+    ky,
+    toggleTestRolloverConfirmation,
+    toggleRolloverConfirmation,
+    toggleUnpaidInvoiceList,
+    currentFiscalYear,
+    checkIsRolloverAlreadyExist,
+  ]);
 
   const initial = useMemo(() => {
     const initValues = {
@@ -151,19 +206,13 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
     return initValues;
   }, [ledger, budgets, toFiscalYearId, toFiscalYearSeries, series, funds, currentFiscalYear]);
 
-  const callRollover = useCallback(() => {
+  const callRollover = useCallback(async () => {
     const rolloverCb = ifRolloverPreview(savingValues) ? testRollover : rollover;
 
     return rolloverCb(savingValues)
       .then(close)
       .catch(handleRolloverErrors);
-  }, [
-    close,
-    handleRolloverErrors,
-    rollover,
-    savingValues,
-    testRollover,
-  ]);
+  }, [close, handleRolloverErrors, rollover, savingValues, testRollover]);
 
   const goToCreateFY = useCallback(() => {
     history.push({
@@ -171,8 +220,6 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       search: location.search,
     });
   }, [history, ledgerId, location.search]);
-
-  const { fiscalYears } = useRolloverFiscalYears(series);
 
   const toggleConfirmation = useCallback(() => {
     toggleUnpaidInvoiceList();

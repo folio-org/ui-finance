@@ -222,7 +222,7 @@
     "transaction.initialEncumbrance": "Ônus inicial",
     "transaction.source.FiscalYear": "Ano fiscal",
     "transaction.source.Invoice": "Fatura",
-    "transaction.source.PoLine": "Linha de pedido",
+    "transaction.source.PoLine": "Linha do pedido de compra",
     "transaction.status": "Status",
     "transaction.status.Released": "Lançado",
     "transaction.status.Unreleased": "Não lançado",

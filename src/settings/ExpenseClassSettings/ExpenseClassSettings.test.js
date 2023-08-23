@@ -17,7 +17,8 @@ jest.mock('@folio/stripes-smart-components/lib/ControlledVocab', () => {
   return MockComponent;
 });
 
-const renderExpenseClassSettings = () => render(<ExpenseClassSettings stripes={{}} />);
+const stripes = { hasPerm: () => true };
+const renderExpenseClassSettings = () => render(<ExpenseClassSettings stripes={stripes} />);
 
 describe('ExpenseClassSettings component', () => {
   it('should display helper message', () => {

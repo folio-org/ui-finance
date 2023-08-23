@@ -33,6 +33,7 @@ const ConnectedControlledVocab = stripesConnect(ControlledVocab);
 
 const ExpenseClassSettings = ({ stripes }) => {
   const intl = useIntl();
+  const hasEditPerms = stripes.hasPerm('ui-finance.settings.all');
 
   return (
     <ConnectedControlledVocab
@@ -50,6 +51,11 @@ const ExpenseClassSettings = ({ stripes }) => {
       visibleFields={visibleFields}
       rowFilter={<ExpenseClassHelper />}
       validate={validate}
+      canCreate={hasEditPerms}
+      actionSuppressor={{
+        edit: () => !hasEditPerms,
+        delete: () => !hasEditPerms,
+      }}
     />
   );
 };

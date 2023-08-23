@@ -61,6 +61,31 @@
         "visible": false
       },
       {
+        "permissionName": "ui-finance.settings.view",
+        "displayName": "Settings (Finance): View settings",
+        "visible": true,
+        "subPermissions": [
+          "settings.finance.enabled",
+          "finance.expense-classes.collection.get",
+          "finance.fiscal-years.collection.get",
+          "finance.fund-codes-expense-classes.collection.get",
+          "finance.fund-types.collection.get",
+          "users.collection.get"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.settings.exportFundAndExpenseClassCodes",
+        "displayName": "Settings (Finance): Export fund and expense class codes",
+        "visible": true,
+        "subPermissions": [
+          "settings.finance.enabled",
+          "finance.expense-classes.collection.get",
+          "finance.fiscal-years.collection.get",
+          "finance.fund-codes-expense-classes.collection.get",
+          "users.collection.get"
+        ]
+      },
+      {
         "permissionName": "settings.finance.enabled",
         "displayName": "Settings (Finance): Can view and edit settings",
         "subPermissions": [
@@ -119,6 +144,7 @@
         "visible": true,
         "subPermissions": [
           "settings.finance.enabled",
+          "ui-finance.settings.view",
           "finance.expense-classes.collection.get",
           "finance.expense-classes.item.delete",
           "finance.expense-classes.item.post",

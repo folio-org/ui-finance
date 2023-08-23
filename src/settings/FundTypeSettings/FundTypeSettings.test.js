@@ -5,7 +5,8 @@ import FundTypeSettings from './FundTypeSettings';
 
 jest.mock('@folio/stripes-smart-components/lib/ControlledVocab', () => jest.fn().mockReturnValue('ControlledVocab'));
 
-const renderFundTypeSettings = () => render(<FundTypeSettings stripes={{}} resources={{}} mutator={{}} />);
+const stripes = { hasPerm: () => true };
+const renderFundTypeSettings = () => render(<FundTypeSettings stripes={stripes} resources={{}} mutator={{}} />);
 
 describe('FundTypeSettings component', () => {
   it('should display setting', async () => {

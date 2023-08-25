@@ -496,6 +496,8 @@
   "permission.ledger.view": "Finance: View ledger",
   "permission.ledger.rollover": "Finance: Execute fiscal year rollover",
   "permission.settings.all": "Settings (Finance): View, edit, create, delete",
+  "permission.settings.view": "Settings (Finance): View settings",
+  "permission.settings.exportFundAndExpenseClassCodes": "Settings (Finance): Export fund and expense class codes",
   "permission.manually-release-encumbrances": "Finance: Manually release encumbrance",
   "permission.transfers.create": "Finance: Create transfers",
 

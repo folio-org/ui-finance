@@ -33,6 +33,9 @@ const ConnectedControlledVocab = stripesConnect(ControlledVocab);
 
 const ExpenseClassSettings = ({ stripes }) => {
   const intl = useIntl();
+  const hasCreatePerms = stripes.hasPerm('finance.expense-classes.item.post');
+  const hasEditPerms = stripes.hasPerm('finance.expense-classes.item.put');
+  const hasDeletePerms = stripes.hasPerm('finance.fund-types.item.delete');
 
   return (
     <ConnectedControlledVocab
@@ -50,6 +53,11 @@ const ExpenseClassSettings = ({ stripes }) => {
       visibleFields={visibleFields}
       rowFilter={<ExpenseClassHelper />}
       validate={validate}
+      canCreate={hasCreatePerms}
+      actionSuppressor={{
+        edit: () => !hasEditPerms,
+        delete: () => !hasDeletePerms,
+      }}
     />
   );
 };

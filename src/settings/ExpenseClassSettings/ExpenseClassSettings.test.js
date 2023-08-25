@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import { ControlledVocab } from '@folio/stripes/smart-components';
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
 import ExpenseClassSettings from './ExpenseClassSettings';
@@ -17,12 +18,17 @@ jest.mock('@folio/stripes-smart-components/lib/ControlledVocab', () => {
   return MockComponent;
 });
 
-const renderExpenseClassSettings = () => render(<ExpenseClassSettings stripes={{}} />);
+const stripesMock = { hasPerm: () => true };
+const renderExpenseClassSettings = () => render(<ExpenseClassSettings stripes={stripesMock} />);
 
 describe('ExpenseClassSettings component', () => {
-  it('should display helper message', () => {
-    const { getByText } = renderExpenseClassSettings();
+  it('should render component', () => {
+    const { getByText } = renderExpenseClassSettings(stripesMock);
 
+    const { actionSuppressor } = ControlledVocab.mock.calls[0][0];
+
+    expect(actionSuppressor.edit()).toBeFalsy();
+    expect(actionSuppressor.delete()).toBeFalsy();
     expect(getByText('ui-finance.expenseClass.helper')).toBeDefined();
   });
 });

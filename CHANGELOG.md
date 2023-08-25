@@ -7,6 +7,7 @@
 * Download budget results for failed rollovers. Refs UIF-415.
 * Block test rollover once rollover has been done for given ledger and FYs. Refs UIF-465.
 * Update Node.js to v18 in GitHub Actions. Refs UIF-471.
+* Need new permission(s) to view Finance settings in UI. Refs UIF-442.
 
 ## [4.0.4](https://github.com/folio-org/ui-finance/tree/v4.0.4) (2023-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.3...v4.0.4)

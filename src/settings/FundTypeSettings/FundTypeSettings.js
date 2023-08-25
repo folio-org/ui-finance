@@ -25,6 +25,10 @@ const FundTypeSettings = ({
   resources,
   mutator,
 }) => {
+  const hasCreatePerms = stripes.hasPerm('finance.fund-types.item.post');
+  const hasEditPerms = stripes.hasPerm('finance.fund-types.item.put');
+  const hasDeletePerms = stripes.hasPerm('finance.fund-types.item.delete');
+
   return (
     <ControlledVocab
       stripes={stripes}
@@ -40,6 +44,11 @@ const FundTypeSettings = ({
       hiddenFields={hiddenFields}
       nameKey="name"
       id="fundTypes"
+      canCreate={hasCreatePerms}
+      actionSuppressor={{
+        edit: () => !hasEditPerms,
+        delete: () => !hasDeletePerms,
+      }}
     />
   );
 };

@@ -471,5 +471,7 @@
     "ledger.rollover.rolloverValueAs": "Valor de rolagem como",
     "ledger.rollover.logs.settings": "Configurações",
     "fiscalYear.information.periodEndUTC": "Data final do período",
-    "fiscalYear.information.periodStartUTC": "Data de início do período"
+    "fiscalYear.information.periodStartUTC": "Data de início do período",
+    "permission.settings.view": "Configurações (Finanças): Ver configurações",
+    "permission.settings.exportFundAndExpenseClassCodes": "Configurações (Finanças): Exportar códigos de classe de fundos e despesas"
 }

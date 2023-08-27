@@ -471,5 +471,7 @@
     "ledger.rollover.rolloverValueAs": "Wert übertragen als",
     "ledger.rollover.logs.settings": "Einstellungen",
     "fiscalYear.information.periodEndUTC": "Ende des Zeitraums (UTC)",
-    "fiscalYear.information.periodStartUTC": "Beginn des Zeitraums (UTC)"
+    "fiscalYear.information.periodStartUTC": "Beginn des Zeitraums (UTC)",
+    "permission.settings.view": "Settings (Finance): View settings",
+    "permission.settings.exportFundAndExpenseClassCodes": "Settings (Finance): Export fund and expense class codes"
 }

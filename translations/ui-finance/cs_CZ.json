@@ -472,6 +472,6 @@
     "ledger.rollover.logs.settings": "Nastavení",
     "fiscalYear.information.periodEndUTC": "Datum ukončení období (UTC)",
     "fiscalYear.information.periodStartUTC": "Datum začátku období (UTC)",
-    "permission.settings.view": "Settings (Finance): View settings",
-    "permission.settings.exportFundAndExpenseClassCodes": "Settings (Finance): Export fund and expense class codes"
+    "permission.settings.view": "Nastavení (Finance): Zobrazit nastavení",
+    "permission.settings.exportFundAndExpenseClassCodes": "Nastavení (Finance): Exportovat kódy tříd fondů a výdajů"
 }

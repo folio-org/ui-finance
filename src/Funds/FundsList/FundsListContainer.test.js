@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
 import { FundsListContainer } from './FundsListContainer';
 import { useFunds } from './hooks';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { FISCAL_YEAR_ROUTE, LEDGERS_ROUTE } from '../../common/const';

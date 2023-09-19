@@ -2,8 +2,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { FISCAL_YEARS_API } from '../../const';
@@ -36,9 +36,9 @@ describe('useFiscalYearsBatch', () => {
   });
 
   it('should batch fetch fiscal years by ids', async () => {
-    const { result, waitFor } = renderHook(() => useFiscalYearsBatch(fiscalYearIds), { wrapper });
+    const { result } = renderHook(() => useFiscalYearsBatch(fiscalYearIds), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.fiscalYears).toEqual(fiscalYears);
     expect(mockGet).toHaveBeenCalledWith(FISCAL_YEARS_API, expect.objectContaining({}));

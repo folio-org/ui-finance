@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import '@folio/stripes-acq-components/test/jest/__mock__';

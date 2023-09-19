@@ -1,6 +1,6 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { RESULT_COUNT_INCREMENT } from '@folio/stripes-acq-components';
 
@@ -47,9 +47,9 @@ describe('useRolloverLogs', () => {
   });
 
   it('should return fetched rollover logs', async () => {
-    const { result, waitFor } = renderHook(() => useRolloverLogs({ ledgerId, pagination }), { wrapper });
+    const { result } = renderHook(() => useRolloverLogs({ ledgerId, pagination }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.rolloverLogs).toEqual(rolloverLogs);
   });

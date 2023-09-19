@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { DetailsExportAction } from './DetailsExportAction';
 
@@ -26,10 +26,10 @@ describe('DetailsExportAction', () => {
     expect(screen.getByTestId('action-export-csv')).toBeInTheDocument();
   });
 
-  it('should call \'onExportCSV\' when the button was clicked', () => {
+  it('should call \'onExportCSV\' when the button was clicked', async () => {
     renderDetailsExportAction();
 
-    user.click(screen.getByTestId('action-export-csv'));
+    await user.click(screen.getByTestId('action-export-csv'));
 
     expect(defaultProps.onExportCSV).toHaveBeenCalled();
   });

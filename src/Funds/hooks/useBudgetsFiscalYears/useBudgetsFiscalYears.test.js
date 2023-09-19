@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useBudgetsFiscalYears } from './useBudgetsFiscalYears';
@@ -30,12 +30,12 @@ describe('useBudgetsFiscalYears', () => {
   });
 
   it('should return fetched fiscal years', async () => {
-    const { result, waitFor } = renderHook(() => useBudgetsFiscalYears({
+    const { result } = renderHook(() => useBudgetsFiscalYears({
       series: 'FY',
       periodStart: '2022-03-10T13:39:07.657+00:00',
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.fiscalYears).toEqual(fiscalYears);
   });

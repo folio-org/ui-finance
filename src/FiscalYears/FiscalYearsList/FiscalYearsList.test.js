@@ -1,5 +1,5 @@
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import FiscalYearsList from './FiscalYearsList';

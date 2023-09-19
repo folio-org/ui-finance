@@ -1,6 +1,4 @@
-import { act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
-
+import { act, renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { TRANSACTION_TYPES } from '@folio/stripes-acq-components';
 
@@ -56,9 +54,9 @@ describe('useCreateTransactionFlow', () => {
     kyMock.get.mockClear();
     useOkapiKy.mockClear().mockReturnValue(kyMock);
 
-    const { result, waitFor } = renderHook(() => useCreateTransactionFlow());
+    const { result } = renderHook(() => useCreateTransactionFlow());
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     runFlow = result.current.runCreateTransactionFlow(prepareNewAmountsMockStep);
   });

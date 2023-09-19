@@ -2,8 +2,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { LEDGER_ROLLOVER_API } from '../../const';
@@ -34,9 +34,9 @@ describe('useLedgerRollover', () => {
   });
 
   it('should fetch rollover data by id', async () => {
-    const { result, waitFor } = renderHook(() => useLedgerRollover(rollover.id), { wrapper });
+    const { result } = renderHook(() => useLedgerRollover(rollover.id), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.rollover).toEqual(rollover);
     expect(mockGet).toHaveBeenCalledWith(`${LEDGER_ROLLOVER_API}/${rollover.id}`, expect.objectContaining({}));

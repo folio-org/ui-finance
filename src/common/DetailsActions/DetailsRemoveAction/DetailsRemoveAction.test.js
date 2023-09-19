@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import DetailsRemoveAction from './DetailsRemoveAction';
 
@@ -16,10 +16,10 @@ const renderDetailsRemoveAction = () => (render(
 ));
 
 describe('DetailsRemoveAction component', () => {
-  it('should call onRemove', () => {
+  it('should call onRemove', async () => {
     renderDetailsRemoveAction();
 
-    user.click(screen.getByTestId('details-remove-action'));
+    await user.click(screen.getByTestId('details-remove-action'));
 
     expect(toggleActionMenuMock).toHaveBeenCalled();
     expect(onRemoveMock).toHaveBeenCalled();

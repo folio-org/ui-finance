@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
+
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import CreateTransactionModal from './CreateTransactionModal';
 import { ALLOCATION_TYPE } from '../constants';
@@ -54,30 +54,36 @@ describe('CreateTransactionModal', () => {
     expect(screen.getByRole('button', { name: 'ui-finance.transaction.to fund 1' })).toBeInTheDocument();
   });
 
-  it('should call submit', () => {
+  it('should call submit', async () => {
     const onSubmit = jest.fn();
 
     renderComponent({ onSubmit });
-    userEvent.type(screen.getByLabelText('ui-finance.transaction.amount*'), '1000');
-    userEvent.click(screen.getByText('ui-finance.transaction.button.confirm'));
-    expect(onSubmit).toHaveBeenCalled();
+
+    await user.type(screen.getByLabelText('ui-finance.transaction.amount*'), '1000');
+    await user.click(screen.getByText('ui-finance.transaction.button.confirm'));
+
+    await waitFor(() => expect(onSubmit).toHaveBeenCalled());
   });
 
-  it('should call cancel', () => {
+  it('should call cancel', async () => {
     const onClose = jest.fn();
 
     renderComponent({ onClose });
-    userEvent.type(screen.getByLabelText('ui-finance.transaction.amount*'), '1000');
-    userEvent.click(screen.getByText('ui-finance.transaction.button.cancel'));
+
+    user.type(screen.getByLabelText('ui-finance.transaction.amount*'), '1000');
+    await user.click(screen.getByText('ui-finance.transaction.button.cancel'));
+
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('should show validation error', () => {
+  it('should show validation error', async () => {
     const onSubmit = jest.fn();
 
     renderComponent({ onSubmit });
-    userEvent.type(screen.getByLabelText('ui-finance.transaction.amount*'), '-1000');
-    userEvent.click(screen.getByText('ui-finance.transaction.button.confirm'));
+
+    user.type(screen.getByLabelText('ui-finance.transaction.amount*'), '-1000');
+    await user.click(screen.getByText('ui-finance.transaction.button.confirm'));
+
     expect(onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText('stripes-acq-components.validation.shouldBePositiveAmount')).toBeDefined();
   });

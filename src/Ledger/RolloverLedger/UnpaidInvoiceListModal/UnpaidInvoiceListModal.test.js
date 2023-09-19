@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
@@ -58,18 +58,18 @@ describe('UnpaidInvoiceListModal', () => {
     expect(screen.getByText('ui-finance.invoice.unpaidInvoices.header')).toBeDefined();
   });
 
-  it('should call onCancel prop', () => {
+  it('should call onCancel prop', async () => {
     renderUnpaidInvoiceListModal({ onCancel, onContinue });
 
-    user.click(screen.getByText('ui-finance.cancel'));
+    await user.click(screen.getByText('ui-finance.cancel'));
 
     expect(onCancel).toHaveBeenCalled();
   });
 
-  it('should call onContinue prop', () => {
+  it('should call onContinue prop', async () => {
     renderUnpaidInvoiceListModal({ onCancel, onContinue });
 
-    user.click(screen.getByText('ui-finance.continue'));
+    await user.click(screen.getByText('ui-finance.continue'));
 
     expect(onContinue).toHaveBeenCalled();
   });

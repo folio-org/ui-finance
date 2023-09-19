@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useSourceLink } from './useSourceLink';
@@ -24,14 +24,12 @@ describe('useSourceValue', () => {
       }),
     });
 
-    const { result, waitFor } = renderHook(() => useSourceLink(
+    const { result } = renderHook(() => useSourceLink(
       { source: 'PoLine', encumbrance: { sourcePoLineId: 'id' } },
       { formattedMessage: jest.fn() },
     ), { wrapper });
 
-    await waitFor(() => {
-      return Boolean(result.current);
-    });
+    await waitFor(() => expect(result.current).toBeTruthy());
 
     expect(result.current).toBeTruthy();
   });

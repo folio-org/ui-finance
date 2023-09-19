@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, cleanup } from '@testing-library/react';
+import { act, render, cleanup } from '@folio/jest-config-stripes/testing-library/react';
 
 import AllocatedFundsContainer from './AllocatedFundsContainer';
 

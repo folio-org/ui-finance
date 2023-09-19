@@ -1,8 +1,8 @@
-import user from '@testing-library/user-event';
-import { act, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
@@ -113,9 +113,7 @@ describe('RolloverLedgerContainer', () => {
     historyMock.push.mockClear();
     useOkapiKy.mockClear().mockReturnValue(kyMock);
     RolloverLedger.mockClear();
-    beforeEach(async () => {
-      useShowCallout.mockClear().mockReturnValue(showCallout);
-    });
+    useShowCallout.mockClear().mockReturnValue(showCallout);
   });
 
   it('should display RolloverLedger', () => {

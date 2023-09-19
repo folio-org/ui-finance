@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import {

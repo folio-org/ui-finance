@@ -1,5 +1,5 @@
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { IntlProvider } from 'react-intl';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
@@ -98,7 +98,7 @@ describe('GroupInformation component', () => {
     expect(screen.getByText(FY.code));
   });
 
-  it('should call "onSelectFY" when a FY was selected', () => {
+  it('should call "onSelectFY" when a FY was selected', async () => {
     const onSelectFY = jest.fn();
     const newFY = { ...FY, id: 'testFYId', code: 'TST2019' };
 
@@ -109,7 +109,7 @@ describe('GroupInformation component', () => {
       onSelectFY,
     });
 
-    user.selectOptions(screen.getByRole('combobox'), [newFY.id]);
+    await user.selectOptions(screen.getByRole('combobox'), [newFY.id]);
 
     expect(onSelectFY).toHaveBeenCalled();
   });

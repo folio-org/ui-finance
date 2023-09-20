@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import {
@@ -18,11 +18,9 @@ const wrapper = ({ children }) => (
 
 describe('useRolloverFiscalYears', () => {
   it('should return undefined if called without series', async () => {
-    const { result, waitFor } = renderHook(() => useRolloverFiscalYears(), { wrapper });
+    const { result } = renderHook(() => useRolloverFiscalYears(), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.fiscalYears).toBeUndefined();
   });
@@ -36,11 +34,9 @@ describe('useRolloverFiscalYears', () => {
       }),
     });
 
-    const { result, waitFor } = renderHook(() => useRolloverFiscalYears('FY'), { wrapper });
+    const { result } = renderHook(() => useRolloverFiscalYears('FY'), { wrapper });
 
-    await waitFor(() => {
-      return Boolean(result.current.fiscalYears);
-    });
+    await waitFor(() => expect(result.current.fiscalYears).toBeTruthy());
 
     expect(result.current.fiscalYears.length).toEqual(1);
   });

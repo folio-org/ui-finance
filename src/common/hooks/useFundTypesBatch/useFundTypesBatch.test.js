@@ -2,8 +2,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { FUND_TYPES_API } from '../../const';
@@ -36,9 +36,9 @@ describe('useFundTypesBatch', () => {
   });
 
   it('should batch fetch fund types by ids', async () => {
-    const { result, waitFor } = renderHook(() => useFundTypesBatch(fundTypeIds), { wrapper });
+    const { result } = renderHook(() => useFundTypesBatch(fundTypeIds), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.fundTypes).toEqual(fundTypes);
     expect(mockGet).toHaveBeenCalledWith(FUND_TYPES_API, expect.objectContaining({}));

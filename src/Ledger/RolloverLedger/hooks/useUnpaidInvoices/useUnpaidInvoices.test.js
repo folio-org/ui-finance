@@ -1,6 +1,6 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import {
   INVOICES_API,
@@ -55,12 +55,12 @@ describe('useUnpaidInvoices', () => {
   });
 
   it('should return fetched hydrated invoices', async () => {
-    const { result, waitFor } = renderHook(() => useUnpaidInvoices({
+    const { result } = renderHook(() => useUnpaidInvoices({
       periodStart: '2021-01-01T00:00:00.000+00:00',
       periodEnd: '2021-12-31T00:00:00.000+00:00',
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.invoices).toEqual([{ ...invoices[0], vendor }]);
   });

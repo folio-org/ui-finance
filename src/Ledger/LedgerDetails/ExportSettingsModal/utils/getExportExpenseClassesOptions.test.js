@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
 import { EXPORT_EXPENSE_CLASSES_VALUES } from '../constants';
 import { getExportExpenseClassesOptions } from './getExportExpenseClassesOptions';

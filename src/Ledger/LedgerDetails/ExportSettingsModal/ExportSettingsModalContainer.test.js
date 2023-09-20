@@ -2,8 +2,8 @@ import React from 'react';
 import { Form } from 'react-final-form';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { useLedgerExportCSV } from './hooks';
 import { ExportSettingsModalContainer } from './ExportSettingsModalContainer';
@@ -70,10 +70,10 @@ describe('ExportSettingsModalContainer', () => {
     expect(screen.getByText('ui-finance.exportCSV.exportSettings.message')).toBeInTheDocument();
   });
 
-  it('should call \'runExportCSV\' when \'Export\' button was clicked', () => {
+  it('should call \'runExportCSV\' when \'Export\' button was clicked', async () => {
     renderExportSettingsModalContainer();
 
-    user.click(screen.getByText('ui-finance.exportCSV.exportSettings.export'));
+    await user.click(screen.getByText('ui-finance.exportCSV.exportSettings.export'));
 
     expect(mockExportCSV.runExportCSV).toHaveBeenCalled();
   });

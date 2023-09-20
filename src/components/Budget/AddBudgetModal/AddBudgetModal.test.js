@@ -1,6 +1,6 @@
 import React from 'react';
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import AddBudgetModal from './AddBudgetModal';
@@ -47,7 +47,7 @@ describe('AddBudgetModal', () => {
       name: 'ui-finance.budget.button.cancel',
     });
 
-    user.click(cancelBtn);
+    await user.click(cancelBtn);
 
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
@@ -65,9 +65,9 @@ describe('AddBudgetModal', () => {
       user.click(saveBtn);
     });
 
-    expect(mutatorMock.budget.POST).toHaveBeenCalledWith(expect.objectContaining({
+    waitFor(() => expect(mutatorMock.budget.POST).toHaveBeenCalledWith(expect.objectContaining({
       budgetStatus: 'Active',
-    }));
+    })));
   });
 
   it('should create a planned budget', async () => {
@@ -86,9 +86,9 @@ describe('AddBudgetModal', () => {
       user.click(saveBtn);
     });
 
-    expect(mutatorMock.budget.POST).toHaveBeenCalledWith(expect.objectContaining({
+    waitFor(() => expect(mutatorMock.budget.POST).toHaveBeenCalledWith(expect.objectContaining({
       budgetStatus: 'Planned',
-    }));
+    })));
   });
 
   it('should show \'No upcoming FY\' message if there are no upcoming fiscal years', () => {

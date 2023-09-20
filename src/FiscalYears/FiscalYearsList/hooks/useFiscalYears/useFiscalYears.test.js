@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useBuildQuery } from '../useBuildQuery';
@@ -50,11 +50,11 @@ describe('useFiscalYears', () => {
       .mockClear()
       .mockReturnValue({ search: '' });
 
-    const { result, waitFor } = renderHook(() => useFiscalYears({
+    const { result } = renderHook(() => useFiscalYears({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.totalRecords).toEqual(fiscalYears.length);
   });
@@ -64,11 +64,11 @@ describe('useFiscalYears', () => {
       .mockClear()
       .mockReturnValue({ search: 'fy' });
 
-    const { result, waitFor } = renderHook(() => useFiscalYears({
+    const { result } = renderHook(() => useFiscalYears({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current).toEqual({
       fiscalYears,

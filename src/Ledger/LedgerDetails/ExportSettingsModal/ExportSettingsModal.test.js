@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import ExportSettingsModal from './ExportSettingsModal';
 
@@ -51,18 +51,18 @@ describe('ExportSettingsModal', () => {
     expect(screen.getByText('ui-finance.exportCSV.exportSettings.export')).toBeInTheDocument();
   });
 
-  it('should call \'onSubmit\' when \'Export\' button was clicked', () => {
+  it('should call \'onSubmit\' when \'Export\' button was clicked', async () => {
     renderExportSettingsModal();
 
-    user.click(screen.getByRole('button', { name: 'ui-finance.exportCSV.exportSettings.export' }));
+    await user.click(screen.getByRole('button', { name: 'ui-finance.exportCSV.exportSettings.export' }));
 
     expect(defaultProps.onSubmit).toHaveBeenCalled();
   });
 
-  it('should call \'onCancel\' when \'Cancel\' button was clicked', () => {
+  it('should call \'onCancel\' when \'Cancel\' button was clicked', async () => {
     renderExportSettingsModal();
 
-    user.click(screen.getByRole('button', { name: 'ui-finance.exportCSV.exportSettings.cancel' }));
+    await user.click(screen.getByRole('button', { name: 'ui-finance.exportCSV.exportSettings.cancel' }));
 
     expect(defaultProps.onCancel).toHaveBeenCalled();
   });

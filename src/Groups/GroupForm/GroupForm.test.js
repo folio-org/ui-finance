@@ -2,8 +2,8 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { HasCommand } from '@folio/stripes/components';
 
@@ -64,10 +64,10 @@ describe('GroupForm component', () => {
   });
 
   describe('Close form', () => {
-    it('should close the group form', () => {
+    it('should close the group form', async () => {
       const { getByText } = renderGroupForm();
 
-      user.click(getByText('stripes-acq-components.FormFooter.cancel'));
+      await user.click(getByText('stripes-acq-components.FormFooter.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });

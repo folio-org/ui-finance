@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen, act } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import ExportFundSettings from './ExportFundSettings';
 import { useFiscalYearOptions } from './useFiscalYearOptions';
@@ -42,7 +42,7 @@ describe('ExportFundSettings', () => {
   it('should select fiscal year', async () => {
     await act(async () => renderExportFundSettings());
 
-    user.selectOptions(screen.getByRole('combobox'), code);
+    await user.selectOptions(screen.getByRole('combobox'), code);
 
     expect(screen.getByText(code).selected).toBe(true);
     expect(screen.getByTestId('export-fund-button')).not.toHaveAttribute('disabled');
@@ -52,7 +52,7 @@ describe('ExportFundSettings', () => {
     await act(async () => renderExportFundSettings());
 
     user.selectOptions(screen.getByRole('combobox'), code);
-    user.click(screen.getByTestId('export-fund-button'));
+    await user.click(screen.getByTestId('export-fund-button'));
 
     expect(fetchExportFund).toHaveBeenCalled();
   });

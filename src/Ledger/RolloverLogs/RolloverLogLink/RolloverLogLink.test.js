@@ -1,5 +1,5 @@
-import { act, render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import { useShowCallout } from '@folio/stripes-acq-components';

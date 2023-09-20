@@ -3,8 +3,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useFiscalYearOptions } from './useFiscalYearOptions';
@@ -29,9 +29,9 @@ describe('useFiscalYearsOptions', () => {
   });
 
   it('should return fiscal years options', async () => {
-    const { result, waitFor } = renderHook(() => useFiscalYearOptions(), { wrapper });
+    const { result } = renderHook(() => useFiscalYearOptions(), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.fiscalYearOptions[0].value).toEqual(code);
     expect(result.current.fiscalYearOptions[0].label).toEqual(code);

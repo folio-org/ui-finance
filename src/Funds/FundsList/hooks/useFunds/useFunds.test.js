@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useFunds } from './useFunds';
@@ -45,11 +45,11 @@ describe('useFunds', () => {
       .mockClear()
       .mockReturnValue({ search: '' });
 
-    const { result, waitFor } = renderHook(() => useFunds({
+    const { result } = renderHook(() => useFunds({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current).toEqual({
       funds: [],
@@ -66,12 +66,12 @@ describe('useFunds', () => {
     const fetchReferences = jest.fn().mockReturnValue(Promise.resolve({
       ledgersMap: { [funds[0].ledgerId]: { name: 'ledgerName' } },
     }));
-    const { result, waitFor } = renderHook(() => useFunds({
+    const { result } = renderHook(() => useFunds({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current).toEqual({
       funds: [{

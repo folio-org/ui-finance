@@ -2,8 +2,8 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import { render, act, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, act, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import {
   HasCommand,
@@ -74,7 +74,7 @@ describe('LedgerForm component', () => {
     it('should close the ledger form', async () => {
       await act(async () => renderLedgerForm());
 
-      user.click(screen.getByText('stripes-acq-components.FormFooter.cancel'));
+      await user.click(screen.getByText('stripes-acq-components.FormFooter.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });
@@ -84,7 +84,7 @@ describe('LedgerForm component', () => {
     it('should open the fiscal year form', async () => {
       await act(async () => renderLedgerForm());
 
-      user.click(screen.getByText('ui-finance.ledger.createNewFY'));
+      await user.click(screen.getByText('ui-finance.ledger.createNewFY'));
 
       expect(defaultProps.goToCreateFY).toHaveBeenCalled();
     });

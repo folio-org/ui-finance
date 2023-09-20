@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -51,49 +51,49 @@ describe('ConnectionListing', () => {
     expect(names[0].textContent).toBe('fund 1');
   });
 
-  it('should sort list by name in reverse', () => {
+  it('should sort list by name in reverse', async () => {
     renderComponent({});
-    user.click(screen.getByText('ui-finance.item.name'));
+    await user.click(screen.getByText('ui-finance.item.name'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('fund 2');
   });
 
-  it('should sort list by allocated', () => {
+  it('should sort list by allocated', async () => {
     renderComponent({});
-    user.click(screen.getByText('ui-finance.item.allocated'));
+    await user.click(screen.getByText('ui-finance.item.allocated'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('fund 2');
   });
 
-  it('should sort list by code', () => {
+  it('should sort list by code', async () => {
     renderComponent({});
-    user.click(screen.getByText('ui-finance.item.code'));
+    await user.click(screen.getByText('ui-finance.item.code'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('fund 1');
   });
 
-  it('should sort list by netTransfers', () => {
+  it('should sort list by netTransfers', async () => {
     renderComponent({});
-    user.click(screen.getByText('ui-finance.item.netTransfers'));
+    await user.click(screen.getByText('ui-finance.item.netTransfers'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('fund 2');
   });
 
-  it('should sort list by available', () => {
+  it('should sort list by available', async () => {
     renderComponent({});
-    user.click(screen.getByText('ui-finance.item.available'));
+    await user.click(screen.getByText('ui-finance.item.available'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('fund 1');
   });
 
-  it('should sort list by unavailable', () => {
+  it('should sort list by unavailable', async () => {
     renderComponent({});
-    user.click(screen.getByText('ui-finance.item.unavailable'));
+    await user.click(screen.getByText('ui-finance.item.unavailable'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('fund 2');

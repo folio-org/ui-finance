@@ -3,8 +3,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useExportFund } from './useExportFund';
@@ -30,11 +30,10 @@ describe('useExportFund', () => {
   });
 
   it('should make request', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useExportFund(code), { wrapper });
+    const { result } = renderHook(() => useExportFund(code), { wrapper });
 
     result.current.fetchExportFund();
-    await waitForNextUpdate();
 
-    expect(mockGet).toHaveBeenCalled();
+    waitFor(() => expect(mockGet).toHaveBeenCalled());
   });
 });

@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 
 import AddBudgetModalForm from './AddBudgetModalForm';
@@ -42,10 +42,10 @@ describe('AddBudgetModalForm component', () => {
   });
 
   describe('Close form', () => {
-    it('should close the budget form', () => {
+    it('should close the budget form', async () => {
       const { getByText } = renderAddBudgetModalForm();
 
-      user.click(getByText('ui-finance.budget.button.cancel'));
+      await user.click(getByText('ui-finance.budget.button.cancel'));
 
       expect(defaultProps.onClose).toHaveBeenCalled();
     });

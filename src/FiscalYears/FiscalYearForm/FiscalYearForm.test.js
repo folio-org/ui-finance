@@ -2,8 +2,8 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import {
   HasCommand,
@@ -70,10 +70,10 @@ describe('FiscalYearForm component', () => {
   });
 
   describe('Close form', () => {
-    it('should close the fiscal year form', () => {
+    it('should close the fiscal year form', async () => {
       const { getByText } = renderFiscalYearForm();
 
-      user.click(getByText('stripes-acq-components.FormFooter.cancel'));
+      await user.click(getByText('stripes-acq-components.FormFooter.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });

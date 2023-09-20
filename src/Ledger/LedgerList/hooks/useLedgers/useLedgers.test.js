@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useLedgers } from './useLedgers';
@@ -45,11 +45,11 @@ describe('useLedgers', () => {
       .mockClear()
       .mockReturnValue({ search: '' });
 
-    const { result, waitFor } = renderHook(() => useLedgers({
+    const { result } = renderHook(() => useLedgers({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current).toEqual({
       ledgers: [],
@@ -63,11 +63,11 @@ describe('useLedgers', () => {
       .mockClear()
       .mockReturnValue({ search: 'ledgerStatus=Inactive&ledgerStatus=Active' });
 
-    const { result, waitFor } = renderHook(() => useLedgers({
+    const { result } = renderHook(() => useLedgers({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current).toEqual({
       ledgers: [{ id: 'ledgerId' }],

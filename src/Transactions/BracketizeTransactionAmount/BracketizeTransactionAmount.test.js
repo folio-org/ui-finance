@@ -1,6 +1,6 @@
 import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import { BracketizeTransactionAmount } from './BracketizeTransactionAmount';
 
@@ -29,7 +29,7 @@ describe('BracketizeTransactionAmount component', () => {
     expect(getByText('$10.00')).toBeDefined();
   });
 
-  it('should display info for voided transaction', () => {
+  it('should display info for voided transaction', async () => {
     const transaction = {
       toFundId: defaultProps.fundId,
       amount: -10,
@@ -40,7 +40,7 @@ describe('BracketizeTransactionAmount component', () => {
 
     const iconBtn = screen.getByRole('button');
 
-    user.click(iconBtn);
+    await user.click(iconBtn);
 
     expect(screen.getByText('ui-finance.transaction.voided')).toBeInTheDocument();
   });

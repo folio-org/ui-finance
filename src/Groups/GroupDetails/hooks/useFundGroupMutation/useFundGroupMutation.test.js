@@ -1,7 +1,6 @@
-import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { FUNDS_API } from '@folio/stripes-acq-components';
 
@@ -39,11 +38,11 @@ describe('useFundGroupMutation', () => {
   });
 
   it('should fetch composite fund and update it', async () => {
-    const { result, waitFor } = renderHook(() => useFundGroupMutation(), { wrapper });
+    const { result } = renderHook(() => useFundGroupMutation(), { wrapper });
 
     await result.current.mutateFundGroup({ fund: fund.fund, hydrate: (f) => f });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(putMock).toHaveBeenCalledWith(`${FUNDS_API}/${fund.fund.id}`, { 'json': fund });
   });

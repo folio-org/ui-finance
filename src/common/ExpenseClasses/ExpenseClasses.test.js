@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 import ExpenseClasses from './ExpenseClasses';
@@ -36,56 +36,56 @@ const renderComponent = () => (render(
 ));
 
 describe('ExpenseClasses', () => {
-  it('should default sort list by name', () => {
+  it('should default sort list by name', async () => {
     renderComponent();
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-1');
   });
 
-  it('should sort list by name in reverse', () => {
+  it('should sort list by name in reverse', async () => {
     renderComponent();
-    user.click(screen.getByText('ui-finance.budget.expenseClasses.expenseClassName'));
+    await user.click(screen.getByText('ui-finance.budget.expenseClasses.expenseClassName'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-2');
   });
 
-  it('should sort list by status', () => {
+  it('should sort list by status', async () => {
     renderComponent();
-    user.click(screen.getByText('ui-finance.budget.expenseClasses.status'));
+    await user.click(screen.getByText('ui-finance.budget.expenseClasses.status'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-1');
   });
 
-  it('should sort list by expended', () => {
+  it('should sort list by expended', async () => {
     renderComponent();
-    user.click(screen.getByText('ui-finance.budget.expenseClasses.expended'));
+    await user.click(screen.getByText('ui-finance.budget.expenseClasses.expended'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-2');
   });
 
-  it('should sort list by percentageExpended', () => {
+  it('should sort list by percentageExpended', async () => {
     renderComponent();
-    user.click(screen.getByText('ui-finance.budget.expenseClasses.percentageExpended'));
+    await user.click(screen.getByText('ui-finance.budget.expenseClasses.percentageExpended'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-2');
   });
 
-  it('should sort list by encumbered', () => {
+  it('should sort list by encumbered', async () => {
     renderComponent();
-    user.click(screen.getByText('ui-finance.budget.expenseClasses.encumbered'));
+    await user.click(screen.getByText('ui-finance.budget.expenseClasses.encumbered'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-1');
   });
 
-  it('should sort list by awaitingPayment', () => {
+  it('should sort list by awaitingPayment', async () => {
     renderComponent();
-    user.click(screen.getByText('ui-finance.budget.expenseClasses.awaitingPayment'));
+    await user.click(screen.getByText('ui-finance.budget.expenseClasses.awaitingPayment'));
     const names = screen.getAllByTestId('nameColumn');
 
     expect(names[0].textContent).toBe('expenseClassName-1');

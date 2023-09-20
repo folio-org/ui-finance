@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { MemoryRouter } from 'react-router';
-import user from '@testing-library/user-event';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { BudgetViewContainer } from './BudgetViewContainer';
 
@@ -58,7 +58,7 @@ describe('BudgetViewContainer', () => {
     renderBudgetViewContainer();
 
     await screen.findByText('BudgetView');
-    user.click(screen.getByTestId('increase-allocation-button'));
+    await user.click(screen.getByTestId('increase-allocation-button'));
     await screen.findByText('Create transaction');
 
     expect(screen.getByText('Create transaction')).toBeDefined();
@@ -68,7 +68,7 @@ describe('BudgetViewContainer', () => {
     renderBudgetViewContainer();
 
     await screen.findByText('BudgetView');
-    user.click(screen.getByTestId('decrease-allocation-button'));
+    await user.click(screen.getByTestId('decrease-allocation-button'));
     await screen.findByText('Create transaction');
 
     expect(screen.getByText('Create transaction')).toBeDefined();
@@ -78,7 +78,7 @@ describe('BudgetViewContainer', () => {
     renderBudgetViewContainer();
 
     await screen.findByText('BudgetView');
-    user.click(screen.getByTestId('move-allocation-button'));
+    await user.click(screen.getByTestId('move-allocation-button'));
     await screen.findByText('Create transaction');
 
     expect(screen.getByText('Create transaction')).toBeDefined();

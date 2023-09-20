@@ -1,8 +1,8 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 import { createMemoryHistory } from 'history';
-import user from '@testing-library/user-event';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import CreateLedgerFiscalYear from './CreateLedgerFiscalYear';
@@ -44,20 +44,20 @@ const renderFiscalYearForm = () => (render(
 
 describe('CreateLedgerFiscalYear component', () => {
   describe('Close form', () => {
-    it('should close the fiscal year form and return to ledger form', () => {
+    it('should close the fiscal year form and return to ledger form', async () => {
       const { getByText } = renderFiscalYearForm();
 
-      user.click(getByText('CloseFiscalYearForm'));
+      await user.click(getByText('CloseFiscalYearForm'));
 
       expect(history.push).toHaveBeenCalledWith({ pathname: `${LEDGERS_ROUTE}/create`, search: '', state: { fiscalYearOneId: undefined } });
     });
   });
 
   describe('Submit form', () => {
-    it('should submit fiscal year form', () => {
+    it('should submit fiscal year form', async () => {
       const { getByText } = renderFiscalYearForm();
 
-      user.click(getByText('CreateFiscalYear'));
+      await user.click(getByText('CreateFiscalYear'));
 
       expect(mockSaveFiscalYear).toHaveBeenCalled();
     });

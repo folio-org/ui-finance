@@ -372,7 +372,7 @@
   "transaction.button.confirm": "Confirm",
   "transaction.button.transfer": "Transfer",
   "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
-  "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
+  "transaction.confirmModal.negativeAvailableAmount.message": "Completing this {transactionType, select, Transfer {transfer} Allocation {allocation} other {transaction}} will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
   "transaction.date": "Transaction date",
   "transaction.description": "Description",
   "transaction.expended": "Expended",

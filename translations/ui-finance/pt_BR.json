@@ -131,7 +131,7 @@
     "transaction.from": "De",
     "transaction.information": "Informação",
     "transaction.source.User": "Usuário",
-    "transaction.source.Voucher": "Voucher",
+    "transaction.source.Voucher": "Comprovante",
     "transaction.source": "Fonte",
     "transaction.tags": "Tags",
     "transaction.to": "Para",

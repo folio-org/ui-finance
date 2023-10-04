@@ -19,6 +19,7 @@ import { getFundActiveBudget } from '../../../common/utils';
 import { ALLOCATION_TYPE } from '../../constants';
 import { createTransactionFlow } from '../createTransactionFlow';
 import {
+  isAllocationTransaction,
   isDecreaseAllocationType,
   isTransferTransaction,
 } from '../utils';
@@ -105,17 +106,24 @@ export const useCreateTransactionFlow = () => {
   const checkTransactionResultAvailableAmountStep = useCallback(async (formValues, accumulatedData, { abort }) => {
     const {
       transactionType,
+      allocationType,
       ...data
     } = accumulatedData;
 
-    const isCheckRequired = isTransferTransaction(transactionType);
+    const isCheckRequired = (
+      isTransferTransaction(transactionType)
+      || (isAllocationTransaction(transactionType) && isDecreaseAllocationType(allocationType))
+    );
 
     if (isCheckRequired) {
       const budgetNamesWithNegativeAmount = getBudgetsNamesWithNegativeAmmount(formValues, data, stripes.currency);
       const isAmountWillBeNegative = !!budgetNamesWithNegativeAmount.length;
 
       if (isAmountWillBeNegative) {
-        const values = { budgetName: budgetNamesWithNegativeAmount.join(', ') };
+        const values = {
+          budgetName: budgetNamesWithNegativeAmount.join(', '),
+          transactionType,
+        };
 
         await showConfirmTransactionCreateModal({
           abort,

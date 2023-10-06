@@ -462,7 +462,7 @@
     "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
-    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this transfer will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
+    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this {transactionType, select, Transfer {transfer} Allocation {allocation} other {transaction}} will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
     "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget",
     "ledger.rollover.rolloverBudgetValue": "Rollover budget value",
     "ledger.rollover.rolloverBudgetValue.available": "Available",

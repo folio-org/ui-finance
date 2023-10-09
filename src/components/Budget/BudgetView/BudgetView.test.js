@@ -1,5 +1,6 @@
-import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
+
 import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import BudgetView from './BudgetView';
@@ -10,12 +11,20 @@ const defaultProps = {
   fiscalYearCurrency: 'USD',
 };
 
-const renderBudgetView = (props = defaultProps) => (render(
+const wrapper = ({ children }) => (
+  <MemoryRouter>
+    <IntlProvider>
+      {children}
+    </IntlProvider>
+  </MemoryRouter>
+);
+
+const renderBudgetView = (props = defaultProps) => render(
   <BudgetView
     {...props}
   />,
-  { wrapper: MemoryRouter },
-));
+  { wrapper },
+);
 
 describe('BudgetView component', () => {
   it('should display budget view accordions', () => {

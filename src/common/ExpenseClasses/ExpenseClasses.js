@@ -1,7 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { isNumber, orderBy } from 'lodash';
+import {
+  FormattedMessage,
+  FormattedNumber,
+} from 'react-intl';
+import { orderBy } from 'lodash';
 
 import { MultiColumnList } from '@folio/stripes/components';
 import {
@@ -40,9 +43,13 @@ const getResultsFormatter = currency => ({
       currency={currency}
     />
   ),
-  percentageExpended: expenseClass => (isNumber(expenseClass.percentageExpended)
-    ? `${expenseClass.percentageExpended}%`
-    : <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended.undefined" />
+  percentageExpended: expenseClass => (
+    <FormattedNumber
+      // "style" prop of <FormattedNumber> has type `"currency" | "unit" | "decimal" | "percent" | undefined`
+      // eslint-disable-next-line react/style-prop-object
+      style="percent"
+      value={expenseClass.percentageExpended ?? 0}
+    />
   ),
   status: expenseClass => (
     <FormattedMessage

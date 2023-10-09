@@ -1,6 +1,7 @@
-import React from 'react';
-import { render } from '@folio/jest-config-stripes/testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
+
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import FundExpenseClasses from './FundExpenseClasses';
 
@@ -10,12 +11,20 @@ const defaultProps = {
   resources: { totals: { failed: false, isPending: false, records: [{}] } },
 };
 
-const renderFundExpenseClasses = (props = defaultProps) => (render(
+const wrapper = ({ children }) => (
+  <MemoryRouter>
+    <IntlProvider>
+      {children}
+    </IntlProvider>
+  </MemoryRouter>
+);
+
+const renderFundExpenseClasses = (props = defaultProps) => render(
   <FundExpenseClasses
     {...props}
   />,
-  { wrapper: MemoryRouter },
-));
+  { wrapper },
+);
 
 describe('FundExpenseClasses component', () => {
   it('should display label', () => {

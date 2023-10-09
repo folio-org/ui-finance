@@ -1,4 +1,3 @@
-import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -28,15 +27,20 @@ const EXPENSE_CLASSES = [
   },
 ];
 
-const renderComponent = () => render(
+const wrapper = ({ children }) => (
   <MemoryRouter>
     <IntlProvider>
-      <ExpenseClasses
-        expenseClassesTotals={EXPENSE_CLASSES}
-        id="id"
-      />
+      {children}
     </IntlProvider>
-  </MemoryRouter>,
+  </MemoryRouter>
+);
+
+const renderComponent = () => render(
+  <ExpenseClasses
+    expenseClassesTotals={EXPENSE_CLASSES}
+    id="id"
+  />,
+  { wrapper },
 );
 
 describe('ExpenseClasses', () => {

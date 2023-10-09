@@ -1,7 +1,9 @@
 import React from 'react';
+import { IntlProvider } from 'react-intl';
+import { MemoryRouter } from 'react-router-dom';
+
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 
 import ExpenseClasses from './ExpenseClasses';
 
@@ -26,14 +28,16 @@ const EXPENSE_CLASSES = [
   },
 ];
 
-const renderComponent = () => (render(
+const renderComponent = () => render(
   <MemoryRouter>
-    <ExpenseClasses
-      expenseClassesTotals={EXPENSE_CLASSES}
-      id="id"
-    />
+    <IntlProvider>
+      <ExpenseClasses
+        expenseClassesTotals={EXPENSE_CLASSES}
+        id="id"
+      />
+    </IntlProvider>
   </MemoryRouter>,
-));
+);
 
 describe('ExpenseClasses', () => {
   it('should default sort list by name', async () => {

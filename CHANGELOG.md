@@ -12,6 +12,7 @@
 * *BREAKING* bump `react` to `v18.2.0`Refs UIF-470.
 * Show an alert when decreasing allocation results in a negative available amount. Refs UIF-464.
 * Display `0` instead of `Undefined` in the "Percent of total expended" column. Refs UIF-479.
+* Bump optional plugins to their `@folio/stripes` `v9` compatible versions. Refs UIF-476.
 
 ## [4.0.4](https://github.com/folio-org/ui-finance/tree/v4.0.4) (2023-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.3...v4.0.4)

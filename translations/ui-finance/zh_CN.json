@@ -462,7 +462,7 @@
     "transaction.allocation.budgetNotFoundForTransaction": "{amount}未成功分配，因为<b> {fundCode} </b>没有预算",
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount}未成功分配给预算<b> {toBudgetName} </b> ，因为它超过了<b> {fromBudgetName} </b>的总分配金额",
     "transaction.confirmModal.negativeAvailableAmount.heading": "负可用金额",
-    "transaction.confirmModal.negativeAvailableAmount.message": "完成此转移将导致<b> {budgetName} </b>的可用金额为负。确定要完成此交易吗？",
+    "transaction.confirmModal.negativeAvailableAmount.message": "完成此{transactionType, select, Transfer { transfer } Allocation { allocation } other { transaction }}将导致<b> {budgetName} </b>的可用金额为负数。确定要完成此交易吗？",
     "transaction.transfer.budgetNotFoundForTransaction": "{amount}未成功转移，因为<b> {fundCode} </b>没有预算",
     "ledger.rollover.rolloverBudgetValue": "展期预算值",
     "ledger.rollover.rolloverBudgetValue.available": "可用",

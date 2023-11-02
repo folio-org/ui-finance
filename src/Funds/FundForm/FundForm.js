@@ -1,15 +1,27 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Field } from 'react-final-form';
-import { useHistory } from 'react-router';
 import {
   find,
   get,
 } from 'lodash';
+import PropTypes from 'prop-types';
+import { Field } from 'react-final-form';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
+import { useHistory } from 'react-router';
 
-import stripesFinalForm from '@folio/stripes/final-form';
-import { useOkapiKy } from '@folio/stripes/core';
+import {
+  AcqUnitsField,
+  DonorsList,
+  FieldMultiSelectionFinal as FieldMultiSelection,
+  FieldSelectionFinal as FieldSelection,
+  FormFooter,
+  FUNDS_API,
+  handleKeyCommand,
+  OptimisticLockingBanner,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
@@ -27,19 +39,10 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { useOkapiKy } from '@folio/stripes/core';
+import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import {
-  AcqUnitsField,
-  FieldMultiSelectionFinal as FieldMultiSelection,
-  FieldSelectionFinal as FieldSelection,
-  FormFooter,
-  FUNDS_API,
-  handleKeyCommand,
-  OptimisticLockingBanner,
-  validateRequired,
-} from '@folio/stripes-acq-components';
 
-import { FieldFundGroups } from '../FundGroups';
 import {
   CREATE_UNITS_PERM,
   FUNDS_ROUTE,
@@ -53,6 +56,7 @@ import {
   FUND_STATUSES_OPTIONS,
   SECTIONS_FUND,
 } from '../constants';
+import { FieldFundGroups } from '../FundGroups';
 
 const parseMultiSelectionValue = (items) => items.map(({ value }) => value);
 
@@ -85,6 +89,7 @@ const FundForm = ({
   });
   const fundId = initialValues.fund.id;
   const fundLedgerId = get(formValues, 'fund.ledgerId');
+  const donorOrganizationIds = get(initialValues, 'fund.donorOrganizationIds', []);
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -279,7 +284,6 @@ const FundForm = ({
                             validateFields={[]}
                           />
                         </Col>
-
                         <Col
                           data-test-col-ledger
                           xs={3}
@@ -409,6 +413,16 @@ const FundForm = ({
                           />
                         </Col>
                       </Row>
+                    </Accordion>
+                    <Accordion
+                      closedByDefault
+                      id={SECTIONS_FUND.DONOR_INFORMATION}
+                      label={<FormattedMessage id="ui-finance.fund.information.donorInformation" />}
+                    >
+                      <DonorsList
+                        name="fund.donorOrganizationIds"
+                        donorOrganizationIds={donorOrganizationIds}
+                      />
                     </Accordion>
                   </AccordionSet>
                 </AccordionStatus>

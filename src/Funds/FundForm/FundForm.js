@@ -13,7 +13,7 @@ import { useHistory } from 'react-router';
 
 import {
   AcqUnitsField,
-  DonorsList,
+  Donors,
   FieldMultiSelectionFinal as FieldMultiSelection,
   FieldSelectionFinal as FieldSelection,
   FormFooter,
@@ -419,9 +419,11 @@ const FundForm = ({
                       id={SECTIONS_FUND.DONOR_INFORMATION}
                       label={<FormattedMessage id="ui-finance.fund.information.donorInformation" />}
                     >
-                      <DonorsList
+                      <Donors
                         name="fund.donorOrganizationIds"
                         donorOrganizationIds={donorOrganizationIds}
+                        visibleColumns={['name', 'code', 'unassignDonor']}
+                        columnWidths={{ name: '45%', code: '45%', unassignDonor: '10%' }}
                       />
                     </Accordion>
                   </AccordionSet>

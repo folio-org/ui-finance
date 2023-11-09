@@ -17,6 +17,10 @@ import FundForm from './FundForm';
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
 });
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  Donors: jest.fn(() => 'Donors'),
+}));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
   expandAllSections: jest.fn(),
@@ -67,6 +71,12 @@ describe('FundForm component', () => {
 
     expect(getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
     expect(getByText('ui-finance.saveAndClose')).toBeDefined();
+  });
+
+  it('should display Donors', () => {
+    renderFundForm();
+
+    expect(screen.getByText('Donors')).toBeInTheDocument();
   });
 
   describe('Close form', () => {

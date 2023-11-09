@@ -266,6 +266,7 @@
   "fund.information.name": "Name",
   "fund.information.status": "Status",
   "fund.information.title": "Fund information",
+  "fund.information.donorInformation": "Donor information",
   "fund.information.transferFrom": "Transfer from",
   "fund.information.transferTo": "Transfer to",
   "fund.information.type": "Type",

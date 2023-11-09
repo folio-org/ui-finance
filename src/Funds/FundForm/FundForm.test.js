@@ -19,7 +19,7 @@ jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
 });
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
-  DonorsList: jest.fn(() => 'DonorsList'),
+  Donors: jest.fn(() => 'Donors'),
 }));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
@@ -73,10 +73,10 @@ describe('FundForm component', () => {
     expect(getByText('ui-finance.saveAndClose')).toBeDefined();
   });
 
-  it('should display DonorsList', () => {
+  it('should display Donors', () => {
     renderFundForm();
 
-    expect(screen.getByText('DonorsList')).toBeInTheDocument();
+    expect(screen.getByText('Donors')).toBeInTheDocument();
   });
 
   describe('Close form', () => {

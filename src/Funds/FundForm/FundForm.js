@@ -422,8 +422,6 @@ const FundForm = ({
                       <Donors
                         name="fund.donorOrganizationIds"
                         donorOrganizationIds={donorOrganizationIds}
-                        visibleColumns={['name', 'code', 'unassignDonor']}
-                        columnWidths={{ name: '45%', code: '45%', unassignDonor: '10%' }}
                       />
                     </Accordion>
                   </AccordionSet>

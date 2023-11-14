@@ -473,5 +473,6 @@
     "fiscalYear.information.periodEndUTC": "Datum ukončení období (UTC)",
     "fiscalYear.information.periodStartUTC": "Datum začátku období (UTC)",
     "permission.settings.view": "Nastavení (Finance): Zobrazit nastavení",
-    "permission.settings.exportFundAndExpenseClassCodes": "Nastavení (Finance): Exportovat kódy tříd fondů a výdajů"
+    "permission.settings.exportFundAndExpenseClassCodes": "Nastavení (Finance): Exportovat kódy tříd fondů a výdajů",
+    "fund.information.donorInformation": "Donor information"
 }

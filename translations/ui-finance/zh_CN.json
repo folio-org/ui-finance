@@ -473,5 +473,6 @@
     "fiscalYear.information.periodEndUTC": "期间结束日期(UTC)",
     "fiscalYear.information.periodStartUTC": "期间开始日期(UTC)",
     "permission.settings.view": "设置（财务）：查看设置",
-    "permission.settings.exportFundAndExpenseClassCodes": "设置（财务）：导出经费和支出类别代码"
+    "permission.settings.exportFundAndExpenseClassCodes": "设置（财务）：导出经费和支出类别代码",
+    "fund.information.donorInformation": "Donor information"
 }

@@ -473,5 +473,6 @@
     "fiscalYear.information.periodEndUTC": "Data final do período",
     "fiscalYear.information.periodStartUTC": "Data de início do período",
     "permission.settings.view": "Configurações (Finanças): Ver configurações",
-    "permission.settings.exportFundAndExpenseClassCodes": "Configurações (Finanças): Exportar códigos de classe de fundos e despesas"
+    "permission.settings.exportFundAndExpenseClassCodes": "Configurações (Finanças): Exportar códigos de classe de fundos e despesas",
+    "fund.information.donorInformation": "Informações do doador"
 }

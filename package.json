@@ -289,6 +289,7 @@
           "invoice.invoices.item.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
+          "organizations.organizations.collection.get",
           "tags.collection.get",
           "users.collection.get"
         ]

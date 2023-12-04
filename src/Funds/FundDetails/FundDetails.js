@@ -1,12 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Checkbox,
   Col,
-  Row,
   KeyValue,
   NoValue,
+  Row,
 } from '@folio/stripes/components';
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
@@ -76,6 +76,14 @@ const FundDetails = ({
         <KeyValue
           label={<FormattedMessage id="ui-finance.fund.information.externalAccount" />}
           value={fund.externalAccountNo}
+        />
+      </Col>
+      <Col xs={3}>
+        <Checkbox
+          checked={fund.restrictByLocations}
+          disabled
+          label={<FormattedMessage id="ui-finance.fund.information.restrictByLocations" />}
+          vertical
         />
       </Col>
     </Row>

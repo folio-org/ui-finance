@@ -26,6 +26,7 @@ import {
   Accordion,
   AccordionSet,
   AccordionStatus,
+  Checkbox,
   checkScope,
   Col,
   collapseAllSections,
@@ -409,6 +410,16 @@ const FundForm = ({
                             label={<FormattedMessage id="ui-finance.fund.information.description" />}
                             name="fund.description"
                             type="text"
+                            validateFields={[]}
+                          />
+                        </Col>
+                        <Col xs={6}>
+                          <Field
+                            component={Checkbox}
+                            label={<FormattedMessage id="ui-finance.fund.information.restrictByLocations" />}
+                            name="fund.restrictByLocations"
+                            type="checkbox"
+                            vertical
                             validateFields={[]}
                           />
                         </Col>

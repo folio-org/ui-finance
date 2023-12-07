@@ -1,12 +1,12 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { FORM_ERROR } from 'final-form';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { useCallback, useState, useEffect } from 'react';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
 import { withRouter } from 'react-router-dom';
-import { FORM_ERROR } from 'final-form';
 
 import {
   stripesConnect,
@@ -32,6 +32,11 @@ import {
 import { FUND_STATUSES } from '../constants';
 import FundForm from './FundForm';
 import { fetchFundsByName } from './fetchFunds';
+
+const INITIAL_FUND_VALUES = {
+  fundStatus: FUND_STATUSES.ACTIVE,
+  restrictByLocations: false,
+};
 
 const FundFormContainer = ({
   match,
@@ -68,7 +73,7 @@ const FundFormContainer = ({
           });
       } else {
         setFund({
-          fund: { fundStatus: FUND_STATUSES.ACTIVE },
+          fund: INITIAL_FUND_VALUES,
           groupIds: [],
         });
       }

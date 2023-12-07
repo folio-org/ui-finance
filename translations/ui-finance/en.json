@@ -267,6 +267,7 @@
   "fund.information.status": "Status",
   "fund.information.title": "Fund information",
   "fund.information.donorInformation": "Donor information",
+  "fund.information.restrictByLocations": "Restrict use by location",
   "fund.information.transferFrom": "Transfer from",
   "fund.information.transferTo": "Transfer to",
   "fund.information.type": "Type",

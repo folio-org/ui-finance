@@ -58,6 +58,7 @@ import {
   SECTIONS_FUND,
 } from '../constants';
 import { FieldFundGroups } from '../FundGroups';
+import { FundLocations } from './FundLocations';
 
 const parseMultiSelectionValue = (items) => items.map(({ value }) => value);
 
@@ -91,6 +92,8 @@ const FundForm = ({
   const fundId = initialValues.fund.id;
   const fundLedgerId = get(formValues, 'fund.ledgerId');
   const donorOrganizationIds = get(initialValues, 'fund.donorOrganizationIds', []);
+  const isLocationRestricted = get(formValues, 'fund.restrictByLocations', false);
+  const assignedLocations = get(formValues, 'fund.locationIds');
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -425,6 +428,19 @@ const FundForm = ({
                         </Col>
                       </Row>
                     </Accordion>
+
+                    {isLocationRestricted && (
+                      <Accordion
+                        id={SECTIONS_FUND.LOCATIONS}
+                        label={<FormattedMessage id="ui-finance.fund.information.locations" />}
+                      >
+                        <FundLocations
+                          name="fund.locationIds"
+                          assignedLocations={assignedLocations}
+                        />
+                      </Accordion>
+                    )}
+
                     <Accordion
                       closedByDefault
                       id={SECTIONS_FUND.DONOR_INFORMATION}

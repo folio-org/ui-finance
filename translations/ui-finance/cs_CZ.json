@@ -1,5 +1,5 @@
 {
-    "search": "Vyhledávání",
+    "search": "Vyhledat",
     "resultCount": "{count, number} {count, plural, one {nalezený záznam} other {nalezených záznamů}}",
     "meta.title": "Finance",
     "ledger.name": "Název",
@@ -474,5 +474,6 @@
     "fiscalYear.information.periodStartUTC": "Datum začátku období (UTC)",
     "permission.settings.view": "Nastavení (Finance): Zobrazit nastavení",
     "permission.settings.exportFundAndExpenseClassCodes": "Nastavení (Finance): Exportovat kódy tříd fondů a výdajů",
-    "fund.information.donorInformation": "Informace o dárci"
+    "fund.information.donorInformation": "Informace o dárci",
+    "fund.information.restrictByLocations": "Restrict use by location"
 }

@@ -382,7 +382,7 @@
     "settings.button.export": "Export",
     "settings.exportFund.title": "Export fund and expense class codes",
     "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
-    "settings.exportFund.exportSettings": "Export settings",
+    "settings.exportFund.exportSettings": "Ustawienia eksportu",
     "settings.exportFund.success": "Combined code list was successfully exported.",
     "validation.mustNotIncludeColon": "Code must not include a colon",
     "groups.actions.addFunds": "Add to group",
@@ -394,7 +394,7 @@
     "ledger.rollover.basedOn.initialEncumbrance": "Initial encumbrance",
     "appMenu.financeAppSearch": "Finance app Search",
     "transaction.voided": "Voided transaction",
-    "exportCSV.exportSettings.heading": "Export settings",
+    "exportCSV.exportSettings.heading": "Ustawienia eksportu",
     "exportCSV.exportSettings.message": "Ten eksport może potrwać kilka minut. Jeśli przeładujesz lub zamkniesz stronę, eksport nie zostanie ukończony. Gdy plik będzie gotowy, może minąć kolejna minuta, zanim przeglądarka zakończy jego pobieranie. W razie potrzeby możesz kontynuować pracę z zamówieniami i pozycjami zamówień w innej zakładce przeglądarki.",
     "exportCSV.exportSettings.cancel": "Anuluj",
     "exportCSV.exportSettings.export": "Export",
@@ -423,7 +423,7 @@
     "invoice.invoiceDate": "Invoice data",
     "invoice.status": "Status",
     "invoice.invoiceTotal": "Total amount (system)",
-    "invoice.status.Approved": "Approved",
+    "invoice.status.Approved": "Zatwierdzony",
     "invoice.status.Open": "Open",
     "invoice.status.Reviewed": "Reviewed",
     "invoice.unpaidInvoices": "Unpaid invoices",
@@ -437,7 +437,7 @@
     "ledger.rollover.logs.results": "Results",
     "ledger.rollover.logs.startDate": "Start time",
     "ledger.rollover.logs.status": "Status",
-    "ledger.rollover.logs.source": "Source",
+    "ledger.rollover.logs.source": "Źródło",
     "ledger.rollover.rolloverTest": "Rollover test",
     "ledger.rollover.status.error": "Failed",
     "ledger.rollover.status.inProgress": "In progress",
@@ -474,5 +474,6 @@
     "fiscalYear.information.periodStartUTC": "Data rozpoczęcia okresu",
     "permission.settings.view": "Settings (Finance): View settings",
     "permission.settings.exportFundAndExpenseClassCodes": "Settings (Finance): Export fund and expense class codes",
-    "fund.information.donorInformation": "Donor information"
+    "fund.information.donorInformation": "Donor information",
+    "fund.information.restrictByLocations": "Restrict use by location"
 }

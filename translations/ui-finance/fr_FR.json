@@ -474,5 +474,6 @@
     "fiscalYear.information.periodStartUTC": "Period Begin Date (UTC)",
     "permission.settings.view": "Paramètres (Finances) : Afficher les paramètres",
     "permission.settings.exportFundAndExpenseClassCodes": "Settings (Finance): Export fund and expense class codes",
-    "fund.information.donorInformation": "Donor information"
+    "fund.information.donorInformation": "Donor information",
+    "fund.information.restrictByLocations": "Restrict use by location"
 }

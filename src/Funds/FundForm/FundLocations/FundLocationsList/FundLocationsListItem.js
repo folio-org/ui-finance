@@ -42,10 +42,7 @@ export const FundLocationsListItem = ({
 };
 
 FundLocationsListItem.propTypes = {
-  location: PropTypes.object,
-  index: PropTypes.number,
-  fields: PropTypes.object,
-  showPerms: PropTypes.bool,
-  permToDelete: PropTypes.string,
-  changePermissions: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };

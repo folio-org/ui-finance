@@ -27,11 +27,11 @@ export const FundLocations = ({ assignedLocations, name }) => {
 
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState();
 
-  const onRecordsSelect = useCallback((locations) => {
-    const locationIds = locations.map(({ id }) => id);
+  const onRecordsSelect = useCallback((records) => {
+    const locationIds = records.map(({ id }) => id);
 
     change(name, locationIds);
-  }, [name]);
+  }, [change, name]);
 
   const openUnassignModal = (e) => {
     e.preventDefault();
@@ -84,13 +84,13 @@ export const FundLocations = ({ assignedLocations, name }) => {
       />
     </>
   );
-}
+};
 
 FundLocations.defaultProps = {
   assignedLocations: [],
-}
+};
 
 FundLocations.propTypes = {
   assignedLocations: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string.isRequired,
-}
+};

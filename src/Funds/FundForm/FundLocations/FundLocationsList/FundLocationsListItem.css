@@ -1,0 +1,20 @@
+.itemValue,
+.removeBtn {
+  margin: 0 9px;
+}
+
+.removeIconRoot {
+  padding: 0 4px;
+
+  & .removeIcon {
+      fill: #999;
+      transition: fill .2s ease;
+    }
+
+  &:hover {
+    & .removeIcon{
+      fill: #555;
+    }
+  }
+}
+  

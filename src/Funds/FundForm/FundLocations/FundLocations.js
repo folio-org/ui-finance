@@ -1,19 +1,31 @@
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useForm } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 
-import { FindLocation } from '@folio/stripes-acq-components';
+import {
+  Button,
+  ConfirmationModal,
+  Loading,
+} from '@folio/stripes/components';
+import {
+  FindLocation,
+  useLocations,
+} from '@folio/stripes-acq-components';
 
 import { FundLocationsList } from './FundLocationsList';
 
-const INITIAL_FILTERS = { isAssigned: [true] };
+import css from './FundLocations.css';
 
-export const FundLocations = ({
-  assignedLocations,
-  name,
-}) => {
+const INITIAL_FILTERS = { isAssigned: [true] };
+const SCOPE_TRANSLATION_ID = 'ui-finance.fund.information.locations';
+
+export const FundLocations = ({ assignedLocations, name }) => {
   const { change } = useForm();
+  const { isLoading, locations } = useLocations();
+
+  const [isUnassignModalOpen, setIsUnassignModalOpen] = useState();
 
   const onRecordsSelect = useCallback((locations) => {
     const locationIds = locations.map(({ id }) => id);
@@ -21,18 +33,54 @@ export const FundLocations = ({
     change(name, locationIds);
   }, [name]);
 
+  const openUnassignModal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsUnassignModalOpen(true);
+  };
+
+  const closeIsUnassignModal = () => setIsUnassignModalOpen(false);
+
+  const unassignAll = () => {
+    change(name, []);
+    closeIsUnassignModal();
+  };
+
+  if (isLoading) return <Loading />;
+
   return (
     <>
-      <FundLocationsList
-        items={assignedLocations}
+      <FieldArray
+        component={FundLocationsList}
+        name={name}
+        locations={locations}
       />
 
-      <FindLocation
-        isMultiSelect
-        searchLabel={<FormattedMessage id="ui-finance.fund.information.locations.add" />}
-        initialFilters={assignedLocations.length ? INITIAL_FILTERS : undefined}
-        initialSelected={assignedLocations}
-        onRecordsSelect={onRecordsSelect}
+      <div className={css.actions}>
+        <FindLocation
+          isMultiSelect
+          searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
+          initialFilters={assignedLocations.length ? INITIAL_FILTERS : undefined}
+          initialSelected={assignedLocations}
+          onRecordsSelect={onRecordsSelect}
+        />
+
+        <Button
+          buttonClass={css.unassignAll}
+          disabled={!assignedLocations.length}
+          id="clickable-remove-all-locations"
+          onClick={openUnassignModal}
+        >
+          <FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.removeAll`} />
+        </Button>
+      </div>
+
+      <ConfirmationModal
+        open={isUnassignModalOpen}
+        heading={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.removeAll`} />}
+        message={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.removeAll.confirm.message`} />}
+        onConfirm={unassignAll}
+        onCancel={closeIsUnassignModal}
       />
     </>
   );

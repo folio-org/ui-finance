@@ -14,7 +14,7 @@ export const FundLocationsList = ({ fields, locations }) => {
   const items = useMemo(() => {
     return value
       .map((locationId) => locations.find(location => locationId === location.id) || {})
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a, b) => a?.name?.localeCompare(b?.name));
   }, [value, locations]);
 
   const onRemove = useCallback((location) => {
@@ -28,6 +28,7 @@ export const FundLocationsList = ({ fields, locations }) => {
   const itemFormatter = useCallback((location, index) => {
     return (
       <FundLocationsListItem
+        key={location.id}
         location={location}
         index={index}
         onRemove={onRemove}

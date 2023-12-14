@@ -25,7 +25,7 @@ export const FundLocations = ({ assignedLocations, name }) => {
   const { change } = useForm();
   const { isLoading, locations } = useLocations();
 
-  const [isUnassignModalOpen, setIsUnassignModalOpen] = useState();
+  const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
   const onRecordsSelect = useCallback((records) => {
     const locationIds = records.map(({ id }) => id);

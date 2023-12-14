@@ -1,9 +1,14 @@
-import React from 'react';
+import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
-import { Form } from 'react-final-form';
 
-import { act, render, screen, waitFor, within } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  act,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   HasCommand,
@@ -20,6 +25,8 @@ jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   Donors: jest.fn(() => 'Donors'),
+  FindLocation: jest.fn(() => 'FindLocation'),
+  useLocations: jest.fn(() => ({})),
 }));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
@@ -77,6 +84,16 @@ describe('FundForm component', () => {
     renderFundForm();
 
     expect(screen.getByText('Donors')).toBeInTheDocument();
+  });
+
+  it('should render locations form for a fund restricted by locations', async () => {
+    renderFundForm();
+
+    expect(screen.queryByText('ui-finance.fund.information.locations')).not.toBeInTheDocument();
+
+    await user.click(screen.getByLabelText('ui-finance.fund.information.restrictByLocations'));
+
+    expect(screen.getByText('ui-finance.fund.information.locations')).toBeInTheDocument();
   });
 
   describe('Close form', () => {

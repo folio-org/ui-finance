@@ -10,11 +10,7 @@ import css from './FundLocationsListItem.css';
 
 const formatLocationValue = ({ name, code }) => [name, code && `(${code})`].join(' ');
 
-export const FundLocationsListItem = ({
-  location,
-  index,
-  onRemove,
-}) => {
+export const FundLocationsListItem = ({ location, index, onRemove }) => {
   return (
     <li className={css.listItem}>
       <span className={css.itemValue}>{formatLocationValue(location)}</span>
@@ -27,7 +23,7 @@ export const FundLocationsListItem = ({
             type="button"
             id={`clickable-remove-location-${index}`}
             onClick={() => onRemove(location)}
-            aria-label={`${aria}: ${location.name}`}
+            aria-label={`${aria}: ${formatLocationValue(location)}`}
           >
             <Icon
               icon="times-circle"

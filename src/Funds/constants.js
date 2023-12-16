@@ -7,6 +7,7 @@ export const SECTIONS_FUND = {
   PREVIOUS_BUDGETS: 'previousBudgets',
   currentExpenseClasses: 'currentExpenseClasses',
   DONOR_INFORMATION: 'donorInformation',
+  LOCATIONS: 'locations',
 };
 
 export const FUND_STATUSES = {

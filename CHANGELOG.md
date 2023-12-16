@@ -4,6 +4,7 @@
 
 * Add donor info to Fund. Refs UIF-473.
 * Designate funds as location use restricted. Refs UIF-482.
+* Assign locations to restricted funds. Refs UIF-484.
 
 ## [5.0.0](https://github.com/folio-org/ui-finance/tree/v5.0.0) (2023-10-12)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.4...v5.0.0)

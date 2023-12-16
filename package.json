@@ -36,6 +36,8 @@
       "finance.order-transaction-summaries": "1.0",
       "finance.transactions": "4.0 5.0",
       "invoice": "7.0",
+      "locations": "3.0",
+      "location-units": "2.0",
       "order-lines": "2.0 3.0",
       "tags": "1.0",
       "users": "15.0 16.0"
@@ -303,6 +305,10 @@
           "acquisitions-units.memberships.collection.get",
           "finance.budgets.item.put",
           "finance.funds.item.put",
+          "inventory-storage.locations.collection.get",
+          "inventory-storage.location-units.campuses.collection.get",
+          "inventory-storage.location-units.institutions.collection.get",
+          "inventory-storage.location-units.libraries.collection.get",
           "tags.item.post"
         ]
       },

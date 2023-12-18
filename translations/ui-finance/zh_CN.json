@@ -475,5 +475,11 @@
     "permission.settings.view": "设置（财务）：查看设置",
     "permission.settings.exportFundAndExpenseClassCodes": "设置（财务）：导出经费和支出类别代码",
     "fund.information.donorInformation": "捐赠者信息",
-    "fund.information.restrictByLocations": "Restrict use by location"
+    "fund.information.restrictByLocations": "Restrict use by location",
+    "fund.information.locations": "Locations",
+    "fund.information.locations.action.add": "Add location",
+    "fund.information.locations.action.remove": "Remove location",
+    "fund.information.locations.action.removeAll": "Unassign all locations",
+    "fund.information.locations.action.removeAll.confirm.message": "Are you sure you want to unassign all locations from the fund?",
+    "fund.information.locations.empty": "No locations found"
 }

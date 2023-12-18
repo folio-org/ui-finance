@@ -475,5 +475,11 @@
     "permission.settings.view": "Paramètres (Finances) : Afficher les paramètres",
     "permission.settings.exportFundAndExpenseClassCodes": "Settings (Finance): Export fund and expense class codes",
     "fund.information.donorInformation": "Donor information",
-    "fund.information.restrictByLocations": "Restrict use by location"
+    "fund.information.restrictByLocations": "Restrict use by location",
+    "fund.information.locations": "Locations",
+    "fund.information.locations.action.add": "Add location",
+    "fund.information.locations.action.remove": "Remove location",
+    "fund.information.locations.action.removeAll": "Unassign all locations",
+    "fund.information.locations.action.removeAll.confirm.message": "Are you sure you want to unassign all locations from the fund?",
+    "fund.information.locations.empty": "No locations found"
 }

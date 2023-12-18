@@ -475,5 +475,11 @@
     "permission.settings.view": "Configurações (Finanças): Ver configurações",
     "permission.settings.exportFundAndExpenseClassCodes": "Configurações (Finanças): Exportar códigos de classe de fundos e despesas",
     "fund.information.donorInformation": "Informações do doador",
-    "fund.information.restrictByLocations": "Restringir o uso por local"
+    "fund.information.restrictByLocations": "Restringir o uso por local",
+    "fund.information.locations": "Localizações",
+    "fund.information.locations.action.add": "Adicionar localização",
+    "fund.information.locations.action.remove": "Remover localização",
+    "fund.information.locations.action.removeAll": "Cancelar a atribuição de todos as localizações",
+    "fund.information.locations.action.removeAll.confirm.message": "Tem certeza de que deseja cancelar a atribuição de todas as localizações do fundo?",
+    "fund.information.locations.empty": "Nenhuma localização encontrada"
 }

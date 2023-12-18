@@ -475,5 +475,11 @@
     "permission.settings.view": "Nastavení (Finance): Zobrazit nastavení",
     "permission.settings.exportFundAndExpenseClassCodes": "Nastavení (Finance): Exportovat kódy tříd fondů a výdajů",
     "fund.information.donorInformation": "Informace o dárci",
-    "fund.information.restrictByLocations": "Restrict use by location"
+    "fund.information.restrictByLocations": "Omezení používání podle umístění",
+    "fund.information.locations": "Lokace",
+    "fund.information.locations.action.add": "Přidat lokaci",
+    "fund.information.locations.action.remove": "Odebrat lokaci",
+    "fund.information.locations.action.removeAll": "Unassign all locations",
+    "fund.information.locations.action.removeAll.confirm.message": "Are you sure you want to unassign all locations from the fund?",
+    "fund.information.locations.empty": "Nebyla nalezena žádná lokace"
 }

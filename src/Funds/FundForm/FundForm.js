@@ -91,7 +91,7 @@ const FundForm = ({
   });
   const fundId = initialValues.fund.id;
   const fundLedgerId = get(formValues, 'fund.ledgerId');
-  const donorOrganizationIds = get(initialValues, 'fund.donorOrganizationIds', []);
+  const donorOrganizationIds = get(formValues, 'fund.donorOrganizationIds', []);
   const isLocationRestricted = get(formValues, 'fund.restrictByLocations', false);
   const assignedLocations = get(formValues, 'fund.locationIds');
 

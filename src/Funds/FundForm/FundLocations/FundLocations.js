@@ -18,7 +18,6 @@ import { FundLocationsList } from './FundLocationsList';
 
 import css from './FundLocations.css';
 
-const INITIAL_FILTERS = { isAssigned: [true] };
 const SCOPE_TRANSLATION_ID = 'ui-finance.fund.information.locations';
 
 export const FundLocations = ({ assignedLocations, name }) => {
@@ -60,7 +59,6 @@ export const FundLocations = ({ assignedLocations, name }) => {
         <FindLocation
           isMultiSelect
           searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
-          initialFilters={assignedLocations.length ? INITIAL_FILTERS : undefined}
           initialSelected={assignedLocations}
           onRecordsSelect={onRecordsSelect}
         />

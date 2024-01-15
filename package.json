@@ -333,6 +333,15 @@
         ]
       },
       {
+        "permissionName": "ui-finance.fund-budget.recalculateTotals",
+        "displayName": "Finance: Recalculate budget totals",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fund-budget.view",
+          "finance.budgets-recalculate.item.post"
+        ]
+      },
+      {
         "permissionName": "ui-finance.acq.unit.assignment.assign",
         "displayName": "Finance: Assign acquisition units to new record",
         "description": "",

@@ -24,6 +24,7 @@ import {
 import {
   IfPermission,
   stripesConnect,
+  useOkapiKy,
 } from '@folio/stripes/core';
 import {
   baseManifest,
@@ -45,7 +46,10 @@ import {
 import { ALLOCATION_TYPE } from '../../../Transactions/constants';
 import CreateTransaction from '../../../Transactions/CreateTransaction';
 import BudgetView from './BudgetView';
-import { handleRemoveErrorResponse } from './utils';
+import {
+  handleRecalculateTotalsErrorResponse,
+  handleRemoveErrorResponse,
+} from './utils';
 
 export const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => {
   const budgetId = match.params.budgetId;
@@ -53,6 +57,9 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
   const [fiscalYear, setFiscalYear] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [expenseClassesTotals, setExpenseClassesTotals] = useState();
+
+  const ky = useOkapiKy();
+  const intl = useIntl();
   const showCallout = useShowCallout();
   const accordionStatusRef = useRef();
 
@@ -93,6 +100,17 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
   const [isDecreaseAllocationModalOpened, toggleDecreaseAllocationModal] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
 
+  const onRecalculateBudgetTotals = () => {
+    return ky.post(`${BUDGETS_API}/${budgetId}/recalculate`)
+      .json()
+      .then(() => {
+        showCallout({ messageId: 'ui-finance.budget.actions.recalculateTotals.success' });
+      })
+      .catch(async (e) => {
+        await handleRecalculateTotalsErrorResponse(intl, showCallout, e);
+      });
+  };
+
   const editBudget = useCallback(
     () => {
       const path = `/finance/budget/${budget.id}/edit`;
@@ -105,7 +123,6 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
     [history, budget, location.search],
   );
 
-  const intl = useIntl();
   const removeBudget = useCallback(
     () => {
       mutator.budgetById.DELETE({ id: budgetId }, { silent: true })
@@ -227,6 +244,24 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
             icon="transfer"
           >
             <FormattedMessage id="ui-finance.transaction.button.transfer" />
+          </Icon>
+        </Button>
+      </IfPermission>
+
+      <IfPermission perm="ui-finance.fund-budget.recalculateTotals">
+        <Button
+          data-testid="recalculate-budget-totals-button"
+          buttonStyle="dropdownItem"
+          onClick={() => {
+            onToggle();
+            onRecalculateBudgetTotals();
+          }}
+        >
+          <Icon
+            size="small"
+            icon="refresh"
+          >
+            <FormattedMessage id="ui-finance.budget.actions.recalculateBudgetTotals" />
           </Icon>
         </Button>
       </IfPermission>

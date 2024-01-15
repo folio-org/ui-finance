@@ -168,6 +168,9 @@
   "fiscalyear": "Fiscal year",
 
   "budget.actions.load.error": "Failed to load budget data",
+  "budget.actions.recalculateBudgetTotals": "Recalculate budget totals",
+  "budget.actions.recalculateTotals.success": "Budget totals have been updated based on current budget transactions",
+  "budget.actions.recalculateTotals.error.genericError": "Budget totals could not be updated based on current budget transactions",
   "budget.actions.remove.success": "Budget has been deleted",
   "budget.actions.remove.error.genericError": "Budget has not been deleted",
   "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
@@ -494,6 +497,7 @@
   "permission.fund-budget.delete": "Finance: View, edit, delete fund and budget",
   "permission.fund-budget.edit": "Finance: View, edit fund and budget",
   "permission.fund-budget.view": "Finance: View fund and budget",
+  "permission.fund-budget.recalculateTotals": "Finance: Recalculate budget totals",
   "permission.group.create": "Finance: View, edit, create group",
   "permission.group.delete": "Finance: View, edit, delete group",
   "permission.group.edit": "Finance: View, edit group",

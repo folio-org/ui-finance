@@ -60,6 +60,7 @@ const showCalloutMock = jest.fn();
 
 describe('BudgetViewContainer', () => {
   beforeEach(() => {
+    showCalloutMock.mockClear();
     kyMock.post.mockClear();
     useOkapiKy
       .mockClear()
@@ -121,7 +122,7 @@ describe('BudgetViewContainer', () => {
       const errorCode = 'someErrorCode';
 
       kyMock.post.mockImplementationOnce(() => ({
-        json: jest.fn().mockRejectedValueOnce({
+        json: jest.fn().mockRejectedValue({
           json: () => Promise.resolve({
             errors: [{ code: errorCode }],
           }),

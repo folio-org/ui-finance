@@ -18,6 +18,7 @@ import {
   LoadingView,
   MenuSection,
   Pane,
+  PaneHeader,
   Paneset,
   Row,
 } from '@folio/stripes/components';
@@ -309,7 +310,14 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
 
   if (isLoading) {
     return (
-      <LoadingView onClose={goToFundDetails} />
+      <LoadingView
+        renderHeader={(props) => (
+          <PaneHeader
+            {...props}
+            onClose={goToFundDetails}
+          />
+        )}
+      />
     );
   }
 

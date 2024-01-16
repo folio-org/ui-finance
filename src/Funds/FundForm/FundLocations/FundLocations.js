@@ -7,8 +7,8 @@ import { useLocations } from '@folio/stripes-acq-components';
 
 import { FundLocationsList } from './FundLocationsList';
 
-const validate = (locations = [], { fund }) => {
-  return fund?.restrictByLocations && locations.length === 0
+const validate = (locations, { fund }) => {
+  return fund?.restrictByLocations && (locations || []).length === 0
     ? <FormattedMessage id="ui-finance.validation.locationsRequired" />
     : undefined;
 };
@@ -19,16 +19,13 @@ export const FundLocations = ({ assignedLocations, name }) => {
   if (isLoading) return <Loading />;
 
   return (
-    <>
-      <FieldArray
-        component={FundLocationsList}
-        name={name}
-        assignedLocations={assignedLocations}
-        locations={locations}
-        validate={validate}
-      />
-
-    </>
+    <FieldArray
+      component={FundLocationsList}
+      name={name}
+      assignedLocations={assignedLocations}
+      locations={locations}
+      validate={validate}
+    />
   );
 };
 

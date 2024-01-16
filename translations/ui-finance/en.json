@@ -483,6 +483,7 @@
   "fiscalYear.code.isInUse": "This Fiscal year code is already in use",
 
   "validation.mustNotIncludeColon": "Code must not include a colon",
+  "validation.locationsRequired": "Locations must be assigned",
 
   "noPermissionsMessage": "You do not have permissions for this page.",
   "permission.acq.unit.assignment.assign": "Finance: Assign acquisition units to new record",

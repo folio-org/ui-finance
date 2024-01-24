@@ -404,7 +404,7 @@
     "exportCSV.exportSettings.export.success": "<b>{name}</b> data was successfully exported to CSV",
     "exportCSV.exportSettings.export.error": "Export of <b>{name}</b> data was failed",
     "exportCSV.exportSettings.expenseClasses": "Export expense classes",
-    "exportCSV.exportSettings.expenseClasses.all": "All",
+    "exportCSV.exportSettings.expenseClasses.all": "Wszystko",
     "exportCSV.exportSettings.expenseClasses.active": "Aktywny",
     "exportCSV.exportSettings.expenseClasses.inactive": "Nieaktywny",
     "exportCSV.exportSettings.expenseClasses.none": "None",

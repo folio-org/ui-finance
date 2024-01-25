@@ -104,6 +104,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
   const onRecalculateBudgetTotals = () => {
     return ky.post(`${BUDGETS_API}/${budgetId}/recalculate`)
       .json()
+      .then(fetchBudgetResources)
       .then(() => {
         showCallout({ messageId: 'ui-finance.budget.actions.recalculateTotals.success' });
       })

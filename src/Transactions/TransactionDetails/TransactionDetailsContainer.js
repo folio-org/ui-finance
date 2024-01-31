@@ -99,7 +99,8 @@ const TransactionDetailsContainer = ({
           messageId: 'ui-finance.transaction.releaseEncumbrance.success',
           type: 'success',
         });
-        refreshTransaction();
+
+        return refreshTransaction();
       },
       async (response) => {
         let errorCode = null;

@@ -462,7 +462,7 @@
     "transaction.allocation.budgetNotFoundForTransaction": "{amount} no se ha asignado correctamente porque <b>{fundCode}</b> no tiene presupuesto",
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} no se ha asignado correctamente al presupuesto <b>{toBudgetName}</b> porque supera el importe total de la asignación de <b>{fromBudgetName}</b>.",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Importe disponible negativo",
-    "transaction.confirmModal.negativeAvailableAmount.message": "Completar esta transferencia hará que <b>{budgetName}</b> tenga un importe disponible negativo. Está seguro de que desea completar esta transacción?",
+    "transaction.confirmModal.negativeAvailableAmount.message": "Completing this {transactionType, select, Transfer {transfer} Allocation {allocation} other {transaction}} will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
     "transaction.transfer.budgetNotFoundForTransaction": "{amount} no se ha transferido correctamente porque <b>{fundCode}</b> no tiene presupuesto",
     "ledger.rollover.rolloverBudgetValue": "Valor del presupuesto prorrogado",
     "ledger.rollover.rolloverBudgetValue.available": "Disponible",

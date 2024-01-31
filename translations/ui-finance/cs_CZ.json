@@ -479,7 +479,7 @@
     "fund.information.locations": "Lokace",
     "fund.information.locations.action.add": "Přidat lokaci",
     "fund.information.locations.action.remove": "Odebrat lokaci",
-    "fund.information.locations.action.removeAll": "Unassign all locations",
-    "fund.information.locations.action.removeAll.confirm.message": "Are you sure you want to unassign all locations from the fund?",
+    "fund.information.locations.action.removeAll": "Zrušit přiřazení všech lokací",
+    "fund.information.locations.action.removeAll.confirm.message": "Jste si jisti, že chcete zrušit přiřazení všech lokací z fondu?",
     "fund.information.locations.empty": "Nebyla nalezena žádná lokace"
 }

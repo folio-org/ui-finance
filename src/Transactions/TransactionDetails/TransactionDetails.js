@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -12,9 +12,11 @@ import {
   AccordionSet,
   Accordion,
   AccordionStatus,
+  PaneHeader,
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 import {
+  ORDER_STATUSES,
   TRANSACTION_TYPES,
   useModalToggle,
 } from '@folio/stripes-acq-components';
@@ -34,14 +36,24 @@ const TransactionDetails = ({
   toFundName,
   transaction,
   releaseTransaction,
+  unreleaseTransaction,
 }) => {
   const [isReleaseConfirmation, toggleReleaseConfirmation] = useModalToggle();
+  const [isUnreleaseConfirmation, toggleIsUnreleaseConfirmation] = useModalToggle();
+
   const isEncumbrance = transaction.transactionType === TRANSACTION_TYPES.encumbrance;
   const isNotReleased = transaction.encumbrance?.status !== ENCUMBRANCE_STATUS.released;
+
   const onRelease = useCallback(() => {
     toggleReleaseConfirmation();
     releaseTransaction();
   }, [releaseTransaction, toggleReleaseConfirmation]);
+
+  const onUnrelease = useCallback(() => {
+    return unreleaseTransaction()
+      .then(() => toggleIsUnreleaseConfirmation());
+  }, [unreleaseTransaction, toggleIsUnreleaseConfirmation]);
+
   const releaseBtn = useMemo(
     () => (
       <IfPermission perm="ui-finance.manually-release-encumbrances">
@@ -57,14 +69,47 @@ const TransactionDetails = ({
     [toggleReleaseConfirmation],
   );
 
-  return (
-    <Pane
-      lastMenu={(isEncumbrance && isNotReleased) ? releaseBtn : undefined}
-      id="pane-transaction-details"
-      defaultWidth="fill"
+  const unreleaseBtn = (
+    <IfPermission perm="ui-finance.encumbrance.unrelease">
+      <Button
+        buttonStyle="primary"
+        onClick={toggleIsUnreleaseConfirmation}
+        marginBottom0
+      >
+        <FormattedMessage id="ui-finance.transaction.unreleaseEncumbrance.button" />
+      </Button>
+    </IfPermission>
+  );
+
+  const getPaneHeaderLastMenu = () => {
+    if (isEncumbrance) {
+      if (isNotReleased) return releaseBtn;
+
+      const isOpenOrderReleasedEncumbrance = transaction.encumbrance?.orderStatus === ORDER_STATUSES.open;
+
+      return isOpenOrderReleasedEncumbrance
+        ? unreleaseBtn
+        : undefined;
+    }
+
+    return undefined;
+  };
+
+  const renderHeader = (paneHeaderProps) => (
+    <PaneHeader
+      {...paneHeaderProps}
       dismissible
+      lastMenu={getPaneHeaderLastMenu()}
       paneTitle={<FormattedMessage id={`ui-finance.transaction.type.${transaction.transactionType}`} />}
       onClose={onClose}
+    />
+  );
+
+  return (
+    <Pane
+      id="pane-transaction-details"
+      defaultWidth="fill"
+      renderHeader={renderHeader}
     >
       <AccordionStatus>
         <Row end="xs">
@@ -100,6 +145,15 @@ const TransactionDetails = ({
         />
       )}
 
+      <ConfirmationModal
+        open={isUnreleaseConfirmation}
+        id="unrelease-confirmation"
+        confirmLabel={<FormattedMessage id="ui-finance.transaction.button.confirm" />}
+        heading={<FormattedMessage id="ui-finance.transaction.unreleaseEncumbrance.heading" />}
+        message={<FormattedMessage id="ui-finance.transaction.unreleaseEncumbrance.message" />}
+        onCancel={toggleIsUnreleaseConfirmation}
+        onConfirm={onUnrelease}
+      />
     </Pane>
   );
 };
@@ -112,6 +166,7 @@ TransactionDetails.propTypes = {
   fromFundName: PropTypes.string,
   fundId: PropTypes.string.isRequired,
   releaseTransaction: PropTypes.func.isRequired,
+  unreleaseTransaction: PropTypes.func.isRequired,
 };
 
 export default TransactionDetails;

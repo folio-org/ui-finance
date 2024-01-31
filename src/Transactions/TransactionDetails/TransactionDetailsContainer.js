@@ -1,11 +1,17 @@
-import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useCallback, useState } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  useOkapiKy,
+} from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  getErrorCodeFromResponse,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
 import {
   fiscalYearResource,
@@ -15,6 +21,7 @@ import {
 } from '../../common/resources';
 import {
   FISCAL_YEARS_API,
+  UNRELEASE_ENCUMBRANCE_API,
 } from '../../common/const';
 import TransactionDetails from './TransactionDetails';
 
@@ -27,7 +34,10 @@ const TransactionDetailsContainer = ({
   fundId,
 }) => {
   const transactionId = match.params.id;
+
+  const ky = useOkapiKy();
   const showCallout = useShowCallout();
+
   const [transaction, setTransaction] = useState();
   const [transactionFunds, setTransactionFunds] = useState();
   const [fiscalYear, setFiscalYear] = useState();
@@ -76,6 +86,10 @@ const TransactionDetailsContainer = ({
     [transactionId],
   );
 
+  const refreshTransaction = useCallback(() => {
+    return mutator.transactionDetails.GET().then(setTransaction);
+  }, [mutator.transactionDetails]);
+
   const releaseTransaction = useCallback(() => {
     setTransaction();
     mutator.releaseEncumbrance.POST({ id: transactionId }).then(
@@ -84,7 +98,7 @@ const TransactionDetailsContainer = ({
           messageId: 'ui-finance.transaction.releaseEncumbrance.success',
           type: 'success',
         });
-        mutator.transactionDetails.GET().then(setTransaction);
+        refreshTransaction();
       },
       async (response) => {
         let errorCode = null;
@@ -103,7 +117,25 @@ const TransactionDetailsContainer = ({
         });
       },
     );
-  }, [showCallout, transactionId]);
+  }, [mutator.releaseEncumbrance, refreshTransaction, showCallout, transactionId]);
+
+  const unreleaseTransaction = useCallback(() => {
+    setTransaction();
+
+    return ky.post(`${UNRELEASE_ENCUMBRANCE_API}/${transactionId}`)
+      .json()
+      .then(() => showCallout({ messageId: 'ui-finance.transaction.unreleaseEncumbrance.success' }))
+      .then(refreshTransaction)
+      .catch(async (response) => {
+        console.log('res', response);
+        const errorCode = await getErrorCodeFromResponse(response);
+
+        showCallout({
+          messageId: `ui-finance.transaction.unreleaseEncumbrance.error.${errorCode}`,
+          type: 'error',
+        });
+      });
+  }, [ky, refreshTransaction, showCallout, transactionId]);
 
   const isLoading = !(transaction && transactionFunds && fiscalYear);
 
@@ -129,6 +161,7 @@ const TransactionDetailsContainer = ({
       fundId={fundId}
       onClose={onClose}
       releaseTransaction={releaseTransaction}
+      unreleaseTransaction={unreleaseTransaction}
       toFundName={toFundName}
       transaction={transaction}
     />

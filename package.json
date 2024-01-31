@@ -389,6 +389,14 @@
         ]
       },
       {
+        "permissionName": "ui-finance.encumbrance.unrelease",
+        "displayName": "Finance: Unrelease encumbrance",
+        "visible": true,
+        "subPermissions": [
+          "finance.unrelease-encumbrance.item.post"
+        ]
+      },
+      {
         "permissionName": "ui-finance.exportCSV",
         "displayName": "Finance: Export finance records",
         "description": "",

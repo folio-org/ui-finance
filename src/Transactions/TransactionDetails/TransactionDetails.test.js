@@ -1,4 +1,7 @@
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   ORDER_STATUSES,
@@ -55,7 +58,21 @@ describe('TransactionDetails component', () => {
   });
 
   describe('Unrelease release', () => {
-    it('should call "unreleaseTransaction"', async () => {
+    it('should not display "Unrelease encumbrance" button for not opened order encumbrance', () => {
+      renderTransactionDetails({
+        transaction: {
+          transactionType: TRANSACTION_TYPES.encumbrance,
+          encumbrance: {
+            status: ENCUMBRANCE_STATUS.released,
+            orderStatus: ORDER_STATUSES.pending,
+          },
+        },
+      });
+
+      expect(screen.queryByText('ui-finance.transaction.unreleaseEncumbrance.button')).not.toBeInTheDocument();
+    });
+
+    it('should call "unreleaseTransaction" when "Unrelease encumbrance" action executed', async () => {
       renderTransactionDetails({
         transaction: {
           transactionType: TRANSACTION_TYPES.encumbrance,

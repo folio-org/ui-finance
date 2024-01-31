@@ -92,7 +92,8 @@ const TransactionDetailsContainer = ({
 
   const releaseTransaction = useCallback(() => {
     setTransaction();
-    mutator.releaseEncumbrance.POST({ id: transactionId }).then(
+
+    return mutator.releaseEncumbrance.POST({ id: transactionId }).then(
       () => {
         showCallout({
           messageId: 'ui-finance.transaction.releaseEncumbrance.success',
@@ -127,7 +128,6 @@ const TransactionDetailsContainer = ({
       .then(() => showCallout({ messageId: 'ui-finance.transaction.unreleaseEncumbrance.success' }))
       .then(refreshTransaction)
       .catch(async (response) => {
-        console.log('res', response);
         const errorCode = await getErrorCodeFromResponse(response);
 
         showCallout({

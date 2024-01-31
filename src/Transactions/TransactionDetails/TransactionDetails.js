@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useCallback, useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Button,
@@ -38,6 +38,7 @@ const TransactionDetails = ({
   releaseTransaction,
   unreleaseTransaction,
 }) => {
+  const intl = useIntl();
   const [isReleaseConfirmation, toggleReleaseConfirmation] = useModalToggle();
   const [isUnreleaseConfirmation, toggleIsUnreleaseConfirmation] = useModalToggle();
 
@@ -50,8 +51,8 @@ const TransactionDetails = ({
   }, [releaseTransaction, toggleReleaseConfirmation]);
 
   const onUnrelease = useCallback(() => {
-    return unreleaseTransaction()
-      .then(() => toggleIsUnreleaseConfirmation());
+    toggleIsUnreleaseConfirmation();
+    unreleaseTransaction();
   }, [unreleaseTransaction, toggleIsUnreleaseConfirmation]);
 
   const releaseBtn = useMemo(
@@ -137,7 +138,7 @@ const TransactionDetails = ({
         <ConfirmationModal
           id="release-confirmation"
           confirmLabel={<FormattedMessage id="ui-finance.transaction.releaseEncumbrance.confirm" />}
-          heading={<FormattedMessage id="ui-finance.transaction.releaseEncumbrance.heading" />}
+          heading={intl.formatMessage({ id: 'ui-finance.transaction.releaseEncumbrance.heading' })}
           message={<FormattedMessage id="ui-finance.transaction.releaseEncumbrance.message" />}
           onCancel={toggleReleaseConfirmation}
           onConfirm={onRelease}
@@ -149,7 +150,7 @@ const TransactionDetails = ({
         open={isUnreleaseConfirmation}
         id="unrelease-confirmation"
         confirmLabel={<FormattedMessage id="ui-finance.transaction.button.confirm" />}
-        heading={<FormattedMessage id="ui-finance.transaction.unreleaseEncumbrance.heading" />}
+        heading={intl.formatMessage({ id: 'ui-finance.transaction.unreleaseEncumbrance.heading' })}
         message={<FormattedMessage id="ui-finance.transaction.unreleaseEncumbrance.message" />}
         onCancel={toggleIsUnreleaseConfirmation}
         onConfirm={onUnrelease}

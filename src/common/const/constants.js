@@ -13,6 +13,7 @@ export const OVERALL_ROLLOVER_STATUS = {
 
 export const ENCUMBRANCE_STATUS = {
   released: 'Released',
+  unreleased: 'Unreleased',
 };
 
 export const LEDGER_ROLLOVER_TYPES = {

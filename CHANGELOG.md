@@ -8,6 +8,7 @@
 * Allow user to recalculate budgets based on conducted transactions when desired. Refs UIF-491.
 * Incorrect Display of Expense Class Percent. Refs UIF-509.
 * Make location association required when funds are restricted by location. Refs UIF-492.
+* Add "Unrelease encumbrance" action to encumbrance transaction view. Refs UIF-503.
 
 ## [5.0.0](https://github.com/folio-org/ui-finance/tree/v5.0.0) (2023-10-12)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v4.0.4...v5.0.0)

@@ -18,3 +18,4 @@ export const LEDGER_ROLLOVER_PROGRESS_API = 'finance/ledger-rollovers-progress';
 export const RELEASE_ENCUMBRANCE_API = 'finance/release-encumbrance/:{id}';
 export const TRANSACTIONS_API = 'finance/transactions';
 export const TRANSFERS_API = 'finance/transfers';
+export const UNRELEASE_ENCUMBRANCE_API = 'finance/unrelease-encumbrance';

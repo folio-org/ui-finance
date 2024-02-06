@@ -11,7 +11,10 @@ export const useOrder = (orderId) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'purchase-order' });
 
-  const { isLoading, data } = useQuery({
+  const {
+    data,
+    isLoading,
+  } = useQuery({
     queryKey: [namespace, orderId],
     queryFn: async () => ky.get(`${ORDERS_API}/${orderId}`).json(),
     enabled: Boolean(orderId),

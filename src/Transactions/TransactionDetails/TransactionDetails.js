@@ -33,6 +33,7 @@ const TransactionDetails = ({
   fromFundName,
   fundId,
   onClose,
+  order,
   toFundName,
   transaction,
   releaseTransaction,
@@ -86,7 +87,7 @@ const TransactionDetails = ({
     if (isEncumbrance) {
       if (isNotReleased) return releaseBtn;
 
-      const isOpenOrderReleasedEncumbrance = transaction.encumbrance?.orderStatus === ORDER_STATUSES.open;
+      const isOpenOrderReleasedEncumbrance = order?.workflowStatus === ORDER_STATUSES.open;
 
       return isOpenOrderReleasedEncumbrance
         ? unreleaseBtn
@@ -166,6 +167,7 @@ TransactionDetails.propTypes = {
   toFundName: PropTypes.string,
   fromFundName: PropTypes.string,
   fundId: PropTypes.string.isRequired,
+  order: PropTypes.object,
   releaseTransaction: PropTypes.func.isRequired,
   unreleaseTransaction: PropTypes.func.isRequired,
 };

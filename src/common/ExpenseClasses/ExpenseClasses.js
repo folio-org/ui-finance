@@ -48,7 +48,8 @@ const getResultsFormatter = currency => ({
       // "style" prop of <FormattedNumber> has type `"currency" | "unit" | "decimal" | "percent" | undefined`
       // eslint-disable-next-line react/style-prop-object
       style="percent"
-      value={expenseClass.percentageExpended ?? 0}
+      maximumFractionDigits={2}
+      value={(expenseClass.percentageExpended ?? 0) / 100}
     />
   ),
   status: expenseClass => (

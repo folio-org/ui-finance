@@ -481,5 +481,9 @@
     "fund.information.locations.action.remove": "Remove location",
     "fund.information.locations.action.removeAll": "Unassign all locations",
     "fund.information.locations.action.removeAll.confirm.message": "Are you sure you want to unassign all locations from the fund?",
-    "fund.information.locations.empty": "No locations found"
+    "fund.information.locations.empty": "No locations found",
+    "budget.actions.recalculateBudgetTotals": "Recalculate budget totals",
+    "budget.actions.recalculateTotals.success": "Budget totals have been updated based on current budget transactions",
+    "budget.actions.recalculateTotals.error.genericError": "Budget totals could not be updated based on current budget transactions",
+    "permission.fund-budget.recalculateTotals": "Finance: Recalculate budget totals"
 }

@@ -481,5 +481,9 @@
     "fund.information.locations.action.remove": "Odebrat lokaci",
     "fund.information.locations.action.removeAll": "Zrušit přiřazení všech lokací",
     "fund.information.locations.action.removeAll.confirm.message": "Jste si jisti, že chcete zrušit přiřazení všech lokací z fondu?",
-    "fund.information.locations.empty": "Nebyla nalezena žádná lokace"
+    "fund.information.locations.empty": "Nebyla nalezena žádná lokace",
+    "budget.actions.recalculateBudgetTotals": "Recalculate budget totals",
+    "budget.actions.recalculateTotals.success": "Budget totals have been updated based on current budget transactions",
+    "budget.actions.recalculateTotals.error.genericError": "Budget totals could not be updated based on current budget transactions",
+    "permission.fund-budget.recalculateTotals": "Finance: Recalculate budget totals"
 }

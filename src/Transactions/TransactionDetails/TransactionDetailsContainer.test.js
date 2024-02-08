@@ -13,8 +13,13 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { ENCUMBRANCE_STATUS } from '../../common/const';
+import { useOrder } from '../../common/hooks';
 import TransactionDetailsContainer from './TransactionDetailsContainer';
 
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useOrder: jest.fn(),
+}));
 jest.mock('./TransactionInformation', () => {
   return jest.fn(() => 'TransactionInformation');
 });
@@ -36,6 +41,11 @@ const defaultProps = {
   },
   fundId: 'fundId',
   baseUrl: '/baseUrl',
+};
+
+const order = {
+  id: 'order-id',
+  workflowStatus: ORDER_STATUSES.open,
 };
 
 const kyMock = {
@@ -60,6 +70,9 @@ describe('TransactionDetailsContainer', () => {
     useOkapiKy
       .mockClear()
       .mockReturnValue(kyMock);
+    useOrder
+      .mockClear()
+      .mockReturnValue({ order });
   });
 
   it('should load transaction data', async () => {

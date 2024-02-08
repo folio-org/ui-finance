@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -38,6 +38,7 @@
       "invoice": "7.0",
       "locations": "3.0",
       "location-units": "2.0",
+      "orders": "12.1",
       "order-lines": "2.0 3.0",
       "tags": "1.0",
       "users": "15.0 16.0"
@@ -289,6 +290,7 @@
           "finance.transactions.item.get",
           "invoice.invoices.collection.get",
           "invoice.invoices.item.get",
+          "orders.item.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
           "organizations.organizations.collection.get",

@@ -60,11 +60,12 @@ describe('TransactionDetails component', () => {
   describe('Unrelease release', () => {
     it('should not display "Unrelease encumbrance" button for not opened order encumbrance', () => {
       renderTransactionDetails({
+        order: { workflowStatus: ORDER_STATUSES.closed },
         transaction: {
           transactionType: TRANSACTION_TYPES.encumbrance,
           encumbrance: {
             status: ENCUMBRANCE_STATUS.released,
-            orderStatus: ORDER_STATUSES.pending,
+            orderStatus: ORDER_STATUSES.open,
           },
         },
       });
@@ -74,6 +75,7 @@ describe('TransactionDetails component', () => {
 
     it('should call "unreleaseTransaction" when "Unrelease encumbrance" action executed', async () => {
       renderTransactionDetails({
+        order: { workflowStatus: ORDER_STATUSES.open },
         transaction: {
           transactionType: TRANSACTION_TYPES.encumbrance,
           encumbrance: {

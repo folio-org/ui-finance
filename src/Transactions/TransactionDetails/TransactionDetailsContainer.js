@@ -23,6 +23,7 @@ import {
   FISCAL_YEARS_API,
   UNRELEASE_ENCUMBRANCE_API,
 } from '../../common/const';
+import { useOrder } from '../../common/hooks';
 import TransactionDetails from './TransactionDetails';
 
 const TransactionDetailsContainer = ({
@@ -41,6 +42,11 @@ const TransactionDetailsContainer = ({
   const [transaction, setTransaction] = useState();
   const [transactionFunds, setTransactionFunds] = useState();
   const [fiscalYear, setFiscalYear] = useState();
+
+  const {
+    order,
+    isLoading: isOrderLoading,
+  } = useOrder(transaction?.encumbrance?.sourcePurchaseOrderId);
 
   const onClose = useCallback(
     () => {
@@ -138,7 +144,7 @@ const TransactionDetailsContainer = ({
       });
   }, [ky, refreshTransaction, showCallout, transactionId]);
 
-  const isLoading = !(transaction && transactionFunds && fiscalYear);
+  const isLoading = !(transaction && transactionFunds && fiscalYear) || isOrderLoading;
 
   if (isLoading) {
     return (
@@ -160,6 +166,7 @@ const TransactionDetailsContainer = ({
       fiscalYearCode={fiscalYear.code}
       fromFundName={fromFundName}
       fundId={fundId}
+      order={order}
       onClose={onClose}
       releaseTransaction={releaseTransaction}
       unreleaseTransaction={unreleaseTransaction}

@@ -481,5 +481,9 @@
     "fund.information.locations.action.remove": "移除位置",
     "fund.information.locations.action.removeAll": "取消分配所有位置",
     "fund.information.locations.action.removeAll.confirm.message": "确定要从资金中取消分配所有位置吗？",
-    "fund.information.locations.empty": "找不到馆藏地"
+    "fund.information.locations.empty": "找不到馆藏地",
+    "budget.actions.recalculateBudgetTotals": "Recalculate budget totals",
+    "budget.actions.recalculateTotals.success": "Budget totals have been updated based on current budget transactions",
+    "budget.actions.recalculateTotals.error.genericError": "Budget totals could not be updated based on current budget transactions",
+    "permission.fund-budget.recalculateTotals": "Finance: Recalculate budget totals"
 }

@@ -481,5 +481,9 @@
     "fund.information.locations.action.remove": "Remover localização",
     "fund.information.locations.action.removeAll": "Cancelar a atribuição de todos as localizações",
     "fund.information.locations.action.removeAll.confirm.message": "Tem certeza de que deseja cancelar a atribuição de todas as localizações do fundo?",
-    "fund.information.locations.empty": "Nenhuma localização encontrada"
+    "fund.information.locations.empty": "Nenhuma localização encontrada",
+    "budget.actions.recalculateBudgetTotals": "Recalcular os totais do orçamento",
+    "budget.actions.recalculateTotals.success": "Os totais do orçamento foram atualizados com base nas transações orçamentárias atuais",
+    "budget.actions.recalculateTotals.error.genericError": "Não foi possível atualizar os totais do orçamento com base nas transações orçamentárias atuais",
+    "permission.fund-budget.recalculateTotals": "Finanças: Recalcular os totais do orçamento"
 }

@@ -8,7 +8,10 @@ import {
 } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   checkScope,
   HasCommand,
@@ -32,7 +35,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { FISCAL_YEAR_ROUTE } from '../../common/const';
-import { useSelectedRow } from '../../common/hooks';
+import {
+  useResultsPageTitle,
+  useSelectedRow,
+} from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
 import CheckPermission from '../../common/CheckPermission';
 
@@ -85,6 +91,7 @@ const FiscalYearsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
+  const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fiscalYear/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('fiscal-years-list');
 
@@ -123,6 +130,7 @@ const FiscalYearsList = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager page={pageTitle} />
       <PersistedPaneset
         appId="ui-finance"
         id="fiscal-year-paneset"

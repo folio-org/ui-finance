@@ -7,7 +7,10 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   checkScope,
   HasCommand,
@@ -30,7 +33,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { FUNDS_ROUTE } from '../../common/const';
-import { useSelectedRow } from '../../common/hooks';
+import {
+  useResultsPageTitle,
+  useSelectedRow,
+} from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
 import CheckPermission from '../../common/CheckPermission';
 
@@ -84,6 +90,7 @@ const FundsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields);
 
+  const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fund/filters');
   const isRowSelected = useSelectedRow(`${match.path}/view/:id`);
 
@@ -122,6 +129,7 @@ const FundsList = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager page={pageTitle} />
       <PersistedPaneset
         appId="ui-finance"
         id="fund-paneset"

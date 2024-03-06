@@ -1,0 +1,1 @@
+export { useResultsPageTitle } from './useResultsPageTitle';

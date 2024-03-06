@@ -13,6 +13,7 @@ import {
   MultiColumnList,
   TextLink,
 } from '@folio/stripes/components';
+import { TitleManager } from '@folio/stripes/core';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   DESC_DIRECTION,
@@ -33,7 +34,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import CheckPermission from '../../common/CheckPermission';
-import { useSelectedRow } from '../../common/hooks';
+import {
+  useResultsPageTitle,
+  useSelectedRow,
+} from '../../common/hooks';
 import TransactionDetails from '../TransactionDetails';
 import { BracketizeTransactionAmount } from '../BracketizeTransactionAmount';
 import TransactionsFilters from './TransactionsFilters';
@@ -112,6 +116,7 @@ const TransactionsList = ({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableFields, DEFAULT_SORTING);
 
+  const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/transaction/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('transactions-list');
   const isRowSelected = useSelectedRow(`${match.url}/transaction/:id/view`);
@@ -140,6 +145,7 @@ const TransactionsList = ({
       appId="ui-finance"
       id="transaction-paneset"
     >
+      <TitleManager page={pageTitle} />
       {isFiltersOpened && (
         <FiltersPane
           id="transaction-filters-pane"

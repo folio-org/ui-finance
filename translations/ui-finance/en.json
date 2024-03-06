@@ -2,6 +2,7 @@
   "appMenu.financeAppSearch": "Finance app Search",
 
   "meta.title": "Finance",
+  "document.title.search": "Finance - {query} - Search",
 
   "search": "Search",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",

@@ -492,5 +492,6 @@
     "transaction.unreleaseEncumbrance.success": "O encargo não foi liberado",
     "transaction.unreleaseEncumbrance.error.genericError": "Erro ao liberar o encargo",
     "validation.locationsRequired": "As localizações devem ser atribuídas",
-    "permission.encumbrance.unrelease": "Finanças: Encargos não liberados"
+    "permission.encumbrance.unrelease": "Finanças: Encargos não liberados",
+    "document.title.search": "Finanças - {query} - Buscar"
 }

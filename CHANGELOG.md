@@ -1,6 +1,9 @@
 # Change history for ui-finance
 
-## 6.0.0 (IN PROGRESS)
+## 6.1.0 (IN PROGRESS)
+
+## [6.0.0](https://github.com/folio-org/ui-finance/tree/v6.0.0) (2024-03-18)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v5.0.0...v6.0.0)
 
 * Add donor info to Fund. Refs UIF-473.
 * Designate funds as location use restricted. Refs UIF-482.

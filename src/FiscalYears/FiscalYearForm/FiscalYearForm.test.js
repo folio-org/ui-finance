@@ -66,7 +66,7 @@ describe('FiscalYearForm component', () => {
     const { getByText } = renderFiscalYearForm();
 
     expect(getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
-    expect(getByText('ui-finance.saveAndClose')).toBeDefined();
+    expect(getByText('stripes-components.saveAndClose')).toBeDefined();
   });
 
   describe('Close form', () => {

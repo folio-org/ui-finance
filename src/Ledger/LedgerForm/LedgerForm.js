@@ -50,7 +50,7 @@ import FieldLedgerName from './FieldLedgerName';
 
 const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.create" />;
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
-const SAVE_AND_CLOSE_TITLE = <FormattedMessage id="ui-finance.saveAndClose" />;
+const SAVE_AND_CLOSE_TITLE = <FormattedMessage id="stripes-components.saveAndClose" />;
 
 const LedgerForm = ({
   goToCreateFY,

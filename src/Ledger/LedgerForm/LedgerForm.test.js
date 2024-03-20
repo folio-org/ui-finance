@@ -67,7 +67,7 @@ describe('LedgerForm component', () => {
     await act(async () => renderLedgerForm());
 
     expect(screen.getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
-    expect(screen.getByText('ui-finance.saveAndClose')).toBeDefined();
+    expect(screen.getByText('stripes-components.saveAndClose')).toBeDefined();
   });
 
   describe('Close form', () => {

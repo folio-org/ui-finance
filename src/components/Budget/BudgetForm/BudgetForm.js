@@ -55,7 +55,7 @@ const BudgetForm = ({
 
   const paneFooter = (
     <FormFooter
-      label={<FormattedMessage id="ui-finance.saveAndClose" />}
+      label={<FormattedMessage id="stripes-components.saveAndClose" />}
       handleSubmit={handleSubmit}
       pristine={pristine}
       submitting={submitting}

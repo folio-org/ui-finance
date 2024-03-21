@@ -77,7 +77,7 @@ describe('FundForm component', () => {
     const { getByText } = renderFundForm();
 
     expect(getByText('stripes-acq-components.FormFooter.cancel')).toBeDefined();
-    expect(getByText('ui-finance.saveAndClose')).toBeDefined();
+    expect(getByText('stripes-components.saveAndClose')).toBeDefined();
   });
 
   it('should display Donors', () => {
@@ -113,7 +113,7 @@ describe('FundForm component', () => {
       const field = screen.getByRole('textbox', { name: /code/i });
 
       await act(() => user.type(field, ':'));
-      await user.click(screen.getByText('ui-finance.saveAndClose'));
+      await user.click(screen.getByText('stripes-components.saveAndClose'));
 
       await waitFor(() => expect(screen.getByText('ui-finance.validation.mustNotIncludeColon')).toBeInTheDocument());
     });
@@ -124,7 +124,7 @@ describe('FundForm component', () => {
       const field = screen.getByRole('textbox', { name: /code/i });
 
       await act(() => user.type(field, ''));
-      await user.click(screen.getByText('ui-finance.saveAndClose'));
+      await user.click(screen.getByText('stripes-components.saveAndClose'));
 
       await waitFor(() => expect(screen.queryByText('stripes-acq-components.validation.required')).toBeInTheDocument());
     });

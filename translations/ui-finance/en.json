@@ -8,7 +8,6 @@
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
 
   "save": "Save",
-  "saveAndClose": "Save & Close",
   "close": "Close",
   "cancel": "Cancel",
   "continue": "Continue",

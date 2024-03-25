@@ -23,6 +23,7 @@ import {
 } from '@folio/stripes/components';
 import {
   IfPermission,
+  TitleManager,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -179,6 +180,7 @@ const LedgerDetails = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager record={ledger.name} />
       <Pane
         id="pane-ledger-details"
         defaultWidth="fill"

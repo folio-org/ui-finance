@@ -14,7 +14,10 @@ import {
   AccordionStatus,
   PaneHeader,
 } from '@folio/stripes/components';
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  TitleManager,
+} from '@folio/stripes/core';
 import {
   ORDER_STATUSES,
   TRANSACTION_TYPES,
@@ -97,12 +100,14 @@ const TransactionDetails = ({
     return undefined;
   };
 
+  const paneTitle = intl.formatMessage({ id: `ui-finance.transaction.type.${transaction.transactionType}` });
+
   const renderHeader = (paneHeaderProps) => (
     <PaneHeader
       {...paneHeaderProps}
       dismissible
       lastMenu={getPaneHeaderLastMenu()}
-      paneTitle={<FormattedMessage id={`ui-finance.transaction.type.${transaction.transactionType}`} />}
+      paneTitle={paneTitle}
       onClose={onClose}
     />
   );
@@ -113,6 +118,7 @@ const TransactionDetails = ({
       defaultWidth="fill"
       renderHeader={renderHeader}
     >
+      <TitleManager record={paneTitle} />
       <AccordionStatus>
         <Row end="xs">
           <Col xs={12}>

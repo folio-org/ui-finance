@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -117,6 +120,7 @@ const FiscalYearDetails = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager record={fiscalYear.name} />
       <Pane
         id="pane-fiscal-year-details"
         defaultWidth="fill"

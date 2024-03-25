@@ -21,6 +21,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { TitleManager } from '@folio/stripes/core';
 import { formatDate, handleKeyCommand } from '@folio/stripes-acq-components';
 
 import { LEDGERS_ROUTE } from '../../../common/const';
@@ -98,6 +99,7 @@ export const RolloverLedgerView = () => {
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager record={paneLedgerName} />
       <Paneset>
         <Pane
           defaultWidth="fill"

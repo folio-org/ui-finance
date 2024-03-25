@@ -7,6 +7,7 @@ import {
   useStripes,
   IfPermission,
   Pluggable,
+  TitleManager,
 } from '@folio/stripes/core';
 import {
   Accordion,
@@ -153,6 +154,7 @@ const GroupDetails = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager record={group.name} />
       <Pane
         id="pane-group-details"
         defaultWidth="fill"

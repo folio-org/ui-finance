@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
 import {
+  TitleManager,
   stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
@@ -292,6 +293,7 @@ export const FundDetailsContainer = ({
         isWithinScope={checkScope}
         scope={document.body}
       >
+        <TitleManager record={fund.name} />
         <Pane
           actionMenu={renderActionMenu}
           defaultWidth="fill"

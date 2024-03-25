@@ -195,7 +195,6 @@
     "fund.actions.remove.success": "Fund has been deleted",
     "groups.actions.remove.error": "Group has not been deleted",
     "groups.actions.remove.success": "Group has been deleted",
-    "saveAndClose": "Save & Close",
     "close": "Close",
     "budget.status.inactive": "Inactive",
     "ledger.createNewFY": "New fiscal year",
@@ -492,5 +491,6 @@
     "transaction.unreleaseEncumbrance.success": "Encumbrance was unreleased",
     "transaction.unreleaseEncumbrance.error.genericError": "Error while unreleasing encumbrance",
     "validation.locationsRequired": "Locations must be assigned",
-    "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance"
+    "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance",
+    "document.title.search": "Finance - {query} - Search"
 }

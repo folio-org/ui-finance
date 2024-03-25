@@ -195,7 +195,6 @@
     "fund.actions.remove.success": "Fond byl smazán",
     "groups.actions.remove.error": "Skupina nebyla smazána",
     "groups.actions.remove.success": "Skupina byla smazána",
-    "saveAndClose": "Uložit a Zavřít",
     "close": "Zavřít",
     "budget.status.inactive": "Neaktivní",
     "ledger.createNewFY": "Nový fiskální rok",
@@ -492,5 +491,6 @@
     "transaction.unreleaseEncumbrance.success": "Věcné břemeno nebylo uvolněno",
     "transaction.unreleaseEncumbrance.error.genericError": "Chyba při neuvolňování věcného břemene",
     "validation.locationsRequired": "Locations must be assigned",
-    "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance"
+    "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance",
+    "document.title.search": "Finance - {query} - Vyhledat"
 }

@@ -195,7 +195,6 @@
     "fund.actions.remove.success": "O fundo foi excluído",
     "groups.actions.remove.error": "O grupo não foi excluído",
     "groups.actions.remove.success": "O grupo foi excluído",
-    "saveAndClose": "Salvar e fechar",
     "close": "Fechar",
     "budget.status.inactive": "Inativo",
     "ledger.createNewFY": "Novo ano fiscal",
@@ -492,5 +491,6 @@
     "transaction.unreleaseEncumbrance.success": "O encargo não foi liberado",
     "transaction.unreleaseEncumbrance.error.genericError": "Erro ao liberar o encargo",
     "validation.locationsRequired": "As localizações devem ser atribuídas",
-    "permission.encumbrance.unrelease": "Finanças: Encargos não liberados"
+    "permission.encumbrance.unrelease": "Finanças: Encargos não liberados",
+    "document.title.search": "Finanças - {query} - Buscar"
 }

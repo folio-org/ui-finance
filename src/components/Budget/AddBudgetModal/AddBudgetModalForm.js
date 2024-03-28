@@ -27,13 +27,13 @@ const footer = (onClose, onSave) => (
       data-test-add-budget-save
       onClick={onSave}
     >
-      <FormattedMessage id="ui-finance.budget.save" />
+      <FormattedMessage id="stripes-components.saveAndClose" />
     </Button>
     <Button
       data-test-add-budget-cancel
       onClick={onClose}
     >
-      <FormattedMessage id="ui-finance.budget.button.cancel" />
+      <FormattedMessage id="stripes-components.cancel" />
     </Button>
   </ModalFooter>
 );

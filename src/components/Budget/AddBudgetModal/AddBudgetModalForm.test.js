@@ -37,15 +37,15 @@ describe('AddBudgetModalForm component', () => {
   it('should display modal footer', () => {
     const { getByText } = renderAddBudgetModalForm();
 
-    expect(getByText('ui-finance.budget.save')).toBeDefined();
-    expect(getByText('ui-finance.budget.button.cancel')).toBeDefined();
+    expect(getByText('stripes-components.saveAndClose')).toBeDefined();
+    expect(getByText('stripes-components.cancel')).toBeDefined();
   });
 
   describe('Close form', () => {
     it('should close the budget form', async () => {
       const { getByText } = renderAddBudgetModalForm();
 
-      await user.click(getByText('ui-finance.budget.button.cancel'));
+      await user.click(getByText('stripes-components.cancel'));
 
       expect(defaultProps.onClose).toHaveBeenCalled();
     });

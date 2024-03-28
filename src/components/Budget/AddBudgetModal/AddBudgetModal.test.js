@@ -44,7 +44,7 @@ describe('AddBudgetModal', () => {
     renderAddBudgetModal();
 
     const cancelBtn = await screen.findByRole('button', {
-      name: 'ui-finance.budget.button.cancel',
+      name: 'stripes-components.cancel',
     });
 
     await user.click(cancelBtn);
@@ -57,7 +57,7 @@ describe('AddBudgetModal', () => {
 
     const allocatedInput = await screen.findByTestId('budget-allocated-field');
     const saveBtn = await screen.findByRole('button', {
-      name: 'ui-finance.budget.save',
+      name: 'stripes-components.saveAndClose',
     });
 
     await act(async () => {
@@ -78,7 +78,7 @@ describe('AddBudgetModal', () => {
 
     const allocatedInput = await screen.findByTestId('budget-allocated-field');
     const saveBtn = await screen.findByRole('button', {
-      name: 'ui-finance.budget.save',
+      name: 'stripes-components.saveAndClose',
     });
 
     await act(async () => {

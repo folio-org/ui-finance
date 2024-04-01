@@ -1,3 +1,4 @@
+import groupBy from 'lodash/groupBy';
 import range from 'lodash/range';
 import PropTypes from 'prop-types';
 import {
@@ -8,10 +9,16 @@ import {
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   ConfirmationModal,
+  Layout,
   List,
 } from '@folio/stripes/components';
+import {
+  checkIfUserInCentralTenant,
+  useStripes,
+} from '@folio/stripes/core';
 import { FindLocation } from '@folio/stripes-acq-components';
 
 import { FieldArrayError } from '../../../../common/FieldArrayError';
@@ -35,6 +42,8 @@ export const FundLocationsList = ({
     remove,
     removeBatch,
   } = fields;
+
+  const stripes = useStripes();
 
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
@@ -85,14 +94,49 @@ export const FundLocationsList = ({
     closeIsUnassignModal();
   };
 
+  console.log(groupBy(locations, 'tenantId'));
+
+  const isCurrentTenantConsortiumCentral = checkIfUserInCentralTenant(stripes);
+  const userTenantsMap = (stripes?.user?.user?.tenants ?? [])
+    .reduce((acc, tenant) => acc.set(tenant.id, tenant), new Map());
+
+  const list = useMemo(() => {
+    return isCurrentTenantConsortiumCentral
+      ? (
+        <Layout className="margin-start-gutter">
+          {
+            // TODO: group assigned locations!!! all locations grouped just for demo
+            Object.entries(groupBy(locations, 'tenantId'))
+              .sort((a, b) => b.name?.localeCompare(a.name))
+              .map(([tenantId, tenantLocations]) => (
+                <Accordion
+                  label={userTenantsMap.get(tenantId)?.name}
+                  id={`${tenantId}-locations`}
+                  key={tenantId}
+                >
+                  <List
+                    items={tenantLocations}
+                    itemFormatter={itemFormatter}
+                    isEmptyMessage={<FormattedMessage id="ui-finance.fund.information.locations.empty" />}
+                  />
+                </Accordion>
+              ))
+          }
+        </Layout>
+      )
+      : (
+        <List
+          items={items}
+          itemFormatter={itemFormatter}
+          isEmptyMessage={<FormattedMessage id="ui-finance.fund.information.locations.empty" />}
+        />
+      );
+  }, [isCurrentTenantConsortiumCentral, itemFormatter, items, locations, userTenantsMap]);
+
   return (
     <>
       <FieldArrayError meta={meta} />
-      <List
-        items={items}
-        itemFormatter={itemFormatter}
-        isEmptyMessage={<FormattedMessage id="ui-finance.fund.information.locations.empty" />}
-      />
+      {list}
 
       <div className={css.actions}>
         <FindLocation

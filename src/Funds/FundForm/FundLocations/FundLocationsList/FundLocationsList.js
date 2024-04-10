@@ -134,7 +134,7 @@ FundLocationsList.defaultProps = {
 };
 
 FundLocationsList.propTypes = {
-  assignedLocations: PropTypes.arrayOf(PropTypes.string),
+  assignedLocations: PropTypes.arrayOf(PropTypes.object),
   fields: PropTypes.shape({
     concat: PropTypes.func,
     length: PropTypes.number,

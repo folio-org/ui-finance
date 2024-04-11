@@ -12,7 +12,7 @@ const locations = [
   { id: 'location-2', name: 'Loc 2', code: 'l2' },
   { id: 'location-3', name: 'Loc 3', code: 'l3' },
 ];
-const locationIds = locations.map(({ id }) => id);
+const assignedLocations = locations.map(({ id }) => ({ locationId: id }));
 
 const defaultProps = {
   locations,
@@ -27,12 +27,12 @@ const Form = stripesFinalForm({})(({ children }) => (
 const renderFundLocationsList = (props = {}, formProps = {}) => render(
   <Form
     onSubmit={jest.fn()}
-    initialValues={{ locationIds }}
+    initialValues={{ locations: assignedLocations }}
     {...formProps}
   >
     <FieldArray
       component={FundLocationsList}
-      name="locationIds"
+      name="locations"
       {...defaultProps}
       {...props}
     />

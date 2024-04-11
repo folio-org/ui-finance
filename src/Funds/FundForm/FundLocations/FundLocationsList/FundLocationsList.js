@@ -40,12 +40,14 @@ export const FundLocationsList = ({
 
   const items = useMemo(() => {
     return value
-      .map((locationId) => locations.find(location => locationId === location.id) || {})
+      .map(({ locationId }) => locations.find(location => location.id === locationId) || {})
       .sort((a, b) => a?.name?.localeCompare(b?.name));
   }, [value, locations]);
 
+  const assignedLocationIds = useMemo(() => assignedLocations.map(({ locationId }) => locationId), [assignedLocations]);
+
   const onRemove = useCallback((location) => {
-    const indexToRemove = value.findIndex((locationId) => locationId === location.id);
+    const indexToRemove = value.findIndex(({ locationId }) => locationId === location.id);
 
     if (indexToRemove > -1) {
       remove(indexToRemove);
@@ -66,10 +68,12 @@ export const FundLocationsList = ({
   const removeAll = useCallback(() => removeBatch(range(0, length)), [length, removeBatch]);
 
   const onRecordsSelect = useCallback((records) => {
-    const locationIds = records.map(({ id }) => id);
+    const normalizedLocations = records.map((location) => ({
+      locationId: location.id,
+    }));
 
     removeAll();
-    concat(locationIds);
+    concat(normalizedLocations);
   }, [concat, removeAll]);
 
   const openUnassignModal = (e) => {
@@ -99,7 +103,7 @@ export const FundLocationsList = ({
           id="fund-locations"
           isMultiSelect
           searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
-          initialSelected={assignedLocations}
+          initialSelected={assignedLocationIds}
           onRecordsSelect={onRecordsSelect}
         />
 
@@ -130,7 +134,7 @@ FundLocationsList.defaultProps = {
 };
 
 FundLocationsList.propTypes = {
-  assignedLocations: PropTypes.arrayOf(PropTypes.string),
+  assignedLocations: PropTypes.arrayOf(PropTypes.object),
   fields: PropTypes.shape({
     concat: PropTypes.func,
     length: PropTypes.number,

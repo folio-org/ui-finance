@@ -34,6 +34,6 @@ FundLocations.defaultProps = {
 };
 
 FundLocations.propTypes = {
-  assignedLocations: PropTypes.arrayOf(PropTypes.string),
+  assignedLocations: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string.isRequired,
 };

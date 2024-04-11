@@ -93,7 +93,7 @@ const FundForm = ({
   const fundLedgerId = get(formValues, 'fund.ledgerId');
   const donorOrganizationIds = get(formValues, 'fund.donorOrganizationIds', []);
   const isLocationRestricted = get(formValues, 'fund.restrictByLocations', false);
-  const assignedLocations = get(formValues, 'fund.locationIds');
+  const assignedLocations = get(formValues, 'fund.locations');
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -435,7 +435,7 @@ const FundForm = ({
                         label={<FormattedMessage id="ui-finance.fund.information.locations" />}
                       >
                         <FundLocations
-                          name="fund.locationIds"
+                          name="fund.locations"
                           assignedLocations={assignedLocations}
                         />
                       </Accordion>

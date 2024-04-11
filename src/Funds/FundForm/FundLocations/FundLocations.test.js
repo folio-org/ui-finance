@@ -21,11 +21,12 @@ const locations = [
   { id: 'location-2', name: 'Loc 2', code: 'l2' },
   { id: 'location-3', name: 'Loc 3', code: 'l3' },
 ];
-const locationIds = locations.map(({ id }) => id);
+
+const initAssignedLocations = locations.map(({ id }) => ({ locationId: id }));
 
 const defaultProps = {
-  assignedLocations: locationIds,
-  name: 'locationIds',
+  assignedLocations: initAssignedLocations,
+  name: 'locations',
 };
 
 const Form = stripesFinalForm({})(({ children }) => (
@@ -36,7 +37,7 @@ const Form = stripesFinalForm({})(({ children }) => (
 
 const renderFundLocations = (props = {}, formProps = {}) => render(
   <Form
-    initialValues={{ locationIds }}
+    initialValues={{ locations: initAssignedLocations }}
     onSubmit={jest.fn()}
     {...formProps}
   >

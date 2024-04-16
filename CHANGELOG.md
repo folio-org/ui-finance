@@ -5,6 +5,7 @@
 * Utilize the translation key from `stripes-components` for the "Save & Close" button label. Refs UIF-447.
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIF-502.
 * *BREAKING* Apply changes in the fund schema for the locations field. Refs UIF-518.
+* *BREAKING* Align the `finance.*` interfaces versions in accordance with the changes in the descriptor. Refs UIF-520.
 
 ## [6.0.0](https://github.com/folio-org/ui-finance/tree/v6.0.0) (2024-03-19)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v5.0.0...v6.0.0)

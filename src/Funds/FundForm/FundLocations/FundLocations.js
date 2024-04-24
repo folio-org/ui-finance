@@ -2,8 +2,17 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
 
+import {
+  checkIfUserInCentralTenant,
+  useStripes,
+} from '@folio/stripes/core';
 import { Loading } from '@folio/stripes/components';
-import { useLocations } from '@folio/stripes-acq-components';
+import {
+  ConsortiumLocationsContext,
+  ConsortiumLocationsContextProvider,
+  LocationsContext,
+  LocationsContextProvider,
+} from '@folio/stripes-acq-components';
 
 import { FundLocationsList } from './FundLocationsList';
 
@@ -14,18 +23,30 @@ const validate = (locations, { fund }) => {
 };
 
 export const FundLocations = ({ assignedLocations, name }) => {
-  const { isLoading, locations } = useLocations();
+  const stripes = useStripes();
 
-  if (isLoading) return <Loading />;
+  const [ContextProvider, ContextConsumer] = checkIfUserInCentralTenant(stripes)
+    ? [ConsortiumLocationsContextProvider, ConsortiumLocationsContext.Consumer]
+    : [LocationsContextProvider, LocationsContext.Consumer];
 
   return (
-    <FieldArray
-      component={FundLocationsList}
-      name={name}
-      assignedLocations={assignedLocations}
-      locations={locations}
-      validate={validate}
-    />
+    <ContextProvider>
+      <ContextConsumer>
+        {({ isLoading, locations }) => {
+          if (isLoading) return <Loading />;
+
+          return (
+            <FieldArray
+              component={FundLocationsList}
+              name={name}
+              assignedLocations={assignedLocations}
+              locations={locations}
+              validate={validate}
+            />
+          );
+        }}
+      </ContextConsumer>
+    </ContextProvider>
   );
 };
 

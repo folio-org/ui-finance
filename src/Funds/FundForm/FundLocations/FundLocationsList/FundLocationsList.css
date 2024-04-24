@@ -5,3 +5,8 @@
     margin-left: var(--gutter);
   }
 }
+
+.isEmptyMessage {
+  font-size: var(--font-size-medium);
+  color: var(--color-text-p2);
+}

@@ -14,11 +14,13 @@ import { useHistory } from 'react-router';
 import {
   AcqUnitsField,
   Donors,
+  ConsortiumLocationsContextProvider,
   FieldMultiSelectionFinal as FieldMultiSelection,
   FieldSelectionFinal as FieldSelection,
   FormFooter,
   FUNDS_API,
   handleKeyCommand,
+  LocationsContextProvider,
   OptimisticLockingBanner,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -40,7 +42,11 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
-import { useOkapiKy } from '@folio/stripes/core';
+import {
+  checkIfUserInCentralTenant,
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
@@ -77,6 +83,7 @@ const FundForm = ({
 }) => {
   const intl = useIntl();
   const ky = useOkapiKy();
+  const stripes = useStripes();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const fundTypeOptions = fundTypes.map(
@@ -218,6 +225,10 @@ const FundForm = ({
       handler: handleKeyCommand(() => history.push(FUNDS_ROUTE)),
     },
   ];
+
+  const FundLocationsContextProvider = checkIfUserInCentralTenant(stripes)
+    ? ConsortiumLocationsContextProvider
+    : LocationsContextProvider;
 
   return (
     <form>
@@ -434,10 +445,12 @@ const FundForm = ({
                         id={SECTIONS_FUND.LOCATIONS}
                         label={<FormattedMessage id="ui-finance.fund.information.locations" />}
                       >
-                        <FundLocations
-                          name="fund.locations"
-                          assignedLocations={assignedLocations}
-                        />
+                        <FundLocationsContextProvider>
+                          <FundLocations
+                            name="fund.locations"
+                            assignedLocations={assignedLocations}
+                          />
+                        </FundLocationsContextProvider>
                       </Accordion>
                     )}
 

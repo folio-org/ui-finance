@@ -99,8 +99,10 @@ export const FundLocationsList = ({
   };
 
   const isCurrentTenantConsortiumCentral = checkIfUserInCentralTenant(stripes);
-  const userTenantsMap = (stripes?.user?.user?.tenants ?? [])
-    .reduce((acc, tenant) => acc.set(tenant.id, tenant), new Map());
+
+  const userTenantsMap = useMemo(() => {
+    return (stripes?.user?.user?.tenants ?? []).reduce((acc, tenant) => acc.set(tenant.id, tenant), new Map());
+  }, [stripes?.user?.user?.tenants]);
 
   const renderTenantsGroupedList = useCallback((ungroupedItems) => {
     const groupedItemsEntries = Object.entries(groupBy(ungroupedItems, 'tenantId'));

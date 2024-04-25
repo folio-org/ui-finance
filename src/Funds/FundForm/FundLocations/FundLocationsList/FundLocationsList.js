@@ -202,7 +202,7 @@ FundLocationsList.propTypes = {
     length: PropTypes.number,
     remove: PropTypes.func,
     removeBatch: PropTypes.func,
-    value: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   locations: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,

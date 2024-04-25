@@ -1,26 +1,88 @@
 import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
+import {
+  checkIfUserInCentralTenant,
+  useStripes,
+} from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
+  ConsortiumLocationsContext,
   FindLocation,
-  useLocations,
+  LocationsContext,
 } from '@folio/stripes-acq-components';
 
 import { FundLocations } from './FundLocations';
 
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  checkIfUserInCentralTenant: jest.fn(() => false),
+  useStripes: jest.fn(),
+}));
+
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   FindLocation: jest.fn(() => 'FindLocation'),
-  useLocations: jest.fn(),
 }));
 
 const locations = [
-  { id: 'location-1', name: 'Loc 1', code: 'l1' },
-  { id: 'location-2', name: 'Loc 2', code: 'l2' },
-  { id: 'location-3', name: 'Loc 3', code: 'l3' },
+  {
+    id: 'location-1',
+    name: 'Loc 1',
+    code: 'l1',
+    tenantId: 'tenant-1',
+  },
+  {
+    id: 'location-2',
+    name: 'Loc 2',
+    code: 'l2',
+    tenantId: 'tenant-1',
+  },
+  {
+    id: 'location-3',
+    name: 'Loc 3',
+    code: 'l3',
+    tenantId: 'tenant-2',
+  },
 ];
+
+const extraLocationRecord = {
+  id: 'location-4',
+  name: 'Loc 4',
+  code: 'l4',
+  tenantId: 'tenant-2',
+};
+
+const stripes = {
+  user: {
+    user: {
+      tenants: [
+        { id: 'tenant-1', name: 'Tenant 1 name' },
+        { id: 'tenant-2', name: 'Tenant 2 name' },
+      ],
+    },
+  },
+};
+
+const buildLocationsContext = (Context, _value = {}) => ({ children }) => {
+  const value = {
+    isLoading: false,
+    locations: [...locations, extraLocationRecord],
+    ..._value,
+  };
+
+  return (
+    <Context.Provider value={value}>
+      {children}
+    </Context.Provider>
+  );
+};
+const ContextProviderMock = jest.fn(buildLocationsContext(LocationsContext));
 
 const initAssignedLocations = locations.map(({ id }) => ({ locationId: id }));
 
@@ -41,23 +103,24 @@ const renderFundLocations = (props = {}, formProps = {}) => render(
     onSubmit={jest.fn()}
     {...formProps}
   >
-    <FundLocations
-      {...defaultProps}
-      {...props}
-    />
+    <ContextProviderMock>
+      <FundLocations
+        {...defaultProps}
+        {...props}
+      />
+    </ContextProviderMock>
   </Form>,
   { wrapper: MemoryRouter },
 );
 
 describe('FundLocations', () => {
   beforeEach(() => {
+    checkIfUserInCentralTenant.mockClear();
+    ContextProviderMock.mockClear();
     FindLocation.mockClear();
-    useLocations
+    useStripes
       .mockClear()
-      .mockReturnValue({
-        isLoading: false,
-        locations,
-      });
+      .mockReturnValue(stripes);
   });
 
   it('should render fund location components (list and action buttons)', () => {
@@ -69,23 +132,19 @@ describe('FundLocations', () => {
   });
 
   it('should assign more locations for the fund', () => {
-    const extraRecord = { id: 'location-4', name: 'Loc 4', code: 'l4' };
-
-    useLocations.mockReturnValue({ locations: [...locations, extraRecord] });
-
     renderFundLocations();
 
     act(() => {
       FindLocation.mock.calls[0][0].onRecordsSelect([
         ...locations,
-        extraRecord,
+        extraLocationRecord,
       ]);
     });
 
     locations.forEach(({ code, name }) => {
       expect(screen.getByText(`${name} (${code})`)).toBeInTheDocument();
     });
-    expect(screen.getByText(`${extraRecord.name} (${extraRecord.code})`)).toBeInTheDocument();
+    expect(screen.getByText(`${extraLocationRecord.name} (${extraLocationRecord.code})`)).toBeInTheDocument();
   });
 
   it('should unassign location from the fund', () => {
@@ -110,5 +169,25 @@ describe('FundLocations', () => {
     await user.click(screen.getByRole('button', { name: 'stripes-components.submit' }));
 
     expect(screen.getByText('ui-finance.fund.information.locations.empty')).toBeInTheDocument();
+  });
+
+  describe('ECS mode enabled', () => {
+    beforeEach(() => {
+      ContextProviderMock
+        .mockClear()
+        .mockImplementation(buildLocationsContext(ConsortiumLocationsContext));
+    });
+
+    it('should render restricted locations grouped by affiliations (tenants) in the central tenant', () => {
+      checkIfUserInCentralTenant
+        .mockClear()
+        .mockReturnValue(true);
+
+      renderFundLocations();
+
+      stripes.user.user.tenants.forEach(({ name }) => {
+        expect(screen.getByText(name)).toBeInTheDocument();
+      });
+    });
   });
 });

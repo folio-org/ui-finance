@@ -53,8 +53,6 @@ export const FundLocationsList = ({
       .sort((a, b) => a?.name?.localeCompare(b?.name));
   }, [value, locations]);
 
-  const assignedLocationIds = useMemo(() => assignedLocations.map(({ locationId }) => locationId), [assignedLocations]);
-
   const onRemove = useCallback((location) => {
     const indexToRemove = value.findIndex(({ locationId }) => locationId === location.id);
 
@@ -77,8 +75,9 @@ export const FundLocationsList = ({
   const removeAll = useCallback(() => removeBatch(range(0, length)), [length, removeBatch]);
 
   const onRecordsSelect = useCallback((records) => {
-    const normalizedLocations = records.map((location) => ({
-      locationId: location.id,
+    const normalizedLocations = records.map(({ id, tenantId }) => ({
+      locationId: id,
+      tenantId,
     }));
 
     removeAll();
@@ -119,7 +118,9 @@ export const FundLocationsList = ({
       <Layout className="margin-start-gutter">
         {
           groupedItemsEntries
-            .sort((a, b) => b.name?.localeCompare(a.name))
+            .sort((a, b) => {
+              return userTenantsMap.get(a[0])?.name?.localeCompare(userTenantsMap.get(b[0])?.name);
+            })
             .map(([tenantId, tenantLocations]) => (
               <Accordion
                 label={userTenantsMap.get(tenantId)?.name}
@@ -165,8 +166,9 @@ export const FundLocationsList = ({
           id="fund-locations"
           isMultiSelect
           searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
-          initialSelected={assignedLocationIds}
+          initialSelected={assignedLocations}
           onRecordsSelect={onRecordsSelect}
+          crossTenant={isCurrentTenantConsortiumCentral}
         />
 
         <Button
@@ -196,7 +198,10 @@ FundLocationsList.defaultProps = {
 };
 
 FundLocationsList.propTypes = {
-  assignedLocations: PropTypes.arrayOf(PropTypes.object),
+  assignedLocations: PropTypes.arrayOf(PropTypes.shape({
+    locationId: PropTypes.string,
+    tenantId: PropTypes.string,
+  })),
   fields: PropTypes.shape({
     concat: PropTypes.func,
     length: PropTypes.number,

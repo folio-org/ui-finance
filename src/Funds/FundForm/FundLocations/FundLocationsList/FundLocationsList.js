@@ -53,6 +53,10 @@ export const FundLocationsList = ({
       .sort((a, b) => a?.name?.localeCompare(b?.name));
   }, [value, locations]);
 
+  const initialSelected = useMemo(() => {
+    return assignedLocations.map(({ locationId, ...rest }) => ({ id: locationId, ...rest }));
+  }, [assignedLocations]);
+
   const onRemove = useCallback((location) => {
     const indexToRemove = value.findIndex(({ locationId }) => locationId === location.id);
 
@@ -166,7 +170,7 @@ export const FundLocationsList = ({
           id="fund-locations"
           isMultiSelect
           searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
-          initialSelected={assignedLocations}
+          initialSelected={initialSelected}
           onRecordsSelect={onRecordsSelect}
           crossTenant={isCurrentTenantConsortiumCentral}
         />

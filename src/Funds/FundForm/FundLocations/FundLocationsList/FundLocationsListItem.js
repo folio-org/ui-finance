@@ -8,7 +8,11 @@ import {
 
 import css from './FundLocationsListItem.css';
 
-const formatLocationValue = ({ name, code }) => [name, code && `(${code})`].join(' ');
+const formatLocationValue = ({ name, code }) => {
+  return name
+    ? [name, code && `(${code})`].join(' ')
+    : <FormattedMessage id="stripes-acq-components.invalidReference" />;
+};
 
 export const FundLocationsListItem = ({ location, index, onRemove }) => {
   return (

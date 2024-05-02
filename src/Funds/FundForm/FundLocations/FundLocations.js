@@ -3,10 +3,6 @@ import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
 
-import {
-  checkIfUserInCentralTenant,
-  useStripes,
-} from '@folio/stripes/core';
 import { Loading } from '@folio/stripes/components';
 import {
   ConsortiumLocationsContext,
@@ -21,13 +17,12 @@ const validate = (locations, { fund }) => {
     : undefined;
 };
 
-export const FundLocations = ({ assignedLocations, name }) => {
-  const stripes = useStripes();
-
-  const {
-    isLoading,
-    locations,
-  } = useContext(checkIfUserInCentralTenant(stripes) ? ConsortiumLocationsContext : LocationsContext);
+export const FundLocations = ({
+  assignedLocations,
+  centralOrdering = false,
+  name,
+}) => {
+  const { isLoading, locations } = useContext(centralOrdering ? ConsortiumLocationsContext : LocationsContext);
 
   if (isLoading) return <Loading />;
 
@@ -38,6 +33,7 @@ export const FundLocations = ({ assignedLocations, name }) => {
       assignedLocations={assignedLocations}
       locations={locations}
       validate={validate}
+      centralOrdering={centralOrdering}
     />
   );
 };
@@ -48,5 +44,6 @@ FundLocations.defaultProps = {
 
 FundLocations.propTypes = {
   assignedLocations: PropTypes.arrayOf(PropTypes.object),
+  centralOrdering: PropTypes.bool,
   name: PropTypes.string.isRequired,
 };

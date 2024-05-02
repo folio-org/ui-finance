@@ -22,6 +22,7 @@ import {
   handleKeyCommand,
   LocationsContextProvider,
   OptimisticLockingBanner,
+  useCentralOrderingSettings,
   validateRequired,
 } from '@folio/stripes-acq-components';
 import {
@@ -101,6 +102,10 @@ const FundForm = ({
   const donorOrganizationIds = get(formValues, 'fund.donorOrganizationIds', []);
   const isLocationRestricted = get(formValues, 'fund.restrictByLocations', false);
   const assignedLocations = get(formValues, 'fund.locations');
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -226,7 +231,7 @@ const FundForm = ({
     },
   ];
 
-  const FundLocationsContextProvider = checkIfUserInCentralTenant(stripes)
+  const FundLocationsContextProvider = isCentralOrderingEnabled
     ? ConsortiumLocationsContextProvider
     : LocationsContextProvider;
 
@@ -449,6 +454,7 @@ const FundForm = ({
                           <FundLocations
                             name="fund.locations"
                             assignedLocations={assignedLocations}
+                            centralOrdering={isCentralOrderingEnabled}
                           />
                         </FundLocationsContextProvider>
                       </Accordion>

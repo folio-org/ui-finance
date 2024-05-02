@@ -15,10 +15,7 @@ import {
   Layout,
   List,
 } from '@folio/stripes/components';
-import {
-  checkIfUserInCentralTenant,
-  useStripes,
-} from '@folio/stripes/core';
+import { useStripes } from '@folio/stripes/core';
 import { FindLocation } from '@folio/stripes-acq-components';
 
 import { FieldArrayError } from '../../../../common/FieldArrayError';
@@ -31,6 +28,7 @@ const DEFAULT_VALUE = [];
 
 export const FundLocationsList = ({
   assignedLocations,
+  centralOrdering = false,
   fields,
   locations,
   meta,
@@ -49,7 +47,7 @@ export const FundLocationsList = ({
 
   const items = useMemo(() => {
     return value
-      .map(({ locationId }) => locations.find(location => location.id === locationId) || {})
+      .map(({ locationId }) => locations.find(location => location.id === locationId) || { id: locationId })
       .sort((a, b) => a?.name?.localeCompare(b?.name));
   }, [value, locations]);
 
@@ -101,8 +99,6 @@ export const FundLocationsList = ({
     closeIsUnassignModal();
   };
 
-  const isCurrentTenantConsortiumCentral = checkIfUserInCentralTenant(stripes);
-
   const userTenantsMap = useMemo(() => {
     return (stripes?.user?.user?.tenants ?? []).reduce((acc, tenant) => acc.set(tenant.id, tenant), new Map());
   }, [stripes?.user?.user?.tenants]);
@@ -144,7 +140,7 @@ export const FundLocationsList = ({
   }, [itemFormatter, userTenantsMap]);
 
   const list = useMemo(() => {
-    return isCurrentTenantConsortiumCentral
+    return centralOrdering
       ? renderTenantsGroupedList(items)
       : (
         <List
@@ -154,7 +150,7 @@ export const FundLocationsList = ({
         />
       );
   }, [
-    isCurrentTenantConsortiumCentral,
+    centralOrdering,
     itemFormatter,
     items,
     renderTenantsGroupedList,
@@ -172,7 +168,7 @@ export const FundLocationsList = ({
           searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
           initialSelected={initialSelected}
           onRecordsSelect={onRecordsSelect}
-          crossTenant={isCurrentTenantConsortiumCentral}
+          crossTenant={centralOrdering}
         />
 
         <Button
@@ -206,6 +202,7 @@ FundLocationsList.propTypes = {
     locationId: PropTypes.string,
     tenantId: PropTypes.string,
   })),
+  centralOrdering: PropTypes.bool,
   fields: PropTypes.shape({
     concat: PropTypes.func,
     length: PropTypes.number,

@@ -69,7 +69,7 @@ const stripes = {
   },
 };
 
-const buildLocationsContext = (Context, _value = {}) => ({ children }) => {
+const buildLocationsContextProvider = (Context, _value = {}) => ({ children }) => {
   const value = {
     isLoading: false,
     locations: [...locations, extraLocationRecord],
@@ -82,7 +82,7 @@ const buildLocationsContext = (Context, _value = {}) => ({ children }) => {
     </Context.Provider>
   );
 };
-const ContextProviderMock = jest.fn(buildLocationsContext(LocationsContext));
+const ContextProviderMock = jest.fn(buildLocationsContextProvider(LocationsContext));
 
 const initAssignedLocations = locations.map(({ id }) => ({ locationId: id }));
 
@@ -175,7 +175,7 @@ describe('FundLocations', () => {
     beforeEach(() => {
       ContextProviderMock
         .mockClear()
-        .mockImplementation(buildLocationsContext(ConsortiumLocationsContext));
+        .mockImplementation(buildLocationsContextProvider(ConsortiumLocationsContext));
     });
 
     it('should render restricted locations grouped by affiliations (tenants) in the central tenant', () => {
@@ -183,7 +183,7 @@ describe('FundLocations', () => {
         .mockClear()
         .mockReturnValue(true);
 
-      renderFundLocations();
+      renderFundLocations({ centralOrdering: true });
 
       stripes.user.user.tenants.forEach(({ name }) => {
         expect(screen.getByText(name)).toBeInTheDocument();

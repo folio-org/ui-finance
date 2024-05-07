@@ -117,7 +117,7 @@ describe('FundLocationsList', () => {
     });
 
     it('should render restricted locations grouped by affiliations (tenants) in the central tenant', () => {
-      renderFundLocationsList();
+      renderFundLocationsList({ centralOrdering: true });
 
       stripes.user.user.tenants.forEach(({ name }) => {
         expect(screen.getByText(name)).toBeInTheDocument();

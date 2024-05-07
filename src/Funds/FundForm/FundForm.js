@@ -14,12 +14,15 @@ import { useHistory } from 'react-router';
 import {
   AcqUnitsField,
   Donors,
+  ConsortiumLocationsContextProvider,
   FieldMultiSelectionFinal as FieldMultiSelection,
   FieldSelectionFinal as FieldSelection,
   FormFooter,
   FUNDS_API,
   handleKeyCommand,
+  LocationsContextProvider,
   OptimisticLockingBanner,
+  useCentralOrderingSettings,
   validateRequired,
 } from '@folio/stripes-acq-components';
 import {
@@ -40,7 +43,11 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
-import { useOkapiKy } from '@folio/stripes/core';
+import {
+  checkIfUserInCentralTenant,
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
@@ -77,6 +84,7 @@ const FundForm = ({
 }) => {
   const intl = useIntl();
   const ky = useOkapiKy();
+  const stripes = useStripes();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const fundTypeOptions = fundTypes.map(
@@ -94,6 +102,10 @@ const FundForm = ({
   const donorOrganizationIds = get(formValues, 'fund.donorOrganizationIds', []);
   const isLocationRestricted = get(formValues, 'fund.restrictByLocations', false);
   const assignedLocations = get(formValues, 'fund.locations');
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -218,6 +230,10 @@ const FundForm = ({
       handler: handleKeyCommand(() => history.push(FUNDS_ROUTE)),
     },
   ];
+
+  const FundLocationsContextProvider = isCentralOrderingEnabled
+    ? ConsortiumLocationsContextProvider
+    : LocationsContextProvider;
 
   return (
     <form>
@@ -434,10 +450,13 @@ const FundForm = ({
                         id={SECTIONS_FUND.LOCATIONS}
                         label={<FormattedMessage id="ui-finance.fund.information.locations" />}
                       >
-                        <FundLocations
-                          name="fund.locations"
-                          assignedLocations={assignedLocations}
-                        />
+                        <FundLocationsContextProvider>
+                          <FundLocations
+                            name="fund.locations"
+                            assignedLocations={assignedLocations}
+                            centralOrdering={isCentralOrderingEnabled}
+                          />
+                        </FundLocationsContextProvider>
                       </Accordion>
                     )}
 

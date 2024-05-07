@@ -42,6 +42,9 @@
       "tags": "1.0",
       "users": "15.0 16.0"
     },
+    "optionalOkapiInterfaces": {
+      "consortia": "1.0"
+    },
     "queryResource": "query",
     "icons": [
       {
@@ -304,6 +307,9 @@
         "subPermissions": [
           "ui-finance.fund-budget.view",
           "acquisitions-units.memberships.collection.get",
+          "consortia.publications.item.get",
+          "consortia.publications.item.post",
+          "consortia.publications-results.item.get",
           "finance.budgets.item.put",
           "finance.funds.item.put",
           "inventory-storage.locations.collection.get",

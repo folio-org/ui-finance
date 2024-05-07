@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Button,
@@ -8,12 +11,18 @@ import {
 
 import css from './FundLocationsListItem.css';
 
-const formatLocationValue = ({ name, code }) => [name, code && `(${code})`].join(' ');
+const formatLocationValue = ({ name, code }, intl) => {
+  return name
+    ? [name, code && `(${code})`].join(' ')
+    : intl.formatMessage({ id: 'stripes-acq-components.invalidReference' });
+};
 
 export const FundLocationsListItem = ({ location, index, onRemove }) => {
+  const intl = useIntl();
+
   return (
     <li className={css.listItem}>
-      <span className={css.itemValue}>{formatLocationValue(location)}</span>
+      <span className={css.itemValue}>{formatLocationValue(location, intl)}</span>
       <FormattedMessage id="ui-finance.fund.information.locations.action.remove">
         {aria => (
           <Button
@@ -23,7 +32,7 @@ export const FundLocationsListItem = ({ location, index, onRemove }) => {
             type="button"
             id={`clickable-remove-location-${index}`}
             onClick={() => onRemove(location)}
-            aria-label={`${aria}: ${formatLocationValue(location)}`}
+            aria-label={`${aria}: ${formatLocationValue(location, intl)}`}
           >
             <Icon
               icon="times-circle"

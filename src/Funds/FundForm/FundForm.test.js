@@ -15,6 +15,14 @@ import {
   expandAllSections,
   collapseAllSections,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
+import {
+  ConsortiumLocationsContext,
+  ConsortiumLocationsContextProvider,
+  LocationsContext,
+  LocationsContextProvider,
+  useCentralOrderingSettings,
+} from '@folio/stripes-acq-components';
 
 import { FUNDS_ROUTE } from '../../common/const';
 import FundForm from './FundForm';
@@ -24,8 +32,11 @@ jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
 });
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
+  ConsortiumLocationsContextProvider: jest.fn(),
   Donors: jest.fn(() => 'Donors'),
   FindLocation: jest.fn(() => 'FindLocation'),
+  LocationsContextProvider: jest.fn(),
+  useCentralOrderingSettings: jest.fn(),
   useLocations: jest.fn(() => ({})),
 }));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
@@ -37,6 +48,20 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
+
+const buildLocationsContextProvider = (Context, _value = {}) => ({ children }) => {
+  const value = {
+    isLoading: false,
+    locations: [],
+    ..._value,
+  };
+
+  return (
+    <Context.Provider value={value}>
+      {children}
+    </Context.Provider>
+  );
+};
 
 const defaultProps = {
   onCancel: jest.fn(),
@@ -67,6 +92,15 @@ const funds = [
 ];
 
 describe('FundForm component', () => {
+  beforeEach(() => {
+    LocationsContextProvider
+      .mockClear()
+      .mockImplementation(buildLocationsContextProvider(LocationsContext));
+    useCentralOrderingSettings
+      .mockClear()
+      .mockReturnValue({ enabled: false });
+  });
+
   it('should display title for new fund', () => {
     const { getByText } = renderFundForm();
 
@@ -212,6 +246,67 @@ describe('FundForm component', () => {
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'search').handler();
 
       expect(pushMock).toHaveBeenCalledWith(FUNDS_ROUTE);
+    });
+  });
+
+  describe('ECS mode', () => {
+    const locations = [
+      {
+        id: 'location-1',
+        name: 'Loc 1',
+        code: 'l1',
+        tenantId: 'tenant-1',
+      },
+      {
+        id: 'location-2',
+        name: 'Loc 2',
+        code: 'l2',
+        tenantId: 'tenant-1',
+      },
+      {
+        id: 'location-3',
+        name: 'Loc 3',
+        code: 'l3',
+        tenantId: 'tenant-2',
+      },
+    ];
+
+    const stripes = {
+      user: {
+        user: {
+          tenants: [
+            { id: 'tenant-1', name: 'Tenant 1 name' },
+            { id: 'tenant-2', name: 'Tenant 2 name' },
+          ],
+        },
+      },
+    };
+
+    beforeEach(() => {
+      ConsortiumLocationsContextProvider
+        .mockClear()
+        .mockImplementation(buildLocationsContextProvider(ConsortiumLocationsContext, { locations }));
+      useCentralOrderingSettings
+        .mockClear()
+        .mockReturnValue({ enabled: true });
+      useStripes
+        .mockClear()
+        .mockReturnValue(stripes);
+    });
+
+    it('should render restricted locations grouped by affiliations (tenants) in the central tenant', () => {
+      renderFundForm({
+        initialValues: {
+          fund: {
+            restrictByLocations: true,
+            locations: locations.map(({ id, tenantId }) => ({ locationId: id, tenantId })),
+          },
+        },
+      });
+
+      stripes.user.user.tenants.forEach(({ name }) => {
+        expect(screen.getByText(name)).toBeInTheDocument();
+      });
     });
   });
 });

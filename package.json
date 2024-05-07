@@ -310,7 +310,6 @@
           "consortia.publications.item.get",
           "consortia.publications.item.post",
           "consortia.publications-results.item.get",
-          "consortia.user-tenants.collection.get",
           "finance.budgets.item.put",
           "finance.funds.item.put",
           "inventory-storage.locations.collection.get",

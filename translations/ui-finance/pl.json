@@ -219,7 +219,7 @@
     "transaction.initialEncumbrance": "Obciążenie początkowe",
     "transaction.source.FiscalYear": "Rok budżetowy",
     "transaction.source.Invoice": "Faktura",
-    "transaction.source.PoLine": "Wiersz zamówienia zakupu",
+    "transaction.source.PoLine": "Pozycja zamówienia",
     "transaction.status": "Status",
     "transaction.status.Released": "Wydane",
     "transaction.status.Unreleased": "Niewydane",

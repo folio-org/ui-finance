@@ -3,6 +3,11 @@ import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import LedgerListFilters from './LedgerListFilters';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqUnitFilter: () => <span>stripes-acq-components.filter.acqUnit</span>,
+}));
+
 const defaultProps = {
   activeFilters: {},
   applyFilters: jest.fn(),

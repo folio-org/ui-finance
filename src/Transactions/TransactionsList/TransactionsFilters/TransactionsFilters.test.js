@@ -19,6 +19,11 @@ jest.mock('@folio/stripes/core', () => ({
   stripesConnect: () => Component => props => <Component {...props} />,
 }));
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqTagsFilter: () => <span>stripes-acq-components.filter.tags</span>,
+}));
+
 const defaultProps = {
   activeFilters: {},
   applyFilters: jest.fn(),

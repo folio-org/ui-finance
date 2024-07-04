@@ -7,6 +7,7 @@
 * *BREAKING* Apply changes in the fund schema for the locations field. Refs UIF-518.
 * *BREAKING* Align the `finance.*` interfaces versions in accordance with the changes in the descriptor. Refs UIF-520.
 * Assign locations to restricted funds in central tenant with central ordering enabled. Refs UIF-511.
+* Change rollover restriction lables. Refs UIF-537.
 
 ## [6.0.0](https://github.com/folio-org/ui-finance/tree/v6.0.0) (2024-03-19)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v5.0.0...v6.0.0)

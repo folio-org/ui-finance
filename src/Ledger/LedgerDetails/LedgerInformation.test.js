@@ -1,6 +1,11 @@
 import React from 'react';
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { IntlProvider } from 'react-intl';
+
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
@@ -56,6 +61,15 @@ const DEFAULT_LEDGER = {
   restrictExpenditures: true,
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
 const renderComponent = (fiscalYear = DEFAULT_FY, ledger = DEFAULT_LEDGER) => (render(
   <IntlProvider locale="en" messages={MESSAGES}>
     <LedgerInformation
@@ -68,6 +82,7 @@ const renderComponent = (fiscalYear = DEFAULT_FY, ledger = DEFAULT_LEDGER) => (r
       fiscalYearCode={fiscalYear.code}
     />
   </IntlProvider>,
+  { wrapper },
 ));
 
 describe('LedgerInformation component', () => {

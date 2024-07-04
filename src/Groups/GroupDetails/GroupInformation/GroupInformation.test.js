@@ -6,6 +6,11 @@ import '@folio/stripes-acq-components/test/jest/__mock__';
 
 import GroupInformation from './GroupInformation';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqUnitsView: () => <span>stripes-acq-components.label.acqUnits</span>,
+}));
+
 const MESSAGES = {
   'ui-finance.groups.item.information.name': 'name',
   'ui-finance.groups.item.information.code': 'code',

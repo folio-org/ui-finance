@@ -103,6 +103,8 @@ export const CreateTransactionContainer = ({
   const onSubmitTransactionForm = useCallback(async (formValues) => {
     const { toFundId, fromFundId } = formValues;
 
+    console.log(toFundId, fromFundId)
+
     const fund = funds.find(({ id }) => id === fundId);
     const contragentFundId = [toFundId, fromFundId].find((_fundId) => _fundId !== fundId);
     const contragentFund = funds.find(({ id: cFundId }) => cFundId === contragentFundId);

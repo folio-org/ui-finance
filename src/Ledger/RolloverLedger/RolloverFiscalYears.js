@@ -55,7 +55,7 @@ function RolloverFiscalYears({ currentFiscalYear, fiscalYears, goToCreateFY }) {
         <Col xs={3}>
           <Field
             component={Checkbox}
-            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbrance" />}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbranceDuringRollover" />}
             name="restrictEncumbrance"
             type="checkbox"
             validateFields={[]}
@@ -64,7 +64,7 @@ function RolloverFiscalYears({ currentFiscalYear, fiscalYears, goToCreateFY }) {
         <Col xs={3}>
           <Field
             component={Checkbox}
-            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpenditures" />}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpendituresDuringRollover" />}
             name="restrictExpenditures"
             type="checkbox"
             validateFields={[]}

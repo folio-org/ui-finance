@@ -1,6 +1,11 @@
 import React from 'react';
-import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { IntlProvider } from 'react-intl';
+
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
@@ -36,6 +41,15 @@ const DEFAULT_COMPOSITE_FUND = {
   groupIds: ['0a8dd71c-f1cd-4486-bbdc-dd0fa5035e3a'],
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
 const renderComponent = (compositeFund = DEFAULT_COMPOSITE_FUND) => (render(
   <IntlProvider locale="en" messages={MESSAGES}>
     <FundDetails
@@ -44,6 +58,7 @@ const renderComponent = (compositeFund = DEFAULT_COMPOSITE_FUND) => (render(
       groupIds={compositeFund.groupIds}
     />
   </IntlProvider>,
+  { wrapper },
 ));
 
 describe('FundDetails component', () => {

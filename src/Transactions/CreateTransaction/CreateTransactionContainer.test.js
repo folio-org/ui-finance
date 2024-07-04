@@ -68,7 +68,10 @@ const renderCreateTransactionContainer = (props = {}) => render(
 describe('CreateTransactionContainer', () => {
   const selectFund = async (field = 'from', value = funds[0].code) => {
     await act(async () => {
-      user.click(await screen.findByLabelText(`ui-finance.transaction.${field}`));
+      const selectBox = (await screen.findAllByLabelText(`ui-finance.transaction.${field}`))[0];
+
+      user.click(selectBox);
+
       const fromFundOptions = await screen.findAllByText(new RegExp(`.*${value}.*`));
 
       user.click(fromFundOptions[field === 'from' ? 0 : 1]);
@@ -109,10 +112,13 @@ describe('CreateTransactionContainer', () => {
     it('should fetch budget data from foreign fund', async () => {
       renderCreateTransactionContainer({ allocationType: undefined });
 
+      await act(async () => selectFund('from'));
+      await act(async () => selectFund('to', funds[1].code));
+
       await act(async () => user.type(await screen.findByText('ui-finance.transaction.amount'), '1'));
-      await selectFund();
-      await selectFund('to', funds[1].code);
       await act(async () => user.click(await screen.findByText('ui-finance.transaction.button.confirm')));
+
+      await jest.runAllTimersAsync();
 
       expect(getFundActiveBudget).toHaveBeenCalled();
     });

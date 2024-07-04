@@ -67,14 +67,14 @@ export const RolloverFiscalYearsView = ({ rollover }) => {
           <Checkbox
             checked={!!rollover?.restrictEncumbrance}
             disabled
-            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbrance" />}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbranceDuringRollover" />}
           />
         </Col>
         <Col xs={3}>
           <Checkbox
             checked={!!rollover?.restrictExpenditures}
             disabled
-            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpenditures" />}
+            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpendituresDuringRollover" />}
           />
         </Col>
         <Col xs={3}>

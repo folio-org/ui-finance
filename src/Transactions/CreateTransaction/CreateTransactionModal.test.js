@@ -95,7 +95,7 @@ describe('CreateTransactionModal', () => {
     });
 
     expect(screen.getByRole('button', { name: 'ui-finance.fund fund 2' })).toBeInTheDocument();
-    expect(screen.getByLabelText('ui-finance.fund')).toHaveAttribute('disabled');
+    expect(screen.getAllByLabelText('ui-finance.fund')[0]).toHaveAttribute('disabled');
     expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
   });
@@ -107,7 +107,7 @@ describe('CreateTransactionModal', () => {
     });
 
     expect(screen.getByRole('button', { name: 'ui-finance.fund fund 2' })).toBeInTheDocument();
-    expect(screen.getByLabelText('ui-finance.fund')).toHaveAttribute('disabled');
+    expect(screen.getAllByLabelText('ui-finance.fund')[0]).toHaveAttribute('disabled');
     expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
   });

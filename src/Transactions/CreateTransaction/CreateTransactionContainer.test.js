@@ -118,6 +118,8 @@ describe('CreateTransactionContainer', () => {
       await act(async () => user.type(await screen.findByText('ui-finance.transaction.amount'), '1'));
       await act(async () => user.click(await screen.findByText('ui-finance.transaction.button.confirm')));
 
+      await new Promise(process.nextTick);
+
       expect(getFundActiveBudget).toHaveBeenCalled();
     });
 

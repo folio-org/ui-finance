@@ -490,5 +490,7 @@
     "transaction.unreleaseEncumbrance.error.genericError": "Fehler beim Wiederherstellen der Bindung",
     "validation.locationsRequired": "Standorte müssen zugewiesen werden",
     "permission.encumbrance.unrelease": "Finanzen: Bindung wiederherstellen",
-    "document.title.search": "Finanzen - {query} - Suchen"
+    "document.title.search": "Finanzen - {query} - Suchen",
+    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
 }

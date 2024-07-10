@@ -265,7 +265,7 @@
     "expenseClass.label.plural": "支出类别",
     "expenseClass.name": "名称",
     "expenseClass.code": "代码",
-    "expenseClass.account": "外部帐号扩展",
+    "expenseClass.account": "外部账号扩展",
     "settings.expenseClasses.title": "支出类别",
     "permission.fund-budget.create": "财务：查看、编辑、创建经费和预算",
     "permission.fund-budget.delete": "财务：查看、编辑、删除经费和预算",
@@ -490,5 +490,7 @@
     "transaction.unreleaseEncumbrance.error.genericError": "释放预支时出错",
     "validation.locationsRequired": "必须指定位置",
     "permission.encumbrance.unrelease": "财务：未释放预支",
-    "document.title.search": "财务 - {query} - 搜索"
+    "document.title.search": "财务 - {query} - 搜索",
+    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
 }

@@ -490,5 +490,7 @@
     "transaction.unreleaseEncumbrance.error.genericError": "Error while unreleasing encumbrance",
     "validation.locationsRequired": "Locations must be assigned",
     "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance",
-    "document.title.search": "Finance - {query} - Search"
+    "document.title.search": "Finance - {query} - Search",
+    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
 }

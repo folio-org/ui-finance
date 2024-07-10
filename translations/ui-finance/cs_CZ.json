@@ -490,5 +490,7 @@
     "transaction.unreleaseEncumbrance.error.genericError": "Chyba při neuvolňování věcného břemene",
     "validation.locationsRequired": "Lokace musí být přiřazena",
     "permission.encumbrance.unrelease": "Finance: uvolnění věcného břemene",
-    "document.title.search": "Finance - {query} - Vyhledat"
+    "document.title.search": "Finance - {query} - Vyhledat",
+    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
 }

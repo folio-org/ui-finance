@@ -6,6 +6,7 @@ export const FINANCIAL_SUMMARY = {
   allocationTo: 'allocationTo',
   allocationFrom: 'allocationFrom',
   allocated: 'allocated',
+  credited: 'credited',
   netTransfers: 'netTransfers',
   totalFunding: 'totalFunding',
   encumbered: 'encumbered',
@@ -29,6 +30,7 @@ export const FINANCIAL_ACTIVITY_LABELS = {
   encumbered: <FormattedMessage id="ui-finance.financialSummary.encumbered" />,
   awaitingPayment: <FormattedMessage id="ui-finance.financialSummary.awaitingPayment" />,
   expenditures: <FormattedMessage id="ui-finance.financialSummary.expended" />,
+  credited: <FormattedMessage id="ui-finance.financialSummary.credited" />,
   unavailable: <FormattedMessage id="ui-finance.financialSummary.unavailable" />,
 };
 

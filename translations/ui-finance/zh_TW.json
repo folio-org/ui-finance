@@ -490,5 +490,7 @@
     "transaction.unreleaseEncumbrance.error.genericError": "解除預付時發生錯誤",
     "validation.locationsRequired": "必須指定位置",
     "permission.encumbrance.unrelease": "財務：解除預付額",
-    "document.title.search": "財務 - {query} - 搜尋"
+    "document.title.search": "財務 - {query} - 搜尋",
+    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
 }

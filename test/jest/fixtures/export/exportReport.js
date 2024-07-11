@@ -38,6 +38,7 @@ export const exportReport = [{
   overEncumbered: budgetData.overEncumbrance,
   overExpended: budgetData.overExpended,
   cashBalance: budgetData.cashBalance,
+  credited: budgetData.credits,
   available: budgetData.available,
 
   // expense class fields

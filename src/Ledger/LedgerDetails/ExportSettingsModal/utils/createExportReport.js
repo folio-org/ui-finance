@@ -52,6 +52,7 @@ export const createExportReport = async (
     awaitingPayment: budgetData.awaitingPayment,
     expended: budgetData.expenditures,
     unavailable: budgetData.unavailable,
+    credited: budgetData.credits,
     overEncumbered: budgetData.overEncumbrance,
     overExpended: budgetData.overExpended,
     cashBalance: budgetData.cashBalance,

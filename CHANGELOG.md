@@ -124,6 +124,7 @@
 * Deleted item name remains in the list on the pane (fiscal year, ledger, group, fund). Refs UIF-390.
 * Warning message for already existing field does not appear when click after duplicated field on the dropdown with filter options list. Refs UIF-391.
 * Order rollover errors are not reported. Refs UIF-392.
+* Export "Credited" total in csv export with other budget data. Refs UIF-498
 
 ## [3.1.1](https://github.com/folio-org/ui-finance/tree/v3.1.1) (2022-03-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v3.1.0...v3.1.1)

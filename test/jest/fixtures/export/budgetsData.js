@@ -20,6 +20,7 @@ export const budgetsData = {
     overExpended: 0,
     totalFunding: 2500,
     unavailable: 0,
+    credits: 0,
     metadata: { createdDate: '2022-04-12T01:51:04.240+00:00' },
   },
 };

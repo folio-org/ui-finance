@@ -109,7 +109,7 @@ describe('CreateTransactionContainer', () => {
       expect(mutatorMock.Allocation.POST).toHaveBeenCalled();
     });
 
-    it.skip('should fetch budget data from foreign fund', async () => {
+    it('should fetch budget data from foreign fund', async () => {
       renderCreateTransactionContainer({ allocationType: undefined });
 
       await act(async () => selectFund('from'));

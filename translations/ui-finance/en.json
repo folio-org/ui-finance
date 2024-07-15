@@ -234,6 +234,7 @@
   "financialSummary.description": "Description",
   "financialSummary.encumbered": "Encumbered",
   "financialSummary.expended": "Expended",
+  "financialSummary.credited": "Credited",
   "financialSummary.financialActivity": "Financial activity & overages",
   "financialSummary.fundingInformation": "Funding information",
   "financialSummary.initialAllocation": "Initial allocation",

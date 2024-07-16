@@ -55,6 +55,7 @@ export const EXPORT_BUDGET_FIELDS = {
   overExpended: 'Over expended',
   cashBalance: 'Cash balance',
   available: 'Available',
+  credited: 'Credited',
 };
 
 export const EXPORT_EXPENSE_CLASS_FIELDS = {

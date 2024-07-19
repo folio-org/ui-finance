@@ -51,8 +51,8 @@ export const createExportReport = async (
     budgetEncumbered: budgetData.encumbered,
     awaitingPayment: budgetData.awaitingPayment,
     expended: budgetData.expenditures,
-    unavailable: budgetData.unavailable,
     credited: budgetData.credits,
+    unavailable: budgetData.unavailable,
     overEncumbered: budgetData.overEncumbrance,
     overExpended: budgetData.overExpended,
     cashBalance: budgetData.cashBalance,
@@ -67,6 +67,7 @@ export const createExportReport = async (
     expenseClassAwaitingPayment: expenseClassData.awaitingPayment,
     expenseClassExpended: expenseClassData.expended,
     percentageOfTotalExpended: expenseClassData.percentageExpended,
+    expenseCredited: expenseClassData.credited,
   });
 
   const getExportRow = ({

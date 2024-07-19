@@ -55,7 +55,7 @@ export const EXPORT_BUDGET_FIELDS = {
   overExpended: 'Over expended',
   cashBalance: 'Cash balance',
   available: 'Available',
-  credited: 'Credited',
+  credited: 'Credited (Budget)',
 };
 
 export const EXPORT_EXPENSE_CLASS_FIELDS = {
@@ -66,4 +66,5 @@ export const EXPORT_EXPENSE_CLASS_FIELDS = {
   expenseClassAwaitingPayment: 'Awaiting payment (Exp Class)',
   expenseClassExpended: 'Expended (Exp Class)',
   percentageOfTotalExpended: 'Percentage of total expended',
+  expenseCredited: 'Credited (Exp Class)',
 };

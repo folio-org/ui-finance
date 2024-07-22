@@ -67,5 +67,4 @@ export const EXPORT_EXPENSE_CLASS_FIELDS = {
   expenseClassExpended: 'Expended (Exp Class)',
   expenseCredited: 'Credited (Exp Class)',
   percentageOfTotalExpended: 'Percentage of total expended',
-  expenseCredited: 'Credited (Exp Class)',
 };

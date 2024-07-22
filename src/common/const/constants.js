@@ -50,12 +50,12 @@ export const EXPORT_BUDGET_FIELDS = {
   budgetEncumbered: 'Encumbered (Budget)',
   awaitingPayment: 'Awaiting payment (Budget)',
   expended: 'Expended (Budget)',
+  credited: 'Credited (Budget)',
   unavailable: 'Unavailable',
   overEncumbered: 'Over encumbered',
   overExpended: 'Over expended',
   cashBalance: 'Cash balance',
   available: 'Available',
-  credited: 'Credited (Budget)',
 };
 
 export const EXPORT_EXPENSE_CLASS_FIELDS = {
@@ -65,6 +65,6 @@ export const EXPORT_EXPENSE_CLASS_FIELDS = {
   expenseClassEncumbered: 'Encumbered (Exp Class)',
   expenseClassAwaitingPayment: 'Awaiting payment (Exp Class)',
   expenseClassExpended: 'Expended (Exp Class)',
-  percentageOfTotalExpended: 'Percentage of total expended',
   expenseCredited: 'Credited (Exp Class)',
+  percentageOfTotalExpended: 'Percentage of total expended',
 };

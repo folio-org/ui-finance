@@ -491,6 +491,7 @@
     "validation.locationsRequired": "Standorte müssen zugewiesen werden",
     "permission.encumbrance.unrelease": "Finanzen: Bindung wiederherstellen",
     "document.title.search": "Finanzen - {query} - Suchen",
-    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
+    "ledger.rollover.restrictEncumbranceDuringRollover": "Alle Budgetbeschränkungen für Bindungen während des Jahresübergangs in Kraft setzen",
+    "ledger.rollover.restrictExpendituresDuringRollover": "Alle Budgetbeschränkungen für Ausgaben während des Jahresübergangs in Kraft setzen",
+    "financialSummary.credited": "Gutgeschrieben"
 }

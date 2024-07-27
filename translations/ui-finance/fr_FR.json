@@ -68,7 +68,7 @@
     "groups.item.information.available": "Disponible",
     "groups.item.information.description": "Description",
     "budget.status.active": "Actif",
-    "budget.status.closed": "Fermé",
+    "budget.status.closed": "Clôturé",
     "budget.status.frozen": "Verrouillé",
     "budget.status.planned": "Prévu",
     "budget.hasBeenSaved": "Le budget <b> {name} </b> a été enregistré.",
@@ -315,7 +315,7 @@
     "ledger.rollover.addAvailableAs": "Ajouter disponible en tant que",
     "ledger.rollover.orderType": "Type de commande",
     "ledger.rollover.orderType.ongoing": "Engagements continus",
-    "ledger.rollover.orderType.ongoingSubscription": "Engagements pour abonnements en continu",
+    "ledger.rollover.orderType.ongoingSubscription": "Engagements pour abonnements en cours",
     "ledger.rollover.orderType.onetime": "Engagements ponctuels (une seule fois)",
     "ledger.rollover.rollover": "Rollover",
     "ledger.rollover.basedOn": "Basé sur",
@@ -456,8 +456,8 @@
     "groups.item.information.fiscalYear.current": "Current:",
     "groups.item.information.fiscalYear.previous": "Précédent",
     "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
-    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
-    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount} n'a pas été alloué avec succès car <b>{fundCode}</b> n'a pas de budget.",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} n'a pas été alloué avec succès au budget <b>{toBudgetName}</b> car il excède le montant total de l'allocation de <b>{fromBudgetName}</b>",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
     "transaction.confirmModal.negativeAvailableAmount.message": "Completing this {transactionType, select, Transfer {transfer} Allocation {allocation} other {transaction}} will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
     "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget",
@@ -492,5 +492,6 @@
     "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance",
     "document.title.search": "Finance - {query} - Search",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
+    "financialSummary.credited": "Crédité"
 }

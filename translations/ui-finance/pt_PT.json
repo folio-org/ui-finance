@@ -492,5 +492,6 @@
     "permission.encumbrance.unrelease": "Finance: Unrelease encumbrance",
     "document.title.search": "Finance - {query} - Search",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover"
+    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
+    "financialSummary.credited": "Credited"
 }

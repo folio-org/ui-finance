@@ -29,18 +29,21 @@ const getResultsFormatter = currency => ({
     <AmountWithCurrencyField
       amount={expenseClass.encumbered}
       currency={currency}
+      showBrackets={expenseClass.encumbered < 0}
     />
   ),
   awaitingPayment: expenseClass => (
     <AmountWithCurrencyField
       amount={expenseClass.awaitingPayment}
       currency={currency}
+      showBrackets={expenseClass.awaitingPayment < 0}
     />
   ),
   expended: expenseClass => (
     <AmountWithCurrencyField
       amount={expenseClass.expended}
       currency={currency}
+      showBrackets={expenseClass.expended < 0}
     />
   ),
   percentageExpended: expenseClass => (

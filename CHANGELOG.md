@@ -12,6 +12,7 @@
 * Display "Credited" total in Ledger view .Refs UIF-495.
 * Display "Credited" total in Group view. Refs UIF-496.
 * Misleading message when current fiscal year lapses for a ledger. Refs UIF-539.
+* Display numbers on record views in parentheses when they are negative. UIF-540.
 
 ## [6.0.0](https://github.com/folio-org/ui-finance/tree/v6.0.0) (2024-03-19)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v5.0.0...v6.0.0)

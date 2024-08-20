@@ -42,6 +42,7 @@ const resultsFormatter = {
     <AmountWithCurrencyField
       amount={invoice.total}
       currency={invoice.currency}
+      showBrackets={invoice.total < 0}
     />
   ),
 };

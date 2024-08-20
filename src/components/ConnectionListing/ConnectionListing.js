@@ -32,7 +32,14 @@ const sorters = {
   'available': ({ available }) => available,
 };
 
-const ConnectionListing = ({ items, currency, openItem, visibleColumns, onRemoveItem, columnIdPrefix }) => {
+const ConnectionListing = ({
+  items,
+  currency,
+  openItem,
+  visibleColumns,
+  onRemoveItem,
+  columnIdPrefix,
+}) => {
   const intl = useIntl();
   const isRemovable = Boolean(onRemoveItem);
   const _visibleColumns = isRemovable ? [...visibleColumns, COLUMN_REMOVE_ITEM] : visibleColumns;
@@ -43,6 +50,7 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns, onRemove
       <AmountWithCurrencyField
         amount={item.allocated}
         currency={currency || item.currency}
+        showBrackets={item.allocated < 0}
       />
     ),
     netTransfers: item => (
@@ -56,12 +64,14 @@ const ConnectionListing = ({ items, currency, openItem, visibleColumns, onRemove
       <AmountWithCurrencyField
         amount={item.unavailable}
         currency={currency || item.currency}
+        showBrackets={item.unavailable < 0}
       />
     ),
     available: item => (
       <AmountWithCurrencyField
         amount={item.available}
         currency={currency || item.currency}
+        showBrackets={item.available < 0}
       />
     ),
     [COLUMN_REMOVE_ITEM]: item => (

@@ -148,6 +148,7 @@ const TransactionInformation = ({
               <AmountWithCurrencyField
                 amount={encumbrance.initialAmountEncumbered}
                 currency={currency}
+                showBrackets={encumbrance.initialAmountEncumbered < 0}
               />
             </KeyValue>
           </Col>
@@ -160,6 +161,7 @@ const TransactionInformation = ({
               <AmountWithCurrencyField
                 amount={encumbrance.amountAwaitingPayment}
                 currency={currency}
+                showBrackets={encumbrance.amountAwaitingPayment < 0}
               />
             </KeyValue>
           </Col>
@@ -172,6 +174,7 @@ const TransactionInformation = ({
               <AmountWithCurrencyField
                 amount={encumbrance.amountExpended}
                 currency={currency}
+                showBrackets={encumbrance.amountExpended < 0}
               />
             </KeyValue>
           </Col>

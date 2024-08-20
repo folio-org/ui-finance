@@ -26,6 +26,8 @@ const FundingInformation = ({ data, currency, isFiscalYear }) => {
       const showBrackets = (
         item.description === FINANCIAL_SUMMARY.netTransfers ||
         item.description === FINANCIAL_SUMMARY.allocationFrom ||
+        item.description === FINANCIAL_SUMMARY.allocated ||
+        item.description === FINANCIAL_SUMMARY.totalFunding ||
         item.description === FINANCIAL_SUMMARY.allocationTo
       ) && item.amount < 0;
       const isBold = (

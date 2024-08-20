@@ -20,6 +20,7 @@ const FinancialSummary = ({ data, fiscalYearCurrency, isFiscalYear }) => {
     <AmountWithCurrencyField
       amount={data.cashBalance}
       currency={fiscalYearCurrency}
+      showBrackets={data.cashBalance < 0}
     />
   );
 
@@ -27,6 +28,7 @@ const FinancialSummary = ({ data, fiscalYearCurrency, isFiscalYear }) => {
     <AmountWithCurrencyField
       amount={data.available}
       currency={fiscalYearCurrency}
+      showBrackets={data.available < 0}
     />
   );
 

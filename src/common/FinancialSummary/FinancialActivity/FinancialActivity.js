@@ -30,6 +30,7 @@ const FinancialActivity = ({ data, currency }) => {
           <AmountWithCurrencyField
             amount={item.amount}
             currency={currency}
+            showBrackets={item.amount < 0}
           />
         </Headline>
       );

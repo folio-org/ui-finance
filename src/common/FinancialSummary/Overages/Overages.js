@@ -21,6 +21,7 @@ const Overages = ({ data, currency }) => {
       <AmountWithCurrencyField
         amount={item.amount}
         currency={currency}
+        showBrackets={item.amount < 0}
       />
     ),
     description: item => item.label,

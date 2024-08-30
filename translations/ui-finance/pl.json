@@ -416,7 +416,7 @@
     "ledger.rolloverTest.confirm.message": "Please confirm that you have completed the necessary details and are ready to proceed with your rollover TEST. This process may take several minutes to complete. A link to the results will be sent to <b>{email}</b> when the process is complete.",
     "ledger.rolloverTest.start.success": "<b>{ledgerName}</b> rollover test has started successfully",
     "invoice.vendorInvoiceNo": "Vendor invoice number",
-    "invoice.vendor": "Vendor",
+    "invoice.vendor": "Dostawca",
     "invoice.invoiceDate": "Invoice data",
     "invoice.status": "Status",
     "invoice.invoiceTotal": "Total amount (system)",

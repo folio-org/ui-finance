@@ -371,7 +371,7 @@
     "fiscalYear.code.isInUse": "Ce code d'exercice fiscal est déjà utilisé",
     "errors.load.code": "Erreur lors de la récupération du code",
     "errors.load.name": "Erreur lors de la récupération du nom",
-    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
+    "expenseClass.helper": "Des catégories de dépenses peuvent être créées et éditées ci-dessous. Une fois que la catégorie de dépenses a été créée, vous pouvez naviguer dans l'app Finances pour les attribuer à vos budgets comme vous le souhaitez. Lorsqu'une catégorie de dépenses a été attribuée à un budget, les utilisateurs peuvent affecter ou dépenser de l'argent dans cette catégorie de dépenses.",
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Fiscal year has not been saved. Fiscal year period end date is earlier than start date",
     "transaction.increaseAllocation": "Increase allocation",
     "transaction.decreaseAllocation": "Decrease allocation",

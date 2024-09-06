@@ -491,7 +491,7 @@
     "validation.locationsRequired": "必须指定位置",
     "permission.encumbrance.unrelease": "财务：未释放预支",
     "document.title.search": "财务 - {query} - 搜索",
-    "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
-    "financialSummary.credited": "Credited"
+    "ledger.rollover.restrictEncumbranceDuringRollover": "在展期期间强制执行所有预算预支限制",
+    "ledger.rollover.restrictExpendituresDuringRollover": "在展期期间强制执行所有预算支出限制",
+    "financialSummary.credited": "已记账"
 }

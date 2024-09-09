@@ -14,6 +14,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  ENCUMBRANCE_STATUS_OPTIONS,
   TRANSACTION_SOURCE_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from '../../constants';
@@ -26,6 +27,7 @@ export const FILTERS = {
   TRANSACTION_TYPE: 'transactionType',
   TAGS: 'tags.tagList',
   EXPENSE_CLASS: 'expenseClassId',
+  ENCUMBRANCE_STATUS: 'encumbrance.status',
 };
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
@@ -97,6 +99,15 @@ const TransactionsFilters = ({
         labelId="ui-finance.transaction.expenseClass"
         name={FILTERS.EXPENSE_CLASS}
         onChange={adaptedApplyFilters}
+      />
+
+      <AcqCheckboxFilter
+        id={FILTERS.ENCUMBRANCE_STATUS}
+        activeFilters={activeFilters[FILTERS.ENCUMBRANCE_STATUS]}
+        labelId="ui-finance.transaction.filter.encumbranceStatus"
+        name={FILTERS.ENCUMBRANCE_STATUS}
+        onChange={adaptedApplyFilters}
+        options={ENCUMBRANCE_STATUS_OPTIONS}
       />
     </AccordionSet>
   );

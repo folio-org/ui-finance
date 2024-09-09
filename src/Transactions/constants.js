@@ -6,6 +6,8 @@ import {
   TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 
+import { ENCUMBRANCE_STATUS } from '../common/const';
+
 export const TRANSACTION_ACCORDION = {
   information: 'information',
 };
@@ -17,6 +19,11 @@ export const TRANSACTION_ACCORDION_LABELS = {
 export const TRANSACTION_TYPE_OPTIONS = Object.values(TRANSACTION_TYPES).map(transactionType => ({
   label: <FormattedMessage id={`ui-finance.transaction.type.${transactionType}`} />,
   value: transactionType,
+}));
+
+export const ENCUMBRANCE_STATUS_OPTIONS = Object.values(ENCUMBRANCE_STATUS).map(status => ({
+  label: <FormattedMessage id={`ui-finance.transaction.status.${status}`} />,
+  value: status,
 }));
 
 export const TRANSACTION_SOURCE = {

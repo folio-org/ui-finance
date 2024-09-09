@@ -389,6 +389,7 @@
   "transaction.description": "Description",
   "transaction.expended": "Expended",
   "transaction.expenseClass": "Expense class",
+  "transaction.filter.encumbranceStatus": "Encumbrance status",
   "transaction.fiscalYear": "Fiscal year",
   "transaction.from": "From",
   "transaction.fundValidation": "Transfers and allocations can not be made from one budget to that same budget",

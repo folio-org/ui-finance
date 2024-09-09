@@ -493,5 +493,6 @@
     "document.title.search": "財務 - {query} - 搜尋",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
     "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
-    "financialSummary.credited": "Credited"
+    "financialSummary.credited": "Credited",
+    "transaction.filter.encumbranceStatus": "Encumbrance status"
 }

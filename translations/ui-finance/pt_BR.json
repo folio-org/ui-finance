@@ -494,5 +494,5 @@
     "ledger.rollover.restrictEncumbranceDuringRollover": "Aplicar todos os limites de encargo orçamentário durante a prorrogação",
     "ledger.rollover.restrictExpendituresDuringRollover": "Aplicar todos os limites de despesas orçamentárias durante a prorrogação",
     "financialSummary.credited": "Creditado",
-    "transaction.filter.encumbranceStatus": "Encumbrance status"
+    "transaction.filter.encumbranceStatus": "Status do ônus"
 }

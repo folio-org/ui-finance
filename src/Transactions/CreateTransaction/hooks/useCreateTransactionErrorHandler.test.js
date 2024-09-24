@@ -219,7 +219,8 @@ describe('useCreateTransactionErrorHandler', () => {
       expect(id).toEqual(errorMessagesMap[transactionTypeKey][errorCode]);
       expect(values).toEqual({
         amount: accumulatedData.amountWithCurrency,
-        fundCode: accumulatedData.contragentFund.code,
+        fromBudgetName: contragentBudgetName,
+        toBudgetName: budgetName,
       });
     });
 

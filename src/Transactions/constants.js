@@ -47,6 +47,7 @@ export const ERROR_CODES = {
   [ERROR_CODE_GENERIC]: ERROR_CODE_GENERIC,
   allowableAllocationIdsMismatch: 'allowableAllocationIdsMismatch',
   budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
+  budgetRestrictedExpendituresError: 'budgetRestrictedExpendituresError',
   currentBudgetNotFound: 'currentBudgetNotFound',
   missingFundId: 'missingFundId',
   notEnoughMoneyForAllocationError: 'notEnoughMoneyForAllocationError',

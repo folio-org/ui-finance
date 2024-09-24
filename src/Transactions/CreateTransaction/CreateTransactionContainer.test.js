@@ -70,7 +70,7 @@ describe('CreateTransactionContainer', () => {
     await act(async () => {
       const selectBox = (await screen.findAllByLabelText(`ui-finance.transaction.${field}`))[0];
 
-      user.click(selectBox);
+      await user.click(selectBox);
 
       const fromFundOptions = await screen.findAllByText(new RegExp(`.*${value}.*`));
 
@@ -133,6 +133,7 @@ describe('CreateTransactionContainer', () => {
         });
 
         await act(async () => user.type(await screen.findByText('ui-finance.transaction.amount'), budgetExceededAmount));
+        await user.click(screen.getAllByText('stripes-components.selection.controlLabel')[1]);
         await selectFund('from', funds[1].code);
         await selectFund('to', funds[0].code);
         await act(async () => user.click(await screen.findByText('ui-finance.transaction.button.confirm')));

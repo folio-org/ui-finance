@@ -59,6 +59,7 @@ const getSpecifiedErrorPayload = (ky) => async (errorCode, accumulatedData) => {
   const errorHandlersMap = {
     [ERROR_CODES.currentBudgetNotFound]: getNotFoundBudgetErrorPayload,
     [ERROR_CODES.budgetNotFoundForTransaction]: getNotFoundBudgetErrorPayload,
+    [ERROR_CODES.budgetRestrictedExpendituresError]: getNotEnoughMoneyErrorPayload,
     [ERROR_CODES.notEnoughMoneyForAllocationError]: getNotEnoughMoneyErrorPayload,
     [ERROR_CODES[ERROR_CODE_GENERIC]]: getGenericErrorPayload,
   };

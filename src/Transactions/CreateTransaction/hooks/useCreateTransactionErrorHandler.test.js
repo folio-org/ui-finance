@@ -56,6 +56,7 @@ const errorMessagesMap = {
   transfer: {
     [ERROR_CODES[ERROR_CODE_GENERIC]]: 'ui-finance.transaction.transfer.genericError',
     [ERROR_CODES.budgetNotFoundForTransaction]: 'ui-finance.transaction.transfer.budgetNotFoundForTransaction',
+    [ERROR_CODES.budgetRestrictedExpendituresError]: 'ui-finance.transaction.transfer.budgetRestrictedExpendituresError',
     [ERROR_CODES.currentBudgetNotFound]: 'ui-finance.transaction.transfer.budgetNotFoundForTransaction',
     [ERROR_CODES.missingFundId]: 'ui-finance.transaction.transfer.missingFundId',
   },
@@ -205,6 +206,21 @@ describe('useCreateTransactionErrorHandler', () => {
       expect(values).toEqual({
         amount: accumulatedData.amountWithCurrency,
         fundCode: accumulatedData.contragentFund.code,
+      });
+    });
+
+    it('should handle \'budgetRestrictedExpendituresError\' error', async () => {
+      const errorCode = ERROR_CODES.budgetRestrictedExpendituresError;
+
+      const { result } = renderHook(() => useCreateTransactionErrorHandler());
+
+      const { id, values } = await handleTransferErrorByCode(errorCode, result);
+
+      expect(id).toEqual(errorMessagesMap[transactionTypeKey][errorCode]);
+      expect(values).toEqual({
+        amount: accumulatedData.amountWithCurrency,
+        fromBudgetName: contragentBudgetName,
+        toBudgetName: budgetName,
       });
     });
 

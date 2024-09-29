@@ -494,5 +494,6 @@
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
     "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
     "financialSummary.credited": "Credited",
-    "transaction.filter.encumbranceStatus": "Encumbrance status"
+    "transaction.filter.encumbranceStatus": "Encumbrance status",
+    "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active"
 }

@@ -37,6 +37,7 @@ import {
   expandAllSections,
   HasCommand,
   KeyValue,
+  Loading,
   Pane,
   Paneset,
   Row,
@@ -56,6 +57,7 @@ import {
   FUNDS_ROUTE,
   MANAGE_UNITS_PERM,
 } from '../../common/const';
+import { useLedgerCurrentFiscalYear } from '../../common/hooks';
 import {
   getFormattedOptions,
   validateDuplicateFieldValue,
@@ -79,7 +81,6 @@ const FundForm = ({
   funds,
   fundTypes,
   ledgers,
-  systemCurrency,
   errorCode,
 }) => {
   const intl = useIntl();
@@ -169,8 +170,11 @@ const FundForm = ({
     ? initialValues.fund.name
     : <FormattedMessage id="ui-finance.fund.paneTitle.create" />;
   const metadata = initialValues.fund.metadata;
-  const selectedLedger = find(ledgerOptions, ['value', fundLedgerId]);
-  const fundCurrency = get(selectedLedger, 'currency') || systemCurrency;
+
+  const {
+    currentFiscalYear,
+    isLoading: isCurrentFYLoading,
+  } = useLedgerCurrentFiscalYear(fundLedgerId);
 
   const fundOptions = useMemo(() => {
     return funds.map(({ id, name }) => ({ value: id, label: name }));
@@ -339,7 +343,7 @@ const FundForm = ({
                         >
                           <KeyValue
                             label={<FormattedMessage id="ui-finance.fund.information.currency" />}
-                            value={fundCurrency}
+                            value={isCurrentFYLoading ? <Loading /> : currentFiscalYear?.currency}
                           />
                         </Col>
 
@@ -488,7 +492,6 @@ FundForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,  // current form values with composite fund
-  systemCurrency: PropTypes.string,
   funds: PropTypes.arrayOf(PropTypes.object),
   fundTypes: PropTypes.arrayOf(PropTypes.object),
   ledgers: PropTypes.arrayOf(PropTypes.object),

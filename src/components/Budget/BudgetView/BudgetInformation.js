@@ -23,6 +23,7 @@ const BudgetInformation = ({
   budgetStatus,
   fiscalEnd,
   fiscalStart,
+  fiscalYearCurrency,
   name,
   id,
 }) => (
@@ -78,6 +79,12 @@ const BudgetInformation = ({
         </Link>
       </KeyValue>
     </Col>
+
+    <Col xs={3}>
+      <KeyValue label={<FormattedMessage id="stripes-acq-components.currency" />}>
+        {fiscalYearCurrency || <NoValue />}
+      </KeyValue>
+    </Col>
   </Row>
 );
 
@@ -87,6 +94,7 @@ BudgetInformation.propTypes = {
   budgetStatus: PropTypes.string,
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
+  fiscalYearCurrency: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
 };

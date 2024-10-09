@@ -6,6 +6,7 @@ import { Field } from 'react-final-form';
 import {
   Col,
   KeyValue,
+  NoValue,
   Row,
   TextField,
 } from '@folio/stripes/components';
@@ -19,6 +20,7 @@ import { BUDGET_STATUSES_OPTIONS } from '../constants';
 const BudgetInformationFields = ({
   fiscalEnd,
   fiscalStart,
+  fiscalYearCurrency,
 }) => (
   <Row>
     <Col xs={3}>
@@ -69,12 +71,19 @@ const BudgetInformationFields = ({
         name="allowableEncumbrance"
       />
     </Col>
+
+    <Col xs={3}>
+      <KeyValue label={<FormattedMessage id="stripes-acq-components.currency" />}>
+        {fiscalYearCurrency || <NoValue />}
+      </KeyValue>
+    </Col>
   </Row>
 );
 
 BudgetInformationFields.propTypes = {
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
+  fiscalYearCurrency: PropTypes.string,
 };
 
 export default BudgetInformationFields;

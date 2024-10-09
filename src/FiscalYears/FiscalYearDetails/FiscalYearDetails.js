@@ -143,6 +143,7 @@ const FiscalYearDetails = ({
               <FiscalYearInformation
                 acqUnitIds={fiscalYear.acqUnitIds}
                 code={fiscalYear.code}
+                currency={fiscalYear.currency}
                 description={fiscalYear.description}
                 metadata={fiscalYear.metadata}
                 name={fiscalYear.name}

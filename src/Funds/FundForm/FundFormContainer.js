@@ -8,10 +8,7 @@ import {
 } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
-import {
-  stripesConnect,
-  stripesShape,
-} from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 import {
   ConfirmationModal,
   LoadingView,
@@ -42,7 +39,6 @@ const FundFormContainer = ({
   match,
   mutator,
   onCancel,
-  stripes,
 }) => {
   const showCallout = useShowCallout();
   const { params: { id } } = match;
@@ -152,7 +148,6 @@ const FundFormContainer = ({
         initialValues={fund}
         onCancel={onCancel}
         onSubmit={saveFund}
-        systemCurrency={stripes.currency}
         funds={funds}
         fundTypes={fundTypes}
         ledgers={ledgers}
@@ -205,7 +200,6 @@ FundFormContainer.propTypes = {
   match: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,
   onCancel: PropTypes.func,
-  stripes: stripesShape.isRequired,
 };
 
 export default withRouter(stripesConnect(FundFormContainer));

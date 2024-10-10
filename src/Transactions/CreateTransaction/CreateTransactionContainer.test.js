@@ -68,9 +68,7 @@ const renderCreateTransactionContainer = (props = {}) => render(
 describe('CreateTransactionContainer', () => {
   const selectFund = async (field = 'from', value = funds[0].code) => {
     await act(async () => {
-      const selectBox = (await screen.findAllByLabelText(`ui-finance.transaction.${field}`))[0];
-
-      await user.click(selectBox);
+      await user.click(screen.getByRole('button', { name: new RegExp(`transaction.${field}`, 'i') }));
 
       const fromFundOptions = await screen.findAllByText(new RegExp(`.*${value}.*`));
 

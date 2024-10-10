@@ -48,6 +48,10 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useLedgerCurrentFiscalYear: jest.fn(() => ({ currentFiscalYear: { id: 'fy-id', currency: 'USD' } })),
+}));
 
 const buildLocationsContextProvider = (Context, _value = {}) => ({ children }) => {
   const value = {

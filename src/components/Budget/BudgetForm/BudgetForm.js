@@ -156,6 +156,7 @@ const BudgetForm = ({
                       <BudgetInformationFields
                         fiscalEnd={periodEnd}
                         fiscalStart={periodStart}
+                        fiscalYearCurrency={currency}
                       />
                     </Accordion>
                     <Accordion

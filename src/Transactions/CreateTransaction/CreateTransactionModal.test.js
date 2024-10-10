@@ -94,20 +94,24 @@ describe('CreateTransactionModal', () => {
       allocationType: ALLOCATION_TYPE.increase,
     });
 
-    expect(screen.getByRole('button', { name: 'ui-finance.fund fund 2' })).toBeInTheDocument();
-    expect(screen.getAllByLabelText('ui-finance.fund')[0]).toHaveAttribute('disabled');
+    const selectionBtn = screen.getByRole('button', { name: 'ui-finance.fund fund 2' });
+
+    expect(selectionBtn).toHaveAttribute('disabled');
+    expect(selectionBtn).toHaveTextContent(FUNDS[0].label);
     expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
   });
 
-  it('should display only one disabled fund selection with predefined value for decrease allocation', () => {
+  it('should display only one disabled fund selection with predefined value for decrease allocation', async () => {
     renderComponent({
       initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
       allocationType: ALLOCATION_TYPE.decrease,
     });
 
-    expect(screen.getByRole('button', { name: 'ui-finance.fund fund 2' })).toBeInTheDocument();
-    expect(screen.getAllByLabelText('ui-finance.fund')[0]).toHaveAttribute('disabled');
+    const selectionBtn = screen.getByRole('button', { name: 'ui-finance.fund fund 2' });
+
+    expect(selectionBtn).toHaveAttribute('disabled');
+    expect(selectionBtn).toHaveTextContent(FUNDS[0].label);
     expect(screen.queryByText('ui-finance.transaction.to')).not.toBeInTheDocument();
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
   });

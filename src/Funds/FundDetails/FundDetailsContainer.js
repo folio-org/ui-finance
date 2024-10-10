@@ -318,7 +318,7 @@ export const FundDetailsContainer = ({
                 <ViewMetaData metadata={fund.metadata} />
                 <FundDetails
                   acqUnitIds={fund.acqUnitIds}
-                  currency={stripes.currency}
+                  currency={currentFY?.currency}
                   fund={fund}
                   groupIds={compositeFund.groupIds}
                 />

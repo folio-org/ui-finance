@@ -29,6 +29,7 @@ const renderUTCTime = value => (
 const FiscalYearInformation = ({
   acqUnitIds,
   code,
+  currency,
   description,
   metadata,
   name,
@@ -95,6 +96,13 @@ const FiscalYearInformation = ({
             value={description || <NoValue />}
           />
         </Col>
+
+        <Col xs={3}>
+          <KeyValue
+            label={<FormattedMessage id="stripes-acq-components.currency" />}
+            value={currency || <NoValue />}
+          />
+        </Col>
       </Row>
     </>
   );
@@ -103,6 +111,7 @@ const FiscalYearInformation = ({
 FiscalYearInformation.propTypes = {
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   code: PropTypes.string.isRequired,
+  currency: PropTypes.string,
   description: PropTypes.string,
   metadata: PropTypes.object,
   name: PropTypes.string.isRequired,

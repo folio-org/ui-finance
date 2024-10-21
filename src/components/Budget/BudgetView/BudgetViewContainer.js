@@ -250,7 +250,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
         </Button>
       </IfPermission>
 
-      <IfPermission perm="ui-finance.fund-budget.recalculateTotals">
+      <IfPermission perm="ui-finance.fund-budget.recalculate-totals.execute">
         <Button
           data-testid="recalculate-budget-totals-button"
           buttonStyle="dropdownItem"

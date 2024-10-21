@@ -93,7 +93,7 @@ const LedgerDetails = ({
             onRemove={toggleRemoveConfirmation}
             disabled={isRestrictionsLoading || restrictions.protectDelete}
           />
-          <IfPermission perm="ui-finance.ledger.rollover">
+          <IfPermission perm="ui-finance.ledger.rollover.execute">
             <Button
               buttonStyle="dropdownItem"
               data-test-ledger-rollover-action

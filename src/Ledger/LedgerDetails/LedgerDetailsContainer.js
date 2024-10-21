@@ -184,7 +184,7 @@ export const LedgerDetailsContainer = ({
     !isClosedProgress &&
     rollover &&
     rollover.fromFiscalYearId === currentFiscalYear?.id &&
-    stripes.hasPerm('ui-finance.ledger.rollover')
+    stripes.hasPerm('ui-finance.ledger.rollover.execute')
   ) {
     return (
       <LedgerRolloverProgress

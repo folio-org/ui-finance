@@ -61,7 +61,7 @@ const TransactionDetails = ({
 
   const releaseBtn = useMemo(
     () => (
-      <IfPermission perm="ui-finance.manually-release-encumbrances">
+      <IfPermission perm="ui-finance.encumbrance.release-manually.execute">
         <Button
           buttonStyle="primary"
           marginBottom0
@@ -75,7 +75,7 @@ const TransactionDetails = ({
   );
 
   const unreleaseBtn = (
-    <IfPermission perm="ui-finance.encumbrance.unrelease">
+    <IfPermission perm="ui-finance.encumbrance.unrelease.execute">
       <Button
         buttonStyle="primary"
         onClick={toggleIsUnreleaseConfirmation}

@@ -66,7 +66,7 @@ const Ledger = () => {
       </PermissionedRoute>
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/rollover`}
-        perm="ui-finance.ledger.rollover"
+        perm="ui-finance.ledger.rollover.execute"
         returnLink={LEDGERS_ROUTE}
         returnLinkLabelId="ui-finance.ledger"
       >
@@ -74,7 +74,7 @@ const Ledger = () => {
       </PermissionedRoute>
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/rollover-logs`}
-        perm="ui-finance.ledger.rollover"
+        perm="ui-finance.ledger.rollover.execute"
         returnLink={LEDGERS_ROUTE}
         returnLinkLabelId="ui-finance.ledger"
       >
@@ -83,7 +83,7 @@ const Ledger = () => {
       <Route
         path={LEDGER_ROLLOVER_SETTINGS_ROUTE}
         render={() => (
-          <CheckPermission perm="ui-finance.ledger.rollover">
+          <CheckPermission perm="ui-finance.ledger.rollover.execute">
             <RolloverLedgerView />
           </CheckPermission>
         )}

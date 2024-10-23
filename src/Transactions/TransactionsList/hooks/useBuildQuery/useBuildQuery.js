@@ -21,7 +21,7 @@ export const useBuildQuery = () => {
 
     return connectQuery(
       filterQuery ? `${requiredFilterQuery} and ${filterQuery}` : requiredFilterQuery,
-      buildSortingQuery(queryParams) || 'sortby transactionDate/sort.descending',
+      buildSortingQuery(queryParams) || 'sortby metadata.createdDate/sort.descending',
     );
   }, []);
 };

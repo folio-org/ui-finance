@@ -13,6 +13,6 @@ describe('useBuildQuery', () => {
     const { result } = renderHook(() => useBuildQuery());
 
     expect(result.current(queryString.parse('?foo=bar'), budget))
-      .toBe(`((fiscalYearId=${budget.fiscalYearId} and (fromFundId=${budget.fundId} or toFundId=${budget.fundId})) and foo=="bar") sortby transactionDate/sort.descending`);
+      .toBe(`((fiscalYearId=${budget.fiscalYearId} and (fromFundId=${budget.fundId} or toFundId=${budget.fundId})) and foo=="bar") sortby metadata.createdDate/sort.descending`);
   });
 });

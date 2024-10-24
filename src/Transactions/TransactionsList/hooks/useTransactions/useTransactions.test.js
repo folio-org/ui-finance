@@ -20,7 +20,7 @@ jest.mock('@folio/stripes/core', () => ({
 jest.mock('../useBuildQuery', () => ({ useBuildQuery: jest.fn() }));
 
 const transactions = [{ id: 'transactionId', amount: 100 }];
-const queryMock = '(cql.allRecords=1) sortby transactionDate/sort.descending';
+const queryMock = '(cql.allRecords=1) sortby metadata.createdDate/sort.descending';
 const budgetMock = {
   id: 'id',
   fiscalYearId: 'fyId',

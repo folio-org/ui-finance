@@ -1,6 +1,9 @@
 # Change history for ui-finance
 
-## 7.0.0 (IN PROGRESS)
+## 7.1.0 (IN PROGRESS)
+
+## [7.0.0](https://github.com/folio-org/ui-finance/tree/v7.0.0) (2024-10-31)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v6.0.0...v7.0.0)
 
 * Utilize the translation key from `stripes-components` for the "Save & Close" button label. Refs UIF-447.
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIF-502.

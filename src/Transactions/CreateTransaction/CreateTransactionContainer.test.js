@@ -50,7 +50,7 @@ const defaultProps = {
   labelId: 'decreaseAllocation',
 };
 
-const batchTransactionsMock = jest.fn();
+const batchTransactionsMock = jest.fn().mockResolvedValue({});
 
 const renderCreateTransactionContainer = (props = {}) => render(
   <div>
@@ -154,6 +154,7 @@ describe('CreateTransactionContainer', () => {
         await act(async () => user.click(confirmBtns[1]));
 
         expect(batchTransactionsMock).toHaveBeenCalled();
+        expect(defaultProps.fetchBudgetResources).toHaveBeenCalled();
       });
     });
   });

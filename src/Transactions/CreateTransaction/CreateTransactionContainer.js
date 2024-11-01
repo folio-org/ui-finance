@@ -1,13 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
+import { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { omit } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ConfirmationModal } from '@folio/stripes/components';
 import {
   getAmountWithCurrency,
   getFundsForSelect,
-  TRANSACTION_TYPES,
   useAllFunds,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -16,12 +16,8 @@ import {
   stripesShape,
 } from '@folio/stripes/core';
 
-import {
-  allocationsResource,
-  budgetResource,
-  encumbrancesResource,
-  transfersResource,
-} from '../../common/resources';
+import { BATCH_TRANSACTION_TYPES } from '../../common/const';
+import { useBatchTransactionsMutation } from '../../common/hooks';
 import {
   TRANSACTION_SOURCE,
 } from '../constants';
@@ -41,7 +37,6 @@ export const CreateTransactionContainer = ({
   fiscalYearId,
   fundId,
   labelId,
-  mutator,
   onClose,
   stripes,
   transactionType,
@@ -52,6 +47,8 @@ export const CreateTransactionContainer = ({
   const locale = stripes.locale;
   const currency = fiscalYearCurrency || stripes.currency;
   const transactionTypeKey = transactionType.toLowerCase();
+
+  const { batchTransactions } = useBatchTransactionsMutation();
 
   const { funds } = useAllFunds();
   const { handleCreateTransactionErrorResponse } = useCreateTransactionErrorHandler();
@@ -71,36 +68,7 @@ export const CreateTransactionContainer = ({
     });
   }, [fundId, allocationType]);
 
-  const saveTransactionStep = useCallback(async (formValues, { resultBudgetName }) => {
-    const mutatorObject = mutator[transactionType];
-
-    const transfer = await mutatorObject.POST({
-      ...omit(formValues, 'fundId'),
-      fiscalYearId,
-      currency,
-      transactionType,
-      source: TRANSACTION_SOURCE.user,
-    });
-
-    showCallout({
-      messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
-      values: {
-        amount: getAmountWithCurrency(locale, currency, transfer.amount),
-        budgetName: resultBudgetName,
-      },
-    });
-  },
-  [
-    currency,
-    fiscalYearId,
-    locale,
-    mutator,
-    showCallout,
-    transactionType,
-    transactionTypeKey,
-  ]);
-
-  const onSubmitTransactionForm = useCallback(async (formValues) => {
+  const getAccumulatedDataObject = useCallback((formValues) => {
     const { toFundId, fromFundId } = formValues;
 
     const fund = funds.find(({ id }) => id === fundId);
@@ -121,6 +89,61 @@ export const CreateTransactionContainer = ({
       transactionType,
     };
 
+    return accumulatedData;
+  }, [allocationType, budget, budgetName, currency, fundId, funds, locale, transactionType]);
+
+  const handleErrorResponse = useCallback(async ({ formValues, errorResponse }) => {
+    const accumulatedData = getAccumulatedDataObject(formValues);
+
+    const message = await handleCreateTransactionErrorResponse({
+      ...accumulatedData,
+      errorResponse,
+      formValues,
+      transactionTypeKey,
+    });
+
+    showCallout({ message, type: 'error' });
+  }, [getAccumulatedDataObject, handleCreateTransactionErrorResponse, showCallout, transactionTypeKey]);
+
+  const saveTransactionStep = useCallback(async (formValues, { resultBudgetName }) => {
+    return batchTransactions({
+      transactionType: BATCH_TRANSACTION_TYPES.transactionsToCreate,
+      data: [{
+        ...omit(formValues, ['fundId']),
+        id: uuidv4(),
+        transactionType,
+        fiscalYearId,
+        currency,
+        source: TRANSACTION_SOURCE.user,
+      }],
+    }).then((transfer) => {
+      fetchBudgetResources();
+      showCallout({
+        messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
+        values: {
+          amount: getAmountWithCurrency(locale, currency, transfer.amount),
+          budgetName: resultBudgetName,
+        },
+      });
+    }).catch((errorResponse) => {
+      return handleErrorResponse({ formValues, errorResponse });
+    });
+  },
+  [
+    batchTransactions,
+    currency,
+    fetchBudgetResources,
+    fiscalYearId,
+    handleErrorResponse,
+    locale,
+    showCallout,
+    transactionType,
+    transactionTypeKey,
+  ]);
+
+  const onSubmitTransactionForm = useCallback(async (formValues) => {
+    const accumulatedData = getAccumulatedDataObject(formValues);
+
     await runCreateTransactionFlow(saveTransactionStep)(formValues, accumulatedData)
       .then(({ isAborted }) => {
         if (!isAborted) {
@@ -128,32 +151,14 @@ export const CreateTransactionContainer = ({
           fetchBudgetResources();
         }
       })
-      .catch(async (errorResponse) => {
-        const message = await handleCreateTransactionErrorResponse({
-          ...accumulatedData,
-          errorResponse,
-          formValues,
-          transactionTypeKey,
-        });
-
-        showCallout({ message, type: 'error' });
-      });
+      .catch(async (errorResponse) => handleErrorResponse({ formValues, errorResponse }));
   }, [
-    allocationType,
-    budget,
-    budgetName,
-    currency,
     fetchBudgetResources,
-    fundId,
-    funds,
-    handleCreateTransactionErrorResponse,
-    locale,
+    getAccumulatedDataObject,
+    handleErrorResponse,
     onClose,
     runCreateTransactionFlow,
     saveTransactionStep,
-    showCallout,
-    transactionType,
-    transactionTypeKey,
   ]);
 
   const fundsOptions = useMemo(() => getFundsForSelect(funds), [funds]);
@@ -183,20 +188,12 @@ export const CreateTransactionContainer = ({
   );
 };
 
-CreateTransactionContainer.manifest = Object.freeze({
-  budget: budgetResource,
-  [TRANSACTION_TYPES.allocation]: allocationsResource,
-  [TRANSACTION_TYPES.encumbrance]: encumbrancesResource,
-  [TRANSACTION_TYPES.transfer]: transfersResource,
-});
-
 CreateTransactionContainer.propTypes = {
   budget: PropTypes.object.isRequired,
   budgetName: PropTypes.string.isRequired,
   transactionType: PropTypes.string.isRequired,
   fiscalYearId: PropTypes.string.isRequired,
   fundId: PropTypes.string.isRequired,
-  mutator: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   stripes: stripesShape.isRequired,
   fetchBudgetResources: PropTypes.func.isRequired,

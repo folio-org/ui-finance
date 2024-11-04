@@ -2,6 +2,8 @@
 
 ## 7.1.0 (IN PROGRESS)
 
+* Replace deprecated transaction API. Refs UIF-519.
+
 ## [7.0.0](https://github.com/folio-org/ui-finance/tree/v7.0.0) (2024-10-31)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v6.0.0...v7.0.0)
 

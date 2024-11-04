@@ -10,10 +10,15 @@ import {
 import { getFundActiveBudget } from '../../common/utils';
 import { CreateTransactionContainer } from './CreateTransactionContainer';
 import { ALLOCATION_TYPE } from '../constants';
+import { useBatchTransactionsMutation } from '../../common/hooks';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useAllFunds: jest.fn().mockReturnValue({ funds: [] }),
+}));
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useBatchTransactionsMutation: jest.fn(),
 }));
 jest.mock('../../common/utils', () => ({
   ...jest.requireActual('../../common/utils'),
@@ -31,17 +36,7 @@ const funds = [
   { id: 'fundId3', code: 'FNDC', name: 'Fund C' },
 ];
 
-const mutatorMock = {
-  [TRANSACTION_TYPES.allocation]: {
-    POST: jest.fn((data) => Promise.resolve(data)),
-  },
-  [TRANSACTION_TYPES.transfer]: {
-    POST: jest.fn((data) => Promise.resolve(data)),
-  },
-};
-
 const defaultProps = {
-  mutator: mutatorMock,
   budget: { name: 'budgetName', available: 10 },
   budgetName: 'budgetName',
   transactionType: TRANSACTION_TYPES.allocation,
@@ -54,6 +49,8 @@ const defaultProps = {
   allocationType: ALLOCATION_TYPE.decrease,
   labelId: 'decreaseAllocation',
 };
+
+const batchTransactionsMock = jest.fn().mockResolvedValue({});
 
 const renderCreateTransactionContainer = (props = {}) => render(
   <div>
@@ -80,6 +77,9 @@ describe('CreateTransactionContainer', () => {
     defaultProps.fetchBudgetResources.mockClear();
     getFundActiveBudget.mockClear();
     useAllFunds.mockClear().mockReturnValue({ funds });
+    useBatchTransactionsMutation
+      .mockClear()
+      .mockReturnValue({ batchTransactions: batchTransactionsMock });
   });
 
   it('should display BudgetForm', async () => {
@@ -104,7 +104,7 @@ describe('CreateTransactionContainer', () => {
       await act(async () => user.type(await screen.findByText('ui-finance.transaction.amount'), '1'));
       await act(async () => user.click(await screen.findByText('ui-finance.transaction.button.confirm')));
 
-      expect(mutatorMock.Allocation.POST).toHaveBeenCalled();
+      expect(batchTransactionsMock).toHaveBeenCalled();
     });
 
     it('should fetch budget data from foreign fund', async () => {
@@ -153,6 +153,7 @@ describe('CreateTransactionContainer', () => {
 
         await act(async () => user.click(confirmBtns[1]));
 
+        expect(batchTransactionsMock).toHaveBeenCalled();
         expect(defaultProps.fetchBudgetResources).toHaveBeenCalled();
       });
     });

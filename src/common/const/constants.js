@@ -68,3 +68,10 @@ export const EXPORT_EXPENSE_CLASS_FIELDS = {
   expenseCredited: 'Credited (Exp Class)',
   percentageOfTotalExpended: 'Percentage of total expended',
 };
+
+export const BATCH_TRANSACTION_TYPES = {
+  transactionsToCreate: 'transactionsToCreate',
+  transactionsToUpdate: 'transactionsToUpdate',
+  idsOfTransactionsToDelete: 'idsOfTransactionsToDelete',
+  transactionPatches: 'transactionPatches',
+};

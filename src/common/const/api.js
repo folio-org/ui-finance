@@ -1,7 +1,6 @@
+export const BATCH_TRANSACTIONS_API = 'finance/transactions/batch-all-or-nothing';
 export const ACQUISITIONS_UNITS_API = 'acquisitions-units/units';
-export const ALLOCATIONS_API = 'finance/allocations';
 export const BUDGETS_API = 'finance/budgets';
-export const ENCUMBRANCES_API = 'finance/encumbrances';
 export const FISCAL_YEARS_API = 'finance/fiscal-years';
 export const FUND_CODES_EXPENSE_CLASSES_API = 'finance/fund-codes-expense-classes';
 export const FUND_TYPES_API = 'finance/fund-types';
@@ -17,5 +16,4 @@ export const LEDGER_ROLLOVER_LOGS_API = 'finance/ledger-rollovers-logs';
 export const LEDGER_ROLLOVER_PROGRESS_API = 'finance/ledger-rollovers-progress';
 export const RELEASE_ENCUMBRANCE_API = 'finance/release-encumbrance/:{id}';
 export const TRANSACTIONS_API = 'finance/transactions';
-export const TRANSFERS_API = 'finance/transfers';
 export const UNRELEASE_ENCUMBRANCE_API = 'finance/unrelease-encumbrance';

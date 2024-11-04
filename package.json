@@ -313,6 +313,7 @@
           "consortia.publications-results.item.get",
           "finance.budgets.item.put",
           "finance.funds.item.put",
+          "finance.transactions.batch.execute",
           "inventory-storage.locations.collection.get",
           "inventory-storage.location-units.campuses.collection.get",
           "inventory-storage.location-units.institutions.collection.get",
@@ -472,7 +473,8 @@
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
     "react-titled": "^1.0.0",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "uuid": "^9.0.0"
   },
   "dependencies": {
     "@folio/stripes-acq-components": "~6.0.0",

@@ -116,12 +116,12 @@ export const CreateTransactionContainer = ({
         currency,
         source: TRANSACTION_SOURCE.user,
       }],
-    }).then((transfer) => {
+    }).then(() => {
       fetchBudgetResources();
       showCallout({
         messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
         values: {
-          amount: getAmountWithCurrency(locale, currency, transfer.amount),
+          amount: getAmountWithCurrency(locale, currency, formValues.amount),
           budgetName: resultBudgetName,
         },
       });

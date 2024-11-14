@@ -492,8 +492,8 @@
     "financialSummary.credited": "Připsáno",
     "transaction.filter.encumbranceStatus": "Stav věcného břemene",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active",
-    "permission.encumbrance.unrelease.execute": "Finance: Unrelease encumbrance",
-    "permission.fund-budget.recalculate-totals.execute": "Finance: Recalculate budget totals",
-    "permission.ledger.rollover.execute": "Finance: Execute fiscal year rollover",
-    "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance"
+    "permission.encumbrance.unrelease.execute": "Finance: uvolnění věcného břemene",
+    "permission.fund-budget.recalculate-totals.execute": "Finance: Přepočítat celkové částky rozpočtu",
+    "permission.ledger.rollover.execute": "Finance: Provést převedení fiskálního roku",
+    "permission.encumbrance.release-manually.execute": "Finance: Ručně uvolnit věcné břemeno"
 }

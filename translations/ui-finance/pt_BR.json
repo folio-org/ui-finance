@@ -1,5 +1,5 @@
 {
-    "search": "Pesquisa",
+    "search": "Buscar",
     "resultCount": "{count, number} {count, plural, one {Registro encontrado} other {Registros encontrados}}",
     "meta.title": "Finanças",
     "ledger.name": "Nome",
@@ -144,7 +144,7 @@
     "transaction.type.Transfer": "Transferir",
     "transaction.type": "Tipo",
     "budget.transactions.view": "Ver transações",
-    "transactions.search": "Pesquisar transações",
+    "transactions.search": "Buscar transações",
     "transaction.allocation.title": "Alocação",
     "transaction.allocation.hasBeenCreated": "{amount} foi alocado com sucesso para o orçamento {budgetName}",
     "ledger.fund": "Fundo",

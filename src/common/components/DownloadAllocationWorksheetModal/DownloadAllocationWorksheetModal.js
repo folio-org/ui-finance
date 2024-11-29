@@ -56,7 +56,7 @@ export const DownloadAllocationWorksheetModal = ({
 
       const { fyFinanceData } = await fetchFinanceData(ky)({
         searchParams: {
-          query: `fiscalYearId=="${selectedFiscalYear} and ${qIndex}=="${qValue}""`,
+          query: `fiscalYearId=="${selectedFiscalYear}" and ${qIndex}=="${qValue}"`,
           limit: LIMIT_MAX,
         },
       });
@@ -74,7 +74,7 @@ export const DownloadAllocationWorksheetModal = ({
           onlyFields: Object.keys(EXPORT_ALLOCATION_WORKSHEET_FIELDS),
           filename: [
             fiscalYearsKV[selectedFiscalYear]?.code,
-            fyFinanceData[groupId ? 'groupCode' : 'ledgerCode'],
+            fyFinanceData[0]?.[groupId ? 'groupCode' : 'ledgerCode'],
           ].join(''),
           header: false,
         },

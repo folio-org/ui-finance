@@ -1,5 +1,6 @@
 export * from './exportRolloverErrors';
 export * from './exportRolloverResult';
+export * from './fetchFinanceData';
 export * from './fundValidation';
 export * from './generateBudgetsReport';
 export * from './getFiscalYearsForSelect';

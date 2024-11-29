@@ -1,6 +1,7 @@
 export const BATCH_TRANSACTIONS_API = 'finance/transactions/batch-all-or-nothing';
 export const ACQUISITIONS_UNITS_API = 'acquisitions-units/units';
 export const BUDGETS_API = 'finance/budgets';
+export const FINANCE_DATA_API = 'finance/finance-data';
 export const FISCAL_YEARS_API = 'finance/fiscal-years';
 export const FUND_CODES_EXPENSE_CLASSES_API = 'finance/fund-codes-expense-classes';
 export const FUND_TYPES_API = 'finance/fund-types';

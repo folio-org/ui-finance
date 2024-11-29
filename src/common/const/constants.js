@@ -75,3 +75,21 @@ export const BATCH_TRANSACTION_TYPES = {
   idsOfTransactionsToDelete: 'idsOfTransactionsToDelete',
   transactionPatches: 'transactionPatches',
 };
+
+export const EXPORT_ALLOCATION_WORKSHEET_FIELDS = {
+  fiscalYear: 'Fiscal year',
+  fundName: 'Fund name',
+  fundCode: 'Fund code',
+  fundId: 'Fund UUID',
+  fundStatus: 'Fund status',
+  budgetName: 'Budget name',
+  budgetId: 'Budget UUID',
+  budgetStatus: 'Budget status',
+  budgetInitialAllocation: 'Budget initial allocation',
+  budgetCurrentAllocation: 'Budget current allocation',
+  budgetAllowableExpenditure: 'Budget allowable expenditure',
+  budgetAllowableEncumbrance: 'Budget allowable encumbrance',
+  allocationAdjustment: 'Allocation adjustment',
+  transactionTag: 'Transaction tag',
+  transactionDescription: 'Transaction description',
+};

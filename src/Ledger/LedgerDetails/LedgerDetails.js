@@ -38,6 +38,10 @@ import {
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
 import FinancialSummary from '../../common/FinancialSummary';
+import {
+  AllocationToolsMenuSection,
+  DownloadAllocationWorksheetModal,
+} from '../../common/components';
 import { LEDGERS_ROUTE } from '../../common/const';
 import {
   LEDGER_ACCORDION,
@@ -63,6 +67,7 @@ const LedgerDetails = ({
 }) => {
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
+  const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -75,55 +80,64 @@ const LedgerDetails = ({
   const renderActionMenu = useCallback(
     ({ onToggle }) => {
       return (
-        <MenuSection id="ledger-details-actions">
-          <DetailsEditAction
-            perm="finance.ledgers.item.put"
-            onEdit={onEdit}
-            toggleActionMenu={onToggle}
-            disabled={isRestrictionsLoading || restrictions.protectUpdate}
-          />
-          <DetailsExportAction
-            perm="ui-finance.exportCSV"
-            onExportCSV={toggleExportConfirmation}
-            toggleActionMenu={onToggle}
-          />
-          <DetailsRemoveAction
-            perm="finance.ledgers.item.delete"
-            toggleActionMenu={onToggle}
-            onRemove={toggleRemoveConfirmation}
-            disabled={isRestrictionsLoading || restrictions.protectDelete}
-          />
-          <IfPermission perm="ui-finance.ledger.rollover.execute">
-            <Button
-              buttonStyle="dropdownItem"
-              data-test-ledger-rollover-action
-              onClick={() => {
-                onRollover();
-                onToggle();
-              }}
-            >
-              <Icon
-                size="small"
-                icon="calendar"
+        <>
+          <MenuSection id="ledger-details-actions">
+            <DetailsEditAction
+              perm="finance.ledgers.item.put"
+              onEdit={onEdit}
+              toggleActionMenu={onToggle}
+              disabled={isRestrictionsLoading || restrictions.protectUpdate}
+            />
+            <DetailsExportAction
+              perm="ui-finance.exportCSV"
+              onExportCSV={toggleExportConfirmation}
+              toggleActionMenu={onToggle}
+            />
+            <DetailsRemoveAction
+              perm="finance.ledgers.item.delete"
+              toggleActionMenu={onToggle}
+              onRemove={toggleRemoveConfirmation}
+              disabled={isRestrictionsLoading || restrictions.protectDelete}
+            />
+            <IfPermission perm="ui-finance.ledger.rollover.execute">
+              <Button
+                buttonStyle="dropdownItem"
+                data-test-ledger-rollover-action
+                onClick={() => {
+                  onRollover();
+                  onToggle();
+                }}
               >
-                <FormattedMessage id="ui-finance.actions.rollover" />
-              </Icon>
-            </Button>
+                <Icon
+                  size="small"
+                  icon="calendar"
+                >
+                  <FormattedMessage id="ui-finance.actions.rollover" />
+                </Icon>
+              </Button>
 
-            <Button
-              data-testid="action-rollover-logs"
-              buttonStyle="dropdownItem"
-              onClick={onRolloverLogs}
-            >
-              <Icon
-                size="small"
-                icon="calendar"
+              <Button
+                data-testid="action-rollover-logs"
+                buttonStyle="dropdownItem"
+                onClick={onRolloverLogs}
               >
-                <FormattedMessage id="ui-finance.actions.rolloverLogs" />
-              </Icon>
-            </Button>
-          </IfPermission>
-        </MenuSection>
+                <Icon
+                  size="small"
+                  icon="calendar"
+                >
+                  <FormattedMessage id="ui-finance.actions.rolloverLogs" />
+                </Icon>
+              </Button>
+            </IfPermission>
+          </MenuSection>
+
+          <AllocationToolsMenuSection
+            onDownloadAllocationWorksheet={() => {
+              onToggle();
+              toggleDownloadAllocationWorksheetModal();
+            }}
+          />
+        </>
       );
     },
     [
@@ -133,6 +147,7 @@ const LedgerDetails = ({
       onRolloverLogs,
       restrictions,
       toggleExportConfirmation,
+      toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
     ],
   );
@@ -281,6 +296,15 @@ const LedgerDetails = ({
           />
         )}
 
+        {
+          isDownloadAllocationWorksheetModalOpen && (
+            <DownloadAllocationWorksheetModal
+              open
+              ledgerId={ledger?.id}
+              toggle={toggleDownloadAllocationWorksheetModal}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );

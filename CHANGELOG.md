@@ -3,6 +3,7 @@
 ## 7.1.0 (IN PROGRESS)
 
 * Replace deprecated transaction API. Refs UIF-519.
+* Implement action for download allocation worksheet. Refs UIF-526.
 
 ## 7.0.1 (IN PROGRESS)
 

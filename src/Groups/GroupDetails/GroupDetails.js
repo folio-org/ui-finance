@@ -35,6 +35,10 @@ import {
   DetailsRemoveAction,
 } from '../../common/DetailsActions';
 import FinancialSummary from '../../common/FinancialSummary';
+import {
+  AllocationToolsMenuSection,
+  DownloadAllocationWorksheetModal,
+} from '../../common/components';
 import { GROUPS_ROUTE } from '../../common/const';
 import {
   GROUP_ACCORDION,
@@ -58,6 +62,7 @@ const GroupDetails = ({
   onRemoveFundFromGroup,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
+  const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -72,25 +77,38 @@ const GroupDetails = ({
   const renderActionMenu = useCallback(
     ({ onToggle }) => {
       return (
-        <MenuSection id="group-details-actions">
-          <DetailsEditAction
-            perm="finance.groups.item.put"
-            onEdit={editGroup}
-            toggleActionMenu={onToggle}
-            disabled={isRestrictionsLoading || restrictions.protectUpdate}
+        <>
+          <MenuSection id="group-details-actions">
+            <DetailsEditAction
+              perm="finance.groups.item.put"
+              onEdit={editGroup}
+              toggleActionMenu={onToggle}
+              disabled={isRestrictionsLoading || restrictions.protectUpdate}
+            />
+            <DetailsRemoveAction
+              perm="finance.groups.item.delete"
+              toggleActionMenu={onToggle}
+              onRemove={toggleRemoveConfirmation}
+              disabled={isRestrictionsLoading || restrictions.protectDelete}
+            />
+          </MenuSection>
+
+          <AllocationToolsMenuSection
+            onDownloadAllocationWorksheet={() => {
+              onToggle();
+              toggleDownloadAllocationWorksheetModal();
+            }}
           />
-          <DetailsRemoveAction
-            perm="finance.groups.item.delete"
-            toggleActionMenu={onToggle}
-            onRemove={toggleRemoveConfirmation}
-            disabled={isRestrictionsLoading || restrictions.protectDelete}
-          />
-        </MenuSection>
+        </>
       );
     },
     [
-      editGroup, toggleRemoveConfirmation, isRestrictionsLoading,
-      restrictions.protectDelete, restrictions.protectUpdate,
+      editGroup,
+      isRestrictionsLoading,
+      restrictions.protectUpdate,
+      restrictions.protectDelete,
+      toggleRemoveConfirmation,
+      toggleDownloadAllocationWorksheetModal,
     ],
   );
 
@@ -227,6 +245,16 @@ const GroupDetails = ({
             open
           />
         )}
+
+        {
+          isDownloadAllocationWorksheetModalOpen && (
+            <DownloadAllocationWorksheetModal
+              open
+              groupId={group.id}
+              toggle={toggleDownloadAllocationWorksheetModal}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );

@@ -4,7 +4,8 @@
 
 * Replace deprecated transaction API. Refs UIF-519.
 
-## 7.0.1 (IN PROGRESS)
+## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)
 
 * ECS - Provide required permissions for `Finance: View, edit fund and budget` set. Refs UIF-566.
 

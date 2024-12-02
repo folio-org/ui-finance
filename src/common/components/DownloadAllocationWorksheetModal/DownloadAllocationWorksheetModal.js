@@ -95,15 +95,13 @@ export const DownloadAllocationWorksheetModal = ({
   const isConfirmButtonDisabled = !selectedFiscalYear || isFiscalYearsFetching;
 
   const message = (
-    <>
-      <Selection
-        label={<><FormattedMessage id="ui-finance.fiscalyear" /> {isFiscalYearsFetching && <Loading />}</>}
-        dataOptions={dataOptions}
-        value={selectedFiscalYear}
-        onChange={setSelectedFiscalYear}
-        disabled={isFiscalYearsFetching}
-      />
-    </>
+    <Selection
+      label={<><FormattedMessage id="ui-finance.fiscalyear" /> {isFiscalYearsFetching && <Loading />}</>}
+      dataOptions={dataOptions}
+      value={selectedFiscalYear}
+      onChange={setSelectedFiscalYear}
+      disabled={isFiscalYearsFetching}
+    />
   );
 
   return (

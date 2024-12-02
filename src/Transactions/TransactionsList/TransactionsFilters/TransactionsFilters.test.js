@@ -15,6 +15,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('@folio/stripes/core', () => ({
   ...jest.requireActual('@folio/stripes/core'),
+  useNamespace: jest.fn(() => ['namespace']),
   useOkapiKy: jest.fn(() => ({})),
   stripesConnect: () => Component => props => <Component {...props} />,
 }));
@@ -22,6 +23,7 @@ jest.mock('@folio/stripes/core', () => ({
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   AcqTagsFilter: () => <span>stripes-acq-components.filter.tags</span>,
+  DynamicSelectionFilter: jest.fn(() => 'DynamicSelectionFilter'),
 }));
 
 const defaultProps = {

@@ -371,6 +371,9 @@
   "invoice.unpaidInvoices.exportCSV.error": "Failed to export invoices",
   "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue.",
 
+  "allocation.worksheet.download.start": "Please wait while the worksheet is generated. Your download will start automatically",
+  "allocation.worksheet.download.error": "An error occurred during file generation.",
+
   "transaction.actions.load.error": "Failed to load transaction data",
   "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
   "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
@@ -476,12 +479,16 @@
   "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
   "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
 
+  "menuSection.allocationTools": "Allocation tools",
+  "selectFiscalYear": "Select fiscal year",
+
   "actions.edit": "Edit",
   "actions.exportCSV": "Export budget information (CSV)",
   "actions.remove": "Delete",
   "actions.remove.confirm": "Delete",
   "actions.rollover": "Rollover",
   "actions.rolloverLogs": "Rollover logs",
+  "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)",
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
   "fund.code.isInUse": "This Fund code is already in use.",
   "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",

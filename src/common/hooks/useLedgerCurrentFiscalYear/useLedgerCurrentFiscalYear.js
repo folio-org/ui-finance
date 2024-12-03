@@ -22,7 +22,7 @@ export const useLedgerCurrentFiscalYear = (ledgerId, options = {}) => {
     isLoading,
   } = useQuery({
     queryKey: [namespace, ledgerId],
-    queryFn: () => ky.get(`${LEDGERS_API}/${ledgerId}/current-fiscal-year`).json(),
+    queryFn: ({ signal }) => ky.get(`${LEDGERS_API}/${ledgerId}/current-fiscal-year`, { signal }).json(),
     enabled: Boolean(enabled && ledgerId),
     ...queryOptions,
   });

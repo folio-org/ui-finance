@@ -495,5 +495,10 @@
     "permission.encumbrance.unrelease.execute": "Finance: Unrelease encumbrance",
     "permission.fund-budget.recalculate-totals.execute": "Finance: Recalculate budget totals",
     "permission.ledger.rollover.execute": "Finance: Execute fiscal year rollover",
-    "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance"
+    "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance",
+    "allocation.worksheet.download.start": "Please wait while the worksheet is generated. Your download will start automatically",
+    "allocation.worksheet.download.error": "An error occurred during file generation.",
+    "menuSection.allocationTools": "Allocation tools",
+    "selectFiscalYear": "Select fiscal year",
+    "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)"
 }

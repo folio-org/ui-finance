@@ -495,5 +495,10 @@
     "permission.encumbrance.unrelease.execute": "Finance: uvolnění věcného břemene",
     "permission.fund-budget.recalculate-totals.execute": "Finance: Přepočítat celkové částky rozpočtu",
     "permission.ledger.rollover.execute": "Finance: Provést převedení fiskálního roku",
-    "permission.encumbrance.release-manually.execute": "Finance: Ručně uvolnit věcné břemeno"
+    "permission.encumbrance.release-manually.execute": "Finance: Ručně uvolnit věcné břemeno",
+    "allocation.worksheet.download.start": "Please wait while the worksheet is generated. Your download will start automatically",
+    "allocation.worksheet.download.error": "An error occurred during file generation.",
+    "menuSection.allocationTools": "Alokační nástroje",
+    "selectFiscalYear": "Select fiscal year",
+    "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)"
 }

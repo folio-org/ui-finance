@@ -417,7 +417,7 @@
     "invoice.vendor": "供應商",
     "invoice.invoiceDate": "發票資料",
     "invoice.status": "狀態",
-    "invoice.invoiceTotal": "總計（系統）",
+    "invoice.invoiceTotal": "總計 ( 系統 )",
     "invoice.status.Approved": "已核准",
     "invoice.status.Open": "未結",
     "invoice.status.Reviewed": "已審核",
@@ -467,8 +467,8 @@
     "ledger.rollover.logs.settings": "設定",
     "fiscalYear.information.periodEndUTC": "期間結束日期 (UTC)",
     "fiscalYear.information.periodStartUTC": "期間開始日期 (UTC)",
-    "permission.settings.view": "設定（財務）：檢視設定",
-    "permission.settings.exportFundAndExpenseClassCodes": "設定（財務）：匯出資金和費用類別代碼",
+    "permission.settings.view": "設定 ( 財務 ) : 檢視設定",
+    "permission.settings.exportFundAndExpenseClassCodes": "設定 ( 財務 ) : 匯出資金和費用類別代碼",
     "fund.information.donorInformation": "捐助者資訊",
     "fund.information.restrictByLocations": "按位置限制使用",
     "fund.information.locations": "位置",
@@ -495,5 +495,10 @@
     "permission.encumbrance.unrelease.execute": "Finance: Unrelease encumbrance",
     "permission.fund-budget.recalculate-totals.execute": "Finance: Recalculate budget totals",
     "permission.ledger.rollover.execute": "Finance: Execute fiscal year rollover",
-    "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance"
+    "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance",
+    "allocation.worksheet.download.start": "Please wait while the worksheet is generated. Your download will start automatically",
+    "allocation.worksheet.download.error": "An error occurred during file generation.",
+    "menuSection.allocationTools": "Allocation tools",
+    "selectFiscalYear": "Select fiscal year",
+    "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)"
 }

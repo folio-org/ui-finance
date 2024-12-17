@@ -492,8 +492,13 @@
     "financialSummary.credited": "已记账",
     "transaction.filter.encumbranceStatus": "预支状态",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount}未成功分配至预算<b> {toBudgetName} </b>因为它超出了<b> {fromBudgetName} </b>的总分配金额，并且总账经费限制处于激活状态",
-    "permission.encumbrance.unrelease.execute": "Finance: Unrelease encumbrance",
-    "permission.fund-budget.recalculate-totals.execute": "Finance: Recalculate budget totals",
-    "permission.ledger.rollover.execute": "Finance: Execute fiscal year rollover",
-    "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance"
+    "permission.encumbrance.unrelease.execute": "财务：未释放预支",
+    "permission.fund-budget.recalculate-totals.execute": "财务：重新计算预算总额",
+    "permission.ledger.rollover.execute": "财务：执行财务年度展期",
+    "permission.encumbrance.release-manually.execute": "财务：人工释放预支",
+    "allocation.worksheet.download.start": "请等待工作表生成。您的下载将自动开始",
+    "allocation.worksheet.download.error": "文件生成期间发生错误。",
+    "menuSection.allocationTools": "分配工具",
+    "selectFiscalYear": "选择财务年度",
+    "actions.downloadAllocationWorksheet": "下载分配工作表 (CSV)"
 }

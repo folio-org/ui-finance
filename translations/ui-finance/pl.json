@@ -29,7 +29,7 @@
     "fund.information.group": "Grupa",
     "fund.information.acqUnits": "Jednostki gromadzenia",
     "fund.information.transferFrom": "Przenieś z",
-    "fund.information.transferTo": "Przenieś do",
+    "fund.information.transferTo": "Transfer do",
     "fund.information.externalAccount": "Konto zewnętrzne",
     "fund.information.description": "Opis",
     "fund.information.title": "Informacje o funduszu",
@@ -136,7 +136,7 @@
     "transaction.transfer.hasBeenCreated": "Kwota {amount} została pomyślnie przeniesiona do budżetu {budgetName}",
     "transaction.transfer.title": "Transfer",
     "transaction.transferFrom": "Przenieś z",
-    "transaction.transferTo": "Przenieś do",
+    "transaction.transferTo": "Transfer do",
     "transaction.type.Allocation": "Przydział",
     "transaction.type.Credit": "Kredyt",
     "transaction.type.Encumbrance": "Obciążenie",
@@ -495,5 +495,10 @@
     "permission.encumbrance.unrelease.execute": "Finanse: odblokowanie obciążenia",
     "permission.fund-budget.recalculate-totals.execute": "Finanse: przeliczanie całkowitego budżetu",
     "permission.ledger.rollover.execute": "Finanse: wykonywanie przeniesienia roku podatkowego",
-    "permission.encumbrance.release-manually.execute": "Finanse: ręczne zwolnienie obciążenia"
+    "permission.encumbrance.release-manually.execute": "Finanse: ręczne zwolnienie obciążenia",
+    "allocation.worksheet.download.start": "Please wait while the worksheet is generated. Your download will start automatically",
+    "allocation.worksheet.download.error": "An error occurred during file generation.",
+    "menuSection.allocationTools": "Allocation tools",
+    "selectFiscalYear": "Select fiscal year",
+    "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)"
 }

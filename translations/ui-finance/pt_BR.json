@@ -495,5 +495,10 @@
     "permission.encumbrance.unrelease.execute": "Finanças: Encargos não liberados",
     "permission.fund-budget.recalculate-totals.execute": "Finanças: Recalcular os totais do orçamento",
     "permission.ledger.rollover.execute": "Finanças: executar a prorrogação do ano fiscal",
-    "permission.encumbrance.release-manually.execute": "Finanças: Liberação manual de encargo"
+    "permission.encumbrance.release-manually.execute": "Finanças: Liberação manual de encargo",
+    "allocation.worksheet.download.start": "Por favor, aguarde enquanto a planilha é gerada. Seu download começará automaticamente",
+    "allocation.worksheet.download.error": "Ocorreu um erro durante a geração do arquivo.",
+    "menuSection.allocationTools": "Ferramentas de alocação",
+    "selectFiscalYear": "Selecione o ano fiscal",
+    "actions.downloadAllocationWorksheet": "Baixar planilha de alocação (CSV)"
 }

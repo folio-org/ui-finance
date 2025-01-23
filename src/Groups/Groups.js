@@ -4,12 +4,14 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import { PermissionedRoute } from '@folio/stripes-acq-components';
+
 import { GROUPS_ROUTE } from '../common/const';
 import CheckPermission from '../common/CheckPermission';
-
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
 import { EditGroup } from './EditGroup';
+import { BatchAllocationView } from '../common/components/BatchAllocation';
 
 const Groups = () => {
   return (
@@ -38,6 +40,14 @@ const Groups = () => {
           </CheckPermission>
         )}
       />
+      <PermissionedRoute
+        path={`${GROUPS_ROUTE}/:id/batch-allocations/fiscalyear/:fiscalyear`}
+        perm="ui-finance.group.view" // this needs to be changed
+        returnLink={GROUPS_ROUTE}
+        returnLinkLabelId="ui-finance.ledger"
+      >
+        <BatchAllocationView />
+      </PermissionedRoute>
     </Switch>
   );
 };

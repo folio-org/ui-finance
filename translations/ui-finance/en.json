@@ -488,6 +488,7 @@
   "actions.remove.confirm": "Delete",
   "actions.rollover": "Rollover",
   "actions.rolloverLogs": "Rollover logs",
+  "actions.allocations.batch": "Batch allocations",
   "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)",
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
   "fund.code.isInUse": "This Fund code is already in use.",

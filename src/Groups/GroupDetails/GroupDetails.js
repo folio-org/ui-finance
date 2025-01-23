@@ -30,6 +30,7 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
+import { BatchAllocationModal } from '../../common/components/BatchAllocation';
 import {
   DetailsEditAction,
   DetailsRemoveAction,
@@ -60,9 +61,11 @@ const GroupDetails = ({
   onSelectFY,
   onAddFundToGroup,
   onRemoveFundFromGroup,
+  onBatchAllocations,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isBatchAllocationsModal, toggleBatchAllocationsModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -255,12 +258,25 @@ const GroupDetails = ({
             />
           )
         }
+
+        {
+          isBatchAllocationsModal && (
+            <BatchAllocationModal
+              open
+              groupId={group.id}
+              toggle={toggleBatchAllocationsModal}
+              history={history}
+              onConfirm={onBatchAllocations}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );
 };
 
 GroupDetails.propTypes = {
+  onBatchAllocations: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   editGroup: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,

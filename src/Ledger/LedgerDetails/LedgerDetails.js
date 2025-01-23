@@ -32,6 +32,7 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
+import { BatchAllocationModal } from '../../common/components/BatchAllocation';
 import {
   DetailsEditAction,
   DetailsExportAction,
@@ -61,6 +62,7 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   onRolloverLogs,
+  onBatchAllocations,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -68,6 +70,7 @@ const LedgerDetails = ({
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isBatchAllocationsModal, toggleBatchAllocationsModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -136,6 +139,10 @@ const LedgerDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onBatchAllocation={() => {
+              onToggle();
+              toggleBatchAllocationsModal();
+            }}
           />
         </>
       );
@@ -148,6 +155,7 @@ const LedgerDetails = ({
       restrictions,
       toggleExportConfirmation,
       toggleDownloadAllocationWorksheetModal,
+      toggleBatchAllocationsModal,
       toggleRemoveConfirmation,
     ],
   );
@@ -305,12 +313,25 @@ const LedgerDetails = ({
             />
           )
         }
+
+        {
+          isBatchAllocationsModal && (
+            <BatchAllocationModal
+              open
+              ledgerId={ledger.id}
+              toggle={toggleBatchAllocationsModal}
+              history={history}
+              onConfirm={onBatchAllocations}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );
 };
 
 LedgerDetails.propTypes = {
+  onBatchAllocations: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

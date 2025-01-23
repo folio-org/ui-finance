@@ -20,6 +20,7 @@ import { LedgerListContainer } from './LedgerList';
 import RolloverLedgerContainer, { RolloverLedgerView } from './RolloverLedger';
 import RolloverLedgerCreateFiscalYear from './RolloverLedgerCreateFiscalYear';
 import { RolloverLogs } from './RolloverLogs';
+import { BatchAllocationView } from '../common/components/BatchAllocation/index';
 
 const Ledger = () => {
   return (
@@ -79,6 +80,14 @@ const Ledger = () => {
         returnLinkLabelId="ui-finance.ledger"
       >
         <RolloverLogs />
+      </PermissionedRoute>
+      <PermissionedRoute
+        path={`${LEDGERS_ROUTE}/:id/batch-allocations/fiscalyear/:fiscalyear`}
+        perm="ui-finance.ledger.rollover.execute" // this needs to be changed
+        returnLink={LEDGERS_ROUTE}
+        returnLinkLabelId="ui-finance.ledger"
+      >
+        <BatchAllocationView />
       </PermissionedRoute>
       <Route
         path={LEDGER_ROLLOVER_SETTINGS_ROUTE}

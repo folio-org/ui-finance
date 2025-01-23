@@ -169,6 +169,16 @@ export const LedgerDetailsContainer = ({
     [history, ledgerId, location.search],
   );
 
+  const onBatchAllocations = useCallback(
+    (fiscalYear) => {
+      history.push({
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/batch-allocations/fiscalyear/${fiscalYear}`,
+        state: { search: location.search },
+      });
+    },
+    [history, ledgerId, location.search],
+  );
+
   const [isClosedProgress] = useLocalStorage(`LedgerRolloverProgress-${rollover?.id}`);
 
   if (isLoading || isLoadingRolloverStatus) {
@@ -208,6 +218,7 @@ export const LedgerDetailsContainer = ({
       onDelete={removeLedger}
       onRollover={onRollover}
       onRolloverLogs={onRolloverLogs}
+      onBatchAllocations={onBatchAllocations}
       funds={funds}
       rolloverErrors={rolloverErrors}
       rolloverToFY={rolloverToFY}

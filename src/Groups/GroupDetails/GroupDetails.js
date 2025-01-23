@@ -61,11 +61,11 @@ const GroupDetails = ({
   onSelectFY,
   onAddFundToGroup,
   onRemoveFundFromGroup,
-  onBatchAllocations,
+  onBatchAllocation,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
-  const [isBatchAllocationsModal, toggleBatchAllocationsModal] = useModalToggle();
+  const [isBatchAllocationModal, toggleBatchAllocationModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -101,6 +101,10 @@ const GroupDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onBatchAllocation={() => {
+              onToggle();
+              toggleBatchAllocationModal();
+            }}
           />
         </>
       );
@@ -110,6 +114,7 @@ const GroupDetails = ({
       isRestrictionsLoading,
       restrictions.protectUpdate,
       restrictions.protectDelete,
+      toggleBatchAllocationModal,
       toggleRemoveConfirmation,
       toggleDownloadAllocationWorksheetModal,
     ],
@@ -260,13 +265,13 @@ const GroupDetails = ({
         }
 
         {
-          isBatchAllocationsModal && (
+          isBatchAllocationModal && (
             <BatchAllocationModal
               open
               groupId={group.id}
-              toggle={toggleBatchAllocationsModal}
+              toggle={toggleBatchAllocationModal}
               history={history}
-              onConfirm={onBatchAllocations}
+              onConfirm={onBatchAllocation}
             />
           )
         }
@@ -276,7 +281,7 @@ const GroupDetails = ({
 };
 
 GroupDetails.propTypes = {
-  onBatchAllocations: PropTypes.func.isRequired,
+  onBatchAllocation: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   editGroup: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,

@@ -62,7 +62,7 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   onRolloverLogs,
-  onBatchAllocations,
+  onBatchAllocation,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -70,7 +70,7 @@ const LedgerDetails = ({
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
-  const [isBatchAllocationsModal, toggleBatchAllocationsModal] = useModalToggle();
+  const [isBatchAllocationModal, toggleBatchAllocationModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -141,7 +141,7 @@ const LedgerDetails = ({
             }}
             onBatchAllocation={() => {
               onToggle();
-              toggleBatchAllocationsModal();
+              toggleBatchAllocationModal();
             }}
           />
         </>
@@ -153,9 +153,9 @@ const LedgerDetails = ({
       onRollover,
       onRolloverLogs,
       restrictions,
+      toggleBatchAllocationModal,
       toggleExportConfirmation,
       toggleDownloadAllocationWorksheetModal,
-      toggleBatchAllocationsModal,
       toggleRemoveConfirmation,
     ],
   );
@@ -315,13 +315,13 @@ const LedgerDetails = ({
         }
 
         {
-          isBatchAllocationsModal && (
+          isBatchAllocationModal && (
             <BatchAllocationModal
               open
               ledgerId={ledger.id}
-              toggle={toggleBatchAllocationsModal}
+              toggle={toggleBatchAllocationModal}
               history={history}
-              onConfirm={onBatchAllocations}
+              onConfirm={onBatchAllocation}
             />
           )
         }
@@ -331,7 +331,7 @@ const LedgerDetails = ({
 };
 
 LedgerDetails.propTypes = {
-  onBatchAllocations: PropTypes.func.isRequired,
+  onBatchAllocation: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

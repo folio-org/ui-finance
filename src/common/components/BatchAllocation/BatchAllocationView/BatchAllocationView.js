@@ -16,95 +16,55 @@ import {
 
 import {
   LEDGERS_ROUTE,
+  GROUPS_ROUTE,
 } from '../../../const';
-import { useBatchAllocations } from '../useBatchAllocations';
+import { useBatchAllocation } from '../useBatchAllocation';
 
 export const BatchAllocationView = () => {
-  const ky = useOkapiKy();
   const history = useHistory();
   const location = useLocation();
-  const { id: ledgerId } = useParams();
-
-  const funds = useBatchAllocations({ id: ledgerId });
-
-  useEffect(() => {
-    console.log("data");
-    console.log(funds);
-  }, [funds]);
+  const { id, fiscalyear } = useParams();
+  const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
+  // const params = { query: `fiscalYearId=="${fiscalyear}" and ${type}=="${id}"` };
+  const { budgetsFunds } = useBatchAllocation();
 
   const close = useCallback(
     () => {
       history.push({
-        pathname: `${LEDGERS_ROUTE}/${ledgerId}/view`,
+        pathname: `${type === 'ledgerId' ? LEDGERS_ROUTE : GROUPS_ROUTE}/${id}/view`,
         search: location.search,
       });
     },
-    [history, location.search, ledgerId],
+    [history, location.search, id, type],
   );
 
   const columnMapping = {
-    'fundStatus': 'Fund Status', // editable, sortable
-    // 'budgetName': 'Budget Name', // not editable, sortable
+    'fundName': 'Fund name', // not editable, sortable
+    'fundStatus': 'Fund status', // editable
+    'budgetName': 'Budget Name', // not editable, sortable
     // 'totalAllocatedBefore': 'Total allocated (before)', // not editable
-    // 'budgetStatus': 'Budget status', // editable
+    'budgetStatus': 'Budget status', // editable
     // 'allocationIncreaseDecrease': 'Allocation increase/decrease', // editable
     // 'totalAllocatedAfter': 'Total allocated (after)', // editable
-    // 'allowableEncumbrance': 'Allowable encumbrance %', // editable
-    // 'allowableExpenditure': 'Allowable expenditure %', // editable
+    'budgetAllowableEncumbrance': 'Allowable encumbrance %', // editable
+    'budgetAllowableExpenditure': 'Allowable expenditure %', // editable
     // 'transactionDescription': 'Transaction description', // editable
-    // 'transactionTags': 'Transaction tags', // editable
+    // 'fundTags': 'Transaction tags', // editable
   };
 
   const visibleColumns = [
-    // 'name',
+    'fundName',
     'fundStatus',
-    // 'description',
-    // 'tags',
-    // 'budgetName',
+    'budgetName',
     // 'totalAllocatedBefore',
-    // 'budgetStatus',
+    'budgetStatus',
     // 'allocationIncreaseDecrease',
     // 'totalAllocatedAfter',
-    // 'allowableEncumbrance',
-    // 'allowableExpenditure',
+    'budgetAllowableEncumbrance',
+    'budgetAllowableExpenditure',
+    // 'transactionDescription',
+    // 'fundTags',
   ];
-
-  // const funds = [{
-  //   'name': 'General Fund',
-  //   'description': 'General fund description',
-  //   'tags': 'general, fund',
-  //   'budgetName': 'General Budget',
-  //   'totalAllocatedBefore': '1000',
-  //   'budgetStatus': 'Active',
-  //   'allocationIncreaseDecrease': '200',
-  //   'totalAllocatedAfter': '1200',
-  //   'allowableEncumbrance': '10',
-  //   'allowableExpenditure': '20',
-  // },
-  // {
-  //   'name': 'Library Fund',
-  //   'description': 'Library fund description',
-  //   'tags': 'library, fund',
-  //   'budgetName': 'Library Budget',
-  //   'totalAllocatedBefore': '2000',
-  //   'budgetStatus': 'Active',
-  //   'allocationIncreaseDecrease': '300',
-  //   'totalAllocatedAfter': '2300',
-  //   'allowableEncumbrance': '15',
-  //   'allowableExpenditure': '25',
-  // },
-  // {
-  //   'name': 'Technology Fund',
-  //   'description': 'Technology fund description',
-  //   'tags': 'technology, fund',
-  //   'budgetName': 'Technology Budget',
-  //   'totalAllocatedBefore': '3000',
-  //   'budgetStatus': 'Active',
-  //   'allocationIncreaseDecrease': '400',
-  //   'totalAllocatedAfter': '3400',
-  //   'allowableEncumbrance': '20',
-  //   'allowableExpenditure': '30',
-  // }];
 
   return (
     <>
@@ -127,7 +87,7 @@ export const BatchAllocationView = () => {
               <MultiColumnList
                 visibleColumns={visibleColumns}
                 columnMapping={columnMapping}
-                contentData={funds}
+                contentData={budgetsFunds}
                 id="list-item-funds"
                 interactive={false}
               />

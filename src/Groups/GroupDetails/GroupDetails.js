@@ -38,6 +38,7 @@ import FinancialSummary from '../../common/FinancialSummary';
 import {
   AllocationToolsMenuSection,
   DownloadAllocationWorksheetModal,
+  UploadAllocationWorksheetModal,
 } from '../../common/components';
 import { GROUPS_ROUTE } from '../../common/const';
 import {
@@ -63,6 +64,7 @@ const GroupDetails = ({
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isUploadAllocationWorksheetModalOpen, toggleUploadAllocationWorksheetModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -98,6 +100,10 @@ const GroupDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onUploadAllocationWorksheet={() => {
+              onToggle();
+              toggleUploadAllocationWorksheetModal();
+            }}
           />
         </>
       );
@@ -107,8 +113,9 @@ const GroupDetails = ({
       isRestrictionsLoading,
       restrictions.protectUpdate,
       restrictions.protectDelete,
-      toggleRemoveConfirmation,
       toggleDownloadAllocationWorksheetModal,
+      toggleRemoveConfirmation,
+      toggleUploadAllocationWorksheetModal,
     ],
   );
 
@@ -252,6 +259,15 @@ const GroupDetails = ({
               open
               groupId={group.id}
               toggle={toggleDownloadAllocationWorksheetModal}
+            />
+          )
+        }
+
+        {
+          isUploadAllocationWorksheetModalOpen && (
+            <UploadAllocationWorksheetModal
+              open
+              toggle={toggleUploadAllocationWorksheetModal}
             />
           )
         }

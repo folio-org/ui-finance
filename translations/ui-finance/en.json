@@ -481,6 +481,8 @@
 
   "menuSection.allocationTools": "Allocation tools",
   "selectFiscalYear": "Select fiscal year",
+  "uploadWorksheet.modal.heading": "Upload worksheet",
+  "uploadWorksheet.modal.message": "Please choose a budget worksheet to upload",
 
   "actions.edit": "Edit",
   "actions.exportCSV": "Export budget information (CSV)",
@@ -489,6 +491,7 @@
   "actions.rollover": "Rollover",
   "actions.rolloverLogs": "Rollover logs",
   "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)",
+  "actions.uploadAllocationWorksheet": "Upload allocation worksheet (CSV)",
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",
   "fund.code.isInUse": "This Fund code is already in use.",
   "fund.actions.nameIsNotUnique.confirmation.heading": "Save fund",

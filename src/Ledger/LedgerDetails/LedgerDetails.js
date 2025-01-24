@@ -1,4 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, {
+  useCallback,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
@@ -41,6 +44,7 @@ import FinancialSummary from '../../common/FinancialSummary';
 import {
   AllocationToolsMenuSection,
   DownloadAllocationWorksheetModal,
+  UploadAllocationWorksheetModal,
 } from '../../common/components';
 import { LEDGERS_ROUTE } from '../../common/const';
 import {
@@ -68,12 +72,14 @@ const LedgerDetails = ({
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isUploadAllocationWorksheetModalOpen, toggleUploadAllocationWorksheetModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
-    ledger.id, ledger.acqUnitIds,
+    ledger.id,
+    ledger.acqUnitIds,
   );
 
   // eslint-disable-next-line react/prop-types
@@ -136,6 +142,10 @@ const LedgerDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onUploadAllocationWorksheet={() => {
+              onToggle();
+              toggleUploadAllocationWorksheetModal();
+            }}
           />
         </>
       );
@@ -149,6 +159,7 @@ const LedgerDetails = ({
       toggleExportConfirmation,
       toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
+      toggleUploadAllocationWorksheetModal,
     ],
   );
 
@@ -302,6 +313,15 @@ const LedgerDetails = ({
               open
               ledgerId={ledger?.id}
               toggle={toggleDownloadAllocationWorksheetModal}
+            />
+          )
+        }
+
+        {
+          isUploadAllocationWorksheetModalOpen && (
+            <UploadAllocationWorksheetModal
+              open
+              toggle={toggleUploadAllocationWorksheetModal}
             />
           )
         }

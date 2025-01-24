@@ -30,7 +30,6 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { BatchAllocationModal } from '../../components/BatchAllocations';
 import {
   DetailsEditAction,
   DetailsRemoveAction,
@@ -38,6 +37,7 @@ import {
 import FinancialSummary from '../../common/FinancialSummary';
 import {
   AllocationToolsMenuSection,
+  BatchAllocationModal,
   DownloadAllocationWorksheetModal,
 } from '../../common/components';
 import { GROUPS_ROUTE } from '../../common/const';

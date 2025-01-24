@@ -19,12 +19,12 @@ import {
   LEDGERS_ROUTE,
   GROUPS_ROUTE,
 } from '../../../common/const';
-import { useBatchAllocation } from '../useBatchAllocation';
-import { BATCH_ALLOCATION_COLUMNS } from '../constants';
+import { useBatchAllocation } from './useBatchAllocation';
+import { BATCH_ALLOCATION_COLUMNS } from './constants';
 import {
   getBatchAllocationColumnMapping,
   useBatchAllocationColumnValues,
-} from '../utils';
+} from './utils';
 
 export const CreateBatchAllocations = () => {
   const intl = useIntl();

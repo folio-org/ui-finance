@@ -1,3 +1,4 @@
+import localforage from 'localforage';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -8,9 +9,13 @@ import {
   ConfirmationModal,
   Row,
 } from '@folio/stripes/components';
+import { useNamespace } from '@folio/stripes/core';
 import { FileUploader } from '@folio/stripes-acq-components';
 
-import { EXPORT_ALLOCATION_WORKSHEET_FIELDS } from '../../const';
+import {
+  BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS,
+} from '../../const';
 import { csvToJson } from '../../utils';
 
 const headersMap = new Map(
@@ -25,6 +30,7 @@ export const UploadAllocationWorksheetModal = ({
 }) => {
   const history = useHistory();
   const [uploadedFile, setUploadedFile] = useState();
+  const [storageKey] = useNamespace({ key: BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY });
 
   const onConfirm = async () => {
     const rows = await csvToJson(uploadedFile);
@@ -43,7 +49,7 @@ export const UploadAllocationWorksheetModal = ({
       );
     });
 
-    console.log('parsed', parsed);
+    await localforage.setItem(storageKey, parsed);
 
     history.push({
       pathname: '/finance/batch-allocations/upload',
@@ -54,7 +60,7 @@ export const UploadAllocationWorksheetModal = ({
     <>
       <Row>
         <Col xs>
-          {uploadedFile ? uploadedFile.name : <FormattedMessage id="ui-finance.uploadWorksheet.modal.message" />}
+          {uploadedFile ? uploadedFile.name : <FormattedMessage id="ui-finance.batchAllocations.uploadWorksheet.modal.message" />}
         </Col>
       </Row>
       <Row>
@@ -71,7 +77,7 @@ export const UploadAllocationWorksheetModal = ({
       onConfirm={onConfirm}
       onCancel={toggle}
       message={message}
-      heading={<FormattedMessage id="ui-finance.uploadWorksheet.modal.heading" />}
+      heading={<FormattedMessage id="ui-finance.batchAllocations.uploadWorksheet.modal.heading" />}
       confirmLabel={<FormattedMessage id="stripes-core.button.confirm" />}
       isConfirmButtonDisabled={!uploadedFile}
     />

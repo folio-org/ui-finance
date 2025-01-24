@@ -93,3 +93,5 @@ export const EXPORT_ALLOCATION_WORKSHEET_FIELDS = {
   transactionTag: 'Transaction tag',
   transactionDescription: 'Transaction description',
 };
+
+export const BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY = 'batch-allocations-upload';

@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   useHistory,
   useLocation,
   useParams,
 } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
-import { TitleManager, useOkapiKy } from '@folio/stripes/core';
+import { TitleManager } from '@folio/stripes/core';
 import {
   Col,
   Pane,
@@ -19,14 +20,26 @@ import {
   GROUPS_ROUTE,
 } from '../../../const';
 import { useBatchAllocation } from '../useBatchAllocation';
+import { BATCH_ALLOCATION_COLUMNS } from '../constants';
+import {
+  getBatchAllocationColumnMapping,
+  useBatchAllocationColumnValues,
+} from '../utils';
 
 export const BatchAllocationView = () => {
+  const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
   const { id, fiscalyear } = useParams();
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
   // const params = { query: `fiscalYearId=="${fiscalyear}" and ${type}=="${id}"` };
   const { budgetsFunds } = useBatchAllocation();
+
+  const columnMapping = useMemo(() => {
+    return getBatchAllocationColumnMapping({ intl });
+  }, [intl]);
+
+  const columnValues = useBatchAllocationColumnValues({ budgetsFunds, intl });
 
   const close = useCallback(
     () => {
@@ -37,34 +50,6 @@ export const BatchAllocationView = () => {
     },
     [history, location.search, id, type],
   );
-
-  const columnMapping = {
-    'fundName': 'Fund name', // not editable, sortable
-    'fundStatus': 'Fund status', // editable
-    'budgetName': 'Budget Name', // not editable, sortable
-    // 'totalAllocatedBefore': 'Total allocated (before)', // not editable
-    'budgetStatus': 'Budget status', // editable
-    // 'allocationIncreaseDecrease': 'Allocation increase/decrease', // editable
-    // 'totalAllocatedAfter': 'Total allocated (after)', // editable
-    'budgetAllowableEncumbrance': 'Allowable encumbrance %', // editable
-    'budgetAllowableExpenditure': 'Allowable expenditure %', // editable
-    // 'transactionDescription': 'Transaction description', // editable
-    // 'fundTags': 'Transaction tags', // editable
-  };
-
-  const visibleColumns = [
-    'fundName',
-    'fundStatus',
-    'budgetName',
-    // 'totalAllocatedBefore',
-    'budgetStatus',
-    // 'allocationIncreaseDecrease',
-    // 'totalAllocatedAfter',
-    'budgetAllowableEncumbrance',
-    'budgetAllowableExpenditure',
-    // 'transactionDescription',
-    // 'fundTags',
-  ];
 
   return (
     <>
@@ -85,9 +70,9 @@ export const BatchAllocationView = () => {
               mdOffset={1}
             >
               <MultiColumnList
-                visibleColumns={visibleColumns}
+                visibleColumns={BATCH_ALLOCATION_COLUMNS}
                 columnMapping={columnMapping}
-                contentData={budgetsFunds}
+                contentData={columnValues}
                 id="list-item-funds"
                 interactive={false}
               />
@@ -95,5 +80,6 @@ export const BatchAllocationView = () => {
           </Row>
         </Pane>
       </Paneset>
-    </>);
+    </>
+  );
 };

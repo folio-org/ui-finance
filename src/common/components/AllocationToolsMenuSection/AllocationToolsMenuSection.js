@@ -13,8 +13,8 @@ import {
 
 export const AllocationToolsMenuSection = ({
   disabled,
-  onDownloadAllocationWorksheet,
   onBatchAllocation,
+  onDownloadAllocationWorksheet,
 }) => {
   const intl = useIntl();
 
@@ -23,7 +23,7 @@ export const AllocationToolsMenuSection = ({
       id="allocation-tools-menu-section"
       label={intl.formatMessage({ id: 'ui-finance.menuSection.allocationTools' })}
     >
-      <IfPermission perm="finance.finance-data.collection.get">
+      <IfPermission perm="ui-finance.allocations.create">
         <Button
           buttonStyle="dropdownItem"
           onClick={onBatchAllocation}
@@ -36,6 +36,9 @@ export const AllocationToolsMenuSection = ({
             <FormattedMessage id="ui-finance.actions.allocations.batch" />
           </Icon>
         </Button>
+      </IfPermission>
+
+      <IfPermission perm="finance.finance-data.collection.get">
         <Button
           buttonStyle="dropdownItem"
           onClick={onDownloadAllocationWorksheet}
@@ -55,6 +58,6 @@ export const AllocationToolsMenuSection = ({
 
 AllocationToolsMenuSection.propTypes = {
   disabled: PropTypes.bool,
-  onDownloadAllocationWorksheet: PropTypes.func.isRequired,
   onBatchAllocation: PropTypes.func.isRequired,
+  onDownloadAllocationWorksheet: PropTypes.func.isRequired,
 };

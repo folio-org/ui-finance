@@ -1,3 +1,3 @@
 export { AllocationToolsMenuSection } from './AllocationToolsMenuSection';
-export { DownloadAllocationWorksheetModal } from './DownloadAllocationWorksheetModal';
 export { BatchAllocationModal } from './BatchAllocationModal';
+export { DownloadAllocationWorksheetModal } from './DownloadAllocationWorksheetModal';

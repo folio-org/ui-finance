@@ -6,7 +6,7 @@ import {
 } from '@folio/stripes/core';
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
-import { FINANCE_DATA_API } from '../../const/api';
+import { FINANCE_DATA_API } from '../../common/const';
 
 const DEFAULT_DATA = [];
 

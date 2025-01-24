@@ -18,7 +18,7 @@ import {
 import {
   LEDGERS_ROUTE,
   GROUPS_ROUTE,
-} from '../../../const';
+} from '../../../common/const';
 import { useBatchAllocation } from '../useBatchAllocation';
 import { BATCH_ALLOCATION_COLUMNS } from '../constants';
 import {

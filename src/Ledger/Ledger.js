@@ -20,7 +20,7 @@ import { LedgerListContainer } from './LedgerList';
 import RolloverLedgerContainer, { RolloverLedgerView } from './RolloverLedger';
 import RolloverLedgerCreateFiscalYear from './RolloverLedgerCreateFiscalYear';
 import { RolloverLogs } from './RolloverLogs';
-import { CreateBatchAllocations } from '../common/components/BatchAllocations';
+import { CreateBatchAllocations } from '../components/BatchAllocations';
 
 const Ledger = () => {
   return (

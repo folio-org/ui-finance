@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { getFormattedOptions } from '../../utils';
+import { getFormattedOptions } from '../../common/utils';
 import { BATCH_ALLOCATION_COLUMNS } from './constants';
-import { FUND_STATUSES_OPTIONS } from '../../../Funds/constants';
+import { FUND_STATUSES_OPTIONS } from '../../Funds/constants';
 
 export const getBatchAllocationColumnMapping = ({ intl }) => {
   return BATCH_ALLOCATION_COLUMNS.reduce((acc, column) => {

@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { ConfirmationModal, Loading, Selection } from '@folio/stripes/components';
 
-import { useWorksheetFiscalYears } from '../../DownloadAllocationWorksheetModal/useWorksheetFiscalYears';
+import { useWorksheetFiscalYears } from '../../../common/components/DownloadAllocationWorksheetModal/useWorksheetFiscalYears';
 
 export const BatchAllocationModal = ({
   groupId,

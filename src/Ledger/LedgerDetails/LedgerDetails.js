@@ -32,7 +32,7 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { BatchAllocationModal } from '../../common/components/BatchAllocations';
+import { BatchAllocationModal } from '../../components/BatchAllocations';
 import {
   DetailsEditAction,
   DetailsExportAction,

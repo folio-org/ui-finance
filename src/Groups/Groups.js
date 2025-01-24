@@ -11,7 +11,7 @@ import CheckPermission from '../common/CheckPermission';
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
 import { EditGroup } from './EditGroup';
-import { CreateBatchAllocations } from '../common/components/BatchAllocations';
+import { CreateBatchAllocations } from '../components/BatchAllocations';
 
 const Groups = () => {
   return (

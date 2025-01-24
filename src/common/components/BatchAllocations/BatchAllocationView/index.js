@@ -1,1 +1,0 @@
-export { BatchAllocationView } from './BatchAllocationView';

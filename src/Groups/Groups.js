@@ -11,7 +11,7 @@ import CheckPermission from '../common/CheckPermission';
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
 import { EditGroup } from './EditGroup';
-import { BatchAllocationView } from '../common/components/BatchAllocations';
+import { CreateBatchAllocations } from '../common/components/BatchAllocations';
 
 const Groups = () => {
   return (
@@ -46,7 +46,7 @@ const Groups = () => {
         returnLink={GROUPS_ROUTE}
         returnLinkLabelId="ui-finance.ledger"
       >
-        <BatchAllocationView />
+        <CreateBatchAllocations />
       </PermissionedRoute>
     </Switch>
   );

@@ -20,7 +20,7 @@ import { LedgerListContainer } from './LedgerList';
 import RolloverLedgerContainer, { RolloverLedgerView } from './RolloverLedger';
 import RolloverLedgerCreateFiscalYear from './RolloverLedgerCreateFiscalYear';
 import { RolloverLogs } from './RolloverLogs';
-import { BatchAllocationView } from '../common/components/BatchAllocations';
+import { CreateBatchAllocations } from '../common/components/BatchAllocations';
 
 const Ledger = () => {
   return (
@@ -87,7 +87,7 @@ const Ledger = () => {
         returnLink={LEDGERS_ROUTE}
         returnLinkLabelId="ui-finance.ledger"
       >
-        <BatchAllocationView />
+        <CreateBatchAllocations />
       </PermissionedRoute>
       <Route
         path={LEDGER_ROLLOVER_SETTINGS_ROUTE}

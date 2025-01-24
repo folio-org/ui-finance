@@ -26,7 +26,7 @@ import {
   useBatchAllocationColumnValues,
 } from '../utils';
 
-export const BatchAllocationView = () => {
+export const CreateBatchAllocations = () => {
   const intl = useIntl();
   const history = useHistory();
   const location = useLocation();

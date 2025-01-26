@@ -1,45 +1,39 @@
 import React, { useCallback, useMemo } from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
   useLocation,
-  useParams,
 } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
+import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
-import {
-  Col,
-  Pane,
-  Paneset,
-  Row,
-  MultiColumnList,
-} from '@folio/stripes/components';
 
 import {
   LEDGERS_ROUTE,
   GROUPS_ROUTE,
 } from '../../../common/const';
-import { useBatchAllocation } from './useBatchAllocation';
-import { BATCH_ALLOCATION_COLUMNS } from './constants';
-import {
-  getBatchAllocationColumnMapping,
-  useBatchAllocationColumnValues,
-} from './utils';
+import { useBatchAllocation } from './hooks/useBatchAllocation';
+import { BatchAllocationsForm } from '../BatchAllocationsForm';
+import { useBatchAllocationColumnValues } from './hooks';
 
-export const CreateBatchAllocations = () => {
+export const CreateBatchAllocations = ({ match }) => {
   const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
-  const { id, fiscalyear } = useParams();
+  const { id, fiscalYearId } = match.params;
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
   // const params = { query: `fiscalYearId=="${fiscalyear}" and ${type}=="${id}"` };
-  const { budgetsFunds } = useBatchAllocation();
+  const { budgetsFunds, isLoading } = useBatchAllocation();
 
-  const columnMapping = useMemo(() => {
-    return getBatchAllocationColumnMapping({ intl });
-  }, [intl]);
+  const budgetsFundsMap = useBatchAllocationColumnValues(budgetsFunds, intl);
+  const initialValues = useMemo(() => {
+    return budgetsFundsMap.reduce((acc, value, index) => {
+      acc[index] = value;
 
-  const columnValues = useBatchAllocationColumnValues({ budgetsFunds, intl });
+      return acc;
+    }, {});
+  }, [budgetsFundsMap]);
 
   const close = useCallback(
     () => {
@@ -51,35 +45,20 @@ export const CreateBatchAllocations = () => {
     [history, location.search, id, type],
   );
 
+  if (isLoading) return <LoadingView />;
+
   return (
     <>
       <TitleManager record="paneLedgerName" />
-      <Paneset>
-        <Pane
-          defaultWidth="fill"
-          dismissible
-          id="pane-ledger-rollover-form"
-          onClose={close}
-          paneTitle="FY2024"
-          paneSub="One-time"
-        >
-          <Row>
-            <Col
-              xs={12}
-              md={10}
-              mdOffset={1}
-            >
-              <MultiColumnList
-                visibleColumns={BATCH_ALLOCATION_COLUMNS}
-                columnMapping={columnMapping}
-                contentData={columnValues}
-                id="list-item-funds"
-                interactive={false}
-              />
-            </Col>
-          </Row>
-        </Pane>
-      </Paneset>
+      <BatchAllocationsForm
+        onSubmit={close}
+        initialValues={initialValues}
+        onCancel={close}
+      />
     </>
   );
+};
+
+CreateBatchAllocations.propTypes = {
+  match: ReactRouterPropTypes.match.isRequired,
 };

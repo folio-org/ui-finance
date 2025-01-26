@@ -170,9 +170,9 @@ export const LedgerDetailsContainer = ({
   );
 
   const onBatchAllocation = useCallback(
-    (fiscalyear) => {
+    (fiscalYearId) => {
       history.push({
-        pathname: `${LEDGERS_ROUTE}/${ledgerId}/batch-allocations/fiscalyear/${fiscalyear}`,
+        pathname: `${LEDGERS_ROUTE}/${ledgerId}/batch-allocations/create/${fiscalYearId}`,
         state: { search: location.search },
       });
     },

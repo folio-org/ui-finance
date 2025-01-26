@@ -164,9 +164,9 @@ export const GroupDetailsContainer = ({
   );
 
   const onBatchAllocation = useCallback(
-    (fiscalyear) => {
+    (fiscalYearId) => {
       history.push({
-        pathname: `${GROUPS_ROUTE}/${groupId}/batch-allocations/fiscalyear/${fiscalyear}`,
+        pathname: `${GROUPS_ROUTE}/${groupId}/batch-allocations/create/${fiscalYearId}`,
         state: { search: location.search },
       });
     },

@@ -1,1 +1,1 @@
-export { CreateBatchAllocations } from './CreateBatchAllocations';
+export { BatchAllocations } from './BatchAllocations';

@@ -16,8 +16,7 @@ import { getBatchAllocationColumnMapping } from './utils';
 import { useBatchAllocationColumnValues } from '../hooks';
 import { BATCH_ALLOCATION_COLUMNS } from '../constants';
 
-const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
-const EDIT_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.edit" />;
+const BATCH_EDIT_TITLE = <FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />;
 
 const BatchAllocationsForm = ({
   onCancel,
@@ -33,7 +32,6 @@ const BatchAllocationsForm = ({
   }, [intl]);
 
   const columnValues = useBatchAllocationColumnValues(Object.values(initialValues), intl);
-  const isEditMode = Boolean(initialValues.id);
 
   const paneFooter = (
     <FormFooter
@@ -54,7 +52,7 @@ const BatchAllocationsForm = ({
           footer={paneFooter}
           id="batch-allocation-form"
           onClose={closeForm}
-          paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
+          paneTitle={BATCH_EDIT_TITLE}
           paneSub="One-time"
         >
           <Row>

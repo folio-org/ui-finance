@@ -18,24 +18,23 @@ export const useBatchAllocationColumnValues = (budgetsFunds, intl) => {
     budgetName,
     budgetInitialAllocation,
   }, index) => ({
-    // ...budgetsFund,
     fundName,
     fundStatus: <FieldSelectFinal
       dataOptions={fundStatusOptions}
       fullWidth
-      name={`${index}.fundStatus`}
+      name={`index-${index}.fundStatus`}
                 />,
     budgetName,
     budgetInitialAllocation,
     budgetStatus: <FieldSelectFinal
       dataOptions={budgetStatusOptions}
       fullWidth
-      name={`${index}.budgetStatus`}
+      name={`index-${index}.budgetStatus`}
                   />,
     allocationIncreaseDecrease:
   <Field
     component={TextField}
-    name={`${index}.allocationIncreaseDecrease`}
+    name={`index-${index}.allocationIncreaseDecrease`}
     type="number"
     required
     placeholder="0.00"
@@ -43,7 +42,7 @@ export const useBatchAllocationColumnValues = (budgetsFunds, intl) => {
     totalAllocatedAfter:
   <Field
     component={TextField}
-    name={`${index}.totalAllocatedAfter`}
+    name={`index-${index}.totalAllocatedAfter`}
     type="number"
     required
     placeholder="0.00"
@@ -52,7 +51,7 @@ export const useBatchAllocationColumnValues = (budgetsFunds, intl) => {
     budgetAllowableEncumbrance:
   <Field
     component={TextField}
-    name={`${index}.budgetAllowableEncumbrance`}
+    name={`index-${index}.budgetAllowableEncumbrance`}
     type="number"
     required
     placeholder="0.00"
@@ -60,7 +59,7 @@ export const useBatchAllocationColumnValues = (budgetsFunds, intl) => {
     budgetAllowableExpenditure:
   <Field
     component={TextField}
-    name={`${index}.budgetAllowableExpenditure`}
+    name={`index-${index}.budgetAllowableExpenditure`}
     type="number"
     required
     placeholder="0.00"
@@ -68,7 +67,7 @@ export const useBatchAllocationColumnValues = (budgetsFunds, intl) => {
     transactionDescription:
   <Field
     component={TextField}
-    name={`${index}.transactionDescription`}
+    name={`index-${index}.transactionDescription`}
     type="text"
     required
     placeholder="Description"
@@ -78,7 +77,7 @@ export const useBatchAllocationColumnValues = (budgetsFunds, intl) => {
   //   onRemove={() => {}}
   //   onAdd={() => {}}
   //   entityTags={[]}
-  //   name={`${index}.fundTags.tagList`}
+  //   name={`index-${index}.fundTags.tagList`}
   // />,
   }));
 };

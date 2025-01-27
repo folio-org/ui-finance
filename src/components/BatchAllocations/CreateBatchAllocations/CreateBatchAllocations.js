@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
@@ -22,8 +22,16 @@ export const CreateBatchAllocations = ({ match }) => {
   const location = useLocation();
   const { id, fiscalYearId } = match.params;
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
-  // const params = { query: `fiscalYearId=="${fiscalyear}" and ${type}=="${id}"` };
-  const { budgetsFunds, isLoading } = useBatchAllocation();
+  const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
+  const { budgetsFunds, isLoading } = useBatchAllocation(params);
+
+  const initialValues = useMemo(() => {
+    return budgetsFunds.reduce((acc, value, index) => {
+      acc[`index-${index}`] = value;
+
+      return acc;
+    }, {});
+  }, [budgetsFunds]);
 
   const save = useCallback(async (formValues) => {
     console.log('formValues');
@@ -47,7 +55,7 @@ export const CreateBatchAllocations = ({ match }) => {
       <TitleManager record="paneLedgerName" />
       <BatchAllocationsForm
         onSubmit={save}
-        initialValues={budgetsFunds}
+        initialValues={initialValues}
         onCancel={close}
       />
     </>

@@ -4,7 +4,6 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import { useIntl } from 'react-intl';
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
@@ -17,7 +16,6 @@ import { useBatchAllocation } from '../hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
 
 export const CreateBatchAllocations = ({ match }) => {
-  const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
   const { id, fiscalYearId } = match.params;
@@ -52,7 +50,7 @@ export const CreateBatchAllocations = ({ match }) => {
 
   return (
     <>
-      <TitleManager record="paneLedgerName" />
+      <TitleManager record="paneBatchAllocationName" />
       <BatchAllocationsForm
         onSubmit={save}
         initialValues={initialValues}

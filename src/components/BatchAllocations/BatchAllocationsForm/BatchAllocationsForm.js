@@ -52,7 +52,7 @@ const BatchAllocationsForm = ({
           defaultWidth="fill"
           dismissible
           footer={paneFooter}
-          id="pane-group-form"
+          id="batch-allocation-form"
           onClose={closeForm}
           paneTitle={isEditMode ? EDIT_GROUP_TITLE : CREATE_GROUP_TITLE}
           paneSub="One-time"
@@ -67,7 +67,7 @@ const BatchAllocationsForm = ({
                 visibleColumns={BATCH_ALLOCATION_COLUMNS}
                 columnMapping={columnMapping}
                 contentData={columnValues}
-                id="list-item-funds"
+                id="batch-allocation-list-item"
                 interactive={false}
               />
             </Col>

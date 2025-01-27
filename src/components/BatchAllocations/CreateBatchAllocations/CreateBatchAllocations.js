@@ -50,7 +50,7 @@ export const CreateBatchAllocations = ({ match }) => {
 
   return (
     <>
-      <TitleManager record="paneBatchAllocationName" />
+      <TitleManager record="Batch Allocation" />
       <BatchAllocationsForm
         onSubmit={save}
         initialValues={initialValues}

@@ -387,7 +387,7 @@
   "transaction.allocation.batch.columns.fundName": "Fund name",
   "transaction.allocation.batch.columns.fundStatus": "Fund status",
   "transaction.allocation.batch.columns.budgetName": "Budget Name",
-  "transaction.allocation.batch.columns.totalAllocatedBefore": "Total allocated (before)",
+  "transaction.allocation.batch.columns.budgetInitialAllocation": "Total allocated (before)",
   "transaction.allocation.batch.columns.budgetStatus": "Budget status",
   "transaction.allocation.batch.columns.allocationIncreaseDecrease": "Allocation increase/decrease",
   "transaction.allocation.batch.columns.totalAllocatedAfter": "Total allocated (after)",

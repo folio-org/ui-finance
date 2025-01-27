@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
@@ -13,9 +13,8 @@ import {
   LEDGERS_ROUTE,
   GROUPS_ROUTE,
 } from '../../../common/const';
-import { useBatchAllocation } from './hooks/useBatchAllocation';
+import { useBatchAllocation } from '../hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
-import { useBatchAllocationColumnValues } from './hooks';
 
 export const CreateBatchAllocations = ({ match }) => {
   const intl = useIntl();
@@ -26,14 +25,10 @@ export const CreateBatchAllocations = ({ match }) => {
   // const params = { query: `fiscalYearId=="${fiscalyear}" and ${type}=="${id}"` };
   const { budgetsFunds, isLoading } = useBatchAllocation();
 
-  const budgetsFundsMap = useBatchAllocationColumnValues(budgetsFunds, intl);
-  const initialValues = useMemo(() => {
-    return budgetsFundsMap.reduce((acc, value, index) => {
-      acc[index] = value;
-
-      return acc;
-    }, {});
-  }, [budgetsFundsMap]);
+  const save = useCallback(async (formValues) => {
+    console.log('formValues');
+    console.log(formValues);
+  }, []);
 
   const close = useCallback(
     () => {
@@ -51,8 +46,8 @@ export const CreateBatchAllocations = ({ match }) => {
     <>
       <TitleManager record="paneLedgerName" />
       <BatchAllocationsForm
-        onSubmit={close}
-        initialValues={initialValues}
+        onSubmit={save}
+        initialValues={budgetsFunds}
         onCancel={close}
       />
     </>

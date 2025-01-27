@@ -2,14 +2,14 @@ export const BATCH_ALLOCATION_COLUMNS = [
   'fundName',
   'fundStatus',
   'budgetName',
-  // 'totalAllocatedBefore',
+  'budgetInitialAllocation',
   'budgetStatus',
-  // 'allocationIncreaseDecrease',
-  // 'totalAllocatedAfter',
+  'allocationIncreaseDecrease',
+  'totalAllocatedAfter',
   'budgetAllowableEncumbrance',
   'budgetAllowableExpenditure',
-  // 'transactionDescription',
-  // 'fundTags',
+  'transactionDescription',
+  'fundTags',
 ];
 
 export const BATCH_ALLOCATION_SORTABLE_FIELDS = [

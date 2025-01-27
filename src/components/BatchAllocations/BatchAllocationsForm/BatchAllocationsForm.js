@@ -13,6 +13,7 @@ import {
 import { FormFooter } from '@folio/stripes-acq-components';
 
 import { getBatchAllocationColumnMapping } from './utils';
+import { useBatchAllocationColumnValues } from '../hooks';
 import { BATCH_ALLOCATION_COLUMNS } from '../constants';
 
 const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
@@ -31,6 +32,7 @@ const BatchAllocationsForm = ({
     return getBatchAllocationColumnMapping({ intl });
   }, [intl]);
 
+  const columnValues = useBatchAllocationColumnValues(Object.values(initialValues), intl);
   const isEditMode = Boolean(initialValues.id);
 
   const paneFooter = (
@@ -64,7 +66,7 @@ const BatchAllocationsForm = ({
               <MultiColumnList
                 visibleColumns={BATCH_ALLOCATION_COLUMNS}
                 columnMapping={columnMapping}
-                contentData={Object.values(initialValues)}
+                contentData={columnValues}
                 id="list-item-funds"
                 interactive={false}
               />

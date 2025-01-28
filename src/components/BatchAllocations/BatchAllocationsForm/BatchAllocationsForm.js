@@ -20,7 +20,7 @@ const BATCH_EDIT_TITLE = <FormattedMessage id="ui-finance.allocation.batch.form.
 
 const BatchAllocationsForm = ({
   onCancel,
-  initialValues,
+  initialValues: { budgetsFunds },
   handleSubmit,
   pristine,
   submitting,
@@ -31,7 +31,7 @@ const BatchAllocationsForm = ({
     return getBatchAllocationColumnMapping({ intl });
   }, [intl]);
 
-  const columnValues = useBatchAllocationColumnValues(Object.values(initialValues), intl);
+  const formatter = useBatchAllocationColumnValues(intl);
 
   const paneFooter = (
     <FormFooter
@@ -62,9 +62,10 @@ const BatchAllocationsForm = ({
               mdOffset={1}
             >
               <MultiColumnList
+                formatter={formatter}
                 visibleColumns={BATCH_ALLOCATION_COLUMNS}
                 columnMapping={columnMapping}
-                contentData={columnValues}
+                contentData={budgetsFunds}
                 id="batch-allocation-list-item"
                 interactive={false}
               />

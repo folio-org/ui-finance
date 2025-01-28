@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
@@ -23,13 +23,6 @@ export const CreateBatchAllocations = ({ match }) => {
   const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
   const { budgetsFunds, isLoading } = useBatchAllocation(params);
 
-  const initialValues = useMemo(() => {
-    return budgetsFunds.reduce((acc, value, index) => {
-      acc[`index-${index}`] = value;
-
-      return acc;
-    }, {});
-  }, [budgetsFunds]);
 
   const save = useCallback(async (formValues) => {
     console.log('formValues');
@@ -53,7 +46,7 @@ export const CreateBatchAllocations = ({ match }) => {
       <TitleManager record="Batch Allocation" />
       <BatchAllocationsForm
         onSubmit={save}
-        initialValues={initialValues}
+        initialValues={{ budgetsFunds }}
         onCancel={close}
       />
     </>

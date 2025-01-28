@@ -46,7 +46,10 @@ import {
   DownloadAllocationWorksheetModal,
   UploadAllocationWorksheetModal,
 } from '../../common/components';
-import { LEDGERS_ROUTE } from '../../common/const';
+import {
+  BATCH_ALLOCATIONS_SOURCE,
+  LEDGERS_ROUTE,
+} from '../../common/const';
 import {
   LEDGER_ACCORDION,
   LEDGER_ACCORDION_LABELS,
@@ -322,6 +325,7 @@ const LedgerDetails = ({
             <UploadAllocationWorksheetModal
               open
               toggle={toggleUploadAllocationWorksheetModal}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
             />
           )
         }

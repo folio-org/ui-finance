@@ -6,7 +6,7 @@ import {
 
 import { GROUPS_ROUTE } from '../common/const';
 import CheckPermission from '../common/CheckPermission';
-
+import { BatchAllocations } from '../components/BatchAllocations';
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
 import { EditGroup } from './EditGroup';
@@ -27,6 +27,14 @@ const Groups = () => {
         render={() => (
           <CheckPermission perm="ui-finance.group.edit">
             <EditGroup />
+          </CheckPermission>
+        )}
+      />
+      <Route
+        path={`${GROUPS_ROUTE}/:id/batch-allocations`}
+        render={() => (
+          <CheckPermission perm="ui-finance.allocations.create">
+            <BatchAllocations />
           </CheckPermission>
         )}
       />

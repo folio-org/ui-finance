@@ -18,7 +18,7 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { EXPORT_ALLOCATION_WORKSHEET_FIELDS } from '../../const';
+import { EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS } from '../../const';
 import { fetchFinanceData } from '../../utils';
 import { useWorksheetFiscalYears } from './useWorksheetFiscalYears';
 
@@ -69,9 +69,9 @@ export const DownloadAllocationWorksheetModal = ({
       }));
 
       exportToCsv(
-        [{ ...EXPORT_ALLOCATION_WORKSHEET_FIELDS }, ...exportData],
+        [{ ...EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS }, ...exportData],
         {
-          onlyFields: Object.keys(EXPORT_ALLOCATION_WORKSHEET_FIELDS),
+          onlyFields: Object.keys(EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS),
           filename: [
             fiscalYearsKV[selectedFiscalYear]?.code,
             fyFinanceData[0]?.[groupId ? 'groupCode' : 'ledgerCode'],

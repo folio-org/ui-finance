@@ -13,6 +13,7 @@ import {
   LEDGERS_ROUTE,
   LEDGER_ROLLOVER_SETTINGS_ROUTE,
 } from '../common/const';
+import { BatchAllocations } from '../components/BatchAllocations';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
@@ -79,6 +80,14 @@ const Ledger = () => {
         returnLinkLabelId="ui-finance.ledger"
       >
         <RolloverLogs />
+      </PermissionedRoute>
+      <PermissionedRoute
+        path={`${LEDGERS_ROUTE}/:id/batch-allocations`}
+        perm="ui-finance.allocations.create"
+        returnLink={LEDGERS_ROUTE}
+        returnLinkLabelId="ui-finance.ledger"
+      >
+        <BatchAllocations />
       </PermissionedRoute>
       <Route
         path={LEDGER_ROLLOVER_SETTINGS_ROUTE}

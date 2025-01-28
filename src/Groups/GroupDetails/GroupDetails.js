@@ -40,7 +40,10 @@ import {
   DownloadAllocationWorksheetModal,
   UploadAllocationWorksheetModal,
 } from '../../common/components';
-import { GROUPS_ROUTE } from '../../common/const';
+import {
+  BATCH_ALLOCATIONS_SOURCE,
+  GROUPS_ROUTE,
+} from '../../common/const';
 import {
   GROUP_ACCORDION,
   GROUP_ACCORDION_LABELS,
@@ -268,6 +271,7 @@ const GroupDetails = ({
             <UploadAllocationWorksheetModal
               open
               toggle={toggleUploadAllocationWorksheetModal}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.group}
             />
           )
         }

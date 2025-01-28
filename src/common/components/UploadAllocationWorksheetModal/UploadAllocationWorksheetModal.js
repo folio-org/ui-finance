@@ -1,85 +1,85 @@
 import localforage from 'localforage';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import {
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 
 import {
-  Col,
-  ConfirmationModal,
-  Row,
-} from '@folio/stripes/components';
-import { useNamespace } from '@folio/stripes/core';
-import { FileUploader } from '@folio/stripes-acq-components';
+  useNamespace,
+  useOkapiKy,
+} from '@folio/stripes/core';
 
 import {
+  BATCH_ALLOCATIONS_SOURCE,
   BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY,
-  EXPORT_ALLOCATION_WORKSHEET_FIELDS,
+  FISCAL_YEARS_API,
+  GROUPS_ROUTE,
+  LEDGERS_ROUTE,
 } from '../../const';
-import { csvToJson } from '../../utils';
+import { UploadAllocationWorksheetModalForm } from './UploadAllocationWorksheetModalForm';
 
-const headersMap = new Map(
-  Object
-    .entries(EXPORT_ALLOCATION_WORKSHEET_FIELDS)
-    .map(([key, value]) => [value, key]),
-);
+const pathnamesDict = {
+  [BATCH_ALLOCATIONS_SOURCE.group]: GROUPS_ROUTE,
+  [BATCH_ALLOCATIONS_SOURCE.ledger]: LEDGERS_ROUTE,
+};
+
+const resolveFiscalYearId = (httpClient) => async (parsed) => {
+  const fiscalYearCode = parsed.find(({ fiscalYear }) => Boolean(fiscalYear))?.fiscalYear;
+  const searchParams = {
+    query: `(code==${fiscalYearCode})`,
+    limit: 1,
+  };
+
+  const response = await httpClient.get(FISCAL_YEARS_API, { searchParams }).json();
+
+  return response.fiscalYears[0]?.id;
+};
 
 export const UploadAllocationWorksheetModal = ({
   open,
   toggle,
+  sourceType,
 }) => {
   const history = useHistory();
-  const [uploadedFile, setUploadedFile] = useState();
+  const location = useLocation();
+  const { id } = useParams();
+
+  const ky = useOkapiKy();
   const [storageKey] = useNamespace({ key: BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY });
 
-  const onConfirm = async () => {
-    const rows = await csvToJson(uploadedFile);
+  const onSubmit = async ({ file }) => {
+    const { data, fileName } = file;
 
-    /* TODO: validate CSV */
+    const fiscalYearId = await resolveFiscalYearId(ky)(data);
 
-    const parsed = rows.map((row) => {
-      return Object.fromEntries(
-        Object
-          .entries(row)
-          .map(([key, value]) => {
-            const header = headersMap.get(key.replace(/^"|"$/g, ''));
+    if (!fiscalYearId) {
+      return;
+    }
 
-            return [header, value.replace(/^"|"$/g, '')];
-          }),
-      );
-    });
-
-    await localforage.setItem(storageKey, parsed);
+    await localforage.setItem(
+      storageKey,
+      {
+        data,
+        fileName,
+        fiscalYearId,
+      },
+    );
 
     history.push({
-      pathname: '/finance/batch-allocations/upload',
+      pathname: `${pathnamesDict[sourceType]}/${id}/batch-allocations/upload/${fiscalYearId}/${sourceType}`,
+      state: {
+        backPathname: `${location.pathname}${location.search}`,
+      },
     });
   };
 
-  const message = (
-    <>
-      <Row>
-        <Col xs>
-          {uploadedFile ? uploadedFile.name : <FormattedMessage id="ui-finance.batchAllocations.uploadWorksheet.modal.message" />}
-        </Col>
-      </Row>
-      <Row>
-        <Col xs>
-          <FileUploader onSelectFile={setUploadedFile} />
-        </Col>
-      </Row>
-    </>
-  );
-
   return (
-    <ConfirmationModal
+    <UploadAllocationWorksheetModalForm
       open={open}
-      onConfirm={onConfirm}
-      onCancel={toggle}
-      message={message}
-      heading={<FormattedMessage id="ui-finance.batchAllocations.uploadWorksheet.modal.heading" />}
-      confirmLabel={<FormattedMessage id="stripes-core.button.confirm" />}
-      isConfirmButtonDisabled={!uploadedFile}
+      onSubmit={onSubmit}
+      toggle={toggle}
     />
   );
 };
@@ -87,4 +87,5 @@ export const UploadAllocationWorksheetModal = ({
 UploadAllocationWorksheetModal.propTypes = {
   open: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  sourceType: PropTypes.oneOf(Object.values(BATCH_ALLOCATIONS_SOURCE)).isRequired,
 };

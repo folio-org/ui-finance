@@ -62,7 +62,7 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   onRolloverLogs,
-  onBatchAllocation,
+  onBatchAllocate,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -139,7 +139,7 @@ const LedgerDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
-            onBatchAllocation={() => {
+            onBatchAllocate={() => {
               onToggle();
               toggleBatchAllocationModal();
             }}
@@ -321,7 +321,7 @@ const LedgerDetails = ({
               ledgerId={ledger.id}
               toggle={toggleBatchAllocationModal}
               history={history}
-              onConfirm={onBatchAllocation}
+              onConfirm={onBatchAllocate}
             />
           )
         }
@@ -331,7 +331,7 @@ const LedgerDetails = ({
 };
 
 LedgerDetails.propTypes = {
-  onBatchAllocation: PropTypes.func.isRequired,
+  onBatchAllocate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

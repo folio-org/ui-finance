@@ -23,7 +23,6 @@ export const CreateBatchAllocations = ({ match }) => {
   const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
   const { budgetsFunds, isLoading } = useBatchAllocation(params);
 
-
   const save = useCallback(async (formValues) => {
     console.log('formValues');
     console.log(formValues);

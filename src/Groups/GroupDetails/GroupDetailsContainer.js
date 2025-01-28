@@ -163,7 +163,7 @@ export const GroupDetailsContainer = ({
     [groupId, showToast, history, location.search, refreshList],
   );
 
-  const onBatchAllocation = useCallback(
+  const onBatchAllocate = useCallback(
     (fiscalYearId) => {
       history.push({
         pathname: `${GROUPS_ROUTE}/${groupId}/batch-allocations/create/${fiscalYearId}`,
@@ -256,7 +256,7 @@ export const GroupDetailsContainer = ({
       onAddFundToGroup={onAddFundToGroup}
       onSelectFY={selectFY}
       onRemoveFundFromGroup={onRemoveFundFromGroup}
-      onBatchAllocation={onBatchAllocation}
+      onBatchAllocate={onBatchAllocate}
     />
   );
 };

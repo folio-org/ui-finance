@@ -61,7 +61,7 @@ const GroupDetails = ({
   onSelectFY,
   onAddFundToGroup,
   onRemoveFundFromGroup,
-  onBatchAllocation,
+  onBatchAllocate,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
@@ -101,7 +101,7 @@ const GroupDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
-            onBatchAllocation={() => {
+            onBatchAllocate={() => {
               onToggle();
               toggleBatchAllocationModal();
             }}
@@ -271,7 +271,7 @@ const GroupDetails = ({
               groupId={group.id}
               toggle={toggleBatchAllocationModal}
               history={history}
-              onConfirm={onBatchAllocation}
+              onConfirm={onBatchAllocate}
             />
           )
         }
@@ -281,7 +281,7 @@ const GroupDetails = ({
 };
 
 GroupDetails.propTypes = {
-  onBatchAllocation: PropTypes.func.isRequired,
+  onBatchAllocate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   editGroup: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,

@@ -83,7 +83,7 @@ const Ledger = () => {
       </PermissionedRoute>
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/batch-allocations`}
-        perm="ui-finance.ledger.rollover.execute" // this needs to be changed
+        perm="ui-finance.allocations.create"
         returnLink={LEDGERS_ROUTE}
         returnLinkLabelId="ui-finance.ledger"
       >

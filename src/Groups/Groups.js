@@ -4,8 +4,6 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { PermissionedRoute } from '@folio/stripes-acq-components';
-
 import { GROUPS_ROUTE } from '../common/const';
 import CheckPermission from '../common/CheckPermission';
 import { GroupsListContainer } from './GroupsList';
@@ -40,14 +38,14 @@ const Groups = () => {
           </CheckPermission>
         )}
       />
-      <PermissionedRoute
+      <Route
         path={`${GROUPS_ROUTE}/:id/batch-allocations`}
-        perm="ui-finance.group.view" // this needs to be changed
-        returnLink={GROUPS_ROUTE}
-        returnLinkLabelId="ui-finance.ledger"
-      >
-        <BatchAllocations />
-      </PermissionedRoute>
+        render={() => (
+          <CheckPermission perm="ui-finance.allocations.create">
+            <BatchAllocations />
+          </CheckPermission>
+        )}
+      />
     </Switch>
   );
 };

@@ -8,7 +8,10 @@ import {
 import { Field } from 'react-final-form';
 
 import { getFormattedOptions } from '../BatchAllocationsForm/utils';
-import { BARCH_ALLOCATION_STATUS_OPTIONS } from '../constants';
+import {
+  BARCH_ALLOCATION_STATUS_OPTIONS,
+  BATCH_ALLOCATION_FIELDS,
+} from '../constants';
 import { BUDGET_STATUSES_OPTIONS } from '../../Budget/constants';
 import css from '../BatchAllocation.css';
 
@@ -23,7 +26,7 @@ export const useBatchAllocationColumnValues = (intl) => {
           <FieldSelectFinal
             dataOptions={fundStatusOptions}
             fullWidth
-            name={`budgetsFunds.${rowIndex}.fundStatus`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
           />
         </div>
       );
@@ -34,7 +37,7 @@ export const useBatchAllocationColumnValues = (intl) => {
           <FieldSelectFinal
             dataOptions={budgetStatusOptions}
             fullWidth
-            name={`budgetsFunds.${rowIndex}.budgetStatus`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
           />
         </div>
       );
@@ -44,7 +47,7 @@ export const useBatchAllocationColumnValues = (intl) => {
         <div className={css.field}>
           <Field
             component={TextField}
-            name={`budgetsFunds.${rowIndex}.allocationIncreaseDecrease`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease}`}
             type="number"
             required
             placeholder="0.00"
@@ -57,7 +60,7 @@ export const useBatchAllocationColumnValues = (intl) => {
         <div className={css.field}>
           <Field
             component={TextField}
-            name={`budgetsFunds.${rowIndex}.totalAllocatedAfter`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
             type="number"
             required
             placeholder="0.00"
@@ -71,7 +74,7 @@ export const useBatchAllocationColumnValues = (intl) => {
         <div className={css.field}>
           <Field
             component={TextField}
-            name={`budgetsFunds.${rowIndex}.budgetAllowableEncumbrance`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
             type="number"
             required
             placeholder="0.00"
@@ -84,7 +87,7 @@ export const useBatchAllocationColumnValues = (intl) => {
         <div className={css.field}>
           <Field
             component={TextField}
-            name={`budgetsFunds.${rowIndex}.budgetAllowableExpenditure`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
             type="number"
             required
             placeholder="0.00"
@@ -97,7 +100,7 @@ export const useBatchAllocationColumnValues = (intl) => {
         <div className={css.field}>
           <Field
             component={TextField}
-            name={`budgetsFunds.${rowIndex}.transactionDescription`}
+            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
             type="text"
             required
             placeholder="Description"
@@ -110,7 +113,8 @@ export const useBatchAllocationColumnValues = (intl) => {
         <div className={css.tags}>
           <FieldTags
             labelless
-            name={`budgetsFunds.${rowIndex}.fundTags.tagList`} />
+            name={`budgetsFunds.${rowIndex}.fundTags.tagList`}
+          />
         </div>
       );
     },

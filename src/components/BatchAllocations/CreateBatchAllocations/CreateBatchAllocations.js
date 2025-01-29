@@ -12,9 +12,10 @@ import { TitleManager } from '@folio/stripes/core';
 import {
   LEDGERS_ROUTE,
   GROUPS_ROUTE,
+  BATCH_ALLOCATIONS_SOURCE,
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
-import { useBatchAllocation } from '../hooks';
+import { useBatchAllocation, useSourceData } from '../hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
 
 export const CreateBatchAllocations = ({ match }) => {
@@ -24,11 +25,11 @@ export const CreateBatchAllocations = ({ match }) => {
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
   const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
   const { budgetsFunds, isLoading } = useBatchAllocation(params);
-
-  const {
-    fiscalYear,
-    isLoading: isFiscalYearLoading,
-  } = useFiscalYear(fiscalYearId);
+  const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
+    BATCH_ALLOCATIONS_SOURCE.ledger :
+    BATCH_ALLOCATIONS_SOURCE.group;
+  const { data } = useSourceData(sourceType, id);
+  const { fiscalYear } = useFiscalYear(fiscalYearId);
 
   const save = useCallback(async (formValues) => {
     console.log('formValues');
@@ -57,7 +58,7 @@ export const CreateBatchAllocations = ({ match }) => {
         initialValues={{ budgetsFunds }}
         onCancel={close}
         onSubmit={save}
-        paneSub=""
+        paneSub={data.name}
         paneTitle={fiscalYear?.code}
       />
     </>

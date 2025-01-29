@@ -77,19 +77,55 @@ export const BATCH_TRANSACTION_TYPES = {
 };
 
 export const EXPORT_ALLOCATION_WORKSHEET_FIELDS = {
-  fiscalYear: 'Fiscal year',
-  fundName: 'Fund name',
-  fundCode: 'Fund code',
-  fundId: 'Fund UUID',
-  fundStatus: 'Fund status',
-  budgetName: 'Budget name',
-  budgetId: 'Budget UUID',
-  budgetStatus: 'Budget status',
-  budgetInitialAllocation: 'Budget initial allocation',
-  budgetCurrentAllocation: 'Budget current allocation',
-  budgetAllowableExpenditure: 'Budget allowable expenditure',
-  budgetAllowableEncumbrance: 'Budget allowable encumbrance',
-  allocationAdjustment: 'Allocation adjustment',
-  transactionTag: 'Transaction tag',
-  transactionDescription: 'Transaction description',
+  fiscalYear: 'fiscalYear',
+  fundName: 'fundName',
+  fundCode: 'fundCode',
+  fundId: 'fundId',
+  fundStatus: 'fundStatus',
+  budgetName: 'budgetName',
+  budgetId: 'budgetId',
+  budgetStatus: 'budgetStatus',
+  budgetInitialAllocation: 'budgetInitialAllocation',
+  budgetCurrentAllocation: 'budgetCurrentAllocation',
+  budgetAllowableExpenditure: 'budgetAllowableExpenditure',
+  budgetAllowableEncumbrance: 'budgetAllowableEncumbrance',
+  allocationAdjustment: 'allocationAdjustment',
+  transactionTag: 'transactionTag',
+  transactionDescription: 'transactionDescription',
+};
+
+export const EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS = {
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear]: 'Fiscal year',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundName]: 'Fund name',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundCode]: 'Fund code',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundId]: 'Fund UUID',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundStatus]: 'Fund status',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetName]: 'Budget name',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetId]: 'Budget UUID',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetStatus]: 'Budget status',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetInitialAllocation]: 'Budget initial allocation',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetCurrentAllocation]: 'Budget current allocation',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetAllowableExpenditure]: 'Budget allowable expenditure',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetAllowableEncumbrance]: 'Budget allowable encumbrance',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.allocationAdjustment]: 'Allocation adjustment',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.transactionTag]: 'Transaction tag',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.transactionDescription]: 'Transaction description',
+};
+
+export const ALLOCATION_WORKSHEET_REQUIRED_FIELDS = [
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundName,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundCode,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundId,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundStatus,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetName,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetId,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetStatus,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetInitialAllocation,
+];
+
+export const BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY = 'batch-allocations-upload';
+export const BATCH_ALLOCATIONS_SOURCE = {
+  ledger: 'ledger',
+  group: 'group',
 };

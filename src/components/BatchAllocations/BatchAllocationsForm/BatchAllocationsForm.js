@@ -17,11 +17,12 @@ import { useBatchAllocationColumnValues } from '../hooks';
 import { BATCH_ALLOCATION_COLUMNS } from '../constants';
 
 const BatchAllocationsForm = ({
-  fiscalYear,
   handleSubmit,
   headline,
   initialValues: { budgetsFunds },
   onCancel,
+  paneSub,
+  paneTitle,
   pristine,
   submitting,
 }) => {
@@ -79,8 +80,8 @@ const BatchAllocationsForm = ({
           footer={paneFooter}
           id="batch-allocation-form"
           onClose={closeForm}
-          paneTitle={fiscalYear.code}
-          paneSub="One-time"
+          paneTitle={paneTitle}
+          paneSub={paneSub}
         >
           <Headline
             size="large"
@@ -104,11 +105,12 @@ const BatchAllocationsForm = ({
 };
 
 BatchAllocationsForm.propTypes = {
-  fiscalYear: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,
   initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
+  paneSub: PropTypes.string.isRequired,
+  paneTitle: PropTypes.string.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
 };

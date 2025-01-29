@@ -53,11 +53,12 @@ export const CreateBatchAllocations = ({ match }) => {
     <>
       <TitleManager record="Batch Allocation" />
       <BatchAllocationsForm
-        fiscalYear={fiscalYear}
-        onSubmit={save}
+        headline={BATCH_EDIT_TITLE}
         initialValues={{ budgetsFunds }}
         onCancel={close}
-        headline={BATCH_EDIT_TITLE}
+        onSubmit={save}
+        paneSub=""
+        paneTitle={fiscalYear?.code}
       />
     </>
   );

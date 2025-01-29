@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
+  Button,
   Headline,
   MultiColumnList,
   Pane,
+  PaneFooter,
   Paneset,
 } from '@folio/stripes/components';
-import { FormFooter } from '@folio/stripes-acq-components';
 
 import { getBatchAllocationColumnMapping } from './utils';
 import { useBatchAllocationColumnValues } from '../hooks';
@@ -30,18 +31,42 @@ const BatchAllocationsForm = ({
     return getBatchAllocationColumnMapping({ intl });
   }, [intl]);
 
-  console.log('fiscalYear');
-  console.log(fiscalYear);
-
   const formatter = useBatchAllocationColumnValues(intl);
 
+  const start = (
+    <Button
+      buttonStyle="default mega"
+      onClick={closeForm}
+    >
+      <FormattedMessage id="stripes-acq-components.FormFooter.cancel" />
+    </Button>
+  );
+
+  const end = (
+    <div>
+      <Button
+        buttonStyle="default mega"
+        disabled={pristine || submitting}
+        onClick={() => {}}
+        type="submit"
+      >
+        <FormattedMessage id="ui-finance.allocation.batch.form.footer.recalculate" />
+      </Button>
+      <Button
+        buttonStyle="primary mega"
+        disabled={pristine || submitting}
+        onClick={handleSubmit}
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    </div>
+  );
+
   const paneFooter = (
-    <FormFooter
-      label={<FormattedMessage id="stripes-components.saveAndClose" />}
-      handleSubmit={handleSubmit}
-      pristine={pristine}
-      submitting={submitting}
-      onCancel={closeForm}
+    <PaneFooter
+      renderStart={start}
+      renderEnd={end}
     />
   );
 

@@ -372,6 +372,7 @@
   "invoice.unpaidInvoices.header": "FOLIO has found invoices that are not yet paid or canceled. If you are sure you want to continue with rollover click continue.",
 
   "allocation.batch.form.title.edit": "Bulk edit budgets",
+  "allocation.batch.form.footer.recalculate": "Recalculate",
   "allocation.batch.status.active": "Active",
   "allocation.batch.status.frozen": "Frozen",
   "allocation.batch.status.inactive": "Inactive",

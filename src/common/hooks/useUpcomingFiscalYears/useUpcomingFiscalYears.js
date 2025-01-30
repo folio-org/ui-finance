@@ -1,7 +1,7 @@
 import {
   useGroupUpcomingFiscalYears,
   useLedgerUpcomingFiscalYears,
-} from '../../hooks';
+} from '..';
 
 export const useUpcomingFiscalYears = ({ groupId, ledgerId }, options = {}) => {
   const useFiscalYearsHook = groupId

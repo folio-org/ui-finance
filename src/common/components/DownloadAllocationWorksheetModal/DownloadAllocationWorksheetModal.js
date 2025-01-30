@@ -20,7 +20,7 @@ import {
 
 import { EXPORT_ALLOCATION_WORKSHEET_FIELDS } from '../../const';
 import { fetchFinanceData } from '../../utils';
-import { useUpcomingFiscalYears } from './useUpcomingFiscalYears';
+import { useUpcomingFiscalYears } from '../../hooks';
 
 export const DownloadAllocationWorksheetModal = ({
   groupId,

@@ -15,7 +15,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { fetchFinanceData } from '../../utils';
 import { DownloadAllocationWorksheetModal } from './DownloadAllocationWorksheetModal';
-import { useUpcomingFiscalYears } from './useUpcomingFiscalYears';
+import { useUpcomingFiscalYears } from '../../hooks';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -28,7 +28,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
 jest.mock('../../utils', () => ({
   fetchFinanceData: jest.fn(),
 }));
-jest.mock('./useUpcomingFiscalYears', () => ({
+jest.mock('../../hooks', () => ({
   useUpcomingFiscalYears: jest.fn(),
 }));
 

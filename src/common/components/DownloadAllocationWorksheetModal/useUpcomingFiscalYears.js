@@ -3,7 +3,7 @@ import {
   useLedgerUpcomingFiscalYears,
 } from '../../hooks';
 
-export const useWorksheetFiscalYears = ({ groupId, ledgerId }, options = {}) => {
+export const useUpcomingFiscalYears = ({ groupId, ledgerId }, options = {}) => {
   const useFiscalYearsHook = groupId
     ? useGroupUpcomingFiscalYears.bind(null, groupId)
     : useLedgerUpcomingFiscalYears.bind(null, ledgerId);

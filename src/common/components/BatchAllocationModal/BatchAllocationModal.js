@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { ConfirmationModal, Loading, Selection } from '@folio/stripes/components';
 
-import { useWorksheetFiscalYears } from '../DownloadAllocationWorksheetModal/useWorksheetFiscalYears';
+import { useUpcomingFiscalYears } from '../DownloadAllocationWorksheetModal/useUpcomingFiscalYears';
 
 export const BatchAllocationModal = ({
   groupId,
@@ -21,7 +21,7 @@ export const BatchAllocationModal = ({
   const {
     isFetching: isFiscalYearsFetching,
     fiscalYears,
-  } = useWorksheetFiscalYears(
+  } = useUpcomingFiscalYears(
     { groupId, ledgerId },
     {
       enabled: open,

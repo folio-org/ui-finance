@@ -15,7 +15,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { fetchFinanceData } from '../../utils';
 import { DownloadAllocationWorksheetModal } from './DownloadAllocationWorksheetModal';
-import { useWorksheetFiscalYears } from './useWorksheetFiscalYears';
+import { useUpcomingFiscalYears } from './useUpcomingFiscalYears';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -28,8 +28,8 @@ jest.mock('@folio/stripes-acq-components', () => ({
 jest.mock('../../utils', () => ({
   fetchFinanceData: jest.fn(),
 }));
-jest.mock('./useWorksheetFiscalYears', () => ({
-  useWorksheetFiscalYears: jest.fn(),
+jest.mock('./useUpcomingFiscalYears', () => ({
+  useUpcomingFiscalYears: jest.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -50,7 +50,7 @@ describe('DownloadAllocationWorksheetModal', () => {
     fetchFinanceData.mockReturnValue(() => ({ fyFinanceData: [{ fiscalYearId: 'fy1' }] }));
     useOkapiKy.mockReturnValue(kyMock);
     useShowCallout.mockReturnValue(showCalloutMock);
-    useWorksheetFiscalYears
+    useUpcomingFiscalYears
       .mockImplementationOnce((_, options) => {
         options?.onSuccess?.({ fiscalYears });
 

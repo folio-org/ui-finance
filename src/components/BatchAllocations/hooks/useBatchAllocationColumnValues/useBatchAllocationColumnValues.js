@@ -7,13 +7,13 @@ import {
 } from '@folio/stripes-acq-components';
 import { Field } from 'react-final-form';
 
-import { getFormattedOptions } from '../BatchAllocationsForm/utils';
+import { getFormattedOptions } from '../../BatchAllocationsForm/utils';
 import {
   BARCH_ALLOCATION_STATUS_OPTIONS,
   BATCH_ALLOCATION_FIELDS,
-} from '../constants';
-import { BUDGET_STATUSES_OPTIONS } from '../../Budget/constants';
-import css from '../BatchAllocation.css';
+} from '../../constants';
+import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
+import css from '../../BatchAllocations.css';
 
 export const useBatchAllocationColumnValues = (intl) => {
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, BARCH_ALLOCATION_STATUS_OPTIONS), [intl]);

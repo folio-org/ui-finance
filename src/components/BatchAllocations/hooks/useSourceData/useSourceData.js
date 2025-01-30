@@ -9,7 +9,7 @@ import {
   LEDGERS_API,
   GROUPS_API,
   BATCH_ALLOCATIONS_SOURCE,
-} from '../../../common/const';
+} from '../../../../common/const';
 
 export const useSourceData = (source, id) => {
   const ky = useOkapiKy();

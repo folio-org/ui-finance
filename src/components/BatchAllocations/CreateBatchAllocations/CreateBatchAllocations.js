@@ -23,8 +23,8 @@ export const CreateBatchAllocations = ({ match }) => {
   const location = useLocation();
   const { id, fiscalYearId } = match.params;
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
-  const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
-  const { budgetsFunds, isLoading } = useBatchAllocation(params);
+  // const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
+  const { budgetsFunds, isLoading } = useBatchAllocation();
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
     BATCH_ALLOCATIONS_SOURCE.group;

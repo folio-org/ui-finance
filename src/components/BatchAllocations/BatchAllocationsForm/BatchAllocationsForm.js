@@ -14,7 +14,10 @@ import {
 
 import { getBatchAllocationColumnMapping } from './utils';
 import { useBatchAllocationColumnValues } from '../hooks';
-import { BATCH_ALLOCATION_COLUMNS } from '../constants';
+import {
+  BATCH_ALLOCATION_COLUMNS,
+  BATCH_ALLOCATION_FIELDS,
+} from '../constants';
 
 const BatchAllocationsForm = ({
   handleSubmit,
@@ -25,6 +28,9 @@ const BatchAllocationsForm = ({
   paneTitle,
   pristine,
   submitting,
+  sortingField,
+  sortingDirection,
+  changeSorting,
 }) => {
   const intl = useIntl();
   const closeForm = useCallback(() => onCancel(), [onCancel]);
@@ -91,12 +97,14 @@ const BatchAllocationsForm = ({
             {headline}
           </Headline>
           <MultiColumnList
-            formatter={formatter}
-            visibleColumns={BATCH_ALLOCATION_COLUMNS}
-            columnMapping={columnMapping}
             contentData={budgetsFunds}
+            columnMapping={columnMapping}
+            formatter={formatter}
             id="batch-allocation-list-item"
-            interactive={false}
+            onHeaderClick={changeSorting}
+            sortDirection={sortingDirection}
+            sortedColumn={sortingField || BATCH_ALLOCATION_FIELDS.fundName}
+            visibleColumns={BATCH_ALLOCATION_COLUMNS}
           />
         </Pane>
       </Paneset>
@@ -105,6 +113,7 @@ const BatchAllocationsForm = ({
 };
 
 BatchAllocationsForm.propTypes = {
+  changeSorting: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,
   initialValues: PropTypes.object,
@@ -112,6 +121,8 @@ BatchAllocationsForm.propTypes = {
   paneSub: PropTypes.string.isRequired,
   paneTitle: PropTypes.string.isRequired,
   pristine: PropTypes.bool.isRequired,
+  sortingField: PropTypes.string,
+  sortingDirection: PropTypes.string,
   submitting: PropTypes.bool.isRequired,
 };
 

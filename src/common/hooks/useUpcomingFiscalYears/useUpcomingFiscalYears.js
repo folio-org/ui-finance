@@ -1,5 +1,5 @@
-import useGroupUpcomingFiscalYears from '../useGroupUpcomingFiscalYears';
-import useLedgerUpcomingFiscalYears from '../useLedgerUpcomingFiscalYears';
+import { useGroupUpcomingFiscalYears } from '../useGroupUpcomingFiscalYears';
+import { useLedgerUpcomingFiscalYears } from '../useLedgerUpcomingFiscalYears';
 
 export const useUpcomingFiscalYears = ({ groupId, ledgerId }, options = {}) => {
   const useFiscalYearsHook = groupId

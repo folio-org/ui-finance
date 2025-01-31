@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import noop from 'lodash/noop';
+import React, { useCallback, useEffect } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
@@ -8,6 +9,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
+import { useLocationSorting } from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
@@ -17,19 +19,36 @@ import {
 import { useFiscalYear } from '../../../common/hooks';
 import { useBatchAllocation, useSourceData } from '../hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
+import {
+  BATCH_ALLOCATION_FIELDS,
+  BATCH_ALLOCATION_SORTABLE_FIELDS,
+} from '../constants';
 
 export const CreateBatchAllocations = ({ match }) => {
   const history = useHistory();
   const location = useLocation();
   const { id, fiscalYearId } = match.params;
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
-  // const params = { query: `fiscalYearId=="${fiscalYearId}" and ${type}=="${id}"` };
-  const { budgetsFunds, isLoading } = useBatchAllocation();
+  const [
+    changeSorting,
+    sortingDirection,
+    sortingField,
+  ] = useLocationSorting(location, history, noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
+  const params = {
+    query: `(fiscalYearId=="${fiscalYearId}" and ${type}=="${id}") 
+            sortby ${sortingField || BATCH_ALLOCATION_FIELDS.fundName}/sort.${sortingDirection || 'ascending'}`,
+  };
+  const { budgetsFunds, isLoading, refetch } = useBatchAllocation(params);
+
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
     BATCH_ALLOCATIONS_SOURCE.group;
   const { data } = useSourceData(sourceType, id);
   const { fiscalYear } = useFiscalYear(fiscalYearId);
+
+  useEffect(() => {
+    refetch();
+  }, [sortingField, sortingDirection, refetch]);
 
   const save = useCallback(async (formValues) => {
     console.log('formValues');
@@ -54,12 +73,16 @@ export const CreateBatchAllocations = ({ match }) => {
     <>
       <TitleManager record="Batch Allocation" />
       <BatchAllocationsForm
+        changeSorting={changeSorting}
         headline={BATCH_EDIT_TITLE}
         initialValues={{ budgetsFunds }}
         onCancel={close}
         onSubmit={save}
         paneSub={data.name}
         paneTitle={fiscalYear?.code}
+        resetData={refetch}
+        sortingDirection={sortingDirection}
+        sortingField={sortingField}
       />
     </>
   );

@@ -16,9 +16,9 @@ import { useUpcomingFiscalYears } from '../../hooks';
 export const BatchAllocationModal = ({
   groupId,
   ledgerId,
+  onConfirm,
   open,
   toggle,
-  onConfirm,
 }) => {
   const [selectedFiscalYear, setSelectedFiscalYear] = useState();
 
@@ -63,7 +63,7 @@ export const BatchAllocationModal = ({
 BatchAllocationModal.propTypes = {
   groupId: PropTypes.string,
   ledgerId: PropTypes.string,
+  onConfirm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
 };

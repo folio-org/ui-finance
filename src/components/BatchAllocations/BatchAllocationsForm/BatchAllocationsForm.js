@@ -1,6 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
@@ -12,12 +15,12 @@ import {
   Paneset,
 } from '@folio/stripes/components';
 
-import { getBatchAllocationColumnMapping } from './utils';
 import { useBatchAllocationColumnValues } from '../hooks';
 import {
   BATCH_ALLOCATION_COLUMNS,
   BATCH_ALLOCATION_FIELDS,
 } from '../constants';
+import { getBatchAllocationColumnMapping } from './utils';
 
 const BatchAllocationsForm = ({
   handleSubmit,

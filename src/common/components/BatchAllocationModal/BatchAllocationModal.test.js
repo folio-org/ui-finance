@@ -1,8 +1,13 @@
 /* Developed collaboratively using AI (Chat GPT) */
 
-import { render, screen, fireEvent } from '@folio/jest-config-stripes/testing-library/react';
-import { BatchAllocationModal } from './BatchAllocationModal';
+import {
+  fireEvent,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
+
 import { useUpcomingFiscalYears } from '../../hooks';
+import { BatchAllocationModal } from './BatchAllocationModal';
 
 jest.mock('../../hooks', () => ({
   useUpcomingFiscalYears: jest.fn(),

@@ -1,18 +1,19 @@
 import { useMemo } from 'react';
+import { Field } from 'react-final-form';
 
 import { TextField } from '@folio/stripes/components';
 import {
   FieldSelectFinal,
   FieldTags,
 } from '@folio/stripes-acq-components';
-import { Field } from 'react-final-form';
 
 import { getFormattedOptions } from '../../BatchAllocationsForm/utils';
 import {
-  BARCH_ALLOCATION_STATUS_OPTIONS,
   BATCH_ALLOCATION_FIELDS,
+  BARCH_ALLOCATION_STATUS_OPTIONS,
 } from '../../constants';
 import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
+
 import css from '../../BatchAllocations.css';
 
 export const useBatchAllocationColumnValues = (intl) => {

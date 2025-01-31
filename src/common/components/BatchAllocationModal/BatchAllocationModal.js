@@ -1,11 +1,15 @@
+import PropTypes from 'prop-types';
 import {
   useMemo,
   useState,
 } from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { ConfirmationModal, Loading, Selection } from '@folio/stripes/components';
+import {
+  ConfirmationModal,
+  Loading,
+  Selection,
+} from '@folio/stripes/components';
 
 import { useUpcomingFiscalYears } from '../../hooks';
 

@@ -1,11 +1,11 @@
 import noop from 'lodash/noop';
 import React, { useCallback, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
@@ -17,12 +17,12 @@ import {
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
-import { useBatchAllocation, useSourceData } from '../hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
 import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_SORTABLE_FIELDS,
 } from '../constants';
+import { useBatchAllocation, useSourceData } from '../hooks';
 
 export const CreateBatchAllocations = ({ match }) => {
   const history = useHistory();

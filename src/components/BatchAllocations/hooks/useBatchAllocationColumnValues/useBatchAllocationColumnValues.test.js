@@ -2,8 +2,8 @@
 
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
-import { useBatchAllocationColumnValues } from './useBatchAllocationColumnValues';
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
+import { useBatchAllocationColumnValues } from './useBatchAllocationColumnValues';
 
 describe('useBatchAllocationColumnValues', () => {
   const mockIntl = { formatMessage: jest.fn() };

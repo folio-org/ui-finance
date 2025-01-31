@@ -19,8 +19,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { EXPORT_ALLOCATION_WORKSHEET_FIELDS } from '../../const';
-import { fetchFinanceData } from '../../utils';
 import { useUpcomingFiscalYears } from '../../hooks';
+import { fetchFinanceData } from '../../utils';
 
 export const DownloadAllocationWorksheetModal = ({
   groupId,

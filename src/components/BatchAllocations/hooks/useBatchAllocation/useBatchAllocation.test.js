@@ -6,8 +6,8 @@ import {
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { useBatchAllocation } from './useBatchAllocation';
 import { FINANCE_DATA_API } from '../../../../common/const';
+import { useBatchAllocation } from './useBatchAllocation';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (

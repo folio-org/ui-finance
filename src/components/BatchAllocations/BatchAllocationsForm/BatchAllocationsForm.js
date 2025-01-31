@@ -121,8 +121,8 @@ BatchAllocationsForm.propTypes = {
   paneSub: PropTypes.string.isRequired,
   paneTitle: PropTypes.string.isRequired,
   pristine: PropTypes.bool.isRequired,
-  sortingField: PropTypes.string,
-  sortingDirection: PropTypes.string,
+  sortingField: PropTypes.string.isRequired,
+  sortingDirection: PropTypes.string.isRequired,
   submitting: PropTypes.bool.isRequired,
 };
 

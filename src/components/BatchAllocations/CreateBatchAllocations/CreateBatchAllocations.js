@@ -30,9 +30,9 @@ export const CreateBatchAllocations = ({ match }) => {
   const { id, fiscalYearId } = match.params;
   const type = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
   const [
-    changeSorting,
-    sortingDirection,
     sortingField,
+    sortingDirection,
+    changeSorting,
   ] = useLocationSorting(location, history, noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
   const params = {
     query: `(fiscalYearId=="${fiscalYearId}" and ${type}=="${id}") 

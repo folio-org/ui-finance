@@ -43,7 +43,7 @@ const renderComponent = (props = defaultProps) => render(
 
 describe('CreateBatchAllocations', () => {
   beforeEach(() => {
-    useBatchAllocation.mockReturnValue({ budgetsFunds: [], isLoading: false });
+    useBatchAllocation.mockReturnValue({ budgetsFunds: [], isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useBatchAllocationColumnValues.mockReturnValue(BATCH_ALLOCATION_FIELDS);

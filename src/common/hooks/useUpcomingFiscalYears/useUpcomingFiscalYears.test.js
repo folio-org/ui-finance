@@ -1,18 +1,18 @@
 /* Developed collaboratively using AI (Chat GPT) */
 
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
-import useGroupUpcomingFiscalYears from '../useGroupUpcomingFiscalYears';
-import useLedgerUpcomingFiscalYears from '../useLedgerUpcomingFiscalYears';
+import { useGroupUpcomingFiscalYears } from '../useGroupUpcomingFiscalYears';
+import { useLedgerUpcomingFiscalYears } from '../useLedgerUpcomingFiscalYears';
 import { useUpcomingFiscalYears } from './useUpcomingFiscalYears';
 
 jest.mock('../useGroupUpcomingFiscalYears', () => ({
   __esModule: true,
-  default: jest.fn(),
+  useGroupUpcomingFiscalYears: jest.fn(),
 }));
 
 jest.mock('../useLedgerUpcomingFiscalYears', () => ({
   __esModule: true,
-  default: jest.fn(),
+  useLedgerUpcomingFiscalYears: jest.fn(),
 }));
 
 describe('useUpcomingFiscalYears', () => {

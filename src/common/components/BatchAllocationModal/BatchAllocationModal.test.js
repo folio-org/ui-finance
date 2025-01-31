@@ -31,10 +31,10 @@ jest.mock('@folio/stripes/components', () => ({
   ) : null),
   Selection: ({ label, dataOptions, value, onChange, disabled }) => (
     <div>
-      <label>{label}</label>
-      <select data-testid="selection" value={value} onChange={(e) => onChange(e.target.value)} disabled={disabled}>
-        {dataOptions.map(({ label, value }) => (
-          <option key={value} value={value}>{label}</option>
+      <label htmlFor="selection">{label}</label>
+      <select id="selection" data-testid="selection" value={value} onChange={(e) => onChange(e.target.value)} disabled={disabled}>
+        {dataOptions.map(({ label: optionLabel, value: optionValue }) => (
+          <option key={optionValue} value={optionValue}>{optionLabel}</option>
         ))}
       </select>
     </div>

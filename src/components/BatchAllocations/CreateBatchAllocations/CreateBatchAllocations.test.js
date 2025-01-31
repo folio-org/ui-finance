@@ -49,7 +49,7 @@ describe('CreateBatchAllocations', () => {
     useBatchAllocationColumnValues.mockReturnValue(BATCH_ALLOCATION_FIELDS);
   });
 
-  it('renders pages headline Bulk edit budgets', () => {
+  it('renders pages headline Batch edit budgets', () => {
     renderComponent();
 
     expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();

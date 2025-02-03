@@ -37,6 +37,7 @@ import {
 import FinancialSummary from '../../common/FinancialSummary';
 import {
   AllocationToolsMenuSection,
+  BatchAllocationModal,
   DownloadAllocationWorksheetModal,
   UploadAllocationWorksheetModal,
 } from '../../common/components';
@@ -64,10 +65,12 @@ const GroupDetails = ({
   onSelectFY,
   onAddFundToGroup,
   onRemoveFundFromGroup,
+  onBatchAllocate,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
   const [isUploadAllocationWorksheetModalOpen, toggleUploadAllocationWorksheetModal] = useModalToggle();
+  const [isBatchAllocationModal, toggleBatchAllocationModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -107,6 +110,10 @@ const GroupDetails = ({
               onToggle();
               toggleUploadAllocationWorksheetModal();
             }}
+            onBatchAllocate={() => {
+              onToggle();
+              toggleBatchAllocationModal();
+            }}
           />
         </>
       );
@@ -116,6 +123,7 @@ const GroupDetails = ({
       isRestrictionsLoading,
       restrictions.protectUpdate,
       restrictions.protectDelete,
+      toggleBatchAllocationModal,
       toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
       toggleUploadAllocationWorksheetModal,
@@ -275,12 +283,24 @@ const GroupDetails = ({
             />
           )
         }
+        {
+          isBatchAllocationModal && (
+            <BatchAllocationModal
+              open
+              groupId={group.id}
+              toggle={toggleBatchAllocationModal}
+              history={history}
+              onConfirm={onBatchAllocate}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );
 };
 
 GroupDetails.propTypes = {
+  onBatchAllocate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   editGroup: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,

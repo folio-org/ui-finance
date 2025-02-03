@@ -13,11 +13,11 @@ export const BatchAllocations = () => {
   return (
     <Switch>
       <Route
-        path={`${match.path}/create/:fiscalYearId/:sourceType`}
+        path={`${match.path}/create/:fiscalYearId`}
         component={CreateBatchAllocations}
       />
       <Route
-        path={`${match.path}/upload/:fiscalYearId/:sourceType`}
+        path={`${match.path}/upload/:fiscalYearId`}
         component={UploadBatchAllocations}
       />
     </Switch>

@@ -10,3 +10,4 @@ export { useLedgerUpcomingFiscalYears } from './useLedgerUpcomingFiscalYears';
 export { useOrder } from './useOrder';
 export { useResultsPageTitle } from './useResultsPageTitle';
 export { useSelectedRow } from './useSelectedRow';
+export { useUpcomingFiscalYears } from './useUpcomingFiscalYears';

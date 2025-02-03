@@ -5,6 +5,7 @@
 * Replace deprecated transaction API. Refs UIF-519.
 * Implement action for download allocation worksheet. Refs UIF-526.
 * Implement action for upload allocation worksheet. Refs UIF-529.
+* Create screen for batch allocation of funds. Refs UIF-527.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

@@ -1,0 +1,11 @@
+.select select,
+.field [class*="formControl"],
+.tags [class*="multiSelectControl"] {
+  margin-bottom: 0;
+}
+
+.select,
+.field,
+.tags {
+  width: 100%;
+}

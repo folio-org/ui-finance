@@ -20,7 +20,7 @@ import {
 
 import { EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS } from '../../const';
 import { fetchFinanceData } from '../../utils';
-import { useWorksheetFiscalYears } from './useWorksheetFiscalYears';
+import { useUpcomingFiscalYears } from '../../hooks';
 
 export const DownloadAllocationWorksheetModal = ({
   groupId,
@@ -36,7 +36,7 @@ export const DownloadAllocationWorksheetModal = ({
   const {
     isFetching: isFiscalYearsFetching,
     fiscalYears,
-  } = useWorksheetFiscalYears(
+  } = useUpcomingFiscalYears(
     { groupId, ledgerId },
     {
       enabled: open,

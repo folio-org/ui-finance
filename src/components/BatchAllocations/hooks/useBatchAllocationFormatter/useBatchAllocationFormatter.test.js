@@ -3,13 +3,13 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
-import { useBatchAllocationColumnValues } from './useBatchAllocationColumnValues';
+import { useBatchAllocationFormatter } from './useBatchAllocationFormatter';
 
-describe('useBatchAllocationColumnValues', () => {
+describe('useBatchAllocationFormatter', () => {
   const mockIntl = { formatMessage: jest.fn() };
 
   it('should return the expected column components', () => {
-    const { result } = renderHook(() => useBatchAllocationColumnValues(mockIntl));
+    const { result } = renderHook(() => useBatchAllocationFormatter(mockIntl));
 
     expect(result.current).toHaveProperty('fundStatus');
     expect(result.current).toHaveProperty('budgetStatus');
@@ -22,7 +22,7 @@ describe('useBatchAllocationColumnValues', () => {
   });
 
   it('should return correct field names for budget status', () => {
-    const { result } = renderHook(() => useBatchAllocationColumnValues(mockIntl));
+    const { result } = renderHook(() => useBatchAllocationFormatter(mockIntl));
 
     const budgetStatusComponent = result.current.budgetStatus({ rowIndex: 1 });
 
@@ -31,7 +31,7 @@ describe('useBatchAllocationColumnValues', () => {
   });
 
   it('should return correct field names for fund status', () => {
-    const { result } = renderHook(() => useBatchAllocationColumnValues(mockIntl));
+    const { result } = renderHook(() => useBatchAllocationFormatter(mockIntl));
 
     const fundStatusComponent = result.current.fundStatus({ rowIndex: 2 });
 
@@ -40,7 +40,7 @@ describe('useBatchAllocationColumnValues', () => {
   });
 
   it('should return correct field names for transaction description', () => {
-    const { result } = renderHook(() => useBatchAllocationColumnValues(mockIntl));
+    const { result } = renderHook(() => useBatchAllocationFormatter(mockIntl));
 
     const transactionDescriptionComponent = result.current.transactionDescription({ rowIndex: 0 });
 

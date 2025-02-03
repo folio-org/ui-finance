@@ -15,7 +15,7 @@ import {
   Paneset,
 } from '@folio/stripes/components';
 
-import { useBatchAllocationColumnValues } from '../hooks';
+import { useBatchAllocationFormatter } from '../hooks';
 import {
   BATCH_ALLOCATION_COLUMNS,
   BATCH_ALLOCATION_FIELDS,
@@ -41,7 +41,7 @@ const BatchAllocationsForm = ({
     return getBatchAllocationColumnMapping({ intl });
   }, [intl]);
 
-  const formatter = useBatchAllocationColumnValues(intl);
+  const formatter = useBatchAllocationFormatter(intl);
 
   const start = (
     <Button

@@ -7,7 +7,7 @@ import { useFiscalYear } from '../../../common/hooks';
 import {
   useSourceData,
   useBatchAllocation,
-  useBatchAllocationColumnValues,
+  useBatchAllocationFormatter,
 } from '../hooks';
 import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
@@ -15,7 +15,7 @@ import { CreateBatchAllocations } from './CreateBatchAllocations';
 jest.mock('../hooks', () => ({
   useSourceData: jest.fn(),
   useBatchAllocation: jest.fn(),
-  useBatchAllocationColumnValues: jest.fn(),
+  useBatchAllocationFormatter: jest.fn(),
 }));
 jest.mock('../../../common/hooks', () => ({
   useFiscalYear: jest.fn(),
@@ -46,7 +46,7 @@ describe('CreateBatchAllocations', () => {
     useBatchAllocation.mockReturnValue({ budgetsFunds: [], isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
-    useBatchAllocationColumnValues.mockReturnValue(BATCH_ALLOCATION_FIELDS);
+    useBatchAllocationFormatter.mockReturnValue(BATCH_ALLOCATION_FIELDS);
   });
 
   it('renders pages headline Batch edit budgets', () => {

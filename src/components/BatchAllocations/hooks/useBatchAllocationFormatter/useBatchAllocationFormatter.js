@@ -16,7 +16,7 @@ import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
 
 import css from '../../BatchAllocations.css';
 
-export const useBatchAllocationColumnValues = (intl) => {
+export const useBatchAllocationFormatter = (intl) => {
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, BARCH_ALLOCATION_STATUS_OPTIONS), [intl]);
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
 

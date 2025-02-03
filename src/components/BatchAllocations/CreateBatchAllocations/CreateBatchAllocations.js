@@ -38,7 +38,7 @@ export const CreateBatchAllocations = ({ match }) => {
     query: `(fiscalYearId=="${fiscalYearId}" and ${type}=="${id}") 
             sortby ${sortingField || BATCH_ALLOCATION_FIELDS.fundName}/sort.${sortingDirection || 'ascending'}`,
   };
-  const { budgetsFunds, isLoading, refetch } = useBatchAllocation(params);
+  const { budgetsFunds, isLoading } = useBatchAllocation(params);
 
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
@@ -73,7 +73,6 @@ export const CreateBatchAllocations = ({ match }) => {
         onSubmit={save}
         paneSub={data.name}
         paneTitle={fiscalYear?.code}
-        resetData={refetch}
         sortingDirection={sortingDirection}
         sortingField={sortingField}
       />

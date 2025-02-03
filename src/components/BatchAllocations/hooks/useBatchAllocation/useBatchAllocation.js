@@ -34,7 +34,6 @@ export const useBatchAllocation = (params = {}, options = {}) => {
     data,
     isFetching,
     isLoading,
-    refetch,
   } = useQuery({
     queryKey: [namespace, query, limit],
     queryFn: ({ signal }) => ky.get(FINANCE_DATA_API, { searchParams, signal }).json(),
@@ -47,6 +46,5 @@ export const useBatchAllocation = (params = {}, options = {}) => {
     totalRecords: data?.totalRecords,
     isFetching,
     isLoading,
-    refetch,
   });
 };

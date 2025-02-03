@@ -36,7 +36,7 @@ export const useBatchAllocation = (params = {}, options = {}) => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: [namespace],
+    queryKey: [namespace, query, limit],
     queryFn: ({ signal }) => ky.get(FINANCE_DATA_API, { searchParams, signal }).json(),
     enabled,
     ...queryOptions,

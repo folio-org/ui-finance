@@ -46,10 +46,6 @@ export const CreateBatchAllocations = ({ match }) => {
   const { data } = useSourceData(sourceType, id);
   const { fiscalYear } = useFiscalYear(fiscalYearId);
 
-  useEffect(() => {
-    refetch();
-  }, [sortingField, sortingDirection, refetch]);
-
   const save = useCallback(async (formValues) => {
     console.log('formValues');
     console.log(formValues);

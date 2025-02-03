@@ -8,7 +8,10 @@ import {
 } from 'react-router-dom';
 
 import { LoadingView } from '@folio/stripes/components';
-import { TitleManager } from '@folio/stripes/core';
+import {
+  IntlConsumer,
+  TitleManager,
+} from '@folio/stripes/core';
 import { useLocationSorting } from '@folio/stripes-acq-components';
 
 import {
@@ -64,7 +67,9 @@ export const CreateBatchAllocations = ({ match }) => {
 
   return (
     <>
-      <TitleManager record="Batch Allocation" />
+      <IntlConsumer>
+        {intl => <TitleManager record={intl.formatMessage({ id: 'ui-finance.actions.allocations.batch' })} />}
+      </IntlConsumer>
       <BatchAllocationsForm
         changeSorting={changeSorting}
         headline={BATCH_EDIT_TITLE}

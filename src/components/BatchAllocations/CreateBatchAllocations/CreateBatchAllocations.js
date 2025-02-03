@@ -55,15 +55,12 @@ export const CreateBatchAllocations = ({ match }) => {
     console.log(formValues);
   }, []);
 
-  const close = useCallback(
-    () => {
-      history.push({
-        pathname: `${type === 'ledgerId' ? LEDGERS_ROUTE : GROUPS_ROUTE}/${id}/view`,
-        search: location.search,
-      });
-    },
-    [history, location.search, id, type],
-  );
+  const close = useCallback(() => {
+    history.push({
+      pathname: `${type === 'ledgerId' ? LEDGERS_ROUTE : GROUPS_ROUTE}/${id}/view`,
+      search: location.search,
+    });
+  }, [history, location.search, id, type]);
 
   const BATCH_EDIT_TITLE = <FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />;
 

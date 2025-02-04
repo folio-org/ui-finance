@@ -39,11 +39,11 @@ export const BatchAllocationModal = ({
 
   const message = (
     <Selection
-      label={<><FormattedMessage id="ui-finance.fiscalyear" /> {isFiscalYearsFetching && <Loading />}</>}
       dataOptions={dataOptions}
-      value={selectedFiscalYear}
-      onChange={setSelectedFiscalYear}
       disabled={isFiscalYearsFetching}
+      label={<><FormattedMessage id="ui-finance.fiscalyear" /> {isFiscalYearsFetching && <Loading />}</>}
+      onChange={setSelectedFiscalYear}
+      value={selectedFiscalYear}
     />
   );
 

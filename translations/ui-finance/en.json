@@ -500,10 +500,11 @@
 
   "batchAllocations.uploadWorksheet.modal.heading": "Upload worksheet",
   "batchAllocations.uploadWorksheet.modal.message": "Please choose a budget worksheet to upload",
-  "batchAllocations.uploadWorksheet.validation.error.invalidFileType": "Invalid file type. Only <code>.csv</code> files are allowed.",
   "batchAllocations.uploadWorksheet.validation.error.emptyFile": "File has no rows.",
-  "batchAllocations.uploadWorksheet.validation.error.requiredHeaders": "Missing required headers: <code>{headers}</code>",
+  "batchAllocations.uploadWorksheet.validation.error.fiscalYearNotResolved": "Could not determine the fiscal year from the uploaded file.",
   "batchAllocations.uploadWorksheet.validation.error.inconsistentField": "Inconsistent values found in field: <code>{field}</code>. All rows must have the same value.",
+  "batchAllocations.uploadWorksheet.validation.error.invalidFileType": "Invalid file type. Only <code>.csv</code> files are allowed.",
+  "batchAllocations.uploadWorksheet.validation.error.requiredHeaders": "Missing required headers: <code>{headers}</code>",
   "batchAllocations.upload.error.notFound": "Could not find the file to upload. Please try to upload the file again.",
 
   "actions.edit": "Edit",

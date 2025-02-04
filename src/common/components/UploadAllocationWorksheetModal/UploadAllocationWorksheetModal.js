@@ -10,6 +10,7 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
   BATCH_ALLOCATIONS_SOURCE,
@@ -48,6 +49,7 @@ export const UploadAllocationWorksheetModal = ({
 
   const ky = useOkapiKy();
   const [storageKey] = useNamespace({ key: BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY });
+  const showCallout = useShowCallout();
 
   const onSubmit = async ({ file }) => {
     const { data, fileName } = file;
@@ -55,6 +57,11 @@ export const UploadAllocationWorksheetModal = ({
     const fiscalYearId = await resolveFiscalYearId(ky)(data);
 
     if (!fiscalYearId) {
+      showCallout({
+        messageId: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.fiscalYearNotResolved',
+        type: 'error',
+      });
+
       return;
     }
 

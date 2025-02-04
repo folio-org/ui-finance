@@ -4,11 +4,11 @@ import {
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
 } from '../../../const';
 
-const composeValidators = (...validators) => (value) => {
+export const composeValidators = (...validators) => (value) => {
   return validators.reduce((error, validator) => error || validator(value), undefined);
 };
 
-const isCsvFile = ({ intl }) => ({ fileName }) => {
+export const isCsvFile = ({ intl }) => ({ fileName }) => {
   if (!fileName.endsWith('.csv')) {
     return intl.formatMessage({ id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.invalidFileType' });
   }
@@ -16,7 +16,7 @@ const isCsvFile = ({ intl }) => ({ fileName }) => {
   return undefined;
 };
 
-const hasRows = ({ intl }) => ({ data }) => {
+export const hasRows = ({ intl }) => ({ data }) => {
   if (!Array.isArray(data) || data.length === 0) {
     return intl.formatMessage({ id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.emptyFile' });
   }
@@ -24,7 +24,7 @@ const hasRows = ({ intl }) => ({ data }) => {
   return undefined;
 };
 
-const hasRequiredHeaders = ({ intl, requiredHeaders }) => ({ data }) => {
+export const hasRequiredHeaders = ({ intl, requiredHeaders }) => ({ data }) => {
   const fileHeaders = Object.keys(data[0] || {});
   const missingHeaders = (
     requiredHeaders
@@ -42,7 +42,7 @@ const hasRequiredHeaders = ({ intl, requiredHeaders }) => ({ data }) => {
   return undefined;
 };
 
-const hasConsistentFieldValues = ({ intl, fields }) => ({ data }) => {
+export const hasConsistentFieldValues = ({ intl, fields }) => ({ data }) => {
   if (!Array.isArray(data) || data.length === 0) {
     return undefined;
   }

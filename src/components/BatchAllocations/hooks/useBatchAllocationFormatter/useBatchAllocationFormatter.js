@@ -12,8 +12,6 @@ import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
 import { getFormattedOptions } from '../../BatchAllocationsForm/utils';
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
 
-import css from '../../BatchAllocations.css';
-
 export const useBatchAllocationFormatter = (intl) => {
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
@@ -107,14 +105,12 @@ export const useBatchAllocationFormatter = (intl) => {
     },
     fundTags: ({ rowIndex }) => {
       return (
-        <div className={css.tags}>
-          <FieldTags
-            fullWidth
-            labelless
-            marginBottom0
-            name={`budgetsFunds.${rowIndex}.fundTags.tagList`}
-          />
-        </div>
+        <FieldTags
+          fullWidth
+          labelless
+          marginBottom0
+          name={`budgetsFunds.${rowIndex}.fundTags.tagList`}
+        />
       );
     },
   };

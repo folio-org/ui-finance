@@ -13,6 +13,7 @@ import {
   LEDGERS_ROUTE,
   LEDGER_ROLLOVER_SETTINGS_ROUTE,
 } from '../common/const';
+import { BatchAllocations } from '../components';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';
@@ -20,7 +21,6 @@ import { LedgerListContainer } from './LedgerList';
 import RolloverLedgerContainer, { RolloverLedgerView } from './RolloverLedger';
 import RolloverLedgerCreateFiscalYear from './RolloverLedgerCreateFiscalYear';
 import { RolloverLogs } from './RolloverLogs';
-import { BatchAllocations } from '../components';
 
 const Ledger = () => {
   return (

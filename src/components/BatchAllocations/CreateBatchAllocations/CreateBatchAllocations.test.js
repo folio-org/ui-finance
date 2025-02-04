@@ -1,15 +1,18 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import { useFiscalYear } from '../../../common/hooks';
+import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import {
   useSourceData,
   useBatchAllocation,
   useBatchAllocationFormatter,
 } from '../hooks';
-import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
 jest.mock('../hooks', () => ({

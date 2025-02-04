@@ -3,7 +3,10 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { FINANCE_DATA_API } from '../../../../common/const';

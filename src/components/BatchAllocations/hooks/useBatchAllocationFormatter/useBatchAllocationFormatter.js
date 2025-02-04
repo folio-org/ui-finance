@@ -21,97 +21,97 @@ export const useBatchAllocationFormatter = (intl) => {
   return {
     fundStatus: ({ rowIndex }) => {
       return (
-        <div className={css.select}>
-          <FieldSelectFinal
-            dataOptions={fundStatusOptions}
-            fullWidth
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
-          />
-        </div>
+        <FieldSelectFinal
+          dataOptions={fundStatusOptions}
+          fullWidth
+          marginBottom0
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+        />
       );
     },
     budgetStatus: ({ rowIndex }) => {
       return (
-        <div className={css.select}>
-          <FieldSelectFinal
-            dataOptions={budgetStatusOptions}
-            fullWidth
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
-          />
-        </div>
+        <FieldSelectFinal
+          dataOptions={budgetStatusOptions}
+          fullWidth
+          marginBottom0
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+        />
       );
     },
     allocationIncreaseDecrease: ({ rowIndex }) => {
       return (
-        <div className={css.field}>
-          <Field
-            component={TextField}
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease}`}
-            type="number"
-            required
-            placeholder="0.00"
-          />
-        </div>
+        <Field
+          fullWidth
+          marginBottom0
+          component={TextField}
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease}`}
+          type="number"
+          required
+          placeholder="0.00"
+        />
       );
     },
     totalAllocatedAfter: ({ rowIndex }) => {
       return (
-        <div className={css.field}>
-          <Field
-            component={TextField}
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
-            type="number"
-            required
-            placeholder="0.00"
-            disabled
-          />
-        </div>
+        <Field
+          fullWidth
+          marginBottom0
+          component={TextField}
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
+          type="number"
+          required
+          placeholder="0.00"
+          disabled
+        />
       );
     },
     budgetAllowableEncumbrance: ({ rowIndex }) => {
       return (
-        <div className={css.field}>
-          <Field
-            component={TextField}
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-            type="number"
-            required
-            placeholder="0.00"
-          />
-        </div>
+        <Field
+          fullWidth
+          marginBottom0
+          component={TextField}
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
+          type="number"
+          required
+          placeholder="0.00"
+        />
       );
     },
     budgetAllowableExpenditure: ({ rowIndex }) => {
       return (
-        <div className={css.field}>
-          <Field
-            component={TextField}
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-            type="number"
-            required
-            placeholder="0.00"
-          />
-        </div>
+        <Field
+          fullWidth
+          marginBottom0
+          component={TextField}
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
+          type="number"
+          required
+          placeholder="0.00"
+        />
       );
     },
     transactionDescription: ({ rowIndex }) => {
       return (
-        <div className={css.field}>
-          <Field
-            component={TextField}
-            name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
-            type="text"
-            required
-            placeholder="Description"
-          />
-        </div>
+        <Field
+          fullWidth
+          marginBottom0
+          component={TextField}
+          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
+          type="text"
+          required
+          placeholder="Description"
+        />
       );
     },
     fundTags: ({ rowIndex }) => {
       return (
         <div className={css.tags}>
           <FieldTags
+            fullWidth
             labelless
+            marginBottom0
             name={`budgetsFunds.${rowIndex}.fundTags.tagList`}
           />
         </div>

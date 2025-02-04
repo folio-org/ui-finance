@@ -1,5 +1,5 @@
 import noop from 'lodash/noop';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {

@@ -40,6 +40,15 @@ const fyFinanceData = [{
   groupId: '123e4567-e89b-12d3-a456-426614174025',
   groupCode: 'GRP001',
 }];
+
+const params = {
+  fiscalYearId: '123e4567-e89b-12d3-a456-426614174004',
+  sortingDirection: 'ascending',
+  sortingField: 'fundName',
+  sourceId: '123e4567-e89b-12d3-a456-426614174015',
+  sourceType: 'ledgerId',
+};
+
 const kyMock = {
   get: jest.fn(() => ({
     json: () => Promise.resolve({ fyFinanceData }),
@@ -53,7 +62,7 @@ describe('useBatchAllocation', () => {
   });
 
   it('should return array of fyFinanceData', async () => {
-    const { result } = renderHook(() => useBatchAllocation(), { wrapper });
+    const { result } = renderHook(() => useBatchAllocation(params), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 

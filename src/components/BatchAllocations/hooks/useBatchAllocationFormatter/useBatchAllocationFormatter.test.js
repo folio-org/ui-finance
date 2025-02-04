@@ -26,7 +26,7 @@ describe('useBatchAllocationFormatter', () => {
 
     const budgetStatusComponent = result.current.budgetStatus({ rowIndex: 1 });
 
-    expect(budgetStatusComponent.props.children.props.name)
+    expect(budgetStatusComponent.props.name)
       .toBe(`budgetsFunds.1.${BATCH_ALLOCATION_FIELDS.budgetStatus}`);
   });
 
@@ -35,7 +35,7 @@ describe('useBatchAllocationFormatter', () => {
 
     const fundStatusComponent = result.current.fundStatus({ rowIndex: 2 });
 
-    expect(fundStatusComponent.props.children.props.name)
+    expect(fundStatusComponent.props.name)
       .toBe(`budgetsFunds.2.${BATCH_ALLOCATION_FIELDS.fundStatus}`);
   });
 
@@ -44,7 +44,7 @@ describe('useBatchAllocationFormatter', () => {
 
     const transactionDescriptionComponent = result.current.transactionDescription({ rowIndex: 0 });
 
-    expect(transactionDescriptionComponent.props.children.props.name)
+    expect(transactionDescriptionComponent.props.name)
       .toBe(`budgetsFunds.0.${BATCH_ALLOCATION_FIELDS.transactionDescription}`);
   });
 });

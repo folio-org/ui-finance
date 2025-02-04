@@ -20,13 +20,11 @@ export const useSourceData = (source, id) => {
     data = {},
     isFetching,
     isLoading,
-  } = useQuery(
-    [namespace, id],
-    async ({ signal }) => ky.get(`${api}/${id}`, { signal }).json(),
-    {
-      enabled: Boolean(id),
-    },
-  );
+  } = useQuery({
+    queryKey: [namespace, id, api],
+    queryFn: async ({ signal }) => ky.get(`${api}/${id}`, { signal }).json(),
+    enabled: Boolean(id),
+  });
 
   return ({
     data,

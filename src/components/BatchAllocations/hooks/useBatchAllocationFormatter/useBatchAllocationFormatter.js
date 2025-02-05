@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 import { Field } from 'react-final-form';
 
-import { TextField } from '@folio/stripes/components';
+import {
+  Col,
+  Icon,
+  Row,
+  TextField,
+  Tooltip,
+} from '@folio/stripes/components';
 import {
   FieldSelectFinal,
   FieldTags,
@@ -17,6 +23,28 @@ export const useBatchAllocationFormatter = (intl) => {
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
 
   return {
+    [BATCH_ALLOCATION_FIELDS.fundName]: (item) => {
+      return (
+        <Row>
+          <Col xs>{item.fundName}</Col>
+          {item._isMissed && (
+            <Tooltip
+              text={intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.missedFund' })}
+              id="fund-missed-tooltip"
+            >
+              {({ ref, ariaIds }) => (
+                <Icon
+                  ref={ref}
+                  aria-labelledby={ariaIds.text}
+                  icon="exclamation-circle"
+                  status="error"
+                />
+              )}
+            </Tooltip>
+          )}
+        </Row>
+      );
+    },
     fundStatus: ({ rowIndex }) => {
       return (
         <FieldSelectFinal

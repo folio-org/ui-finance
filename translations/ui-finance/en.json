@@ -373,6 +373,8 @@
 
   "allocation.batch.form.title.edit": "Batch edit budgets",
   "allocation.batch.form.footer.recalculate": "Recalculate",
+  "allocation.batch.form.validation.error.invalidFunds": "The following funds are not associated with this ledger (or group) and will NOT be updated.",
+  "allocation.batch.form.validation.error.missedFund": "Fund has not been changed and will not be updated.",
   "allocation.batch.status.active": "Active",
   "allocation.batch.status.frozen": "Frozen",
   "allocation.batch.status.inactive": "Inactive",

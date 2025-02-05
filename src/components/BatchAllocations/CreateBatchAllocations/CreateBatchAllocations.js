@@ -4,15 +4,15 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
-import { useLocationSorting } from '@folio/stripes-acq-components';
+import { useSorting } from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
@@ -33,13 +33,16 @@ export const CreateBatchAllocations = ({ match }) => {
   const intl = useIntl();
 
   const { id: sourceId, fiscalYearId } = match.params;
-  const sourceType = location.pathname.includes(LEDGERS_ROUTE) ? 'ledgerId' : 'groupId';
+
+  const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
+    BATCH_ALLOCATIONS_SOURCE.ledger :
+    BATCH_ALLOCATIONS_SOURCE.group;
 
   const [
     sortingField,
     sortingDirection,
     changeSorting,
-  ] = useLocationSorting(location, history, noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
+  ] = useSorting(noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
 
   const {
     budgetsFunds,
@@ -52,14 +55,10 @@ export const CreateBatchAllocations = ({ match }) => {
     sourceType,
   });
 
-  const source = location.pathname.includes(LEDGERS_ROUTE) ?
-    BATCH_ALLOCATIONS_SOURCE.ledger :
-    BATCH_ALLOCATIONS_SOURCE.group;
-
   const {
     data: sourceData,
     isLoading: isSourceDataLoading,
-  } = useSourceData(source, sourceId);
+  } = useSourceData(sourceType, sourceId);
 
   const {
     fiscalYear,
@@ -73,7 +72,7 @@ export const CreateBatchAllocations = ({ match }) => {
 
   const close = useCallback(() => {
     history.push({
-      pathname: `${sourceType === 'ledgerId' ? LEDGERS_ROUTE : GROUPS_ROUTE}/${sourceId}/view`,
+      pathname: `${sourceType === BATCH_ALLOCATIONS_SOURCE.ledger ? LEDGERS_ROUTE : GROUPS_ROUTE}/${sourceId}/view`,
       search: location.search,
     });
   }, [history, location.search, sourceId, sourceType]);

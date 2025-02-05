@@ -1,4 +1,5 @@
 import localforage from 'localforage';
+import noop from 'lodash/noop';
 import {
   useCallback,
   useEffect,
@@ -7,14 +8,18 @@ import {
 import {
   useHistory,
   useLocation,
-  useParams,
 } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { LoadingView } from '@folio/stripes/components';
 import {
   TitleManager,
   useNamespace,
 } from '@folio/stripes/core';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  useShowCallout,
+  useSorting,
+} from '@folio/stripes-acq-components';
 
 import {
   BATCH_ALLOCATIONS_SOURCE,
@@ -23,12 +28,15 @@ import {
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
-import { useSourceData } from '../hooks';
+import { BATCH_ALLOCATION_SORTABLE_FIELDS } from '../constants';
+import { useBatchAllocation, useSourceData } from '../hooks';
+import { buildInitialValues } from './buildInitialValues';
 
-export const UploadBatchAllocations = () => {
+export const UploadBatchAllocations = ({ match }) => {
   const history = useHistory();
   const location = useLocation();
-  const { id, fiscalYearId } = useParams();
+
+  const { id: sourceId, fiscalYearId } = match.params;
 
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
@@ -37,8 +45,14 @@ export const UploadBatchAllocations = () => {
   const showCallout = useShowCallout();
   const [storageKey] = useNamespace({ key: BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY });
 
-  const [data, setData] = useState();
-  const [isDataLoading, setIsDataLoading] = useState();
+  const [fileData, setFileData] = useState();
+  const [isFileDataLoading, setIsFileDataLoading] = useState();
+
+  const [
+    sortingField,
+    sortingDirection,
+    changeSorting,
+  ] = useSorting(noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
 
   const {
     fiscalYear,
@@ -48,12 +62,23 @@ export const UploadBatchAllocations = () => {
   const {
     data: sourceData,
     isLoading: isSourceDataLoading,
-  } = useSourceData(sourceType, id);
+  } = useSourceData(sourceType, sourceId);
+
+  const {
+    budgetsFunds: financeData,
+    isLoading: isFinanceDataLoading,
+  } = useBatchAllocation({
+    fiscalYearId,
+    sortingDirection,
+    sortingField,
+    sourceId,
+    sourceType,
+  });
 
   const backPathname = location.state?.backPathname || LEDGERS_ROUTE;
 
   useEffect(() => {
-    setIsDataLoading(true);
+    setIsFileDataLoading(true);
 
     localforage.getItem(storageKey)
       .then(async (res) => {
@@ -66,37 +91,52 @@ export const UploadBatchAllocations = () => {
           return;
         }
 
-        setData(res);
-        // await localforage.removeItem(storageKey); /* TODO: or remove after handling? */
+        setFileData(res);
       })
       .finally(() => {
-        setIsDataLoading(false);
+        setIsFileDataLoading(false);
       });
   }, [showCallout, storageKey]);
 
-  const onSubmit = useCallback((values) => {
-    console.log('values', values);
-  }, []);
+  const onSubmit = useCallback(async ({ budgetsFunds }) => {
+    console.log('budgetsFunds', budgetsFunds);
+
+    await localforage.removeItem(storageKey);
+  }, [storageKey]);
 
   const onClose = useCallback(() => {
     history.push({ pathname: backPathname });
   }, [backPathname, history]);
 
-  const initialValues = {
-    budgetsFunds: data?.data,
-  };
+  const isLoading = (
+    isFileDataLoading
+    || isFiscalYearLoading
+    || isSourceDataLoading
+    || isFinanceDataLoading
+  );
+
+  if (isLoading) return <LoadingView />;
+
+  const initialValues = buildInitialValues(fileData?.data, financeData);
 
   return (
     <>
-      <TitleManager record="Upload Allocation" />
+      <TitleManager record={fileData?.fileName} />
       <BatchAllocationsForm
-        headline={data?.fileName}
+        changeSorting={changeSorting}
+        headline={fileData?.fileName}
         initialValues={initialValues}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData?.name}
         paneTitle={fiscalYear?.code}
+        sortingDirection={sortingDirection}
+        sortingField={sortingField}
       />
     </>
   );
+};
+
+UploadBatchAllocations.propTypes = {
+  match: ReactRouterPropTypes.match.isRequired,
 };

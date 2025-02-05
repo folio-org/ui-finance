@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import { MultiColumnList } from '@folio/stripes/components';
+import { AcqEndOfList } from '@folio/stripes-acq-components';
 
 import {
   BATCH_ALLOCATION_COLUMNS,
@@ -27,15 +28,18 @@ export const BatchAllocationList = ({
   const formatter = useBatchAllocationFormatter(intl);
 
   return (
-    <MultiColumnList
-      contentData={fields.value}
-      columnMapping={columnMapping}
-      formatter={formatter}
-      onHeaderClick={onHeaderClick}
-      sortDirection={sortDirection}
-      sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
-      visibleColumns={BATCH_ALLOCATION_COLUMNS}
-    />
+    <>
+      <MultiColumnList
+        contentData={fields.value}
+        columnMapping={columnMapping}
+        formatter={formatter}
+        onHeaderClick={onHeaderClick}
+        sortDirection={sortDirection}
+        sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
+        visibleColumns={BATCH_ALLOCATION_COLUMNS}
+      />
+      <AcqEndOfList totalCount={fields.value?.length} />
+    </>
   );
 };
 

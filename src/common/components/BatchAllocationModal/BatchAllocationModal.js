@@ -1,20 +1,24 @@
+import PropTypes from 'prop-types';
 import {
   useMemo,
   useState,
 } from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { ConfirmationModal, Loading, Selection } from '@folio/stripes/components';
+import {
+  ConfirmationModal,
+  Loading,
+  Selection,
+} from '@folio/stripes/components';
 
 import { useUpcomingFiscalYears } from '../../hooks';
 
 export const BatchAllocationModal = ({
   groupId,
   ledgerId,
+  onConfirm,
   open,
   toggle,
-  onConfirm,
 }) => {
   const [selectedFiscalYear, setSelectedFiscalYear] = useState();
 
@@ -35,11 +39,11 @@ export const BatchAllocationModal = ({
 
   const message = (
     <Selection
-      label={<><FormattedMessage id="ui-finance.fiscalyear" /> {isFiscalYearsFetching && <Loading />}</>}
       dataOptions={dataOptions}
-      value={selectedFiscalYear}
-      onChange={setSelectedFiscalYear}
       disabled={isFiscalYearsFetching}
+      label={<><FormattedMessage id="ui-finance.fiscalyear" /> {isFiscalYearsFetching && <Loading />}</>}
+      onChange={setSelectedFiscalYear}
+      value={selectedFiscalYear}
     />
   );
 
@@ -59,7 +63,7 @@ export const BatchAllocationModal = ({
 BatchAllocationModal.propTypes = {
   groupId: PropTypes.string,
   ledgerId: PropTypes.string,
+  onConfirm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
 };

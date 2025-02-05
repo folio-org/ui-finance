@@ -1,24 +1,30 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { useFiscalYear } from '../../../common/hooks';
+import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import {
   useSourceData,
   useBatchAllocation,
-  useBatchAllocationColumnValues,
+  useBatchAllocationFormatter,
 } from '../hooks';
-import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
+jest.mock('../../../common/hooks', () => ({
+  useFiscalYear: jest.fn(),
+}));
 jest.mock('../hooks', () => ({
   useSourceData: jest.fn(),
   useBatchAllocation: jest.fn(),
-  useBatchAllocationColumnValues: jest.fn(),
-}));
-jest.mock('../../../common/hooks', () => ({
-  useFiscalYear: jest.fn(),
+  useBatchAllocationFormatter: jest.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -36,8 +42,11 @@ const defaultProps = {
   location: { hash: 'hash', pathname: 'pathname' },
 };
 
-const renderComponent = (props = defaultProps) => render(
-  <CreateBatchAllocations {...props} />,
+const renderComponent = (props = {}) => render(
+  <CreateBatchAllocations
+    {...defaultProps}
+    {...props}
+  />,
   { wrapper },
 );
 
@@ -46,10 +55,14 @@ describe('CreateBatchAllocations', () => {
     useBatchAllocation.mockReturnValue({ budgetsFunds: [], isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
-    useBatchAllocationColumnValues.mockReturnValue(BATCH_ALLOCATION_FIELDS);
+    useBatchAllocationFormatter.mockReturnValue(BATCH_ALLOCATION_FIELDS);
   });
 
-  it('renders pages headline Bulk edit budgets', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders pages headline Batch edit budgets', () => {
     renderComponent();
 
     expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();

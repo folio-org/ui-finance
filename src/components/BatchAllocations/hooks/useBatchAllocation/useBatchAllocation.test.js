@@ -3,11 +3,14 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { useBatchAllocation } from './useBatchAllocation';
 import { FINANCE_DATA_API } from '../../../../common/const';
+import { useBatchAllocation } from './useBatchAllocation';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
@@ -40,6 +43,15 @@ const fyFinanceData = [{
   groupId: '123e4567-e89b-12d3-a456-426614174025',
   groupCode: 'GRP001',
 }];
+
+const params = {
+  fiscalYearId: '123e4567-e89b-12d3-a456-426614174004',
+  sortingDirection: 'ascending',
+  sortingField: 'fundName',
+  sourceId: '123e4567-e89b-12d3-a456-426614174015',
+  sourceType: 'ledgerId',
+};
+
 const kyMock = {
   get: jest.fn(() => ({
     json: () => Promise.resolve({ fyFinanceData }),
@@ -53,7 +65,7 @@ describe('useBatchAllocation', () => {
   });
 
   it('should return array of fyFinanceData', async () => {
-    const { result } = renderHook(() => useBatchAllocation(), { wrapper });
+    const { result } = renderHook(() => useBatchAllocation(params), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 

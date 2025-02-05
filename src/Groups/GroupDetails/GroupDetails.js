@@ -124,6 +124,7 @@ const GroupDetails = ({
       restrictions.protectUpdate,
       restrictions.protectDelete,
       toggleBatchAllocationModal,
+      toggleRemoveConfirmation,
       toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
       toggleUploadAllocationWorksheetModal,

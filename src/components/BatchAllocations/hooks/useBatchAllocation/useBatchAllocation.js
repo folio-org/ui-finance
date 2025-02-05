@@ -7,14 +7,21 @@ import {
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
 import { FINANCE_DATA_API } from '../../../../common/const';
+import { BATCH_ALLOCATION_FIELDS } from '../../constants';
 
 const DEFAULT_DATA = [];
 
-export const useBatchAllocation = (params = {}, options = {}) => {
-  const {
-    query = '',
-    limit = LIMIT_MAX,
-  } = params;
+export const useBatchAllocation = ({
+  fiscalYearId,
+  sourceType,
+  sourceId,
+  sortingField,
+  sortingDirection,
+},
+options = {}) => {
+  const query = `(fiscalYearId=="${fiscalYearId}" and ${sourceType}=="${sourceId}") 
+                sortby ${sortingField || BATCH_ALLOCATION_FIELDS.fundName}/sort.${sortingDirection || 'ascending'}`;
+  const limit = LIMIT_MAX;
 
   const {
     enabled = true,
@@ -34,9 +41,8 @@ export const useBatchAllocation = (params = {}, options = {}) => {
     data,
     isFetching,
     isLoading,
-    refetch,
   } = useQuery({
-    queryKey: [namespace],
+    queryKey: [namespace, query, limit],
     queryFn: ({ signal }) => ky.get(FINANCE_DATA_API, { searchParams, signal }).json(),
     enabled,
     ...queryOptions,
@@ -47,6 +53,5 @@ export const useBatchAllocation = (params = {}, options = {}) => {
     totalRecords: data?.totalRecords,
     isFetching,
     isLoading,
-    refetch,
   });
 };

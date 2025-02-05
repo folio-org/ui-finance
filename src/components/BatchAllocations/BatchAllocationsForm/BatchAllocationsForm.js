@@ -1,28 +1,22 @@
-import React, { useCallback, useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
+import { FieldArray } from 'react-final-form-arrays';
+import { FormattedMessage } from 'react-intl';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Headline,
-  MultiColumnList,
   Pane,
   PaneFooter,
   Paneset,
 } from '@folio/stripes/components';
 
-import { getBatchAllocationColumnMapping } from './utils';
-import { useBatchAllocationColumnValues } from '../hooks';
-import {
-  BATCH_ALLOCATION_COLUMNS,
-  BATCH_ALLOCATION_FIELDS,
-} from '../constants';
+import { BatchAllocationList } from './BatchAllocationList';
 
 const BatchAllocationsForm = ({
   handleSubmit,
   headline,
-  initialValues: { budgetsFunds },
   onCancel,
   paneSub,
   paneTitle,
@@ -32,13 +26,7 @@ const BatchAllocationsForm = ({
   sortingDirection,
   changeSorting,
 }) => {
-  const intl = useIntl();
   const closeForm = useCallback(() => onCancel(), [onCancel]);
-  const columnMapping = useMemo(() => {
-    return getBatchAllocationColumnMapping({ intl });
-  }, [intl]);
-
-  const formatter = useBatchAllocationColumnValues(intl);
 
   const start = (
     <Button
@@ -96,15 +84,15 @@ const BatchAllocationsForm = ({
           >
             {headline}
           </Headline>
-          <MultiColumnList
-            contentData={budgetsFunds}
-            columnMapping={columnMapping}
-            formatter={formatter}
-            id="batch-allocation-list-item"
-            onHeaderClick={changeSorting}
-            sortDirection={sortingDirection}
-            sortedColumn={sortingField || BATCH_ALLOCATION_FIELDS.fundName}
-            visibleColumns={BATCH_ALLOCATION_COLUMNS}
+          <FieldArray
+            id="batch-allocation-list"
+            name="budgetsFunds"
+            component={BatchAllocationList}
+            props={{
+              onHeaderClick: changeSorting,
+              sortDirection: sortingDirection,
+              sortedColumn: sortingField,
+            }}
           />
         </Pane>
       </Paneset>
@@ -116,18 +104,13 @@ BatchAllocationsForm.propTypes = {
   changeSorting: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,
-  initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
   paneSub: PropTypes.string.isRequired,
   paneTitle: PropTypes.string.isRequired,
   pristine: PropTypes.bool.isRequired,
-  sortingField: PropTypes.string,
-  sortingDirection: PropTypes.string,
+  sortingField: PropTypes.string.isRequired,
+  sortingDirection: PropTypes.string.isRequired,
   submitting: PropTypes.bool.isRequired,
-};
-
-BatchAllocationsForm.defaultProps = {
-  initialValues: {},
 };
 
 export default stripesFinalForm({

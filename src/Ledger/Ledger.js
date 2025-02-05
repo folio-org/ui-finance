@@ -13,7 +13,7 @@ import {
   LEDGERS_ROUTE,
   LEDGER_ROLLOVER_SETTINGS_ROUTE,
 } from '../common/const';
-import { BatchAllocations } from '../components/BatchAllocations';
+import { BatchAllocations } from '../components';
 import { EditLedger } from './EditLedger';
 import { CreateLedger } from './CreateLedger';
 import { CreateLedgerFiscalYear } from './CreateLedgerFiscalYear';

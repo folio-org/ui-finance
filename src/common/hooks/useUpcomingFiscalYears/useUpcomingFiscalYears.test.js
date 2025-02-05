@@ -6,12 +6,10 @@ import { useLedgerUpcomingFiscalYears } from '../useLedgerUpcomingFiscalYears';
 import { useUpcomingFiscalYears } from './useUpcomingFiscalYears';
 
 jest.mock('../useGroupUpcomingFiscalYears', () => ({
-  __esModule: true,
   useGroupUpcomingFiscalYears: jest.fn(),
 }));
 
 jest.mock('../useLedgerUpcomingFiscalYears', () => ({
-  __esModule: true,
   useLedgerUpcomingFiscalYears: jest.fn(),
 }));
 

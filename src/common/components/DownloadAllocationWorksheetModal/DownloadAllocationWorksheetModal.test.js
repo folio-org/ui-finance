@@ -13,9 +13,9 @@ import { exportToCsv } from '@folio/stripes/components';
 import { useOkapiKy } from '@folio/stripes/core';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
+import { useUpcomingFiscalYears } from '../../hooks';
 import { fetchFinanceData } from '../../utils';
 import { DownloadAllocationWorksheetModal } from './DownloadAllocationWorksheetModal';
-import { useUpcomingFiscalYears } from '../../hooks';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),

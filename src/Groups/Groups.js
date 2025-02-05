@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Route,
   Switch,
@@ -6,11 +5,10 @@ import {
 
 import { GROUPS_ROUTE } from '../common/const';
 import CheckPermission from '../common/CheckPermission';
-import { BatchAllocations } from '../components/BatchAllocations';
+import { BatchAllocations } from '../components';
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
 import { EditGroup } from './EditGroup';
-import { BatchAllocations } from '../components/BatchAllocations';
 
 const Groups = () => {
   return (

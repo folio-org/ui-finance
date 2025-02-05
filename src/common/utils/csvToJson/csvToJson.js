@@ -1,3 +1,11 @@
+const mapRawFileRows = (row) => row.split(',').map((cell) => cell.trim());
+
+const getResultsMapper = (headers) => (row) => row.reduce((acc, value, index) => {
+  acc[headers[index]] = value;
+
+  return acc;
+}, {});
+
 export const csvToJson = async (file, options = {}) => {
   return new Promise((resolve, reject) => {
     const {
@@ -12,18 +20,14 @@ export const csvToJson = async (file, options = {}) => {
 
       const rows = text
         .split('\n')
-        .map((row) => row.split(',').map((cell) => cell.trim()));
+        .map(mapRawFileRows);
 
       if (includeHeaders) {
         // Use the first row as headers
         const headers = rows.shift();
 
         // Map rows to JSON objects using headers
-        const json = rows.map((row) => row.reduce((acc, value, index) => {
-          acc[headers[index]] = value;
-
-          return acc;
-        }, {}));
+        const json = rows.map(getResultsMapper(headers));
 
         resolve(json);
       } else {

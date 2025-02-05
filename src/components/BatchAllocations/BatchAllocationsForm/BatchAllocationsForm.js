@@ -20,6 +20,8 @@ import stripesFinalForm from '@folio/stripes/final-form';
 
 import { BatchAllocationList } from './BatchAllocationList';
 
+const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
+
 const BatchAllocationsForm = ({
   handleSubmit,
   headline,
@@ -111,7 +113,7 @@ const BatchAllocationsForm = ({
           />
 
           {
-            Boolean(initialValues?.invalidFunds?.length) && (
+            Boolean(initialValues.invalidFunds?.length) && (
               <Layout className="marginTop1">
                 <MessageBanner type="error">
                   <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
@@ -119,7 +121,7 @@ const BatchAllocationsForm = ({
                 <Layout className="marginTopHalf">
                   <List
                     items={initialValues.invalidFunds}
-                    itemFormatter={(item, i) => <li key={i}>{item.fundName || item.fundId}</li>}
+                    itemFormatter={formatInvalidFundsListItem}
                     listStyle="bullets"
                   />
                 </Layout>

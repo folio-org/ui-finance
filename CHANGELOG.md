@@ -6,6 +6,8 @@
 * Implement action for download allocation worksheet. Refs UIF-526.
 * Create screen for batch allocation of funds. Refs UIF-527.
 * Implement action for upload allocation worksheet. Refs UIF-529.
+* Implement action for upload allocation worksheet. Refs UIF-529.
+* Budget batch allocation screen from CSV load. Refs UIF-528.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

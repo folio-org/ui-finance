@@ -23,12 +23,11 @@ const defaultProps = {
 };
 
 const renderComponent = (props = {}) => render(
-  <MemoryRouter>
-    <UploadAllocationWorksheetModal
-      {...defaultProps}
-      {...props}
-    />
-  </MemoryRouter>,
+  <UploadAllocationWorksheetModal
+    {...defaultProps}
+    {...props}
+  />,
+  { wrapper: MemoryRouter },
 );
 
 describe('UploadAllocationWorksheetModal', () => {

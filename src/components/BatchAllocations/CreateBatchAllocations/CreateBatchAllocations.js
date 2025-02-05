@@ -4,10 +4,6 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import {
-  useHistory,
-  useLocation,
-} from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { LoadingView } from '@folio/stripes/components';
@@ -27,9 +23,11 @@ import {
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
 
-export const CreateBatchAllocations = ({ match }) => {
-  const history = useHistory();
-  const location = useLocation();
+export const CreateBatchAllocations = ({
+  history,
+  location,
+  match,
+}) => {
   const intl = useIntl();
 
   const { id: sourceId, fiscalYearId } = match.params;
@@ -47,7 +45,7 @@ export const CreateBatchAllocations = ({ match }) => {
   ] = useSorting(noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
 
   const {
-    budgetsFunds,
+    budgetsFunds: financeData,
     isLoading: isFinanceDataLoading,
   } = useBatchAllocation({
     fiscalYearId,
@@ -67,14 +65,16 @@ export const CreateBatchAllocations = ({ match }) => {
     isLoading: isFiscalYearLoading,
   } = useFiscalYear(fiscalYearId);
 
-  const save = useCallback(async (formValues) => {
-    console.log('formValues');
-    console.log(formValues);
-  }, []);
-
-  const close = useCallback(() => {
+  const onClose = useCallback(() => {
     history.push(backPathname);
   }, [history, backPathname]);
+
+  const onSubmit = useCallback(async ({ budgetsFunds }) => {
+    // TODO: https://folio-org.atlassian.net/browse/UIF-534
+    console.log('budgetsFunds', budgetsFunds);
+
+    onClose();
+  }, [onClose]);
 
   const isLoading = (
     isFinanceDataLoading
@@ -82,7 +82,16 @@ export const CreateBatchAllocations = ({ match }) => {
     || isFiscalYearLoading
   );
 
-  if (isLoading) return <LoadingView />;
+  if (isLoading) {
+    return (
+      <LoadingView
+        dismissible
+        onClose={onClose}
+      />
+    );
+  }
+
+  const initialValues = { budgetsFunds: financeData };
 
   return (
     <>
@@ -90,9 +99,9 @@ export const CreateBatchAllocations = ({ match }) => {
       <BatchAllocationsForm
         changeSorting={changeSorting}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
-        initialValues={{ budgetsFunds }}
-        onCancel={close}
-        onSubmit={save}
+        initialValues={initialValues}
+        onCancel={onClose}
+        onSubmit={onSubmit}
         paneSub={sourceData.name}
         paneTitle={fiscalYear?.code}
         sortingDirection={sortingDirection}
@@ -103,5 +112,7 @@ export const CreateBatchAllocations = ({ match }) => {
 };
 
 CreateBatchAllocations.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };

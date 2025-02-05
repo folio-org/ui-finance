@@ -14,13 +14,12 @@ const defaultProps = {
   toggle: jest.fn(),
 };
 
-const renderForm = (props) => render(
-  <MemoryRouter>
-    <UploadAllocationWorksheetModalForm
-      {...defaultProps}
-      {...props}
-    />
-  </MemoryRouter>,
+const renderForm = (props = {}) => render(
+  <UploadAllocationWorksheetModalForm
+    {...defaultProps}
+    {...props}
+  />,
+  { wrapper: MemoryRouter },
 );
 
 describe('UploadAllocationWorksheetModalForm', () => {

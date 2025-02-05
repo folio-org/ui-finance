@@ -5,10 +5,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import {
-  useHistory,
-  useLocation,
-} from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { LoadingView } from '@folio/stripes/components';
@@ -33,10 +29,11 @@ import { useBatchAllocation, useSourceData } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
 import { buildInitialValues } from './buildInitialValues';
 
-export const UploadBatchAllocations = ({ match }) => {
-  const history = useHistory();
-  const location = useLocation();
-
+export const UploadBatchAllocations = ({
+  history,
+  location,
+  match,
+}) => {
   const { id: sourceId, fiscalYearId } = match.params;
 
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
@@ -99,15 +96,18 @@ export const UploadBatchAllocations = ({ match }) => {
       });
   }, [showCallout, storageKey]);
 
-  const onSubmit = useCallback(async ({ budgetsFunds }) => {
-    console.log('budgetsFunds', budgetsFunds);
-
-    await localforage.removeItem(storageKey);
-  }, [storageKey]);
-
   const onClose = useCallback(() => {
     history.push(backPathname);
   }, [backPathname, history]);
+
+  const onSubmit = useCallback(async ({ budgetsFunds }) => {
+    // TODO: https://folio-org.atlassian.net/browse/UIF-534
+    console.log('budgetsFunds', budgetsFunds);
+
+    await localforage.removeItem(storageKey);
+
+    onClose();
+  }, [onClose, storageKey]);
 
   const isLoading = (
     isFileDataLoading
@@ -116,7 +116,14 @@ export const UploadBatchAllocations = ({ match }) => {
     || isFinanceDataLoading
   );
 
-  if (isLoading) return <LoadingView />;
+  if (isLoading) {
+    return (
+      <LoadingView
+        dismissible
+        onClose={onClose}
+      />
+    );
+  }
 
   const initialValues = buildInitialValues(fileData?.data, financeData);
 
@@ -139,5 +146,7 @@ export const UploadBatchAllocations = ({ match }) => {
 };
 
 UploadBatchAllocations.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
 };

@@ -1,7 +1,3 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import {
@@ -27,19 +23,16 @@ jest.mock('../hooks', () => ({
   useBatchAllocationFormatter: jest.fn(),
 }));
 
-const queryClient = new QueryClient();
-
 const wrapper = ({ children }) => (
-  <QueryClientProvider client={queryClient}>
-    <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/create']}>
-      {children}
-    </MemoryRouter>
-  </QueryClientProvider>
+  <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/create']}>
+    {children}
+  </MemoryRouter>
 );
 
 const defaultProps = {
-  match: { params: { id: '1', fiscalYearId: '2025' } },
+  history: { push: jest.fn() },
   location: { hash: 'hash', pathname: 'pathname' },
+  match: { params: { id: '1', fiscalYearId: '2025' } },
 };
 
 const renderComponent = (props = {}) => render(

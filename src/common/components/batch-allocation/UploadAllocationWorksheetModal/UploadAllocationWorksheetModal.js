@@ -56,6 +56,8 @@ export const UploadAllocationWorksheetModal = ({
       },
     );
 
+    toggle();
+
     history.push({
       pathname: `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/${sourceId}/batch-allocations/upload/${fiscalYearId}`,
       state: {

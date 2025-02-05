@@ -59,6 +59,8 @@ export const BatchAllocationModal = ({
   );
 
   const onConfirm = () => {
+    toggle();
+
     history.push({
       pathname: `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/${sourceId}/batch-allocations/create/${selectedFiscalYear}`,
       state: {

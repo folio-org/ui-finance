@@ -124,7 +124,6 @@ const GroupDetails = ({
       restrictions.protectUpdate,
       restrictions.protectDelete,
       toggleBatchAllocationModal,
-      toggleRemoveConfirmation,
       toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
       toggleUploadAllocationWorksheetModal,
@@ -290,7 +289,6 @@ const GroupDetails = ({
               open
               groupId={group.id}
               toggle={toggleBatchAllocationModal}
-              history={history}
               onConfirm={onBatchAllocate}
             />
           )

@@ -343,7 +343,6 @@ const LedgerDetails = ({
               open
               ledgerId={ledger.id}
               toggle={toggleBatchAllocationModal}
-              history={history}
               onConfirm={onBatchAllocate}
             />
           )

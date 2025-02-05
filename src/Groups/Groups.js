@@ -30,14 +30,6 @@ const Groups = () => {
         )}
       />
       <Route
-        path={`${GROUPS_ROUTE}/:id/batch-allocations`}
-        render={() => (
-          <CheckPermission perm="ui-finance.allocations.create">
-            <BatchAllocations />
-          </CheckPermission>
-        )}
-      />
-      <Route
         path={GROUPS_ROUTE}
         render={() => (
           <CheckPermission perm="ui-finance.group.view">

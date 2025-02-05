@@ -19,8 +19,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { EXPORT_ALLOCATION_WORKSHEET_FIELDS } from '../../const';
+import { useUpcomingFiscalYears } from '../../hooks';
 import { fetchFinanceData } from '../../utils';
-import { useWorksheetFiscalYears } from './useWorksheetFiscalYears';
 
 export const DownloadAllocationWorksheetModal = ({
   groupId,
@@ -36,7 +36,7 @@ export const DownloadAllocationWorksheetModal = ({
   const {
     isFetching: isFiscalYearsFetching,
     fiscalYears,
-  } = useWorksheetFiscalYears(
+  } = useUpcomingFiscalYears(
     { groupId, ledgerId },
     {
       enabled: open,

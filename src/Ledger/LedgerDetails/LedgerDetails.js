@@ -40,6 +40,7 @@ import {
 import FinancialSummary from '../../common/FinancialSummary';
 import {
   AllocationToolsMenuSection,
+  BatchAllocationModal,
   DownloadAllocationWorksheetModal,
 } from '../../common/components';
 import { LEDGERS_ROUTE } from '../../common/const';
@@ -61,6 +62,7 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   onRolloverLogs,
+  onBatchAllocate,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -68,6 +70,7 @@ const LedgerDetails = ({
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isBatchAllocationModal, toggleBatchAllocationModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
@@ -136,6 +139,10 @@ const LedgerDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onBatchAllocate={() => {
+              onToggle();
+              toggleBatchAllocationModal();
+            }}
           />
         </>
       );
@@ -146,6 +153,7 @@ const LedgerDetails = ({
       onRollover,
       onRolloverLogs,
       restrictions,
+      toggleBatchAllocationModal,
       toggleExportConfirmation,
       toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
@@ -305,12 +313,24 @@ const LedgerDetails = ({
             />
           )
         }
+
+        {
+          isBatchAllocationModal && (
+            <BatchAllocationModal
+              ledgerId={ledger.id}
+              onConfirm={onBatchAllocate}
+              open
+              toggle={toggleBatchAllocationModal}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );
 };
 
 LedgerDetails.propTypes = {
+  onBatchAllocate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

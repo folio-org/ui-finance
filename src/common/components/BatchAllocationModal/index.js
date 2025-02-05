@@ -1,0 +1,1 @@
+export { BatchAllocationModal } from './BatchAllocationModal';

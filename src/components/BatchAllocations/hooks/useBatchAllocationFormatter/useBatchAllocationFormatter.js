@@ -20,6 +20,7 @@ export const useBatchAllocationFormatter = (intl) => {
     fundStatus: ({ rowIndex }) => {
       return (
         <FieldSelectFinal
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundStatus.toLocaleLowerCase()}`}
           dataOptions={fundStatusOptions}
           fullWidth
           marginBottom0
@@ -30,6 +31,7 @@ export const useBatchAllocationFormatter = (intl) => {
     budgetStatus: ({ rowIndex }) => {
       return (
         <FieldSelectFinal
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetStatus.toLocaleLowerCase()}`}
           dataOptions={budgetStatusOptions}
           fullWidth
           marginBottom0
@@ -40,6 +42,7 @@ export const useBatchAllocationFormatter = (intl) => {
     allocationIncreaseDecrease: ({ rowIndex }) => {
       return (
         <Field
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease.toLocaleLowerCase()}`}
           fullWidth
           marginBottom0
           component={TextField}
@@ -53,6 +56,7 @@ export const useBatchAllocationFormatter = (intl) => {
     totalAllocatedAfter: ({ rowIndex }) => {
       return (
         <Field
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter.toLocaleLowerCase()}`}
           fullWidth
           marginBottom0
           component={TextField}
@@ -67,6 +71,7 @@ export const useBatchAllocationFormatter = (intl) => {
     budgetAllowableEncumbrance: ({ rowIndex }) => {
       return (
         <Field
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance.toLocaleLowerCase()}`}
           fullWidth
           marginBottom0
           component={TextField}
@@ -80,6 +85,7 @@ export const useBatchAllocationFormatter = (intl) => {
     budgetAllowableExpenditure: ({ rowIndex }) => {
       return (
         <Field
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure.toLocaleLowerCase()}`}
           fullWidth
           marginBottom0
           component={TextField}
@@ -93,6 +99,7 @@ export const useBatchAllocationFormatter = (intl) => {
     transactionDescription: ({ rowIndex }) => {
       return (
         <Field
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionDescription.toLocaleLowerCase()}`}
           fullWidth
           marginBottom0
           component={TextField}
@@ -106,6 +113,7 @@ export const useBatchAllocationFormatter = (intl) => {
     fundTags: ({ rowIndex }) => {
       return (
         <FieldTags
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundTags.toLocaleLowerCase()}`}
           fullWidth
           labelless
           marginBottom0

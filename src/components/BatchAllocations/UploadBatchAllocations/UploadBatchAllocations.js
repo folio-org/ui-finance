@@ -30,6 +30,7 @@ import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
 import { BATCH_ALLOCATION_SORTABLE_FIELDS } from '../constants';
 import { useBatchAllocation, useSourceData } from '../hooks';
+import { resolveDefaultBackPathname } from '../utils';
 import { buildInitialValues } from './buildInitialValues';
 
 export const UploadBatchAllocations = ({ match }) => {
@@ -41,6 +42,8 @@ export const UploadBatchAllocations = ({ match }) => {
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
     BATCH_ALLOCATIONS_SOURCE.group;
+
+  const backPathname = location.state?.backPathname || resolveDefaultBackPathname(sourceType, sourceId);
 
   const showCallout = useShowCallout();
   const [storageKey] = useNamespace({ key: BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY });
@@ -75,8 +78,6 @@ export const UploadBatchAllocations = ({ match }) => {
     sourceType,
   });
 
-  const backPathname = location.state?.backPathname || LEDGERS_ROUTE;
-
   useEffect(() => {
     setIsFileDataLoading(true);
 
@@ -105,7 +106,7 @@ export const UploadBatchAllocations = ({ match }) => {
   }, [storageKey]);
 
   const onClose = useCallback(() => {
-    history.push({ pathname: backPathname });
+    history.push(backPathname);
   }, [backPathname, history]);
 
   const isLoading = (

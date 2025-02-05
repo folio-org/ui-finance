@@ -4,6 +4,11 @@ import {
   useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
+import {
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 
 import {
   ConfirmationModal,
@@ -11,22 +16,28 @@ import {
   Selection,
 } from '@folio/stripes/components';
 
-import { useUpcomingFiscalYears } from '../../hooks';
+import {
+  BATCH_ALLOCATION_ROUTES_DICT,
+  BATCH_ALLOCATIONS_SOURCE,
+} from '../../../const';
+import { useUpcomingFiscalYears } from '../../../hooks';
 
 export const BatchAllocationModal = ({
-  groupId,
-  ledgerId,
-  onConfirm,
   open,
+  sourceType,
   toggle,
 }) => {
+  const history = useHistory();
+  const location = useLocation();
+  const { id: sourceId } = useParams();
+
   const [selectedFiscalYear, setSelectedFiscalYear] = useState();
 
   const {
     isFetching: isFiscalYearsFetching,
     fiscalYears,
   } = useUpcomingFiscalYears(
-    { groupId, ledgerId },
+    { sourceId, sourceType },
     {
       enabled: open,
       onSuccess: (results) => setSelectedFiscalYear(results.fiscalYears[0]?.id),
@@ -47,10 +58,19 @@ export const BatchAllocationModal = ({
     />
   );
 
+  const onConfirm = () => {
+    history.push({
+      pathname: `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/${sourceId}/batch-allocations/create/${selectedFiscalYear}`,
+      state: {
+        backPathname: `${location.pathname}${location.search}`,
+      },
+    });
+  };
+
   return (
     <ConfirmationModal
       open={open}
-      onConfirm={() => onConfirm(selectedFiscalYear)}
+      onConfirm={onConfirm}
       onCancel={toggle}
       message={message}
       heading={<FormattedMessage id="ui-finance.selectFiscalYear" />}
@@ -61,9 +81,7 @@ export const BatchAllocationModal = ({
 };
 
 BatchAllocationModal.propTypes = {
-  groupId: PropTypes.string,
-  ledgerId: PropTypes.string,
-  onConfirm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  sourceType: PropTypes.oneOf(Object.values(BATCH_ALLOCATIONS_SOURCE)).isRequired,
   toggle: PropTypes.func.isRequired,
 };

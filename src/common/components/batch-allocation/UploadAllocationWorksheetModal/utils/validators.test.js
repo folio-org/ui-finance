@@ -1,4 +1,4 @@
-import { ALLOCATION_WORKSHEET_REQUIRED_FIELDS } from '../../../const';
+import { ALLOCATION_WORKSHEET_REQUIRED_FIELDS } from '../../../../const';
 import {
   composeValidators,
   isCsvFile,

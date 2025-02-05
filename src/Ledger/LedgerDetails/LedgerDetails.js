@@ -69,7 +69,6 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   onRolloverLogs,
-  onBatchAllocate,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -322,7 +321,7 @@ const LedgerDetails = ({
           isDownloadAllocationWorksheetModalOpen && (
             <DownloadAllocationWorksheetModal
               open
-              ledgerId={ledger?.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
               toggle={toggleDownloadAllocationWorksheetModal}
             />
           )
@@ -332,8 +331,8 @@ const LedgerDetails = ({
           isUploadAllocationWorksheetModalOpen && (
             <UploadAllocationWorksheetModal
               open
-              toggle={toggleUploadAllocationWorksheetModal}
               sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
+              toggle={toggleUploadAllocationWorksheetModal}
             />
           )
         }
@@ -341,9 +340,8 @@ const LedgerDetails = ({
           isBatchAllocationModal && (
             <BatchAllocationModal
               open
-              ledgerId={ledger.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
               toggle={toggleBatchAllocationModal}
-              onConfirm={onBatchAllocate}
             />
           )
         }
@@ -353,7 +351,6 @@ const LedgerDetails = ({
 };
 
 LedgerDetails.propTypes = {
-  onBatchAllocate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

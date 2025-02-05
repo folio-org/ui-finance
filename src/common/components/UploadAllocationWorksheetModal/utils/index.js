@@ -1,1 +1,0 @@
-export { validateFile } from './validators';

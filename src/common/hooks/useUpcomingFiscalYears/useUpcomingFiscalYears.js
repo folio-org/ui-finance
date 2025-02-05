@@ -1,10 +1,14 @@
+import { BATCH_ALLOCATIONS_SOURCE } from '../../const';
 import { useGroupUpcomingFiscalYears } from '../useGroupUpcomingFiscalYears';
 import { useLedgerUpcomingFiscalYears } from '../useLedgerUpcomingFiscalYears';
 
-export const useUpcomingFiscalYears = ({ groupId, ledgerId }, options = {}) => {
-  const useFiscalYearsHook = groupId
-    ? useGroupUpcomingFiscalYears.bind(null, groupId)
-    : useLedgerUpcomingFiscalYears.bind(null, ledgerId);
+const SOURCE_HOOK_DICT = {
+  [BATCH_ALLOCATIONS_SOURCE.group]: useGroupUpcomingFiscalYears,
+  [BATCH_ALLOCATIONS_SOURCE.ledger]: useLedgerUpcomingFiscalYears,
+};
+
+export const useUpcomingFiscalYears = ({ sourceId, sourceType }, options = {}) => {
+  const useFiscalYearsHook = (SOURCE_HOOK_DICT[sourceType] || useLedgerUpcomingFiscalYears).bind(null, sourceId);
 
   const data = useFiscalYearsHook(options);
 

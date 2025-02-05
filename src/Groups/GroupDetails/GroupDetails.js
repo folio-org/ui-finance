@@ -65,7 +65,6 @@ const GroupDetails = ({
   onSelectFY,
   onAddFundToGroup,
   onRemoveFundFromGroup,
-  onBatchAllocate,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
@@ -268,7 +267,7 @@ const GroupDetails = ({
           isDownloadAllocationWorksheetModalOpen && (
             <DownloadAllocationWorksheetModal
               open
-              groupId={group.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.group}
               toggle={toggleDownloadAllocationWorksheetModal}
             />
           )
@@ -278,8 +277,8 @@ const GroupDetails = ({
           isUploadAllocationWorksheetModalOpen && (
             <UploadAllocationWorksheetModal
               open
-              toggle={toggleUploadAllocationWorksheetModal}
               sourceType={BATCH_ALLOCATIONS_SOURCE.group}
+              toggle={toggleUploadAllocationWorksheetModal}
             />
           )
         }
@@ -287,9 +286,8 @@ const GroupDetails = ({
           isBatchAllocationModal && (
             <BatchAllocationModal
               open
-              groupId={group.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.group}
               toggle={toggleBatchAllocationModal}
-              onConfirm={onBatchAllocate}
             />
           )
         }

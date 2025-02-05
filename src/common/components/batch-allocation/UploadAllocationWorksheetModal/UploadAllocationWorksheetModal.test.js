@@ -11,7 +11,7 @@ import { useOkapiKy } from '@folio/stripes/core';
 import {
   BATCH_ALLOCATIONS_SOURCE,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
-} from '../../const';
+} from '../../../const';
 import { UploadAllocationWorksheetModal } from './UploadAllocationWorksheetModal';
 
 jest.mock('localforage');

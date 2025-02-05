@@ -14,7 +14,7 @@ import {
 import stripesFinalForm from '@folio/stripes/final-form';
 import { FileUploader } from '@folio/stripes-acq-components';
 
-import { csvToJson } from '../../../utils';
+import { csvToJson } from '../../../../utils';
 import { headersMap } from '../constants';
 import { validateFile } from '../utils';
 

@@ -2,7 +2,7 @@ import {
   ALLOCATION_WORKSHEET_REQUIRED_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
-} from '../../../const';
+} from '../../../../const';
 
 export const composeValidators = (...validators) => (value) => {
   return validators.reduce((error, validator) => error || validator(value), undefined);

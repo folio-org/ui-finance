@@ -10,4 +10,5 @@ export * from './getFundActiveBudget';
 export * from './getExpenseClassesForSelect';
 export * from './getFundToDisplay';
 export * from './getGroupsWithTotals';
+export * from './resolveSourceQueryIndex';
 export * from './validateDuplicateFieldValue';

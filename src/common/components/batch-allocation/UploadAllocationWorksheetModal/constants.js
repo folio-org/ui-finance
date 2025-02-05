@@ -1,4 +1,4 @@
-import { EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS } from '../../const';
+import { EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS } from '../../../const';
 
 export const headersMap = new Map(
   Object

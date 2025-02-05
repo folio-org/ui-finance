@@ -16,7 +16,6 @@ import { useSorting } from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
-  GROUPS_ROUTE,
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
@@ -26,6 +25,7 @@ import {
   useBatchAllocation,
   useSourceData,
 } from '../hooks';
+import { resolveDefaultBackPathname } from '../utils';
 
 export const CreateBatchAllocations = ({ match }) => {
   const history = useHistory();
@@ -37,6 +37,8 @@ export const CreateBatchAllocations = ({ match }) => {
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
     BATCH_ALLOCATIONS_SOURCE.group;
+
+  const backPathname = location.state?.backPathname || resolveDefaultBackPathname(sourceType, sourceId);
 
   const [
     sortingField,
@@ -71,11 +73,8 @@ export const CreateBatchAllocations = ({ match }) => {
   }, []);
 
   const close = useCallback(() => {
-    history.push({
-      pathname: `${sourceType === BATCH_ALLOCATIONS_SOURCE.ledger ? LEDGERS_ROUTE : GROUPS_ROUTE}/${sourceId}/view`,
-      search: location.search,
-    });
-  }, [history, location.search, sourceId, sourceType]);
+    history.push(backPathname);
+  }, [history, backPathname]);
 
   const isLoading = (
     isFinanceDataLoading

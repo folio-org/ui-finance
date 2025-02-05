@@ -1,3 +1,8 @@
+import {
+  GROUPS_ROUTE,
+  LEDGERS_ROUTE,
+} from './routes';
+
 export const CHUNK_LIMIT = 25;
 export const NO_ID = 'noId';
 
@@ -128,4 +133,9 @@ export const BATCH_ALLOCATIONS_UPLOAD_STORAGE_KEY = 'batch-allocations-upload';
 export const BATCH_ALLOCATIONS_SOURCE = {
   ledger: 'ledger',
   group: 'group',
+};
+
+export const BATCH_ALLOCATION_ROUTES_DICT = {
+  [BATCH_ALLOCATIONS_SOURCE.group]: GROUPS_ROUTE,
+  [BATCH_ALLOCATIONS_SOURCE.ledger]: LEDGERS_ROUTE,
 };

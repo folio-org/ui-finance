@@ -39,8 +39,12 @@ import {
   AllocationToolsMenuSection,
   BatchAllocationModal,
   DownloadAllocationWorksheetModal,
+  UploadAllocationWorksheetModal,
 } from '../../common/components';
-import { GROUPS_ROUTE } from '../../common/const';
+import {
+  BATCH_ALLOCATIONS_SOURCE,
+  GROUPS_ROUTE,
+} from '../../common/const';
 import {
   GROUP_ACCORDION,
   GROUP_ACCORDION_LABELS,
@@ -61,10 +65,10 @@ const GroupDetails = ({
   onSelectFY,
   onAddFundToGroup,
   onRemoveFundFromGroup,
-  onBatchAllocate,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isUploadAllocationWorksheetModalOpen, toggleUploadAllocationWorksheetModal] = useModalToggle();
   const [isBatchAllocationModal, toggleBatchAllocationModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
@@ -101,6 +105,10 @@ const GroupDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onUploadAllocationWorksheet={() => {
+              onToggle();
+              toggleUploadAllocationWorksheetModal();
+            }}
             onBatchAllocate={() => {
               onToggle();
               toggleBatchAllocationModal();
@@ -115,8 +123,9 @@ const GroupDetails = ({
       restrictions.protectUpdate,
       restrictions.protectDelete,
       toggleBatchAllocationModal,
-      toggleRemoveConfirmation,
       toggleDownloadAllocationWorksheetModal,
+      toggleRemoveConfirmation,
+      toggleUploadAllocationWorksheetModal,
     ],
   );
 
@@ -258,20 +267,27 @@ const GroupDetails = ({
           isDownloadAllocationWorksheetModalOpen && (
             <DownloadAllocationWorksheetModal
               open
-              groupId={group.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.group}
               toggle={toggleDownloadAllocationWorksheetModal}
             />
           )
         }
 
         {
+          isUploadAllocationWorksheetModalOpen && (
+            <UploadAllocationWorksheetModal
+              open
+              sourceType={BATCH_ALLOCATIONS_SOURCE.group}
+              toggle={toggleUploadAllocationWorksheetModal}
+            />
+          )
+        }
+        {
           isBatchAllocationModal && (
             <BatchAllocationModal
               open
-              groupId={group.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.group}
               toggle={toggleBatchAllocationModal}
-              history={history}
-              onConfirm={onBatchAllocate}
             />
           )
         }

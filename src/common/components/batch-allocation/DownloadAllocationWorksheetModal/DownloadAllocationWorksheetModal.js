@@ -5,6 +5,7 @@ import {
   useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useParams } from 'react-router-dom';
 
 import {
   ConfirmationModal,
@@ -18,16 +19,23 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { EXPORT_ALLOCATION_WORKSHEET_FIELDS } from '../../const';
-import { useUpcomingFiscalYears } from '../../hooks';
-import { fetchFinanceData } from '../../utils';
+import {
+  BATCH_ALLOCATIONS_SOURCE,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
+} from '../../../const';
+import { useUpcomingFiscalYears } from '../../../hooks';
+import {
+  fetchFinanceData,
+  resolveSourceQueryIndex,
+} from '../../../utils';
 
 export const DownloadAllocationWorksheetModal = ({
-  groupId,
-  ledgerId,
   open,
+  sourceType,
   toggle,
 }) => {
+  const { id: sourceId } = useParams();
+
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
 
@@ -37,7 +45,7 @@ export const DownloadAllocationWorksheetModal = ({
     isFetching: isFiscalYearsFetching,
     fiscalYears,
   } = useUpcomingFiscalYears(
-    { groupId, ledgerId },
+    { sourceId, sourceType },
     {
       enabled: open,
       onSuccess: (results) => setSelectedFiscalYear(results.fiscalYears[0]?.id),
@@ -51,12 +59,11 @@ export const DownloadAllocationWorksheetModal = ({
 
     try {
       const fiscalYearsKV = keyBy(fiscalYears, 'id');
-      const qIndex = groupId ? 'groupId' : 'ledgerId';
-      const qValue = groupId ?? ledgerId;
+      const qIndex = resolveSourceQueryIndex(sourceType);
 
       const { fyFinanceData } = await fetchFinanceData(ky)({
         searchParams: {
-          query: `fiscalYearId=="${selectedFiscalYear}" and ${qIndex}=="${qValue}"`,
+          query: `fiscalYearId=="${selectedFiscalYear}" and ${qIndex}=="${sourceId}"`,
           limit: LIMIT_MAX,
         },
       });
@@ -69,12 +76,12 @@ export const DownloadAllocationWorksheetModal = ({
       }));
 
       exportToCsv(
-        [{ ...EXPORT_ALLOCATION_WORKSHEET_FIELDS }, ...exportData],
+        [{ ...EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS }, ...exportData],
         {
-          onlyFields: Object.keys(EXPORT_ALLOCATION_WORKSHEET_FIELDS),
+          onlyFields: Object.keys(EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS),
           filename: [
             fiscalYearsKV[selectedFiscalYear]?.code,
-            fyFinanceData[0]?.[groupId ? 'groupCode' : 'ledgerCode'],
+            fyFinanceData[0]?.[sourceType === BATCH_ALLOCATIONS_SOURCE.group ? 'groupCode' : 'ledgerCode'],
           ].join(''),
           header: false,
         },
@@ -118,8 +125,7 @@ export const DownloadAllocationWorksheetModal = ({
 };
 
 DownloadAllocationWorksheetModal.propTypes = {
-  groupId: PropTypes.string,
-  ledgerId: PropTypes.string,
   open: PropTypes.bool.isRequired,
+  sourceType: PropTypes.oneOf(Object.values(BATCH_ALLOCATIONS_SOURCE)).isRequired,
   toggle: PropTypes.func.isRequired,
 };

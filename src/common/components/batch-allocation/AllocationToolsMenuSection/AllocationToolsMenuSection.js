@@ -15,6 +15,7 @@ export const AllocationToolsMenuSection = ({
   disabled,
   onBatchAllocate,
   onDownloadAllocationWorksheet,
+  onUploadAllocationWorksheet,
 }) => {
   const intl = useIntl();
 
@@ -52,6 +53,21 @@ export const AllocationToolsMenuSection = ({
           </Icon>
         </Button>
       </IfPermission>
+
+      <IfPermission perm="ui-finance.allocations.create">
+        <Button
+          buttonStyle="dropdownItem"
+          onClick={onUploadAllocationWorksheet}
+          disabled={disabled}
+        >
+          <Icon
+            size="small"
+            icon="report"
+          >
+            <FormattedMessage id="ui-finance.actions.uploadAllocationWorksheet" />
+          </Icon>
+        </Button>
+      </IfPermission>
     </MenuSection>
   );
 };
@@ -60,4 +76,5 @@ AllocationToolsMenuSection.propTypes = {
   disabled: PropTypes.bool,
   onBatchAllocate: PropTypes.func.isRequired,
   onDownloadAllocationWorksheet: PropTypes.func.isRequired,
+  onUploadAllocationWorksheet: PropTypes.func.isRequired,
 };

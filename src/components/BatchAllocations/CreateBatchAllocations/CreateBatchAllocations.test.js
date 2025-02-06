@@ -1,10 +1,9 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { useFiscalYear } from '../../../common/hooks';
 import { BATCH_ALLOCATION_FIELDS } from '../constants';
@@ -15,32 +14,32 @@ import {
 } from '../hooks';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
+jest.mock('../../../common/hooks', () => ({
+  useFiscalYear: jest.fn(),
+}));
 jest.mock('../hooks', () => ({
   useSourceData: jest.fn(),
   useBatchAllocation: jest.fn(),
   useBatchAllocationFormatter: jest.fn(),
 }));
-jest.mock('../../../common/hooks', () => ({
-  useFiscalYear: jest.fn(),
-}));
-
-const queryClient = new QueryClient();
 
 const wrapper = ({ children }) => (
-  <QueryClientProvider client={queryClient}>
-    <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/create']}>
-      {children}
-    </MemoryRouter>
-  </QueryClientProvider>
+  <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/create']}>
+    {children}
+  </MemoryRouter>
 );
 
 const defaultProps = {
-  match: { params: { id: '1', fiscalYearId: '2025' } },
+  history: { push: jest.fn() },
   location: { hash: 'hash', pathname: 'pathname' },
+  match: { params: { id: '1', fiscalYearId: '2025' } },
 };
 
-const renderComponent = (props = defaultProps) => render(
-  <CreateBatchAllocations {...props} />,
+const renderComponent = (props = {}) => render(
+  <CreateBatchAllocations
+    {...defaultProps}
+    {...props}
+  />,
   { wrapper },
 );
 
@@ -50,6 +49,10 @@ describe('CreateBatchAllocations', () => {
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useBatchAllocationFormatter.mockReturnValue(BATCH_ALLOCATION_FIELDS);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('renders pages headline Batch edit budgets', () => {

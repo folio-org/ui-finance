@@ -1,4 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, {
+  useCallback,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
@@ -42,8 +45,12 @@ import {
   AllocationToolsMenuSection,
   BatchAllocationModal,
   DownloadAllocationWorksheetModal,
+  UploadAllocationWorksheetModal,
 } from '../../common/components';
-import { LEDGERS_ROUTE } from '../../common/const';
+import {
+  BATCH_ALLOCATIONS_SOURCE,
+  LEDGERS_ROUTE,
+} from '../../common/const';
 import {
   LEDGER_ACCORDION,
   LEDGER_ACCORDION_LABELS,
@@ -62,7 +69,6 @@ const LedgerDetails = ({
   onDelete,
   onRollover,
   onRolloverLogs,
-  onBatchAllocate,
   funds,
   rolloverErrors,
   rolloverToFY,
@@ -70,13 +76,15 @@ const LedgerDetails = ({
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
+  const [isUploadAllocationWorksheetModalOpen, toggleUploadAllocationWorksheetModal] = useModalToggle();
   const [isBatchAllocationModal, toggleBatchAllocationModal] = useModalToggle();
   const accordionStatusRef = useRef();
   const history = useHistory();
   const stripes = useStripes();
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
-    ledger.id, ledger.acqUnitIds,
+    ledger.id,
+    ledger.acqUnitIds,
   );
 
   // eslint-disable-next-line react/prop-types
@@ -139,6 +147,10 @@ const LedgerDetails = ({
               onToggle();
               toggleDownloadAllocationWorksheetModal();
             }}
+            onUploadAllocationWorksheet={() => {
+              onToggle();
+              toggleUploadAllocationWorksheetModal();
+            }}
             onBatchAllocate={() => {
               onToggle();
               toggleBatchAllocationModal();
@@ -157,6 +169,7 @@ const LedgerDetails = ({
       toggleExportConfirmation,
       toggleDownloadAllocationWorksheetModal,
       toggleRemoveConfirmation,
+      toggleUploadAllocationWorksheetModal,
     ],
   );
 
@@ -308,18 +321,26 @@ const LedgerDetails = ({
           isDownloadAllocationWorksheetModalOpen && (
             <DownloadAllocationWorksheetModal
               open
-              ledgerId={ledger?.id}
+              sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
               toggle={toggleDownloadAllocationWorksheetModal}
             />
           )
         }
 
         {
+          isUploadAllocationWorksheetModalOpen && (
+            <UploadAllocationWorksheetModal
+              open
+              sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
+              toggle={toggleUploadAllocationWorksheetModal}
+            />
+          )
+        }
+        {
           isBatchAllocationModal && (
             <BatchAllocationModal
-              ledgerId={ledger.id}
-              onConfirm={onBatchAllocate}
               open
+              sourceType={BATCH_ALLOCATIONS_SOURCE.ledger}
               toggle={toggleBatchAllocationModal}
             />
           )
@@ -330,7 +351,6 @@ const LedgerDetails = ({
 };
 
 LedgerDetails.propTypes = {
-  onBatchAllocate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

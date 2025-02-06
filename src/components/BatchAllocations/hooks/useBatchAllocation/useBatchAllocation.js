@@ -4,9 +4,13 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import { LIMIT_MAX } from '@folio/stripes-acq-components';
+import {
+  ASC_DIRECTION,
+  LIMIT_MAX,
+} from '@folio/stripes-acq-components';
 
 import { FINANCE_DATA_API } from '../../../../common/const';
+import { resolveSourceQueryIndex } from '../../../../common/utils';
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
 
 const DEFAULT_DATA = [];
@@ -19,8 +23,9 @@ export const useBatchAllocation = ({
   sortingDirection,
 },
 options = {}) => {
-  const query = `(fiscalYearId=="${fiscalYearId}" and ${sourceType}=="${sourceId}") 
-                sortby ${sortingField || BATCH_ALLOCATION_FIELDS.fundName}/sort.${sortingDirection || 'ascending'}`;
+  const sortByField = sortingField || BATCH_ALLOCATION_FIELDS.fundName;
+  const sortDirection = sortingDirection || ASC_DIRECTION;
+  const query = `(fiscalYearId=="${fiscalYearId}" and ${resolveSourceQueryIndex(sourceType)}=="${sourceId}") sortby ${sortByField}/sort.${sortDirection}`;
   const limit = LIMIT_MAX;
 
   const {

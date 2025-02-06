@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Route,
   Switch,
@@ -6,10 +5,10 @@ import {
 
 import { GROUPS_ROUTE } from '../common/const';
 import CheckPermission from '../common/CheckPermission';
+import { BatchAllocations } from '../components';
 import { GroupsListContainer } from './GroupsList';
 import { CreateGroup } from './CreateGroup';
 import { EditGroup } from './EditGroup';
-import { BatchAllocations } from '../components/BatchAllocations';
 
 const Groups = () => {
   return (
@@ -31,18 +30,18 @@ const Groups = () => {
         )}
       />
       <Route
-        path={GROUPS_ROUTE}
-        render={() => (
-          <CheckPermission perm="ui-finance.group.view">
-            <GroupsListContainer />
-          </CheckPermission>
-        )}
-      />
-      <Route
         path={`${GROUPS_ROUTE}/:id/batch-allocations`}
         render={() => (
           <CheckPermission perm="ui-finance.allocations.create">
             <BatchAllocations />
+          </CheckPermission>
+        )}
+      />
+      <Route
+        path={GROUPS_ROUTE}
+        render={() => (
+          <CheckPermission perm="ui-finance.group.view">
+            <GroupsListContainer />
           </CheckPermission>
         )}
       />

@@ -1,3 +1,4 @@
+export * from './csvToJson';
 export * from './exportRolloverErrors';
 export * from './exportRolloverResult';
 export * from './fetchFinanceData';
@@ -9,4 +10,5 @@ export * from './getFundActiveBudget';
 export * from './getExpenseClassesForSelect';
 export * from './getFundToDisplay';
 export * from './getGroupsWithTotals';
+export * from './resolveSourceQueryIndex';
 export * from './validateDuplicateFieldValue';

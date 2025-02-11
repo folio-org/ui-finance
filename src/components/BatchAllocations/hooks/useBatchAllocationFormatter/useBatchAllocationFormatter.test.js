@@ -13,12 +13,12 @@ describe('useBatchAllocationFormatter', () => {
 
     expect(result.current).toHaveProperty('fundStatus');
     expect(result.current).toHaveProperty('budgetStatus');
-    expect(result.current).toHaveProperty('allocationIncreaseDecrease');
+    expect(result.current).toHaveProperty('budgetAllocationChange');
     expect(result.current).toHaveProperty('totalAllocatedAfter');
     expect(result.current).toHaveProperty('budgetAllowableEncumbrance');
     expect(result.current).toHaveProperty('budgetAllowableExpenditure');
     expect(result.current).toHaveProperty('transactionDescription');
-    expect(result.current).toHaveProperty('fundTags');
+    expect(result.current).toHaveProperty('transactionTag');
   });
 
   it('should return correct field names for budget status', () => {

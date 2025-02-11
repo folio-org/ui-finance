@@ -45,107 +45,112 @@ export const useBatchAllocationFormatter = (intl) => {
         </Row>
       );
     },
-    fundStatus: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.fundStatus]: (item) => {
       return (
         <FieldSelectFinal
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundStatus.toLocaleLowerCase()}`}
           dataOptions={fundStatusOptions}
+          disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
         />
       );
     },
-    budgetStatus: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetStatus]: (item) => {
       return (
         <FieldSelectFinal
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetStatus.toLocaleLowerCase()}`}
           dataOptions={budgetStatusOptions}
+          disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
         />
       );
     },
-    allocationIncreaseDecrease: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: (item) => {
       return (
         <Field
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease.toLocaleLowerCase()}`}
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllocationChange.toLocaleLowerCase()}`}
           fullWidth
-          marginBottom0
           component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease}`}
-          type="number"
-          required
+          disabled={item._isMissed}
+          marginBottom0
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
           placeholder="0.00"
+          required
+          type="number"
         />
       );
     },
-    totalAllocatedAfter: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.totalAllocatedAfter]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter.toLocaleLowerCase()}`}
+          component={TextField}
+          disabled
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
-          type="number"
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
           required
-          placeholder="0.00"
-          disabled
         />
       );
     },
-    budgetAllowableEncumbrance: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance.toLocaleLowerCase()}`}
+          component={TextField}
+          disabled={item._isMissed}
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-          type="number"
-          required
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
           placeholder="0.00"
+          required
+          type="number"
         />
       );
     },
-    budgetAllowableExpenditure: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure.toLocaleLowerCase()}`}
+          component={TextField}
+          disabled={item._isMissed}
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-          type="number"
-          required
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
           placeholder="0.00"
+          required
+          type="number"
         />
       );
     },
-    transactionDescription: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.transactionDescription]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionDescription.toLocaleLowerCase()}`}
+          component={TextField}
+          disabled={item._isMissed}
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
-          type="text"
-          required
+          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
           placeholder="Description"
+          required
+          type="text"
         />
       );
     },
-    fundTags: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.transactionTag]: (item) => {
       return (
         <FieldTags
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundTags.toLocaleLowerCase()}`}
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionTag.toLocaleLowerCase()}`}
+          disabled={item._isMissed}
           fullWidth
           labelless
           marginBottom0
-          name={`budgetsFunds.${rowIndex}.fundTags.tagList`}
+          name={`budgetsFunds.${item.rowIndex}.transactionTag.tagList`}
         />
       );
     },

@@ -108,7 +108,7 @@ describe('UploadBatchAllocations', () => {
       expect(screen.getByText('test.csv')).toBeInTheDocument();
     });
 
-    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.allocationIncreaseDecrease')[0], '42');
+    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
     await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     await waitFor(() => {

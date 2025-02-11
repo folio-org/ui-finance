@@ -1,4 +1,4 @@
-import noop from 'lodash/noop';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { FieldArray } from 'react-final-form-arrays';
@@ -23,19 +23,40 @@ import { BatchAllocationList } from './BatchAllocationList';
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
 const BatchAllocationsForm = ({
+  changeSorting,
+  form,
   handleSubmit,
   headline,
   initialValues,
+  isRecalculateDisabled,
   onCancel,
   paneSub,
   paneTitle,
-  pristine,
-  submitting,
+  recalculate,
   sortingField,
   sortingDirection,
-  changeSorting,
 }) => {
+  const {
+    invalid,
+    pristine,
+    submitting,
+  } = form.getState();
+
   const closeForm = useCallback(() => onCancel(), [onCancel]);
+
+  const onRecalculate = useCallback(async () => {
+    const { budgetsFunds } = form.getState().values;
+
+    try {
+      const res = await recalculate({
+        fyFinanceData: budgetsFunds.map(item => omit(item, ['_isMissed'])),
+      });
+
+      console.log('recalculate', res);
+    } catch (error) {
+      console.log('Failed to recalculate', error);
+    }
+  }, [recalculate, form]);
 
   const start = (
     <Row>
@@ -55,9 +76,8 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="default mega"
-          disabled={pristine || submitting}
-          onClick={noop}
-          type="submit"
+          disabled={isRecalculateDisabled || submitting}
+          onClick={onRecalculate}
         >
           <FormattedMessage id="ui-finance.allocation.batch.form.footer.recalculate" />
         </Button>
@@ -65,7 +85,7 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="primary mega"
-          disabled={pristine || submitting}
+          disabled={invalid || pristine || submitting}
           onClick={handleSubmit}
           type="submit"
         >
@@ -136,18 +156,21 @@ const BatchAllocationsForm = ({
 
 BatchAllocationsForm.propTypes = {
   changeSorting: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,
   initialValues: PropTypes.object.isRequired,
+  isRecalculateDisabled: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   paneSub: PropTypes.string.isRequired,
   paneTitle: PropTypes.string.isRequired,
-  pristine: PropTypes.bool.isRequired,
+  recalculate: PropTypes.func.isRequired,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
-  submitting: PropTypes.bool.isRequired,
 };
 
 export default stripesFinalForm({
+  keepDirtyOnReinitialize: true,
   navigationCheck: true,
+  // subscription: { values: true },
 })(BatchAllocationsForm);

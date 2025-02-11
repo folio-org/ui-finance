@@ -25,7 +25,11 @@ import {
 import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsForm } from '../BatchAllocationsForm';
 import { BATCH_ALLOCATION_SORTABLE_FIELDS } from '../constants';
-import { useBatchAllocation, useSourceData } from '../hooks';
+import {
+  useBatchAllocation,
+  useBatchAllocationMutation,
+  useSourceData,
+} from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
 import { buildInitialValues } from './buildInitialValues';
 
@@ -53,6 +57,12 @@ export const UploadBatchAllocations = ({
     sortingDirection,
     changeSorting,
   ] = useSorting(noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
+
+  const {
+    recalculate,
+    batchAllocate,
+    isLoading: isBatchAllocationMutationLoading,
+  } = useBatchAllocationMutation();
 
   const {
     fiscalYear,
@@ -125,7 +135,7 @@ export const UploadBatchAllocations = ({
     );
   }
 
-  const initialValues = buildInitialValues(fileData?.data, financeData);
+  const initialValues = buildInitialValues(fileData?.data, financeData, fiscalYear);
 
   return (
     <>
@@ -134,10 +144,12 @@ export const UploadBatchAllocations = ({
         changeSorting={changeSorting}
         headline={fileData?.fileName}
         initialValues={initialValues}
+        isRecalculateDisabled={isBatchAllocationMutationLoading}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData?.name}
         paneTitle={fiscalYear?.code}
+        recalculate={recalculate}
         sortingDirection={sortingDirection}
         sortingField={sortingField}
       />

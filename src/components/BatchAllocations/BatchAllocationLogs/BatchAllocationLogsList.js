@@ -108,7 +108,7 @@ export const BatchAllocationLogsList = ({
       <MenuSection>
         <IfPermission perm="ui-finance.fund-update-logs.delete">
           <Button
-            data-testid="delete-log"
+            data-testid="delete-log-button"
             buttonStyle="dropdownItem"
             onClick={() => {
               toggleDeleteModal();

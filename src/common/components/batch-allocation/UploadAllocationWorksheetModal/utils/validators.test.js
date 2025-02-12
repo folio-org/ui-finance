@@ -89,14 +89,14 @@ describe('hasRequiredHeaders', () => {
   };
 
   it('should return error if headers are missing', () => {
-    const validator = hasRequiredHeaders({ intl, requiredHeaders: ['field1', 'field2'] });
+    const validator = hasRequiredHeaders({ intl, headers: ['field1', 'field2'] });
     const result = validator({ data: [{ field1: 'value' }] }); // Missing field2
 
     expect(result).toContain('ui-finance.batchAllocations.uploadWorksheet.validation.error.requiredHeaders');
   });
 
   it('should return undefined if all headers are present', () => {
-    const validator = hasRequiredHeaders({ intl, requiredHeaders: ['field1', 'field2'] });
+    const validator = hasRequiredHeaders({ intl, headers: ['field1', 'field2'] });
     const result = validator({ data: [{ field1: 'v1', field2: 'v2' }] });
 
     expect(result).toBeUndefined();

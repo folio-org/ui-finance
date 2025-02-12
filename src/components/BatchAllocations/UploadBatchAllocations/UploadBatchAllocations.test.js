@@ -13,6 +13,7 @@ import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
 import {
   useBatchAllocation,
+  useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
 import { UploadBatchAllocations } from './UploadBatchAllocations';
@@ -34,6 +35,7 @@ jest.mock('../../../common/hooks', () => ({
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useBatchAllocation: jest.fn(),
+  useBatchAllocationMutation: jest.fn(),
   useSourceData: jest.fn(),
 }));
 
@@ -67,10 +69,13 @@ const renderComponent = (props = {}) => render(
 
 describe('UploadBatchAllocations', () => {
   const showCalloutMock = jest.fn();
+  const recalculate = jest.fn();
+  const batchAllocate = jest.fn();
 
   beforeEach(() => {
     localforage.getItem.mockResolvedValue({ fileName: 'test.csv', data: uploadFileDataStub });
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData });
+    useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useShowCallout.mockReturnValue(showCalloutMock);
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });

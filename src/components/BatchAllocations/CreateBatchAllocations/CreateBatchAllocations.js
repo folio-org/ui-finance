@@ -71,7 +71,6 @@ export const CreateBatchAllocations = ({
 
   const {
     recalculate,
-    batchAllocate,
     isLoading: isBatchAllocationMutationLoading,
   } = useBatchAllocationMutation();
 

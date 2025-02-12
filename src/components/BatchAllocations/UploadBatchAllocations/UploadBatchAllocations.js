@@ -60,7 +60,6 @@ export const UploadBatchAllocations = ({
 
   const {
     recalculate,
-    batchAllocate,
     isLoading: isBatchAllocationMutationLoading,
   } = useBatchAllocationMutation();
 

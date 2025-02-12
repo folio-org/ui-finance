@@ -11,6 +11,7 @@ import {
   useSourceData,
   useBatchAllocation,
   useBatchAllocationFormatter,
+  useBatchAllocationMutation,
 } from '../hooks';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
@@ -21,6 +22,7 @@ jest.mock('../hooks', () => ({
   useSourceData: jest.fn(),
   useBatchAllocation: jest.fn(),
   useBatchAllocationFormatter: jest.fn(),
+  useBatchAllocationMutation: jest.fn(),
 }));
 
 const wrapper = ({ children }) => (
@@ -44,11 +46,15 @@ const renderComponent = (props = {}) => render(
 );
 
 describe('CreateBatchAllocations', () => {
+  const recalculate = jest.fn();
+  const batchAllocate = jest.fn();
+
   beforeEach(() => {
     useBatchAllocation.mockReturnValue({ budgetsFunds: [], isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useBatchAllocationFormatter.mockReturnValue(BATCH_ALLOCATION_FIELDS);
+    useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
   });
 
   afterEach(() => {

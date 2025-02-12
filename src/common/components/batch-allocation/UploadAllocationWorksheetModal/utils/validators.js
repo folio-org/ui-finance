@@ -66,18 +66,12 @@ export const hasRequiredFieldValues = ({ intl, fields }) => ({ data, fileName })
     return undefined;
   }
 
-  for (const row of data) {
-    for (const field of fields) {
-      if (!row[field]) {
-        return intl.formatMessage(
-          { id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.parseFailed' },
-          { fileName },
-        );
-      }
-    }
-  }
-
-  return undefined;
+  return data.some((row) => fields.some((field) => !row[field]))
+    ? intl.formatMessage(
+      { id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.parseFailed' },
+      { fileName },
+    )
+    : undefined;
 };
 
 export const validateFile = ({ intl }) => (value) => {

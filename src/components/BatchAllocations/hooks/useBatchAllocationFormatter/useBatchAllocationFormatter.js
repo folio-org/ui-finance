@@ -4,11 +4,13 @@ import { Field } from 'react-final-form';
 import {
   Col,
   Icon,
+  NoValue,
   Row,
   TextField,
   Tooltip,
 } from '@folio/stripes/components';
 import {
+  AmountWithCurrencyField,
   FieldSelectFinal,
   FieldTags,
 } from '@folio/stripes-acq-components';
@@ -24,7 +26,7 @@ import {
   validateNumericValue,
 } from './validators';
 
-export const useBatchAllocationFormatter = (intl) => {
+export const useBatchAllocationFormatter = (intl, fiscalYear) => {
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
 
@@ -61,6 +63,18 @@ export const useBatchAllocationFormatter = (intl) => {
           marginBottom0
           name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
           validate={validateFundStatus(intl)}
+        />
+      );
+    },
+    [BATCH_ALLOCATION_FIELDS.budgetName]: (item) => {
+      return item[BATCH_ALLOCATION_FIELDS.budgetName] || <NoValue />;
+    },
+    [BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]: (item) => {
+      return (
+        <AmountWithCurrencyField
+          amount={item[BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]}
+          currency={fiscalYear.currency}
+          showBrackets={item[BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation] < 0}
         />
       );
     },

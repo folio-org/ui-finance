@@ -141,6 +141,7 @@ export const UploadBatchAllocations = ({
       <TitleManager record={fileData?.fileName} />
       <BatchAllocationsForm
         changeSorting={changeSorting}
+        fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}
         isRecalculateDisabled={isBatchAllocationMutationLoading}

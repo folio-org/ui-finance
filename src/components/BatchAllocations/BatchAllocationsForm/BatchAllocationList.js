@@ -15,6 +15,7 @@ import { getBatchAllocationColumnMapping } from './utils';
 export const BatchAllocationList = ({
   fields,
   props: {
+    fiscalYear,
     onHeaderClick,
     sortDirection,
     sortedColumn,
@@ -25,7 +26,7 @@ export const BatchAllocationList = ({
     return getBatchAllocationColumnMapping({ intl });
   }, [intl]);
 
-  const formatter = useBatchAllocationFormatter(intl);
+  const formatter = useBatchAllocationFormatter(intl, fiscalYear);
 
   return (
     <>
@@ -46,6 +47,7 @@ export const BatchAllocationList = ({
 BatchAllocationList.propTypes = {
   fields: PropTypes.object.isRequired,
   props: PropTypes.shape({
+    fiscalYear: PropTypes.object,
     onHeaderClick: PropTypes.func.isRequired,
     sortDirection: PropTypes.string,
     sortedColumn: PropTypes.string,

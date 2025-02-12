@@ -1,6 +1,9 @@
 import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useEffect,
+} from 'react';
 import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
 
@@ -19,12 +22,15 @@ import {
 import stripesFinalForm from '@folio/stripes/final-form';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
+import { BUDGET_STATUSES } from '../../Budget/constants';
+import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
 const BatchAllocationsForm = ({
   changeSorting,
+  fiscalYear,
   form,
   handleSubmit,
   headline,
@@ -42,6 +48,32 @@ const BatchAllocationsForm = ({
     pristine,
     submitting,
   } = form.getState();
+
+  useEffect(() => {
+    const subscriber = ({ values }) => {
+      form.batch(() => {
+        values.fyFinanceData?.forEach((item, index) => {
+          const shouldSetActive = (
+            !item.budgetId
+            && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
+            && !item[BATCH_ALLOCATION_FIELDS.budgetStatus]
+            && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]
+            && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
+          );
+
+          if (shouldSetActive) {
+            form.change(`fyFinanceData[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
+          }
+        });
+      });
+    };
+
+    const unsubscribe = form.subscribe(subscriber, { values: true });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [form]);
 
   const showCallout = useShowCallout();
 
@@ -132,6 +164,7 @@ const BatchAllocationsForm = ({
             name="fyFinanceData"
             component={BatchAllocationList}
             props={{
+              fiscalYear,
               onHeaderClick: changeSorting,
               sortDirection: sortingDirection,
               sortedColumn: sortingField,
@@ -162,6 +195,7 @@ const BatchAllocationsForm = ({
 
 BatchAllocationsForm.propTypes = {
   changeSorting: PropTypes.func.isRequired,
+  fiscalYear: PropTypes.object,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,

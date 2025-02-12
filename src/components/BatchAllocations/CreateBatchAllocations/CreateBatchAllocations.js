@@ -101,10 +101,14 @@ export const CreateBatchAllocations = ({
   }
 
   const initialValues = {
-    fyFinanceData: financeData?.map((item) => ({
-      ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
-      ...item,
-    })),
+    fyFinanceData: (
+      financeData
+        ?.map((item) => ({
+          ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
+          ...item,
+        }))
+        ?.sort((a, b) => a.fundName.localeCompare(b.fundName))
+    ),
     calculatedFinanceData: null,
   };
 
@@ -113,6 +117,7 @@ export const CreateBatchAllocations = ({
       <TitleManager record={intl.formatMessage({ id: 'ui-finance.actions.allocations.batch' })} />
       <BatchAllocationsForm
         changeSorting={changeSorting}
+        fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
         isRecalculateDisabled={isBatchAllocationMutationLoading}

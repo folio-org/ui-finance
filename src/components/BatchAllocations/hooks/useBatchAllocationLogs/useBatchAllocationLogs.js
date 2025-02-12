@@ -21,7 +21,7 @@ export const useBatchAllocationLogs = (options = {}) => {
   } = options;
 
   const ky = useOkapiKy({ tenant: tenantId });
-  const [namespace] = useNamespace({ key: 'budgets-funds' });
+  const [namespace] = useNamespace({ key: 'fund-update-logs' });
 
   const searchParams = {
     limit,

@@ -28,6 +28,24 @@ import { BatchAllocationList } from './BatchAllocationList';
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
+const formValuesSubscriber = (form) => ({ values }) => {
+  form.batch(() => {
+    values.fyFinanceData?.forEach((item, index) => {
+      const shouldSetActive = (
+        !item.budgetId
+        && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
+        && !item[BATCH_ALLOCATION_FIELDS.budgetStatus]
+        && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]
+        && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
+      );
+
+      if (shouldSetActive) {
+        form.change(`fyFinanceData[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
+      }
+    });
+  });
+};
+
 const BatchAllocationsForm = ({
   changeSorting,
   fiscalYear,
@@ -50,24 +68,7 @@ const BatchAllocationsForm = ({
   } = form.getState();
 
   useEffect(() => {
-    const subscriber = ({ values }) => {
-      form.batch(() => {
-        values.fyFinanceData?.forEach((item, index) => {
-          const shouldSetActive = (
-            !item.budgetId
-            && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
-            && !item[BATCH_ALLOCATION_FIELDS.budgetStatus]
-            && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]
-            && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
-          );
-
-          if (shouldSetActive) {
-            form.change(`fyFinanceData[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
-          }
-        });
-      });
-    };
-
+    const subscriber = formValuesSubscriber(form);
     const unsubscribe = form.subscribe(subscriber, { values: true });
 
     return () => {

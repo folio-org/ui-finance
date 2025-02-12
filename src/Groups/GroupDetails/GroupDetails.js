@@ -64,6 +64,7 @@ const GroupDetails = ({
   selectedFY,
   onSelectFY,
   onAddFundToGroup,
+  onBatchAllocationLogs,
   onRemoveFundFromGroup,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -113,6 +114,10 @@ const GroupDetails = ({
               onToggle();
               toggleBatchAllocationModal();
             }}
+            onBatchAllocationLogs={() => {
+              onToggle();
+              onBatchAllocationLogs();
+            }}
           />
         </>
       );
@@ -120,6 +125,7 @@ const GroupDetails = ({
     [
       editGroup,
       isRestrictionsLoading,
+      onBatchAllocationLogs,
       restrictions.protectUpdate,
       restrictions.protectDelete,
       toggleBatchAllocationModal,
@@ -297,25 +303,25 @@ const GroupDetails = ({
 };
 
 GroupDetails.propTypes = {
-  onBatchAllocate: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
   editGroup: PropTypes.func.isRequired,
-  removeGroup: PropTypes.func.isRequired,
+  fiscalYearsRecords: PropTypes.shape({
+    current: PropTypes.arrayOf(PropTypes.object),
+    previous: PropTypes.arrayOf(PropTypes.object),
+  }),
+  funds: PropTypes.arrayOf(PropTypes.object),
   group: PropTypes.object.isRequired,
   groupSummary: PropTypes.shape({
     allocated: PropTypes.number,
     unavailable: PropTypes.number,
     available: PropTypes.number,
   }),
-  fiscalYearsRecords: PropTypes.shape({
-    current: PropTypes.arrayOf(PropTypes.object),
-    previous: PropTypes.arrayOf(PropTypes.object),
-  }),
-  funds: PropTypes.arrayOf(PropTypes.object),
-  selectedFY: PropTypes.object.isRequired,
-  onSelectFY: PropTypes.func.isRequired,
   onAddFundToGroup: PropTypes.func.isRequired,
+  onBatchAllocationLogs: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onRemoveFundFromGroup: PropTypes.func.isRequired,
+  onSelectFY: PropTypes.func.isRequired,
+  removeGroup: PropTypes.func.isRequired,
+  selectedFY: PropTypes.object.isRequired,
 };
 
 GroupDetails.defaultProps = {

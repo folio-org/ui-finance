@@ -132,4 +132,16 @@ describe('UploadBatchAllocations', () => {
 
     expect(defaultProps.history.push).toHaveBeenCalled();
   });
+
+  it('should call recalculate on recalculate button click', async () => {
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('test.csv')).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+
+    expect(recalculate).toHaveBeenCalled();
+  });
 });

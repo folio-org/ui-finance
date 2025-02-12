@@ -3,7 +3,9 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   screen,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { useFiscalYear } from '../../../common/hooks';
 import { BATCH_ALLOCATION_FIELDS } from '../constants';
@@ -65,5 +67,17 @@ describe('CreateBatchAllocations', () => {
     renderComponent();
 
     expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();
+  });
+
+  it('should call recalculate on recalculate button click', async () => {
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+
+    expect(recalculate).toHaveBeenCalled();
   });
 });

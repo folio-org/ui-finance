@@ -110,9 +110,9 @@ export const UploadBatchAllocations = ({
     history.push(backPathname);
   }, [backPathname, history]);
 
-  const onSubmit = useCallback(async ({ budgetsFunds }) => {
+  const onSubmit = useCallback(async ({ fyFinanceData }) => {
     // TODO: https://folio-org.atlassian.net/browse/UIF-534
-    console.log('budgetsFunds', budgetsFunds);
+    console.log('fyFinanceData', fyFinanceData);
 
     await localforage.removeItem(storageKey);
 

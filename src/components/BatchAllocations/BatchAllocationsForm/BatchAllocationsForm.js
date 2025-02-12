@@ -17,6 +17,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import stripesFinalForm from '@folio/stripes/final-form';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { BatchAllocationList } from './BatchAllocationList';
 
@@ -42,21 +43,26 @@ const BatchAllocationsForm = ({
     submitting,
   } = form.getState();
 
+  const showCallout = useShowCallout();
+
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const onRecalculate = useCallback(async () => {
-    const { budgetsFunds } = form.getState().values;
+    const { fyFinanceData } = form.getState().values;
 
     try {
       const res = await recalculate({
-        fyFinanceData: budgetsFunds.map(item => omit(item, ['_isMissed'])),
+        fyFinanceData: fyFinanceData.map(item => omit(item, ['_isMissed'])),
       });
 
-      console.log('recalculate', res);
+      form.change('calculatedFinanceData', res.fyFinanceData);
     } catch (error) {
-      console.log('Failed to recalculate', error);
+      showCallout({
+        messageId: 'ui-finance.allocation.batch.form.recalculate.error',
+        type: 'error',
+      });
     }
-  }, [recalculate, form]);
+  }, [form, recalculate, showCallout]);
 
   const start = (
     <Row>
@@ -123,7 +129,7 @@ const BatchAllocationsForm = ({
           </Headline>
           <FieldArray
             id="batch-allocation-list"
-            name="budgetsFunds"
+            name="fyFinanceData"
             component={BatchAllocationList}
             props={{
               onHeaderClick: changeSorting,
@@ -172,5 +178,5 @@ BatchAllocationsForm.propTypes = {
 export default stripesFinalForm({
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
-  // subscription: { values: true },
+  subscription: { values: true },
 })(BatchAllocationsForm);

@@ -69,7 +69,7 @@ export const DownloadAllocationWorksheetModal = ({
       });
 
       const exportData = fyFinanceData.map(({ fiscalYearId, ...rest }) => ({
-        allocationAdjustment: 0,
+        budgetAllocationChange: 0,
         fiscalYearId,
         fiscalYear: fiscalYearsKV[fiscalYearId]?.code,
         ...rest,

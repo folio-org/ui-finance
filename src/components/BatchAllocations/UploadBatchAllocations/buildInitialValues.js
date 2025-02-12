@@ -1,3 +1,4 @@
+import { BUDGET_STATUSES } from '../../Budget/constants';
 import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
@@ -6,6 +7,22 @@ import {
 const TAGS_SEPARATOR = ';';
 
 const buildRowKey = (item) => `${item.fundId}-${item.fundCode}-${item.fundName}-${item.budgetId}-${item.budgetName}`;
+
+const getBudgetStatus = (item) => {
+  if (item[BATCH_ALLOCATION_FIELDS.budgetStatus] === BUDGET_STATUSES.ACTIVE) {
+    return item[BATCH_ALLOCATION_FIELDS.budgetStatus];
+  }
+
+  const shouldSetActive = (
+    item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
+    && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]
+    && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
+  );
+
+  return shouldSetActive
+    ? BUDGET_STATUSES.ACTIVE
+    : item[BATCH_ALLOCATION_FIELDS.budgetStatus];
+};
 
 export const buildInitialValues = (fileData = [], financeData = [], fiscalYear = {}) => {
   const actualFundIdsSet = new Set(financeData.map((item) => item.fundId));
@@ -17,7 +34,7 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
     return acc;
   }, new Map());
 
-  const budgetsFunds = financeData.map((item) => {
+  const fyFinanceData = financeData.map((item) => {
     const isFundMissedInFile = !uploadedFundIdsSet.has(item.fundId);
     const dataItem = isFundMissedInFile
       ? item
@@ -28,7 +45,8 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
       ...dataItem,
       fiscalYearId: fiscalYear.id,
       fiscalYearCode: fiscalYear.code,
-      fundDescription: dataItem.fundDescription || item.fundDescription,
+      fundDescription: dataItem.fundDescription || item.fundDescription || '',
+      [BATCH_ALLOCATION_FIELDS.budgetStatus]: getBudgetStatus(dataItem),
       [BATCH_ALLOCATION_FIELDS.transactionTag]: {
         tagList: (
           dataItem[BATCH_ALLOCATION_FIELDS.transactionTag]
@@ -44,7 +62,8 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
   const invalidFunds = fileData.filter((item) => !actualFundIdsSet.has(item.fundId));
 
   return {
-    budgetsFunds,
+    calculatedFinanceData: null,
+    fyFinanceData,
     invalidFunds,
   };
 };

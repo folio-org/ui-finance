@@ -15,8 +15,14 @@ import {
 
 import { FUND_STATUSES_OPTIONS } from '../../../../Funds/constants';
 import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
-import { getFormattedOptions } from '../../BatchAllocationsForm/utils';
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
+import { getFormattedOptions } from '../../BatchAllocationsForm/utils';
+import {
+  validateAllocationAfterField,
+  validateBudgetStatus,
+  validateFundStatus,
+  validateNumericValue,
+} from './validators';
 
 export const useBatchAllocationFormatter = (intl) => {
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
@@ -53,7 +59,8 @@ export const useBatchAllocationFormatter = (intl) => {
           disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+          name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+          validate={validateFundStatus(intl)}
         />
       );
     },
@@ -65,7 +72,8 @@ export const useBatchAllocationFormatter = (intl) => {
           disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+          name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+          validate={validateBudgetStatus(intl)}
         />
       );
     },
@@ -77,23 +85,27 @@ export const useBatchAllocationFormatter = (intl) => {
           component={TextField}
           disabled={item._isMissed}
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
+          name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
+          parse={Number}
           placeholder="0.00"
           required
           type="number"
+          validate={validateNumericValue(intl)}
         />
       );
     },
-    [BATCH_ALLOCATION_FIELDS.totalAllocatedAfter]: (item) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAfterAllocation]: (item) => {
       return (
         <Field
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter.toLocaleLowerCase()}`}
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation.toLocaleLowerCase()}`}
           component={TextField}
           disabled
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
+          name={`calculatedFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
+          parse={Number}
           required
+          validate={validateAllocationAfterField(intl, item.rowIndex)}
         />
       );
     },
@@ -105,10 +117,11 @@ export const useBatchAllocationFormatter = (intl) => {
           disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
+          name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
           placeholder="0.00"
           required
           type="number"
+          validate={validateNumericValue(intl)}
         />
       );
     },
@@ -120,10 +133,11 @@ export const useBatchAllocationFormatter = (intl) => {
           disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
+          name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
           placeholder="0.00"
           required
           type="number"
+          validate={validateNumericValue(intl)}
         />
       );
     },
@@ -135,7 +149,7 @@ export const useBatchAllocationFormatter = (intl) => {
           disabled={item._isMissed}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
+          name={`fyFinanceData.${item.rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
           placeholder="Description"
           required
           type="text"
@@ -150,7 +164,7 @@ export const useBatchAllocationFormatter = (intl) => {
           fullWidth
           labelless
           marginBottom0
-          name={`budgetsFunds.${item.rowIndex}.transactionTag.tagList`}
+          name={`fyFinanceData.${item.rowIndex}.transactionTag.tagList`}
         />
       );
     },

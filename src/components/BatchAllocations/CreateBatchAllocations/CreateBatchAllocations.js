@@ -79,9 +79,9 @@ export const CreateBatchAllocations = ({
     history.push(backPathname);
   }, [history, backPathname]);
 
-  const onSubmit = useCallback(async ({ budgetsFunds }) => {
+  const onSubmit = useCallback(async ({ fyFinanceData }) => {
     // TODO: https://folio-org.atlassian.net/browse/UIF-534
-    console.log('budgetsFunds', budgetsFunds);
+    console.log('fyFinanceData', fyFinanceData);
 
     onClose();
   }, [onClose]);
@@ -102,10 +102,11 @@ export const CreateBatchAllocations = ({
   }
 
   const initialValues = {
-    budgetsFunds: financeData?.map((item) => ({
+    fyFinanceData: financeData?.map((item) => ({
       ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
       ...item,
     })),
+    calculatedFinanceData: null,
   };
 
   return (

@@ -13,8 +13,8 @@ describe('useBatchAllocationFormatter', () => {
 
     expect(result.current).toHaveProperty('fundStatus');
     expect(result.current).toHaveProperty('budgetStatus');
+    expect(result.current).toHaveProperty('budgetAfterAllocation');
     expect(result.current).toHaveProperty('budgetAllocationChange');
-    expect(result.current).toHaveProperty('totalAllocatedAfter');
     expect(result.current).toHaveProperty('budgetAllowableEncumbrance');
     expect(result.current).toHaveProperty('budgetAllowableExpenditure');
     expect(result.current).toHaveProperty('transactionDescription');
@@ -27,7 +27,7 @@ describe('useBatchAllocationFormatter', () => {
     const budgetStatusComponent = result.current.budgetStatus({ rowIndex: 1 });
 
     expect(budgetStatusComponent.props.name)
-      .toBe(`budgetsFunds.1.${BATCH_ALLOCATION_FIELDS.budgetStatus}`);
+      .toBe(`fyFinanceData.1.${BATCH_ALLOCATION_FIELDS.budgetStatus}`);
   });
 
   it('should return correct field names for fund status', () => {
@@ -36,7 +36,7 @@ describe('useBatchAllocationFormatter', () => {
     const fundStatusComponent = result.current.fundStatus({ rowIndex: 2 });
 
     expect(fundStatusComponent.props.name)
-      .toBe(`budgetsFunds.2.${BATCH_ALLOCATION_FIELDS.fundStatus}`);
+      .toBe(`fyFinanceData.2.${BATCH_ALLOCATION_FIELDS.fundStatus}`);
   });
 
   it('should return correct field names for transaction description', () => {
@@ -45,6 +45,6 @@ describe('useBatchAllocationFormatter', () => {
     const transactionDescriptionComponent = result.current.transactionDescription({ rowIndex: 0 });
 
     expect(transactionDescriptionComponent.props.name)
-      .toBe(`budgetsFunds.0.${BATCH_ALLOCATION_FIELDS.transactionDescription}`);
+      .toBe(`fyFinanceData.0.${BATCH_ALLOCATION_FIELDS.transactionDescription}`);
   });
 });

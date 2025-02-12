@@ -24,10 +24,10 @@ export const hasRows = ({ intl }) => ({ data }) => {
   return undefined;
 };
 
-export const hasRequiredHeaders = ({ intl, requiredHeaders }) => ({ data }) => {
+export const hasRequiredHeaders = ({ intl, headers }) => ({ data }) => {
   const fileHeaders = Object.keys(data[0] || {});
   const missingHeaders = (
-    requiredHeaders
+    headers
       .filter((header) => !fileHeaders.includes(header))
       .map((header) => EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS[header])
   );
@@ -61,13 +61,45 @@ export const hasConsistentFieldValues = ({ intl, fields }) => ({ data }) => {
   return undefined;
 };
 
+export const hasRequiredFieldValues = ({ intl, fields }) => ({ data, fileName }) => {
+  if (!Array.isArray(data) || data.length === 0) {
+    return undefined;
+  }
+
+  for (const row of data) {
+    for (const field of fields) {
+      if (!row[field]) {
+        return intl.formatMessage(
+          { id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.parseFailed' },
+          { fileName },
+        );
+      }
+    }
+  }
+
+  return undefined;
+};
+
 export const validateFile = ({ intl }) => (value) => {
   if (!value) return undefined;
 
   return composeValidators(
     isCsvFile({ intl }),
     hasRows({ intl }),
-    hasRequiredHeaders({ intl, requiredHeaders: ALLOCATION_WORKSHEET_REQUIRED_FIELDS }),
-    hasConsistentFieldValues({ intl, fields: [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear] }),
+    hasRequiredHeaders({
+      intl,
+      headers: ALLOCATION_WORKSHEET_REQUIRED_FIELDS,
+    }),
+    hasRequiredFieldValues({
+      intl,
+      fields: [
+        EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear,
+        EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundId,
+      ],
+    }),
+    hasConsistentFieldValues({
+      intl,
+      fields: [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear],
+    }),
   )(value);
 };

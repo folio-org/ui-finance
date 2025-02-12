@@ -24,7 +24,7 @@ export const useBatchAllocationMutation = () => {
         totalRecords: fyFinanceData.length,
       };
 
-      return ky.put(FINANCE_DATA_API, { json });
+      return ky.put(FINANCE_DATA_API, { json }).json();
     },
   });
 

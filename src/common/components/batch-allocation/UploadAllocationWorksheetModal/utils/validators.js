@@ -3,10 +3,7 @@ import {
   EXPORT_ALLOCATION_WORKSHEET_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
 } from '../../../../const';
-
-export const composeValidators = (...validators) => (value) => {
-  return validators.reduce((error, validator) => error || validator(value), undefined);
-};
+import { composeValidators } from '../../../../utils';
 
 export const isCsvFile = ({ intl }) => ({ fileName }) => {
   if (!fileName.endsWith('.csv')) {

@@ -6,7 +6,7 @@ export const validateAllocationAfterField = (intl, rowIndex) => (value, allValue
   const adjustment = allValues?.fyFinanceData?.[rowIndex]?.[BATCH_ALLOCATION_FIELDS.budgetAllocationChange];
 
   return value && (adjustment > 0 && value < 0)
-    ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.negativeValue' })
+    ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.negativeAllocation' })
     : undefined;
 };
 

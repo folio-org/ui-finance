@@ -67,6 +67,13 @@ const BatchAllocationsForm = ({
     submitting,
   } = form.getState();
 
+  const isSubmitDisabled = (
+    form.getState()?.values?.calculatedFinanceData === null
+    || invalid
+    || pristine
+    || submitting
+  );
+
   useEffect(() => {
     const subscriber = formValuesSubscriber(form);
     const unsubscribe = form.subscribe(subscriber, { values: true });
@@ -88,7 +95,11 @@ const BatchAllocationsForm = ({
         fyFinanceData: fyFinanceData.map(item => omit(item, ['_isMissed'])),
       });
 
-      form.change('calculatedFinanceData', res.fyFinanceData);
+      form.batch(() => {
+        form.change('_isRecalculating', true);
+        form.change('calculatedFinanceData', res.fyFinanceData);
+        form.submit();
+      });
     } catch (error) {
       showCallout({
         messageId: 'ui-finance.allocation.batch.form.recalculate.error',
@@ -124,7 +135,7 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="primary mega"
-          disabled={invalid || pristine || submitting}
+          disabled={isSubmitDisabled}
           onClick={handleSubmit}
           type="submit"
         >

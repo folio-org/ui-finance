@@ -13,8 +13,10 @@ import {
   AmountWithCurrencyField,
   FieldSelectFinal,
   FieldTags,
+  validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
 
+import { composeValidators } from '../../../../common/utils';
 import { FUND_STATUSES_OPTIONS } from '../../../../Funds/constants';
 import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
@@ -104,7 +106,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           placeholder="0.00"
           required
           type="number"
-          validate={validateNumericValue(intl)}
+          validate={composeValidators(validateNumericValue(intl), validateRequiredNotNegative)}
         />
       );
     },

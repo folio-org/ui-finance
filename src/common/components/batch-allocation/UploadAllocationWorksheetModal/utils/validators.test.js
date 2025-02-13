@@ -1,6 +1,6 @@
 import { ALLOCATION_WORKSHEET_REQUIRED_FIELDS } from '../../../../const';
+import { composeValidators } from '../../../../utils';
 import {
-  composeValidators,
   isCsvFile,
   hasRows,
   hasRequiredHeaders,

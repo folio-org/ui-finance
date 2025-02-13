@@ -23,11 +23,10 @@ import {
   LEDGERS_ROUTE,
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
-import { BatchAllocationsForm } from '../BatchAllocationsForm';
+import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
 import { BATCH_ALLOCATION_SORTABLE_FIELDS } from '../constants';
 import {
   useBatchAllocation,
-  useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -57,11 +56,6 @@ export const UploadBatchAllocations = ({
     sortingDirection,
     changeSorting,
   ] = useSorting(noop, BATCH_ALLOCATION_SORTABLE_FIELDS);
-
-  const {
-    recalculate,
-    isLoading: isBatchAllocationMutationLoading,
-  } = useBatchAllocationMutation();
 
   const {
     fiscalYear,
@@ -139,17 +133,15 @@ export const UploadBatchAllocations = ({
   return (
     <>
       <TitleManager record={fileData?.fileName} />
-      <BatchAllocationsForm
+      <BatchAllocationsFormContainer
         changeSorting={changeSorting}
         fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}
-        isRecalculateDisabled={isBatchAllocationMutationLoading}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData?.name}
         paneTitle={fiscalYear?.code}
-        recalculate={recalculate}
         sortingDirection={sortingDirection}
         sortingField={sortingField}
       />

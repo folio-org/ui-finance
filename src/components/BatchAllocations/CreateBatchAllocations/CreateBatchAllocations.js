@@ -15,14 +15,13 @@ import {
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
-import { BatchAllocationsForm } from '../BatchAllocationsForm';
+import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
 import {
   BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
   BATCH_ALLOCATION_SORTABLE_FIELDS,
 } from '../constants';
 import {
   useBatchAllocation,
-  useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -69,11 +68,6 @@ export const CreateBatchAllocations = ({
     isLoading: isFiscalYearLoading,
   } = useFiscalYear(fiscalYearId);
 
-  const {
-    recalculate,
-    isLoading: isBatchAllocationMutationLoading,
-  } = useBatchAllocationMutation();
-
   const onClose = useCallback(() => {
     history.push(backPathname);
   }, [history, backPathname]);
@@ -115,17 +109,15 @@ export const CreateBatchAllocations = ({
   return (
     <>
       <TitleManager record={intl.formatMessage({ id: 'ui-finance.actions.allocations.batch' })} />
-      <BatchAllocationsForm
+      <BatchAllocationsFormContainer
         changeSorting={changeSorting}
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
-        isRecalculateDisabled={isBatchAllocationMutationLoading}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData.name}
         paneTitle={fiscalYear?.code}
-        recalculate={recalculate}
         sortingDirection={sortingDirection}
         sortingField={sortingField}
       />

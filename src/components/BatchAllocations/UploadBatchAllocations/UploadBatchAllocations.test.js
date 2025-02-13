@@ -69,7 +69,7 @@ const renderComponent = (props = {}) => render(
 
 describe('UploadBatchAllocations', () => {
   const showCalloutMock = jest.fn();
-  const recalculate = jest.fn();
+  const recalculate = jest.fn(() => Promise.resolve({ fyFinanceData }));
   const batchAllocate = jest.fn();
 
   beforeEach(() => {
@@ -106,8 +106,7 @@ describe('UploadBatchAllocations', () => {
     });
   });
 
-  // TODO: update according to the https://folio-org.atlassian.net/browse/UIF-534
-  xit('should remove file data on submit', async () => {
+  it('should remove file data on submit', async () => {
     renderComponent();
 
     await waitFor(() => {
@@ -115,6 +114,7 @@ describe('UploadBatchAllocations', () => {
     });
 
     await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
     await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     await waitFor(() => {

@@ -43,13 +43,20 @@ const {
   _isMissed: IS_MISSED,
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
+const checkIfUnchanged = (item, initialValues) => {
+  return isEqual(
+    omit(item, [ROW_INDEX]),
+    initialValues[FINANCE_DATA][item[ROW_INDEX]],
+  );
+};
+
 export const useBatchAllocationFormatter = (intl, fiscalYear) => {
   const form = useForm();
 
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
 
-  return {
+  const formatter = useMemo(() => ({
     [BATCH_ALLOCATION_FIELDS.fundName]: (item) => {
       const {
         initialValues,
@@ -57,12 +64,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
       } = form.getState();
 
       const isIconVisible = (
-        item[IS_MISSED] || (
-          Boolean(values[CALCULATED_FINANCE_DATA]) && isEqual(
-            omit(item, [ROW_INDEX]),
-            initialValues[FINANCE_DATA][item[ROW_INDEX]],
-          )
-        )
+        (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA])) && checkIfUnchanged(item, initialValues)
       );
 
       return (
@@ -161,6 +163,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
+          parse={Number}
           placeholder="0.00"
           required
           type="number"
@@ -176,6 +179,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
+          parse={Number}
           placeholder="0.00"
           required
           type="number"
@@ -208,5 +212,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
         />
       );
     },
-  };
+  }), [form, intl, fundStatusOptions, fiscalYear.currency, budgetStatusOptions]);
+
+  return formatter;
 };

@@ -16,7 +16,6 @@ export const ConfirmDeleteLogModal = ({
       message={<FormattedMessage id="ui-finance.allocation.batch.logs.modal.delete.description" />}
       onConfirm={onConfirm}
       onCancel={onCancel}
-      cancelLabel={<FormattedMessage id="ui-finance.cancel" />}
       confirmLabel={<FormattedMessage id="ui-finance.transaction.button.confirm" />}
     />
   );

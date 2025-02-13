@@ -60,29 +60,37 @@ export const BatchAllocationLogsList = ({
     toggleSelectAll,
   } = useRecordsSelect({ records: logs });
 
-  const onDelete = () => {
+  const onDelete = async () => {
     toggleDeleteModal();
 
-    const deletePromises = Object.keys(selectedRecordsMap).map((id) => deleteLog(id));
+    const recordIds = Object.keys(selectedRecordsMap);
+    const deletePromises = recordIds.map((id) => deleteLog(id));
+    const results = await Promise.allSettled(deletePromises);
 
-    return Promise.all(deletePromises)
-      .then((results) => {
-        const failedDeletes = results.filter((result) => result?.error);
+    const failedDeletes = results.reduce((acc, result, index) => {
+      if (result.status === 'rejected' || result.value?.error) {
+        acc.push({ id: recordIds[index] });
+      }
 
-        if (failedDeletes.length > 0) {
-          failedDeletes.forEach(({ id }) => {
-            showCallout({
-              messageId: 'ui-finance.allocation.batch.logs.actions.delete.fail',
-              type: 'error',
-              values: { id },
-            });
-          });
-        } else {
-          resetAllSelectedRecords();
-          dataReset();
-          showCallout({ messageId: 'ui-finance.allocation.batch.logs.actions.delete.success' });
-        }
+      return acc;
+    }, []);
+
+    if (failedDeletes.length > 0) {
+      failedDeletes.forEach(({ id }) => {
+        showCallout({
+          messageId: 'ui-finance.allocation.batch.logs.actions.delete.fail',
+          type: 'error',
+          values: { id },
+        });
       });
+    } else {
+      showCallout({
+        messageId: 'ui-finance.allocation.batch.logs.actions.delete.success',
+      });
+    }
+
+    dataReset();
+    resetAllSelectedRecords();
   };
 
   const columnMapping = useMemo(() => {
@@ -103,35 +111,32 @@ export const BatchAllocationLogsList = ({
     });
   }, [isLoading, intl, selectRecord, selectedRecordsMap]);
 
-  const renderActionMenu = useCallback(
-    ({ onToggle }) => (
-      <MenuSection>
-        <IfPermission perm="ui-finance.fund-update-logs.delete">
-          <Button
-            data-testid="delete-log-button"
-            buttonStyle="dropdownItem"
-            onClick={() => {
-              toggleDeleteModal();
-              onToggle();
-            }}
-            disabled={!selectedRecordsLength}
-          >
-            <Icon icon="trash">
-              <FormattedMessage id="ui-finance.allocation.batch.logs.actions.delete" />
-            </Icon>
-          </Button>
-        </IfPermission>
-      </MenuSection>
-    ),
-    [
-      toggleDeleteModal,
-      selectedRecordsLength,
-    ],
-  );
+  const renderActionMenu = useCallback(({ onToggle }) => (
+    <MenuSection>
+      <IfPermission perm="ui-finance.fund-update-logs.delete">
+        <Button
+          data-testid="delete-log-button"
+          buttonStyle="dropdownItem"
+          onClick={() => {
+            toggleDeleteModal();
+            onToggle();
+          }}
+          disabled={!selectedRecordsLength}
+        >
+          <Icon icon="trash">
+            <FormattedMessage id="ui-finance.allocation.batch.logs.actions.delete" />
+          </Icon>
+        </Button>
+      </IfPermission>
+    </MenuSection>
+  ), [toggleDeleteModal, selectedRecordsLength]);
 
   if (isLoading) {
     return (
-      <LoadingView />
+      <LoadingView
+        dismissible
+        onClose={onClose}
+      />
     );
   }
 

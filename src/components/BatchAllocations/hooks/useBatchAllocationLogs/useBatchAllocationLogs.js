@@ -12,7 +12,6 @@ const DEFAULT_LOGS = [];
 
 export const useBatchAllocationLogs = (options = {}) => {
   const query = 'cql.allRecords=1 sortby metadata.createdDate/sort.descending';
-  const limit = LIMIT_MAX;
 
   const {
     enabled = true,
@@ -24,7 +23,7 @@ export const useBatchAllocationLogs = (options = {}) => {
   const [namespace] = useNamespace({ key: 'fund-update-logs' });
 
   const searchParams = {
-    limit,
+    LIMIT_MAX,
     query,
   };
 
@@ -34,7 +33,7 @@ export const useBatchAllocationLogs = (options = {}) => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: [namespace, query, limit],
+    queryKey: [namespace, query, LIMIT_MAX],
     queryFn: ({ signal }) => ky.get(FUND_UPDATE_LOGS_API, { searchParams, signal }).json(),
     enabled,
     ...queryOptions,

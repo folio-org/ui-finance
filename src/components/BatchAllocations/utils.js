@@ -56,9 +56,9 @@ export const getResultsListFormatter = ({
         disabled={disabled}
       />
     ),
-    [BATCH_ALLOCATION_LOG_FIELDS.jobName]: ({ jobName }) => (
+    [BATCH_ALLOCATION_LOG_FIELDS.jobName]: (item) => (
       <>
-        <TextLink to="#"> {jobName} </TextLink>
+        <TextLink to="#"> {item.jobName} </TextLink>
         <Button
           onClick={() => {}}
           buttonStyle="none"
@@ -68,21 +68,13 @@ export const getResultsListFormatter = ({
         </Button>
       </>
     ),
-    [BATCH_ALLOCATION_LOG_FIELDS.status]: ({ status }) => status || <NoValue />,
-    [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: ({ recordsCount }) => recordsCount || <NoValue />,
-    [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: ({ metadata: { createdDate } }) => (
-      <>
-        <FolioFormattedTime dateString={createdDate} />
-      </>
-    ),
-    [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: ({ metadata: { updatedDate } }) => (
-      <>
-        <FolioFormattedTime dateString={updatedDate} />
-      </>
-    ),
+    [BATCH_ALLOCATION_LOG_FIELDS.status]: (item) => item.status || <NoValue />,
+    [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: (item) => item.recordsCount || <NoValue />,
+    [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: (item) => <FolioFormattedTime dateString={item.metadata.createdDate} />,
+    [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: (item) => <FolioFormattedTime dateString={item.metadata.updatedDate} />,
     createdByUsername: ({ createdByUser: { personal: { firstName, lastName } } }) => (
       <TextLink to="#"> {lastName}, {firstName} </TextLink>
     ),
-    [BATCH_ALLOCATION_LOG_FIELDS.jobNumber]: ({ jobNumber }) => (jobNumber || <NoValue />),
+    [BATCH_ALLOCATION_LOG_FIELDS.jobNumber]: (item) => (item.jobNumber || <NoValue />),
   };
 };

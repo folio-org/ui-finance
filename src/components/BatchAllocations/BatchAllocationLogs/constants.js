@@ -8,10 +8,8 @@ export const BATCH_ALLOCATION_LOG_FIELDS = {
   jobNumber: 'jobNumber',
 };
 
-const select = 'select';
-
 export const BATCH_ALLOCATION_LOG_COLUMNS = [
-  select,
+  'select',
   BATCH_ALLOCATION_LOG_FIELDS.jobName,
   BATCH_ALLOCATION_LOG_FIELDS.status,
   BATCH_ALLOCATION_LOG_FIELDS.recordsCount,

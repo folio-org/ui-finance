@@ -21,7 +21,7 @@ export const BatchAllocationLogs = ({
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
     BATCH_ALLOCATIONS_SOURCE.group;
-  const backPathname = location.state?.backPathname || resolveDefaultBackPathname(sourceType, sourceId);
+  const backPathname = resolveDefaultBackPathname(sourceType, sourceId);
 
   const {
     data: logs,

@@ -1,9 +1,15 @@
 import { FUND_STATUSES } from '../../../../Funds/constants';
 import { BUDGET_STATUSES } from '../../../Budget/constants';
-import { BATCH_ALLOCATION_FIELDS } from '../../constants';
+import {
+  BATCH_ALLOCATION_FIELDS,
+  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
+} from '../../constants';
 
 export const validateAllocationAfterField = (intl, rowIndex) => (value, allValues) => {
-  const adjustment = allValues?.fyFinanceData?.[rowIndex]?.[BATCH_ALLOCATION_FIELDS.budgetAllocationChange];
+  const adjustment = allValues
+    ?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]
+    ?.[rowIndex]
+    ?.[BATCH_ALLOCATION_FIELDS.budgetAllocationChange];
 
   return value && (adjustment > 0 && value < 0)
     ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.negativeAllocation' })

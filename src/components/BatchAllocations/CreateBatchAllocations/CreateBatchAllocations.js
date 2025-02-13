@@ -18,6 +18,7 @@ import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
 import {
   BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
+  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
   BATCH_ALLOCATION_SORTABLE_FIELDS,
 } from '../constants';
 import {
@@ -72,7 +73,9 @@ export const CreateBatchAllocations = ({
     history.push(backPathname);
   }, [history, backPathname]);
 
-  const onSubmit = useCallback(async ({ fyFinanceData }) => {
+  const onSubmit = useCallback(async ({
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
+  }) => {
     // TODO: https://folio-org.atlassian.net/browse/UIF-534
     console.log('fyFinanceData', fyFinanceData);
 
@@ -95,7 +98,7 @@ export const CreateBatchAllocations = ({
   }
 
   const initialValues = {
-    fyFinanceData: (
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: (
       financeData
         ?.map((item) => ({
           ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
@@ -103,7 +106,7 @@ export const CreateBatchAllocations = ({
         }))
         ?.sort((a, b) => a.fundName.localeCompare(b.fundName))
     ),
-    calculatedFinanceData: null,
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData]: null,
   };
 
   return (

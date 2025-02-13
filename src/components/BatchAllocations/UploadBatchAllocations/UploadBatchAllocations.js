@@ -24,7 +24,10 @@ import {
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
-import { BATCH_ALLOCATION_SORTABLE_FIELDS } from '../constants';
+import {
+  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
+  BATCH_ALLOCATION_SORTABLE_FIELDS,
+} from '../constants';
 import {
   useBatchAllocation,
   useSourceData,
@@ -103,7 +106,9 @@ export const UploadBatchAllocations = ({
     history.push(backPathname);
   }, [backPathname, history]);
 
-  const onSubmit = useCallback(async ({ fyFinanceData }) => {
+  const onSubmit = useCallback(async ({
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
+  }) => {
     // TODO: https://folio-org.atlassian.net/browse/UIF-534
     console.log('fyFinanceData', fyFinanceData);
 

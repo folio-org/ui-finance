@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 
+import { BATCH_ALLOCATION_FORM_SPECIAL_FIELDS } from '../constants';
 import { useBatchAllocationMutation } from '../hooks';
 import BatchAllocationsForm from './BatchAllocationsForm';
 
@@ -14,8 +15,8 @@ export const BatchAllocationsFormContainer = ({
   } = useBatchAllocationMutation();
 
   const onSubmit = useCallback(async (values, form) => {
-    if (values._isRecalculating) {
-      form.change('_isRecalculating', false);
+    if (values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating]) {
+      form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, false);
 
       return;
     }

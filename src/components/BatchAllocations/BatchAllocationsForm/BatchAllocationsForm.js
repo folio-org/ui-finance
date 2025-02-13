@@ -23,14 +23,17 @@ import stripesFinalForm from '@folio/stripes/final-form';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { BUDGET_STATUSES } from '../../Budget/constants';
-import { BATCH_ALLOCATION_FIELDS } from '../constants';
+import {
+  BATCH_ALLOCATION_FIELDS,
+  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
+} from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
 const formValuesSubscriber = (form) => ({ values }) => {
   form.batch(() => {
-    values.fyFinanceData?.forEach((item, index) => {
+    values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]?.forEach((item, index) => {
       const shouldSetActive = (
         !item.budgetId
         && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
@@ -40,7 +43,7 @@ const formValuesSubscriber = (form) => ({ values }) => {
       );
 
       if (shouldSetActive) {
-        form.change(`fyFinanceData[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
+        form.change(`${BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
       }
     });
   });
@@ -68,7 +71,7 @@ const BatchAllocationsForm = ({
   } = form.getState();
 
   const isSubmitDisabled = (
-    form.getState()?.values?.calculatedFinanceData === null
+    form.getState()?.values?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData] === null
     || invalid
     || pristine
     || submitting
@@ -88,16 +91,18 @@ const BatchAllocationsForm = ({
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const onRecalculate = useCallback(async () => {
-    const { fyFinanceData } = form.getState().values;
+    const {
+      [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
+    } = form.getState().values;
 
     try {
       const res = await recalculate({
-        fyFinanceData: fyFinanceData.map(item => omit(item, ['_isMissed'])),
+        fyFinanceData: fyFinanceData.map(item => omit(item, [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isMissed])),
       });
 
       form.batch(() => {
-        form.change('_isRecalculating', true);
-        form.change('calculatedFinanceData', res.fyFinanceData);
+        form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, true);
+        form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
         form.submit();
       });
     } catch (error) {
@@ -173,7 +178,7 @@ const BatchAllocationsForm = ({
           </Headline>
           <FieldArray
             id="batch-allocation-list"
-            name="fyFinanceData"
+            name={BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData}
             component={BatchAllocationList}
             props={{
               fiscalYear,
@@ -184,14 +189,14 @@ const BatchAllocationsForm = ({
           />
 
           {
-            Boolean(initialValues.invalidFunds?.length) && (
+            Boolean(initialValues[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.invalidFunds]?.length) && (
               <Layout className="marginTop1">
                 <MessageBanner type="error">
                   <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
                 </MessageBanner>
                 <Layout className="marginTopHalf">
                   <List
-                    items={initialValues.invalidFunds}
+                    items={initialValues[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.invalidFunds]}
                     itemFormatter={formatInvalidFundsListItem}
                     listStyle="bullets"
                   />

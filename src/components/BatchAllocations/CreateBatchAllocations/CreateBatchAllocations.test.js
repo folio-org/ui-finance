@@ -7,23 +7,23 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
+import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
-import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import {
   useSourceData,
   useBatchAllocation,
-  useBatchAllocationFormatter,
   useBatchAllocationMutation,
 } from '../hooks';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
 jest.mock('../../../common/hooks', () => ({
+  ...jest.requireActual('../../../common/hooks'),
   useFiscalYear: jest.fn(),
 }));
 jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
   useSourceData: jest.fn(),
   useBatchAllocation: jest.fn(),
-  useBatchAllocationFormatter: jest.fn(),
   useBatchAllocationMutation: jest.fn(),
 }));
 
@@ -52,10 +52,9 @@ describe('CreateBatchAllocations', () => {
   const batchAllocate = jest.fn();
 
   beforeEach(() => {
-    useBatchAllocation.mockReturnValue({ budgetsFunds: [], isLoading: false, refetch: () => {} });
+    useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData, isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
-    useBatchAllocationFormatter.mockReturnValue(BATCH_ALLOCATION_FIELDS);
     useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
   });
 

@@ -33,3 +33,9 @@ export const validateNumericValue = (intl) => (value) => {
     ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.numeric' })
     : undefined;
 };
+
+export const validateNotNegative = (intl) => (value) => {
+  return value && (Number.parseFloat(value) < 0)
+    ? intl.formatMessage({ id: 'stripes-acq-components.validation.cantBeNegative' })
+    : undefined;
+};

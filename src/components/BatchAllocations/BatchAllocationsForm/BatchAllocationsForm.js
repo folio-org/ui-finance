@@ -229,5 +229,4 @@ BatchAllocationsForm.propTypes = {
 export default stripesFinalForm({
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
-  subscription: { values: true },
 })(BatchAllocationsForm);

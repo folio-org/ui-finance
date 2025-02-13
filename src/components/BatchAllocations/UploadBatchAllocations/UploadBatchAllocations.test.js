@@ -13,6 +13,7 @@ import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
 import {
   useBatchAllocation,
+  useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
 import { UploadBatchAllocations } from './UploadBatchAllocations';
@@ -34,6 +35,7 @@ jest.mock('../../../common/hooks', () => ({
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useBatchAllocation: jest.fn(),
+  useBatchAllocationMutation: jest.fn(),
   useSourceData: jest.fn(),
 }));
 
@@ -67,10 +69,13 @@ const renderComponent = (props = {}) => render(
 
 describe('UploadBatchAllocations', () => {
   const showCalloutMock = jest.fn();
+  const recalculate = jest.fn(() => Promise.resolve({ fyFinanceData }));
+  const batchAllocate = jest.fn();
 
   beforeEach(() => {
     localforage.getItem.mockResolvedValue({ fileName: 'test.csv', data: uploadFileDataStub });
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData });
+    useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useShowCallout.mockReturnValue(showCalloutMock);
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
@@ -108,7 +113,8 @@ describe('UploadBatchAllocations', () => {
       expect(screen.getByText('test.csv')).toBeInTheDocument();
     });
 
-    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.allocationIncreaseDecrease')[0], '42');
+    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
     await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     await waitFor(() => {
@@ -126,5 +132,17 @@ describe('UploadBatchAllocations', () => {
     await userEvent.click(screen.getByRole('button', { name: 'stripes-acq-components.FormFooter.cancel' }));
 
     expect(defaultProps.history.push).toHaveBeenCalled();
+  });
+
+  it('should call recalculate on recalculate button click', async () => {
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('test.csv')).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+
+    expect(recalculate).toHaveBeenCalled();
   });
 });

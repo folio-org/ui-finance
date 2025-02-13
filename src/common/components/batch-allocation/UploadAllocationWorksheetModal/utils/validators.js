@@ -3,10 +3,7 @@ import {
   EXPORT_ALLOCATION_WORKSHEET_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
 } from '../../../../const';
-
-export const composeValidators = (...validators) => (value) => {
-  return validators.reduce((error, validator) => error || validator(value), undefined);
-};
+import { composeValidators } from '../../../../utils';
 
 export const isCsvFile = ({ intl }) => ({ fileName }) => {
   if (!fileName.endsWith('.csv')) {
@@ -24,10 +21,10 @@ export const hasRows = ({ intl }) => ({ data }) => {
   return undefined;
 };
 
-export const hasRequiredHeaders = ({ intl, requiredHeaders }) => ({ data }) => {
+export const hasRequiredHeaders = ({ intl, headers }) => ({ data }) => {
   const fileHeaders = Object.keys(data[0] || {});
   const missingHeaders = (
-    requiredHeaders
+    headers
       .filter((header) => !fileHeaders.includes(header))
       .map((header) => EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS[header])
   );
@@ -61,13 +58,39 @@ export const hasConsistentFieldValues = ({ intl, fields }) => ({ data }) => {
   return undefined;
 };
 
+export const hasRequiredFieldValues = ({ intl, fields }) => ({ data, fileName }) => {
+  if (!Array.isArray(data) || data.length === 0) {
+    return undefined;
+  }
+
+  return data.some((row) => fields.some((field) => !row[field]))
+    ? intl.formatMessage(
+      { id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.parseFailed' },
+      { fileName },
+    )
+    : undefined;
+};
+
 export const validateFile = ({ intl }) => (value) => {
   if (!value) return undefined;
 
   return composeValidators(
     isCsvFile({ intl }),
     hasRows({ intl }),
-    hasRequiredHeaders({ intl, requiredHeaders: ALLOCATION_WORKSHEET_REQUIRED_FIELDS }),
-    hasConsistentFieldValues({ intl, fields: [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear] }),
+    hasRequiredHeaders({
+      intl,
+      headers: ALLOCATION_WORKSHEET_REQUIRED_FIELDS,
+    }),
+    hasRequiredFieldValues({
+      intl,
+      fields: [
+        EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear,
+        EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundId,
+      ],
+    }),
+    hasConsistentFieldValues({
+      intl,
+      fields: [EXPORT_ALLOCATION_WORKSHEET_FIELDS.fiscalYear],
+    }),
   )(value);
 };

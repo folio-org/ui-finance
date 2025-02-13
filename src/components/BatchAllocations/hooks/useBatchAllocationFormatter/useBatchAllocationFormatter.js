@@ -107,7 +107,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
       return (
         <AmountWithCurrencyField
           amount={item[BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]}
-          currency={fiscalYear.currency}
+          currency={fiscalYear?.currency}
           showBrackets={item[BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation] < 0}
         />
       );
@@ -212,7 +212,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
         />
       );
     },
-  }), [form, intl, fundStatusOptions, fiscalYear.currency, budgetStatusOptions]);
+  }), [form, intl, fundStatusOptions, fiscalYear?.currency, budgetStatusOptions]);
 
   return formatter;
 };

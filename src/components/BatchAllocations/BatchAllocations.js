@@ -4,6 +4,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 
+import { BatchAllocationLogs } from './BatchAllocationLogs';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 import { UploadBatchAllocations } from './UploadBatchAllocations';
 
@@ -12,6 +13,10 @@ export const BatchAllocations = () => {
 
   return (
     <Switch>
+      <Route
+        path={`${match.path}/logs`}
+        component={BatchAllocationLogs}
+      />
       <Route
         path={`${match.path}/create/:fiscalYearId`}
         component={CreateBatchAllocations}

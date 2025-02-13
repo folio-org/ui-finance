@@ -14,6 +14,7 @@ import {
 export const AllocationToolsMenuSection = ({
   disabled,
   onBatchAllocate,
+  onBatchAllocationLogs,
   onDownloadAllocationWorksheet,
   onUploadAllocationWorksheet,
 }) => {
@@ -68,6 +69,22 @@ export const AllocationToolsMenuSection = ({
           </Icon>
         </Button>
       </IfPermission>
+
+      <IfPermission perm="ui-finance.fund-update-logs.view">
+        <Button
+          buttonStyle="dropdownItem"
+          onClick={onBatchAllocationLogs}
+          disabled={disabled}
+        >
+          <Icon
+            size="small"
+            icon="report"
+          >
+            <FormattedMessage id="ui-finance.actions.allocations.batch.logs" />
+          </Icon>
+        </Button>
+      </IfPermission>
+
     </MenuSection>
   );
 };
@@ -75,6 +92,7 @@ export const AllocationToolsMenuSection = ({
 AllocationToolsMenuSection.propTypes = {
   disabled: PropTypes.bool,
   onBatchAllocate: PropTypes.func.isRequired,
+  onBatchAllocationLogs: PropTypes.func.isRequired,
   onDownloadAllocationWorksheet: PropTypes.func.isRequired,
   onUploadAllocationWorksheet: PropTypes.func.isRequired,
 };

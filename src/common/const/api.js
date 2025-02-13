@@ -5,6 +5,7 @@ export const FINANCE_DATA_API = 'finance/finance-data';
 export const FISCAL_YEARS_API = 'finance/fiscal-years';
 export const FUND_CODES_EXPENSE_CLASSES_API = 'finance/fund-codes-expense-classes';
 export const FUND_TYPES_API = 'finance/fund-types';
+export const FUND_UPDATE_LOGS_API = 'finance/fund-update-logs';
 export const GROUP_FUND_FISCAL_YEARS_API = 'finance/group-fund-fiscal-years';
 export const GROUP_SUMMARIES_API = 'finance/group-fiscal-year-summaries';
 export const GROUPS_API = 'finance/groups';

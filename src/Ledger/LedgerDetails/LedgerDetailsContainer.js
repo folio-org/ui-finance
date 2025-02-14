@@ -149,6 +149,13 @@ export const LedgerDetailsContainer = ({
     [ledgerId, showToast, history, location.search, refreshList],
   );
 
+  const onBatchAllocationLogs = useCallback(() => {
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/batch-allocations/logs`,
+      state: { backPathname: `${LEDGERS_ROUTE}/${ledgerId}/view${location.search}` },
+    });
+  }, [history, ledgerId, location.search]);
+
   const onRollover = useCallback(
     () => {
       history.push({
@@ -201,14 +208,15 @@ export const LedgerDetailsContainer = ({
 
   return (
     <LedgerDetails
-      ledger={ledger}
       fiscalYear={currentFiscalYear}
+      funds={funds}
+      ledger={ledger}
+      onBatchAllocationLogs={onBatchAllocationLogs}
       onClose={closePane}
-      onEdit={editLedger}
       onDelete={removeLedger}
+      onEdit={editLedger}
       onRollover={onRollover}
       onRolloverLogs={onRolloverLogs}
-      funds={funds}
       rolloverErrors={rolloverErrors}
       rolloverToFY={rolloverToFY}
     />

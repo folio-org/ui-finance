@@ -25,6 +25,7 @@
       "finance.finance-data": "1.0",
       "finance.fiscal-years": "1.0 2.0",
       "finance.fund-types": "1.0 2.0",
+      "finance.fund-update-logs": "1.0",
       "finance.funds": "3.0",
       "finance.group-fiscal-year-summaries": "1.0",
       "finance.group-fund-fiscal-years": "1.0 2.0",
@@ -384,6 +385,28 @@
         "subPermissions": [
           "ui-finance.fund-budget.edit",
           "finance.allocations.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fund-update-logs.view",
+        "displayName": "Finance: View batch allocation logs",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fund-budget.view",
+          "finance.fund-update-logs.collection.get",
+          "finance.fund-update-logs.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.fund-update-logs.delete",
+        "displayName": "Finance: Delete batch allocation logs",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-finance.fund-budget.view",
+          "finance.fund-update-logs.item.delete",
+          "finance.fund-update-logs.item.get"
         ]
       },
       {

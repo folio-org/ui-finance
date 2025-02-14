@@ -131,16 +131,17 @@ export const BatchAllocationLogsList = ({
     </MenuSection>
   ), [toggleDeleteModal, selectedRecordsLength]);
 
+  const title = <FormattedMessage id="ui-finance.allocation.batch.logs.title" />;
+
   if (isLoading) {
     return (
       <LoadingView
         dismissible
         onClose={onClose}
+        paneTitle={title}
       />
     );
   }
-
-  const title = <FormattedMessage id="ui-finance.allocation.batch.logs.title" />;
 
   return (
     <>

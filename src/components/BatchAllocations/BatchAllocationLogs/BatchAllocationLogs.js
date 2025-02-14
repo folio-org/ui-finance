@@ -7,8 +7,8 @@ import {
   LEDGERS_ROUTE,
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../common/const';
-import { resolveDefaultBackPathname } from '../utils';
 import { useBatchAllocationLogs } from '../hooks';
+import { resolveDefaultBackPathname } from '../utils';
 import { BatchAllocationLogsList } from './BatchAllocationLogsList';
 import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
 
@@ -21,7 +21,7 @@ export const BatchAllocationLogs = ({
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
     BATCH_ALLOCATIONS_SOURCE.ledger :
     BATCH_ALLOCATIONS_SOURCE.group;
-  const backPathname = resolveDefaultBackPathname(sourceType, sourceId);
+  const backPathname = location.state?.backPathname || resolveDefaultBackPathname(sourceType, sourceId);
 
   const {
     data: logs,

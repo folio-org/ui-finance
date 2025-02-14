@@ -150,8 +150,11 @@ export const LedgerDetailsContainer = ({
   );
 
   const onBatchAllocationLogs = useCallback(() => {
-    history.push({ pathname: `${LEDGERS_ROUTE}/${ledgerId}/batch-allocations/logs` });
-  }, [history, ledgerId]);
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/batch-allocations/logs`,
+      state: { backPathname: `${LEDGERS_ROUTE}/${ledgerId}/view${location.search}` },
+    });
+  }, [history, ledgerId, location.search]);
 
   const onRollover = useCallback(
     () => {

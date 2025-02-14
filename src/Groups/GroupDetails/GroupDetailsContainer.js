@@ -199,8 +199,11 @@ export const GroupDetailsContainer = ({
   };
 
   const onBatchAllocationLogs = useCallback(() => {
-    history.push({ pathname: `${GROUPS_ROUTE}/${groupId}/batch-allocations/logs` });
-  }, [history, groupId]);
+    history.push({
+      pathname: `${GROUPS_ROUTE}/${groupId}/batch-allocations/logs`,
+      state: { backPathname: `${GROUPS_ROUTE}/${groupId}/view${location.search}` },
+    });
+  }, [history, groupId, location.search]);
 
   const onRemoveFundFromGroup = async (e, fundToRemove) => {
     const fundCode = fundToRemove.code;

@@ -5,6 +5,7 @@ import {
   NoValue,
   TextLink,
 } from '@folio/stripes/components';
+import { getFullName } from '@folio/stripes/util';
 import { FolioFormattedTime } from '@folio/stripes-acq-components';
 
 import { BATCH_ALLOCATION_ROUTES_DICT } from '../../common/const';
@@ -72,8 +73,8 @@ export const getResultsListFormatter = ({
     [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: (item) => item.recordsCount || <NoValue />,
     [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: (item) => <FolioFormattedTime dateString={item.metadata.createdDate} />,
     [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: (item) => <FolioFormattedTime dateString={item.metadata.updatedDate} />,
-    createdByUsername: ({ createdByUser: { personal: { firstName, lastName } } }) => (
-      <TextLink to="#"> {lastName}, {firstName} </TextLink>
+    createdByUsername: (item) => (
+      <TextLink to={`/users/preview/${item.createdByUser.id}`}> {getFullName(item.createdByUser)}</TextLink>
     ),
     [BATCH_ALLOCATION_LOG_FIELDS.jobNumber]: (item) => (item.jobNumber || <NoValue />),
   };

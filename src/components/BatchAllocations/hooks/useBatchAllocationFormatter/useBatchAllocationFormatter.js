@@ -50,6 +50,8 @@ const checkIfUnchanged = (item, initialValues) => {
   );
 };
 
+const formatFloatToFixed = (value) => (value ? parseFloat(value).toFixed(2) : '');
+
 export const useBatchAllocationFormatter = (intl, fiscalYear) => {
   const form = useForm();
 
@@ -130,6 +132,8 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllocationChange.toLocaleLowerCase()}`}
+          format={formatFloatToFixed}
+          formatOnBlur
           fullWidth
           component={TextField}
           marginBottom0
@@ -149,6 +153,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation.toLocaleLowerCase()}`}
           component={TextField}
           disabled
+          format={formatFloatToFixed}
           fullWidth
           marginBottom0
           name={`${CALCULATED_FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
@@ -164,6 +169,8 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance.toLocaleLowerCase()}`}
           component={TextField}
+          format={formatFloatToFixed}
+          formatOnBlur
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
@@ -181,6 +188,8 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure.toLocaleLowerCase()}`}
           component={TextField}
+          format={formatFloatToFixed}
+          formatOnBlur
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}

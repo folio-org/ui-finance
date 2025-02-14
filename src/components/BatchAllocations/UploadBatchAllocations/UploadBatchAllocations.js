@@ -23,9 +23,15 @@ import {
   LEDGERS_ROUTE,
 } from '../../../common/const';
 import { useFiscalYear } from '../../../common/hooks';
-import { BatchAllocationsForm } from '../BatchAllocationsForm';
-import { BATCH_ALLOCATION_SORTABLE_FIELDS } from '../constants';
-import { useBatchAllocation, useSourceData } from '../hooks';
+import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
+import {
+  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
+  BATCH_ALLOCATION_SORTABLE_FIELDS,
+} from '../constants';
+import {
+  useBatchAllocation,
+  useSourceData,
+} from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
 import { buildInitialValues } from './buildInitialValues';
 
@@ -100,9 +106,11 @@ export const UploadBatchAllocations = ({
     history.push(backPathname);
   }, [backPathname, history]);
 
-  const onSubmit = useCallback(async ({ budgetsFunds }) => {
+  const onSubmit = useCallback(async ({
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
+  }) => {
     // TODO: https://folio-org.atlassian.net/browse/UIF-534
-    console.log('budgetsFunds', budgetsFunds);
+    console.log('fyFinanceData', fyFinanceData);
 
     await localforage.removeItem(storageKey);
 
@@ -125,13 +133,14 @@ export const UploadBatchAllocations = ({
     );
   }
 
-  const initialValues = buildInitialValues(fileData?.data, financeData);
+  const initialValues = buildInitialValues(fileData?.data, financeData, fiscalYear);
 
   return (
     <>
       <TitleManager record={fileData?.fileName} />
-      <BatchAllocationsForm
+      <BatchAllocationsFormContainer
         changeSorting={changeSorting}
+        fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}
         onCancel={onClose}

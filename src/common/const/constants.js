@@ -94,7 +94,7 @@ export const EXPORT_ALLOCATION_WORKSHEET_FIELDS = {
   budgetCurrentAllocation: 'budgetCurrentAllocation',
   budgetAllowableExpenditure: 'budgetAllowableExpenditure',
   budgetAllowableEncumbrance: 'budgetAllowableEncumbrance',
-  allocationAdjustment: 'allocationAdjustment',
+  budgetAllocationChange: 'budgetAllocationChange',
   transactionTag: 'transactionTag',
   transactionDescription: 'transactionDescription',
 };
@@ -112,7 +112,7 @@ export const EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS = {
   [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetCurrentAllocation]: 'Budget current allocation',
   [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetAllowableExpenditure]: 'Budget allowable expenditure',
   [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetAllowableEncumbrance]: 'Budget allowable encumbrance',
-  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.allocationAdjustment]: 'Allocation adjustment',
+  [EXPORT_ALLOCATION_WORKSHEET_FIELDS.budgetAllocationChange]: 'Allocation adjustment',
   [EXPORT_ALLOCATION_WORKSHEET_FIELDS.transactionTag]: 'Transaction tag',
   [EXPORT_ALLOCATION_WORKSHEET_FIELDS.transactionDescription]: 'Transaction description',
 };

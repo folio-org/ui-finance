@@ -1,3 +1,4 @@
+export * from './composeValidators';
 export * from './csvToJson';
 export * from './exportRolloverErrors';
 export * from './exportRolloverResult';

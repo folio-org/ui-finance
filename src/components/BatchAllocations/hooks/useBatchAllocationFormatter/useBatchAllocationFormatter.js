@@ -1,33 +1,78 @@
+import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
 import { useMemo } from 'react';
-import { Field } from 'react-final-form';
+import {
+  Field,
+  useForm,
+} from 'react-final-form';
 
 import {
   Col,
   Icon,
+  NoValue,
   Row,
   TextField,
   Tooltip,
 } from '@folio/stripes/components';
 import {
+  AmountWithCurrencyField,
   FieldSelectFinal,
   FieldTags,
 } from '@folio/stripes-acq-components';
 
+import { composeValidators } from '../../../../common/utils';
 import { FUND_STATUSES_OPTIONS } from '../../../../Funds/constants';
 import { BUDGET_STATUSES_OPTIONS } from '../../../Budget/constants';
 import { getFormattedOptions } from '../../BatchAllocationsForm/utils';
-import { BATCH_ALLOCATION_FIELDS } from '../../constants';
+import {
+  BATCH_ALLOCATION_FIELDS,
+  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
+} from '../../constants';
+import {
+  validateAllocationAfterField,
+  validateBudgetStatus,
+  validateFundStatus,
+  validateNotNegative,
+  validateNumericValue,
+} from './validators';
 
-export const useBatchAllocationFormatter = (intl) => {
+const {
+  calculatedFinanceData: CALCULATED_FINANCE_DATA,
+  fyFinanceData: FINANCE_DATA,
+  rowIndex: ROW_INDEX,
+  _isMissed: IS_MISSED,
+} = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
+
+const checkIfUnchanged = (item, initialValues) => {
+  return isEqual(
+    omit(item, [ROW_INDEX]),
+    initialValues[FINANCE_DATA][item[ROW_INDEX]],
+  );
+};
+
+const formatFloatToFixed = (value) => (value ? parseFloat(value).toFixed(2) : '');
+
+export const useBatchAllocationFormatter = (intl, fiscalYear) => {
+  const form = useForm();
+
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
 
-  return {
+  const formatter = useMemo(() => ({
     [BATCH_ALLOCATION_FIELDS.fundName]: (item) => {
+      const {
+        initialValues,
+        values,
+      } = form.getState();
+
+      const isIconVisible = (
+        (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA])) && checkIfUnchanged(item, initialValues)
+      );
+
       return (
         <Row>
           <Col xs>{item.fundName}</Col>
-          {item._isMissed && (
+          {isIconVisible && (
             <Tooltip
               text={intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.missedFund' })}
               id="fund-missed-tooltip"
@@ -45,109 +90,145 @@ export const useBatchAllocationFormatter = (intl) => {
         </Row>
       );
     },
-    fundStatus: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.fundStatus]: (item) => {
       return (
         <FieldSelectFinal
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundStatus.toLocaleLowerCase()}`}
           dataOptions={fundStatusOptions}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+          validate={validateFundStatus(intl)}
+          validateFields={[]}
         />
       );
     },
-    budgetStatus: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetName]: (item) => {
+      return item[BATCH_ALLOCATION_FIELDS.budgetName] || <NoValue />;
+    },
+    [BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]: (item) => {
+      return (
+        <AmountWithCurrencyField
+          amount={item[BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]}
+          currency={fiscalYear?.currency}
+          showBrackets={item[BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation] < 0}
+        />
+      );
+    },
+    [BATCH_ALLOCATION_FIELDS.budgetStatus]: (item) => {
       return (
         <FieldSelectFinal
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetStatus.toLocaleLowerCase()}`}
           dataOptions={budgetStatusOptions}
           fullWidth
           marginBottom0
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+          validate={validateBudgetStatus(intl)}
+          validateFields={[]}
         />
       );
     },
-    allocationIncreaseDecrease: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: (item) => {
       return (
         <Field
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease.toLocaleLowerCase()}`}
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllocationChange.toLocaleLowerCase()}`}
+          format={formatFloatToFixed}
+          formatOnBlur
           fullWidth
-          marginBottom0
           component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.allocationIncreaseDecrease}`}
-          type="number"
-          required
+          marginBottom0
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
+          parse={Number}
           placeholder="0.00"
+          required
+          type="number"
+          validate={composeValidators(validateNumericValue(intl), validateNotNegative(intl))}
+          validateFields={[]}
         />
       );
     },
-    totalAllocatedAfter: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAfterAllocation]: (item) => {
       return (
         <Field
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter.toLocaleLowerCase()}`}
-          fullWidth
-          marginBottom0
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation.toLocaleLowerCase()}`}
           component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.totalAllocatedAfter}`}
-          type="number"
-          required
-          placeholder="0.00"
           disabled
+          format={formatFloatToFixed}
+          fullWidth
+          marginBottom0
+          name={`${CALCULATED_FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
+          parse={Number}
+          required
+          validate={validateAllocationAfterField(intl, item[ROW_INDEX])}
+          validateFields={[]}
         />
       );
     },
-    budgetAllowableEncumbrance: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance.toLocaleLowerCase()}`}
+          component={TextField}
+          format={formatFloatToFixed}
+          formatOnBlur
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-          type="number"
-          required
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
+          parse={Number}
           placeholder="0.00"
+          required
+          type="number"
+          validate={composeValidators(validateNumericValue(intl), validateNotNegative(intl))}
+          validateFields={[]}
         />
       );
     },
-    budgetAllowableExpenditure: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure.toLocaleLowerCase()}`}
+          component={TextField}
+          format={formatFloatToFixed}
+          formatOnBlur
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-          type="number"
-          required
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
+          parse={Number}
           placeholder="0.00"
+          required
+          type="number"
+          validate={composeValidators(validateNumericValue(intl), validateNotNegative(intl))}
+          validateFields={[]}
         />
       );
     },
-    transactionDescription: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.transactionDescription]: (item) => {
       return (
         <Field
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionDescription.toLocaleLowerCase()}`}
+          component={TextField}
           fullWidth
           marginBottom0
-          component={TextField}
-          name={`budgetsFunds.${rowIndex}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
-          type="text"
-          required
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
           placeholder="Description"
+          required
+          type="text"
+          validateFields={[]}
         />
       );
     },
-    fundTags: ({ rowIndex }) => {
+    [BATCH_ALLOCATION_FIELDS.transactionTag]: (item) => {
       return (
         <FieldTags
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundTags.toLocaleLowerCase()}`}
+          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionTag.toLocaleLowerCase()}`}
           fullWidth
           labelless
           marginBottom0
-          name={`budgetsFunds.${rowIndex}.fundTags.tagList`}
+          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.transactionTag.tagList`}
         />
       );
     },
-  };
+  }), [form, intl, fundStatusOptions, fiscalYear?.currency, budgetStatusOptions]);
+
+  return formatter;
 };

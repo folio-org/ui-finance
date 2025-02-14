@@ -20,6 +20,7 @@ export const csvToJson = async (file, options = {}) => {
 
       const rows = text
         .split('\n')
+        .filter((row) => row.length)
         .map(mapRawFileRows);
 
       if (includeHeaders) {

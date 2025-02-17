@@ -1,3 +1,5 @@
+import { FormattedMessage } from 'react-intl';
+
 import {
   Button,
   Checkbox,
@@ -9,7 +11,10 @@ import { getFullName } from '@folio/stripes/util';
 import { FolioFormattedTime } from '@folio/stripes-acq-components';
 
 import { BATCH_ALLOCATION_ROUTES_DICT } from '../../common/const';
-import { BATCH_ALLOCATION_LOG_FIELDS } from './BatchAllocationLogs/constants';
+import {
+  BATCH_ALLOCATION_LOG_FIELDS,
+  BATCH_ALLOCATION_LOG_STATUSES,
+} from './BatchAllocationLogs/constants';
 
 export const resolveDefaultBackPathname = (sourceType, sourceId) => {
   const pathname = `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/${sourceId}/view`;
@@ -69,7 +74,9 @@ export const getResultsListFormatter = ({
         </Button>
       </>
     ),
-    [BATCH_ALLOCATION_LOG_FIELDS.status]: (item) => item.status || <NoValue />,
+    [BATCH_ALLOCATION_LOG_FIELDS.status]: (item) => (
+      <FormattedMessage id={`ui-finance.allocation.batch.logs.columns.status.${BATCH_ALLOCATION_LOG_STATUSES[item.status]}`} />
+    ),
     [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: (item) => item.recordsCount || <NoValue />,
     [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: (item) => <FolioFormattedTime dateString={item.metadata.createdDate} />,
     [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: (item) => <FolioFormattedTime dateString={item.metadata.updatedDate} />,

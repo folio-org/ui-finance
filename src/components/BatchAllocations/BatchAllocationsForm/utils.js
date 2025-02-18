@@ -7,6 +7,7 @@ import {
 
 import {
   BATCH_ALLOCATION_COLUMNS,
+  BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 
@@ -21,8 +22,13 @@ export const getFormattedOptions = (intl, dataOptions) => dataOptions.map(({ lab
   ...rest,
 }));
 
+const emptyOrFloat = (value) => value && parseFloat(value);
+
 export const normalizeFinanceFormData = (fyFinanceData) => fyFinanceData.map((item) => ({
   ...omit(item, [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isMissed]),
+  [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: emptyOrFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange]),
+  [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: emptyOrFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]),
+  [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: emptyOrFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]),
 }));
 
 export const handleRecalculateError = async (error, showCallout) => {
@@ -32,7 +38,11 @@ export const handleRecalculateError = async (error, showCallout) => {
 
   if (errorCode === ERROR_CODE_GENERIC) {
     showCallout({
-      ...(errorContainer.message ? { message: errorContainer.message } : { messageId: 'ui-finance.allocation.batch.form.recalculate.error' }),
+      ...(
+        errorContainer.message
+          ? { message: errorContainer.message }
+          : { messageId: 'ui-finance.allocation.batch.form.recalculate.error' }
+      ),
       type: 'error',
     });
   }

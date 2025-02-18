@@ -27,7 +27,10 @@ import {
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
-import { normalizeFinanceFormData } from './utils';
+import {
+  handleRecalculateError,
+  normalizeFinanceFormData,
+} from './utils';
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
@@ -105,11 +108,8 @@ const BatchAllocationsForm = ({
       .then((res) => {
         form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
       })
-      .catch(() => {
-        showCallout({
-          messageId: 'ui-finance.allocation.batch.form.recalculate.error',
-          type: 'error',
-        });
+      .catch(async (error) => {
+        await handleRecalculateError(error, showCallout);
       })
       .finally(() => {
         form.batch(() => {

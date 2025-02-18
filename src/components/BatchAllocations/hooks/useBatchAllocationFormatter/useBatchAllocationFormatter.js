@@ -48,14 +48,6 @@ const checkIfUnchanged = (item) => {
   return !(item.isFundChanged || item.isBudgetChanged);
 };
 
-const formatFloatToFixed = (value) => (!Number.isNaN(Number(value)) ? parseFloat(value).toFixed(2) : '');
-
-const parseFloatValue = (value) => {
-  return value !== '' || !isNil(value)
-    ? parseFloat(value)
-    : value;
-};
-
 export const useBatchAllocationFormatter = (intl, fiscalYear) => {
   const form = useForm();
 
@@ -137,9 +129,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           component={TextField}
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
-          parse={parseFloatValue}
           required
-          step="0.01"
           type="number"
           validate={validateNumericValue(intl)}
           validateFields={[]}
@@ -152,7 +142,6 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation.toLocaleLowerCase()}`}
           component={TextField}
           disabled
-          format={formatFloatToFixed}
           fullWidth
           marginBottom0
           name={`${CALCULATED_FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
@@ -170,7 +159,6 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-          parse={parseFloatValue}
           required
           type="number"
           validate={composeValidators(validateNumericValue(intl), validateRequiredNotNegative)}
@@ -186,7 +174,6 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-          parse={parseFloatValue}
           required
           type="number"
           validate={composeValidators(validateNumericValue(intl), validateRequiredNotNegative)}

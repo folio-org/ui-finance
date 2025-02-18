@@ -94,9 +94,9 @@ const BatchAllocationsForm = ({
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
-  const onSaveAndClose = useCallback(() => {
+  const onSaveAndClose = useCallback((e) => {
     form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, false);
-    handleSubmit();
+    handleSubmit(e);
   }, [form, handleSubmit]);
 
   const onRecalculate = useCallback(async () => {
@@ -154,7 +154,6 @@ const BatchAllocationsForm = ({
         <Button
           buttonStyle="primary mega"
           disabled={isSubmitDisabled}
-          onClick={onSaveAndClose}
           type="submit"
         >
           <FormattedMessage id="stripes-components.saveAndClose" />
@@ -171,7 +170,7 @@ const BatchAllocationsForm = ({
   );
 
   return (
-    <form>
+    <form onSubmit={onSaveAndClose}>
       <Paneset isRoot>
         <Pane
           defaultWidth="fill"

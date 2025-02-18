@@ -11,10 +11,8 @@ import { getFullName } from '@folio/stripes/util';
 import { FolioFormattedTime } from '@folio/stripes-acq-components';
 
 import { BATCH_ALLOCATION_ROUTES_DICT } from '../../common/const';
-import {
-  BATCH_ALLOCATION_LOG_FIELDS,
-  BATCH_ALLOCATION_LOG_STATUSES,
-} from './BatchAllocationLogs/constants';
+import { BATCH_ALLOCATION_LOG_FIELDS } from './BatchAllocationLogs/constants';
+import { BATCH_ALLOCATION_LOG_STATUSES } from './constants';
 
 export const resolveDefaultBackPathname = (sourceType, sourceId) => {
   const pathname = `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/${sourceId}/view`;

@@ -47,3 +47,9 @@ export const BATCH_ALLOCATION_FORM_SPECIAL_FIELDS = {
   _isMissed: '_isMissed',
   _isRecalculating: '_isRecalculating',
 };
+
+export const BATCH_ALLOCATION_LOG_STATUSES = {
+  COMPLETED: 'completed',
+  ERROR: 'error',
+  IN_PROGRESS: 'inProgress',
+};

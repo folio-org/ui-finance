@@ -384,7 +384,8 @@
         "visible": true,
         "subPermissions": [
           "ui-finance.fund-budget.edit",
-          "finance.allocations.item.post"
+          "finance.allocations.item.post",
+          "finance.finance-data.collection.put"
         ]
       },
       {

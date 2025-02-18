@@ -1,5 +1,3 @@
-import isEqual from 'lodash/isEqual';
-import omit from 'lodash/omit';
 import { useMemo } from 'react';
 import {
   Field,
@@ -36,6 +34,8 @@ import {
   validateNumericValue,
 } from './validators';
 
+import css from './styles.css';
+
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA,
   fyFinanceData: FINANCE_DATA,
@@ -43,14 +43,11 @@ const {
   _isMissed: IS_MISSED,
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
-const checkIfUnchanged = (item, initialValues) => {
-  return isEqual(
-    omit(item, [ROW_INDEX]),
-    initialValues[FINANCE_DATA][item[ROW_INDEX]],
-  );
+const checkIfUnchanged = (item) => {
+  return !(item.isFundChanged || item.isBudgetChanged);
 };
 
-const formatFloatToFixed = (value) => (value ? parseFloat(value).toFixed(2) : '');
+const formatFloatToFixed = (value) => (!Number.isNaN(Number(value)) ? parseFloat(value).toFixed(2) : '');
 
 export const useBatchAllocationFormatter = (intl, fiscalYear) => {
   const form = useForm();
@@ -141,8 +138,9 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           parse={Number}
           placeholder="0.00"
           required
+          step="0.01"
           type="number"
-          validate={composeValidators(validateNumericValue(intl), validateNotNegative(intl))}
+          validate={validateNumericValue(intl)}
           validateFields={[]}
         />
       );
@@ -176,7 +174,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
           parse={Number}
           placeholder="0.00"
-          required
+          step="0.01"
           type="number"
           validate={composeValidators(validateNumericValue(intl), validateNotNegative(intl))}
           validateFields={[]}
@@ -195,7 +193,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
           parse={Number}
           placeholder="0.00"
-          required
+          step="0.01"
           type="number"
           validate={composeValidators(validateNumericValue(intl), validateNotNegative(intl))}
           validateFields={[]}
@@ -211,7 +209,6 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
           placeholder="Description"
-          required
           type="text"
           validateFields={[]}
         />
@@ -219,13 +216,16 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
     },
     [BATCH_ALLOCATION_FIELDS.transactionTag]: (item) => {
       return (
-        <FieldTags
-          aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionTag.toLocaleLowerCase()}`}
-          fullWidth
-          labelless
-          marginBottom0
-          name={`${FINANCE_DATA}.${item[ROW_INDEX]}.transactionTag.tagList`}
-        />
+        <div className={css.tagsField}>
+          <FieldTags
+            aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionTag.toLocaleLowerCase()}`}
+            fullWidth
+            labelless
+            marginBottom0
+            name={`${FINANCE_DATA}.${item[ROW_INDEX]}.transactionTag.tagList`}
+            validStylesEnabled
+          />
+        </div>
       );
     },
   }), [form, intl, fundStatusOptions, fiscalYear?.currency, budgetStatusOptions]);

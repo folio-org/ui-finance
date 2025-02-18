@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { BATCH_ALLOCATION_FORM_SPECIAL_FIELDS } from '../constants';
 import { useBatchAllocationMutation } from '../hooks';
 import BatchAllocationsForm from './BatchAllocationsForm';
+import { normalizeFInanceData } from './utils';
 
 export const BatchAllocationsFormContainer = ({
   onSubmit: onSubmitProp,
@@ -15,13 +16,15 @@ export const BatchAllocationsFormContainer = ({
   } = useBatchAllocationMutation();
 
   const onSubmit = useCallback(async (values, form) => {
-    if (values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating]) {
-      form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, false);
+    if (values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating]) return;
 
-      return;
-    }
-
-    onSubmitProp(values, form);
+    onSubmitProp(
+      {
+        ...values,
+        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFInanceData(values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]),
+      },
+      form,
+    );
   }, [onSubmitProp]);
 
   return (

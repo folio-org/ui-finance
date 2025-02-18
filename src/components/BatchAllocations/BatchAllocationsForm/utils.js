@@ -2,7 +2,6 @@ import omit from 'lodash/omit';
 
 import {
   BATCH_ALLOCATION_COLUMNS,
-  BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 
@@ -17,9 +16,6 @@ export const getFormattedOptions = (intl, dataOptions) => dataOptions.map(({ lab
   ...rest,
 }));
 
-export const normalizeFInanceData = (fyFinanceData) => fyFinanceData.map((item) => ({
+export const normalizeFinanceFormData = (fyFinanceData) => fyFinanceData.map((item) => ({
   ...omit(item, [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isMissed]),
-  [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: parseFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange]),
-  [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: parseFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]),
-  [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: parseFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]),
 }));

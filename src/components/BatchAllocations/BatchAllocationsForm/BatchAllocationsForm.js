@@ -27,7 +27,7 @@ import {
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
-import { normalizeFInanceData } from './utils';
+import { normalizeFinanceFormData } from './utils';
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
@@ -101,7 +101,7 @@ const BatchAllocationsForm = ({
       [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
     } = form.getState().values;
 
-    return recalculate({ fyFinanceData: normalizeFInanceData(fyFinanceData) })
+    return recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
         form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
       })

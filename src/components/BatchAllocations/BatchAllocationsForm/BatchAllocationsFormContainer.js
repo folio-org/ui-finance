@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { BATCH_ALLOCATION_FORM_SPECIAL_FIELDS } from '../constants';
 import { useBatchAllocationMutation } from '../hooks';
 import BatchAllocationsForm from './BatchAllocationsForm';
-import { normalizeFInanceData } from './utils';
+import { normalizeFinanceFormData } from './utils';
 
 export const BatchAllocationsFormContainer = ({
   onSubmit: onSubmitProp,
@@ -21,7 +21,7 @@ export const BatchAllocationsFormContainer = ({
     onSubmitProp(
       {
         ...values,
-        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFInanceData(values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]),
+        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFinanceFormData(values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]),
       },
       form,
     );

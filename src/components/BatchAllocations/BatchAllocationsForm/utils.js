@@ -27,8 +27,12 @@ const emptyOrFloat = (value) => value && parseFloat(value);
 export const normalizeFinanceFormData = (fyFinanceData) => fyFinanceData.map((item) => ({
   ...omit(item, [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isMissed]),
   [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: emptyOrFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange]),
-  [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: emptyOrFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]),
-  [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: emptyOrFloat(item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]),
+  [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: emptyOrFloat(
+    item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance],
+  ),
+  [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: emptyOrFloat(
+    item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure],
+  ),
 }));
 
 export const handleRecalculateError = async (error, showCallout) => {

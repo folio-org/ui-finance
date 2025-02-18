@@ -97,14 +97,14 @@ const BatchAllocationsForm = ({
   const onSaveAndClose = useCallback(() => {
     form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, false);
     handleSubmit();
-  }, [closeForm, handleSubmit]);
+  }, [form, handleSubmit]);
 
   const onRecalculate = useCallback(async () => {
     const {
       [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
     } = form.getState().values;
 
-    return recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
+    await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
         form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
       })
@@ -122,7 +122,7 @@ const BatchAllocationsForm = ({
   useEffect(() => {
     if (recalculateOnInit) {
       onRecalculate();
-    };
+    }
     /* onRecalculate should be triggered automatically only one time on form init */
   }, [recalculateOnInit]); // eslint-disable-line react-hooks/exhaustive-deps
 

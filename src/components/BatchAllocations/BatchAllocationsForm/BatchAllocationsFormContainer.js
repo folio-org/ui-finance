@@ -21,7 +21,9 @@ export const BatchAllocationsFormContainer = ({
     onSubmitProp(
       {
         ...values,
-        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFinanceFormData(values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]),
+        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFinanceFormData(
+          values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData],
+        ),
       },
       form,
     );

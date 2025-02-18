@@ -48,7 +48,7 @@ const renderComponent = (props = {}) => render(
 );
 
 describe('CreateBatchAllocations', () => {
-  const recalculate = jest.fn();
+  const recalculate = jest.fn(() => Promise.resolve({}));
   const batchAllocate = jest.fn();
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-import isNil from 'lodash/isNil';
 import { useMemo } from 'react';
 import {
   Field,
@@ -200,6 +199,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
         <div className={css.tagsField}>
           <FieldTags
             aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionTag.toLocaleLowerCase()}`}
+            formValues={form.getState().values}
             fullWidth
             labelless
             marginBottom0

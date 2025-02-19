@@ -53,7 +53,7 @@ export const getResultsListFormatter = ({
   return {
     select: (item) => (
       <Checkbox
-        aria-label={intl.formatMessage({ id: 'ui-finance.allocation.batch.logs.columns.select' }, { term: item.id })}
+        aria-label={intl.formatMessage({ id: 'ui-finance.allocation.batch.logs.columns.select' }, { id: item.id })}
         type="checkbox"
         checked={Boolean(selectedRecordsMap[item.id])}
         onChange={() => selectRecord(item)}
@@ -79,7 +79,7 @@ export const getResultsListFormatter = ({
     [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: (item) => <FolioFormattedTime dateString={item.metadata.createdDate} />,
     [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: (item) => <FolioFormattedTime dateString={item.metadata.updatedDate} />,
     createdByUsername: (item) => (
-      <TextLink to={`/users/preview/${item.createdByUser.id}`}> {getFullName(item.createdByUser)}</TextLink>
+      <TextLink to={`/users/preview/${item.createdByUser?.id}`}> {getFullName(item.createdByUser)} </TextLink>
     ),
     [BATCH_ALLOCATION_LOG_FIELDS.jobNumber]: (item) => (item.jobNumber || <NoValue />),
   };

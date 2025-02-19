@@ -18,3 +18,11 @@ export const BATCH_ALLOCATION_LOG_COLUMNS = [
   BATCH_ALLOCATION_LOG_FIELDS.createdByUsername,
   BATCH_ALLOCATION_LOG_FIELDS.jobNumber,
 ];
+
+export const FILTERS = {
+  DATE: 'metadata.createdDate',
+  FISCAL_YEAR: 'fiscalYearId',
+  GROUP: 'groupId',
+  LEDGER: 'ledgerId',
+  USER: 'metadata.createdByUserId',
+};

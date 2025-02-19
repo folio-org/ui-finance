@@ -13,6 +13,7 @@ import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
 import {
   useBatchAllocation,
+  useBatchAllocationFormHandler,
   useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
@@ -35,6 +36,7 @@ jest.mock('../../../common/hooks', () => ({
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useBatchAllocation: jest.fn(),
+  useBatchAllocationFormHandler: jest.fn(),
   useBatchAllocationMutation: jest.fn(),
   useSourceData: jest.fn(),
 }));
@@ -70,10 +72,12 @@ describe('UploadBatchAllocations', () => {
   const showCalloutMock = jest.fn();
   const recalculate = jest.fn(() => Promise.resolve({ fyFinanceData }));
   const batchAllocate = jest.fn();
+  const handle = jest.fn(() => Promise.resolve());
 
   beforeEach(() => {
     localforage.getItem.mockResolvedValue({ fileName: 'test.csv', data: uploadFileDataStub });
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData });
+    useBatchAllocationFormHandler.mockReturnValue({ handle });
     useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useShowCallout.mockReturnValue(showCalloutMock);
@@ -119,6 +123,7 @@ describe('UploadBatchAllocations', () => {
     await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     await waitFor(() => {
+      expect(handle).toHaveBeenCalled();
       expect(localforage.removeItem).toHaveBeenCalled();
     });
   });

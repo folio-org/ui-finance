@@ -44,7 +44,7 @@ const {
   _isMissed: IS_MISSED,
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
-const checkIfUnchanged = ({ isBudgetChanged, isFundChanged }) => {
+const checkIfUnchanged = ({ isBudgetChanged, isFundChanged } = {}) => {
   return (isBudgetChanged !== undefined && isFundChanged !== undefined) && !(isFundChanged || isBudgetChanged);
 };
 
@@ -59,7 +59,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
       const { values } = form.getState();
       const isIconVisible = (
         (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA]))
-        && checkIfUnchanged(values[CALCULATED_FINANCE_DATA][item[ROW_INDEX]])
+        && checkIfUnchanged(values[CALCULATED_FINANCE_DATA]?.[item[ROW_INDEX]])
       );
 
       return (

@@ -223,6 +223,7 @@
   "budget.expenseClasses.status.Inactive": "Inactive",
   "budget.expenseClasses.add": "Add expense class",
   "budget.expenseClasses.accountNumber": "Account number extension",
+  "budget.batch.create.success": "Budgets have been created successfully.",
 
   "financialSummary.allocated": "<b>Total allocated</b>",
   "financialSummary.allocationFrom": "Decrease in allocation",
@@ -538,6 +539,8 @@
   "actions.rolloverLogs": "Rollover logs",
   "actions.allocations.batch": "Batch allocations",
   "actions.allocations.batch.logs": "Batch allocation logs",
+  "actions.allocations.batch.success": "Allocations have been updated successfully.",
+  "actions.allocations.batch.error": "Allocations have not been updated.",
   "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)",
   "actions.uploadAllocationWorksheet": "Upload allocation worksheet (CSV)",
   "fund.name.isInUse": "This Fund name is already in use on the selected Ledger.",

@@ -12,6 +12,7 @@
 * *BREAKING* Batch allocation logs view and delete feature. Refs UIF-530.
 * Migrate to shared GA workflows. Refs UIF-572.
 * Fixes for batch allocation form. Refs UIF-579.
+* Save and close batch allocations. Refs UIF-534.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

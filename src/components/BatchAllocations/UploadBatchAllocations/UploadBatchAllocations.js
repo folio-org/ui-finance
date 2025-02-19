@@ -30,6 +30,7 @@ import {
 } from '../constants';
 import {
   useBatchAllocation,
+  useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -81,6 +82,11 @@ export const UploadBatchAllocations = ({
     sourceType,
   });
 
+  const {
+    batchAllocate,
+    isLoading: isBatchAllocateLoading,
+  } = useBatchAllocationMutation();
+
   useEffect(() => {
     setIsFileDataLoading(true);
 
@@ -109,13 +115,18 @@ export const UploadBatchAllocations = ({
   const onSubmit = useCallback(async ({
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
   }) => {
-    // TODO: https://folio-org.atlassian.net/browse/UIF-534
-    console.log('fyFinanceData', fyFinanceData);
-
-    await localforage.removeItem(storageKey);
-
-    onClose();
-  }, [onClose, storageKey]);
+    try {
+      await batchAllocate({ fyFinanceData });
+      await localforage.removeItem(storageKey);
+      showCallout({ messageId: 'ui-finance.actions.allocations.batch.success' });
+      onClose();
+    } catch (error) {
+      showCallout({
+        messageId: 'ui-finance.actions.allocations.batch.error',
+        type: 'error',
+      });
+    }
+  }, [onClose, showCallout, storageKey]);
 
   const isLoading = (
     isFileDataLoading
@@ -143,6 +154,7 @@ export const UploadBatchAllocations = ({
         fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}
+        isSubmitDisabled={isBatchAllocateLoading}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData?.name}

@@ -8,7 +8,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
-import { useSorting } from '@folio/stripes-acq-components';
+import {
+  useShowCallout,
+  useSorting,
+} from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
@@ -23,6 +26,7 @@ import {
 } from '../constants';
 import {
   useBatchAllocation,
+  useBatchAllocationMutation,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -33,6 +37,7 @@ export const CreateBatchAllocations = ({
   match,
 }) => {
   const intl = useIntl();
+  const showCallout = useShowCallout();
 
   const { id: sourceId, fiscalYearId } = match.params;
 
@@ -68,6 +73,11 @@ export const CreateBatchAllocations = ({
     fiscalYear,
     isLoading: isFiscalYearLoading,
   } = useFiscalYear(fiscalYearId);
+  
+  const {
+    batchAllocate,
+    isLoading: isBatchAllocateLoading,
+  } = useBatchAllocationMutation();
 
   const onClose = useCallback(() => {
     history.push(backPathname);
@@ -76,11 +86,17 @@ export const CreateBatchAllocations = ({
   const onSubmit = useCallback(async ({
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
   }) => {
-    // TODO: https://folio-org.atlassian.net/browse/UIF-534
-    console.log('fyFinanceData', fyFinanceData);
-
-    onClose();
-  }, [onClose]);
+    try {
+      await batchAllocate({ fyFinanceData });
+      showCallout({ messageId: 'ui-finance.actions.allocations.batch.success' });
+      onClose();
+    } catch (error) {
+      showCallout({
+        messageId: 'ui-finance.actions.allocations.batch.error',
+        type: 'error',
+      });
+    }
+  }, [onClose, showCallout]);
 
   const isLoading = (
     isFinanceDataLoading
@@ -117,6 +133,7 @@ export const CreateBatchAllocations = ({
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
+        isSubmitDisabled={isBatchAllocateLoading}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData.name}

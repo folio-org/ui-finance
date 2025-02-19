@@ -91,6 +91,20 @@ describe('CreateBatchAllocations', () => {
     expect(recalculate).toHaveBeenCalled();
   });
 
+  it('should call handle on submit', async () => {
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();
+    });
+
+    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+    await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+    expect(handle).toHaveBeenCalled();
+  });
+
   it('should handle recalculate errors', async () => {
     const response = {
       clone: () => response,
@@ -112,19 +126,5 @@ describe('CreateBatchAllocations', () => {
       type: 'error',
       message: 'Error message',
     });
-  });
-
-  it('should call handle on submit', async () => {
-    renderComponent();
-
-    await waitFor(() => {
-      expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();
-    });
-
-    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
-    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
-    await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
-
-    expect(handle).toHaveBeenCalled();
   });
 });

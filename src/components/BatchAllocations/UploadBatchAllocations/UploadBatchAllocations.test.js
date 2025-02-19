@@ -40,9 +40,8 @@ jest.mock('../hooks', () => ({
 }));
 
 const uploadFileDataStub = [{
-  fundId: fyFinanceData[0].fundId,
-  [BATCH_ALLOCATION_FIELDS.fundName]: 'fund-name',
-  [BATCH_ALLOCATION_FIELDS.budgetName]: 'budget-name',
+  ...fyFinanceData[0],
+  [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: 10,
 }];
 
 const defaultProps = {
@@ -107,6 +106,8 @@ describe('UploadBatchAllocations', () => {
   });
 
   it('should remove file data on submit', async () => {
+    useBatchAllocation.mockReturnValue({ budgetsFunds: [fyFinanceData[0]] });
+
     renderComponent();
 
     await waitFor(() => {

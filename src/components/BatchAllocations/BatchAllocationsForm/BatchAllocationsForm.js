@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import {
   useCallback,
@@ -28,6 +27,10 @@ import {
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
+import {
+  handleRecalculateError,
+  normalizeFinanceFormData,
+} from './utils';
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
@@ -61,6 +64,7 @@ const BatchAllocationsForm = ({
   paneSub,
   paneTitle,
   recalculate,
+  recalculateOnInit = false,
   sortingField,
   sortingDirection,
 }) => {
@@ -90,28 +94,37 @@ const BatchAllocationsForm = ({
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
+  const onSaveAndClose = useCallback((e) => {
+    form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, false);
+    handleSubmit(e);
+  }, [form, handleSubmit]);
+
   const onRecalculate = useCallback(async () => {
     const {
       [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
     } = form.getState().values;
 
-    try {
-      const res = await recalculate({
-        fyFinanceData: fyFinanceData.map(item => omit(item, [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isMissed])),
-      });
-
-      form.batch(() => {
-        form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, true);
+    await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
+      .then((res) => {
         form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
-        form.submit();
+      })
+      .catch(async (error) => {
+        await handleRecalculateError(error, showCallout);
+      })
+      .finally(() => {
+        form.batch(() => {
+          form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, true);
+          form.submit();
+        });
       });
-    } catch (error) {
-      showCallout({
-        messageId: 'ui-finance.allocation.batch.form.recalculate.error',
-        type: 'error',
-      });
-    }
   }, [form, recalculate, showCallout]);
+
+  useEffect(() => {
+    if (recalculateOnInit) {
+      onRecalculate();
+    }
+    /* onRecalculate should be triggered automatically only one time on form init */
+  }, [recalculateOnInit]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const start = (
     <Row>
@@ -141,7 +154,6 @@ const BatchAllocationsForm = ({
         <Button
           buttonStyle="primary mega"
           disabled={isSubmitDisabled}
-          onClick={handleSubmit}
           type="submit"
         >
           <FormattedMessage id="stripes-components.saveAndClose" />
@@ -158,7 +170,7 @@ const BatchAllocationsForm = ({
   );
 
   return (
-    <form>
+    <form onSubmit={onSaveAndClose}>
       <Paneset isRoot>
         <Pane
           defaultWidth="fill"
@@ -222,6 +234,7 @@ BatchAllocationsForm.propTypes = {
   paneSub: PropTypes.string.isRequired,
   paneTitle: PropTypes.string.isRequired,
   recalculate: PropTypes.func.isRequired,
+  recalculateOnInit: PropTypes.bool,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
 };

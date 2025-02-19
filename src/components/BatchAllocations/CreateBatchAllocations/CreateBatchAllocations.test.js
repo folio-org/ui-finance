@@ -6,6 +6,7 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
@@ -16,6 +17,10 @@ import {
 } from '../hooks';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useShowCallout: jest.fn(),
+}));
 jest.mock('../../../common/hooks', () => ({
   ...jest.requireActual('../../../common/hooks'),
   useFiscalYear: jest.fn(),
@@ -48,14 +53,16 @@ const renderComponent = (props = {}) => render(
 );
 
 describe('CreateBatchAllocations', () => {
-  const recalculate = jest.fn();
+  const recalculate = jest.fn(() => Promise.resolve({}));
   const batchAllocate = jest.fn();
+  const showCallout = jest.fn();
 
   beforeEach(() => {
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData, isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
     useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
     useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
+    useShowCallout.mockReturnValue(showCallout);
   });
 
   afterEach(() => {
@@ -78,5 +85,28 @@ describe('CreateBatchAllocations', () => {
     await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
 
     expect(recalculate).toHaveBeenCalled();
+  });
+
+  it('should handle recalculate errors', async () => {
+    const response = {
+      clone: () => response,
+      json: () => Promise.resolve({ errors: [{ message: 'Error message' }] }),
+    };
+
+    recalculate.mockRejectedValue({ response });
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+
+    expect(recalculate).toHaveBeenCalled();
+    expect(showCallout).toHaveBeenCalledWith({
+      type: 'error',
+      message: 'Error message',
+    });
   });
 });

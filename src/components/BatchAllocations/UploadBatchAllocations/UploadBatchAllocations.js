@@ -147,6 +147,7 @@ export const UploadBatchAllocations = ({
         onSubmit={onSubmit}
         paneSub={sourceData?.name}
         paneTitle={fiscalYear?.code}
+        recalculateOnInit
         sortingDirection={sortingDirection}
         sortingField={sortingField}
       />

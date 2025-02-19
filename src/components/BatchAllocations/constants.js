@@ -33,7 +33,6 @@ export const BATCH_ALLOCATION_SORTABLE_FIELDS = [
 
 export const BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES = {
   [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: 0,
-  [BATCH_ALLOCATION_FIELDS.transactionDescription]: '',
   [BATCH_ALLOCATION_FIELDS.transactionTag]: {
     tagList: [],
   },

@@ -9,8 +9,10 @@ import {
   LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
-import { FINANCE_DATA_API } from '../../../../common/const';
-import { resolveSourceQueryIndex } from '../../../../common/utils';
+import {
+  fetchFinanceData,
+  resolveSourceQueryIndex,
+} from '../../../../common/utils';
 import { BATCH_ALLOCATION_FIELDS } from '../../constants';
 
 const DEFAULT_DATA = [];
@@ -48,7 +50,7 @@ options = {}) => {
     isLoading,
   } = useQuery({
     queryKey: [namespace, query, limit],
-    queryFn: ({ signal }) => ky.get(FINANCE_DATA_API, { searchParams, signal }).json(),
+    queryFn: ({ signal }) => fetchFinanceData(ky)({ searchParams, signal }),
     enabled,
     ...queryOptions,
   });

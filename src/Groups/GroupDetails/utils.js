@@ -51,3 +51,19 @@ export const getGroupSummary = (groupSummariesMutator, groupId, fiscalYearId) =>
 export const sortGroupFiscalYears = (fiscalYears = []) => [...fiscalYears].sort((a, b) => {
   return new Date(b.periodStart) - new Date(a.periodStart) || a.series.localeCompare(b.series);
 });
+
+export const filterPreviousGroupFiscalYears = (fiscalYears = [], currentFiscalYears = []) => {
+  const currentFiscalYearsMap = currentFiscalYears.reduce((acc, currentFiscalYear) => {
+    acc[currentFiscalYear.series] = currentFiscalYear;
+
+    return acc;
+  }, {});
+
+  return fiscalYears.filter(fiscalYear => {
+    const currentFiscalYear = currentFiscalYearsMap[fiscalYear.series];
+
+    return !currentFiscalYear || (
+      fiscalYear.id !== currentFiscalYear.id && new Date(fiscalYear.periodEnd) <= new Date(currentFiscalYear.periodStart)
+    );
+  });
+};

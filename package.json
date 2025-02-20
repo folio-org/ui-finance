@@ -238,6 +238,7 @@
           "finance.groups.collection.get",
           "finance.groups.item.get",
           "finance.ledgers.collection.get",
+          "finance.ledgers.current-fiscal-year.item.get",
           "users.collection.get"
         ]
       },

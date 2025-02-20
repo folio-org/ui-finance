@@ -7,6 +7,7 @@ import BatchAllocationsForm from './BatchAllocationsForm';
 import { normalizeFinanceFormData } from './utils';
 
 export const BatchAllocationsFormContainer = ({
+  isRecalculateDisabled,
   onSubmit: onSubmitProp,
   ...props
 }) => {
@@ -31,7 +32,7 @@ export const BatchAllocationsFormContainer = ({
 
   return (
     <BatchAllocationsForm
-      isRecalculateDisabled={isBatchAllocationMutationLoading}
+      isRecalculateDisabled={isRecalculateDisabled || isBatchAllocationMutationLoading}
       onSubmit={onSubmit}
       recalculate={recalculate}
       {...props}
@@ -40,5 +41,6 @@ export const BatchAllocationsFormContainer = ({
 };
 
 BatchAllocationsFormContainer.propTypes = {
+  isRecalculateDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };

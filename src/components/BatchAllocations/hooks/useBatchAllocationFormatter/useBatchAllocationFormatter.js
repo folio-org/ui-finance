@@ -1,3 +1,4 @@
+import identity from 'lodash/identity';
 import { useMemo } from 'react';
 import {
   Field,
@@ -43,8 +44,8 @@ const {
   _isMissed: IS_MISSED,
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
-const checkIfUnchanged = (item) => {
-  return !(item.isFundChanged || item.isBudgetChanged);
+const checkIfUnchanged = ({ isBudgetChanged, isFundChanged } = {}) => {
+  return (isBudgetChanged !== undefined && isFundChanged !== undefined) && !(isFundChanged || isBudgetChanged);
 };
 
 export const useBatchAllocationFormatter = (intl, fiscalYear) => {
@@ -56,9 +57,9 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
   const formatter = useMemo(() => ({
     [BATCH_ALLOCATION_FIELDS.fundName]: (item) => {
       const { values } = form.getState();
-
       const isIconVisible = (
-        (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA])) && checkIfUnchanged(item)
+        (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA]))
+        && checkIfUnchanged(values[CALCULATED_FINANCE_DATA]?.[item[ROW_INDEX]])
       );
 
       return (
@@ -188,6 +189,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
+          parse={identity}
           placeholder="Description"
           type="text"
           validateFields={[]}

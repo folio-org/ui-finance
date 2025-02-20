@@ -32,6 +32,10 @@ import {
   LEDGERS_ROUTE,
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../common/const';
+import {
+  useGroups,
+  useLedgers,
+} from '../../../common/hooks';
 import { useBatchAllocationLogs } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
 import BatchAllocationLogFilters from './BatchAllocationLogsFilters';
@@ -39,8 +43,6 @@ import { BatchAllocationLogsList } from './BatchAllocationLogsList';
 import { searchableIndexes } from './BatchAllocationLogsSearchConfig';
 import { ConfirmDeleteLogModal } from './ConfirmDeleteLogModal';
 import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
-import { useLedgers } from './useLedgers';
-import { useGroups } from './useGroups';
 
 export const BatchAllocationLogs = ({
   history,
@@ -74,7 +76,7 @@ export const BatchAllocationLogs = ({
     isFetching: isFetchingLogs,
     totalRecords: logsCount,
     refetch,
-  } = useBatchAllocationLogs();
+  } = useBatchAllocationLogs({ filters });
 
   const { groups } = useGroups();
   const { ledgers } = useLedgers();

@@ -1,6 +1,4 @@
 import { useQuery } from 'react-query';
-import { useLocation } from 'react-router';
-import queryString from 'query-string';
 
 import {
   useNamespace,
@@ -13,7 +11,7 @@ import { useBuildQuery } from '../useBuildQuery';
 
 const DEFAULT_LOGS = [];
 
-export const useBatchAllocationLogs = (options = {}) => {
+export const useBatchAllocationLogs = ({ filters }, options = {}) => {
   const {
     enabled = true,
     tenantId,
@@ -23,10 +21,8 @@ export const useBatchAllocationLogs = (options = {}) => {
   const ky = useOkapiKy({ tenant: tenantId });
   const [namespace] = useNamespace({ key: 'fund-update-logs' });
 
-  const { search } = useLocation();
   const buildQuery = useBuildQuery();
-  const queryParams = queryString.parse(search);
-  const query = buildQuery(queryParams);
+  const query = buildQuery(filters);
 
   const searchParams = {
     limit: LIMIT_MAX,

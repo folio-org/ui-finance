@@ -20,20 +20,20 @@ describe('useBuildQuery', () => {
     const { result } = renderHook(() => useBuildQuery());
 
     expect(result.current(queryString.parse(`?groupId=${quesries.groupId}`)))
-      .toBe(`(jobDetails =/@groupId (${quesries.groupId})) sortby metadata.createdDate/sort.descending`);
+      .toBe(`(jobDetails.fyFinanceData =/@groupId (${quesries.groupId})) sortby metadata.createdDate/sort.descending`);
   });
 
   it('should return function, that return fiscalYear query', () => {
     const { result } = renderHook(() => useBuildQuery());
 
     expect(result.current(queryString.parse(`?fiscalYearId=${quesries.fiscalYearId}`)))
-      .toBe(`(jobDetails =/@fiscalYearId (${quesries.fiscalYearId})) sortby metadata.createdDate/sort.descending`);
+      .toBe(`(jobDetails.fyFinanceData =/@fiscalYearId (${quesries.fiscalYearId})) sortby metadata.createdDate/sort.descending`);
   });
 
   it('should return function, that return ledger query', () => {
     const { result } = renderHook(() => useBuildQuery());
 
     expect(result.current(queryString.parse(`?ledgerId=${quesries.ledgerId}`)))
-      .toBe(`(jobDetails =/@ledgerId (${quesries.ledgerId})) sortby metadata.createdDate/sort.descending`);
+      .toBe(`(jobDetails.fyFinanceData =/@ledgerId (${quesries.ledgerId})) sortby metadata.createdDate/sort.descending`);
   });
 });

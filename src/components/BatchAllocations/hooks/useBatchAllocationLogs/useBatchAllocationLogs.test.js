@@ -37,9 +37,9 @@ const logs = [{
   },
 }];
 
-jest.mock('react-router', () => ({
-  ...jest.requireActual('react-router'),
-  useLocation: jest.fn().mockReturnValue({}),
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useLocationFilters: jest.fn().mockReturnValue([]),
 }));
 
 const wrapper = ({ children }) => (
@@ -61,7 +61,7 @@ describe('useBatchAllocationLogs', () => {
   });
 
   it('should call logs api endpoint', async () => {
-    const { result } = renderHook(() => useBatchAllocationLogs(), { wrapper });
+    const { result } = renderHook(() => useBatchAllocationLogs({ filters: {} }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 

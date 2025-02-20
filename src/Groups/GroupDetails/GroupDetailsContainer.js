@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import {
-  differenceBy,
   uniq,
 } from 'lodash';
 
@@ -31,10 +30,12 @@ import {
   useFundsGroupMutation,
 } from './hooks';
 import {
+  filterGroupFiscalYears,
   getGroupLedgers,
   getGroupSummary,
   getLedgersCurrentFiscalYears,
   sortGroupFiscalYears,
+  filterGroupFiscalYears,
 } from './utils';
 import GroupDetails from './GroupDetails';
 
@@ -70,7 +71,7 @@ export const GroupDetailsContainer = ({
       ]) => {
         const ledgerIds = uniq(groupLedgers.map(({ id: ledgerId }) => ledgerId));
         const currentFYs = await getLedgersCurrentFiscalYears(ky)(ledgerIds).then(sortGroupFiscalYears);
-        const previousFYs = sortGroupFiscalYears(differenceBy(groupFiscalYears, currentFYs, 'id'));
+        const previousFYs = sortGroupFiscalYears(filterGroupFiscalYears(groupFiscalYears, currentFYs));
 
         const aggregatedFiscalYears = {
           current: currentFYs,

@@ -30,12 +30,11 @@ import {
   useFundsGroupMutation,
 } from './hooks';
 import {
-  filterGroupFiscalYears,
+  filterPreviousGroupFiscalYears,
   getGroupLedgers,
   getGroupSummary,
   getLedgersCurrentFiscalYears,
   sortGroupFiscalYears,
-  filterGroupFiscalYears,
 } from './utils';
 import GroupDetails from './GroupDetails';
 
@@ -71,7 +70,7 @@ export const GroupDetailsContainer = ({
       ]) => {
         const ledgerIds = uniq(groupLedgers.map(({ id: ledgerId }) => ledgerId));
         const currentFYs = await getLedgersCurrentFiscalYears(ky)(ledgerIds).then(sortGroupFiscalYears);
-        const previousFYs = sortGroupFiscalYears(filterGroupFiscalYears(groupFiscalYears, currentFYs));
+        const previousFYs = sortGroupFiscalYears(filterPreviousGroupFiscalYears(groupFiscalYears, currentFYs));
 
         const aggregatedFiscalYears = {
           current: currentFYs,

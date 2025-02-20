@@ -52,7 +52,7 @@ export const sortGroupFiscalYears = (fiscalYears = []) => [...fiscalYears].sort(
   return new Date(b.periodStart) - new Date(a.periodStart) || a.series.localeCompare(b.series);
 });
 
-export const filterGroupFiscalYears = (fiscalYears = [], currentFiscalYears = []) => {
+export const filterPreviousGroupFiscalYears = (fiscalYears = [], currentFiscalYears = []) => {
   const currentFiscalYearsMap = currentFiscalYears.reduce((acc, currentFiscalYear) => {
     acc[currentFiscalYear.series] = currentFiscalYear;
 

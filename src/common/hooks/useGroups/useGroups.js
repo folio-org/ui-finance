@@ -9,7 +9,7 @@ import {
   LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
-import { GROUPS_API } from '../../../common/const';
+import { GROUPS_API } from '../../const';
 
 const DEFAULT_DATA = [];
 

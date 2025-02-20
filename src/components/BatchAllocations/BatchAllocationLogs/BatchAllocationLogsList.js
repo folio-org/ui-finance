@@ -63,6 +63,7 @@ export const BatchAllocationLogsList = ({
       columnWidths={COLUMN_WIDTHS}
       formatter={formatter}
       height={height}
+      id="batch-allocation-logs-list"
       isEmptyMessage={isEmptyMessage}
       loading={isLoading}
       totalCount={totalRecords}

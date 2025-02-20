@@ -37,6 +37,11 @@ const logs = [{
   },
 }];
 
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
+  useLocation: jest.fn().mockReturnValue({}),
+}));
+
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}

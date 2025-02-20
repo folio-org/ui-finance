@@ -1,18 +1,11 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import user from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   render,
   screen,
 } from '@folio/jest-config-stripes/testing-library/react';
-import { useFiltersToogle } from '@folio/stripes-acq-components';
 
 import { BatchAllocationLogsList } from './BatchAllocationLogsList';
-
-jest.mock('@folio/stripes-acq-components', () => ({
-  ...jest.requireActual('@folio/stripes-acq-components'),
-  useFiltersToogle: jest.fn(),
-}));
 
 const wrapper = ({ children }) => (
   <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/logs']}>
@@ -21,8 +14,8 @@ const wrapper = ({ children }) => (
 );
 
 const defaultProps = {
-  dataReset: jest.fn(),
-  deleteLog: jest.fn(),
+  allRecordsSelected: false,
+  height: 100,
   isLoading: false,
   logs: [{
     jobNumber: 1,
@@ -54,8 +47,12 @@ const defaultProps = {
       lastName: 'lastName',
     } },
   }],
-  onClose: jest.fn(),
-  totalRecords: 0,
+  selectedRecordsMap: jest.fn(),
+  selectRecord: jest.fn(),
+  totalRecords: 10,
+  toggleSelectAll: jest.fn(),
+  isEmptyMessage: jest.fn(),
+  width: 100,
 };
 
 const renderComponent = (props = {}) => render(
@@ -67,56 +64,23 @@ const renderComponent = (props = {}) => render(
 );
 
 describe('BatchAllocationLogsList', () => {
-  beforeEach(() => {
-    useFiltersToogle.mockReturnValue({ isFiltersOpened: false, toggleDeleteModal: () => {} });
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders BatchAllocationLogsList', () => {
+  it('renders select all checkbox', () => {
     renderComponent();
 
-    expect(screen.getByText('ui-finance.allocation.batch.logs.title')).toBeInTheDocument();
+    const checkboxes = screen.getByRole('checkbox', { name: 'ui-finance.allocation.batch.logs.columns.selectAll' });
+
+    expect(checkboxes).toBeInTheDocument();
   });
 
-  it('deletes button should be disabled', async () => {
+  it('renders columns', () => {
     renderComponent();
 
-    expect(screen.getByTestId('delete-log-button')).toBeDisabled();
-  });
-
-  it('deletes button should be enabled after checkbox click', async () => {
-    renderComponent();
-
-    const checkboxes = screen.getAllByRole('checkbox', { name: 'ui-finance.allocation.batch.logs.columns.select' });
-
-    await user.click(checkboxes[0]);
-
-    expect(screen.getByTestId('delete-log-button')).toBeEnabled();
-  });
-
-  it('displays modal on delete attempt', async () => {
-    renderComponent();
-
-    const checkboxes = screen.getAllByRole('checkbox', { name: 'ui-finance.allocation.batch.logs.columns.select' });
-
-    await user.click(checkboxes[0]);
-    await user.click(screen.getByTestId('delete-log-button'));
-
-    expect(screen.getByText('ui-finance.allocation.batch.logs.modal.delete.title')).toBeInTheDocument();
-  });
-
-  it('deletes selected log', async () => {
-    renderComponent();
-
-    const checkboxes = screen.getAllByRole('checkbox', { name: 'ui-finance.allocation.batch.logs.columns.select' });
-
-    await user.click(checkboxes[0]);
-    await user.click(screen.getByTestId('delete-log-button'));
-    await user.click(screen.getByText('ui-finance.transaction.button.confirm'));
-
-    expect(defaultProps.deleteLog).toHaveBeenCalled();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.jobName')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.status')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.recordsCount')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.createdDate')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.updatedDate')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.createdByUsername')).toBeInTheDocument();
+    expect(screen.getByText('ui-finance.allocation.batch.logs.columns.jobNumber')).toBeInTheDocument();
   });
 });

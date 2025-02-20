@@ -22,9 +22,9 @@ export const useBuildQuery = () => {
     'sortby metadata.createdDate/sort.descending',
     {
       [FILTERS.DATE]: buildDateTimeRangeQuery.bind(null, [FILTERS.DATE]),
-      [FILTERS.FISCAL_YEAR]: buildArrayFieldQuery.bind(null, [FILTERS.FISCAL_YEAR]),
-      [FILTERS.GROUP]: buildArrayFieldQuery.bind(null, [FILTERS.GROUP]),
-      [FILTERS.LEDGER]: buildArrayFieldQuery.bind(null, [FILTERS.LEDGER]),
+      [FILTERS.FISCAL_YEAR]: (filterValue) => `jobDetails =/@${FILTERS.FISCAL_YEAR} (${Array.isArray(filterValue) ? filterValue.join(' or ') : filterValue})`,
+      [FILTERS.LEDGER]: (filterValue) => `jobDetails =/@${FILTERS.LEDGER} (${Array.isArray(filterValue) ? filterValue.join(' or ') : filterValue})`,
+      [FILTERS.GROUP]: (filterValue) => `jobDetails =/@${FILTERS.GROUP} (${Array.isArray(filterValue) ? filterValue.join(' or ') : filterValue})`,
       [FILTERS.USER]: buildArrayFieldQuery.bind(null, [FILTERS.USER]),
     },
   ), []);

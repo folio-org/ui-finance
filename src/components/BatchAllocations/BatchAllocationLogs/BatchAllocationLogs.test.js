@@ -1,5 +1,4 @@
 import {
-  useMutation,
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
@@ -21,10 +20,6 @@ import {
 import { BatchAllocationLogs } from './BatchAllocationLogs';
 import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useMutation: jest.fn(),
-}));
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useFiltersToogle: jest.fn(),
@@ -80,7 +75,6 @@ describe('BatchAllocationLogs', () => {
       refetch: () => {},
     });
     useUsersBatch.mockReturnValue({ users: [], isLoading: false });
-    useMutation.mockReturnValue({ mutateAsync: () => {}, isLoading: false });
     useFiltersToogle.mockReturnValue({ isFiltersOpened: false, toggleDeleteModal: () => {} });
     useBatchAllocationLogsMutation.mockReturnValue({ deleteLog });
   });

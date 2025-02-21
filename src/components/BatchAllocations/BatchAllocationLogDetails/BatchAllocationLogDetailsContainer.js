@@ -37,6 +37,7 @@ export const BatchAllocationLogDetailsContainer = () => {
     history.push({
       pathname: `${sourcePath}/batch-allocations/logs`,
       search: location.search,
+      state: location.state,
     });
   }, [history, location]);
 

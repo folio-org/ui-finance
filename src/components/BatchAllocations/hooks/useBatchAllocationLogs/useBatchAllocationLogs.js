@@ -7,10 +7,11 @@ import {
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
 import { FUND_UPDATE_LOGS_API } from '../../../../common/const';
+import { useBuildQuery } from '../useBuildQuery';
 
 const DEFAULT_LOGS = [];
 
-export const useBatchAllocationLogs = (options = {}) => {
+export const useBatchAllocationLogs = ({ filters }, options = {}) => {
   const {
     enabled = true,
     tenantId,
@@ -20,9 +21,12 @@ export const useBatchAllocationLogs = (options = {}) => {
   const ky = useOkapiKy({ tenant: tenantId });
   const [namespace] = useNamespace({ key: 'fund-update-logs' });
 
+  const buildQuery = useBuildQuery();
+  const query = buildQuery(filters);
+
   const searchParams = {
     limit: LIMIT_MAX,
-    query: 'cql.allRecords=1 sortby metadata.createdDate/sort.descending',
+    query,
   };
 
   const {
@@ -39,7 +43,7 @@ export const useBatchAllocationLogs = (options = {}) => {
 
   return ({
     data: data?.fundUpdateLogs || DEFAULT_LOGS,
-    totalRecords: data?.totalRecords,
+    totalRecords: data?.totalRecords || 0,
     isFetching,
     isLoading,
     refetch,

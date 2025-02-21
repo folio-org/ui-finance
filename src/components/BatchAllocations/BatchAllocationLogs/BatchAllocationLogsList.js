@@ -1,103 +1,40 @@
-import noop from 'lodash/noop';
 import React, {
-  useCallback,
   useMemo,
 } from 'react';
 import {
   useRouteMatch,
   useLocation,
 } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import queryString from 'query-string';
+
+import { MultiColumnList } from '@folio/stripes/components';
 
 import {
-  Button,
-  Icon,
-  LoadingView,
-  MultiColumnList,
-  MenuSection,
-} from '@folio/stripes/components';
-import {
-  IfPermission,
-  TitleManager,
-} from '@folio/stripes/core';
-import {
-  ResultsPane,
-  useFilters,
-  useFiltersToogle,
-  useRecordsSelect,
-  useShowCallout,
-  useToggle,
-} from '@folio/stripes-acq-components';
-import { PersistedPaneset } from '@folio/stripes/smart-components';
-
-import { BATCH_ALLOCATION_LOG_COLUMNS } from './constants';
-import { ConfirmDeleteLogModal } from './ConfirmDeleteLogModal';
+  BATCH_ALLOCATION_LOG_COLUMNS,
+  BATCH_ALLOCATION_LOGS_COLUMNS_WIDTHS,
+} from './constants';
 import {
   getLogsListColumnMapping,
   getResultsListFormatter,
 } from './utils';
 
 export const BatchAllocationLogsList = ({
-  dataReset,
-  deleteLog,
+  allRecordsSelected,
+  height,
+  isEmptyMessage,
   isLoading,
   logs,
-  onClose,
+  selectedRecordsMap,
+  selectRecord,
   totalRecords,
+  toggleSelectAll,
+  width,
 }) => {
   const match = useRouteMatch();
   const location = useLocation();
 
   const intl = useIntl();
-  const showCallout = useShowCallout();
-  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/batch-allocations/logs/filters');
-  const [isToggleDeleteModal, toggleDeleteModal] = useToggle();
-
-  const {
-    filters,
-  } = useFilters(noop);
-
-  const {
-    allRecordsSelected,
-    resetAllSelectedRecords,
-    selectedRecordsLength,
-    selectedRecordsMap,
-    selectRecord,
-    toggleSelectAll,
-  } = useRecordsSelect({ records: logs });
-
-  const onDelete = async () => {
-    toggleDeleteModal();
-
-    const recordIds = Object.keys(selectedRecordsMap);
-    const deletePromises = recordIds.map((id) => deleteLog(id));
-    const results = await Promise.allSettled(deletePromises);
-
-    const failedDeletes = results.reduce((acc, result, index) => {
-      if (result.status === 'rejected' || result.value?.error) {
-        acc.push({ id: recordIds[index] });
-      }
-
-      return acc;
-    }, []);
-
-    if (failedDeletes.length > 0) {
-      failedDeletes.forEach(({ id }) => {
-        showCallout({
-          messageId: 'ui-finance.allocation.batch.logs.actions.delete.fail',
-          type: 'error',
-          values: { id },
-        });
-      });
-    } else {
-      showCallout({
-        messageId: 'ui-finance.allocation.batch.logs.actions.delete.success',
-      });
-    }
-
-    dataReset();
-    resetAllSelectedRecords();
-  };
 
   const columnMapping = useMemo(() => {
     return getLogsListColumnMapping({
@@ -113,82 +50,26 @@ export const BatchAllocationLogsList = ({
       intl,
       path: match.path,
       locationSearch: location.search,
+      locationState: location.state,
       disabled: isLoading,
       selectRecord,
       selectedRecordsMap,
     });
   }, [isLoading, match.path, location.search, intl, selectRecord, selectedRecordsMap]);
 
-  const renderActionMenu = useCallback(({ onToggle }) => (
-    <MenuSection>
-      <IfPermission perm="ui-finance.fund-update-logs.delete">
-        <Button
-          data-testid="delete-log-button"
-          buttonStyle="dropdownItem"
-          onClick={() => {
-            toggleDeleteModal();
-            onToggle();
-          }}
-          disabled={!selectedRecordsLength}
-        >
-          <Icon icon="trash">
-            <FormattedMessage id="ui-finance.allocation.batch.logs.actions.delete" />
-          </Icon>
-        </Button>
-      </IfPermission>
-    </MenuSection>
-  ), [toggleDeleteModal, selectedRecordsLength]);
-
-  const title = <FormattedMessage id="ui-finance.allocation.batch.logs.title" />;
-
-  if (isLoading) {
-    return (
-      <LoadingView
-        dismissible
-        onClose={onClose}
-        paneTitle={title}
-      />
-    );
-  }
-
   return (
-    <>
-      <TitleManager record={intl.formatMessage({ id: 'ui-finance.allocation.batch.logs.title' })} />
-      <PersistedPaneset
-        appId="ui-finance"
-        id="batch-allocation-logs"
-      >
-        <ResultsPane
-          actionMenu={renderActionMenu}
-          autosize
-          count={totalRecords}
-          dismissible
-          filters={filters}
-          isFiltersOpened={isFiltersOpened}
-          isLoading={isLoading}
-          onClose={onClose}
-          title={title}
-          toggleFiltersPane={toggleFilters}
-        >
-          {({ height, width }) => (
-            <MultiColumnList
-              columnMapping={columnMapping}
-              contentData={logs}
-              formatter={formatter}
-              height={height}
-              totalCount={totalRecords}
-              visibleColumns={BATCH_ALLOCATION_LOG_COLUMNS}
-              width={width}
-            />
-          )}
-        </ResultsPane>
-      </PersistedPaneset>
-
-      <ConfirmDeleteLogModal
-        onCancel={toggleDeleteModal}
-        onConfirm={onDelete}
-        open={isToggleDeleteModal}
-      />
-    </>
+    <MultiColumnList
+      columnMapping={columnMapping}
+      contentData={logs}
+      columnWidths={BATCH_ALLOCATION_LOGS_COLUMNS_WIDTHS}
+      formatter={formatter}
+      height={height}
+      id="batch-allocation-logs-list"
+      isEmptyMessage={isEmptyMessage}
+      loading={isLoading}
+      totalCount={totalRecords}
+      visibleColumns={BATCH_ALLOCATION_LOG_COLUMNS}
+      width={width}
+    />
   );
 };

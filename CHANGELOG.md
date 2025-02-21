@@ -15,6 +15,7 @@
 * Hide future FYs from group details view. Refs UIF-587.
 * Save and close batch allocations. Refs UIF-534.
 * Add batch allocation log details screen. Refs UIF-531.
+* Search and filter batch allocation logs. Refs UIF-541.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

@@ -201,7 +201,7 @@ export const GroupDetailsContainer = ({
   const onBatchAllocationLogs = useCallback(() => {
     history.push({
       pathname: `${GROUPS_ROUTE}/batch-allocations/logs`,
-      search: location.search,
+      state: { search: location.search },
     });
   }, [history, location.search]);
 

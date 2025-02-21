@@ -29,9 +29,6 @@ jest.mock('../hooks', () => ({
   useBatchAllocationLogs: jest.fn(),
   useBatchAllocationLogsMutation: jest.fn(),
 }));
-jest.mock('./useBatchAllocationLogsMutation', () => ({
-  useBatchAllocationLogsMutation: jest.fn(),
-}));
 
 const deleteLog = jest.fn();
 

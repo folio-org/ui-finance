@@ -152,7 +152,7 @@ export const LedgerDetailsContainer = ({
   const onBatchAllocationLogs = useCallback(() => {
     history.push({
       pathname: `${LEDGERS_ROUTE}/batch-allocations/logs`,
-      state: { search: location.search }
+      state: { search: location.search },
     });
   }, [history, location.search]);
 

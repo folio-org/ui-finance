@@ -19,7 +19,6 @@ import {
   useBatchAllocationLogsMutation,
 } from '../hooks';
 import { BatchAllocationLogs } from './BatchAllocationLogs';
-import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),

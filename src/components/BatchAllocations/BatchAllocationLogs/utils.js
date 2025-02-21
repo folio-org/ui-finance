@@ -63,7 +63,7 @@ export const getResultsListFormatter = ({
         <TextLink
           to={{
             pathname: `${path}/${item.id}/view${locationSearch}`,
-            state: locationState
+            state: locationState,
           }}
         >
           {item.jobName}

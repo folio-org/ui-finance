@@ -23,6 +23,7 @@ import {
 } from '../constants';
 import {
   useBatchAllocation,
+  useBatchAllocationFormHandler,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -69,18 +70,26 @@ export const CreateBatchAllocations = ({
     isLoading: isFiscalYearLoading,
   } = useFiscalYear(fiscalYearId);
 
+  const {
+    handle,
+    isLoading: isBatchAllocationHandling,
+  } = useBatchAllocationFormHandler();
+
   const onClose = useCallback(() => {
     history.push(backPathname);
   }, [history, backPathname]);
 
-  const onSubmit = useCallback(async ({
-    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
-  }) => {
-    // TODO: https://folio-org.atlassian.net/browse/UIF-534
-    console.log('fyFinanceData', fyFinanceData);
-
-    onClose();
-  }, [onClose]);
+  const onSubmit = useCallback(async (
+    { [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData },
+    form,
+  ) => {
+    await handle({
+      fyFinanceData,
+      initialValues: form.getState().initialValues,
+      sourceId,
+      sourceType,
+    }).then(() => onClose());
+  }, [handle, onClose, sourceId, sourceType]);
 
   const isLoading = (
     isFinanceDataLoading
@@ -117,6 +126,7 @@ export const CreateBatchAllocations = ({
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
+        isSubmitDisabled={isBatchAllocationHandling}
         onCancel={onClose}
         onSubmit={onSubmit}
         paneSub={sourceData.name}

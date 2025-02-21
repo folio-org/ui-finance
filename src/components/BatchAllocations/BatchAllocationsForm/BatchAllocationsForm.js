@@ -60,6 +60,7 @@ const BatchAllocationsForm = ({
   headline,
   initialValues,
   isRecalculateDisabled,
+  isSubmitDisabled: isSubmitDisabledProp,
   onCancel,
   paneSub,
   paneTitle,
@@ -75,7 +76,8 @@ const BatchAllocationsForm = ({
   } = form.getState();
 
   const isSubmitDisabled = (
-    form.getState()?.values?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData] === null
+    isSubmitDisabledProp
+    || form.getState()?.values?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData] === null
     || invalid
     || pristine
     || submitting
@@ -230,6 +232,7 @@ BatchAllocationsForm.propTypes = {
   headline: PropTypes.string,
   initialValues: PropTypes.object.isRequired,
   isRecalculateDisabled: PropTypes.bool,
+  isSubmitDisabled: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   paneSub: PropTypes.string.isRequired,
   paneTitle: PropTypes.string.isRequired,

@@ -35,7 +35,7 @@ jest.mock('../hooks', () => ({
 }));
 
 const wrapper = ({ children }) => (
-  <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/create']}>
+  <MemoryRouter initialEntries={['/finance/ledger/batch-allocations/create/123']}>
     {children}
   </MemoryRouter>
 );

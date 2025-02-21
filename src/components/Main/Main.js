@@ -20,7 +20,6 @@ import Funds from '../../Funds';
 import Groups from '../../Groups';
 import { Ledger } from '../../Ledger';
 import Transactions from '../../Transactions';
-import { BatchAllocations } from '../BatchAllocations';
 import { Budget } from '../Budget';
 import { getInitialRoute } from './utils';
 
@@ -42,10 +41,6 @@ const Main = () => {
         <Route
           path={`${match.path}/budget`}
           component={Budget}
-        />
-        <Route
-          path={`${match.path}/batch-allocations`}
-          component={BatchAllocations}
         />
         <Route
           path={GROUPS_ROUTE}

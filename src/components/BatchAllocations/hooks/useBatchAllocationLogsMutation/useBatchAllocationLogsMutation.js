@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { FUND_UPDATE_LOGS_API } from '../../../common/const';
+import { FUND_UPDATE_LOGS_API } from '../../../../common/const';
 
 export const useBatchAllocationLogsMutation = (options = {}) => {
   const { tenantId } = options;

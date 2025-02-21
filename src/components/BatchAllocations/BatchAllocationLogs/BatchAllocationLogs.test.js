@@ -16,6 +16,7 @@ import {
 
 import {
   useBatchAllocationLogs,
+  useBatchAllocationLogsMutation,
 } from '../hooks';
 import { BatchAllocationLogs } from './BatchAllocationLogs';
 import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
@@ -27,6 +28,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
 }));
 jest.mock('../hooks', () => ({
   useBatchAllocationLogs: jest.fn(),
+  useBatchAllocationLogsMutation: jest.fn(),
 }));
 jest.mock('./useBatchAllocationLogsMutation', () => ({
   useBatchAllocationLogsMutation: jest.fn(),
@@ -36,7 +38,7 @@ const deleteLog = jest.fn();
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
-  <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/logs']}>
+  <MemoryRouter initialEntries={['/finance/ledger/batch-allocations/logs']}>
     <QueryClientProvider client={queryClient}>
       {children}
     </QueryClientProvider>
@@ -74,9 +76,10 @@ describe('BatchAllocationLogs', () => {
       isFetching: false,
       refetch: () => {},
     });
+    useBatchAllocationLogsMutation.mockReturnValue({ deleteLog });
+
     useUsersBatch.mockReturnValue({ users: [], isLoading: false });
     useFiltersToogle.mockReturnValue({ isFiltersOpened: false, toggleDeleteModal: () => {} });
-    useBatchAllocationLogsMutation.mockReturnValue({ deleteLog });
   });
 
   afterEach(() => {

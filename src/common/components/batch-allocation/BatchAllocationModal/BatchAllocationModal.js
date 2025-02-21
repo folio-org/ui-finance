@@ -62,7 +62,7 @@ export const BatchAllocationModal = ({
     toggle();
 
     history.push({
-      pathname: `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/${sourceId}/batch-allocations/create/${selectedFiscalYear}`,
+      pathname: `${BATCH_ALLOCATION_ROUTES_DICT[sourceType]}/batch-allocations/create/${sourceId}/${selectedFiscalYear}`,
       state: {
         backPathname: `${location.pathname}${location.search}`,
       },

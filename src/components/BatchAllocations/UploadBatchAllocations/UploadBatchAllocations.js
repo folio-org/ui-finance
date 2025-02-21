@@ -5,7 +5,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import {
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from 'react-router-dom';
 
 import { LoadingView } from '@folio/stripes/components';
 import {
@@ -36,11 +40,11 @@ import {
 import { resolveDefaultBackPathname } from '../utils';
 import { buildInitialValues } from './buildInitialValues';
 
-export const UploadBatchAllocations = ({
-  history,
-  location,
-  match,
-}) => {
+export const UploadBatchAllocations = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
+
   const { id: sourceId, fiscalYearId } = match.params;
 
   const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
@@ -163,10 +167,4 @@ export const UploadBatchAllocations = ({
       />
     </>
   );
-};
-
-UploadBatchAllocations.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
 };

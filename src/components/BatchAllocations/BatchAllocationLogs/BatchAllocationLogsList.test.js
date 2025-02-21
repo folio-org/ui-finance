@@ -8,7 +8,7 @@ import {
 import { BatchAllocationLogsList } from './BatchAllocationLogsList';
 
 const wrapper = ({ children }) => (
-  <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/logs']}>
+  <MemoryRouter initialEntries={['/finance/ledger/batch-allocations/logs']}>
     {children}
   </MemoryRouter>
 );

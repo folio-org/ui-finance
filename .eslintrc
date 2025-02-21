@@ -4,6 +4,12 @@
   "overrides": [
     {
       "files": [ "src/**/tests/*", "test/**/*" ]
+    },
+    {
+      "files": [ "*" ],
+      "rules": {
+        "react/prop-types": ["off"]
+      }
     }
   ],
   "settings": {

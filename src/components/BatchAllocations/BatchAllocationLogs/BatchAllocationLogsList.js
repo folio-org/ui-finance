@@ -1,17 +1,23 @@
-import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import React, {
+  useMemo,
+} from 'react';
+import {
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import queryString from 'query-string';
 
 import { MultiColumnList } from '@folio/stripes/components';
 
 import {
+  BATCH_ALLOCATION_LOG_COLUMNS,
+  BATCH_ALLOCATION_LOGS_COLUMNS_WIDTHS,
+} from './constants';
+import {
   getLogsListColumnMapping,
   getResultsListFormatter,
-} from '../utils';
-import {
-  BATCH_ALLOCATION_LOG_COLUMNS,
-  BATCH_ALLOCATION_LOG_FIELDS,
-} from './constants';
+} from './utils';
 
 export const BatchAllocationLogsList = ({
   allRecordsSelected,
@@ -25,6 +31,9 @@ export const BatchAllocationLogsList = ({
   toggleSelectAll,
   width,
 }) => {
+  const match = useRouteMatch();
+  const location = useLocation();
+
   const intl = useIntl();
 
   const columnMapping = useMemo(() => {
@@ -38,29 +47,21 @@ export const BatchAllocationLogsList = ({
 
   const formatter = useMemo(() => {
     return getResultsListFormatter({
-      disabled: isLoading,
       intl,
+      path: match.path,
+      locationSearch: location.search,
+      locationState: location.state,
+      disabled: isLoading,
       selectRecord,
       selectedRecordsMap,
     });
-  }, [isLoading, intl, selectRecord, selectedRecordsMap]);
-
-  const COLUMN_WIDTHS = {
-    select: '4%',
-    [BATCH_ALLOCATION_LOG_FIELDS.jobName]: '26%',
-    [BATCH_ALLOCATION_LOG_FIELDS.status]: '12%',
-    [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: '6%',
-    [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: '14%',
-    [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: '14%',
-    [BATCH_ALLOCATION_LOG_FIELDS.createdByUsername]: '20%',
-    [BATCH_ALLOCATION_LOG_FIELDS.jobNumber]: '4%',
-  };
+  }, [isLoading, match.path, location.search, intl, selectRecord, selectedRecordsMap]);
 
   return (
     <MultiColumnList
       columnMapping={columnMapping}
       contentData={logs}
-      columnWidths={COLUMN_WIDTHS}
+      columnWidths={BATCH_ALLOCATION_LOGS_COLUMNS_WIDTHS}
       formatter={formatter}
       height={height}
       id="batch-allocation-logs-list"
@@ -71,17 +72,4 @@ export const BatchAllocationLogsList = ({
       width={width}
     />
   );
-};
-
-BatchAllocationLogsList.propTypes = {
-  allRecordsSelected: PropTypes.bool,
-  height: PropTypes.number.isRequired,
-  isEmptyMessage: PropTypes.node.isRequired,
-  isLoading: PropTypes.bool,
-  logs: PropTypes.arrayOf(PropTypes.object),
-  selectedRecordsMap: PropTypes.object.isRequired,
-  selectRecord: PropTypes.func.isRequired,
-  totalRecords: PropTypes.number.isRequired,
-  toggleSelectAll: PropTypes.func.isRequired,
-  width: PropTypes.number.isRequired,
 };

@@ -1,7 +1,10 @@
 import noop from 'lodash/noop';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
 
 import {
   Button,
@@ -30,35 +33,31 @@ import { PersistedPaneset } from '@folio/stripes/smart-components';
 
 import {
   LEDGERS_ROUTE,
-  BATCH_ALLOCATIONS_SOURCE,
+  GROUPS_ROUTE,
 } from '../../../common/const';
 import {
   useGroups,
   useLedgers,
 } from '../../../common/hooks';
-import { useBatchAllocationLogs } from '../hooks';
-import { resolveDefaultBackPathname } from '../utils';
+import {
+  useBatchAllocationLogs,
+  useBatchAllocationLogsMutation,
+} from '../hooks';
 import BatchAllocationLogFilters from './BatchAllocationLogsFilters';
 import { BatchAllocationLogsList } from './BatchAllocationLogsList';
 import { searchableIndexes } from './BatchAllocationLogsSearchConfig';
 import { ConfirmDeleteLogModal } from './ConfirmDeleteLogModal';
-import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
 
-export const BatchAllocationLogs = ({
-  history,
-  location,
-  match,
-}) => {
+export const BatchAllocationLogs = () => {
+  const location = useLocation();
+  const history = useHistory();
+
   const intl = useIntl();
   const showCallout = useShowCallout();
+
   const [isToggleDeleteModal, toggleDeleteModal] = useToggle(false);
 
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/batch-allocations/logs/filters');
-  const { id: sourceId } = match.params;
-  const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
-    BATCH_ALLOCATIONS_SOURCE.ledger :
-    BATCH_ALLOCATIONS_SOURCE.group;
-  const backPathname = location.state?.backPathname || resolveDefaultBackPathname(sourceType, sourceId);
 
   const [
     filters,
@@ -169,8 +168,11 @@ export const BatchAllocationLogs = ({
   };
 
   const onClose = useCallback(() => {
-    history.push(backPathname);
-  }, [history, backPathname]);
+    history.push({
+      pathname: location.pathname.includes(LEDGERS_ROUTE) ? LEDGERS_ROUTE : GROUPS_ROUTE,
+      search: location.state?.search,
+    });
+  }, [history, location]);
 
   return (
     <>
@@ -243,13 +245,6 @@ export const BatchAllocationLogs = ({
         onConfirm={onDelete}
         open={isToggleDeleteModal}
       />
-
     </>
   );
-};
-
-BatchAllocationLogs.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
 };

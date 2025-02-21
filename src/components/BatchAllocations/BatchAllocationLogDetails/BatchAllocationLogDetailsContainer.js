@@ -33,7 +33,7 @@ export const BatchAllocationLogDetailsContainer = () => {
 
   const closeBatchAllocationLog = useCallback(() => {
     const sourcePath = location.pathname.includes(LEDGERS_ROUTE) ? LEDGERS_ROUTE : GROUPS_ROUTE;
-  
+
     history.push({
       pathname: `${sourcePath}/batch-allocations/logs`,
       search: location.search,
@@ -58,7 +58,7 @@ export const BatchAllocationLogDetailsContainer = () => {
         values: { id },
       });
     }
-  }, [batchAllocationLog, deleteLog]);
+  }, [batchAllocationLog, deleteLog, closeBatchAllocationLog, showCallout]);
 
   if (isLoading) {
     return (

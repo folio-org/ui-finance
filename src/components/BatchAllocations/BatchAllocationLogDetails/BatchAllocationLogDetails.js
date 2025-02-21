@@ -82,14 +82,14 @@ export const BatchAllocationLogDetails = ({
   }, [intl]);
 
   const formatter = useMemo(() => ({
-    [BATCH_ALLOCATION_FIELDS.fundStatus]: item => Boolean(item.fundStatus)
-    ? <FormattedMessage id={`ui-finance.fund.status.${item.fundStatus.toLowerCase()}`} />
-    : <FormattedMessage id="stripes-acq-components.invalidReference" />,
-    [BATCH_ALLOCATION_FIELDS.budgetStatus]: item => Boolean(item.budgetStatus)
+    [BATCH_ALLOCATION_FIELDS.fundStatus]: item => (item.fundStatus
+      ? <FormattedMessage id={`ui-finance.fund.status.${item.fundStatus.toLowerCase()}`} />
+      : <FormattedMessage id="stripes-acq-components.invalidReference" />),
+    [BATCH_ALLOCATION_FIELDS.budgetStatus]: item => (item.budgetStatus
       ? <FormattedMessage id={`ui-finance.budget.status.${item.budgetStatus.toLowerCase()}`} />
-      : <FormattedMessage id="stripes-acq-components.invalidReference" />,
+      : <FormattedMessage id="stripes-acq-components.invalidReference" />),
     [BATCH_ALLOCATION_FIELDS.transactionTag]: item => item.transactionTag?.tagList?.join(', '),
-  }));
+  }), []);
 
   return (
     <HasCommand

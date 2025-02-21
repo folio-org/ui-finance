@@ -15,10 +15,9 @@ export const useBatchAllocationLog = (id) => {
     data,
     isFetching,
     isLoading,
-    refetch,
   } = useQuery({
     queryKey: [namespace, id],
-    queryFn: () => ky.get(`${FUND_UPDATE_LOGS_API}/${id}`).json(),
+    queryFn: ({ signal }) => ky.get(`${FUND_UPDATE_LOGS_API}/${id}`, { signal }).json(),
     enabled: Boolean(id),
   });
 

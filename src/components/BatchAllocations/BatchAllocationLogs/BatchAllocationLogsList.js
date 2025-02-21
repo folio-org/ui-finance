@@ -3,7 +3,10 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
-import PropTypes from 'prop-types';
+import {
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
@@ -27,12 +30,12 @@ import {
 } from '@folio/stripes-acq-components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 
+import { BATCH_ALLOCATION_LOG_COLUMNS } from './constants';
+import { ConfirmDeleteLogModal } from './ConfirmDeleteLogModal';
 import {
   getLogsListColumnMapping,
   getResultsListFormatter,
-} from '../utils';
-import { BATCH_ALLOCATION_LOG_COLUMNS } from './constants';
-import { ConfirmDeleteLogModal } from './ConfirmDeleteLogModal';
+} from './utils';
 
 export const BatchAllocationLogsList = ({
   dataReset,
@@ -42,6 +45,9 @@ export const BatchAllocationLogsList = ({
   onClose,
   totalRecords,
 }) => {
+  const match = useRouteMatch();
+  const location = useLocation();
+
   const intl = useIntl();
   const showCallout = useShowCallout();
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/batch-allocations/logs/filters');
@@ -104,12 +110,14 @@ export const BatchAllocationLogsList = ({
 
   const formatter = useMemo(() => {
     return getResultsListFormatter({
-      disabled: isLoading,
       intl,
+      path: match.path,
+      locationSearch: location.search,
+      disabled: isLoading,
       selectRecord,
       selectedRecordsMap,
     });
-  }, [isLoading, intl, selectRecord, selectedRecordsMap]);
+  }, [isLoading, match.path, location.search, intl, selectRecord, selectedRecordsMap]);
 
   const renderActionMenu = useCallback(({ onToggle }) => (
     <MenuSection>
@@ -183,13 +191,4 @@ export const BatchAllocationLogsList = ({
       />
     </>
   );
-};
-
-BatchAllocationLogsList.propTypes = {
-  dataReset: PropTypes.func.isRequired,
-  deleteLog: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  logs: PropTypes.arrayOf(PropTypes.object),
-  onClose: PropTypes.func.isRequired,
-  totalRecords: PropTypes.number,
 };

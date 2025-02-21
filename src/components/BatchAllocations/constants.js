@@ -52,3 +52,17 @@ export const BATCH_ALLOCATION_LOG_STATUSES = {
   ERROR: 'error',
   IN_PROGRESS: 'inProgress',
 };
+
+export const BATCH_ALLOCATION_LOG_COLUMN_WIDTHS = {
+  [BATCH_ALLOCATION_FIELDS.fundName]: '10%',
+  [BATCH_ALLOCATION_FIELDS.fundStatus]: '8%',
+  [BATCH_ALLOCATION_FIELDS.budgetName]: '10%',
+  [BATCH_ALLOCATION_FIELDS.budgetStatus]: '8%',
+  [BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]: '6%',
+  [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: '10%',
+  [BATCH_ALLOCATION_FIELDS.budgetAfterAllocation]: '8%',
+  [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: '8%',
+  [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: '8%',
+  [BATCH_ALLOCATION_FIELDS.transactionDescription]: '12%',
+  [BATCH_ALLOCATION_FIELDS.transactionTag]: '12%',
+};

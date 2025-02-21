@@ -15,7 +15,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
 }));
 
 const wrapper = ({ children }) => (
-  <MemoryRouter initialEntries={['/finance/ledger/123/batch-allocations/logs']}>
+  <MemoryRouter initialEntries={['/finance/ledger/batch-allocations/logs']}>
     {children}
   </MemoryRouter>
 );

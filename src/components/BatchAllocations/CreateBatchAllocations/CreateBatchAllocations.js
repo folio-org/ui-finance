@@ -1,10 +1,14 @@
 import noop from 'lodash/noop';
 import { useCallback } from 'react';
 import {
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from 'react-router-dom';
+import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
@@ -28,12 +32,12 @@ import {
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
 
-export const CreateBatchAllocations = ({
-  history,
-  location,
-  match,
-}) => {
+export const CreateBatchAllocations = () => {
   const intl = useIntl();
+
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
 
   const { id: sourceId, fiscalYearId } = match.params;
 
@@ -136,10 +140,4 @@ export const CreateBatchAllocations = ({
       />
     </>
   );
-};
-
-CreateBatchAllocations.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
 };

@@ -395,7 +395,6 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-finance.fund-budget.view",
           "finance.fund-update-logs.collection.get",
           "finance.fund-update-logs.item.get"
         ]
@@ -406,9 +405,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-finance.fund-budget.view",
-          "finance.fund-update-logs.item.delete",
-          "finance.fund-update-logs.item.get"
+          "finance.fund-update-logs.item.delete"
         ]
       },
       {

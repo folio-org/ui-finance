@@ -63,7 +63,8 @@ export const filterPreviousGroupFiscalYears = (fiscalYears = [], currentFiscalYe
     const currentFiscalYear = currentFiscalYearsMap[fiscalYear.series];
 
     return !currentFiscalYear || (
-      fiscalYear.id !== currentFiscalYear.id && new Date(fiscalYear.periodEnd) <= new Date(currentFiscalYear.periodStart)
+      fiscalYear.id !== currentFiscalYear.id
+      && new Date(fiscalYear.periodEnd) <= new Date(currentFiscalYear.periodStart)
     );
   });
 };

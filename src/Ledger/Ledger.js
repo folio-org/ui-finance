@@ -33,6 +33,7 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+
       <Route
         path={`${LEDGERS_ROUTE}/fiscalyear/create`}
         render={() => (
@@ -41,6 +42,7 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+
       <Route
         path={`${LEDGERS_ROUTE}/:id/fiscalyear/create`}
         render={() => (
@@ -49,6 +51,7 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+
       <Route
         path={`${LEDGERS_ROUTE}/:id/edit`}
         render={() => (
@@ -57,6 +60,7 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/rollover-create-fy`}
         perm="ui-finance.fiscal-year.create"
@@ -65,6 +69,7 @@ const Ledger = () => {
       >
         <RolloverLedgerCreateFiscalYear />
       </PermissionedRoute>
+
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/rollover`}
         perm="ui-finance.ledger.rollover.execute"
@@ -73,6 +78,7 @@ const Ledger = () => {
       >
         <RolloverLedgerContainer />
       </PermissionedRoute>
+
       <PermissionedRoute
         path={`${LEDGERS_ROUTE}/:id/rollover-logs`}
         perm="ui-finance.ledger.rollover.execute"
@@ -81,14 +87,12 @@ const Ledger = () => {
       >
         <RolloverLogs />
       </PermissionedRoute>
-      <PermissionedRoute
-        path={`${LEDGERS_ROUTE}/:id/batch-allocations`}
-        perm="ui-finance.allocations.create"
-        returnLink={LEDGERS_ROUTE}
-        returnLinkLabelId="ui-finance.ledger"
-      >
-        <BatchAllocations />
-      </PermissionedRoute>
+
+      <Route
+        path={`${LEDGERS_ROUTE}/batch-allocations`}
+        component={BatchAllocations}
+      />
+
       <Route
         path={LEDGER_ROLLOVER_SETTINGS_ROUTE}
         render={() => (
@@ -97,6 +101,7 @@ const Ledger = () => {
           </CheckPermission>
         )}
       />
+
       <Route
         path={LEDGERS_ROUTE}
         render={() => (

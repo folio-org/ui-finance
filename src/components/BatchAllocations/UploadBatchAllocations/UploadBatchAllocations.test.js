@@ -1,5 +1,10 @@
 import localforage from 'localforage';
-import { MemoryRouter } from 'react-router-dom';
+import {
+  MemoryRouter,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from 'react-router-dom';
 
 import {
   render,
@@ -21,6 +26,13 @@ import { UploadBatchAllocations } from './UploadBatchAllocations';
 import { BATCH_ALLOCATION_FIELDS } from '../constants';
 
 jest.mock('localforage');
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: jest.fn(),
+  useLocation: jest.fn(),
+  useRouteMatch: jest.fn(),
+}));
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
@@ -60,11 +72,8 @@ const defaultProps = {
   },
 };
 
-const renderComponent = (props = {}) => render(
-  <UploadBatchAllocations
-    {...defaultProps}
-    {...props}
-  />,
+const renderComponent = () => render(
+  <UploadBatchAllocations />,
   { wrapper: MemoryRouter },
 );
 
@@ -76,6 +85,11 @@ describe('UploadBatchAllocations', () => {
 
   beforeEach(() => {
     localforage.getItem.mockResolvedValue({ fileName: 'test.csv', data: uploadFileDataStub });
+
+    useLocation.mockClear().mockReturnValue(defaultProps.location);
+    useHistory.mockClear().mockReturnValue(defaultProps.history);
+    useRouteMatch.mockClear().mockReturnValue(defaultProps.match);
+
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData });
     useBatchAllocationFormHandler.mockReturnValue({ handle });
     useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
@@ -129,6 +143,8 @@ describe('UploadBatchAllocations', () => {
   });
 
   it('should navigate back on cancel', async () => {
+    defaultProps.history.push.mockClear();
+
     renderComponent();
 
     await waitFor(() => {

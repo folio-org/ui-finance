@@ -1,27 +1,24 @@
 import { useCallback } from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
 
 import { useUsersBatch } from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
-  BATCH_ALLOCATIONS_SOURCE,
+  GROUPS_ROUTE,
 } from '../../../common/const';
-import { useBatchAllocationLogs } from '../hooks';
-import { resolveDefaultBackPathname } from '../utils';
+import {
+  useBatchAllocationLogs,
+  useBatchAllocationLogsMutation,
+} from '../hooks';
 import { BatchAllocationLogsList } from './BatchAllocationLogsList';
-import { useBatchAllocationLogsMutation } from './useBatchAllocationLogsMutation';
 
-export const BatchAllocationLogs = ({
-  history,
-  location,
-  match,
-}) => {
-  const { id: sourceId } = match.params;
-  const sourceType = location.pathname.includes(LEDGERS_ROUTE) ?
-    BATCH_ALLOCATIONS_SOURCE.ledger :
-    BATCH_ALLOCATIONS_SOURCE.group;
-  const backPathname = location.state?.backPathname || resolveDefaultBackPathname(sourceType, sourceId);
+export const BatchAllocationLogs = () => {
+  const location = useLocation();
+  const history = useHistory();
 
   const {
     data: logs,
@@ -45,8 +42,11 @@ export const BatchAllocationLogs = ({
   const { deleteLog } = useBatchAllocationLogsMutation();
 
   const onClose = useCallback(() => {
-    history.push(backPathname);
-  }, [history, backPathname]);
+    history.push({
+      pathname: location.pathname.includes(LEDGERS_ROUTE) ? LEDGERS_ROUTE : GROUPS_ROUTE,
+      search: location.search,
+    });
+  }, [history, location]);
 
   return (
     <BatchAllocationLogsList
@@ -58,10 +58,4 @@ export const BatchAllocationLogs = ({
       totalRecords={logsCount}
     />
   );
-};
-
-BatchAllocationLogs.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
 };

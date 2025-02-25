@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import {
+  useState,
   useCallback,
   useEffect,
+  useRef,
 } from 'react';
+import { FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
 
@@ -69,6 +72,9 @@ const BatchAllocationsForm = ({
   sortingField,
   sortingDirection,
 }) => {
+  const [isRecalculateRequired, setIsRecalculateRequired] = useState(true);
+  const previousFormValues = useRef({});
+
   const {
     invalid,
     pristine,
@@ -78,6 +84,7 @@ const BatchAllocationsForm = ({
   const isSubmitDisabled = (
     isSubmitDisabledProp
     || form.getState()?.values?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData] === null
+    || isRecalculateRequired
     || invalid
     || pristine
     || submitting
@@ -114,6 +121,8 @@ const BatchAllocationsForm = ({
         await handleRecalculateError(error, showCallout);
       })
       .finally(() => {
+        setIsRecalculateRequired(false);
+
         form.batch(() => {
           form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, true);
           form.submit();
@@ -190,6 +199,24 @@ const BatchAllocationsForm = ({
           >
             {headline}
           </Headline>
+
+          <FormSpy
+            subscription={{ values: true }}
+            onChange={({ values }) => {
+              const { fyFinanceData } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
+
+              if (
+                values
+                && values[fyFinanceData] !== previousFormValues.current[fyFinanceData]
+                && !isRecalculateRequired
+              ) {
+                previousFormValues.current = { ...values };
+
+                setIsRecalculateRequired(true);
+              }
+            }}
+          />
+
           <FieldArray
             id="batch-allocation-list"
             name={BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData}

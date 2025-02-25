@@ -38,5 +38,6 @@ export const resolveDefaultBackPathname = (sourceType, sourceId) => {
 
 export const dehydrateAllocationLog = log => ({
   ...log,
-  financeData: (log?.jobDetails?.fyFinanceData || []).filter(({ isBudgetChanged, isFundChanged }) => isBudgetChanged || isFundChanged),
-})
+  financeData: (log?.jobDetails?.fyFinanceData || [])
+    .filter(({ isBudgetChanged, isFundChanged }) => isBudgetChanged || isFundChanged),
+});

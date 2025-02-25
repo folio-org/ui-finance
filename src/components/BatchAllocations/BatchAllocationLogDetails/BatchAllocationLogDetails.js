@@ -14,6 +14,7 @@ import {
   MultiColumnList,
   MenuSection,
   Pane,
+  NoValue,
 } from '@folio/stripes/components';
 import {
   useModalToggle,
@@ -82,6 +83,7 @@ export const BatchAllocationLogDetails = ({
   }, [intl]);
 
   const formatter = useMemo(() => ({
+    [BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]: item => item.budgetCurrentAllocation ?? <NoValue />,
     [BATCH_ALLOCATION_FIELDS.fundStatus]: item => (item.fundStatus
       ? <FormattedMessage id={`ui-finance.fund.status.${item.fundStatus.toLowerCase()}`} />
       : <FormattedMessage id="stripes-acq-components.invalidReference" />),
@@ -110,7 +112,7 @@ export const BatchAllocationLogDetails = ({
         <ViewMetaData metadata={batchAllocationLog.metadata} />
 
         <MultiColumnList
-          contentData={batchAllocationLog.jobDetails?.fyFinanceData || DEFAULT_LOG_DETAILS}
+          contentData={batchAllocationLog.financeData || DEFAULT_LOG_DETAILS}
           columnMapping={columnMapping}
           columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
           formatter={formatter}

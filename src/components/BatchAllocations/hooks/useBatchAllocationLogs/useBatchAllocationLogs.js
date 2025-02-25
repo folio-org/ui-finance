@@ -8,6 +8,7 @@ import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
 import { FUND_UPDATE_LOGS_API } from '../../../../common/const';
 import { useBuildQuery } from '../useBuildQuery';
+import { dehydrateAllocationLog } from '../../utils';
 
 const DEFAULT_LOGS = [];
 
@@ -36,7 +37,14 @@ export const useBatchAllocationLogs = ({ filters }, options = {}) => {
     refetch,
   } = useQuery({
     queryKey: [namespace, searchParams.limit, searchParams.query],
-    queryFn: ({ signal }) => ky.get(FUND_UPDATE_LOGS_API, { searchParams, signal }).json(),
+    queryFn: async ({ signal }) => {
+      const { totalRecords, fundUpdateLogs = [] } = await ky.get(FUND_UPDATE_LOGS_API, { searchParams, signal }).json();
+
+      return {
+        fundUpdateLogs: fundUpdateLogs.map(dehydrateAllocationLog),
+        totalRecords,
+      };
+    },
     enabled,
     ...queryOptions,
   });

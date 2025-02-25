@@ -6,6 +6,7 @@ import {
 } from '@folio/stripes/core';
 
 import { FUND_UPDATE_LOGS_API } from '../../../../common/const';
+import { dehydrateAllocationLog } from '../../utils';
 
 export const useBatchAllocationLog = (id) => {
   const ky = useOkapiKy();
@@ -17,7 +18,7 @@ export const useBatchAllocationLog = (id) => {
     isLoading,
   } = useQuery({
     queryKey: [namespace, id],
-    queryFn: ({ signal }) => ky.get(`${FUND_UPDATE_LOGS_API}/${id}`, { signal }).json(),
+    queryFn: async ({ signal }) => dehydrateAllocationLog(await ky.get(`${FUND_UPDATE_LOGS_API}/${id}`, { signal }).json()),
     enabled: Boolean(id),
   });
 

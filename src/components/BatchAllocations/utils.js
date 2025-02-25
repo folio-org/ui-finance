@@ -13,7 +13,7 @@ export const getBatchAllocationColumnMapping = ({ intl }) => {
 
 export const exportCsvBatchAllocationLog = (batchAllocationLog, intl) => {
   const filename = `${batchAllocationLog.jobName}-log`;
-  const exportData = batchAllocationLog.jobDetails?.fyFinanceData?.map(data => ({
+  const exportData = batchAllocationLog.financeData?.map(data => ({
     ...data,
     transactionTag: data.transactionTag?.tagList?.join(', '),
   }));
@@ -35,3 +35,8 @@ export const resolveDefaultBackPathname = (sourceType, sourceId) => {
 
   return pathname;
 };
+
+export const dehydrateAllocationLog = log => ({
+  ...log,
+  financeData: (log?.jobDetails?.fyFinanceData || []).filter(({ isBudgetChanged, isFundChanged }) => isBudgetChanged || isFundChanged),
+})

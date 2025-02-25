@@ -34,6 +34,7 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
         : fileDataMap.get(buildRowKey(item)) || {};
 
       return {
+        ...item,
         ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
         ...dataItem,
         fiscalYearId: fiscalYear.id,

@@ -148,6 +148,8 @@ export const UploadBatchAllocations = () => {
 
   const initialValues = buildInitialValues(fileData?.data, financeData, fiscalYear);
 
+  console.log(initialValues)
+
   return (
     <>
       <TitleManager record={fileData?.fileName} />

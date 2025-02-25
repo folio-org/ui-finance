@@ -82,11 +82,13 @@ export const getResultsListFormatter = ({
     [BATCH_ALLOCATION_LOG_FIELDS.status]: (item) => (
       <FormattedMessage id={`ui-finance.allocation.batch.logs.columns.status.${BATCH_ALLOCATION_LOG_STATUSES[item.status]}`} />
     ),
-    [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: (item) => item.recordsCount || <NoValue />,
+    [BATCH_ALLOCATION_LOG_FIELDS.recordsCount]: (item) => item.financeData?.length || 0,
     [BATCH_ALLOCATION_LOG_FIELDS.createdDate]: (item) => <FolioFormattedTime dateString={item.metadata.createdDate} />,
     [BATCH_ALLOCATION_LOG_FIELDS.updatedDate]: (item) => <FolioFormattedTime dateString={item.metadata.updatedDate} />,
     createdByUsername: (item) => (
-      <TextLink to={`/users/preview/${item.createdByUser?.id}`}>{getFullName(item.createdByUser)}</TextLink>
+      item.createdByUser
+        ? <TextLink to={`/users/preview/${item.createdByUser?.id}`}>{getFullName(item.createdByUser)}</TextLink>
+        : <FormattedMessage id="stripes-acq-components.invalidReference" />
     ),
     [BATCH_ALLOCATION_LOG_FIELDS.jobNumber]: (item) => (item.jobNumber || <NoValue />),
   };

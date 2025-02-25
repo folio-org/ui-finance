@@ -387,7 +387,7 @@
   "allocation.batch.logs.columns.createdDate": "Started running",
   "allocation.batch.logs.columns.jobName": "Job name",
   "allocation.batch.logs.columns.jobNumber": "ID",
-  "allocation.batch.logs.columns.recordsCount": "Records",
+  "allocation.batch.logs.columns.recordsCount": "Updated records",
   "allocation.batch.logs.columns.select": "Select log ${id}",
   "allocation.batch.logs.columns.selectAll": "Select all logs",
   "allocation.batch.logs.columns.status": "Status",

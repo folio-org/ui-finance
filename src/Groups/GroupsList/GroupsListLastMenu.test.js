@@ -11,8 +11,9 @@ const renderGroupsListLastMenu = () => render(
 
 describe('GroupsListLastMenu', () => {
   it('should render group list last menu', () => {
-    const { getByText } = renderGroupsListLastMenu();
+    const { getByTestId } = renderGroupsListLastMenu();
 
-    expect(getByText('stripes-smart-components.new')).toBeDefined();
+    expect(getByTestId('create-group-button')).toBeDefined();
+    expect(getByTestId('view-batch-allocation-logs-button')).toBeDefined();
   });
 });

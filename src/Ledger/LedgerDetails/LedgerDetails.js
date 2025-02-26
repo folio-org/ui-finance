@@ -64,7 +64,6 @@ import { ExportSettingsModal } from './ExportSettingsModal';
 const LedgerDetails = ({
   ledger,
   fiscalYear,
-  onBatchAllocationLogs,
   onClose,
   onDelete,
   onEdit,
@@ -156,17 +155,12 @@ const LedgerDetails = ({
               onToggle();
               toggleBatchAllocationModal();
             }}
-            onBatchAllocationLogs={() => {
-              onToggle();
-              onBatchAllocationLogs();
-            }}
           />
         </>
       );
     },
     [
       isRestrictionsLoading,
-      onBatchAllocationLogs,
       onEdit,
       onRollover,
       onRolloverLogs,
@@ -360,7 +354,6 @@ LedgerDetails.propTypes = {
   fiscalYear: PropTypes.object,
   funds: PropTypes.arrayOf(PropTypes.object),
   ledger: PropTypes.object,
-  onBatchAllocationLogs: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

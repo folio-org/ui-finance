@@ -64,7 +64,6 @@ const GroupDetails = ({
   selectedFY,
   onSelectFY,
   onAddFundToGroup,
-  onBatchAllocationLogs,
   onRemoveFundFromGroup,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -114,10 +113,6 @@ const GroupDetails = ({
               onToggle();
               toggleBatchAllocationModal();
             }}
-            onBatchAllocationLogs={() => {
-              onToggle();
-              onBatchAllocationLogs();
-            }}
           />
         </>
       );
@@ -125,7 +120,6 @@ const GroupDetails = ({
     [
       editGroup,
       isRestrictionsLoading,
-      onBatchAllocationLogs,
       restrictions.protectUpdate,
       restrictions.protectDelete,
       toggleBatchAllocationModal,
@@ -316,7 +310,6 @@ GroupDetails.propTypes = {
     available: PropTypes.number,
   }),
   onAddFundToGroup: PropTypes.func.isRequired,
-  onBatchAllocationLogs: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemoveFundFromGroup: PropTypes.func.isRequired,
   onSelectFY: PropTypes.func.isRequired,

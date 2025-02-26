@@ -17,6 +17,7 @@
 * Add batch allocation log details screen. Refs UIF-531.
 * Search and filter batch allocation logs. Refs UIF-541.
 * Disable 'Save & close' button on Batch edit screen if changes were made after clicking 'Recalculate' button. Refs UIF-591.
+* Batch allocation bugs/enhancements. Refs UIF-589.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

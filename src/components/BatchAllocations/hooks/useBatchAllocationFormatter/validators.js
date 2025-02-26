@@ -39,3 +39,9 @@ export const validateNotNegative = (intl) => (value) => {
     ? intl.formatMessage({ id: 'stripes-acq-components.validation.cantBeNegative' })
     : undefined;
 };
+
+export const validateResponseError = () => (_value, allValues, meta) => {
+  const recalculateErrorsMap = allValues[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors];
+
+  return recalculateErrorsMap?.get(meta?.name)?.[0];
+};

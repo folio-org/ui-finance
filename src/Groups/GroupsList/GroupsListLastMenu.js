@@ -3,8 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router';
 
 import {
-  PaneMenu,
   Button,
+  MenuSection,
+  Icon,
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 
@@ -14,26 +15,49 @@ const GroupsListLastMenu = () => {
   const location = useLocation();
 
   return (
-    <IfPermission perm="finance.groups.item.post">
-      <PaneMenu>
+    <MenuSection id="group-list-actions">
+      <IfPermission perm="finance.groups.item.post">
         <FormattedMessage id="stripes-smart-components.addNew">
           {ariaLabel => (
             <Button
               id="clickable-newGroup"
+              data-testid="create-group-button"
               aria-label={ariaLabel}
               to={{
                 pathname: `${GROUPS_ROUTE}/create`,
                 search: location.search,
               }}
-              buttonStyle="primary"
-              marginBottom0
+              buttonStyle="dropdownItem"
             >
-              <FormattedMessage id="stripes-smart-components.new" />
+              <Icon size="small" icon="plus-sign">
+                <FormattedMessage id="stripes-smart-components.new" />
+              </Icon>
             </Button>
           )}
         </FormattedMessage>
-      </PaneMenu>
-    </IfPermission>
+      </IfPermission>
+
+      <IfPermission perm="ui-finance.fund-update-logs.view">
+        <FormattedMessage id="ui-finance.actions.allocations.batch.logs">
+          {ariaLabel => (
+            <Button
+              id="clickable-batch-allocation-logs"
+              data-testid="view-batch-allocation-logs-button"
+              aria-label={ariaLabel}
+              to={{
+                pathname: `${GROUPS_ROUTE}/batch-allocations/logs`,
+                state: { ...location },
+              }}
+              buttonStyle="dropdownItem"
+            >
+              <Icon size="small" icon="report">
+                <FormattedMessage id="ui-finance.actions.allocations.batch.logs" />
+              </Icon>
+            </Button>
+          )}
+        </FormattedMessage>
+      </IfPermission>
+    </MenuSection>
   );
 };
 

@@ -11,8 +11,9 @@ const renderLedgerListLastMenu = () => render(
 
 describe('LedgerListLastMenu', () => {
   it('should render ledger list last menu', async () => {
-    const { getByText } = renderLedgerListLastMenu();
+    const { getByTestId } = renderLedgerListLastMenu();
 
-    expect(getByText('stripes-smart-components.new')).toBeDefined();
+    expect(getByTestId('create-ledger-button')).toBeDefined();
+    expect(getByTestId('view-batch-allocation-logs-button')).toBeDefined();
   });
 });

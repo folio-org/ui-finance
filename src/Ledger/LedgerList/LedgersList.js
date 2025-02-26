@@ -94,7 +94,7 @@ const LedgerList = ({
   const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/ledger/filters');
 
-  const renderLastMenu = useCallback(() => <LedgerListLastMenu />, []);
+  const renderActionMenu = useCallback(() => <LedgerListLastMenu />, []);
 
   const renderLedgerDetails = useCallback(() => (
     <CheckPermission perm="ui-finance.ledger.view">
@@ -172,7 +172,7 @@ const LedgerList = ({
           autosize
           title={title}
           count={ledgersCount}
-          renderLastMenu={renderLastMenu}
+          renderActionMenu={renderActionMenu}
           toggleFiltersPane={toggleFilters}
           filters={filters}
           isFiltersOpened={isFiltersOpened}

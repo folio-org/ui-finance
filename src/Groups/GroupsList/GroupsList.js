@@ -94,7 +94,7 @@ const GroupsList = ({
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/group/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('groups-list');
 
-  const renderLastMenu = useCallback(() => <GroupsListLastMenu />, []);
+  const renderActionMenu = useCallback(() => <GroupsListLastMenu />, []);
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoading}
@@ -172,7 +172,7 @@ const GroupsList = ({
           autosize
           title={resultsPaneTitle}
           count={groupsCount}
-          renderLastMenu={renderLastMenu}
+          renderActionMenu={renderActionMenu}
           toggleFiltersPane={toggleFilters}
           filters={filters}
           isFiltersOpened={isFiltersOpened}

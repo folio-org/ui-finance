@@ -198,13 +198,6 @@ export const GroupDetailsContainer = ({
       .finally(() => setIsLoading(false));
   };
 
-  const onBatchAllocationLogs = useCallback(() => {
-    history.push({
-      pathname: `${GROUPS_ROUTE}/batch-allocations/logs`,
-      state: { search: location.search },
-    });
-  }, [history, location.search]);
-
   const onRemoveFundFromGroup = async (e, fundToRemove) => {
     const fundCode = fundToRemove.code;
 
@@ -248,7 +241,6 @@ export const GroupDetailsContainer = ({
       group={groupData.groupDetails}
       groupSummary={groupData.groupSummary}
       onAddFundToGroup={onAddFundToGroup}
-      onBatchAllocationLogs={onBatchAllocationLogs}
       onClose={closePane}
       onSelectFY={selectFY}
       onRemoveFundFromGroup={onRemoveFundFromGroup}

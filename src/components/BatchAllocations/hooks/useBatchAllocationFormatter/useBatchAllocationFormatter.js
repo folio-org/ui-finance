@@ -31,7 +31,7 @@ import {
   validateAllocationAfterField,
   validateNotNegative,
   validateNumericValue,
-  validateResponseError,
+  validateRecalculateErrors,
 } from './validators';
 
 import css from './styles.css';
@@ -90,7 +90,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
-          validate={validateResponseError()}
+          validate={validateRecalculateErrors()}
           validateFields={[]}
         />
       );
@@ -115,7 +115,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
-          validate={validateResponseError()}
+          validate={validateRecalculateErrors()}
           validateFields={[]}
         />
       );
@@ -132,7 +132,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),
-            validateResponseError(),
+            validateRecalculateErrors(),
           )}
           validateFields={[]}
         />
@@ -167,7 +167,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           validate={composeValidators(
             validateNumericValue(intl),
             validateNotNegative(intl),
-            validateResponseError(),
+            validateRecalculateErrors(),
           )}
           validateFields={[]}
         />
@@ -186,7 +186,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           validate={composeValidators(
             validateNumericValue(intl),
             validateNotNegative(intl),
-            validateResponseError(),
+            validateRecalculateErrors(),
           )}
           validateFields={[]}
         />
@@ -203,7 +203,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           parse={identity}
           placeholder="Description"
           type="text"
-          validate={validateResponseError()}
+          validate={validateRecalculateErrors()}
           validateFields={[]}
         />
       );
@@ -218,7 +218,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
             labelless
             marginBottom0
             name={`${FINANCE_DATA}.${item[ROW_INDEX]}.transactionTag.tagList`}
-            validate={validateResponseError()}
+            validate={validateRecalculateErrors()}
           />
         </div>
       );

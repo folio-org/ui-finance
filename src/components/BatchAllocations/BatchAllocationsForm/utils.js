@@ -50,7 +50,7 @@ export const handleRecalculateError = async (error, showCallout) => {
   if (restErrors[0]) {
     showCallout({
       ...(
-        restErrors[0].message
+        restErrors[0]?.message
           ? { message: restErrors[0].message }
           : { messageId: 'ui-finance.allocation.batch.form.recalculate.error' }
       ),

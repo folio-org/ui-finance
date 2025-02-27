@@ -47,10 +47,9 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
       return {
         ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
         ...item,
+        ...dataItemFields,
         fiscalYearId: fiscalYear.id,
         fiscalYearCode: fiscalYear.code,
-        fundDescription: dataItem.fundDescription || item.fundDescription || '',
-        ...dataItemFields,
         [BATCH_ALLOCATION_FIELDS.transactionTag]: {
           tagList: (
             dataItem[BATCH_ALLOCATION_FIELDS.transactionTag]

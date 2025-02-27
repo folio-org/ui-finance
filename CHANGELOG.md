@@ -18,6 +18,8 @@
 * Search and filter batch allocation logs. Refs UIF-541.
 * Disable 'Save & close' button on Batch edit screen if changes were made after clicking 'Recalculate' button. Refs UIF-591.
 * Move View batch allocation logs action to list level. Refs UIF-588.
+* *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIF-574.
+* *BREAKING* Migrate `react-intl` to v7. Refs UIF-575.
 * Batch allocation bugs/enhancements. Refs UIF-589.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)

@@ -379,7 +379,6 @@
   "allocation.batch.form.validation.error.missedFund": "Fund has not been changed and will not be updated.",
   "allocation.batch.form.validation.error.negativeAllocation": "New total allocation cannot be negative.",
   "allocation.batch.form.validation.error.numeric": "The field must be numeric value.",
-  "allocation.batch.form.validation.error.invalidStatus": "Invalid status value.",
   "allocation.batch.logs.actions.delete": "Delete selected logs",
   "allocation.batch.logs.actions.delete.fail": "Log with id {id} was not deleted",
   "allocation.batch.logs.actions.delete.success": "Log(s) successfully deleted",

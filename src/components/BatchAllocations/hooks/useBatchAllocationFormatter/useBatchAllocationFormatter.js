@@ -17,7 +17,6 @@ import {
   AmountWithCurrencyField,
   FieldSelectFinal,
   FieldTags,
-  validateRequired,
 } from '@folio/stripes-acq-components';
 
 import { composeValidators } from '../../../../common/utils';
@@ -30,8 +29,6 @@ import {
 } from '../../constants';
 import {
   validateAllocationAfterField,
-  validateBudgetStatus,
-  validateFundStatus,
   validateNotNegative,
   validateNumericValue,
   validateResponseError,
@@ -93,11 +90,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
-          validate={composeValidators(
-            validateRequired,
-            validateFundStatus(intl),
-            validateResponseError(),
-          )}
+          validate={validateResponseError()}
           validateFields={[]}
         />
       );
@@ -122,11 +115,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
-          validate={composeValidators(
-            validateRequired,
-            validateBudgetStatus(intl),
-            validateResponseError(),
-          )}
+          validate={validateResponseError()}
           validateFields={[]}
         />
       );

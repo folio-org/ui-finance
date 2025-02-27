@@ -139,3 +139,7 @@ export const BATCH_ALLOCATION_ROUTES_DICT = {
   [BATCH_ALLOCATIONS_SOURCE.group]: GROUPS_ROUTE,
   [BATCH_ALLOCATIONS_SOURCE.ledger]: LEDGERS_ROUTE,
 };
+
+export const FILE_EXTENSIONS = {
+  csv: 'csv',
+};

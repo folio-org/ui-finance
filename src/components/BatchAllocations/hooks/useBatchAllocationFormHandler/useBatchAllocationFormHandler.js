@@ -29,8 +29,9 @@ export const useBatchAllocationFormHandler = () => {
       initialValues,
       sourceId,
       sourceType,
+      worksheetName,
     }) => {
-      return batchAllocate({ fyFinanceData })
+      return batchAllocate({ fyFinanceData, worksheetName })
         .then(() => showCallout({ messageId: 'ui-finance.actions.allocations.batch.success' }))
         .then(() => {
           const qIndex = resolveSourceQueryIndex(sourceType);
@@ -56,12 +57,6 @@ export const useBatchAllocationFormHandler = () => {
                 type: 'error',
               });
             });
-        })
-        .catch(() => {
-          showCallout({
-            messageId: 'ui-finance.actions.allocations.batch.error',
-            type: 'error',
-          });
         });
     },
   });

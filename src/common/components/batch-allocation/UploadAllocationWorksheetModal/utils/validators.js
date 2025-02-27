@@ -2,11 +2,12 @@ import {
   ALLOCATION_WORKSHEET_REQUIRED_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
+  FILE_EXTENSIONS,
 } from '../../../../const';
 import { composeValidators } from '../../../../utils';
 
 export const isCsvFile = ({ intl }) => ({ fileName }) => {
-  if (!fileName.endsWith('.csv')) {
+  if (!fileName.endsWith(FILE_EXTENSIONS.csv)) {
     return intl.formatMessage({ id: 'ui-finance.batchAllocations.uploadWorksheet.validation.error.invalidFileType' });
   }
 

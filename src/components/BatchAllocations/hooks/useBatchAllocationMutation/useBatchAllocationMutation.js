@@ -17,11 +17,12 @@ export const useBatchAllocationMutation = () => {
     mutateAsync,
     isLoading,
   } = useMutation({
-    mutationFn: async ({ fyFinanceData, updateType }) => {
+    mutationFn: async ({ fyFinanceData, updateType, worksheetName }) => {
       const json = {
         fyFinanceData,
         updateType,
         totalRecords: fyFinanceData.length,
+        worksheetName,
       };
 
       return ky.put(FINANCE_DATA_API, { json }).json();
@@ -33,9 +34,10 @@ export const useBatchAllocationMutation = () => {
     updateType: UPDATE_TYPE.preview,
   }), [mutateAsync]);
 
-  const batchAllocate = useCallback(({ fyFinanceData }) => mutateAsync({
+  const batchAllocate = useCallback(({ fyFinanceData, worksheetName }) => mutateAsync({
     fyFinanceData,
     updateType: UPDATE_TYPE.commit,
+    worksheetName,
   }), [mutateAsync]);
 
   return {

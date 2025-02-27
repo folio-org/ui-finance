@@ -168,8 +168,10 @@ export const BatchAllocationLogs = () => {
   };
 
   const onClose = useCallback(() => {
+    const fallbackPathname = location.pathname.includes(LEDGERS_ROUTE) ? LEDGERS_ROUTE : GROUPS_ROUTE;
+
     history.push({
-      pathname: location.pathname.includes(LEDGERS_ROUTE) ? LEDGERS_ROUTE : GROUPS_ROUTE,
+      pathname: location.state?.pathname || fallbackPathname,
       search: location.state?.search,
     });
   }, [history, location]);

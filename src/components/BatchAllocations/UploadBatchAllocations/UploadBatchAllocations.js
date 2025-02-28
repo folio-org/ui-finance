@@ -125,10 +125,25 @@ export const UploadBatchAllocations = () => {
       initialValues: form.getState().initialValues,
       sourceId,
       sourceType,
+      worksheetName: fileData?.fileName,
     })
       .then(() => localforage.removeItem(storageKey))
-      .then(() => onClose());
-  }, [handle, onClose, sourceId, sourceType, storageKey]);
+      .then(() => onClose())
+      .catch(() => {
+        showCallout({
+          messageId: 'ui-finance.actions.allocations.batch.error',
+          type: 'error',
+        });
+      });
+  }, [
+    fileData?.fileName,
+    handle,
+    onClose,
+    showCallout,
+    sourceId,
+    sourceType,
+    storageKey,
+  ]);
 
   const isLoading = (
     isFileDataLoading

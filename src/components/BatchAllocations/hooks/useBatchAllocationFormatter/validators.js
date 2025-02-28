@@ -1,5 +1,3 @@
-import { FUND_STATUSES } from '../../../../Funds/constants';
-import { BUDGET_STATUSES } from '../../../Budget/constants';
 import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
@@ -16,18 +14,6 @@ export const validateAllocationAfterField = (intl, rowIndex) => (value, allValue
     : undefined;
 };
 
-export const validateFundStatus = (intl) => (value) => {
-  return value && !Object.values(FUND_STATUSES).includes(value)
-    ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.invalidStatus' })
-    : undefined;
-};
-
-export const validateBudgetStatus = (intl) => (value) => {
-  return value && !Object.values(BUDGET_STATUSES).includes(value)
-    ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.invalidStatus' })
-    : undefined;
-};
-
 export const validateNumericValue = (intl) => (value) => {
   return value && Number.isNaN(Number(value))
     ? intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.numeric' })
@@ -38,4 +24,10 @@ export const validateNotNegative = (intl) => (value) => {
   return value && (Number.parseFloat(value) < 0)
     ? intl.formatMessage({ id: 'stripes-acq-components.validation.cantBeNegative' })
     : undefined;
+};
+
+export const validateRecalculateErrors = () => (_value, allValues, meta) => {
+  const recalculateErrorsMap = allValues[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors];
+
+  return recalculateErrorsMap?.get(meta?.name)?.[0];
 };

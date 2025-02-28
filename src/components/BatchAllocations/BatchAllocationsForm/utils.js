@@ -1,9 +1,7 @@
 import omit from 'lodash/omit';
+import partition from 'lodash/partition';
 
-import {
-  ERROR_CODE_GENERIC,
-  ResponseErrorsContainer,
-} from '@folio/stripes-acq-components';
+import { ResponseErrorsContainer } from '@folio/stripes-acq-components';
 
 import {
   BATCH_ALLOCATION_FIELDS,
@@ -30,17 +28,35 @@ export const normalizeFinanceFormData = (fyFinanceData) => fyFinanceData.map((it
 
 export const handleRecalculateError = async (error, showCallout) => {
   const { handler } = await ResponseErrorsContainer.create(error?.response);
-  const errorContainer = handler.getError();
-  const errorCode = errorContainer.code;
+  const rawErrors = handler.originalResponseBody?.errors;
 
-  if (errorCode === ERROR_CODE_GENERIC) {
+  const [parameterizedErrors, restErrors] = partition(rawErrors, (err) => err.parameters);
+
+  const responseFormErrorsMap = parameterizedErrors
+    .flatMap((err) => err.parameters.map((param) => ({
+      field: (
+        param.key
+          .replace(/\[(\d+)]/g, '.$1')
+          .replace('financeData', BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData)
+      ),
+      message: err.message,
+    })))
+    .reduce((acc, { field, message }) => {
+      const prevMessages = acc.get(field) || [];
+
+      return acc.set(field, [...prevMessages, message]);
+    }, new Map());
+
+  if (restErrors[0]) {
     showCallout({
       ...(
-        errorContainer.message
-          ? { message: errorContainer.message }
+        restErrors[0]?.message
+          ? { message: restErrors[0].message }
           : { messageId: 'ui-finance.allocation.batch.form.recalculate.error' }
       ),
       type: 'error',
     });
   }
+
+  return responseFormErrorsMap;
 };

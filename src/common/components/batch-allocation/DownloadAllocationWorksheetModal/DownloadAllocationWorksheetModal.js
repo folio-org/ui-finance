@@ -21,6 +21,7 @@ import {
 
 import {
   BATCH_ALLOCATIONS_SOURCE,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS,
   EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
 } from '../../../const';
 import { useUpcomingFiscalYears } from '../../../hooks';
@@ -63,7 +64,7 @@ export const DownloadAllocationWorksheetModal = ({
 
       const { fyFinanceData } = await fetchFinanceData(ky)({
         searchParams: {
-          query: `fiscalYearId=="${selectedFiscalYear}" and ${qIndex}=="${sourceId}"`,
+          query: `fiscalYearId=="${selectedFiscalYear}" and ${qIndex}=="${sourceId}" sortby ${EXPORT_ALLOCATION_WORKSHEET_FIELDS.fundName}/sort.ascending`,
           limit: LIMIT_MAX,
         },
       });

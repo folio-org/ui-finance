@@ -20,6 +20,7 @@
 * Move View batch allocation logs action to list level. Refs UIF-588.
 * *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIF-574.
 * *BREAKING* Migrate `react-intl` to v7. Refs UIF-575.
+* Batch allocation bugs/enhancements. Refs UIF-589.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

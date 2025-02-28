@@ -12,7 +12,10 @@ import {
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
-import { useSorting } from '@folio/stripes-acq-components';
+import {
+  useShowCallout,
+  useSorting,
+} from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
@@ -34,6 +37,7 @@ import { resolveDefaultBackPathname } from '../utils';
 
 export const CreateBatchAllocations = () => {
   const intl = useIntl();
+  const showCallout = useShowCallout();
 
   const location = useLocation();
   const history = useHistory();
@@ -92,8 +96,21 @@ export const CreateBatchAllocations = () => {
       initialValues: form.getState().initialValues,
       sourceId,
       sourceType,
-    }).then(() => onClose());
-  }, [handle, onClose, sourceId, sourceType]);
+    })
+      .then(() => onClose())
+      .catch(() => {
+        showCallout({
+          messageId: 'ui-finance.actions.allocations.batch.error',
+          type: 'error',
+        });
+      });
+  }, [
+    handle,
+    onClose,
+    showCallout,
+    sourceId,
+    sourceType,
+  ]);
 
   const isLoading = (
     isFinanceDataLoading

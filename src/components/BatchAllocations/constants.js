@@ -42,6 +42,7 @@ export const BATCH_ALLOCATION_FORM_SPECIAL_FIELDS = {
   calculatedFinanceData: 'calculatedFinanceData',
   fyFinanceData: 'fyFinanceData',
   invalidFunds: 'invalidFunds',
+  recalculateErrors: 'recalculateErrors',
   rowIndex: 'rowIndex',
   _isMissed: '_isMissed',
   _isRecalculating: '_isRecalculating',

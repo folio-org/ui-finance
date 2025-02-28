@@ -113,12 +113,17 @@ const BatchAllocationsForm = ({
       [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
     } = form.getState().values;
 
+    form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors, new Map());
+
     await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
         form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
       })
       .catch(async (error) => {
-        await handleRecalculateError(error, showCallout);
+        form.change(
+          BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors,
+          await handleRecalculateError(error, showCallout),
+        );
       })
       .finally(() => {
         setIsRecalculateRequired(false);

@@ -82,32 +82,6 @@ describe('useBatchAllocationFormHandler', () => {
     expect(showCalloutMock).toHaveBeenCalledWith({ messageId: 'ui-finance.budget.batch.create.success' });
   });
 
-  it('should handle batch allocation error', async () => {
-    const { result } = renderHook(() => useBatchAllocationFormHandler(), { wrapper });
-
-    const fyFinanceData = [{ fiscalYearId: 'fy1' }];
-    const initialValues = { fyFinanceData: [{ budgetId: 'b1' }] };
-    const sourceId = 'source1';
-    const sourceType = BATCH_ALLOCATIONS_SOURCE.group;
-
-    batchAllocateMock.mockRejectedValueOnce();
-
-    await act(async () => {
-      await result.current.handle({
-        fyFinanceData,
-        initialValues,
-        sourceId,
-        sourceType,
-      });
-    });
-
-    expect(batchAllocateMock).toHaveBeenCalledWith({ fyFinanceData });
-    expect(showCalloutMock).toHaveBeenCalledWith({
-      messageId: 'ui-finance.actions.allocations.batch.error',
-      type: 'error',
-    });
-  });
-
   it('should handle fetch finance data error', async () => {
     const { result } = renderHook(() => useBatchAllocationFormHandler(), { wrapper });
 

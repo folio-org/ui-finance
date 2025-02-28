@@ -105,6 +105,26 @@ describe('CreateBatchAllocations', () => {
     expect(handle).toHaveBeenCalled();
   });
 
+  it('should handle batch allocation error', async () => {
+    handle.mockRejectedValueOnce();
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-finance.allocation.batch.form.title.edit')).toBeInTheDocument();
+    });
+
+    await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+    await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+    expect(handle).toHaveBeenCalled();
+    expect(showCallout).toHaveBeenCalledWith({
+      messageId: 'ui-finance.actions.allocations.batch.error',
+      type: 'error',
+    });
+  });
+
   it('should handle recalculate errors', async () => {
     const response = {
       clone: () => response,

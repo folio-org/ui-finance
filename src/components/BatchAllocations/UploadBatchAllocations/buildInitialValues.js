@@ -1,3 +1,5 @@
+import pick from 'lodash/pick';
+
 import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
@@ -8,12 +10,10 @@ const TAGS_SEPARATOR = ';';
 
 const valueOrEmptyString = (value) => (value || '').trim();
 
-const buildRowKey = (item) => [
+const buildRowKey = (item, fiscalYear) => [
+  valueOrEmptyString(fiscalYear.id),
   valueOrEmptyString(item.fundId),
-  valueOrEmptyString(item.fundCode),
-  valueOrEmptyString(item.fundName),
   valueOrEmptyString(item.budgetId),
-  valueOrEmptyString(item.budgetName),
 ].join('-');
 
 export const buildInitialValues = (fileData = [], financeData = [], fiscalYear = {}) => {
@@ -21,7 +21,7 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
   const uploadedFundIdsSet = new Set(fileData.map((item) => item.fundId));
 
   const fileDataMap = fileData.reduce((acc, item) => {
-    acc.set(buildRowKey(item), item);
+    acc.set(buildRowKey(item, fiscalYear), item);
 
     return acc;
   }, new Map());
@@ -31,15 +31,25 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
       const isFundMissedInFile = !uploadedFundIdsSet.has(item.fundId);
       const dataItem = isFundMissedInFile
         ? item
-        : fileDataMap.get(buildRowKey(item)) || {};
+        : fileDataMap.get(buildRowKey(item, fiscalYear)) || {};
+
+      /* Fields from the CSV file that the form should take into account */
+      const dataItemFields = pick(dataItem, [
+        BATCH_ALLOCATION_FIELDS.fundStatus,
+        BATCH_ALLOCATION_FIELDS.budgetStatus,
+        BATCH_ALLOCATION_FIELDS.budgetAllocationChange,
+        BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance,
+        BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure,
+        BATCH_ALLOCATION_FIELDS.transactionDescription,
+        BATCH_ALLOCATION_FIELDS.transactionTag,
+      ]);
 
       return {
-        ...item,
         ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
-        ...dataItem,
+        ...item,
+        ...dataItemFields,
         fiscalYearId: fiscalYear.id,
         fiscalYearCode: fiscalYear.code,
-        fundDescription: dataItem.fundDescription || item.fundDescription || '',
         [BATCH_ALLOCATION_FIELDS.transactionTag]: {
           tagList: (
             dataItem[BATCH_ALLOCATION_FIELDS.transactionTag]

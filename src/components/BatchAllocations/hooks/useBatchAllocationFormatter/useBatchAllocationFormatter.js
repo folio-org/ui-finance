@@ -17,7 +17,6 @@ import {
   AmountWithCurrencyField,
   FieldSelectFinal,
   FieldTags,
-  validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
 
 import { composeValidators } from '../../../../common/utils';
@@ -30,9 +29,9 @@ import {
 } from '../../constants';
 import {
   validateAllocationAfterField,
-  validateBudgetStatus,
-  validateFundStatus,
+  validateNotNegative,
   validateNumericValue,
+  validateRecalculateErrors,
 } from './validators';
 
 import css from './styles.css';
@@ -91,7 +90,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
-          validate={validateFundStatus(intl)}
+          validate={validateRecalculateErrors()}
           validateFields={[]}
         />
       );
@@ -116,7 +115,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
-          validate={validateBudgetStatus(intl)}
+          validate={validateRecalculateErrors()}
           validateFields={[]}
         />
       );
@@ -131,7 +130,10 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
           required
           type="number"
-          validate={validateNumericValue(intl)}
+          validate={composeValidators(
+            validateNumericValue(intl),
+            validateRecalculateErrors(),
+          )}
           validateFields={[]}
         />
       );
@@ -146,6 +148,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           marginBottom0
           name={`${CALCULATED_FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
           required
+          type="number"
           validate={validateAllocationAfterField(intl, item[ROW_INDEX])}
           validateFields={[]}
         />
@@ -161,7 +164,11 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
           required
           type="number"
-          validate={composeValidators(validateNumericValue(intl), validateRequiredNotNegative)}
+          validate={composeValidators(
+            validateNumericValue(intl),
+            validateNotNegative(intl),
+            validateRecalculateErrors(),
+          )}
           validateFields={[]}
         />
       );
@@ -176,7 +183,11 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
           required
           type="number"
-          validate={composeValidators(validateNumericValue(intl), validateRequiredNotNegative)}
+          validate={composeValidators(
+            validateNumericValue(intl),
+            validateNotNegative(intl),
+            validateRecalculateErrors(),
+          )}
           validateFields={[]}
         />
       );
@@ -192,6 +203,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
           parse={identity}
           placeholder="Description"
           type="text"
+          validate={validateRecalculateErrors()}
           validateFields={[]}
         />
       );
@@ -206,11 +218,12 @@ export const useBatchAllocationFormatter = (intl, fiscalYear) => {
             labelless
             marginBottom0
             name={`${FINANCE_DATA}.${item[ROW_INDEX]}.transactionTag.tagList`}
+            validate={validateRecalculateErrors()}
           />
         </div>
       );
     },
-  }), [form, intl, fundStatusOptions, fiscalYear?.currency, budgetStatusOptions]);
+  }), [budgetStatusOptions, fiscalYear?.currency, form, fundStatusOptions, intl]);
 
   return formatter;
 };

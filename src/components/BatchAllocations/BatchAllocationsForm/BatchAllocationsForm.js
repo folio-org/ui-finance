@@ -159,7 +159,7 @@ const BatchAllocationsForm = ({
     setIsSortingDisabled(dirty);
 
     /*
-      Workaround for react-final-form-array issue https://github.com/final-form/react-final-form-arrays/issues/37
+      Workaround for react-final-form-arrays issue https://github.com/final-form/react-final-form-arrays/issues/37
       The form should not be dirty after resetting fields to initial values
     */
     if (dirty && isEqual(values.fyFinanceData, initVals.fyFinanceData)) {

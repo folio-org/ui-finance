@@ -3,6 +3,7 @@ import noop from 'lodash/noop';
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import {
@@ -72,19 +73,28 @@ export const UploadBatchAllocations = () => {
 
   const {
     data: sourceData,
+    isFetching: isSourceDataFetching,
     isLoading: isSourceDataLoading,
-  } = useSourceData(sourceType, sourceId);
+  } = useSourceData(
+    sourceType,
+    sourceId,
+    { keepPreviousData: true },
+  );
 
   const {
     budgetsFunds: financeData,
+    isFetching: isFinanceDataFetching,
     isLoading: isFinanceDataLoading,
-  } = useBatchAllocation({
-    fiscalYearId,
-    sortingDirection,
-    sortingField,
-    sourceId,
-    sourceType,
-  });
+  } = useBatchAllocation(
+    {
+      fiscalYearId,
+      sortingDirection,
+      sortingField,
+      sourceId,
+      sourceType,
+    },
+    { keepPreviousData: true },
+  );
 
   const {
     handle,
@@ -145,6 +155,12 @@ export const UploadBatchAllocations = () => {
     storageKey,
   ]);
 
+  const initialValues = useMemo(() => {
+    return buildInitialValues(fileData?.data, financeData, fiscalYear);
+  }, [fileData?.data, financeData, fiscalYear]);
+
+  const isFetching = isSourceDataFetching || isFinanceDataFetching;
+
   const isLoading = (
     isFileDataLoading
     || isFiscalYearLoading
@@ -161,8 +177,6 @@ export const UploadBatchAllocations = () => {
     );
   }
 
-  const initialValues = buildInitialValues(fileData?.data, financeData, fiscalYear);
-
   return (
     <>
       <TitleManager record={fileData?.fileName} />
@@ -171,6 +185,7 @@ export const UploadBatchAllocations = () => {
         fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}
+        isLoading={isFetching}
         isSubmitDisabled={isBatchAllocationHandling}
         onCancel={onClose}
         onSubmit={onSubmit}

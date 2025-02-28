@@ -1,4 +1,5 @@
 import omit from 'lodash/omit';
+import set from 'lodash/set';
 import partition from 'lodash/partition';
 
 import { ResponseErrorsContainer } from '@folio/stripes-acq-components';
@@ -34,18 +35,14 @@ export const handleRecalculateError = async (error, showCallout) => {
 
   const responseFormErrorsMap = parameterizedErrors
     .flatMap((err) => err.parameters.map((param) => ({
-      field: (
-        param.key
-          .replace(/\[(\d+)]/g, '.$1')
-          .replace('financeData', BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData)
-      ),
+      field: param.key.replace('financeData', BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData),
       message: err.message,
     })))
     .reduce((acc, { field, message }) => {
-      const prevMessages = acc.get(field) || [];
+      set(acc, field, message);
 
-      return acc.set(field, [...prevMessages, message]);
-    }, new Map());
+      return acc;
+    }, {});
 
   if (restErrors[0]) {
     showCallout({

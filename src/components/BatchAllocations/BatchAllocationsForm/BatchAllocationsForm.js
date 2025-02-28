@@ -1,3 +1,5 @@
+import isEqual from 'lodash/isEqual';
+import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import {
   useState,
@@ -62,6 +64,7 @@ const BatchAllocationsForm = ({
   handleSubmit,
   headline,
   initialValues,
+  isLoading,
   isRecalculateDisabled,
   isSubmitDisabled: isSubmitDisabledProp,
   onCancel,
@@ -72,6 +75,8 @@ const BatchAllocationsForm = ({
   sortingField,
   sortingDirection,
 }) => {
+  const [isSortingDisabled, setIsSortingDisabled] = useState(false);
+  const [isRecalculating, setIsRecalculating] = useState(false);
   const [isRecalculateRequired, setIsRecalculateRequired] = useState(true);
   const previousFormValues = useRef({});
 
@@ -109,11 +114,13 @@ const BatchAllocationsForm = ({
   }, [form, handleSubmit]);
 
   const onRecalculate = useCallback(async () => {
+    setIsRecalculating(true);
+
     const {
       [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
     } = form.getState().values;
 
-    form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors, new Map());
+    form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors, undefined);
 
     await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
@@ -132,6 +139,8 @@ const BatchAllocationsForm = ({
           form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, true);
           form.submit();
         });
+
+        setIsRecalculating(false);
       });
   }, [form, recalculate, showCallout]);
 
@@ -141,6 +150,34 @@ const BatchAllocationsForm = ({
     }
     /* onRecalculate should be triggered automatically only one time on form init */
   }, [recalculateOnInit]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleFormSpyChange = useCallback(({
+    dirty,
+    initialValues: initVals,
+    values,
+  }) => {
+    setIsSortingDisabled(dirty);
+
+    /*
+      Workaround for react-final-form-array issue https://github.com/final-form/react-final-form-arrays/issues/37
+      The form should not be dirty after resetting fields to initial values
+    */
+    if (dirty && isEqual(values.fyFinanceData, initVals.fyFinanceData)) {
+      form.initialize(values);
+    }
+
+    const { fyFinanceData } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
+
+    if (
+      values
+      && values[fyFinanceData] !== previousFormValues.current[fyFinanceData]
+      && !isRecalculateRequired
+    ) {
+      previousFormValues.current = { ...values };
+
+      setIsRecalculateRequired(true);
+    }
+  }, [form, isRecalculateRequired]);
 
   const start = (
     <Row>
@@ -206,20 +243,12 @@ const BatchAllocationsForm = ({
           </Headline>
 
           <FormSpy
-            subscription={{ values: true }}
-            onChange={({ values }) => {
-              const { fyFinanceData } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
-
-              if (
-                values
-                && values[fyFinanceData] !== previousFormValues.current[fyFinanceData]
-                && !isRecalculateRequired
-              ) {
-                previousFormValues.current = { ...values };
-
-                setIsRecalculateRequired(true);
-              }
+            subscription={{
+              dirty: true,
+              initialValues: true,
+              values: true,
             }}
+            onChange={handleFormSpyChange}
           />
 
           <FieldArray
@@ -228,7 +257,8 @@ const BatchAllocationsForm = ({
             component={BatchAllocationList}
             props={{
               fiscalYear,
-              onHeaderClick: changeSorting,
+              isLoading: isLoading || isRecalculating,
+              onHeaderClick: isSortingDisabled ? noop : changeSorting,
               sortDirection: sortingDirection,
               sortedColumn: sortingField,
             }}
@@ -263,6 +293,7 @@ BatchAllocationsForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,
   initialValues: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
   isRecalculateDisabled: PropTypes.bool,
   isSubmitDisabled: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
@@ -277,4 +308,5 @@ BatchAllocationsForm.propTypes = {
 export default stripesFinalForm({
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
+  validate: ({ recalculateErrors }) => recalculateErrors,
 })(BatchAllocationsForm);

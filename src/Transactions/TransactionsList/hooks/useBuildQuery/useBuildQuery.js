@@ -13,6 +13,10 @@ const customFiltersMap = {
   [FILTERS.TAGS]: buildArrayFieldQuery.bind(null, [FILTERS.TAGS]),
 };
 
+const customSortingMap = {
+  amount: 'amount/number',
+};
+
 export const useBuildQuery = () => {
   return useCallback((queryParams, budget) => {
     const requiredFilterQuery =
@@ -21,7 +25,7 @@ export const useBuildQuery = () => {
 
     return connectQuery(
       filterQuery ? `${requiredFilterQuery} and ${filterQuery}` : requiredFilterQuery,
-      buildSortingQuery(queryParams) || 'sortby metadata.createdDate/sort.descending',
+      buildSortingQuery(queryParams, customSortingMap) || 'sortby metadata.createdDate/sort.descending',
     );
   }, []);
 };

@@ -1,5 +1,8 @@
 import noop from 'lodash/noop';
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
 import {
   useHistory,
   useLocation,
@@ -59,19 +62,28 @@ export const CreateBatchAllocations = () => {
 
   const {
     budgetsFunds: financeData,
+    isFetching: isFinanceDataFetching,
     isLoading: isFinanceDataLoading,
-  } = useBatchAllocation({
-    fiscalYearId,
-    sortingDirection,
-    sortingField,
-    sourceId,
-    sourceType,
-  });
+  } = useBatchAllocation(
+    {
+      fiscalYearId,
+      sortingDirection,
+      sortingField,
+      sourceId,
+      sourceType,
+    },
+    { keepPreviousData: true },
+  );
 
   const {
     data: sourceData,
+    isFetching: isSourceDataFetching,
     isLoading: isSourceDataLoading,
-  } = useSourceData(sourceType, sourceId);
+  } = useSourceData(
+    sourceType,
+    sourceId,
+    { keepPreviousData: true },
+  );
 
   const {
     fiscalYear,
@@ -112,6 +124,19 @@ export const CreateBatchAllocations = () => {
     sourceType,
   ]);
 
+  const initialValues = useMemo(() => ({
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: (
+      financeData
+        ?.map((item) => ({
+          ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
+          ...item,
+        }))
+    ),
+    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData]: null,
+  }), [financeData]);
+
+  const isFetching = isFinanceDataFetching || isSourceDataFetching;
+
   const isLoading = (
     isFinanceDataLoading
     || isSourceDataLoading
@@ -127,18 +152,6 @@ export const CreateBatchAllocations = () => {
     );
   }
 
-  const initialValues = {
-    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: (
-      financeData
-        ?.map((item) => ({
-          ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
-          ...item,
-        }))
-        ?.sort((a, b) => a.fundName.localeCompare(b.fundName))
-    ),
-    [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData]: null,
-  };
-
   return (
     <>
       <TitleManager record={intl.formatMessage({ id: 'ui-finance.actions.allocations.batch' })} />
@@ -147,6 +160,7 @@ export const CreateBatchAllocations = () => {
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
+        isLoading={isFetching}
         isSubmitDisabled={isBatchAllocationHandling}
         onCancel={onClose}
         onSubmit={onSubmit}

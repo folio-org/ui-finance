@@ -22,6 +22,7 @@
 * *BREAKING* Migrate `react-intl` to v7. Refs UIF-575.
 * Batch allocation bugs/enhancements. Refs UIF-589.
 * Fix transaction sorting by amount. Refs UIF-593.
+* Prevent sorting when data entered in batch fund allocation sceen. Refs UIF-570.
 * Add `validateRequiredPositiveNumber` to allocated budget field. Refs UIF-573.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)

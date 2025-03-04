@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import { MultiColumnList } from '@folio/stripes/components';
@@ -17,6 +17,7 @@ export const BatchAllocationList = ({
   fields,
   props: {
     fiscalYear,
+    isLoading,
     onHeaderClick,
     sortDirection,
     sortedColumn,
@@ -27,7 +28,7 @@ export const BatchAllocationList = ({
     return getBatchAllocationColumnMapping({ intl });
   }, [intl]);
 
-  const formatter = useBatchAllocationFormatter(intl, fiscalYear);
+  const formatter = useBatchAllocationFormatter(intl, fiscalYear, isLoading);
 
   return (
     <>
@@ -36,6 +37,7 @@ export const BatchAllocationList = ({
         columnMapping={columnMapping}
         columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
         formatter={formatter}
+        loading={isLoading}
         onHeaderClick={onHeaderClick}
         sortDirection={sortDirection}
         sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
@@ -50,6 +52,7 @@ BatchAllocationList.propTypes = {
   fields: PropTypes.object.isRequired,
   props: PropTypes.shape({
     fiscalYear: PropTypes.object,
+    isLoading: PropTypes.bool,
     onHeaderClick: PropTypes.func.isRequired,
     sortDirection: PropTypes.string,
     sortedColumn: PropTypes.string,

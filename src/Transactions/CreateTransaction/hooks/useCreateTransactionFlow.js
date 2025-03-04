@@ -34,7 +34,7 @@ const getTransactionFundActiveBudget = (ky) => (transactionFundId) => {
   return getFundActiveBudget(ky)(transactionFundId).catch(({ response }) => { throw response; });
 };
 
-const getBudgetsNamesWithNegativeAmmount = (formVales, accumulatedData, currency) => {
+const getBudgetsNamesWithNegativeAvailableAmount = (formVales, accumulatedData, currency) => {
   const { amount, fromFundId } = formVales;
   const { budget, contragentBudget } = accumulatedData;
   const multiplier = getMoneyMultiplier(currency);
@@ -116,7 +116,11 @@ export const useCreateTransactionFlow = () => {
     );
 
     if (isCheckRequired) {
-      const budgetNamesWithNegativeAmount = getBudgetsNamesWithNegativeAmmount(formValues, data, stripes.currency);
+      const budgetNamesWithNegativeAmount = getBudgetsNamesWithNegativeAvailableAmount(
+        formValues,
+        data,
+        stripes.currency,
+      );
       const isAmountWillBeNegative = !!budgetNamesWithNegativeAmount.length;
 
       if (isAmountWillBeNegative) {

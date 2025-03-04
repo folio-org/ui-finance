@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import { ResponseErrorsContainer } from '@folio/stripes-acq-components';
 
 import { handleRecalculateError } from './utils';
@@ -35,8 +37,8 @@ describe('handleRecalculateError', () => {
 
     const result = await handleRecalculateError(error, showCallout);
 
-    expect(result.get('fyFinanceData.0.field1')).toEqual(['Error message 1']);
-    expect(result.get('fyFinanceData.1.field2')).toEqual(['Error message 2']);
+    expect(get(result, 'fyFinanceData.0.field1')).toEqual('Error message 1');
+    expect(get(result, 'fyFinanceData.1.field2')).toEqual('Error message 2');
     expect(showCallout).not.toHaveBeenCalled();
   });
 
@@ -61,7 +63,7 @@ describe('handleRecalculateError', () => {
 
     const result = await handleRecalculateError(error, showCallout);
 
-    expect(result.size).toBe(0);
+    expect(Object.values(result).length).toBe(0);
     expect(showCallout).toHaveBeenCalledTimes(1);
     expect(showCallout).toHaveBeenCalledWith({
       message: 'Non-parameterized error message',
@@ -86,7 +88,7 @@ describe('handleRecalculateError', () => {
 
     const result = await handleRecalculateError(error, showCallout);
 
-    expect(result.size).toBe(0);
+    expect(Object.values(result).length).toBe(0);
     expect(showCallout).toHaveBeenCalledTimes(1);
     expect(showCallout).toHaveBeenCalledWith({
       messageId: 'ui-finance.allocation.batch.form.recalculate.error',

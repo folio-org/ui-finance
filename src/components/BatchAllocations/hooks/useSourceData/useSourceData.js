@@ -11,7 +11,9 @@ import {
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../../common/const';
 
-export const useSourceData = (source, id) => {
+export const useSourceData = (source, id, options = {}) => {
+  const { enabled = true, ...queryOptions } = options;
+
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: source });
   const api = source === BATCH_ALLOCATIONS_SOURCE.ledger ? LEDGERS_API : GROUPS_API;
@@ -23,7 +25,8 @@ export const useSourceData = (source, id) => {
   } = useQuery({
     queryKey: [namespace, id, api],
     queryFn: async ({ signal }) => ky.get(`${api}/${id}`, { signal }).json(),
-    enabled: Boolean(id),
+    enabled: Boolean(enabled && id),
+    ...queryOptions,
   });
 
   return ({

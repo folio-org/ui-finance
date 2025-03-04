@@ -24,6 +24,7 @@
 * Fix transaction sorting by amount. Refs UIF-593.
 * Prevent sorting when data entered in batch fund allocation sceen. Refs UIF-570.
 * Add `validateRequiredPositiveNumber` to allocated budget field. Refs UIF-573.
+* Prevent negative total allocations in budgets. Refs UIF-576.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

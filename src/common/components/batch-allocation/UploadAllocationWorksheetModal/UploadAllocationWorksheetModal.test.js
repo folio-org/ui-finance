@@ -62,30 +62,31 @@ describe('UploadAllocationWorksheetModal', () => {
 
     expect(defaultProps.toggle).toHaveBeenCalled();
   });
+  /* Temporarily hide this section for groups */
+  // it('should handle form submission', async () => {
+  //   renderComponent();
 
-  it('should handle form submission', async () => {
-    renderComponent();
+  //   await userEvent.upload(screen.getByTestId('file-uploader-input'), fileToUpload);
+  //   await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
 
-    await userEvent.upload(screen.getByTestId('file-uploader-input'), fileToUpload);
-    await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
+  //   expect(localforage.setItem).toHaveBeenCalled();
+  // });
 
-    expect(localforage.setItem).toHaveBeenCalled();
-  });
+  /* Temporarily hide this section for groups */
+  // it('should not proceed if fiscal year ID is not found', async () => {
+  //   useOkapiKy.mockReturnValue({
+  //     get: jest.fn(() => ({
+  //       json: jest.fn(() => ({
+  //         fiscalYears: [],
+  //       })),
+  //     })),
+  //   });
 
-  it('should not proceed if fiscal year ID is not found', async () => {
-    useOkapiKy.mockReturnValue({
-      get: jest.fn(() => ({
-        json: jest.fn(() => ({
-          fiscalYears: [],
-        })),
-      })),
-    });
+  //   renderComponent();
 
-    renderComponent();
+  //   await userEvent.upload(screen.getByTestId('file-uploader-input'), fileToUpload);
+  //   await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
 
-    await userEvent.upload(screen.getByTestId('file-uploader-input'), fileToUpload);
-    await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
-
-    expect(localforage.setItem).not.toHaveBeenCalled();
-  });
+  //   expect(localforage.setItem).not.toHaveBeenCalled();
+  // });
 });

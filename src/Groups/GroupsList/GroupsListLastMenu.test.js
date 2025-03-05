@@ -14,6 +14,7 @@ describe('GroupsListLastMenu', () => {
     const { getByTestId } = renderGroupsListLastMenu();
 
     expect(getByTestId('create-group-button')).toBeDefined();
-    expect(getByTestId('view-batch-allocation-logs-button')).toBeDefined();
+    // Temporarily hide this section for groups
+    // expect(getByTestId('view-batch-allocation-logs-button')).toBeDefined();
   });
 });

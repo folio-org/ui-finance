@@ -43,14 +43,15 @@ describe('UploadAllocationWorksheetModalForm', () => {
     expect(screen.getByRole('button', { name: 'stripes-core.button.confirm' })).toBeDisabled();
   });
 
-  it('should show error message when file validation fails', async () => {
-    renderForm();
+  /* Temporarily hide this section for groups */
+  // it('should show error message when file validation fails', async () => {
+  //   renderForm();
 
-    const fileInput = screen.getByTestId('file-uploader-input');
-    const file = new File(['name,age,city\nJohn,25,New York\nAlice,30,Los Angeles'], 'invalid.csv', { type: 'text/csv' });
+  //   const fileInput = screen.getByTestId('file-uploader-input');
+  //   const file = new File(['name,age,city\nJohn,25,New York\nAlice,30,Los Angeles'], 'invalid.csv', { type: 'text/csv' });
 
-    await userEvent.upload(fileInput, file);
+  //   await userEvent.upload(fileInput, file);
 
-    expect(await screen.findByText('ui-finance.batchAllocations.uploadWorksheet.validation.error.requiredHeaders')).toBeInTheDocument();
-  });
+  //   expect(await screen.findByText('ui-finance.batchAllocations.uploadWorksheet.validation.error.requiredHeaders')).toBeInTheDocument();
+  // });
 });

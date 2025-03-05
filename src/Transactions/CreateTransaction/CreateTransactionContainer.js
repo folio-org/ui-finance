@@ -166,6 +166,7 @@ export const CreateTransactionContainer = ({
   return (
     <>
       <CreateTransactionModal
+        budget={budget}
         fundId={fundId}
         fundsOptions={fundsOptions}
         initialValues={initialValues}

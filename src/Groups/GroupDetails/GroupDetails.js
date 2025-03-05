@@ -100,20 +100,23 @@ const GroupDetails = ({
             />
           </MenuSection>
 
-          <AllocationToolsMenuSection
-            onDownloadAllocationWorksheet={() => {
-              onToggle();
-              toggleDownloadAllocationWorksheetModal();
-            }}
-            onUploadAllocationWorksheet={() => {
-              onToggle();
-              toggleUploadAllocationWorksheetModal();
-            }}
-            onBatchAllocate={() => {
-              onToggle();
-              toggleBatchAllocationModal();
-            }}
-          />
+          {/* Temporarily hide this section for groups */}
+          {false && (
+            <AllocationToolsMenuSection
+              onDownloadAllocationWorksheet={() => {
+                onToggle();
+                toggleDownloadAllocationWorksheetModal();
+              }}
+              onUploadAllocationWorksheet={() => {
+                onToggle();
+                toggleUploadAllocationWorksheetModal();
+              }}
+              onBatchAllocate={() => {
+                onToggle();
+                toggleBatchAllocationModal();
+              }}
+            />
+          )}
         </>
       );
     },

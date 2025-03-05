@@ -36,27 +36,29 @@ const GroupsListLastMenu = () => {
           )}
         </FormattedMessage>
       </IfPermission>
-
-      <IfPermission perm="ui-finance.fund-update-logs.view">
-        <FormattedMessage id="ui-finance.actions.allocations.batch.logs">
-          {ariaLabel => (
-            <Button
-              id="clickable-batch-allocation-logs"
-              data-testid="view-batch-allocation-logs-button"
-              aria-label={ariaLabel}
-              to={{
-                pathname: `${GROUPS_ROUTE}/batch-allocations/logs`,
-                state: { ...location },
-              }}
-              buttonStyle="dropdownItem"
-            >
-              <Icon size="small" icon="report">
-                <FormattedMessage id="ui-finance.actions.allocations.batch.logs" />
-              </Icon>
-            </Button>
-          )}
-        </FormattedMessage>
-      </IfPermission>
+      {/* Temporarily hide this section for groups */}
+      {false && (
+        <IfPermission perm="ui-finance.fund-update-logs.view">
+          <FormattedMessage id="ui-finance.actions.allocations.batch.logs">
+            {ariaLabel => (
+              <Button
+                id="clickable-batch-allocation-logs"
+                data-testid="view-batch-allocation-logs-button"
+                aria-label={ariaLabel}
+                to={{
+                  pathname: `${GROUPS_ROUTE}/batch-allocations/logs`,
+                  state: { ...location },
+                }}
+                buttonStyle="dropdownItem"
+              >
+                <Icon size="small" icon="report">
+                  <FormattedMessage id="ui-finance.actions.allocations.batch.logs" />
+                </Icon>
+              </Button>
+            )}
+          </FormattedMessage>
+        </IfPermission>
+      )}
     </MenuSection>
   );
 };

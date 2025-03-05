@@ -16,6 +16,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
+import { BATCH_ALLOCATION_FIELDS } from '../constants';
 import {
   useBatchAllocation,
   useBatchAllocationFormHandler,
@@ -23,7 +24,6 @@ import {
   useSourceData,
 } from '../hooks';
 import { UploadBatchAllocations } from './UploadBatchAllocations';
-import { BATCH_ALLOCATION_FIELDS } from '../constants';
 
 jest.mock('localforage');
 

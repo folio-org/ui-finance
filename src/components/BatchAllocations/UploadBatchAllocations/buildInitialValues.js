@@ -8,6 +8,16 @@ import {
 
 const TAGS_SEPARATOR = ';';
 
+const {
+  fundStatus: FUNDS_STATUS,
+  budgetStatus: BUDGETS_STATUS,
+  transactionDescription: TRANSACTION_DESCRIPTION,
+  transactionTag: TRANSACTION_TAGS,
+  budgetAllocationChange: ALLOCATION_CHANGE,
+  budgetAllowableEncumbrance: ALLOWABLE_ENCUMBRANCE,
+  budgetAllowableExpenditure: ALLOWABLE_EXPENDITURE,
+} = BATCH_ALLOCATION_FIELDS;
+
 const valueOrEmptyString = (value) => (value || '').trim();
 
 const buildRowKey = (item, fiscalYear) => [
@@ -34,15 +44,17 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
         : fileDataMap.get(buildRowKey(item, fiscalYear)) || {};
 
       /* Fields from the CSV file that the form should take into account */
-      const dataItemFields = pick(dataItem, [
-        BATCH_ALLOCATION_FIELDS.fundStatus,
-        BATCH_ALLOCATION_FIELDS.budgetStatus,
-        BATCH_ALLOCATION_FIELDS.budgetAllocationChange,
-        BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance,
-        BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure,
-        BATCH_ALLOCATION_FIELDS.transactionDescription,
-        BATCH_ALLOCATION_FIELDS.transactionTag,
-      ]);
+      const dataItemFields = {
+        ...pick(dataItem, [
+          FUNDS_STATUS,
+          BUDGETS_STATUS,
+          TRANSACTION_DESCRIPTION,
+          TRANSACTION_TAGS,
+        ]),
+        [ALLOCATION_CHANGE]: Number(dataItem[ALLOCATION_CHANGE]),
+        [ALLOWABLE_ENCUMBRANCE]: Number(dataItem[ALLOWABLE_ENCUMBRANCE]),
+        [ALLOWABLE_EXPENDITURE]: Number(dataItem[ALLOWABLE_EXPENDITURE]),
+      };
 
       return {
         ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
@@ -60,8 +72,7 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
         },
         [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isMissed]: isFundMissedInFile,
       };
-    })
-    .sort((a, b) => a.fundName.localeCompare(b.fundName));
+    });
 
   const invalidFunds = fileData.filter((item) => !actualFundIdsSet.has(item.fundId));
 

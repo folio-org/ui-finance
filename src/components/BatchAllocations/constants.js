@@ -67,3 +67,8 @@ export const BATCH_ALLOCATION_LOG_COLUMN_WIDTHS = {
   [BATCH_ALLOCATION_FIELDS.transactionDescription]: '12%',
   [BATCH_ALLOCATION_FIELDS.transactionTag]: '12%',
 };
+
+export const BATCH_ALLOCATION_FLOW_TYPE = {
+  CREATE: 'create',
+  UPLOAD: 'upload',
+};

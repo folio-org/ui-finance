@@ -29,6 +29,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import {
   BATCH_ALLOCATION_FIELDS,
+  BATCH_ALLOCATION_FLOW_TYPE,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
@@ -74,6 +75,7 @@ const BatchAllocationsForm = ({
   recalculateOnInit = false,
   sortingField,
   sortingDirection,
+  type,
 }) => {
   const [isSortingDisabled, setIsSortingDisabled] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
@@ -91,7 +93,7 @@ const BatchAllocationsForm = ({
     || form.getState()?.values?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData] === null
     || isRecalculateRequired
     || invalid
-    || pristine
+    || (type === BATCH_ALLOCATION_FLOW_TYPE.CREATE && pristine)
     || submitting
   );
 
@@ -303,6 +305,7 @@ BatchAllocationsForm.propTypes = {
   recalculateOnInit: PropTypes.bool,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default stripesFinalForm({

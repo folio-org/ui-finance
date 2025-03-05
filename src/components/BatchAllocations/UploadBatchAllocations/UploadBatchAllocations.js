@@ -30,6 +30,7 @@ import {
 import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
 import {
+  BATCH_ALLOCATION_FLOW_TYPE,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
   BATCH_ALLOCATION_SORTABLE_FIELDS,
 } from '../constants';
@@ -194,6 +195,7 @@ export const UploadBatchAllocations = () => {
         recalculateOnInit
         sortingDirection={sortingDirection}
         sortingField={sortingField}
+        flowType={BATCH_ALLOCATION_FLOW_TYPE.UPLOAD}
       />
     </>
   );

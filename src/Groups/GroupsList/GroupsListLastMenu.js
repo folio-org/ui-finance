@@ -13,7 +13,7 @@ import { GROUPS_ROUTE } from '../../common/const';
 
 const GroupsListLastMenu = () => {
   const location = useLocation();
-  const isGroupBatchAllocationEnabled = false;
+  const IS_GROUP_BATCH_ALLOCATION_ENABLED = false;
 
   return (
     <MenuSection id="group-list-actions">
@@ -37,8 +37,8 @@ const GroupsListLastMenu = () => {
           )}
         </FormattedMessage>
       </IfPermission>
-      {/* TODO: Temporarily hide this section for groups */}
-      {isGroupBatchAllocationEnabled && (
+      {IS_GROUP_BATCH_ALLOCATION_ENABLED && (
+        // TODO: Temporarily hide this section for groups
         <IfPermission perm="ui-finance.fund-update-logs.view">
           <FormattedMessage id="ui-finance.actions.allocations.batch.logs">
             {ariaLabel => (

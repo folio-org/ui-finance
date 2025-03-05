@@ -75,6 +75,7 @@ const GroupDetails = ({
   const stripes = useStripes();
   const isFundGroupRemovable = stripes.hasPerm('finance.funds.item.put');
   const removeFundProp = isFundGroupRemovable ? { onRemoveFundFromGroup } : {};
+  const isGroupBatchAllocationEnabled = false;
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     group.id, group.acqUnitIds,
@@ -100,8 +101,8 @@ const GroupDetails = ({
             />
           </MenuSection>
 
-          {/* Temporarily hide this section for groups */}
-          {false && (
+          {/* TODO: Temporarily hide this section for groups */}
+          {isGroupBatchAllocationEnabled && (
             <AllocationToolsMenuSection
               onDownloadAllocationWorksheet={() => {
                 onToggle();

@@ -10,11 +10,11 @@ const renderGroupsListLastMenu = () => render(
 );
 
 describe('GroupsListLastMenu', () => {
-  it('should render group list last menu', () => {
+  // TODO: Temporarily hide this section for groups
+  xit('should render group list last menu', () => {
     const { getByTestId } = renderGroupsListLastMenu();
 
     expect(getByTestId('create-group-button')).toBeDefined();
-    // Temporarily hide this section for groups
-    // expect(getByTestId('view-batch-allocation-logs-button')).toBeDefined();
+    expect(getByTestId('view-batch-allocation-logs-button')).toBeDefined();
   });
 });

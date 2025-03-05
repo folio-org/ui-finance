@@ -48,6 +48,7 @@ import {
 import {
   GROUP_ACCORDION,
   GROUP_ACCORDION_LABELS,
+  IS_GROUP_BATCH_ALLOCATION_ENABLED,
 } from '../constants';
 import GroupInformation from './GroupInformation';
 import GroupFund from './GroupFund';
@@ -75,7 +76,6 @@ const GroupDetails = ({
   const stripes = useStripes();
   const isFundGroupRemovable = stripes.hasPerm('finance.funds.item.put');
   const removeFundProp = isFundGroupRemovable ? { onRemoveFundFromGroup } : {};
-  const IS_GROUP_BATCH_ALLOCATION_ENABLED = false;
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     group.id, group.acqUnitIds,
@@ -102,7 +102,6 @@ const GroupDetails = ({
           </MenuSection>
 
           {IS_GROUP_BATCH_ALLOCATION_ENABLED && (
-            // TODO: Temporarily hide this section for groups
             <AllocationToolsMenuSection
               onDownloadAllocationWorksheet={() => {
                 onToggle();

@@ -10,7 +10,7 @@ const renderGroupsListLastMenu = () => render(
 );
 
 describe('GroupsListLastMenu', () => {
-  // TODO: Temporarily hide this section for groups
+  // TODO: Enable after group batch allocation feature is created
   xit('should render group list last menu', () => {
     const { getByTestId } = renderGroupsListLastMenu();
 

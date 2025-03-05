@@ -43,7 +43,7 @@ describe('UploadAllocationWorksheetModalForm', () => {
     expect(screen.getByRole('button', { name: 'stripes-core.button.confirm' })).toBeDisabled();
   });
 
-  /* TODO: Temporarily hide this section for groups */
+  // TODO: Enable after group batch allocation feature is created
   xit('should show error message when file validation fails', async () => {
     renderForm();
 

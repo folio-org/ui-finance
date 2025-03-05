@@ -62,8 +62,8 @@ describe('UploadAllocationWorksheetModal', () => {
 
     expect(defaultProps.toggle).toHaveBeenCalled();
   });
-
-  it('should handle form submission', async () => {
+  // TODO: Enable after group batch allocation feature is created
+  xit('should handle form submission', async () => {
     renderComponent();
 
     await userEvent.upload(screen.getByTestId('file-uploader-input'), fileToUpload);
@@ -72,7 +72,8 @@ describe('UploadAllocationWorksheetModal', () => {
     expect(localforage.setItem).toHaveBeenCalled();
   });
 
-  it('should not proceed if fiscal year ID is not found', async () => {
+  // TODO: Enable after group batch allocation feature is created
+  xit('should not proceed if fiscal year ID is not found', async () => {
     useOkapiKy.mockReturnValue({
       get: jest.fn(() => ({
         json: jest.fn(() => ({

@@ -27,6 +27,7 @@ import {
 import { useFiscalYear } from '../../../common/hooks';
 import { BatchAllocationsFormContainer } from '../BatchAllocationsForm';
 import {
+  BATCH_ALLOCATION_FLOW_TYPE,
   BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
   BATCH_ALLOCATION_SORTABLE_FIELDS,
@@ -168,6 +169,7 @@ export const CreateBatchAllocations = () => {
         paneTitle={fiscalYear?.code}
         sortingDirection={sortingDirection}
         sortingField={sortingField}
+        flowType={BATCH_ALLOCATION_FLOW_TYPE.CREATE}
       />
     </>
   );

@@ -1,7 +1,5 @@
-import {
-  isPlainObject,
-  isFunction,
-} from 'lodash';
+import isPlainObject from 'lodash/isPlainObject';
+import isFunction from 'lodash/isFunction';
 
 const getAccumulatedDataObject = (stepResult) => {
   return isPlainObject(stepResult) ? stepResult : {};

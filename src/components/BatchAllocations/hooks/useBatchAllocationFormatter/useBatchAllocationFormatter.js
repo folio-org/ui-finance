@@ -1,3 +1,4 @@
+import identity from 'lodash/identity';
 import { useMemo } from 'react';
 import {
   Field,
@@ -44,6 +45,8 @@ const {
 const checkIfUnchanged = ({ isBudgetChanged, isFundChanged } = {}) => {
   return (isBudgetChanged !== undefined && isFundChanged !== undefined) && !(isFundChanged || isBudgetChanged);
 };
+
+const parseNumberValue = (value) => value && Number(value);
 
 export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
   const form = useForm();
@@ -127,7 +130,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           disabled={isLoading}
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
-          parse={Number}
+          parse={parseNumberValue}
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),
@@ -160,7 +163,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-          parse={Number}
+          parse={parseNumberValue}
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),
@@ -179,7 +182,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-          parse={Number}
+          parse={parseNumberValue}
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),
@@ -198,6 +201,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
+          parse={identity}
           placeholder="Description"
           type="text"
           validateFields={[]}

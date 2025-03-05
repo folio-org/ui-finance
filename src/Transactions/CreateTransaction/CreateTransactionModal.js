@@ -1,6 +1,5 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -13,17 +12,24 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 import {
   FieldSelectionFinal,
   FieldTags,
   validateRequiredPositiveAmount,
 } from '@folio/stripes-acq-components';
 
-import { validateTransactionForm } from '../../common/utils';
+import {
+  composeValidators,
+  validateTransactionForm,
+} from '../../common/utils';
 import { ALLOCATION_TYPE } from '../constants';
+import { validateAllocationAmount } from './utils';
 
 const CreateTransactionModal = ({
   allocationType,
+  budget,
+  form,
   fundId,
   handleSubmit,
   isLoading,
@@ -32,6 +38,10 @@ const CreateTransactionModal = ({
   title,
   values: formValues,
 }) => {
+  const stripes = useStripes();
+
+  const { invalid } = form.getState();
+
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
   const fundLabelId = allocationType ? 'ui-finance.fund' : '';
@@ -47,7 +57,7 @@ const CreateTransactionModal = ({
     isToFundVisible = false;
   }
 
-  const isConfirmButtonDisabled = isLoading;
+  const isConfirmButtonDisabled = isLoading || invalid;
 
   const optionsFrom = (
     (!hasToFundIdProperty ||
@@ -123,7 +133,10 @@ const CreateTransactionModal = ({
               name="amount"
               type="number"
               required
-              validate={validateRequiredPositiveAmount}
+              validate={composeValidators(
+                validateRequiredPositiveAmount,
+                validateAllocationAmount(allocationType, budget, stripes.currency),
+              )}
             />
           </Col>
 
@@ -146,14 +159,18 @@ const CreateTransactionModal = ({
 };
 
 CreateTransactionModal.propTypes = {
+  allocationType: PropTypes.string,
+  budget: PropTypes.shape({
+    allocated: PropTypes.number.isRequired,
+  }).isRequired,
+  form: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
+  fundsOptions: PropTypes.arrayOf(PropTypes.object),
   handleSubmit: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  fundsOptions: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
   values: PropTypes.object.isRequired,
-  allocationType: PropTypes.string,
 };
 
 export default stripesFinalForm({

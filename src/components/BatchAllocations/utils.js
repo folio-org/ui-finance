@@ -1,6 +1,6 @@
-import {
-  exportToCsv,
-} from '@folio/stripes/components';
+import isFinite from 'lodash/isFinite';
+
+import { exportToCsv } from '@folio/stripes/components';
 
 import { BATCH_ALLOCATION_ROUTES_DICT } from '../../common/const';
 import { BATCH_ALLOCATION_COLUMNS } from './constants';
@@ -41,3 +41,5 @@ export const dehydrateAllocationLog = log => ({
   financeData: (log?.jobDetails?.fyFinanceData || [])
     .filter(({ isBudgetChanged, isFundChanged }) => isBudgetChanged || isFundChanged),
 });
+
+export const parseNumberOrInitial = (value) => (value && (isFinite(Number(value)) ? Number(value) : value));

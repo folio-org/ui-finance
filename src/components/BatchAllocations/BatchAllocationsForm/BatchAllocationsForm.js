@@ -38,11 +38,19 @@ import {
   normalizeFinanceFormData,
 } from './utils';
 
+const {
+  calculatedFinanceData: CALCULATED_FINANCE_DATA_FIELD,
+  fyFinanceData: FY_FINANCE_DATA_FIELD,
+  invalidFunds: INVALID_FUNDS_FIELD,
+  recalculateErrors: RECALCULATE_ERRORS_FIELD,
+  _isRecalculating: IS_RECALCULATING_FIELD,
+} = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
+
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
 const formValuesSubscriber = (form) => ({ values }) => {
   form.batch(() => {
-    values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]?.forEach((item, index) => {
+    values[FY_FINANCE_DATA_FIELD]?.forEach((item, index) => {
       const shouldSetActive = (
         !item.budgetId
         && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
@@ -52,7 +60,7 @@ const formValuesSubscriber = (form) => ({ values }) => {
       );
 
       if (shouldSetActive) {
-        form.change(`${BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
+        form.change(`${FY_FINANCE_DATA_FIELD}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
       }
     });
   });
@@ -61,6 +69,7 @@ const formValuesSubscriber = (form) => ({ values }) => {
 const BatchAllocationsForm = ({
   changeSorting,
   fiscalYear,
+  flowType,
   form,
   handleSubmit,
   headline,
@@ -75,7 +84,6 @@ const BatchAllocationsForm = ({
   recalculateOnInit = false,
   sortingField,
   sortingDirection,
-  type,
 }) => {
   const [isSortingDisabled, setIsSortingDisabled] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
@@ -84,16 +92,15 @@ const BatchAllocationsForm = ({
 
   const {
     invalid,
-    pristine,
     submitting,
   } = form.getState();
 
   const isSubmitDisabled = (
     isSubmitDisabledProp
-    || form.getState()?.values?.[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData] === null
+    || form.getState()?.values?.[CALCULATED_FINANCE_DATA_FIELD] === null
     || isRecalculateRequired
     || invalid
-    || (type === BATCH_ALLOCATION_FLOW_TYPE.CREATE && pristine)
+    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && form.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
     || submitting
   );
 
@@ -111,26 +118,24 @@ const BatchAllocationsForm = ({
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
   const onSaveAndClose = useCallback((e) => {
-    form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, false);
+    form.change(IS_RECALCULATING_FIELD, false);
     handleSubmit(e);
   }, [form, handleSubmit]);
 
   const onRecalculate = useCallback(async () => {
     setIsRecalculating(true);
 
-    const {
-      [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: fyFinanceData,
-    } = form.getState().values;
+    const { [FY_FINANCE_DATA_FIELD]: fyFinanceData } = form.getState().values;
 
-    form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors, undefined);
+    form.change(RECALCULATE_ERRORS_FIELD, undefined);
 
     await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
-        form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData, res.fyFinanceData);
+        form.change(CALCULATED_FINANCE_DATA_FIELD, res.fyFinanceData);
       })
       .catch(async (error) => {
         form.change(
-          BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.recalculateErrors,
+          RECALCULATE_ERRORS_FIELD,
           await handleRecalculateError(error, showCallout),
         );
       })
@@ -138,7 +143,7 @@ const BatchAllocationsForm = ({
         setIsRecalculateRequired(false);
 
         form.batch(() => {
-          form.change(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating, true);
+          form.change(IS_RECALCULATING_FIELD, true);
           form.submit();
         });
 
@@ -168,11 +173,9 @@ const BatchAllocationsForm = ({
       form.initialize(values);
     }
 
-    const { fyFinanceData } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
-
     if (
       values
-      && values[fyFinanceData] !== previousFormValues.current[fyFinanceData]
+      && values[FY_FINANCE_DATA_FIELD] !== previousFormValues.current[FY_FINANCE_DATA_FIELD]
       && !isRecalculateRequired
     ) {
       previousFormValues.current = { ...values };
@@ -255,7 +258,7 @@ const BatchAllocationsForm = ({
 
           <FieldArray
             id="batch-allocation-list"
-            name={BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData}
+            name={FY_FINANCE_DATA_FIELD}
             component={BatchAllocationList}
             props={{
               fiscalYear,
@@ -267,14 +270,14 @@ const BatchAllocationsForm = ({
           />
 
           {
-            Boolean(initialValues[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.invalidFunds]?.length) && (
+            Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
               <Layout className="marginTop1">
                 <MessageBanner type="error">
                   <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
                 </MessageBanner>
                 <Layout className="marginTopHalf">
                   <List
-                    items={initialValues[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.invalidFunds]}
+                    items={initialValues[INVALID_FUNDS_FIELD]}
                     itemFormatter={formatInvalidFundsListItem}
                     listStyle="bullets"
                   />
@@ -291,6 +294,7 @@ const BatchAllocationsForm = ({
 BatchAllocationsForm.propTypes = {
   changeSorting: PropTypes.func.isRequired,
   fiscalYear: PropTypes.object,
+  flowType: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   headline: PropTypes.string,
@@ -305,7 +309,6 @@ BatchAllocationsForm.propTypes = {
   recalculateOnInit: PropTypes.bool,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
 };
 
 export default stripesFinalForm({

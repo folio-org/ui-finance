@@ -23,7 +23,7 @@
 * Batch allocation bugs/enhancements. Refs UIF-589.
 * Fix transaction sorting by amount. Refs UIF-593.
 * Prevent sorting when data entered in batch fund allocation sceen. Refs UIF-570.
-* Add `validateRequiredPositiveNumber` to allocated budget field. Refs UIF-573.
+* Add `validateRequiredMinNumber` to allocated budget field. Refs UIF-573.
 * Prevent negative total allocations in budgets. Refs UIF-576.
 * Temporarily hide batch allocation buttons for groups. Refs UIF-598.
 

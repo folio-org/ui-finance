@@ -15,7 +15,7 @@ import {
 import {
   FieldSelectFinal,
   validateRequired,
-  validateRequiredPositiveNumber,
+  validateRequiredMinNumber,
 } from '@folio/stripes-acq-components';
 
 import { FiscalYearField } from '../../../common/FiscalYearField';
@@ -101,7 +101,7 @@ const BudgetAddModalForm = ({
             name="allocated"
             type="number"
             required
-            validate={validateRequiredPositiveNumber}
+            validate={(value) => validateRequiredMinNumber({ minNumber: 0, value })}
           />
         </Col>
       </Row>

@@ -27,6 +27,7 @@ import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../../constants';
+import { parseNumberOrInitial } from '../../utils';
 import {
   validateAllocationAfterField,
   validateNotNegative,
@@ -45,8 +46,6 @@ const {
 const checkIfUnchanged = ({ isBudgetChanged, isFundChanged } = {}) => {
   return (isBudgetChanged !== undefined && isFundChanged !== undefined) && !(isFundChanged || isBudgetChanged);
 };
-
-const parseNumberValue = (value) => value && Number(value);
 
 export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
   const form = useForm();
@@ -130,7 +129,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           disabled={isLoading}
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
-          parse={parseNumberValue}
+          parse={parseNumberOrInitial}
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),
@@ -163,7 +162,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-          parse={parseNumberValue}
+          parse={parseNumberOrInitial}
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),
@@ -182,7 +181,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-          parse={parseNumberValue}
+          parse={parseNumberOrInitial}
           type="number"
           validate={composeValidators(
             validateNumericValue(intl),

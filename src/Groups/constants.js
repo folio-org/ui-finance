@@ -36,3 +36,5 @@ export const GROUPS_FILTERS = {
   STATUS: 'status',
   ACQUISITIONS_UNIT: 'acqUnitIds',
 };
+// TODO: Enable after group batch allocation feature is created
+export const IS_GROUP_BATCH_ALLOCATION_ENABLED = false;

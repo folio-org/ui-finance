@@ -48,6 +48,7 @@ import {
 import {
   GROUP_ACCORDION,
   GROUP_ACCORDION_LABELS,
+  IS_GROUP_BATCH_ALLOCATION_ENABLED,
 } from '../constants';
 import GroupInformation from './GroupInformation';
 import GroupFund from './GroupFund';
@@ -100,20 +101,22 @@ const GroupDetails = ({
             />
           </MenuSection>
 
-          <AllocationToolsMenuSection
-            onDownloadAllocationWorksheet={() => {
-              onToggle();
-              toggleDownloadAllocationWorksheetModal();
-            }}
-            onUploadAllocationWorksheet={() => {
-              onToggle();
-              toggleUploadAllocationWorksheetModal();
-            }}
-            onBatchAllocate={() => {
-              onToggle();
-              toggleBatchAllocationModal();
-            }}
-          />
+          {IS_GROUP_BATCH_ALLOCATION_ENABLED && (
+            <AllocationToolsMenuSection
+              onDownloadAllocationWorksheet={() => {
+                onToggle();
+                toggleDownloadAllocationWorksheetModal();
+              }}
+              onUploadAllocationWorksheet={() => {
+                onToggle();
+                toggleUploadAllocationWorksheetModal();
+              }}
+              onBatchAllocate={() => {
+                onToggle();
+                toggleBatchAllocationModal();
+              }}
+            />
+          )}
         </>
       );
     },

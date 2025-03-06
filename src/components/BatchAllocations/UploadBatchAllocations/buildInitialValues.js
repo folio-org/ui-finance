@@ -49,7 +49,7 @@ export const buildInitialValues = (fileData = [], financeData = [], fiscalYear =
         [ALLOWABLE_EXPENDITURE]: parseNumberOrInitial(dataItem[ALLOWABLE_EXPENDITURE]),
         [BUDGETS_STATUS]: dataItem[BUDGETS_STATUS] || undefined,
         [FUNDS_STATUS]: dataItem[FUNDS_STATUS] || undefined,
-        [TRANSACTION_DESCRIPTION]: dataItem[TRANSACTION_DESCRIPTION],
+        [TRANSACTION_DESCRIPTION]: dataItem[TRANSACTION_DESCRIPTION] || undefined,
         [TRANSACTION_TAGS]: {
           tagList: (
             dataItem[TRANSACTION_TAGS]

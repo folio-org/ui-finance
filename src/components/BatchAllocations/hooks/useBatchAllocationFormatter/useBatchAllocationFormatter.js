@@ -1,4 +1,3 @@
-import identity from 'lodash/identity';
 import { useMemo } from 'react';
 import {
   Field,
@@ -200,7 +199,6 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
-          parse={identity}
           placeholder="Description"
           type="text"
           validateFields={[]}

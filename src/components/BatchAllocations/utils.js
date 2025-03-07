@@ -12,7 +12,7 @@ export const getBatchAllocationColumnMapping = ({ intl }) => {
 };
 
 export const exportCsvBatchAllocationLog = (batchAllocationLog, intl) => {
-  const filename = `${batchAllocationLog.jobName}-log`;
+  const filename = `${batchAllocationLog.jobName.replace(/\.csv$/, '')}-log`;
   const exportData = batchAllocationLog.financeData?.map(data => ({
     ...data,
     transactionTag: data.transactionTag?.tagList?.join(', '),

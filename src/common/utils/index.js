@@ -3,6 +3,8 @@ export * from './csvToJson';
 export * from './exportRolloverErrors';
 export * from './exportRolloverResult';
 export * from './fetchFinanceData';
+export * from './fetchGroupCurrentFiscalYears';
+export * from './fetchLedgerCurrentFiscalYear';
 export * from './fundValidation';
 export * from './generateBudgetsReport';
 export * from './getFiscalYearsForSelect';

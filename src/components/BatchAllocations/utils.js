@@ -2,7 +2,14 @@ import isFinite from 'lodash/isFinite';
 
 import { exportToCsv } from '@folio/stripes/components';
 
-import { BATCH_ALLOCATION_ROUTES_DICT } from '../../common/const';
+import {
+  BATCH_ALLOCATION_ROUTES_DICT,
+  BATCH_ALLOCATIONS_SOURCE,
+} from '../../common/const';
+import {
+  fetchGroupCurrentFiscalYears,
+  fetchLedgerCurrentFiscalYear,
+} from '../../common/utils';
 import { BATCH_ALLOCATION_COLUMNS } from './constants';
 
 export const getBatchAllocationColumnMapping = ({ intl }) => {
@@ -43,3 +50,12 @@ export const dehydrateAllocationLog = log => ({
 });
 
 export const parseNumberOrInitial = (value) => (value && (isFinite(Number(value)) ? Number(value) : value));
+
+export const fetchSourceCurrentFiscalYears = (httpClient) => async (sourceType, sourceId, options) => {
+  const result = await {
+    [BATCH_ALLOCATIONS_SOURCE.group]: fetchGroupCurrentFiscalYears(httpClient),
+    [BATCH_ALLOCATIONS_SOURCE.ledger]: fetchLedgerCurrentFiscalYear(httpClient),
+  }[sourceType](sourceId, options);
+
+  return Array.isArray(result) ? result : [result];
+};

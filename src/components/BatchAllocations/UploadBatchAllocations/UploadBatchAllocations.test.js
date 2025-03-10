@@ -21,6 +21,7 @@ import {
   useBatchAllocation,
   useBatchAllocationFormHandler,
   useBatchAllocationMutation,
+  useSourceCurrentFiscalYears,
   useSourceData,
 } from '../hooks';
 import { UploadBatchAllocations } from './UploadBatchAllocations';
@@ -50,6 +51,7 @@ jest.mock('../hooks', () => ({
   useBatchAllocation: jest.fn(),
   useBatchAllocationFormHandler: jest.fn(),
   useBatchAllocationMutation: jest.fn(),
+  useSourceCurrentFiscalYears: jest.fn(),
   useSourceData: jest.fn(),
 }));
 
@@ -57,6 +59,13 @@ const uploadFileDataStub = [{
   ...fyFinanceData[0],
   [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: 10,
 }];
+
+const currentFiscalYear = {
+  code: '2025',
+  series: 'FY',
+  periodStart: '2025-12-01',
+};
+const selectedFiscalYear = { ...currentFiscalYear };
 
 const defaultProps = {
   history: { push: jest.fn() },
@@ -93,8 +102,9 @@ describe('UploadBatchAllocations', () => {
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData });
     useBatchAllocationFormHandler.mockReturnValue({ handle });
     useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
-    useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
+    useFiscalYear.mockReturnValue({ fiscalYear: selectedFiscalYear });
     useShowCallout.mockReturnValue(showCalloutMock);
+    useSourceCurrentFiscalYears.mockReturnValue({ currentFiscalYears: [currentFiscalYear] });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
   });
 

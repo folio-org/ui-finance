@@ -1,12 +1,10 @@
-import React, {
-  useMemo,
-} from 'react';
+import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import {
   useRouteMatch,
   useLocation,
 } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import queryString from 'query-string';
 
 import { MultiColumnList } from '@folio/stripes/components';
 
@@ -55,7 +53,15 @@ export const BatchAllocationLogsList = ({
       selectRecord,
       selectedRecordsMap,
     });
-  }, [isLoading, match.path, location.search, intl, selectRecord, selectedRecordsMap]);
+  }, [
+    intl,
+    isLoading,
+    location.search,
+    location.state,
+    match.path,
+    selectRecord,
+    selectedRecordsMap,
+  ]);
 
   return (
     <MultiColumnList
@@ -72,4 +78,17 @@ export const BatchAllocationLogsList = ({
       width={width}
     />
   );
+};
+
+BatchAllocationLogsList.propTypes = {
+  allRecordsSelected: PropTypes.bool.isRequired,
+  height: PropTypes.number,
+  isEmptyMessage: PropTypes.node,
+  isLoading: PropTypes.bool,
+  logs: PropTypes.arrayOf(PropTypes.object),
+  selectedRecordsMap: PropTypes.object,
+  selectRecord: PropTypes.func.isRequired,
+  totalRecords: PropTypes.number,
+  toggleSelectAll: PropTypes.func.isRequired,
+  width: PropTypes.number,
 };

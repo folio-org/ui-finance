@@ -48,10 +48,12 @@ const {
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
-const formValuesSubscriber = (form) => ({ values }) => {
+const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values }) => {
+  const currentFiscalYear = currentFiscalYears.find(({ series }) => series === fiscalYear.series);
+
   form.batch(() => {
     values[FY_FINANCE_DATA_FIELD]?.forEach((item, index) => {
-      const shouldSetActive = (
+      const shouldSetStatus = (
         !item.budgetId
         && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
         && !item[BATCH_ALLOCATION_FIELDS.budgetStatus]
@@ -59,8 +61,12 @@ const formValuesSubscriber = (form) => ({ values }) => {
         && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
       );
 
-      if (shouldSetActive) {
-        form.change(`${FY_FINANCE_DATA_FIELD}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, BUDGET_STATUSES.ACTIVE);
+      if (shouldSetStatus) {
+        const status = new Date(fiscalYear?.periodStart) > new Date(currentFiscalYear?.periodStart)
+          ? BUDGET_STATUSES.PLANNED
+          : BUDGET_STATUSES.ACTIVE;
+
+        form.change(`${FY_FINANCE_DATA_FIELD}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, status);
       }
     });
   });
@@ -68,6 +74,7 @@ const formValuesSubscriber = (form) => ({ values }) => {
 
 const BatchAllocationsForm = ({
   changeSorting,
+  currentFiscalYears,
   fiscalYear,
   flowType,
   form,
@@ -105,13 +112,13 @@ const BatchAllocationsForm = ({
   );
 
   useEffect(() => {
-    const subscriber = formValuesSubscriber(form);
+    const subscriber = formValuesSubscriber(form, fiscalYear, currentFiscalYears);
     const unsubscribe = form.subscribe(subscriber, { values: true });
 
     return () => {
       unsubscribe();
     };
-  }, [form]);
+  }, [currentFiscalYears, fiscalYear, form]);
 
   const showCallout = useShowCallout();
 
@@ -293,6 +300,7 @@ const BatchAllocationsForm = ({
 
 BatchAllocationsForm.propTypes = {
   changeSorting: PropTypes.func.isRequired,
+  currentFiscalYears: PropTypes.arrayOf(PropTypes.object),
   fiscalYear: PropTypes.object,
   flowType: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,

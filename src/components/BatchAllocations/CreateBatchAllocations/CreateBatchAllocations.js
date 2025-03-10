@@ -35,6 +35,7 @@ import {
 import {
   useBatchAllocation,
   useBatchAllocationFormHandler,
+  useSourceCurrentFiscalYears,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -92,6 +93,11 @@ export const CreateBatchAllocations = () => {
   } = useFiscalYear(fiscalYearId);
 
   const {
+    currentFiscalYears,
+    isLoading: isCurrentFiscalYearsLoading,
+  } = useSourceCurrentFiscalYears(sourceType, sourceId);
+
+  const {
     handle,
     isLoading: isBatchAllocationHandling,
   } = useBatchAllocationFormHandler();
@@ -142,6 +148,7 @@ export const CreateBatchAllocations = () => {
     isFinanceDataLoading
     || isSourceDataLoading
     || isFiscalYearLoading
+    || isCurrentFiscalYearsLoading
   );
 
   if (isLoading) {
@@ -158,6 +165,7 @@ export const CreateBatchAllocations = () => {
       <TitleManager record={intl.formatMessage({ id: 'ui-finance.actions.allocations.batch' })} />
       <BatchAllocationsFormContainer
         changeSorting={changeSorting}
+        currentFiscalYears={currentFiscalYears}
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}

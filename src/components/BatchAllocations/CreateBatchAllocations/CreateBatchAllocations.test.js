@@ -11,6 +11,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 import { fyFinanceData } from 'fixtures';
 import { useFiscalYear } from '../../../common/hooks';
 import {
+  useSourceCurrentFiscalYears,
   useSourceData,
   useBatchAllocation,
   useBatchAllocationFormHandler,
@@ -28,6 +29,7 @@ jest.mock('../../../common/hooks', () => ({
 }));
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
+  useSourceCurrentFiscalYears: jest.fn(),
   useSourceData: jest.fn(),
   useBatchAllocation: jest.fn(),
   useBatchAllocationFormHandler: jest.fn(),
@@ -39,6 +41,13 @@ const wrapper = ({ children }) => (
     {children}
   </MemoryRouter>
 );
+
+const currentFiscalYear = {
+  code: '2025',
+  series: 'FY',
+  periodStart: '2025-12-01',
+};
+const selectedFiscalYear = { ...currentFiscalYear };
 
 const defaultProps = {
   history: { push: jest.fn() },
@@ -63,9 +72,10 @@ describe('CreateBatchAllocations', () => {
   beforeEach(() => {
     useBatchAllocation.mockReturnValue({ budgetsFunds: fyFinanceData, isLoading: false, refetch: () => {} });
     useSourceData.mockReturnValue({ data: { name: 'Source Data' } });
-    useFiscalYear.mockReturnValue({ fiscalYear: { code: '2025' } });
+    useFiscalYear.mockReturnValue({ fiscalYear: selectedFiscalYear });
     useBatchAllocationMutation.mockReturnValue({ recalculate, batchAllocate });
     useBatchAllocationFormHandler.mockReturnValue({ handle });
+    useSourceCurrentFiscalYears.mockReturnValue({ currentFiscalYears: [currentFiscalYear] });
     useShowCallout.mockReturnValue(showCallout);
   });
 

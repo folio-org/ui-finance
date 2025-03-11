@@ -565,5 +565,6 @@
     "allocation.batch.logs.filters.metadata.createdDate": "Дата",
     "allocation.batch.logs.search.jobNumber": "ІД",
     "allocation.batch.logs.search.keyword": "Все",
-    "allocation.batch.logs.search.jobName": "Назва завдання"
+    "allocation.batch.logs.search.jobName": "Назва завдання",
+    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero"
 }

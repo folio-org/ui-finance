@@ -565,5 +565,6 @@
     "allocation.batch.logs.filters.metadata.createdDate": "Data",
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "Todos",
-    "allocation.batch.logs.search.jobName": "Nome do trabalho"
+    "allocation.batch.logs.search.jobName": "Nome do trabalho",
+    "transaction.validation.totalAllocatedExceeded": "A alocação total não pode ser menor que zero"
 }

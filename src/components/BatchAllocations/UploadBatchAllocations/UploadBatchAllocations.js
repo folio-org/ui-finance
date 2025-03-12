@@ -37,6 +37,7 @@ import {
 import {
   useBatchAllocation,
   useBatchAllocationFormHandler,
+  useSourceCurrentFiscalYears,
   useSourceData,
 } from '../hooks';
 import { resolveDefaultBackPathname } from '../utils';
@@ -71,6 +72,11 @@ export const UploadBatchAllocations = () => {
     fiscalYear,
     isLoading: isFiscalYearLoading,
   } = useFiscalYear(fiscalYearId);
+
+  const {
+    currentFiscalYears,
+    isLoading: isCurrentFiscalYearsLoading,
+  } = useSourceCurrentFiscalYears(sourceType, sourceId);
 
   const {
     data: sourceData,
@@ -167,6 +173,7 @@ export const UploadBatchAllocations = () => {
     || isFiscalYearLoading
     || isSourceDataLoading
     || isFinanceDataLoading
+    || isCurrentFiscalYearsLoading
   );
 
   if (isLoading) {
@@ -183,6 +190,7 @@ export const UploadBatchAllocations = () => {
       <TitleManager record={fileData?.fileName} />
       <BatchAllocationsFormContainer
         changeSorting={changeSorting}
+        currentFiscalYears={currentFiscalYears}
         fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}

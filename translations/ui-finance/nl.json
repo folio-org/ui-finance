@@ -565,5 +565,6 @@
     "allocation.batch.logs.filters.metadata.createdDate": "Date",
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "All",
-    "allocation.batch.logs.search.jobName": "Job name"
+    "allocation.batch.logs.search.jobName": "Job name",
+    "transaction.validation.totalAllocatedExceeded": "De totale toewijzing kan niet minder dan nul zijn"
 }

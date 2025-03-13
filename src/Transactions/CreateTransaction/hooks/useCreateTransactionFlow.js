@@ -11,11 +11,11 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 import {
+  BUDGETS_API,
   getMoneyMultiplier,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { getFundActiveBudget } from '../../../common/utils';
 import { ALLOCATION_TYPE } from '../../constants';
 import { createTransactionFlow } from '../createTransactionFlow';
 import {
@@ -30,8 +30,16 @@ const CONFIRM_MODAL_TYPES = {
   negativeAvailableAmount: 'negativeAvailableAmount',
 };
 
-const getTransactionFundActiveBudget = (ky) => (transactionFundId) => {
-  return getFundActiveBudget(ky)(transactionFundId).catch(({ response }) => { throw response; });
+const getTransactionFundBudget = (ky) => (transactionFundId, fiscalYearId) => {
+  const searchParams = {
+    query: `fundId==${transactionFundId} and fiscalYearId==${fiscalYearId}`,
+    limit: 1,
+  };
+
+  return ky.get(BUDGETS_API, { searchParams })
+    .json()
+    .then(({ budgets }) => budgets[0])
+    .catch(({ response }) => { throw response; });
 };
 
 const getBudgetsNamesWithNegativeAvailableAmount = (formVales, accumulatedData, currency) => {
@@ -93,11 +101,18 @@ export const useCreateTransactionFlow = () => {
     toggleConfirmModal,
   ]);
 
-  const prepareContragentBudgetDataStep = useCallback(async (_formValues, { contragentFundId, allocationType }) => {
+  const prepareContragentBudgetDataStep = useCallback(async (
+    _formValues,
+    {
+      allocationType,
+      contragentFundId,
+      fiscalYearId,
+    },
+  ) => {
     const shouldFetchContragentBudget = !ALLOCATIONS_WITHIN_ONE_FUND.includes(allocationType);
 
     const contragentBudget = shouldFetchContragentBudget
-      ? await getTransactionFundActiveBudget(ky)(contragentFundId)
+      ? await getTransactionFundBudget(ky)(contragentFundId, fiscalYearId)
       : {};
 
     return { contragentBudget };

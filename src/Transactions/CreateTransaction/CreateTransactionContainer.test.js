@@ -1,16 +1,21 @@
+import { MemoryRouter } from 'react-router-dom';
+
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import {
   TRANSACTION_TYPES,
   useAllFunds,
 } from '@folio/stripes-acq-components';
 
-import { getFundActiveBudget } from '../../common/utils';
-import { CreateTransactionContainer } from './CreateTransactionContainer';
-import { ALLOCATION_TYPE } from '../constants';
 import { useBatchTransactionsMutation } from '../../common/hooks';
+import { ALLOCATION_TYPE } from '../constants';
+import { CreateTransactionContainer } from './CreateTransactionContainer';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
@@ -19,15 +24,6 @@ jest.mock('@folio/stripes-acq-components', () => ({
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useBatchTransactionsMutation: jest.fn(),
-}));
-jest.mock('../../common/utils', () => ({
-  ...jest.requireActual('../../common/utils'),
-  getFundActiveBudget: jest.fn(() => () => Promise.resolve({
-    id: 'budgetId',
-    name: 'budgetName',
-    available: 10,
-    fundId: 'fundId2',
-  })),
 }));
 
 const funds = [
@@ -48,6 +44,18 @@ const defaultProps = {
   fetchBudgetResources: jest.fn(),
   allocationType: ALLOCATION_TYPE.decrease,
   labelId: 'decreaseAllocation',
+};
+
+const kyMock = {
+  get: jest.fn(() => ({
+    json: () => Promise.resolve({
+      budgets: [{
+        fundId: defaultProps.fundId,
+        available: 30,
+        name: defaultProps.budgetName,
+      }],
+    }),
+  })),
 };
 
 const batchTransactionsMock = jest.fn().mockResolvedValue({});
@@ -75,11 +83,13 @@ describe('CreateTransactionContainer', () => {
 
   beforeEach(() => {
     defaultProps.fetchBudgetResources.mockClear();
-    getFundActiveBudget.mockClear();
-    useAllFunds.mockClear().mockReturnValue({ funds });
-    useBatchTransactionsMutation
-      .mockClear()
-      .mockReturnValue({ batchTransactions: batchTransactionsMock });
+    useAllFunds.mockReturnValue({ funds });
+    useBatchTransactionsMutation.mockReturnValue({ batchTransactions: batchTransactionsMock });
+    useOkapiKy.mockReturnValue(kyMock);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should display BudgetForm', async () => {
@@ -118,7 +128,7 @@ describe('CreateTransactionContainer', () => {
 
       await jest.runAllTimersAsync();
 
-      expect(getFundActiveBudget).toHaveBeenCalled();
+      expect(kyMock.get).toHaveBeenCalled();
     });
 
     describe('Confirm transaction creation', () => {

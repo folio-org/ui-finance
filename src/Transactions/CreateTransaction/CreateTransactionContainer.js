@@ -8,6 +8,7 @@ import { ConfirmationModal } from '@folio/stripes/components';
 import {
   getAmountWithCurrency,
   getFundsForSelect,
+  TRANSACTION_TYPES,
   useAllFunds,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -82,6 +83,7 @@ export const CreateTransactionContainer = ({
       amountWithCurrency,
       budget,
       budgetName,
+      fiscalYearId,
       fund,
       fundId,
       contragentFund,
@@ -90,7 +92,7 @@ export const CreateTransactionContainer = ({
     };
 
     return accumulatedData;
-  }, [allocationType, budget, budgetName, currency, fundId, funds, locale, transactionType]);
+  }, [allocationType, budget, budgetName, currency, fiscalYearId, fundId, funds, locale, transactionType]);
 
   const handleErrorResponse = useCallback(async ({ formValues, errorResponse }) => {
     const accumulatedData = getAccumulatedDataObject(formValues);
@@ -117,9 +119,18 @@ export const CreateTransactionContainer = ({
         source: TRANSACTION_SOURCE.user,
       }],
     }).then(() => {
+      const messageId = [
+        'ui-finance.transaction',
+        transactionTypeKey,
+        transactionType === TRANSACTION_TYPES.allocation ? allocationType : null,
+        'hasBeenCreated',
+      ]
+        .filter(Boolean)
+        .join('.');
+
       fetchBudgetResources();
       showCallout({
-        messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
+        messageId,
         values: {
           amount: getAmountWithCurrency(locale, currency, formValues.amount),
           budgetName: resultBudgetName,
@@ -130,6 +141,7 @@ export const CreateTransactionContainer = ({
     });
   },
   [
+    allocationType,
     batchTransactions,
     currency,
     fetchBudgetResources,

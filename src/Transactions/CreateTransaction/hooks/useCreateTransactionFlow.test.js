@@ -1,4 +1,8 @@
-import { act, renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  act,
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { TRANSACTION_TYPES } from '@folio/stripes-acq-components';
 
@@ -11,6 +15,7 @@ const contragentFund = { id: 'testContragentFundId', code: 'TEST-B' };
 const budgetName = `${fund.code}-${FY}`;
 
 const accumulatedData = {
+  fiscalYearId: 'fiscalYearId',
   fundId: fund.id,
   contragentFundId: contragentFund.id,
   budget: {
@@ -24,9 +29,11 @@ const accumulatedData = {
 const kyMock = {
   get: jest.fn(() => ({
     json: () => Promise.resolve({
-      fundId: contragentFund.id,
-      available: 30,
-      name: `${contragentFund.code}-${FY}`,
+      budgets: [{
+        fundId: contragentFund.id,
+        available: 30,
+        name: `${contragentFund.code}-${FY}`,
+      }],
     }),
   })),
 };
@@ -50,15 +57,17 @@ describe('useCreateTransactionFlow', () => {
   let runFlow;
 
   beforeEach(async () => {
-    prepareNewAmountsMockStep.mockClear();
-    kyMock.get.mockClear();
-    useOkapiKy.mockClear().mockReturnValue(kyMock);
+    useOkapiKy.mockReturnValue(kyMock);
 
     const { result } = renderHook(() => useCreateTransactionFlow());
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     runFlow = result.current.runCreateTransactionFlow(prepareNewAmountsMockStep);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should run flow to create a transaction', async () => {

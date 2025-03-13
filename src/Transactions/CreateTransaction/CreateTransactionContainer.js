@@ -8,6 +8,7 @@ import { ConfirmationModal } from '@folio/stripes/components';
 import {
   getAmountWithCurrency,
   getFundsForSelect,
+  TRANSACTION_TYPES,
   useAllFunds,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -118,9 +119,18 @@ export const CreateTransactionContainer = ({
         source: TRANSACTION_SOURCE.user,
       }],
     }).then(() => {
+      const messageId = [
+        'ui-finance.transaction',
+        transactionTypeKey,
+        transactionType === TRANSACTION_TYPES.allocation ? allocationType : null,
+        'hasBeenCreated',
+      ]
+        .filter(Boolean)
+        .join('.');
+
       fetchBudgetResources();
       showCallout({
-        messageId: `ui-finance.transaction.${transactionTypeKey}.hasBeenCreated`,
+        messageId,
         values: {
           amount: getAmountWithCurrency(locale, currency, formValues.amount),
           budgetName: resultBudgetName,
@@ -131,6 +141,7 @@ export const CreateTransactionContainer = ({
     });
   },
   [
+    allocationType,
     batchTransactions,
     currency,
     fetchBudgetResources,

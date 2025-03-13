@@ -9,7 +9,6 @@
 * Implement action for download allocation worksheet. Refs UIF-526.
 * Create screen for batch allocation of funds. Refs UIF-527.
 * Implement action for upload allocation worksheet. Refs UIF-529.
-* Implement action for upload allocation worksheet. Refs UIF-529.
 * Budget batch allocation screen from CSV load. Refs UIF-528.
 * Recalculate function on batch allocation screen. Refs UIF-533.
 * *BREAKING* Batch allocation logs view and delete feature. Refs UIF-530.

@@ -82,6 +82,7 @@ export const CreateTransactionContainer = ({
       amountWithCurrency,
       budget,
       budgetName,
+      fiscalYearId,
       fund,
       fundId,
       contragentFund,
@@ -90,7 +91,7 @@ export const CreateTransactionContainer = ({
     };
 
     return accumulatedData;
-  }, [allocationType, budget, budgetName, currency, fundId, funds, locale, transactionType]);
+  }, [allocationType, budget, budgetName, currency, fiscalYearId, fundId, funds, locale, transactionType]);
 
   const handleErrorResponse = useCallback(async ({ formValues, errorResponse }) => {
     const accumulatedData = getAccumulatedDataObject(formValues);

@@ -27,6 +27,7 @@
 * Prevent negative total allocations in budgets. Refs UIF-576.
 * Temporarily hide batch allocation buttons for groups. Refs UIF-598.
 * Automatically set status "Planned" for budgets in a future fiscal year. Refs UIF-596.
+* Display correct budget name in the transfer transaction toast message. Fixes UIF-568.
 
 ## [7.0.1](https://github.com/folio-org/ui-finance/tree/v7.0.1) (2024-12-02)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.0...v7.0.1)

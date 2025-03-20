@@ -146,7 +146,6 @@
     "budget.transactions.view": "거래 보기",
     "transactions.search": "거래 검색",
     "transaction.allocation.title": "할당",
-    "transaction.allocation.hasBeenCreated": "{amount} {budgetName} 예산에 성공적으로 할당되었습니다.",
     "ledger.fund": "기금",
     "ledger.search.keyword": "모두",
     "ledger.search.name": "Name",
@@ -566,5 +565,7 @@
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "All",
     "allocation.batch.logs.search.jobName": "Job name",
-    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero"
+    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
+    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}"
 }

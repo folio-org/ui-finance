@@ -133,7 +133,7 @@
     "transaction.source": "Source",
     "transaction.tags": "Tags",
     "transaction.to": "To",
-    "transaction.transfer.hasBeenCreated": "{amount} was successfully transferred to the budget {budgetName}",
+    "transaction.transfer.hasBeenCreated": "{amount} was successfully transferred to the budget <b>{budgetName}</b>",
     "transaction.transfer.title": "Transfer",
     "transaction.transferFrom": "Transfer from",
     "transaction.transferTo": "Transfer to",
@@ -146,7 +146,6 @@
     "budget.transactions.view": "View transactions",
     "transactions.search": "Search transactions",
     "transaction.allocation.title": "Allocation",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget {budgetName}",
     "ledger.fund": "Fund",
     "ledger.search.keyword": "All",
     "ledger.search.name": "Name",
@@ -228,9 +227,9 @@
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Budget can not be deleted, because it has transactions",
     "budget.remove.heading": "Delete budget",
     "budget.remove.message": "Are you sure you want to delete budget?",
-    "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget {budgetName}",
+    "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget <b>{budgetName}</b>",
     "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
-    "transaction.transfer.genericError": "{amount} was not successfully transferred to the budget {budgetName}",
+    "transaction.transfer.genericError": "{amount} was not successfully transferred to the budget <b>{budgetName}</b>",
     "transaction.transfer.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
     "fund.actions.load.error": "Failed to load fund data",
     "fund.actions.viewTransactions": "View transactions for current budget",
@@ -566,5 +565,7 @@
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "All",
     "allocation.batch.logs.search.jobName": "Job name",
-    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero"
+    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
+    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}"
 }

@@ -133,7 +133,7 @@
     "transaction.source": "Fonte",
     "transaction.tags": "Tags",
     "transaction.to": "Para",
-    "transaction.transfer.hasBeenCreated": "{amount} foi transferido com sucesso para o orçamento {budgetName}",
+    "transaction.transfer.hasBeenCreated": "{amount} foi transferido com sucesso para o orçamento <b>{budgetName}</b>",
     "transaction.transfer.title": "Transferir",
     "transaction.transferFrom": "Transferir de",
     "transaction.transferTo": "Transferir para",
@@ -146,7 +146,6 @@
     "budget.transactions.view": "Ver transações",
     "transactions.search": "Buscar transações",
     "transaction.allocation.title": "Alocação",
-    "transaction.allocation.hasBeenCreated": "{amount} foi alocado com sucesso para o orçamento {budgetName}",
     "ledger.fund": "Fundo",
     "ledger.search.keyword": "Todos",
     "ledger.search.name": "Nome",
@@ -228,9 +227,9 @@
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "O orçamento não pode ser excluído porque possui transações",
     "budget.remove.heading": "Excluir orçamento",
     "budget.remove.message": "Tem certeza de que deseja excluir o orçamento?",
-    "transaction.allocation.genericError": "{amount} não foi alocado com sucesso para o orçamento {budgetName}",
+    "transaction.allocation.genericError": "{amount} não foi alocado com sucesso no orçamento <b>{budgetName}</b>",
     "transaction.allocation.allowableAllocationIdsMismatch": "Esta transação não pode ser feita entre esses dois fundos, pois a configuração \"permitir transferência de / para\" o fundo em um ou mais fundos é muito restritiva.",
-    "transaction.transfer.genericError": "{amount} não foi transferido com sucesso para o orçamento {budgetName}",
+    "transaction.transfer.genericError": "{amount} não foi transferido com sucesso para o orçamento <b>{budgetName}</b>",
     "transaction.transfer.allowableAllocationIdsMismatch": "Esta transação não pode ser feita entre esses dois fundos, pois a configuração \"permitir transferência de / para\" o fundo em um ou mais fundos é muito restritiva.",
     "fund.actions.load.error": "Falha ao carregar os dados do fundo",
     "fund.actions.viewTransactions": "Exibir transações para o orçamento atual",
@@ -566,5 +565,7 @@
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "Todos",
     "allocation.batch.logs.search.jobName": "Nome do trabalho",
-    "transaction.validation.totalAllocatedExceeded": "A alocação total não pode ser menor que zero"
+    "transaction.validation.totalAllocatedExceeded": "A alocação total não pode ser menor que zero",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName}</b>",
+    "transaction.allocation.decrease.hasBeenCreated": "Orçamento <b>{budgetName}</b> foi reduzido com sucesso em {amount}"
 }

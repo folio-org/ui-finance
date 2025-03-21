@@ -146,7 +146,6 @@
     "budget.transactions.view": "عرض المعاملات",
     "transactions.search": "بحث المعاملات",
     "transaction.allocation.title": "تخصيص",
-    "transaction.allocation.hasBeenCreated": "تم تخصيص {amount} بنجاح للميزانية {budgetName}",
     "ledger.fund": "تمويل",
     "ledger.search.keyword": "الكل",
     "ledger.search.name": "الاسم",
@@ -566,5 +565,7 @@
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "All",
     "allocation.batch.logs.search.jobName": "Job name",
-    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero"
+    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
+    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}"
 }

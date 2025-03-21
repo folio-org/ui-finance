@@ -146,7 +146,6 @@
     "budget.transactions.view": "Zobrazit transakce",
     "transactions.search": "Vyhledávání transakcí",
     "transaction.allocation.title": "Alokace",
-    "transaction.allocation.hasBeenCreated": "{amount} byl úspěšně přidělen do rozpočtu {budgetName}",
     "ledger.fund": "Prostředky",
     "ledger.search.keyword": "Všechny",
     "ledger.search.name": "Název",
@@ -566,5 +565,7 @@
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "Všechny",
     "allocation.batch.logs.search.jobName": "Název úlohy",
-    "transaction.validation.totalAllocatedExceeded": "Celkový příděl nesmí být menší než nula"
+    "transaction.validation.totalAllocatedExceeded": "Celkový příděl nesmí být menší než nula",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} bylo úspěšně přiděleno do rozpočtu <b>{budgetName}</b>",
+    "transaction.allocation.decrease.hasBeenCreated": "Alokace rozpočtu <b> {budgetName} </b> byla úspěšně snížena o {amount}"
 }

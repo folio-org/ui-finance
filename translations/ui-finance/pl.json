@@ -146,7 +146,6 @@
     "budget.transactions.view": "Wyświetl transakcje",
     "transactions.search": "Transakcje wyszukiwania",
     "transaction.allocation.title": "Przydział",
-    "transaction.allocation.hasBeenCreated": "Kwota {amount} została pomyślnie przydzielona do budżetu {budgetName}",
     "ledger.fund": "Fundusz",
     "ledger.search.keyword": "Wszystkie",
     "ledger.search.name": "Nazwa",
@@ -402,7 +401,7 @@
     "exportCSV.exportSettings.expenseClasses.all": "Wszystko",
     "exportCSV.exportSettings.expenseClasses.active": "Aktywny",
     "exportCSV.exportSettings.expenseClasses.inactive": "Nieaktywny",
-    "exportCSV.exportSettings.expenseClasses.none": "None",
+    "exportCSV.exportSettings.expenseClasses.none": "Brak",
     "exportCSV.report.budget.notFound": "No budget found",
     "transaction.source.Invoice.number": "Source Invoice number",
     "transaction.source.PoLine.number": "Source POL number",
@@ -461,7 +460,7 @@
     "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget",
     "ledger.rollover.rolloverBudgetValue": "Rollover budget value",
     "ledger.rollover.rolloverBudgetValue.available": "Dostępny",
-    "ledger.rollover.rolloverBudgetValue.none": "None",
+    "ledger.rollover.rolloverBudgetValue.none": "Brak",
     "ledger.rollover.rolloverBudgetValue.cashBalance": "Cash balance",
     "ledger.rollover.rolloverValueAs": "Rollover value as",
     "ledger.rollover.logs.settings": "Ustawienia",
@@ -485,7 +484,7 @@
     "transaction.unreleaseEncumbrance.message": "Are you sure you want to unrelease this encumbrance? Any remaining amount will be encumbered against the budget.",
     "transaction.unreleaseEncumbrance.success": "Encumbrance was unreleased",
     "transaction.unreleaseEncumbrance.error.genericError": "Error while unreleasing encumbrance",
-    "validation.locationsRequired": "Locations must be assigned",
+    "validation.locationsRequired": "Lokalizacje muszą zostać przypisane",
     "document.title.search": "Finance - {query} - Search",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
     "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
@@ -566,5 +565,7 @@
     "allocation.batch.logs.search.jobNumber": "Identyfikator",
     "allocation.batch.logs.search.keyword": "Wszystko",
     "allocation.batch.logs.search.jobName": "Nazwa zadania",
-    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero"
+    "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
+    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}"
 }

@@ -164,6 +164,7 @@ export const FundLocationsList = ({
       <div className={css.actions}>
         <FindLocation
           id="fund-locations"
+          assignedAffiliationsOnly
           isMultiSelect
           searchLabel={<FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.add`} />}
           initialSelected={initialSelected}

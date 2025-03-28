@@ -6,7 +6,10 @@ import {
 } from 'react-intl';
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  TitleManager,
+} from '@folio/stripes/core';
 import {
   EXPENSE_CLASSES_API,
   getControlledVocabTranslations,
@@ -24,9 +27,11 @@ const columnMapping = {
 const validate = (item) => {
   if (!item.code) return ({ code: <FormattedMessage id="stripes-acq-components.validation.required" /> });
 
-  return ({ code: item.code?.includes(':')
-    ? <FormattedMessage id="ui-finance.validation.mustNotIncludeColon" />
-    : undefined });
+  return ({
+    code: item.code?.includes(':')
+      ? <FormattedMessage id="ui-finance.validation.mustNotIncludeColon" />
+      : undefined,
+  });
 };
 
 const ConnectedControlledVocab = stripesConnect(ControlledVocab);
@@ -38,27 +43,29 @@ const ExpenseClassSettings = ({ stripes }) => {
   const hasDeletePerms = stripes.hasPerm('finance.fund-types.item.delete');
 
   return (
-    <ConnectedControlledVocab
-      baseUrl={EXPENSE_CLASSES_API}
-      columnMapping={columnMapping}
-      hiddenFields={hiddenFields}
-      id="expenseClasses"
-      label={intl.formatMessage({ id: 'ui-finance.expenseClass.label.plural' })}
-      translations={getControlledVocabTranslations('ui-finance.settings.expenseClasses')}
-      nameKey="name"
-      objectLabel={intl.formatMessage({ id: 'ui-finance.expenseClass.label' })}
-      records="expenseClasses"
-      sortby="name"
-      stripes={stripes}
-      visibleFields={visibleFields}
-      rowFilter={<ExpenseClassHelper />}
-      validate={validate}
-      canCreate={hasCreatePerms}
-      actionSuppressor={{
-        edit: () => !hasEditPerms,
-        delete: () => !hasDeletePerms,
-      }}
-    />
+    <TitleManager record={intl.formatMessage({ id: 'ui-finance.settings.expenseClasses.title' })}>
+      <ConnectedControlledVocab
+        baseUrl={EXPENSE_CLASSES_API}
+        columnMapping={columnMapping}
+        hiddenFields={hiddenFields}
+        id="expenseClasses"
+        label={intl.formatMessage({ id: 'ui-finance.expenseClass.label.plural' })}
+        translations={getControlledVocabTranslations('ui-finance.settings.expenseClasses')}
+        nameKey="name"
+        objectLabel={intl.formatMessage({ id: 'ui-finance.expenseClass.label' })}
+        records="expenseClasses"
+        sortby="name"
+        stripes={stripes}
+        visibleFields={visibleFields}
+        rowFilter={<ExpenseClassHelper />}
+        validate={validate}
+        canCreate={hasCreatePerms}
+        actionSuppressor={{
+          edit: () => !hasEditPerms,
+          delete: () => !hasDeletePerms,
+        }}
+      />
+    </TitleManager>
   );
 };
 

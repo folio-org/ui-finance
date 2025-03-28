@@ -1,5 +1,12 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Button,
@@ -12,7 +19,11 @@ import {
   Row,
   Select,
 } from '@folio/stripes/components';
-import { useShowCallout, usePaneFocus } from '@folio/stripes-acq-components';
+import { TitleManager } from '@folio/stripes/core';
+import {
+  useShowCallout,
+  usePaneFocus,
+} from '@folio/stripes-acq-components';
 
 import { useFiscalYearOptions } from './useFiscalYearOptions';
 import { useExportFund } from './useExportFund';
@@ -20,11 +31,14 @@ import { exportCsvFunds } from './utils';
 import css from './ExportFundSettings.css';
 
 const ExportFundSettings = () => {
+  const intl = useIntl();
   const { paneTitleRef } = usePaneFocus();
   const showCallout = useShowCallout();
   const [fiscalYearCode, setFiscalYearCode] = useState();
   const [isExportLoading, setIsExportLoading] = useState(false);
   const { fiscalYearOptions, isLoading: isFYLoading } = useFiscalYearOptions();
+
+  const paneTitle = intl.formatMessage({ id: 'ui-finance.settings.exportFund.title' });
 
   const onChangeFY = (e) => {
     setFiscalYearCode(e.target.value);
@@ -79,10 +93,11 @@ const ExportFundSettings = () => {
     <Pane
       defaultWidth="fill"
       id="pane-export-fund-settings"
-      paneTitle={<FormattedMessage id="ui-finance.settings.exportFund.title" />}
+      paneTitle={paneTitle}
       paneTitleRef={paneTitleRef}
       footer={paneFooter}
     >
+      <TitleManager record={paneTitle} />
       <div className={css.helperText}>
         <FormattedMessage id="ui-finance.settings.exportFund.helperText" />
       </div>

@@ -5,6 +5,7 @@ import {
   injectIntl,
 } from 'react-intl';
 
+import { TitleManager } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import { getControlledVocabTranslations } from '@folio/stripes-acq-components';
 
@@ -30,26 +31,28 @@ const FundTypeSettings = ({
   const hasDeletePerms = stripes.hasPerm('finance.fund-types.item.delete');
 
   return (
-    <ControlledVocab
-      stripes={stripes}
-      resources={resources}
-      mutator={mutator}
-      baseUrl={FUND_TYPES_API}
-      records="fundTypes"
-      label={intl.formatMessage({ id: 'ui-finance.fundType.label.plural' })}
-      translations={getControlledVocabTranslations('ui-finance.settings.fundTypes')}
-      objectLabel={fundTypeLabel}
-      visibleFields={visibleFields}
-      columnMapping={columnMapping}
-      hiddenFields={hiddenFields}
-      nameKey="name"
-      id="fundTypes"
-      canCreate={hasCreatePerms}
-      actionSuppressor={{
-        edit: () => !hasEditPerms,
-        delete: () => !hasDeletePerms,
-      }}
-    />
+    <TitleManager record={intl.formatMessage({ id: 'ui-finance.settings.fundTypes.title' })}>
+      <ControlledVocab
+        stripes={stripes}
+        resources={resources}
+        mutator={mutator}
+        baseUrl={FUND_TYPES_API}
+        records="fundTypes"
+        label={intl.formatMessage({ id: 'ui-finance.fundType.label.plural' })}
+        translations={getControlledVocabTranslations('ui-finance.settings.fundTypes')}
+        objectLabel={fundTypeLabel}
+        visibleFields={visibleFields}
+        columnMapping={columnMapping}
+        hiddenFields={hiddenFields}
+        nameKey="name"
+        id="fundTypes"
+        canCreate={hasCreatePerms}
+        actionSuppressor={{
+          edit: () => !hasEditPerms,
+          delete: () => !hasDeletePerms,
+        }}
+      />
+    </TitleManager>
   );
 };
 

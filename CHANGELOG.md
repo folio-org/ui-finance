@@ -2,6 +2,8 @@
 
 ## 8.1.0 (IN PROGRESS)
 
+* Create settings page to define alternate exchange rate source. Refs UIF-581.
+
 ## [8.0.0](https://github.com/folio-org/ui-finance/tree/v8.0.0) (2025-03-13)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.1...v8.0.0)
 

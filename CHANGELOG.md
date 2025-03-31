@@ -2,6 +2,7 @@
 
 ## 8.1.0 (IN PROGRESS)
 
+* ECS - Display only assigned for a user affiliations in the lookup. Refs UIF-561.
 * Create settings page to define alternate exchange rate source. Refs UIF-581.
 
 ## [8.0.0](https://github.com/folio-org/ui-finance/tree/v8.0.0) (2025-03-13)

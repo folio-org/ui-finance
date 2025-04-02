@@ -136,8 +136,8 @@ export const CreateTransactionContainer = ({
           budgetName: resultBudgetName,
         },
       });
-    }).catch((errorResponse) => {
-      return handleErrorResponse({ formValues, errorResponse });
+    }).catch((error) => {
+      return handleErrorResponse({ formValues, errorResponse: error?.response });
     });
   },
   [

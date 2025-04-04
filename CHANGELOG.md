@@ -5,7 +5,8 @@
 * ECS - Display only assigned for a user affiliations in the lookup. Refs UIF-561.
 * *BREAKING* Create settings page to define alternate exchange rate source. Refs UIF-581.
 
-## 8.0.1 (IN PROGRESS)
+## [8.0.1](https://github.com/folio-org/ui-finance/tree/v8.0.1) (2025-04-03)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.0...v8.0.1)
 
 * Fix handling of error response on transaction create flow. Fixes UIF-604.
 

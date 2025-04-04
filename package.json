@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -35,6 +35,7 @@
       "finance.ledger-rollovers-progress": "1.0",
       "finance.ledger-rollovers": "1.0 2.0",
       "finance.ledgers": "1.5 2.0",
+      "finance-storage.exchange-rate-source": "1.0",
       "finance.transactions": "6.0",
       "invoice": "7.0",
       "locations": "3.0",
@@ -74,6 +75,7 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
+          "finance-storage.exchange-rate-source.item.get",
           "users.collection.get"
         ]
       },
@@ -153,7 +155,9 @@
           "finance.expense-classes.item.put",
           "finance.fund-types.item.delete",
           "finance.fund-types.item.post",
-          "finance.fund-types.item.put"
+          "finance.fund-types.item.put",
+          "finance-storage.exchange-rate-source.item.post",
+          "finance-storage.exchange-rate-source.item.put"
         ]
       },
       {

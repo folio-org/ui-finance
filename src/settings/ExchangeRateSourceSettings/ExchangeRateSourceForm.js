@@ -20,6 +20,7 @@ import {
 import {
   CredentialsField,
   CredentialsProvider,
+  usePaneFocus,
 } from '@folio/stripes-acq-components';
 import { TitleManager } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -31,6 +32,7 @@ const ExchangeRateSourceForm = ({
   handleSubmit,
 }) => {
   const intl = useIntl();
+  const { paneTitleRef } = usePaneFocus();
 
   const {
     pristine,
@@ -69,6 +71,7 @@ const ExchangeRateSourceForm = ({
       id="exchange-rate-source-settings"
       defaultWidth="fill"
       footer={<PaneFooter renderEnd={footerEnd} />}
+      paneTitleRef={paneTitleRef}
       renderHeader={renderHeader}
     >
       <TitleManager record={paneTitle} />

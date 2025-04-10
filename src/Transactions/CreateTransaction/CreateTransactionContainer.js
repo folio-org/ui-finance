@@ -136,8 +136,6 @@ export const CreateTransactionContainer = ({
           budgetName: resultBudgetName,
         },
       });
-    }).catch((error) => {
-      return handleErrorResponse({ formValues, errorResponse: error?.response });
     });
   },
   [
@@ -146,7 +144,6 @@ export const CreateTransactionContainer = ({
     currency,
     fetchBudgetResources,
     fiscalYearId,
-    handleErrorResponse,
     locale,
     showCallout,
     transactionType,
@@ -163,7 +160,7 @@ export const CreateTransactionContainer = ({
           fetchBudgetResources();
         }
       })
-      .catch(async (errorResponse) => handleErrorResponse({ formValues, errorResponse }));
+      .catch(async (error) => handleErrorResponse({ formValues, errorResponse: error?.response }));
   }, [
     fetchBudgetResources,
     getAccumulatedDataObject,

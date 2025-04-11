@@ -1,6 +1,7 @@
 # Change history for ui-finance
 
-## 8.1.0 (IN PROGRESS)
+## [8.0.2](https://github.com/folio-org/ui-finance/tree/v8.0.2) (2025-04-11)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.1...v8.0.2)
 
 * Set a single place for handling errors for transaction creation. Fixes UIF-608.
 

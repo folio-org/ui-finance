@@ -40,8 +40,8 @@
       "invoice": "7.0",
       "locations": "3.0",
       "location-units": "2.0",
-      "orders": "12.1",
-      "order-lines": "2.0 3.0",
+      "orders": "13.0",
+      "order-lines": "4.0",
       "tags": "1.0",
       "users": "15.0 16.0"
     },

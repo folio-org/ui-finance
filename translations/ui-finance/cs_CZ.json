@@ -567,5 +567,14 @@
     "allocation.batch.logs.search.jobName": "Název úlohy",
     "transaction.validation.totalAllocatedExceeded": "Celkový příděl nesmí být menší než nula",
     "transaction.allocation.increase.hasBeenCreated": "{amount} bylo úspěšně přiděleno do rozpočtu <b>{budgetName}</b>",
-    "transaction.allocation.decrease.hasBeenCreated": "Alokace rozpočtu <b> {budgetName} </b> byla úspěšně snížena o {amount}"
+    "transaction.allocation.decrease.hasBeenCreated": "Alokace rozpočtu <b> {budgetName} </b> byla úspěšně snížena o {amount}",
+    "document.settings.title": "Nastavení financí",
+    "settings.exchangeRateSource.title": "Zdroj směnného kurzu",
+    "settings.exchangeRateSource.description": "FOLIO získává směnné kurzy od Evropské centrální banky. Pokud si vaše instituce přeje používat alternativní zdroj pro směnné kurzy, zaškrtněte prosím políčko „Určit poskytovatele směnných kurzů“ a vyplňte údaje níže.",
+    "settings.exchangeRateSource.form.field.enabled": "Zadejte poskytovatele směnného kurzu",
+    "settings.exchangeRateSource.form.field.providerUri": "URI poskytovatele směnného kurzu",
+    "settings.exchangeRateSource.form.field.apiKey": "API klíč nebo přihlašovací jméno",
+    "settings.exchangeRateSource.form.field.apiSecret": "API tajemství nebo heslo",
+    "settings.exchangeRateSource.submit.success": "Nastavení byla úspěšně aktualizována.",
+    "settings.exchangeRateSource.submit.error.generic": "Zdroj směnného kurzu nebyl aktualizován."
 }

@@ -567,5 +567,14 @@
     "allocation.batch.logs.search.jobName": "Job name",
     "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
     "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
-    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}"
+    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}",
+    "document.settings.title": "Finance settings",
+    "settings.exchangeRateSource.title": "Exchange rate source",
+    "settings.exchangeRateSource.description": "FOLIO retrieves exchange rates from the European Central Bank. If your institution wishes to use an alternate source for exchange rates, please check the \"Specify exchange rate provider\" box and fill in the details below.",
+    "settings.exchangeRateSource.form.field.enabled": "Specify exchange rate provider",
+    "settings.exchangeRateSource.form.field.providerUri": "Exchange rate provider URI",
+    "settings.exchangeRateSource.form.field.apiKey": "API Key or Login",
+    "settings.exchangeRateSource.form.field.apiSecret": "API Secret or Password",
+    "settings.exchangeRateSource.submit.success": "Settings successfully updated.",
+    "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated."
 }

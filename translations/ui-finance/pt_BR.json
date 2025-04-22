@@ -567,5 +567,14 @@
     "allocation.batch.logs.search.jobName": "Nome do trabalho",
     "transaction.validation.totalAllocatedExceeded": "A alocação total não pode ser menor que zero",
     "transaction.allocation.increase.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName}</b>",
-    "transaction.allocation.decrease.hasBeenCreated": "Orçamento <b>{budgetName}</b> foi reduzido com sucesso em {amount}"
+    "transaction.allocation.decrease.hasBeenCreated": "Orçamento <b>{budgetName}</b> foi reduzido com sucesso em {amount}",
+    "document.settings.title": "Configurações financeiras",
+    "settings.exchangeRateSource.title": "Fonte da taxa de câmbio",
+    "settings.exchangeRateSource.description": "FOLIO recupera as taxas de câmbio do Banco Central Europeu. Se sua instituição deseja usar uma fonte alternativa para taxas de câmbio, marque a caixa \"Especificar provedor de taxa de câmbio\" e preencha os detalhes abaixo.",
+    "settings.exchangeRateSource.form.field.enabled": "Especificar provedor de taxa de câmbio",
+    "settings.exchangeRateSource.form.field.providerUri": "URI do provedor de taxa de câmbio",
+    "settings.exchangeRateSource.form.field.apiKey": "Chave de API ou Login",
+    "settings.exchangeRateSource.form.field.apiSecret": "Segredo ou senha da API",
+    "settings.exchangeRateSource.submit.success": "Configurações atualizadas com sucesso.",
+    "settings.exchangeRateSource.submit.error.generic": "A fonte da taxa de câmbio não foi atualizada."
 }

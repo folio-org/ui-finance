@@ -1,9 +1,10 @@
 # Change history for ui-finance
 
-## 8.1.0 (IN PROGRESS)
+## 9.0.0 (IN PROGRESS)
 
 * ECS - Display only assigned for a user affiliations in the lookup. Refs UIF-561.
 * *BREAKING* Create settings page to define alternate exchange rate source. Refs UIF-581.
+* *BREAKING* Update `orders` and `order-lines` interfaces. Refs UIF-581.
 
 ## [8.0.2](https://github.com/folio-org/ui-finance/tree/v8.0.2) (2025-04-11)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.1...v8.0.2)

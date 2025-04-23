@@ -73,16 +73,18 @@ export const FundLocationsList = ({
   }, [value, remove]);
 
   const itemFormatter = useCallback((location, index) => {
+    const isEditable = centralOrdering ? userTenantsSet.has(location.tenantId) : true;
+
     return (
       <FundLocationsListItem
         key={location.id}
         location={location}
         index={index}
         onRemove={onRemove}
-        isEditable={userTenantsSet.has(location.tenantId)}
+        isEditable={isEditable}
       />
     );
-  }, [onRemove, userTenantsSet]);
+  }, [centralOrdering, onRemove, userTenantsSet]);
 
   const removeAll = useCallback(() => removeBatch(range(0, length)), [length, removeBatch]);
 

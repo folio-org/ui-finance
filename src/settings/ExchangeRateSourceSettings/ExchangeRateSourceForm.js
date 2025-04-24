@@ -15,17 +15,31 @@ import {
   PaneFooter,
   PaneHeader,
   Row,
+  Selection,
   TextField,
 } from '@folio/stripes/components';
 import {
   CredentialsField,
   CredentialsProvider,
   usePaneFocus,
+  validateRequired,
 } from '@folio/stripes-acq-components';
 import { TitleManager } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 
-import { FORM_FIELDS_NAMES } from './constants';
+import {
+  EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP,
+  EXCHANGE_RATE_PROVIDERS_OPTIONS,
+  FORM_FIELDS_NAMES,
+} from './constants';
+
+const validateFieldAdapter = (value, allValues, { name }) => {
+  const fieldConfig = EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP
+    .get(allValues[FORM_FIELDS_NAMES.providerType])
+    ?.get(name);
+
+  return fieldConfig?.validate?.(value);
+};
 
 const ExchangeRateSourceForm = ({
   form,
@@ -43,6 +57,7 @@ const ExchangeRateSourceForm = ({
   const isEnabled = values[FORM_FIELDS_NAMES.enabled];
   const isSubmitDisabled = pristine || submitting;
   const paneTitle = intl.formatMessage({ id: 'ui-finance.settings.exchangeRateSource.title' });
+  const providerType = values[FORM_FIELDS_NAMES.providerType];
 
   const renderHeader = useCallback((headerProps) => (
     <PaneHeader
@@ -79,19 +94,35 @@ const ExchangeRateSourceForm = ({
         <FormattedMessage id="ui-finance.settings.exchangeRateSource.description" />
       </Layout>
       <form id="exchange-rate-source-settings-form">
-        <Row>
-          <Col xs>
-            <Field
-              component={Checkbox}
-              label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.enabled" />}
-              name={FORM_FIELDS_NAMES.enabled}
-              type="checkbox"
-            />
-          </Col>
-        </Row>
+        <Layout className="padding-bottom-gutter">
+          <Row>
+            <Col xs>
+              <Field
+                component={Checkbox}
+                label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.enabled" />}
+                name={FORM_FIELDS_NAMES.enabled}
+                type="checkbox"
+              />
+            </Col>
+          </Row>
+        </Layout>
 
         {isEnabled && (
           <>
+            <Row>
+              <Col xs>
+                <Field
+                  label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.providerType" />}
+                  name={FORM_FIELDS_NAMES.providerType}
+                  component={Selection}
+                  dataOptions={EXCHANGE_RATE_PROVIDERS_OPTIONS}
+                  fullWidth
+                  validate={validateRequired}
+                  validateFields={[FORM_FIELDS_NAMES.apiKey, FORM_FIELDS_NAMES.apiSecret]}
+                  required
+                />
+              </Col>
+            </Row>
             <Row>
               <Col xs>
                 <Field
@@ -99,7 +130,9 @@ const ExchangeRateSourceForm = ({
                   name={FORM_FIELDS_NAMES.providerUri}
                   component={TextField}
                   fullWidth
+                  validate={validateRequired}
                   validateFields={[]}
+                  required
                 />
               </Col>
             </Row>
@@ -111,7 +144,14 @@ const ExchangeRateSourceForm = ({
                       <CredentialsField
                         label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.apiKey" />}
                         name={FORM_FIELDS_NAMES.apiKey}
+                        validate={validateFieldAdapter}
                         validateFields={[]}
+                        required={(
+                          EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP
+                            .get(providerType)
+                            ?.get(FORM_FIELDS_NAMES.apiKey)
+                            ?.required
+                        )}
                       />
                     </Col>
                   </Row>
@@ -121,7 +161,14 @@ const ExchangeRateSourceForm = ({
                         autoComplete="new-password"
                         label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.apiSecret" />}
                         name={FORM_FIELDS_NAMES.apiSecret}
+                        validate={validateFieldAdapter}
                         validateFields={[]}
+                        required={(
+                          EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP
+                            .get(providerType)
+                            ?.get(FORM_FIELDS_NAMES.apiSecret)
+                            ?.required
+                        )}
                       />
                     </Col>
                   </Row>

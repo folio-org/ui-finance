@@ -534,6 +534,7 @@
   "settings.exchangeRateSource.title": "Exchange rate source",
   "settings.exchangeRateSource.description": "FOLIO retrieves exchange rates from the European Central Bank. If your institution wishes to use an alternate source for exchange rates, please check the \"Specify exchange rate provider\" box and fill in the details below.",
   "settings.exchangeRateSource.form.field.enabled": "Specify exchange rate provider",
+  "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
   "settings.exchangeRateSource.form.field.providerUri": "Exchange rate provider URI",
   "settings.exchangeRateSource.form.field.apiKey": "API Key or Login",
   "settings.exchangeRateSource.form.field.apiSecret": "API Secret or Password",

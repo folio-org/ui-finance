@@ -52,6 +52,7 @@ const stripes = {
 
 const defaultProps = {
   locations,
+  tenants: stripes.user.user.tenants,
 };
 
 const Form = stripesFinalForm({})(({ children }) => (

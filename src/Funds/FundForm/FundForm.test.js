@@ -22,6 +22,7 @@ import {
   LocationsContext,
   LocationsContextProvider,
   useCentralOrderingSettings,
+  useConsortiumTenants,
 } from '@folio/stripes-acq-components';
 
 import { FUNDS_ROUTE } from '../../common/const';
@@ -37,6 +38,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   FindLocation: jest.fn(() => 'FindLocation'),
   LocationsContextProvider: jest.fn(),
   useCentralOrderingSettings: jest.fn(),
+  useConsortiumTenants: jest.fn(),
   useLocations: jest.fn(() => ({})),
 }));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
@@ -97,12 +99,13 @@ const funds = [
 
 describe('FundForm component', () => {
   beforeEach(() => {
-    LocationsContextProvider
-      .mockClear()
-      .mockImplementation(buildLocationsContextProvider(LocationsContext));
-    useCentralOrderingSettings
-      .mockClear()
-      .mockReturnValue({ enabled: false });
+    LocationsContextProvider.mockImplementation(buildLocationsContextProvider(LocationsContext));
+    useCentralOrderingSettings.mockReturnValue({ enabled: false });
+    useConsortiumTenants.mockReturnValue({ tenants: [] });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should display title for new fund', () => {
@@ -287,15 +290,16 @@ describe('FundForm component', () => {
     };
 
     beforeEach(() => {
-      ConsortiumLocationsContextProvider
-        .mockClear()
-        .mockImplementation(buildLocationsContextProvider(ConsortiumLocationsContext, { locations }));
-      useCentralOrderingSettings
-        .mockClear()
-        .mockReturnValue({ enabled: true });
-      useStripes
-        .mockClear()
-        .mockReturnValue(stripes);
+      ConsortiumLocationsContextProvider.mockImplementation(
+        buildLocationsContextProvider(ConsortiumLocationsContext, { locations }),
+      );
+      useCentralOrderingSettings.mockReturnValue({ enabled: true });
+      useConsortiumTenants.mockReturnValue({ tenants: stripes.user.user.tenants });
+      useStripes.mockReturnValue(stripes);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
     it('should render restricted locations grouped by affiliations (tenants) in the central tenant', () => {

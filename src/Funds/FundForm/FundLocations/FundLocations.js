@@ -7,6 +7,7 @@ import { Loading } from '@folio/stripes/components';
 import {
   ConsortiumLocationsContext,
   LocationsContext,
+  useConsortiumTenants,
 } from '@folio/stripes-acq-components';
 
 import { FundLocationsList } from './FundLocationsList';
@@ -23,6 +24,7 @@ export const FundLocations = ({
   name,
 }) => {
   const { isLoading, locations } = useContext(centralOrdering ? ConsortiumLocationsContext : LocationsContext);
+  const { tenants } = useConsortiumTenants({ enabled: centralOrdering });
 
   if (isLoading) return <Loading />;
 
@@ -34,6 +36,7 @@ export const FundLocations = ({
       locations={locations}
       validate={validate}
       centralOrdering={centralOrdering}
+      tenants={tenants}
     />
   );
 };

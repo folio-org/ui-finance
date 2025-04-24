@@ -15,6 +15,7 @@ import {
   ConsortiumLocationsContext,
   FindLocation,
   LocationsContext,
+  useConsortiumTenants,
 } from '@folio/stripes-acq-components';
 
 import { FundLocations } from './FundLocations';
@@ -28,6 +29,7 @@ jest.mock('@folio/stripes/core', () => ({
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   FindLocation: jest.fn(() => 'FindLocation'),
+  useConsortiumTenants: jest.fn(),
 }));
 
 const locations = [
@@ -115,12 +117,12 @@ const renderFundLocations = (props = {}, formProps = {}) => render(
 
 describe('FundLocations', () => {
   beforeEach(() => {
-    checkIfUserInCentralTenant.mockClear();
-    ContextProviderMock.mockClear();
-    FindLocation.mockClear();
-    useStripes
-      .mockClear()
-      .mockReturnValue(stripes);
+    useConsortiumTenants.mockReturnValue({ tenants: [] });
+    useStripes.mockReturnValue(stripes);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render fund location components (list and action buttons)', () => {
@@ -173,21 +175,37 @@ describe('FundLocations', () => {
 
   describe('ECS mode enabled', () => {
     beforeEach(() => {
-      ContextProviderMock
-        .mockClear()
-        .mockImplementation(buildLocationsContextProvider(ConsortiumLocationsContext));
+      ContextProviderMock.mockImplementation(buildLocationsContextProvider(ConsortiumLocationsContext));
+      useConsortiumTenants.mockReturnValue({ tenants: stripes.user.user.tenants });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
     it('should render restricted locations grouped by affiliations (tenants) in the central tenant', () => {
-      checkIfUserInCentralTenant
-        .mockClear()
-        .mockReturnValue(true);
+      checkIfUserInCentralTenant.mockReturnValue(true);
 
       renderFundLocations({ centralOrdering: true });
 
       stripes.user.user.tenants.forEach(({ name }) => {
         expect(screen.getByText(name)).toBeInTheDocument();
       });
+    });
+
+    it('should not render "Unassign all" button if the user is not affiliated with some of locations tenant', () => {
+      renderFundLocations({
+        centralOrdering: true,
+        assignedLocations: [
+          ...initAssignedLocations,
+          {
+            locationId: 'location-4',
+            tenantId: 'unaffiliated-tenant',
+          },
+        ],
+      });
+
+      expect(screen.queryByRole('button', { name: 'ui-finance.fund.information.locations.action.removeAll' })).not.toBeInTheDocument();
     });
   });
 });

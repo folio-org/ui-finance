@@ -1,5 +1,9 @@
 # Change history for ui-finance
 
+## 8.0.3 (IN PROGRESS)
+
+* Prevent removal of locations from tenants not associated with the current user. Refs UIF-606.
+
 ## [8.0.2](https://github.com/folio-org/ui-finance/tree/v8.0.2) (2025-04-11)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.1...v8.0.2)
 

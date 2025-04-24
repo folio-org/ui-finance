@@ -32,6 +32,7 @@ export const FundLocationsList = ({
   fields,
   locations,
   meta,
+  tenants,
 }) => {
   const {
     value = DEFAULT_VALUE,
@@ -45,11 +46,19 @@ export const FundLocationsList = ({
 
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
-  const items = useMemo(() => {
-    return value
-      .map(({ locationId }) => locations.find(location => location.id === locationId) || { id: locationId })
-      .sort((a, b) => a?.name?.localeCompare(b?.name));
-  }, [value, locations]);
+  const userTenantsSet = useMemo(() => {
+    return (stripes?.user?.user?.tenants ?? []).reduce((acc, tenant) => acc.add(tenant.id), new Set());
+  }, [stripes?.user?.user?.tenants]);
+
+  const consortiumTenantsMap = useMemo(() => {
+    return (tenants ?? []).reduce((acc, tenant) => acc.set(tenant.id, tenant), new Map());
+  }, [tenants]);
+
+  const isUnassignAllButtonVisible = useMemo(() => {
+    return centralOrdering
+      ? assignedLocations.every((location) => userTenantsSet.has(location.tenantId))
+      : true;
+  }, [assignedLocations, centralOrdering, userTenantsSet]);
 
   const initialSelected = useMemo(() => {
     return assignedLocations.map(({ locationId, ...rest }) => ({ id: locationId, ...rest }));
@@ -64,15 +73,18 @@ export const FundLocationsList = ({
   }, [value, remove]);
 
   const itemFormatter = useCallback((location, index) => {
+    const isEditable = centralOrdering ? userTenantsSet.has(location.tenantId) : true;
+
     return (
       <FundLocationsListItem
         key={location.id}
         location={location}
         index={index}
         onRemove={onRemove}
+        isEditable={isEditable}
       />
     );
-  }, [onRemove]);
+  }, [centralOrdering, onRemove, userTenantsSet]);
 
   const removeAll = useCallback(() => removeBatch(range(0, length)), [length, removeBatch]);
 
@@ -99,9 +111,15 @@ export const FundLocationsList = ({
     closeIsUnassignModal();
   };
 
-  const userTenantsMap = useMemo(() => {
-    return (stripes?.user?.user?.tenants ?? []).reduce((acc, tenant) => acc.set(tenant.id, tenant), new Map());
-  }, [stripes?.user?.user?.tenants]);
+  const renderUngroupedList = useCallback((items) => {
+    return (
+      <List
+        items={items}
+        itemFormatter={itemFormatter}
+        isEmptyMessage={<FormattedMessage id="ui-finance.fund.information.locations.empty" />}
+      />
+    );
+  }, [itemFormatter]);
 
   const renderTenantsGroupedList = useCallback((ungroupedItems) => {
     const groupedItemsEntries = Object.entries(groupBy(ungroupedItems, 'tenantId'));
@@ -118,12 +136,12 @@ export const FundLocationsList = ({
       <Layout className="margin-start-gutter">
         {
           groupedItemsEntries
-            .sort((a, b) => {
-              return userTenantsMap.get(a[0])?.name?.localeCompare(userTenantsMap.get(b[0])?.name);
+            .toSorted((a, b) => {
+              return consortiumTenantsMap.get(a[0])?.name?.localeCompare(consortiumTenantsMap.get(b[0])?.name);
             })
             .map(([tenantId, tenantLocations]) => (
               <Accordion
-                label={userTenantsMap.get(tenantId)?.name}
+                label={consortiumTenantsMap.get(tenantId)?.name}
                 id={`${tenantId}-locations`}
                 key={tenantId}
               >
@@ -137,23 +155,22 @@ export const FundLocationsList = ({
         }
       </Layout>
     );
-  }, [itemFormatter, userTenantsMap]);
+  }, [consortiumTenantsMap, itemFormatter]);
 
   const list = useMemo(() => {
+    const items = value
+      .map(({ locationId }) => locations.find(location => location.id === locationId) || { id: locationId })
+      .sort((a, b) => a?.name?.localeCompare(b?.name));
+
     return centralOrdering
       ? renderTenantsGroupedList(items)
-      : (
-        <List
-          items={items}
-          itemFormatter={itemFormatter}
-          isEmptyMessage={<FormattedMessage id="ui-finance.fund.information.locations.empty" />}
-        />
-      );
+      : renderUngroupedList(items);
   }, [
     centralOrdering,
-    itemFormatter,
-    items,
+    locations,
     renderTenantsGroupedList,
+    renderUngroupedList,
+    value,
   ]);
 
   return (
@@ -171,14 +188,16 @@ export const FundLocationsList = ({
           crossTenant={centralOrdering}
         />
 
-        <Button
-          buttonClass={css.unassignAll}
-          disabled={!assignedLocations.length}
-          id="clickable-remove-all-locations"
-          onClick={openUnassignModal}
-        >
-          <FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.removeAll`} />
-        </Button>
+        {isUnassignAllButtonVisible && (
+          <Button
+            buttonClass={css.unassignAll}
+            disabled={!assignedLocations.length}
+            id="clickable-remove-all-locations"
+            onClick={openUnassignModal}
+          >
+            <FormattedMessage id={`${SCOPE_TRANSLATION_ID}.action.removeAll`} />
+          </Button>
+        )}
       </div>
 
       <ConfirmationModal
@@ -218,4 +237,8 @@ FundLocationsList.propTypes = {
   meta: PropTypes.shape({
     error: PropTypes.node,
   }),
+  tenants: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })),
 };

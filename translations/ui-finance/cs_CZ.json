@@ -576,5 +576,6 @@
     "settings.exchangeRateSource.form.field.apiKey": "API klíč nebo přihlašovací jméno",
     "settings.exchangeRateSource.form.field.apiSecret": "API tajemství nebo heslo",
     "settings.exchangeRateSource.submit.success": "Nastavení byla úspěšně aktualizována.",
-    "settings.exchangeRateSource.submit.error.generic": "Zdroj směnného kurzu nebyl aktualizován."
+    "settings.exchangeRateSource.submit.error.generic": "Zdroj směnného kurzu nebyl aktualizován.",
+    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type"
 }

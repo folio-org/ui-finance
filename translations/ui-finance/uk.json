@@ -576,5 +576,6 @@
     "settings.exchangeRateSource.form.field.apiKey": "Ключ API або логін",
     "settings.exchangeRateSource.form.field.apiSecret": "Секрет клієнта API або пароль",
     "settings.exchangeRateSource.submit.success": "Налаштування успішно оновлено.",
-    "settings.exchangeRateSource.submit.error.generic": "Джерело валютного курсу не було оновлено"
+    "settings.exchangeRateSource.submit.error.generic": "Джерело валютного курсу не було оновлено",
+    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type"
 }

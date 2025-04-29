@@ -12,6 +12,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { ExchangeRateSourceSettings } from './ExchangeRateSourceSettings';
+import { EXCHANGE_RATE_PROVIDERS } from './constants';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
@@ -40,6 +41,14 @@ describe('ExchangeRateSourceSettings', () => {
   };
   const showCalloutMock = jest.fn();
 
+  const fillRequiredFields = async () => {
+    await userEvent.click(screen.getByRole('button', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerType' }));
+    await userEvent.click(screen.getByText(EXCHANGE_RATE_PROVIDERS.CONVERA));
+    await userEvent.type(screen.getByRole('textbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerUri' }), 'https://example.com');
+    await userEvent.type(screen.getByText('ui-finance.settings.exchangeRateSource.form.field.apiKey'), 'qwerty');
+    await userEvent.type(screen.getByText('ui-finance.settings.exchangeRateSource.form.field.apiSecret'), '123');
+  };
+
   beforeEach(() => {
     useExchangeRateSource.mockReturnValue({
       refetch: jest.fn(),
@@ -62,7 +71,7 @@ describe('ExchangeRateSourceSettings', () => {
     renderComponent();
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.enabled' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerUri' }), 'https://example.com');
+    await fillRequiredFields();
     await userEvent.click(screen.getByRole('button', { name: 'stripes-acq-components.button.save' }));
 
     expect(kyMock.post).toHaveBeenCalled();
@@ -78,7 +87,7 @@ describe('ExchangeRateSourceSettings', () => {
     renderComponent();
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.enabled' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerUri' }), 'https://example.com');
+    await fillRequiredFields();
     await userEvent.click(screen.getByRole('button', { name: 'stripes-acq-components.button.save' }));
 
     expect(kyMock.put).toHaveBeenCalled();
@@ -98,7 +107,7 @@ describe('ExchangeRateSourceSettings', () => {
     renderComponent();
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.enabled' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerUri' }), 'https://example.com');
+    await fillRequiredFields();
     await userEvent.click(screen.getByRole('button', { name: 'stripes-acq-components.button.save' }));
 
     expect(showCalloutMock).toHaveBeenCalledWith(expect.objectContaining({ type: 'error' }));

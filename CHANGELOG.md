@@ -6,6 +6,7 @@
 * *BREAKING* Create settings page to define alternate exchange rate source. Refs UIF-581.
 * *BREAKING* Update `orders` and `order-lines` interfaces. Refs UIF-581.
 * Add a new field `providerType` to exchange rate source settings. Refs UIF-605.
+* Capabilities for setting up alternate exchange rate source. Refs UIF-583.
 
 ## [8.0.3](https://github.com/folio-org/ui-finance/tree/v8.0.3) (2025-05-05)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.2...v8.0.3)

@@ -43,7 +43,7 @@ class FinanceSettings extends React.Component {
       component: ExchangeRateSourceSettings,
       label: <FormattedMessage id="ui-finance.settings.exchangeRateSource.title" />,
       route: 'exchange-rate-source',
-      perm: 'ui-finance.settings.view',
+      perm: 'ui-finance.settings.exchange_rate_source.manage',
     },
   ];
 

@@ -44,7 +44,7 @@ const validateFieldAdapter = (value, allValues, { name }) => {
 const ExchangeRateSourceForm = ({
   form,
   handleSubmit,
-  isNonInteractive = false,
+  isNonInteractive,
 }) => {
   const intl = useIntl();
   const { paneTitleRef } = usePaneFocus();

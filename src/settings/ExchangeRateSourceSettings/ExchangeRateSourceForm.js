@@ -15,12 +15,12 @@ import {
   PaneFooter,
   PaneHeader,
   Row,
-  Selection,
-  TextField,
 } from '@folio/stripes/components';
 import {
   CredentialsField,
   CredentialsProvider,
+  Selection,
+  TextField,
   usePaneFocus,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -44,6 +44,7 @@ const validateFieldAdapter = (value, allValues, { name }) => {
 const ExchangeRateSourceForm = ({
   form,
   handleSubmit,
+  isNonInteractive,
 }) => {
   const intl = useIntl();
   const { paneTitleRef } = usePaneFocus();
@@ -55,7 +56,7 @@ const ExchangeRateSourceForm = ({
   } = form.getState();
 
   const isEnabled = values[FORM_FIELDS_NAMES.enabled];
-  const isSubmitDisabled = pristine || submitting;
+  const isSubmitDisabled = pristine || submitting || isNonInteractive;
   const paneTitle = intl.formatMessage({ id: 'ui-finance.settings.exchangeRateSource.title' });
   const providerType = values[FORM_FIELDS_NAMES.providerType];
 
@@ -99,6 +100,7 @@ const ExchangeRateSourceForm = ({
             <Col xs>
               <Field
                 component={Checkbox}
+                disabled={isNonInteractive}
                 label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.enabled" />}
                 name={FORM_FIELDS_NAMES.enabled}
                 type="checkbox"
@@ -112,9 +114,10 @@ const ExchangeRateSourceForm = ({
             <Row>
               <Col xs>
                 <Field
+                  component={Selection}
+                  isNonInteractive={isNonInteractive}
                   label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.providerType" />}
                   name={FORM_FIELDS_NAMES.providerType}
-                  component={Selection}
                   dataOptions={EXCHANGE_RATE_PROVIDERS_OPTIONS}
                   fullWidth
                   validate={validateRequired}
@@ -126,9 +129,10 @@ const ExchangeRateSourceForm = ({
             <Row>
               <Col xs>
                 <Field
+                  component={TextField}
+                  isNonInteractive={isNonInteractive}
                   label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.providerUri" />}
                   name={FORM_FIELDS_NAMES.providerUri}
-                  component={TextField}
                   fullWidth
                   validate={validateRequired}
                   validateFields={[]}
@@ -142,6 +146,7 @@ const ExchangeRateSourceForm = ({
                   <Row>
                     <Col xs>
                       <CredentialsField
+                        isNonInteractive={isNonInteractive}
                         label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.apiKey" />}
                         name={FORM_FIELDS_NAMES.apiKey}
                         validate={validateFieldAdapter}
@@ -159,6 +164,7 @@ const ExchangeRateSourceForm = ({
                     <Col xs>
                       <CredentialsField
                         autoComplete="new-password"
+                        isNonInteractive={isNonInteractive}
                         label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.apiSecret" />}
                         name={FORM_FIELDS_NAMES.apiSecret}
                         validate={validateFieldAdapter}
@@ -188,6 +194,7 @@ ExchangeRateSourceForm.propTypes = {
     getState: PropTypes.func.isRequired,
   }).isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  isNonInteractive: PropTypes.bool,
 };
 
 export default stripesFinalForm({

@@ -75,7 +75,6 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
-          "finance-storage.exchange-rate-source.item.get",
           "users.collection.get"
         ]
       },
@@ -142,6 +141,14 @@
         "subPermissions": [
           "ui-finance.fiscal-year.edit",
           "finance.fiscal-years.item.delete"
+        ]
+      },
+      {
+        "permissionName": "ui-finance.settings.exchange_rate_source.manage",
+        "displayName": "Settings (Finance): Manage external exchange rate source",
+        "visible": true,
+        "subPermissions": [
+          "finance-storage.exchange-rate-source.item.get"
         ]
       },
       {

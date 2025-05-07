@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 
-import { useOkapiKy } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
 import {
   EXCHANGE_RATE_SOURCE_API,
@@ -17,8 +20,11 @@ const DEFAULT_VALUES = {
 };
 
 export const ExchangeRateSourceSettings = () => {
+  const stripes = useStripes();
   const ky = useOkapiKy();
   const sendCallout = useShowCallout();
+
+  const isNonInteractive = !stripes.hasPerm('ui-finance.settings.all');
 
   const {
     exchangeRateSource,
@@ -60,6 +66,7 @@ export const ExchangeRateSourceSettings = () => {
     <ExchangeRateSourceForm
       onSubmit={onSubmit}
       initialValues={exchangeRateSource || DEFAULT_VALUES}
+      isNonInteractive={isNonInteractive}
     />
   );
 };

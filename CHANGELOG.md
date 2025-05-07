@@ -2,6 +2,11 @@
 
 ## 9.0.0 (IN PROGRESS)
 
+## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)
+
+* ECS - Display only assigned for a user affiliations in the lookup. Refs UIF-561.
+
 ## [8.0.3](https://github.com/folio-org/ui-finance/tree/v8.0.3) (2025-05-05)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.2...v8.0.3)
 
@@ -16,8 +21,6 @@
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.0...v8.0.1)
 
 * Fix handling of error response on transaction create flow. Fixes UIF-604.
-
-* ECS - Display only assigned for a user affiliations in the lookup. Refs UIF-561.
 
 ## [8.0.0](https://github.com/folio-org/ui-finance/tree/v8.0.0) (2025-03-13)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v7.0.1...v8.0.0)

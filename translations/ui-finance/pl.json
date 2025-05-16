@@ -450,8 +450,8 @@
     "settings.fundTypes.deleteEntry": "Delete fund type",
     "settings.fundTypes.termDeleted": "The fund type <b>{term}</b> was successfully <b>deleted</b>",
     "settings.fundTypes.termWillBeDeleted": "The fund type <b>{term}</b> will be <b>deleted.</b>",
-    "groups.item.information.fiscalYear.current": "Current:",
-    "groups.item.information.fiscalYear.previous": "Previous:",
+    "groups.item.information.fiscalYear.current": "Aktualny:",
+    "groups.item.information.fiscalYear.previous": "Poprzedni:",
     "fiscalYear.actions.save.error.invalidFiscalYearCode": "Kod Roku budżetowego musi się składać z liter i następujących po nich czterech cyfr np.: Zbiory2023",
     "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
@@ -489,7 +489,7 @@
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
     "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
     "financialSummary.credited": "Credited",
-    "transaction.filter.encumbranceStatus": "Encumbrance status",
+    "transaction.filter.encumbranceStatus": "Status obciążenia",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active",
     "permission.encumbrance.unrelease.execute": "Finanse: odblokowanie obciążenia",
     "permission.fund-budget.recalculate-totals.execute": "Finanse: przeliczanie całkowitego budżetu",
@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.form.field.apiSecret": "API Secret or Password",
     "settings.exchangeRateSource.submit.success": "Ustawienia zostały pomyślnie zaktualizowane.",
     "settings.exchangeRateSource.submit.error.generic": "Źródło kursu wymiany nie zostało zaktualizowane.",
-    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type"
+    "settings.exchangeRateSource.form.field.providerType": "Typ dostawcy kursu wymiany",
+    "permission.settings.exchange_rate_source.manage": "ZUstawienia (Finanse): zarządzaj zewnętrznym źródłem kursu wymiany"
 }

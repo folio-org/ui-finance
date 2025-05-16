@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.form.field.apiSecret": "API Secret or Password",
     "settings.exchangeRateSource.submit.success": "Settings successfully updated.",
     "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated.",
-    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type"
+    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
+    "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source"
 }

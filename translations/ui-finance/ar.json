@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.form.field.apiSecret": "سر واجهة برمجة التطبيقات أو كلمة المرور",
     "settings.exchangeRateSource.submit.success": "تم تحديث الإعدادات بنجاح.",
     "settings.exchangeRateSource.submit.error.generic": "لم يتم تحديث مصدر سعر الصرف.",
-    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type"
+    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
+    "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source"
 }

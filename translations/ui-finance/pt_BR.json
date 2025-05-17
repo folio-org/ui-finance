@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.form.field.apiSecret": "Segredo ou senha da API",
     "settings.exchangeRateSource.submit.success": "Configurações atualizadas com sucesso.",
     "settings.exchangeRateSource.submit.error.generic": "A fonte da taxa de câmbio não foi atualizada.",
-    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type"
+    "settings.exchangeRateSource.form.field.providerType": "Tipo de provedor de taxa de câmbio",
+    "permission.settings.exchange_rate_source.manage": "Configurações (Finanças): Gerenciar fonte de taxa de câmbio externa"
 }

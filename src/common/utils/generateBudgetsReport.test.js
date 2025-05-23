@@ -46,7 +46,7 @@ describe('generateBudgetsReport', () => {
     }));
   });
 
-  it('should create budgets export report eve when data is empty array', async () => {
+  it('should create empty budgets export report eve when data is empty array', async () => {
     const report = await generateBudgetsReport(kyMock)([]);
 
     expect(report).toEqual([]);

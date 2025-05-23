@@ -45,4 +45,10 @@ describe('generateBudgetsReport', () => {
       expenseClassName: data[0].expenseClassDetails[0].expenseClassName,
     }));
   });
+
+  it('should create empty budgets export report eve when data is empty array', async () => {
+    const report = await generateBudgetsReport(kyMock)([]);
+
+    expect(report).toEqual([]);
+  });
 });

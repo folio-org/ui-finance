@@ -13,6 +13,8 @@ const joinValues = (dataArray) => {
 };
 
 export const generateBudgetsReport = ky => async (data) => {
+  if (!data.length) return [];
+
   const rollover = await ky.get(`${LEDGER_ROLLOVER_API}/${data[0].ledgerRolloverId}`).json();
 
   const fundsMap = flow(

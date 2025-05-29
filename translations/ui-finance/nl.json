@@ -577,6 +577,6 @@
     "settings.exchangeRateSource.form.field.apiSecret": "API-geheim of wachtwoord",
     "settings.exchangeRateSource.submit.success": "Instellingen succesvol geüpdatet.",
     "settings.exchangeRateSource.submit.error.generic": "De bron van de wisselkoers is niet bijgewerkt.",
-    "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
-    "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source"
+    "settings.exchangeRateSource.form.field.providerType": "Type wisselkoers Leverancier",
+    "permission.settings.exchange_rate_source.manage": "Instellingen (Financiën): Externe wisselkoersbron Beheren"
 }

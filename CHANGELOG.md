@@ -7,6 +7,7 @@
 * Add a new field `providerType` to exchange rate source settings. Refs UIF-605.
 * Capabilities for setting up alternate exchange rate source. Refs UIF-583.
 * Do not fail rollover results export when no rollover budgets are created. Refs UIF-607.
+* Apply CSS classes to the transaction modal content to ensure a minimal height. UIF-610.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

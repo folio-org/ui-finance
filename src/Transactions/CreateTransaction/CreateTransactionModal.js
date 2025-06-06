@@ -26,6 +26,8 @@ import {
 import { ALLOCATION_TYPE } from '../constants';
 import { validateAllocationAmount } from './utils';
 
+import css from './CreateTransactionModal.css';
+
 const CreateTransactionModal = ({
   allocationType,
   budget,
@@ -100,6 +102,7 @@ const CreateTransactionModal = ({
       footer={footer}
       open
       enforceFocus={false}
+      contentClass={css['transaction-modal-content']}
     >
       <form>
         <Row>

@@ -31,6 +31,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   baseManifest,
+  DonorsListContainer,
   handleKeyCommand,
   Tags,
   TagsBadge,
@@ -323,6 +324,15 @@ export const FundDetailsContainer = ({
                   groupIds={compositeFund.groupIds}
                 />
               </Accordion>
+
+              {Boolean(fund.donorOrganizationIds?.length) && (
+                <Accordion
+                  label={<FormattedMessage id="ui-finance.fund.information.donorInformation" />}
+                  id={SECTIONS_FUND.DONOR_INFORMATION}
+                >
+                  <DonorsListContainer donorOrganizationIds={fund.donorOrganizationIds} />
+                </Accordion>
+              )}
 
               {currentFY && (
                 <FundCurrentBudget

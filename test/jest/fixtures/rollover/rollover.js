@@ -6,7 +6,6 @@ export const rollover = {
   fromFiscalYearId: '0bb73cfd-9251-44ce-a7de-3ef16875ba6a',
   toFiscalYearId: '7a4c4d30-3b63-4102-8e2d-3ee5792d7d02',
   restrictEncumbrance: true,
-  restrictExpenditures: true,
   needCloseBudgets: true,
   budgetsRollover: [
     {

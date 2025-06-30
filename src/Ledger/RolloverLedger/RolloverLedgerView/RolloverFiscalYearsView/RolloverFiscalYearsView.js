@@ -1,7 +1,7 @@
+import keyBy from 'lodash/keyBy';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { keyBy } from 'lodash';
 
 import {
   Checkbox,
@@ -68,13 +68,6 @@ export const RolloverFiscalYearsView = ({ rollover }) => {
             checked={!!rollover?.restrictEncumbrance}
             disabled
             label={<FormattedMessage id="ui-finance.ledger.rollover.restrictEncumbranceDuringRollover" />}
-          />
-        </Col>
-        <Col xs={3}>
-          <Checkbox
-            checked={!!rollover?.restrictExpenditures}
-            disabled
-            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpendituresDuringRollover" />}
           />
         </Col>
         <Col xs={3}>

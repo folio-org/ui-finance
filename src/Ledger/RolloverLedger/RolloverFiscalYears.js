@@ -1,7 +1,6 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -62,15 +61,6 @@ function RolloverFiscalYears({ currentFiscalYear, fiscalYears, goToCreateFY }) {
           />
         </Col>
         <Col xs={3}>
-          <Field
-            component={Checkbox}
-            label={<FormattedMessage id="ui-finance.ledger.rollover.restrictExpendituresDuringRollover" />}
-            name="restrictExpenditures"
-            type="checkbox"
-            validateFields={[]}
-          />
-        </Col>
-        <Col xs={3}>
           <Layout className="padding-bottom-gutter">
             <Field
               component={Checkbox}
@@ -90,9 +80,6 @@ RolloverFiscalYears.propTypes = {
   currentFiscalYear: PropTypes.object,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
   goToCreateFY: PropTypes.func.isRequired,
-};
-
-RolloverFiscalYears.defaultProps = {
 };
 
 export default RolloverFiscalYears;

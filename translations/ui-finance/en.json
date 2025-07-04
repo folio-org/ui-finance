@@ -94,7 +94,6 @@
   "ledger.rollover.restrictEncumbrance": "Enforce all budget encumbrance limits",
   "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
   "ledger.rollover.restrictExpenditures": "Enforce all budget expenditure limits",
-  "ledger.rollover.restrictExpendituresDuringRollover": "Enforce all budget expenditure limits during rollover",
   "ledger.rollover.rolloverBudgetValue": "Rollover budget value",
   "ledger.rollover.rolloverBudgetValue.available": "Available",
   "ledger.rollover.rolloverBudgetValue.none": "None",

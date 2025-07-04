@@ -196,7 +196,6 @@ export const RolloverLedgerContainer = ({ resources, mutator, match, history, lo
       needCloseBudgets: true,
       fromFiscalYearId: currentFiscalYear?.id,
       restrictEncumbrance: true,
-      restrictExpenditures: true,
     };
 
     if (toFiscalYearId && toFiscalYearSeries === series) {

@@ -487,7 +487,6 @@
     "validation.locationsRequired": "يجب تعيين المواقع",
     "document.title.search": "الشؤون المالية - {query} - بحث",
     "ledger.rollover.restrictEncumbranceDuringRollover": "فرض كل حدود تكاليف الميزانية أثناء الترحيل",
-    "ledger.rollover.restrictExpendituresDuringRollover": "فرض كل حدود نفقات الميزانية أثناء الترحيل",
     "financialSummary.credited": "تمت إضافتها إلى الرصيد الدائن",
     "transaction.filter.encumbranceStatus": "Encumbrance status",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active",

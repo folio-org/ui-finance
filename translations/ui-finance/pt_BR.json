@@ -487,7 +487,6 @@
     "validation.locationsRequired": "As localizações devem ser atribuídas",
     "document.title.search": "Finanças - {query} - Buscar",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Aplicar todos os limites de encargo orçamentário durante a prorrogação",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Aplicar todos os limites de despesas orçamentárias durante a prorrogação",
     "financialSummary.credited": "Creditado",
     "transaction.filter.encumbranceStatus": "Status do encargo",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} não foi alocado com sucesso no orçamento <b>{toBudgetName}</b> porque excede o valor total de alocação de <b>{fromBudgetName}</b> e as restrições de fundos do livro-razão estão ativas",

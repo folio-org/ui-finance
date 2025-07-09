@@ -487,7 +487,6 @@
     "validation.locationsRequired": "Standorte müssen zugewiesen werden",
     "document.title.search": "Finanzen - {query} - Suchen",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Alle Budgetbeschränkungen für Bindungen während des Jahresübergangs in Kraft setzen",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Alle Budgetbeschränkungen für Ausgaben während des Jahresübergangs in Kraft setzen",
     "financialSummary.credited": "Gutgeschrieben",
     "transaction.filter.encumbranceStatus": "Encumbrance status",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active",

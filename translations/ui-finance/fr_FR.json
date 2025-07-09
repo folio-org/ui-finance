@@ -487,7 +487,6 @@
     "validation.locationsRequired": "Locations must be assigned",
     "document.title.search": "Finance - {query} - Search",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Appliquer toutes les limites de budgets lors du report",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Appliquer toutes les limites de dépenses budgétaires lors du report",
     "financialSummary.credited": "Crédité",
     "transaction.filter.encumbranceStatus": "Encumbrance status",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} n'a pas été alloué avec succès au budget <b>{toBudgetName}</b> car il excède le montant total de l'allocation de <b>{fromBudgetName}</b> et des restrictions sont actives.",

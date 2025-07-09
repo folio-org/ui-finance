@@ -487,7 +487,6 @@
     "validation.locationsRequired": "Locaties moeten worden toegewezen",
     "document.title.search": "Financiën - {query} - Zoeken",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Handhaaf alle budgetreserveringslimieten tijdens de rollover",
-    "ledger.rollover.restrictExpendituresDuringRollover": "Handhaaf alle uitgavenlimieten van het budget tijdens de rollover",
     "financialSummary.credited": "Gecrediteerd",
     "transaction.filter.encumbranceStatus": "Status budgetreservering ",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} is niet succesvol toegewezen aan het budget <b>.{toBudgetName}</b> omdat het hoger is dan het Totaal toegewezen bedrag van <b>.{fromBudgetName}</b> en Beperkingen op grootboekfondsen zijn actief",

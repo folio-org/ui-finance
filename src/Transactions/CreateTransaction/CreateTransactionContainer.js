@@ -51,7 +51,10 @@ export const CreateTransactionContainer = ({
 
   const { batchTransactions } = useBatchTransactionsMutation();
 
-  const { funds } = useAllFunds();
+  const {
+    isLoading: isFundsLoading,
+    funds,
+  } = useAllFunds();
   const { handleCreateTransactionErrorResponse } = useCreateTransactionErrorHandler();
   const {
     confirmModalProps,
@@ -179,6 +182,7 @@ export const CreateTransactionContainer = ({
         fundId={fundId}
         fundsOptions={fundsOptions}
         initialValues={initialValues}
+        isFundsLoading={isFundsLoading}
         isLoading={isLoading}
         onClose={onClose}
         onSubmit={onSubmitTransactionForm}

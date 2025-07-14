@@ -10,6 +10,7 @@
 * Apply CSS classes to the transaction modal content to ensure a minimal height. UIF-610.
 * Add donor information accordion to the fund view. Refs UIF-569.
 * Remove expenditure limit toggle from rollover settings. Refs UIF-611.
+* Allow user to switch "From" and "To" values when creating transaction. Refs UIF-524.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

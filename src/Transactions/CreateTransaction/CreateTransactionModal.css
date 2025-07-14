@@ -1,3 +1,8 @@
 .transaction-modal-content {
   min-height: 19.5rem;
 }
+
+.swap {
+  align-self: flex-end;
+  margin-bottom: 1em;
+}

@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { Field } from 'react-final-form';
 
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -46,6 +49,7 @@ const CreateTransactionModal = ({
   values: formValues,
 }) => {
   const stripes = useStripes();
+  const intl = useIntl();
 
   const { invalid } = form.getState();
 
@@ -132,6 +136,7 @@ const CreateTransactionModal = ({
 
           {isFromFundVisible && isToFundVisible && (
             <IconButton
+              ariaLabel={intl.formatMessage({ id: 'ui-finance.transaction.button.switchFunds' })}
               className={css.swap}
               icon="replace"
               onClick={swapFunds}

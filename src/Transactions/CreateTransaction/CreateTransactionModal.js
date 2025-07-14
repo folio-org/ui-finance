@@ -199,6 +199,7 @@ CreateTransactionModal.propTypes = {
   fundId: PropTypes.string.isRequired,
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
   handleSubmit: PropTypes.func.isRequired,
+  isFundsLoading: PropTypes.bool,
   isLoading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,

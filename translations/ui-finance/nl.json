@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.submit.success": "Instellingen succesvol geüpdatet.",
     "settings.exchangeRateSource.submit.error.generic": "De bron van de wisselkoers is niet bijgewerkt.",
     "settings.exchangeRateSource.form.field.providerType": "Type wisselkoers Leverancier",
-    "permission.settings.exchange_rate_source.manage": "Instellingen (Financiën): Externe wisselkoersbron Beheren"
+    "permission.settings.exchange_rate_source.manage": "Instellingen (Financiën): Externe wisselkoersbron Beheren",
+    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
 }

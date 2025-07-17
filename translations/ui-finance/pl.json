@@ -284,8 +284,8 @@
     "groups.item.expenseClasses": "Klasy wydatków",
     "budget.expenseClasses.add": "Dodaj klasę wydatków",
     "budget.expenseClasses.accountNumber": "Rozszerzenie numeru konta",
-    "budget.netTransfers": "Przelewy netto",
-    "item.netTransfers": "Przelewy netto",
+    "budget.netTransfers": "Transfery netto",
+    "item.netTransfers": "Transfery netto",
     "transaction.actions.load.error": "Nie udało się załadować danych transakcji",
     "transaction.expenseClass": "Klasa wydatków",
     "budget.actions.remove.error.budgetExpenseClassReferenceError": "Nie można usunąć budżetu. Nie można usunąć budżetu, do którego przypisano jedną lub więcej klas wydatków.",
@@ -340,8 +340,8 @@
     "financialSummary.expended": "Wydatki",
     "financialSummary.financialActivity": "Operacje i nadwyżki finansowe",
     "financialSummary.fundingInformation": "Informacja o finansowaniu",
-    "financialSummary.initialAllocation": "Przydział początkowy",
-    "financialSummary.netTransfers": "Przelewy netto",
+    "financialSummary.initialAllocation": "Alokacja początkowa",
+    "financialSummary.netTransfers": "Transfery netto",
     "financialSummary.overEncumbrance": "Przekroczone obciążenia",
     "financialSummary.overExpended": "Przekroczone wydatki",
     "financialSummary.totalFunding": "<b>Finansowanie całkowite</b>",
@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.submit.success": "Ustawienia zostały pomyślnie zaktualizowane.",
     "settings.exchangeRateSource.submit.error.generic": "Źródło kursu wymiany nie zostało zaktualizowane.",
     "settings.exchangeRateSource.form.field.providerType": "Typ dostawcy kursu wymiany",
-    "permission.settings.exchange_rate_source.manage": "ZUstawienia (Finanse): zarządzaj zewnętrznym źródłem kursu wymiany"
+    "permission.settings.exchange_rate_source.manage": "ZUstawienia (Finanse): zarządzaj zewnętrznym źródłem kursu wymiany",
+    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
 }

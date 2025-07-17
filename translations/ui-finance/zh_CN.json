@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.submit.success": "设置更新成功。",
     "settings.exchangeRateSource.submit.error.generic": "汇率来源未更新。",
     "settings.exchangeRateSource.form.field.providerType": "汇率提供商类型",
-    "permission.settings.exchange_rate_source.manage": "设置（财务）：管理外部汇率来源"
+    "permission.settings.exchange_rate_source.manage": "设置（财务）：管理外部汇率来源",
+    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
 }

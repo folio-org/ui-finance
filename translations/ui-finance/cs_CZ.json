@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.submit.success": "Nastavení byla úspěšně aktualizována.",
     "settings.exchangeRateSource.submit.error.generic": "Zdroj směnného kurzu nebyl aktualizován.",
     "settings.exchangeRateSource.form.field.providerType": "Typ poskytovatele směnných kurzů",
-    "permission.settings.exchange_rate_source.manage": "Nastavení (finance): Správa externího zdroje směnných kurzů"
+    "permission.settings.exchange_rate_source.manage": "Nastavení (finance): Správa externího zdroje směnných kurzů",
+    "transaction.allocation.hasBeenCreated": "{amount} bylo úspěšně přiděleno do rozpočtu <b>{budgetName}</b>"
 }

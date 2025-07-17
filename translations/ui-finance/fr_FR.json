@@ -559,10 +559,10 @@
     "allocation.batch.logs.filters.fiscalYearId": "Fiscal Year",
     "allocation.batch.logs.filters.groupId": "Group",
     "allocation.batch.logs.filters.ledgerId": "Ledger",
-    "allocation.batch.logs.filters.metadata.createdByUserId": "User",
+    "allocation.batch.logs.filters.metadata.createdByUserId": "Utilisateur",
     "allocation.batch.logs.filters.metadata.createdDate": "Date",
     "allocation.batch.logs.search.jobNumber": "ID",
-    "allocation.batch.logs.search.keyword": "All",
+    "allocation.batch.logs.search.keyword": "Tout",
     "allocation.batch.logs.search.jobName": "Job name",
     "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
     "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.submit.success": "Settings successfully updated.",
     "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated.",
     "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
-    "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source"
+    "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source",
+    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
 }

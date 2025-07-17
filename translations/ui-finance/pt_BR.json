@@ -577,5 +577,6 @@
     "settings.exchangeRateSource.submit.success": "Configurações atualizadas com sucesso.",
     "settings.exchangeRateSource.submit.error.generic": "A fonte da taxa de câmbio não foi atualizada.",
     "settings.exchangeRateSource.form.field.providerType": "Tipo de provedor de taxa de câmbio",
-    "permission.settings.exchange_rate_source.manage": "Configurações (Finanças): Gerenciar fonte de taxa de câmbio externa"
+    "permission.settings.exchange_rate_source.manage": "Configurações (Finanças): Gerenciar fonte de taxa de câmbio externa",
+    "transaction.allocation.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName}</b>"
 }

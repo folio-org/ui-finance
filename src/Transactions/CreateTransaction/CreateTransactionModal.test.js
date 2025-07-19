@@ -13,11 +13,11 @@ import CreateTransactionModal from './CreateTransactionModal';
 
 const FUNDS = [
   {
-    value: '2',
+    value: 'id-2',
     label: 'fund 2',
   },
   {
-    value: '1',
+    value: 'id-1',
     label: 'fund 1',
   },
 ];
@@ -31,7 +31,7 @@ const budget = {
 const defaultProps = {
   budget,
   fundsOptions: FUNDS,
-  initialValues: { fundId: '1', toFundId: '1' },
+  initialValues: { fundId: FUNDS[1].value, toFundId: FUNDS[1].value },
   onClose: jest.fn(),
   onSubmit: jest.fn(),
 };
@@ -137,5 +137,17 @@ describe('CreateTransactionModal', () => {
 
     expect(defaultProps.onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText('ui-finance.transaction.validation.totalAllocatedExceeded')).toBeInTheDocument();
+  });
+
+  it('should switch values of fromFundId and toFundId when "Switch" button is clicked', async () => {
+    renderComponent();
+
+    expect(screen.getByRole('button', { name: /ui-finance.transaction.to/ })).toHaveValue(FUNDS[1].value);
+    expect(screen.getByRole('button', { name: /ui-finance.transaction.from/ })).toHaveValue('');
+
+    await user.click(screen.getByRole('button', { name: 'ui-finance.transaction.button.switchFunds' }));
+
+    expect(screen.getByRole('button', { name: /ui-finance.transaction.to/ })).toHaveValue('');
+    expect(screen.getByRole('button', { name: /ui-finance.transaction.from/ })).toHaveValue(FUNDS[1].value);
   });
 });

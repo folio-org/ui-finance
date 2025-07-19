@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { useCallback } from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { Field } from 'react-final-form';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Col,
+  IconButton,
   Modal,
   ModalFooter,
   Row,
@@ -28,25 +33,30 @@ import { validateAllocationAmount } from './utils';
 
 import css from './CreateTransactionModal.css';
 
+const defaultFundsOptions = [];
+
 const CreateTransactionModal = ({
   allocationType,
   budget,
   form,
   fundId,
   handleSubmit,
+  isFundsLoading,
   isLoading,
   onClose,
-  fundsOptions = [],
+  fundsOptions = defaultFundsOptions,
   title,
   values: formValues,
 }) => {
   const stripes = useStripes();
+  const intl = useIntl();
 
   const { invalid } = form.getState();
 
   const hasToFundIdProperty = 'toFundId' in formValues;
   const hasFromFundIdProperty = 'fromFundId' in formValues;
   const fundLabelId = allocationType ? 'ui-finance.fund' : '';
+  const { fromFundId, toFundId } = formValues;
 
   let isToFundVisible = true;
   let isFromFundVisible = true;
@@ -62,15 +72,13 @@ const CreateTransactionModal = ({
   const isConfirmButtonDisabled = isLoading || invalid;
 
   const optionsFrom = (
-    (!hasToFundIdProperty ||
-    formValues.toFundId === fundId)
+    (!hasToFundIdProperty || formValues.toFundId === fundId)
       ? fundsOptions
       : fundsOptions.filter(f => f.value === fundId)
   );
 
   const optionsTo = (
-    (!hasFromFundIdProperty ||
-    formValues.fromFundId === fundId)
+    (!hasFromFundIdProperty || formValues.fromFundId === fundId)
       ? fundsOptions
       : fundsOptions.filter(f => f.value === fundId)
   );
@@ -94,6 +102,13 @@ const CreateTransactionModal = ({
     </ModalFooter>
   );
 
+  const swapFunds = useCallback(() => {
+    form.batch(() => {
+      form.change('toFundId', fromFundId);
+      form.change('fromFundId', toFundId);
+    });
+  }, [form, fromFundId, toFundId]);
+
   return (
     <Modal
       id="add-transfer-modal"
@@ -109,21 +124,35 @@ const CreateTransactionModal = ({
           {isFromFundVisible && (
             <Col xs>
               <FieldSelectionFinal
+                key={fromFundId}
                 dataOptions={optionsFrom}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.from'} />}
                 name="fromFundId"
                 disabled={!!allocationType}
+                loading={isFundsLoading}
               />
             </Col>
+          )}
+
+          {isFromFundVisible && isToFundVisible && (
+            <IconButton
+              ariaLabel={intl.formatMessage({ id: 'ui-finance.transaction.button.switchFunds' })}
+              className={css.swap}
+              icon="replace"
+              onClick={swapFunds}
+              disabled={isFundsLoading}
+            />
           )}
 
           {isToFundVisible && (
             <Col xs>
               <FieldSelectionFinal
+                key={toFundId}
                 dataOptions={optionsTo}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.to'} />}
                 name="toFundId"
                 disabled={!!allocationType}
+                loading={isFundsLoading}
               />
             </Col>
           )}
@@ -170,6 +199,7 @@ CreateTransactionModal.propTypes = {
   fundId: PropTypes.string.isRequired,
   fundsOptions: PropTypes.arrayOf(PropTypes.object),
   handleSubmit: PropTypes.func.isRequired,
+  isFundsLoading: PropTypes.bool,
   isLoading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,

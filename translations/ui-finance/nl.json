@@ -578,5 +578,6 @@
     "settings.exchangeRateSource.submit.error.generic": "De bron van de wisselkoers is niet bijgewerkt.",
     "settings.exchangeRateSource.form.field.providerType": "Type wisselkoers Leverancier",
     "permission.settings.exchange_rate_source.manage": "Instellingen (Financiën): Externe wisselkoersbron Beheren",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
+    "transaction.allocation.hasBeenCreated": "{Bedrag} is succesvol toegewezen aan het budget <b>.{budgetNaam}</b>",
+    "transaction.button.switchFunds": "Wisselfondsen"
 }

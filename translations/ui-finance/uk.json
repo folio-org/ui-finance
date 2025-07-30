@@ -370,7 +370,7 @@
     "errors.load.name": "Error name fetching",
     "expenseClass.helper": "Класи витрат можна створювати та редагувати нижче. Після створення класів витрат ви можете перейти до додатку \"Фінанси\" та призначити їх відповідно для своїх бюджетів. Після того, як клас витрат призначено бюджету, користувачі можуть відраховувати або витрачати кошти за цим класом витрат.",
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Фінансовий рік не збережений. Дата закінчення періоду фінансового року є більш ранньою ніж дата початку.",
-    "transaction.increaseAllocation": "Increase allocation",
+    "transaction.increaseAllocation": "Збільшити розподіл",
     "transaction.decreaseAllocation": "Зменшити розподіл",
     "transaction.moveAllocation": "Переміщення коштів розподілу",
     "settings.button.export": "Експорт",
@@ -387,7 +387,7 @@
     "groups.actions.removeFund.error": "Грошові кошти <b>{fundCode}</b> не вилучені з групи",
     "ledger.rollover.basedOn.initialEncumbrance": "Початкове відрахування",
     "appMenu.financeAppSearch": "Пошук у додатку \"Фінанси\"",
-    "transaction.voided": "Voided transaction",
+    "transaction.voided": "Анульована транзакція",
     "exportCSV.exportSettings.heading": "Export settings",
     "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",
     "exportCSV.exportSettings.cancel": "Cancel",
@@ -578,5 +578,6 @@
     "settings.exchangeRateSource.submit.error.generic": "Джерело обмінного курсу валют не було оновлено",
     "settings.exchangeRateSource.form.field.providerType": "Тип постачальника послуг обміну валют",
     "permission.settings.exchange_rate_source.manage": "Налаштування (Фінанси): Управління зовнішнім джерелом обмінного курсу валют",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
+    "transaction.allocation.hasBeenCreated": "{amount} успішно розподілено до бюджету <b>{budgetName}</b>",
+    "transaction.button.switchFunds": "Switch funds"
 }

@@ -578,5 +578,6 @@
     "settings.exchangeRateSource.submit.error.generic": "Źródło kursu wymiany nie zostało zaktualizowane.",
     "settings.exchangeRateSource.form.field.providerType": "Typ dostawcy kursu wymiany",
     "permission.settings.exchange_rate_source.manage": "ZUstawienia (Finanse): zarządzaj zewnętrznym źródłem kursu wymiany",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>"
+    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
+    "transaction.button.switchFunds": "Przenieś fundusze"
 }

@@ -1,12 +1,21 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import orderBy from 'lodash/orderBy';
+import partition from 'lodash/partition';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import {
   FormattedMessage,
   FormattedNumber,
+  useIntl,
 } from 'react-intl';
-import { orderBy } from 'lodash';
 
-import { MultiColumnList } from '@folio/stripes/components';
+import {
+  InfoPopover,
+  MultiColumnList,
+} from '@folio/stripes/components';
 import {
   AcqEndOfList,
   AmountWithCurrencyField,
@@ -14,39 +23,69 @@ import {
   DESC_DIRECTION,
 } from '@folio/stripes-acq-components';
 
-const defaultVisibleColumns = ['expenseClassName', 'encumbered', 'awaitingPayment', 'expended', 'percentageExpended', 'status'];
+import {
+  EXPENSE_CLASS_FIELDS,
+  UNASSIGNED_ID,
+} from './constants';
+
+const defaultVisibleColumns = [
+  EXPENSE_CLASS_FIELDS.expenseClassName,
+  EXPENSE_CLASS_FIELDS.encumbered,
+  EXPENSE_CLASS_FIELDS.awaitingPayment,
+  EXPENSE_CLASS_FIELDS.expended,
+  EXPENSE_CLASS_FIELDS.percentageExpended,
+  EXPENSE_CLASS_FIELDS.status,
+];
+
 const columnMapping = {
-  expenseClassName: <FormattedMessage id="ui-finance.budget.expenseClasses.expenseClassName" />,
-  encumbered: <FormattedMessage id="ui-finance.budget.expenseClasses.encumbered" />,
-  awaitingPayment: <FormattedMessage id="ui-finance.budget.expenseClasses.awaitingPayment" />,
-  expended: <FormattedMessage id="ui-finance.budget.expenseClasses.expended" />,
-  percentageExpended: <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended" />,
-  status: <FormattedMessage id="ui-finance.budget.expenseClasses.status" />,
+  [EXPENSE_CLASS_FIELDS.awaitingPayment]: <FormattedMessage id="ui-finance.budget.expenseClasses.awaitingPayment" />,
+  [EXPENSE_CLASS_FIELDS.encumbered]: <FormattedMessage id="ui-finance.budget.expenseClasses.encumbered" />,
+  [EXPENSE_CLASS_FIELDS.expended]: <FormattedMessage id="ui-finance.budget.expenseClasses.expended" />,
+  [EXPENSE_CLASS_FIELDS.expenseClassName]: <FormattedMessage id="ui-finance.budget.expenseClasses.expenseClassName" />,
+  [EXPENSE_CLASS_FIELDS.percentageExpended]: <FormattedMessage id="ui-finance.budget.expenseClasses.percentageExpended" />,
+  [EXPENSE_CLASS_FIELDS.status]: <FormattedMessage id="ui-finance.budget.expenseClasses.status" />,
 };
-const getResultsFormatter = currency => ({
-  expenseClassName: expenseClass => (<span data-testid="nameColumn">{expenseClass.expenseClassName}</span>),
-  encumbered: expenseClass => (
+
+const getResultsFormatter = (currency, intl) => ({
+  [EXPENSE_CLASS_FIELDS.expenseClassName]: expenseClass => {
+    const isUnassigned = expenseClass.id === UNASSIGNED_ID;
+
+    return (
+      <span
+        data-testid="nameColumn"
+        style={isUnassigned ? { fontStyle: 'italic' } : {}}
+      >
+        {
+          isUnassigned
+            ? intl.formatMessage({ id: 'ui-finance.budget.expenseClasses.unassigned' })
+            : expenseClass.expenseClassName
+        }
+        {isUnassigned && <InfoPopover content={intl.formatMessage({ id: 'ui-finance.budget.expenseClasses.unassigned.tooltip' })} />}
+      </span>
+    );
+  },
+  [EXPENSE_CLASS_FIELDS.encumbered]: expenseClass => (
     <AmountWithCurrencyField
       amount={expenseClass.encumbered}
       currency={currency}
       showBrackets={expenseClass.encumbered < 0}
     />
   ),
-  awaitingPayment: expenseClass => (
+  [EXPENSE_CLASS_FIELDS.awaitingPayment]: expenseClass => (
     <AmountWithCurrencyField
       amount={expenseClass.awaitingPayment}
       currency={currency}
       showBrackets={expenseClass.awaitingPayment < 0}
     />
   ),
-  expended: expenseClass => (
+  [EXPENSE_CLASS_FIELDS.expended]: expenseClass => (
     <AmountWithCurrencyField
       amount={expenseClass.expended}
       currency={currency}
       showBrackets={expenseClass.expended < 0}
     />
   ),
-  percentageExpended: expenseClass => (
+  [EXPENSE_CLASS_FIELDS.percentageExpended]: expenseClass => (
     <FormattedNumber
       // "style" prop of <FormattedNumber> has type `"currency" | "unit" | "decimal" | "percent" | undefined`
       // eslint-disable-next-line react/style-prop-object
@@ -55,7 +94,7 @@ const getResultsFormatter = currency => ({
       value={(expenseClass.percentageExpended ?? 0) / 100}
     />
   ),
-  status: expenseClass => (
+  [EXPENSE_CLASS_FIELDS.status]: expenseClass => (
     <FormattedMessage
       id={`ui-finance.budget.expenseClasses.status.${expenseClass.expenseClassStatus}`}
       defaultMessage="-"
@@ -64,18 +103,27 @@ const getResultsFormatter = currency => ({
 });
 
 const SORTERS = {
-  'expenseClassName': ({ expenseClassName }) => expenseClassName?.toLowerCase(),
-  'expenseClassStatus': ({ expenseClassStatus }) => expenseClassStatus?.toLowerCase(),
-  'expended': ({ expended }) => expended,
-  'percentageExpended': ({ percentageExpended }) => percentageExpended,
-  'encumbered': ({ encumbered }) => encumbered,
-  'awaitingPayment': ({ awaitingPayment }) => awaitingPayment,
+  [EXPENSE_CLASS_FIELDS.awaitingPayment]: ({ awaitingPayment }) => awaitingPayment,
+  [EXPENSE_CLASS_FIELDS.encumbered]: ({ encumbered }) => encumbered,
+  [EXPENSE_CLASS_FIELDS.expended]: ({ expended }) => expended,
+  [EXPENSE_CLASS_FIELDS.expenseClassName]: ({ expenseClassName }) => expenseClassName?.toLocaleLowerCase(),
+  [EXPENSE_CLASS_FIELDS.expenseClassStatus]: ({ expenseClassStatus }) => expenseClassStatus?.toLocaleLowerCase(),
+  [EXPENSE_CLASS_FIELDS.percentageExpended]: ({ percentageExpended }) => percentageExpended,
 };
 
-const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id, loading }) => {
-  const resultsFormatter = useMemo(() => getResultsFormatter(currency), [currency]);
-  const [sortedColumn, setSortedColumn] = useState('expenseClassName');
+const ExpenseClasses = ({
+  currency,
+  expenseClassesTotals,
+  id,
+  loading,
+  visibleColumns,
+}) => {
+  const intl = useIntl();
+
+  const [sortedColumn, setSortedColumn] = useState(EXPENSE_CLASS_FIELDS.expenseClassName);
   const [sortOrder, setSortOrder] = useState(ASC_DIRECTION);
+
+  const resultsFormatter = useMemo(() => getResultsFormatter(currency, intl), [currency, intl]);
 
   const changeSorting = useCallback((event, { name }) => {
     if (!SORTERS[name]) return;
@@ -87,11 +135,21 @@ const ExpenseClasses = ({ currency, expenseClassesTotals, visibleColumns, id, lo
     }
   }, [sortOrder, sortedColumn]);
 
+  const sortedRecords = useMemo(() => {
+    const [unassigned, assigned] = partition(expenseClassesTotals, (item) => item.id === UNASSIGNED_ID);
+
+    const sorted = orderBy(
+      assigned,
+      SORTERS[sortedColumn],
+      sortOrder === DESC_DIRECTION ? 'desc' : 'asc',
+    );
+
+    return unassigned.concat(sorted);
+  }, [expenseClassesTotals, sortedColumn, sortOrder]);
+
   if (!expenseClassesTotals) {
     return null;
   }
-
-  const sortedRecords = orderBy(expenseClassesTotals, SORTERS[sortedColumn], sortOrder === DESC_DIRECTION ? 'desc' : 'asc');
 
   return (
     <>

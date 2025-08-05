@@ -223,6 +223,8 @@
   "budget.expenseClasses.status.Inactive": "Inactive",
   "budget.expenseClasses.add": "Add expense class",
   "budget.expenseClasses.accountNumber": "Account number extension",
+  "budget.expenseClasses.unassigned": "Unassigned",
+  "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist.",
   "budget.batch.create.success": "Budgets have been created successfully.",
 
   "financialSummary.allocated": "<b>Total allocated</b>",

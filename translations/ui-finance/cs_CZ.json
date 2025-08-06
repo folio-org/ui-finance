@@ -579,5 +579,7 @@
     "settings.exchangeRateSource.form.field.providerType": "Typ poskytovatele směnných kurzů",
     "permission.settings.exchange_rate_source.manage": "Nastavení (finance): Správa externího zdroje směnných kurzů",
     "transaction.allocation.hasBeenCreated": "{amount} bylo úspěšně přiděleno do rozpočtu <b>{budgetName}</b>",
-    "transaction.button.switchFunds": "Přepnout fondy"
+    "transaction.button.switchFunds": "Přepnout fondy",
+    "budget.expenseClasses.unassigned": "Unassigned",
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
 }

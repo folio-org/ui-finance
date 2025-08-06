@@ -579,5 +579,7 @@
     "settings.exchangeRateSource.form.field.providerType": "Anbietertyp des Wechselkurses",
     "permission.settings.exchange_rate_source.manage": "Einstellungen (Finanzen); externe Wechselkursquelle verwalten",
     "transaction.allocation.hasBeenCreated": "{amount} wurde dem Budget <b>{budgetName}</b> erfolgreich zugewiesen",
-    "transaction.button.switchFunds": "Switch funds"
+    "transaction.button.switchFunds": "Switch funds",
+    "budget.expenseClasses.unassigned": "Unassigned",
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
 }

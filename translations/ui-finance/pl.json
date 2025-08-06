@@ -487,7 +487,7 @@
     "validation.locationsRequired": "Lokalizacje muszą zostać przypisane",
     "document.title.search": "Finanse - {query} - Szukaj",
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
-    "financialSummary.credited": "Credited",
+    "financialSummary.credited": "Zaliczona",
     "transaction.filter.encumbranceStatus": "Status obciążenia",
     "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active",
     "permission.encumbrance.unrelease.execute": "Finanse: niepublikowanie obciążenia",
@@ -579,5 +579,7 @@
     "settings.exchangeRateSource.form.field.providerType": "Typ dostawcy kursu wymiany",
     "permission.settings.exchange_rate_source.manage": "ZUstawienia (Finanse): zarządzaj zewnętrznym źródłem kursu wymiany",
     "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
-    "transaction.button.switchFunds": "Przenieś fundusze"
+    "transaction.button.switchFunds": "Przenieś fundusze",
+    "budget.expenseClasses.unassigned": "Nieprzypisane",
+    "budget.expenseClasses.unassigned.tooltip": "„Nieprzypisane” dotyczy transakcji zakończonych przed uwzględnieniem klas wydatków w budżecie, jeśli takowe istnieją."
 }

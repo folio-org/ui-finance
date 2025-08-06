@@ -579,5 +579,7 @@
     "settings.exchangeRateSource.form.field.providerType": "Tipo de provedor de taxa de câmbio",
     "permission.settings.exchange_rate_source.manage": "Configurações (Finanças): Gerenciar fonte de taxa de câmbio externa",
     "transaction.allocation.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName}</b>",
-    "transaction.button.switchFunds": "Trocar fundos"
+    "transaction.button.switchFunds": "Trocar fundos",
+    "budget.expenseClasses.unassigned": "Não atribuído",
+    "budget.expenseClasses.unassigned.tooltip": "\"Não atribuído\" se aplica a transações concluídas antes da inclusão de classes de despesas no orçamento, se houver alguma."
 }

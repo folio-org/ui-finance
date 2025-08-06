@@ -579,5 +579,7 @@
     "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
     "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source",
     "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
-    "transaction.button.switchFunds": "Switch funds"
+    "transaction.button.switchFunds": "Switch funds",
+    "budget.expenseClasses.unassigned": "Unassigned",
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
 }

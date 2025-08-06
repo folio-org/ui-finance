@@ -578,6 +578,8 @@
     "settings.exchangeRateSource.submit.error.generic": "汇率来源未更新。",
     "settings.exchangeRateSource.form.field.providerType": "汇率提供商类型",
     "permission.settings.exchange_rate_source.manage": "设置（财务）：管理外部汇率来源",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
-    "transaction.button.switchFunds": "Switch funds"
+    "transaction.allocation.hasBeenCreated": "{amount}已成功分配至预算<b> {budgetName} </b>",
+    "transaction.button.switchFunds": "转换经费",
+    "budget.expenseClasses.unassigned": "Unassigned",
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
 }

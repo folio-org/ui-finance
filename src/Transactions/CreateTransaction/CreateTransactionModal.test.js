@@ -7,6 +7,7 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { TRANSACTION_TYPES } from '@folio/stripes-acq-components';
 
 import { ALLOCATION_TYPE } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
@@ -23,9 +24,10 @@ const FUNDS = [
 ];
 
 const budget = {
-  id: 'budget-id',
   allocated: 1000,
   available: 500,
+  id: 'budget-id',
+  fundId: FUNDS[1].value,
 };
 
 const defaultProps = {
@@ -34,6 +36,7 @@ const defaultProps = {
   initialValues: { fundId: FUNDS[1].value, toFundId: FUNDS[1].value },
   onClose: jest.fn(),
   onSubmit: jest.fn(),
+  transactionType: TRANSACTION_TYPES.transfer,
 };
 
 const wrapper = ({ children }) => (
@@ -100,8 +103,9 @@ describe('CreateTransactionModal', () => {
 
   it('should display only one disabled fund selection with predefined value for increase allocation', () => {
     renderComponent({
-      initialValues: { fundId: FUNDS[0].value, toFundId: FUNDS[0].value },
       allocationType: ALLOCATION_TYPE.increase,
+      initialValues: { fundId: FUNDS[0].value, toFundId: FUNDS[0].value },
+      transactionType: TRANSACTION_TYPES.allocation,
     });
 
     const selectionBtn = screen.getByRole('button', { name: 'ui-finance.fund fund 2' });
@@ -114,8 +118,9 @@ describe('CreateTransactionModal', () => {
 
   it('should display only one disabled fund selection with predefined value for decrease allocation', async () => {
     renderComponent({
-      initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
       allocationType: ALLOCATION_TYPE.decrease,
+      initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
+      transactionType: TRANSACTION_TYPES.allocation,
     });
 
     const selectionBtn = screen.getByRole('button', { name: 'ui-finance.fund fund 2' });
@@ -126,17 +131,43 @@ describe('CreateTransactionModal', () => {
     expect(screen.queryByText('ui-finance.transaction.from')).not.toBeInTheDocument();
   });
 
-  it('should validate transaction amount', async () => {
+  it('should validate transaction amount for decrease allocation', async () => {
     renderComponent({
-      initialValues: { fundId: FUNDS[0].value, toFundId: FUNDS[0].value },
       allocationType: ALLOCATION_TYPE.decrease,
+      initialValues: { fundId: FUNDS[0].value, fromFundId: FUNDS[0].value },
+      transactionType: TRANSACTION_TYPES.allocation,
     });
 
+    // value exceeds total allocated
     await user.type(screen.getByLabelText('ui-finance.transaction.amount*'), '1001');
     await user.click(screen.getByText('ui-finance.transaction.button.confirm'));
 
     expect(defaultProps.onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText('ui-finance.transaction.validation.totalAllocatedExceeded')).toBeInTheDocument();
+  });
+
+  it('should validate transaction amount for move allocation', async () => {
+    renderComponent({
+      allocationType: ALLOCATION_TYPE.move,
+      initialValues: {
+        fundId: FUNDS[1].value,
+        fromFundId: FUNDS[1].value,
+        toFundId: FUNDS[0].value,
+      },
+      transactionType: TRANSACTION_TYPES.allocation,
+    });
+
+    // value exceeds total allocated for the viewing budget
+    await user.type(screen.getByLabelText('ui-finance.transaction.amount*'), '1001');
+    await user.click(screen.getByText('ui-finance.transaction.button.confirm'));
+
+    expect(screen.getByText('ui-finance.transaction.validation.totalAllocatedExceeded')).toBeInTheDocument();
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'ui-finance.transaction.button.switchFunds' }));
+
+    // error should be displayed only move allocation is from the viewing budget
+    expect(screen.queryByText('ui-finance.transaction.validation.totalAllocatedExceeded')).not.toBeInTheDocument();
   });
 
   it('should switch values of fromFundId and toFundId when "Switch" button is clicked', async () => {

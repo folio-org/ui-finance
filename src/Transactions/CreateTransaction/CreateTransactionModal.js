@@ -29,7 +29,11 @@ import {
   validateTransactionForm,
 } from '../../common/utils';
 import { ALLOCATION_TYPE } from '../constants';
-import { validateAllocationAmount } from './utils';
+import {
+  isAllocationTransaction,
+  isMoveAllocationType,
+  validateAllocationAmount,
+} from './utils';
 
 import css from './CreateTransactionModal.css';
 
@@ -40,12 +44,13 @@ const CreateTransactionModal = ({
   budget,
   form,
   fundId,
+  fundsOptions = defaultFundsOptions,
   handleSubmit,
   isFundsLoading,
   isLoading,
   onClose,
-  fundsOptions = defaultFundsOptions,
   title,
+  transactionType,
   values: formValues,
 }) => {
   const stripes = useStripes();
@@ -69,6 +74,7 @@ const CreateTransactionModal = ({
     isToFundVisible = false;
   }
 
+  const isFundFieldsDisabled = isAllocationTransaction(transactionType) && !isMoveAllocationType(allocationType);
   const isConfirmButtonDisabled = isLoading || invalid;
 
   const optionsFrom = (
@@ -128,7 +134,7 @@ const CreateTransactionModal = ({
                 dataOptions={optionsFrom}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.from'} />}
                 name="fromFundId"
-                disabled={!!allocationType}
+                disabled={isFundFieldsDisabled}
                 loading={isFundsLoading}
               />
             </Col>
@@ -151,7 +157,7 @@ const CreateTransactionModal = ({
                 dataOptions={optionsTo}
                 label={<FormattedMessage id={fundLabelId || 'ui-finance.transaction.to'} />}
                 name="toFundId"
-                disabled={!!allocationType}
+                disabled={isFundFieldsDisabled}
                 loading={isFundsLoading}
               />
             </Col>
@@ -203,6 +209,7 @@ CreateTransactionModal.propTypes = {
   isLoading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  transactionType: PropTypes.string.isRequired,
   values: PropTypes.object.isRequired,
 };
 

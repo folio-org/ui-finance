@@ -178,6 +178,7 @@ export const CreateTransactionContainer = ({
   return (
     <>
       <CreateTransactionModal
+        allocationType={allocationType}
         budget={budget}
         fundId={fundId}
         fundsOptions={fundsOptions}
@@ -187,7 +188,7 @@ export const CreateTransactionContainer = ({
         onClose={onClose}
         onSubmit={onSubmitTransactionForm}
         title={intl.formatMessage({ id: labelId })}
-        allocationType={allocationType}
+        transactionType={transactionType}
       />
 
       {

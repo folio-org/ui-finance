@@ -27,7 +27,7 @@
     "fund.information.currency": "Валюта",
     "fund.information.type": "Тип",
     "fund.information.group": "Група",
-    "fund.information.acqUnits": "Підрозділи для комплектування",
+    "fund.information.acqUnits": "Підрозділи для придбання/комплектування",
     "fund.information.transferFrom": "Переміщення із",
     "fund.information.transferTo": "Переміщення до",
     "fund.information.externalAccount": "Зовнішній рахунок",
@@ -244,8 +244,8 @@
     "permission.transfers.create": "Фінанси: Створення переказів",
     "transaction.status.Pending": "В очікуванні",
     "transaction.transfer.missingFundId": "Відсутній ід до/з Грошових коштів",
-    "permission.acq.unit.assignment.assign": "Фінанси: Призначення підрозділів для придбання для нового запису",
-    "permission.acq.unit.assignment.manage": "Фінанси: Управління підрозділами для придбання",
+    "permission.acq.unit.assignment.assign": "Фінанси: Призначення підрозділів для придбання/комплектування для нового запису",
+    "permission.acq.unit.assignment.manage": "Фінанси: Управління підрозділами для придбання/комплектування",
     "permission.fiscal-year.create": "Фінанси: Перегляд, редагування, створення фінансового року",
     "permission.fiscal-year.delete": "Фінанси: Перегляд, редагування, видалення фінансового року",
     "permission.fiscal-year.edit": "Фінанси: Перегляд, редагування фінансового року",
@@ -579,7 +579,7 @@
     "settings.exchangeRateSource.form.field.providerType": "Тип постачальника послуг обміну валют",
     "permission.settings.exchange_rate_source.manage": "Налаштування (Фінанси): Управління зовнішнім джерелом обмінного курсу валют",
     "transaction.allocation.hasBeenCreated": "{amount} успішно розподілено до бюджету <b>{budgetName}</b>",
-    "transaction.button.switchFunds": "Switch funds",
-    "budget.expenseClasses.unassigned": "Unassigned",
-    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
+    "transaction.button.switchFunds": "Переключити Грошові кошти",
+    "budget.expenseClasses.unassigned": "Анульовано",
+    "budget.expenseClasses.unassigned.tooltip": "\"Анульовано\" застосовується до транзакцій, що були завершені до включення класів витрат до бюджету, якщо такі існують."
 }

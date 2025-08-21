@@ -379,6 +379,7 @@ export const BudgetViewContainer = ({ history, location, match, mutator, stripes
               fetchBudgetResources={fetchBudgetResources}
               fiscalYearCurrency={fiscalYear.currency}
               labelId="ui-finance.transaction.moveAllocation"
+              allocationType={ALLOCATION_TYPE.move}
             />
           )}
 

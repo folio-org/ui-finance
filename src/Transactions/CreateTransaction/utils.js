@@ -10,15 +10,21 @@ import { ALLOCATION_TYPE } from '../constants';
 export const isTransferTransaction = (transactionType) => transactionType === TRANSACTION_TYPES.transfer;
 export const isAllocationTransaction = (transactionType) => transactionType === TRANSACTION_TYPES.allocation;
 export const isDecreaseAllocationType = (allocationType) => allocationType === ALLOCATION_TYPE.decrease;
+export const isIncreaseAllocationType = (allocationType) => allocationType === ALLOCATION_TYPE.increase;
+export const isMoveAllocationType = (allocationType) => allocationType === ALLOCATION_TYPE.move;
 
 export const validateAllocationAmount = (
   allocationType,
-  { allocated },
+  budget,
   currency,
 ) => {
-  return (value) => {
+  return (value, { fromFundId }) => {
+    const { allocated, fundId } = budget;
     const multiplier = getMoneyMultiplier(currency);
-    const sign = isDecreaseAllocationType(allocationType) ? -1 : 1;
+    const sign = (
+      isDecreaseAllocationType(allocationType) || (isMoveAllocationType(allocationType) && fundId === fromFundId
+      ) ? -1 : 1
+    );
     const newTotalAllocated = Math.round((multiplier * allocated) + (sign * multiplier * value)) / multiplier;
 
     return value && newTotalAllocated < 0

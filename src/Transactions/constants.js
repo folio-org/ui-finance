@@ -39,8 +39,9 @@ export const TRANSACTION_SOURCE_OPTIONS = Object.values(TRANSACTION_SOURCE).map(
 }));
 
 export const ALLOCATION_TYPE = {
-  increase: 'increase',
   decrease: 'decrease',
+  increase: 'increase',
+  move: 'move',
 };
 
 export const ERROR_CODES = {

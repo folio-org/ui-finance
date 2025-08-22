@@ -180,6 +180,7 @@ export const CreateTransactionContainer = ({
       <CreateTransactionModal
         allocationType={allocationType}
         budget={budget}
+        fiscalYearId={fiscalYearId}
         fundId={fundId}
         fundsOptions={fundsOptions}
         initialValues={initialValues}

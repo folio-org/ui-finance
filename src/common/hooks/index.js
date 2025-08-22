@@ -1,4 +1,5 @@
 export { useBatchTransactionsMutation } from './useBatchTransactionsMutation';
+export { useBudgetByFundAndFY } from './useBudgetByFundAndFY';
 export { useFiscalYear } from './useFiscalYear';
 export { useFiscalYearsBatch } from './useFiscalYearsBatch';
 export { useFundTypesBatch } from './useFundTypesBatch';

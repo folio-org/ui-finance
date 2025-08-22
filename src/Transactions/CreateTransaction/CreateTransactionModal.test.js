@@ -13,6 +13,12 @@ import { useBudgetByFundAndFY } from '../../common/hooks';
 import { ALLOCATION_TYPE } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
 
+jest.mock('@folio/stripes-acq-components/lib/hooks', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components/lib/hooks'),
+  useTags: jest.fn(() => ({ tags: [] })),
+  useTagsConfigs: jest.fn(() => ({ configs: [] })),
+  useTagsMutation: jest.fn(() => ({ createTag: jest.fn() })),
+}));
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useBudgetByFundAndFY: jest.fn(),

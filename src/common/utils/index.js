@@ -7,6 +7,7 @@ export * from './fetchGroupCurrentFiscalYears';
 export * from './fetchLedgerCurrentFiscalYear';
 export * from './fundValidation';
 export * from './generateBudgetsReport';
+export * from './getBudgetByFundAndFY';
 export * from './getFiscalYearsForSelect';
 export * from './getFormattedOptions';
 export * from './getFundActiveBudget';

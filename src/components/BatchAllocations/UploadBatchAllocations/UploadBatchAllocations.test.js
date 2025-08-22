@@ -37,8 +37,14 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
-  useShowCallout: jest.fn(),
   useSorting: jest.fn(() => ['field', 'asc', jest.fn()]),
+}));
+jest.mock('@folio/stripes-acq-components/lib/hooks', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components/lib/hooks'),
+  useShowCallout: jest.fn(),
+  useTags: jest.fn(() => ({ tags: [] })),
+  useTagsConfigs: jest.fn(() => ({ configs: [] })),
+  useTagsMutation: jest.fn(() => ({ createTag: jest.fn() })),
 }));
 
 jest.mock('../../../common/hooks', () => ({

@@ -19,9 +19,12 @@ import {
 } from '../hooks';
 import { CreateBatchAllocations } from './CreateBatchAllocations';
 
-jest.mock('@folio/stripes-acq-components', () => ({
-  ...jest.requireActual('@folio/stripes-acq-components'),
+jest.mock('@folio/stripes-acq-components/lib/hooks', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components/lib/hooks'),
   useShowCallout: jest.fn(),
+  useTags: jest.fn(() => ({ tags: [] })),
+  useTagsConfigs: jest.fn(() => ({ configs: [] })),
+  useTagsMutation: jest.fn(() => ({ createTag: jest.fn() })),
 }));
 jest.mock('../../../common/hooks', () => ({
   ...jest.requireActual('../../../common/hooks'),

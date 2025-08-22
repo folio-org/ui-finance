@@ -24,6 +24,7 @@ import {
   validateRequiredPositiveAmount,
 } from '@folio/stripes-acq-components';
 
+import { useBudgetByFundAndFY } from '../../common/hooks';
 import {
   composeValidators,
   validateTransactionForm,
@@ -42,6 +43,7 @@ const defaultFundsOptions = [];
 const CreateTransactionModal = ({
   allocationType,
   budget,
+  fiscalYearId,
   form,
   fundId,
   fundsOptions = defaultFundsOptions,
@@ -62,6 +64,12 @@ const CreateTransactionModal = ({
   const hasFromFundIdProperty = 'fromFundId' in formValues;
   const fundLabelId = allocationType ? 'ui-finance.fund' : '';
   const { fromFundId, toFundId } = formValues;
+  const counterpartyFundId = [fromFundId, toFundId].find(id => id !== fundId);
+
+  const {
+    budget: counterpartyBudget,
+    isFetching: isCounterpartyBudgetFetching,
+  } = useBudgetByFundAndFY(counterpartyFundId, fiscalYearId);
 
   let isToFundVisible = true;
   let isFromFundVisible = true;
@@ -74,8 +82,14 @@ const CreateTransactionModal = ({
     isToFundVisible = false;
   }
 
-  const isFundFieldsDisabled = isAllocationTransaction(transactionType) && !isMoveAllocationType(allocationType);
-  const isConfirmButtonDisabled = isLoading || invalid;
+  const isFundFieldsDisabled = isCounterpartyBudgetFetching || (
+    isAllocationTransaction(transactionType) && !isMoveAllocationType(allocationType)
+  );
+  const isConfirmButtonDisabled = (
+    isLoading
+    || isCounterpartyBudgetFetching
+    || invalid
+  );
 
   const optionsFrom = (
     (!hasToFundIdProperty || formValues.toFundId === fundId)
@@ -173,7 +187,7 @@ const CreateTransactionModal = ({
               required
               validate={composeValidators(
                 validateRequiredPositiveAmount,
-                validateAllocationAmount(allocationType, budget, stripes.currency),
+                validateAllocationAmount(allocationType, budget, counterpartyBudget, stripes.currency),
               )}
             />
           </Col>
@@ -201,6 +215,7 @@ CreateTransactionModal.propTypes = {
   budget: PropTypes.shape({
     allocated: PropTypes.number.isRequired,
   }).isRequired,
+  fiscalYearId: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   fundId: PropTypes.string.isRequired,
   fundsOptions: PropTypes.arrayOf(PropTypes.object),

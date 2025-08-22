@@ -9,8 +9,20 @@ import {
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { TRANSACTION_TYPES } from '@folio/stripes-acq-components';
 
+import { useBudgetByFundAndFY } from '../../common/hooks';
 import { ALLOCATION_TYPE } from '../constants';
 import CreateTransactionModal from './CreateTransactionModal';
+
+jest.mock('@folio/stripes-acq-components/lib/hooks', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components/lib/hooks'),
+  useTags: jest.fn(() => ({ tags: [] })),
+  useTagsConfigs: jest.fn(() => ({ configs: [] })),
+  useTagsMutation: jest.fn(() => ({ createTag: jest.fn() })),
+}));
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useBudgetByFundAndFY: jest.fn(),
+}));
 
 const FUNDS = [
   {
@@ -56,6 +68,17 @@ const renderComponent = (props = {}) => render(
 );
 
 describe('CreateTransactionModal', () => {
+  beforeEach(() => {
+    useBudgetByFundAndFY.mockReturnValue({
+      budget: {
+        allocated: 1400,
+        available: 300,
+        id: 'budget-id-2',
+        fundId: FUNDS[0].value,
+      },
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

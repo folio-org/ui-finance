@@ -12,7 +12,7 @@ import {
   useAllFunds,
 } from '@folio/stripes-acq-components';
 
-import { useBatchTransactionsMutation } from '../../common/hooks';
+import { useBatchTransactionsMutation, useBudgetByFundAndFY } from '../../common/hooks';
 import { ALLOCATION_TYPE } from '../constants';
 import { CreateTransactionContainer } from './CreateTransactionContainer';
 
@@ -20,9 +20,16 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useAllFunds: jest.fn().mockReturnValue({ funds: [] }),
 }));
+jest.mock('@folio/stripes-acq-components/lib/hooks', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components/lib/hooks'),
+  useTags: jest.fn(() => ({ tags: [] })),
+  useTagsConfigs: jest.fn(() => ({ configs: [] })),
+  useTagsMutation: jest.fn(() => ({ createTag: jest.fn() })),
+}));
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useBatchTransactionsMutation: jest.fn(),
+  useBudgetByFundAndFY: jest.fn(),
 }));
 
 const funds = [
@@ -123,6 +130,14 @@ describe('CreateTransactionContainer', () => {
     useAllFunds.mockReturnValue({ funds });
     useBatchTransactionsMutation.mockReturnValue({ batchTransactions: batchTransactionsMock });
     useOkapiKy.mockReturnValue(kyMock);
+    useBudgetByFundAndFY.mockReturnValue({
+      budget: {
+        allocated: 12345,
+        available: 1234,
+        id: 'budget-id-2',
+        fundId: funds[1].value,
+      },
+    });
   });
 
   afterEach(() => {

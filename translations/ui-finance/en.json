@@ -416,7 +416,7 @@
   "allocation.worksheet.download.error": "An error occurred during file generation.",
 
   "transaction.actions.load.error": "Failed to load transaction data.",
-  "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
+  "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
   "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
   "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}.",
   "transaction.allocation.genericError": "{amount} was not successfully allocated to the budget <b>{budgetName}</b>.",

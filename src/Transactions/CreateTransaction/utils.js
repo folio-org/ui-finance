@@ -16,18 +16,27 @@ export const isMoveAllocationType = (allocationType) => allocationType === ALLOC
 export const validateAllocationAmount = (
   allocationType,
   budget,
+  counterpartyBudget,
   currency,
 ) => {
   return (value, { fromFundId }) => {
-    const { allocated, fundId } = budget;
     const multiplier = getMoneyMultiplier(currency);
+
+    /* Calculate the sign based on allocation type and fund ID */
     const sign = (
-      isDecreaseAllocationType(allocationType) || (isMoveAllocationType(allocationType) && fundId === fromFundId
+      isDecreaseAllocationType(allocationType) || (isMoveAllocationType(allocationType) && budget.fundId === fromFundId
       ) ? -1 : 1
     );
-    const newTotalAllocated = Math.round((multiplier * allocated) + (sign * multiplier * value)) / multiplier;
 
-    return value && newTotalAllocated < 0
+    const currentBudgetNewTotalAllocated = (
+      Math.round((multiplier * budget.allocated) + (sign * multiplier * value)) / multiplier
+    );
+
+    const counterpartyBudgetNewTotalAllocated = (
+      Math.round((multiplier * counterpartyBudget?.allocated) + ((-sign) * multiplier * value)) / multiplier
+    );
+
+    return value && (currentBudgetNewTotalAllocated < 0 || counterpartyBudgetNewTotalAllocated < 0)
       ? <FormattedMessage id="ui-finance.transaction.validation.totalAllocatedExceeded" />
       : undefined;
   };

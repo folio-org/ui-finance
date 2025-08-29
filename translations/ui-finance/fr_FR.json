@@ -457,7 +457,7 @@
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} n'a pas été alloué avec succès au budget <b>{toBudgetName}</b> car il excède le montant total de l'allocation de <b>{fromBudgetName}</b>",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Negative available amount",
     "transaction.confirmModal.negativeAvailableAmount.message": "Completing this {transactionType, select, Transfer {transfer} Allocation {allocation} other {transaction}} will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
-    "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget",
+    "transaction.transfer.budgetNotFoundForTransaction": "{amount} was not successfully transferred because <b>{fundCode}</b> has no budget.",
     "ledger.rollover.rolloverBudgetValue": "Rollover budget value",
     "ledger.rollover.rolloverBudgetValue.available": "Disponible",
     "ledger.rollover.rolloverBudgetValue.none": "Aucun",
@@ -565,8 +565,8 @@
     "allocation.batch.logs.search.keyword": "Tout",
     "allocation.batch.logs.search.jobName": "Job name",
     "transaction.validation.totalAllocatedExceeded": "Total allocation cannot be less than zero",
-    "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
-    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
+    "transaction.allocation.decrease.hasBeenCreated": "Budget <b>{budgetName}</b> allocation was successfully decreased by {amount}.",
     "document.settings.title": "Finance settings",
     "settings.exchangeRateSource.title": "Exchange rate source",
     "settings.exchangeRateSource.description": "FOLIO retrieves exchange rates from the European Central Bank. If your institution wishes to use an alternate source for exchange rates, please check the \"Specify exchange rate provider\" box and fill in the details below.",
@@ -578,8 +578,9 @@
     "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated.",
     "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
     "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
     "transaction.button.switchFunds": "Switch funds",
     "budget.expenseClasses.unassigned": "Unassigned",
-    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist.",
+    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
 }

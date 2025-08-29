@@ -578,8 +578,9 @@
     "settings.exchangeRateSource.submit.error.generic": "Zdroj směnného kurzu nebyl aktualizován.",
     "settings.exchangeRateSource.form.field.providerType": "Typ poskytovatele směnných kurzů",
     "permission.settings.exchange_rate_source.manage": "Nastavení (finance): Správa externího zdroje směnných kurzů",
-    "transaction.allocation.hasBeenCreated": "{amount} bylo úspěšně přiděleno do rozpočtu <b>{budgetName}</b>",
     "transaction.button.switchFunds": "Přepnout fondy",
     "budget.expenseClasses.unassigned": "Nepřiřazeno",
-    "budget.expenseClasses.unassigned.tooltip": "\"Nepřidělené\" se vztahuje na transakce dokončené před zahrnutím tříd výdajů do rozpočtu, pokud nějaké existují."
+    "budget.expenseClasses.unassigned.tooltip": "\"Nepřidělené\" se vztahuje na transakce dokončené před zahrnutím tříd výdajů do rozpočtu, pokud nějaké existují.",
+    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
 }

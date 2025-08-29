@@ -578,8 +578,9 @@
     "settings.exchangeRateSource.submit.error.generic": "Джерело обмінного курсу валют не було оновлено",
     "settings.exchangeRateSource.form.field.providerType": "Тип постачальника послуг обміну валют",
     "permission.settings.exchange_rate_source.manage": "Налаштування (Фінанси): Управління зовнішнім джерелом обмінного курсу валют",
-    "transaction.allocation.hasBeenCreated": "{amount} успішно розподілено до бюджету <b>{budgetName}</b>",
     "transaction.button.switchFunds": "Переключити Грошові кошти",
     "budget.expenseClasses.unassigned": "Анульовано",
-    "budget.expenseClasses.unassigned.tooltip": "\"Анульовано\" застосовується до транзакцій, що були завершені до включення класів витрат до бюджету, якщо такі існують."
+    "budget.expenseClasses.unassigned.tooltip": "\"Анульовано\" застосовується до транзакцій, що були завершені до включення класів витрат до бюджету, якщо такі існують.",
+    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
 }

@@ -578,8 +578,9 @@
     "settings.exchangeRateSource.submit.error.generic": "De bron van de wisselkoers is niet bijgewerkt.",
     "settings.exchangeRateSource.form.field.providerType": "Type wisselkoers Leverancier",
     "permission.settings.exchange_rate_source.manage": "Instellingen (Financiën): Externe wisselkoersbron Beheren",
-    "transaction.allocation.hasBeenCreated": "{Bedrag} is succesvol toegewezen aan het budget <b>.{budgetNaam}</b>",
     "transaction.button.switchFunds": "Wisselfondsen",
-    "budget.expenseClasses.unassigned": "Unassigned",
-    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
+    "budget.expenseClasses.unassigned": "Niet toegewezen",
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" (niet-toegewezen) is van toepassing op transacties die voltooid zijn voordat Onkostensoorten in het Budget zijn opgenomen, als die er zijn.",
+    "transaction.transfer.budgetRestrictedExpendituresError": "{Bedrag} kon niet worden overgeschreven naar het Budget <b>.{toBudgetName}</b> omdat het de toegestane uitgavenlimiet voor <b> overschrijdt{fromBudgetName}</b> en Beperkingen op Grootboekfondsen zijn actief.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
 }

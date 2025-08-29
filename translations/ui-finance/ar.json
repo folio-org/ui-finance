@@ -453,8 +453,8 @@
     "groups.item.information.fiscalYear.current": "الحالي:",
     "groups.item.information.fiscalYear.previous": "السابق:",
     "fiscalYear.actions.save.error.invalidFiscalYearCode": "Fiscal year Code format must be an Alpha followed by a four digit numeric. Eg. ExampleFY2020",
-    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget",
-    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>",
+    "transaction.allocation.budgetNotFoundForTransaction": "{amount} was not successfully allocated because <b>{fundCode}</b> has no budget.",
+    "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b>.",
     "transaction.confirmModal.negativeAvailableAmount.heading": "المبلغ المتاح السلبي",
     "transaction.confirmModal.negativeAvailableAmount.message": "Completing this {transactionType, select, Transfer {transfer} Allocation {allocation} other {transaction}} will result in <b>{budgetName}</b> having a negative available amount. Are you sure you would like to complete this transaction?",
     "transaction.transfer.budgetNotFoundForTransaction": "لم يتم تحويل {amount} بنجاح لأن <b>{fundCode}</b> ليس به ميزانية",
@@ -489,7 +489,7 @@
     "ledger.rollover.restrictEncumbranceDuringRollover": "فرض كل حدود تكاليف الميزانية أثناء الترحيل",
     "financialSummary.credited": "تمت إضافتها إلى الرصيد الدائن",
     "transaction.filter.encumbranceStatus": "Encumbrance status",
-    "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active",
+    "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
     "permission.encumbrance.unrelease.execute": "الشؤون المالية: إلغاء إصدار  التكاليف",
     "permission.fund-budget.recalculate-totals.execute": "الشؤون المالية: إعادة حساب إجمالي الميزانية",
     "permission.ledger.rollover.execute": "الشؤون المالية: استثناء ترحيل السنة المالية",
@@ -578,8 +578,9 @@
     "settings.exchangeRateSource.submit.error.generic": "لم يتم تحديث مصدر سعر الصرف.",
     "settings.exchangeRateSource.form.field.providerType": "Exchange rate provider type",
     "permission.settings.exchange_rate_source.manage": "Settings (Finance): Manage external exchange rate source",
-    "transaction.allocation.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>",
     "transaction.button.switchFunds": "Switch funds",
     "budget.expenseClasses.unassigned": "Unassigned",
-    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist."
+    "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist.",
+    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
 }

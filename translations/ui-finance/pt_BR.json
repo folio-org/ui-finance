@@ -578,8 +578,9 @@
     "settings.exchangeRateSource.submit.error.generic": "A fonte da taxa de câmbio não foi atualizada.",
     "settings.exchangeRateSource.form.field.providerType": "Tipo de provedor de taxa de câmbio",
     "permission.settings.exchange_rate_source.manage": "Configurações (Finanças): Gerenciar fonte de taxa de câmbio externa",
-    "transaction.allocation.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName}</b>",
     "transaction.button.switchFunds": "Trocar fundos",
     "budget.expenseClasses.unassigned": "Não atribuído",
-    "budget.expenseClasses.unassigned.tooltip": "\"Não atribuído\" se aplica a transações concluídas antes da inclusão de classes de despesas no orçamento, se houver alguma."
+    "budget.expenseClasses.unassigned.tooltip": "\"Não atribuído\" se aplica a transações concluídas antes da inclusão de classes de despesas no orçamento, se houver alguma.",
+    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} não pôde ser transferido para o orçamento <b>{toBudgetName}</b> porque excede o limite de despesa permitido para <b>{fromBudgetName}</b> e as restrições de fundos contábeis estão ativas.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName} </b>."
 }

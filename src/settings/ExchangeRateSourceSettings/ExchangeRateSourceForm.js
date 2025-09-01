@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
 import { Field } from 'react-final-form';
 import {
   FormattedMessage,
@@ -29,7 +32,8 @@ import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
   EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP,
-  EXCHANGE_RATE_PROVIDERS_OPTIONS,
+  EXCHANGE_RATE_PROVIDERS,
+  EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING,
   FORM_FIELDS_NAMES,
 } from './constants';
 
@@ -59,6 +63,16 @@ const ExchangeRateSourceForm = ({
   const isSubmitDisabled = pristine || submitting || isNonInteractive;
   const paneTitle = intl.formatMessage({ id: 'ui-finance.settings.exchangeRateSource.title' });
   const providerType = values[FORM_FIELDS_NAMES.providerType];
+
+  const exchangeRateProviderTypeOptions = useMemo(() => {
+    return Object.values(EXCHANGE_RATE_PROVIDERS).map((value) => ({
+      label: intl.formatMessage({
+        id: EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING[value],
+        defaultMessage: value,
+      }),
+      value,
+    }));
+  }, [intl]);
 
   const renderHeader = useCallback((headerProps) => (
     <PaneHeader
@@ -118,7 +132,7 @@ const ExchangeRateSourceForm = ({
                   isNonInteractive={isNonInteractive}
                   label={<FormattedMessage id="ui-finance.settings.exchangeRateSource.form.field.providerType" />}
                   name={FORM_FIELDS_NAMES.providerType}
-                  dataOptions={EXCHANGE_RATE_PROVIDERS_OPTIONS}
+                  dataOptions={exchangeRateProviderTypeOptions}
                   fullWidth
                   validate={validateRequired}
                   validateFields={[FORM_FIELDS_NAMES.apiKey, FORM_FIELDS_NAMES.apiSecret]}

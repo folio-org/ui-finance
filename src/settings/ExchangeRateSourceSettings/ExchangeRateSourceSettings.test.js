@@ -43,7 +43,7 @@ describe('ExchangeRateSourceSettings', () => {
 
   const fillRequiredFields = async () => {
     await userEvent.click(screen.getByRole('button', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerType' }));
-    await userEvent.click(screen.getByText(EXCHANGE_RATE_PROVIDERS.CONVERA));
+    await userEvent.click(screen.getByText(EXCHANGE_RATE_PROVIDERS.CURRENCYAPI));
     await userEvent.type(screen.getByRole('textbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerUri' }), 'https://example.com');
     await userEvent.type(screen.getByText('ui-finance.settings.exchangeRateSource.form.field.apiKey'), 'qwerty');
     await userEvent.type(screen.getByText('ui-finance.settings.exchangeRateSource.form.field.apiSecret'), '123');

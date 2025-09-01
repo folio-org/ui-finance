@@ -10,14 +10,13 @@ export const FORM_FIELDS_NAMES = {
 
 export const EXCHANGE_RATE_PROVIDERS = {
   TREASURE: 'treasury.gov',
-  CONVERA: 'convera.com',
   CURRENCYAPI: 'currencyapi.com',
 };
 
-export const EXCHANGE_RATE_PROVIDERS_OPTIONS = Object.values(EXCHANGE_RATE_PROVIDERS).map((value) => ({
-  label: value,
-  value,
-}));
+export const EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING = {
+  [EXCHANGE_RATE_PROVIDERS.TREASURE]: 'ui-finance.settings.exchangeRateSource.providerType.noKeyRequired',
+  [EXCHANGE_RATE_PROVIDERS.CURRENCYAPI]: 'ui-finance.settings.exchangeRateSource.providerType.keyRequired',
+};
 
 export const EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP = new Map([
   [EXCHANGE_RATE_PROVIDERS.TREASURE, new Map([
@@ -26,16 +25,6 @@ export const EXCHANGE_RATE_FIELDS_CONFIG_PROPS_MAP = new Map([
     }],
     [FORM_FIELDS_NAMES.apiSecret, {
       required: false,
-    }],
-  ])],
-  [EXCHANGE_RATE_PROVIDERS.CONVERA, new Map([
-    [FORM_FIELDS_NAMES.apiKey, {
-      required: true,
-      validate: validateRequired,
-    }],
-    [FORM_FIELDS_NAMES.apiSecret, {
-      required: true,
-      validate: validateRequired,
     }],
   ])],
   [EXCHANGE_RATE_PROVIDERS.CURRENCYAPI, new Map([

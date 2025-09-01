@@ -14,6 +14,7 @@
 * Display totals for transactions without an expense class in the expense class summary. Refs UIF-617.
 * Provide an error message for the `budgetRestrictedExpendituresError` code in a transfer transaction. Refs UIF-619.
 * Prevent negative total allocations in budgets (moving allocation). Refs UIF-621.
+* Allow user to select current or previous fiscal year on ledger view to see totals for a specific year. Refs UIF-600.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

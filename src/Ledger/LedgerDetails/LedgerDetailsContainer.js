@@ -1,27 +1,29 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router-dom';
 import { useLocalStorage } from '@rehooks/local-storage';
+import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
-import {
-  LoadingPane,
-} from '@folio/stripes/components';
+import { LoadingPane } from '@folio/stripes/components';
 import {
   fetchAllRecords,
-  LIMIT_MAX,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
+import { LEDGERS_ROUTE } from '../../common/const';
 import {
-  LEDGERS_ROUTE,
-} from '../../common/const';
+  useLedger,
+  useLedgerCurrentFiscalYear,
+  useLedgerFunds,
+} from '../../common/hooks';
 import {
   fiscalYearsResource,
-  fundsResource,
   ledgerByUrlIdResource,
-  ledgerCurrentFiscalYearResource,
   ledgerRolloverErrorsResource,
   ledgerRolloverProgressResource,
   ledgerRolloverResource,
@@ -31,145 +33,134 @@ import useRolloverProgressPolling from './useRolloverProgressPolling';
 import LedgerDetails from './LedgerDetails';
 
 export const LedgerDetailsContainer = ({
-  mutator,
-  match,
   history,
+  match,
+  mutator,
   location,
-  stripes,
   refreshList,
+  stripes,
 }) => {
   const ledgerId = match.params.id;
-  const [isLoading, setIsLoading] = useState(true);
   const showToast = useShowCallout();
-  const [{ ledger, funds, currentFiscalYear }, setLedgerData] = useState({});
+
+  const [selectedFiscalYear, setSelectedFiscalYear] = useState();
   const [rolloverErrors, setRolloverErrors] = useState();
-  const { rolloverStatus, isLoadingRolloverStatus, rollover, rolloverToFY } = useRolloverProgressPolling({
+
+  const {
+    isLoading: isCurrentFiscalYearLoading,
+    currentFiscalYear,
+  } = useLedgerCurrentFiscalYear(ledgerId, {
+    onError: () => {
+      showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
+    },
+  });
+
+  const {
+    isLoading: isLedgerLoading,
+    ledger,
+  } = useLedger(ledgerId, {
+    enabled: Boolean(selectedFiscalYear && currentFiscalYear),
+    fiscalYearId: selectedFiscalYear,
+    onError: () => {
+      showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
+    },
+  });
+
+  const {
+    isLoading: isFundsLoading,
+    funds,
+  } = useLedgerFunds(ledgerId, {
+    onError: () => {
+      showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
+    },
+  });
+
+  const {
+    isLoadingRolloverStatus,
+    rollover,
+    rolloverStatus,
+    rolloverToFY,
+  } = useRolloverProgressPolling({
     ledgerId,
     mutatorLedgerRolloverProgress: mutator.ledgerRolloverProgress,
     mutatorLedgerRollover: mutator.ledgerRollover,
     mutatorToFiscalYear: mutator.toFiscalYear,
   });
 
-  useEffect(
-    () => {
-      Promise.all([
-        mutator.funds.GET(),
-        mutator.ledgerCurrentFiscalYear.GET()
-          .catch(() => {
-            showToast({ messageId: 'ui-finance.ledger.actions.load.error.noFiscalYear', type: 'error' });
-
-            return {};
-          }),
-      ])
-        .then(([fundsResponse, currentFiscalYearResponse]) => {
-          const { id: fyID } = currentFiscalYearResponse;
-          const ledgerPromise = mutator.ledgerDetails.GET({
-            params: {
-              fiscalYear: fyID,
-              limit: `${LIMIT_MAX}`,
-            },
-          });
-
-          return Promise.all([fundsResponse, ledgerPromise, currentFiscalYearResponse]);
-        })
-        .then(([fundsResponse, ledgerResponse, currentFiscalYearResponse]) => {
-          setLedgerData({
-            funds: fundsResponse,
-            ledger: ledgerResponse,
-            currentFiscalYear: currentFiscalYearResponse,
-          });
-        })
-        .catch(() => {
-          showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ledgerId],
-  );
+  useEffect(() => {
+    // Set initial selected fiscal year
+    if (!selectedFiscalYear && currentFiscalYear?.id) {
+      setSelectedFiscalYear(currentFiscalYear.id);
+    }
+  }, [currentFiscalYear, selectedFiscalYear]);
 
   const fromFiscalYearId = rollover?.fromFiscalYearId;
   const currentFiscalYearId = currentFiscalYear?.id;
   const rolloverId = rollover?.id;
 
-  useEffect(
-    () => {
-      if (fromFiscalYearId && fromFiscalYearId === currentFiscalYearId) {
-        fetchAllRecords(mutator.ledgerRolloverErrors, `ledgerRolloverId==${rolloverId}`).then(
-          setRolloverErrors,
-          () => {
-            setRolloverErrors();
-          },
-        );
-      }
-    },
-    [currentFiscalYearId, fromFiscalYearId, rolloverId],
-  );
+  useEffect(() => {
+    if (fromFiscalYearId && fromFiscalYearId === currentFiscalYearId) {
+      fetchAllRecords(mutator.ledgerRolloverErrors, `ledgerRolloverId==${rolloverId}`).then(
+        setRolloverErrors,
+        () => {
+          setRolloverErrors();
+        },
+      );
+    }
+  }, [currentFiscalYearId, fromFiscalYearId, mutator.ledgerRolloverErrors, rolloverId]);
 
-  const closePane = useCallback(
-    () => {
-      history.push({
-        pathname: LEDGERS_ROUTE,
-        search: location.search,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
-  );
+  const closePane = useCallback(() => {
+    history.push({
+      pathname: LEDGERS_ROUTE,
+      search: location.search,
+    });
+  }, [history, location.search]);
 
-  const editLedger = useCallback(
-    () => {
-      history.push({
-        pathname: `${LEDGERS_ROUTE}/${ledgerId}/edit`,
-        search: location.search,
-      });
-    },
-    [history, location.search, ledgerId],
-  );
+  const editLedger = useCallback(() => {
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/edit`,
+      search: location.search,
+    });
+  }, [history, location.search, ledgerId]);
 
-  const removeLedger = useCallback(
-    () => {
-      mutator.ledgerDetails.DELETE({ id: ledgerId })
-        .then(() => {
-          showToast({ messageId: 'ui-finance.ledger.actions.remove.success' });
-          history.replace({
-            pathname: LEDGERS_ROUTE,
-            search: location.search,
-          });
-
-          refreshList();
-        })
-        .catch(() => {
-          showToast({ messageId: 'ui-finance.ledger.actions.remove.error', type: 'error' });
+  const removeLedger = useCallback(() => {
+    mutator.ledgerDetails.DELETE({ id: ledgerId })
+      .then(() => {
+        showToast({ messageId: 'ui-finance.ledger.actions.remove.success' });
+        history.replace({
+          pathname: LEDGERS_ROUTE,
+          search: location.search,
         });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ledgerId, showToast, history, location.search, refreshList],
-  );
 
-  const onRollover = useCallback(
-    () => {
-      history.push({
-        pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover`,
-        search: location.search,
+        refreshList();
+      })
+      .catch(() => {
+        showToast({ messageId: 'ui-finance.ledger.actions.remove.error', type: 'error' });
       });
-    },
-    [history, location.search, ledgerId],
-  );
+  }, [mutator.ledgerDetails, ledgerId, showToast, history, location.search, refreshList]);
 
-  const onRolloverLogs = useCallback(
-    () => {
-      history.push({
-        pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-logs`,
-        state: { search: location.search },
-      });
-    },
-    [history, ledgerId, location.search],
-  );
+  const onRollover = useCallback(() => {
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover`,
+      search: location.search,
+    });
+  }, [history, location.search, ledgerId]);
+
+  const onRolloverLogs = useCallback(() => {
+    history.push({
+      pathname: `${LEDGERS_ROUTE}/${ledgerId}/rollover-logs`,
+      state: { search: location.search },
+    });
+  }, [history, ledgerId, location.search]);
 
   const [isClosedProgress] = useLocalStorage(`LedgerRolloverProgress-${rollover?.id}`);
+
+  const isLoading = (
+    !ledger
+    || isLedgerLoading
+    || isFundsLoading
+    || isCurrentFiscalYearLoading
+  );
 
   if (isLoading || isLoadingRolloverStatus) {
     return (
@@ -209,8 +200,10 @@ export const LedgerDetailsContainer = ({
       onEdit={editLedger}
       onRollover={onRollover}
       onRolloverLogs={onRolloverLogs}
+      onSelectFiscalYear={setSelectedFiscalYear}
       rolloverErrors={rolloverErrors}
       rolloverToFY={rolloverToFY}
+      selectedFiscalYear={selectedFiscalYear}
     />
   );
 };
@@ -218,18 +211,8 @@ export const LedgerDetailsContainer = ({
 LedgerDetailsContainer.manifest = Object.freeze({
   ledgerDetails: {
     ...ledgerByUrlIdResource,
-    accumulate: true,
+    fetch: false,
   },
-  funds: {
-    ...fundsResource,
-    GET: {
-      params: {
-        query: 'ledgerId==":{id}" sortby name',
-      },
-    },
-    accumulate: true,
-  },
-  ledgerCurrentFiscalYear: ledgerCurrentFiscalYearResource,
   ledgerRolloverProgress: {
     ...ledgerRolloverProgressResource,
   },

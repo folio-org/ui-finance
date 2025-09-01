@@ -11,8 +11,11 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
+import {
+  EXCHANGE_RATE_PROVIDERS,
+  EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING,
+} from './constants';
 import { ExchangeRateSourceSettings } from './ExchangeRateSourceSettings';
-import { EXCHANGE_RATE_PROVIDERS } from './constants';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
@@ -43,7 +46,9 @@ describe('ExchangeRateSourceSettings', () => {
 
   const fillRequiredFields = async () => {
     await userEvent.click(screen.getByRole('button', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerType' }));
-    await userEvent.click(screen.getByText(EXCHANGE_RATE_PROVIDERS.CURRENCYAPI));
+    await userEvent.click(
+      screen.getByText(EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING[EXCHANGE_RATE_PROVIDERS.CURRENCYAPI]),
+    );
     await userEvent.type(screen.getByRole('textbox', { name: 'ui-finance.settings.exchangeRateSource.form.field.providerUri' }), 'https://example.com');
     await userEvent.type(screen.getByText('ui-finance.settings.exchangeRateSource.form.field.apiKey'), 'qwerty');
     await userEvent.type(screen.getByText('ui-finance.settings.exchangeRateSource.form.field.apiSecret'), '123');

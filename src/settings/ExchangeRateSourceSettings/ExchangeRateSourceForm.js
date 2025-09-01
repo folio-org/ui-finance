@@ -65,13 +65,15 @@ const ExchangeRateSourceForm = ({
   const providerType = values[FORM_FIELDS_NAMES.providerType];
 
   const exchangeRateProviderTypeOptions = useMemo(() => {
-    return Object.values(EXCHANGE_RATE_PROVIDERS).map((value) => ({
-      label: intl.formatMessage({
-        id: EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING[value],
-        defaultMessage: value,
-      }),
-      value,
-    }));
+    return Object.values(EXCHANGE_RATE_PROVIDERS)
+      .map((value) => ({
+        label: intl.formatMessage({
+          id: EXCHANGE_RATE_PROVIDERS_LABEL_IDS_MAPPING[value],
+          defaultMessage: value,
+        }),
+        value,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
   }, [intl]);
 
   const renderHeader = useCallback((headerProps) => (

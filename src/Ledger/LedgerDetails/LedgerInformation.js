@@ -115,6 +115,8 @@ LedgerInformation.propTypes = {
     acqUnitIds: PropTypes.arrayOf(PropTypes.string),
     code: PropTypes.string.isRequired,
     description: PropTypes.string,
+    fiscalYearOneId: PropTypes.string,
+    id: PropTypes.string.isRequired,
     metadata: PropTypes.shape({}),
     name: PropTypes.string.isRequired,
     restrictEncumbrance: PropTypes.bool.isRequired,

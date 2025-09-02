@@ -16,7 +16,7 @@ import { useLedgerCurrentFiscalYear } from '../useLedgerCurrentFiscalYear';
 const DEFAULT_DATA = [];
 
 export const useLedgerPreviousFiscalYears = (ledger, options = {}) => {
-  const { fiscalYearOneId, ledgerId } = ledger;
+  const { fiscalYearOneId, id: ledgerId } = ledger;
   const {
     enabled = true,
     tenantId,

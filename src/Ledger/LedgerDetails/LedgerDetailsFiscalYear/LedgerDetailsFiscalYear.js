@@ -36,7 +36,7 @@ export const LedgerDetailsFiscalYear = ({
     isLoading,
   } = useLedgerPreviousFiscalYears({
     fiscalYearOneId,
-    ledgerId,
+    id: ledgerId,
   });
 
   const dataOptions = useMemo(() => {

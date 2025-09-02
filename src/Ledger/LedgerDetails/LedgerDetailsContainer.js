@@ -51,7 +51,7 @@ export const LedgerDetailsContainer = ({
     currentFiscalYear,
   } = useLedgerCurrentFiscalYear(ledgerId, {
     onError: () => {
-      showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
+      showToast({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
     },
   });
 
@@ -71,7 +71,7 @@ export const LedgerDetailsContainer = ({
     funds,
   } = useLedgerFunds(ledgerId, {
     onError: () => {
-      showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
+      showToast({ messageId: 'ui-finance.fund.actions.load.error', type: 'error' });
     },
   });
 

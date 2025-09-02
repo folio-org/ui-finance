@@ -115,6 +115,7 @@ const LedgerDetails = ({
             <IfPermission perm="ui-finance.ledger.rollover.execute">
               <Button
                 buttonStyle="dropdownItem"
+                data-testid="action-rollover"
                 data-test-ledger-rollover-action
                 onClick={() => {
                   onRollover();

@@ -542,6 +542,8 @@
   "settings.exchangeRateSource.form.field.providerUri": "Exchange rate provider URI",
   "settings.exchangeRateSource.form.field.apiKey": "API Key or Login",
   "settings.exchangeRateSource.form.field.apiSecret": "API Secret or Password",
+  "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
+  "settings.exchangeRateSource.providerType.keyRequired": "Key required",
   "settings.exchangeRateSource.submit.success": "Settings successfully updated.",
   "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated.",
 

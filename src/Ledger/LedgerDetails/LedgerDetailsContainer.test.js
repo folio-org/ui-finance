@@ -114,7 +114,7 @@ describe('LedgerDetailsContainer', () => {
   it('should display LedgerDetails', async () => {
     renderLedgerDetailsContainer();
 
-    expect(await screen.findByText(ledger.name)).toBeInTheDocument();
+    expect(await screen.findAllByText(ledger.name)).toHaveLength(2);
   });
 
   describe('Actions', () => {

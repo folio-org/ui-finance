@@ -1,26 +1,28 @@
-import React from 'react';
 import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
-import { IntlProvider } from 'react-intl';
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
-
-import '@folio/stripes-acq-components/test/jest/__mock__';
-
+import {
+  useLedgerCurrentFiscalYear,
+  useLedgerPreviousFiscalYears,
+} from '../../common/hooks';
 import LedgerInformation from './LedgerInformation';
 
-const MESSAGES = {
-  'ui-finance.ledger.name': 'name',
-  'ui-finance.ledger.code': 'code',
-  'ui-finance.ledger.currentFiscalYear': 'currentFiscalYear',
-  'ui-finance.ledger.status': 'status',
-  'ui-finance.ledger.status.active': 'active',
-  'ui-finance.ledger.description': 'description',
-  'stripes-acq-components.label.acqUnits': 'acqUnits',
-  'stripes-components.noValue.noValueSet': 'noValueSet',
-};
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  ViewMetaData: jest.fn(() => 'ViewMetaData'),
+}));
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqUnitsView: jest.fn(() => 'AcqUnitsView'),
+}))
+
+jest.mock('../../common/hooks', () => ({
+  useLedgerCurrentFiscalYear: jest.fn(),
+  useLedgerPreviousFiscalYears: jest.fn(),
+}));
 
 const DEFAULT_FY = {
   id: 'd83adc1c-8e52-4e67-b798-9c16f5908960',
@@ -61,31 +63,37 @@ const DEFAULT_LEDGER = {
   restrictExpenditures: true,
 };
 
-const queryClient = new QueryClient();
+const defaultProps = {
+  ledger: {
+    acqUnitIds: DEFAULT_LEDGER.acqUnitIds,
+    code: DEFAULT_LEDGER.code,
+    description: DEFAULT_LEDGER.description,
+    fiscalYearCode: DEFAULT_FY.code,
+    metadata: DEFAULT_LEDGER.metadata,
+    name: DEFAULT_LEDGER.name,
+    status: DEFAULT_LEDGER.ledgerStatus,
+  },
+  onSelectFiscalYear: jest.fn(),
+  selectedFiscalYear: DEFAULT_FY.id,
+};
 
-// eslint-disable-next-line react/prop-types
-const wrapper = ({ children }) => (
-  <QueryClientProvider client={queryClient}>
-    {children}
-  </QueryClientProvider>
-);
-
-const renderComponent = (fiscalYear = DEFAULT_FY, ledger = DEFAULT_LEDGER) => (render(
-  <IntlProvider locale="en" messages={MESSAGES}>
-    <LedgerInformation
-      metadata={ledger.metadata}
-      name={ledger.name}
-      code={ledger.code}
-      status={ledger.ledgerStatus}
-      description={ledger.description}
-      acqUnitIds={ledger.acqUnitIds}
-      fiscalYearCode={fiscalYear.code}
-    />
-  </IntlProvider>,
-  { wrapper },
+const renderComponent = (props = {}) => (render(
+  <LedgerInformation
+    {...defaultProps}
+    {...props}
+  />,
 ));
 
 describe('LedgerInformation component', () => {
+  beforeEach(() => {
+    useLedgerCurrentFiscalYear.mockReturnValue(DEFAULT_FY);
+    useLedgerPreviousFiscalYears.mockReturnValue([DEFAULT_FY]);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should display NoValue', () => {
     renderComponent();
     const description = screen.getByTestId('description').querySelector('[data-test-kv-value]');

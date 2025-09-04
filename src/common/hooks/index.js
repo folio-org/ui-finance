@@ -8,6 +8,8 @@ export { useGroups } from './useGroups';
 export { useLedger } from './useLedger';
 export { useLedgers } from './useLedgers';
 export { useLedgerCurrentFiscalYear } from './useLedgerCurrentFiscalYear';
+export { useLedgerFunds } from './useLedgerFunds';
+export { useLedgerPreviousFiscalYears } from './useLedgerPreviousFiscalYears';
 export { useLedgerRollover } from './useLedgerRollover';
 export { useLedgerUpcomingFiscalYears } from './useLedgerUpcomingFiscalYears';
 export { useOrder } from './useOrder';

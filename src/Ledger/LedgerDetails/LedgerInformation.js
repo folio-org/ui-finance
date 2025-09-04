@@ -1,28 +1,36 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
   Checkbox,
-  Row,
   Col,
   KeyValue,
   NoValue,
+  Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
+import { LedgerDetailsFiscalYear } from './LedgerDetailsFiscalYear';
+
 const LedgerInformation = ({
-  acqUnitIds,
-  code,
-  description,
-  fiscalYearCode,
-  metadata,
-  name,
-  status,
-  restrictEncumbrance,
-  restrictExpenditures,
+  ledger,
+  onSelectFiscalYear,
+  selectedFiscalYear,
 }) => {
+  const {
+    acqUnitIds,
+    code,
+    description,
+    fiscalYearOneId,
+    id,
+    metadata,
+    name,
+    restrictEncumbrance,
+    restrictExpenditures,
+    status,
+  } = ledger;
+
   return (
     <>
       <ViewMetaData metadata={metadata} />
@@ -51,9 +59,11 @@ const LedgerInformation = ({
           data-test-ledger-information-fiscal-year
           xs={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-finance.ledger.currentFiscalYear" />}
-            value={fiscalYearCode}
+          <LedgerDetailsFiscalYear
+            fiscalYearOneId={fiscalYearOneId}
+            ledgerId={id}
+            onSelectFiscalYear={onSelectFiscalYear}
+            selectedFiscalYear={selectedFiscalYear}
           />
         </Col>
 
@@ -101,15 +111,20 @@ const LedgerInformation = ({
 };
 
 LedgerInformation.propTypes = {
-  metadata: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  code: PropTypes.string.isRequired,
-  status: PropTypes.string,
-  description: PropTypes.string,
-  acqUnitIds: PropTypes.arrayOf(PropTypes.string),
-  fiscalYearCode: PropTypes.string,
-  restrictEncumbrance: PropTypes.bool.isRequired,
-  restrictExpenditures: PropTypes.bool.isRequired,
+  ledger: PropTypes.shape({
+    acqUnitIds: PropTypes.arrayOf(PropTypes.string),
+    code: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    fiscalYearOneId: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    metadata: PropTypes.shape({}),
+    name: PropTypes.string.isRequired,
+    restrictEncumbrance: PropTypes.bool.isRequired,
+    restrictExpenditures: PropTypes.bool.isRequired,
+    status: PropTypes.string,
+  }).isRequired,
+  onSelectFiscalYear: PropTypes.func.isRequired,
+  selectedFiscalYear: PropTypes.string,
 };
 
 export default LedgerInformation;

@@ -62,16 +62,18 @@ import RolloverErrorsLink from './RolloverErrorsLink';
 import { ExportSettingsModal } from './ExportSettingsModal';
 
 const LedgerDetails = ({
-  ledger,
   fiscalYear,
+  funds,
+  ledger,
   onClose,
   onDelete,
   onEdit,
   onRollover,
   onRolloverLogs,
-  funds,
+  onSelectFiscalYear,
   rolloverErrors,
   rolloverToFY,
+  selectedFiscalYear,
 }) => {
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
@@ -113,6 +115,7 @@ const LedgerDetails = ({
             <IfPermission perm="ui-finance.ledger.rollover.execute">
               <Button
                 buttonStyle="dropdownItem"
+                data-testid="action-rollover"
                 data-test-ledger-rollover-action
                 onClick={() => {
                   onRollover();
@@ -237,15 +240,9 @@ const LedgerDetails = ({
               label={LEDGER_ACCORDION_LABELS[LEDGER_ACCORDION.information]}
             >
               <LedgerInformation
-                metadata={ledger.metadata}
-                name={ledger.name}
-                code={ledger.code}
-                status={ledger.ledgerStatus}
-                description={ledger.description}
-                acqUnitIds={ledger.acqUnitIds}
-                fiscalYearCode={fiscalYear.code}
-                restrictEncumbrance={ledger.restrictEncumbrance}
-                restrictExpenditures={ledger.restrictExpenditures}
+                ledger={ledger}
+                onSelectFiscalYear={onSelectFiscalYear}
+                selectedFiscalYear={selectedFiscalYear}
               />
             </Accordion>
             <Accordion
@@ -265,7 +262,7 @@ const LedgerDetails = ({
                 funds={funds}
                 currency={fiscalYear.currency}
                 ledgerId={ledger.id}
-                fiscalYearId={fiscalYear.id}
+                fiscalYearId={selectedFiscalYear}
               />
             </Accordion>
             <Accordion
@@ -274,7 +271,7 @@ const LedgerDetails = ({
             >
               <LedgerFunds
                 funds={funds}
-                fiscalYearId={fiscalYear.id}
+                fiscalYearId={selectedFiscalYear}
                 currency={fiscalYear.currency}
                 ledgerId={ledger.id}
               />
@@ -359,8 +356,10 @@ LedgerDetails.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onRollover: PropTypes.func.isRequired,
   onRolloverLogs: PropTypes.func.isRequired,
+  onSelectFiscalYear: PropTypes.func.isRequired,
   rolloverErrors: PropTypes.arrayOf(PropTypes.object),
   rolloverToFY: PropTypes.object,
+  selectedFiscalYear: PropTypes.string,
 };
 
 LedgerDetails.defaultProps = {

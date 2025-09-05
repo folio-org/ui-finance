@@ -28,7 +28,7 @@ const LedgerInformation = ({
     name,
     restrictEncumbrance,
     restrictExpenditures,
-    status,
+    ledgerStatus: status,
   } = ledger;
 
   return (

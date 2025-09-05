@@ -28,7 +28,7 @@ const LedgerInformation = ({
     name,
     restrictEncumbrance,
     restrictExpenditures,
-    status,
+    ledgerStatus: status,
   } = ledger;
 
   return (
@@ -121,7 +121,7 @@ LedgerInformation.propTypes = {
     name: PropTypes.string.isRequired,
     restrictEncumbrance: PropTypes.bool.isRequired,
     restrictExpenditures: PropTypes.bool.isRequired,
-    status: PropTypes.string,
+    ledgerStatus: PropTypes.string,
   }).isRequired,
   onSelectFiscalYear: PropTypes.func.isRequired,
   selectedFiscalYear: PropTypes.string,

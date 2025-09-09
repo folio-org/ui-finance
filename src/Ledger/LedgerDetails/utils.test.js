@@ -1,19 +1,25 @@
 import { getLedgerGroupsSummary } from './utils';
 
-const mutator = { GET: jest.fn() };
+const ky = {
+  get: jest.fn(() => ({
+    json: () => Promise.resolve({ groupFiscalYearSummaries: [] }),
+  })),
+};
 
-test('getLedgerGroupsSummary - should call API', () => {
-  mutator.GET.mockClear().mockReturnValue(Promise.resolve([{}]));
+describe('getLedgerGroupsSummary', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  getLedgerGroupsSummary(mutator, 'groupId', 'fiscalYearId');
+  it('should call API', () => {
+    getLedgerGroupsSummary(ky, 'groupId', 'fiscalYearId');
 
-  expect(mutator.GET).toHaveBeenCalled();
-});
+    expect(ky.get).toHaveBeenCalled();
+  });
 
-test('getLedgerGroupsSummary - should not call API', () => {
-  mutator.GET.mockClear();
+  it('should not call API', () => {
+    getLedgerGroupsSummary(ky, 'groupId');
 
-  getLedgerGroupsSummary(mutator, 'groupId');
-
-  expect(mutator.GET).not.toHaveBeenCalled();
+    expect(ky.get).not.toHaveBeenCalled();
+  });
 });

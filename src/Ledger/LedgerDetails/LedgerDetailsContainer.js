@@ -75,8 +75,6 @@ export const LedgerDetailsContainer = ({
     },
   });
 
-  console.log('funds', funds);
-
   const {
     isLoadingRolloverStatus,
     rollover,

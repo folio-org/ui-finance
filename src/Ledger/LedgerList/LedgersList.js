@@ -96,9 +96,12 @@ const LedgerList = ({
 
   const renderActionMenu = useCallback(() => <LedgerListLastMenu />, []);
 
-  const renderLedgerDetails = useCallback(() => (
+  const renderLedgerDetails = useCallback(({ match }) => (
     <CheckPermission perm="ui-finance.ledger.view">
-      <LedgerDetailsContainer refreshList={refreshList} />
+      <LedgerDetailsContainer
+        key={match.params?.id}
+        refreshList={refreshList}
+      />
     </CheckPermission>
   ), [refreshList]);
 

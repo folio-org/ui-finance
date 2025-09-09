@@ -27,7 +27,7 @@ const LedgerGroups = ({
 
   const {
     groups,
-    isLoading,
+    isFetching,
   } = useRelatedGroups({
     fiscalYearId,
     fundIds,
@@ -43,7 +43,7 @@ const LedgerGroups = ({
     [history],
   );
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <Icon
         icon="spinner-ellipsis"

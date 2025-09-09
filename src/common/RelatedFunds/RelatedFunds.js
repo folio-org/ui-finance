@@ -25,7 +25,7 @@ const RelatedFunds = ({
 
   const {
     budgets,
-    isLoading,
+    isFetching,
   } = useRelatedBudgets(query);
 
   const openFund = useCallback(({ target }, fund) => {
@@ -44,7 +44,7 @@ const RelatedFunds = ({
     return getFundsToDisplay(funds, budgets).filter(fund => fund.available !== undefined);
   }, [funds, budgets]);
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <Icon
         icon="spinner-ellipsis"

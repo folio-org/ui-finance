@@ -1,19 +1,21 @@
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
-// eslint-disable-next-line import/prefer-default-export
-export const getLedgerGroupsSummary = (ledgerGroupsSummaryMutator, ledgerId, fiscalYearId) => {
+import { GROUP_SUMMARIES_API } from '../../common/const';
+
+export const getLedgerGroupsSummary = (ky, ledgerId, fiscalYearId) => {
   if (!fiscalYearId) {
     return Promise.resolve([]);
   }
 
-  return ledgerGroupsSummaryMutator.GET({
-    params: {
-      limit: LIMIT_MAX,
-      query: `ledger.id==${ledgerId} and fiscalYearId==${fiscalYearId}`,
-    },
-  })
-    .then(ledgerGroupSummaries => {
-      return ledgerGroupSummaries.reduce((acc, lgs) => {
+  const searchParams = {
+    limit: LIMIT_MAX,
+    query: `ledger.id==${ledgerId} and fiscalYearId==${fiscalYearId}`,
+  };
+
+  return ky.get(GROUP_SUMMARIES_API, { searchParams })
+    .json()
+    .then(({ groupFiscalYearSummaries }) => {
+      return groupFiscalYearSummaries.reduce((acc, lgs) => {
         acc[lgs.groupId] = {
           allocated: lgs.allocated,
           unavailable: lgs.unavailable,

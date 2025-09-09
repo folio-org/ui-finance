@@ -26,7 +26,7 @@ export const useFiscalYears = ({ pagination }) => {
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = () => ky.get(FISCAL_YEARS_API, { searchParams }).json();
+  const queryFn = ({ signal }) => ky.get(FISCAL_YEARS_API, { searchParams, signal }).json();
 
   const options = {
     enabled: Boolean(pagination.timestamp),

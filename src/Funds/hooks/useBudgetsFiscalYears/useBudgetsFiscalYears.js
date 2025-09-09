@@ -22,7 +22,7 @@ export const useBudgetsFiscalYears = ({
   };
 
   const queryKey = [namespace, series, periodStart];
-  const queryFn = () => ky.get(FISCAL_YEARS_API, { searchParams }).json();
+  const queryFn = ({ signal }) => ky.get(FISCAL_YEARS_API, { searchParams, signal }).json();
   const options = {
     enabled: Boolean(series && periodStart),
   };

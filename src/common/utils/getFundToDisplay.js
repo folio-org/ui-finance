@@ -1,6 +1,5 @@
 import { groupBy } from 'lodash';
 
-// eslint-disable-next-line import/prefer-default-export
 export const getFundsToDisplay = (funds, budgets) => {
   const groupedBudgetByFund = groupBy(budgets, 'fundId');
 

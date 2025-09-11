@@ -16,11 +16,7 @@ export const useLedgerCurrentFiscalYear = (ledgerId, options = {}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace();
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: [namespace, ledgerId],
     queryFn: ({ signal }) => ky.get(`${LEDGERS_API}/${ledgerId}/current-fiscal-year`, { signal }).json(),
     enabled: Boolean(enabled && ledgerId),
@@ -29,7 +25,6 @@ export const useLedgerCurrentFiscalYear = (ledgerId, options = {}) => {
 
   return ({
     currentFiscalYear: data,
-    isFetching,
-    isLoading,
+    ...rest,
   });
 };

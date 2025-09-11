@@ -26,7 +26,7 @@ export const useTransactions = ({ budget, pagination }) => {
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = () => ky.get(TRANSACTIONS_API, { searchParams }).json();
+  const queryFn = ({ signal }) => ky.get(TRANSACTIONS_API, { searchParams, signal }).json();
 
   const options = {
     enabled: Boolean(budget?.id) && Boolean(pagination.timestamp),

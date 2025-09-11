@@ -49,13 +49,13 @@ export const useLedgers = ({
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = () => {
+  const queryFn = ({ signal }) => {
     if (!filtersCount) {
       return { ledgers: [], totalRecords: 0 };
     }
 
     return ky
-      .get(LEDGERS_API, { searchParams: { ...defaultSearchParams, ...searchParams } })
+      .get(LEDGERS_API, { searchParams: { ...defaultSearchParams, ...searchParams }, signal })
       .json();
   };
   const defaultOptions = {

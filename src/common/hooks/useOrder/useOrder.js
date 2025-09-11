@@ -16,7 +16,7 @@ export const useOrder = (orderId) => {
     isLoading,
   } = useQuery({
     queryKey: [namespace, orderId],
-    queryFn: async () => ky.get(`${ORDERS_API}/${orderId}`).json(),
+    queryFn: async ({ signal }) => ky.get(`${ORDERS_API}/${orderId}`, { signal }).json(),
     enabled: Boolean(orderId),
   });
 

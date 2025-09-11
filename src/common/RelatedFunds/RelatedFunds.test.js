@@ -1,9 +1,17 @@
-import React from 'react';
-import { act, render, cleanup } from '@folio/jest-config-stripes/testing-library/react';
-import { MemoryRouter, useHistory } from 'react-router-dom';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+import {
+  MemoryRouter,
+  useHistory,
+} from 'react-router-dom';
 
-import RelatedFunds from './RelatedFunds';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
+import { useOkapiKy } from '@folio/stripes/core';
+
 import ConnectionListing from '../../components/ConnectionListing';
+import RelatedFunds from './RelatedFunds';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -15,51 +23,54 @@ const history = {
   push: jest.fn(),
 };
 
-const renderRelatedFunds = ({ mutator, query }) => (render(
+const queryClient = new QueryClient();
+const wrapper = ({ children }) => (
   <MemoryRouter>
-    <RelatedFunds
-      query={query}
-      mutator={mutator}
-    />
-  </MemoryRouter>,
-));
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  </MemoryRouter>
+);
+
+const renderRelatedFunds = (props = {}) => render(
+  <RelatedFunds
+    {...props}
+  />,
+  { wrapper },
+);
+
+const budgets = [{ id: 'budgetId' }];
 
 describe('RelatedFunds', () => {
-  let mutator;
+  const kyMock = {
+    get: jest.fn(() => ({
+      json: jest.fn().mockResolvedValue({ budgets }),
+    })),
+  };
 
   beforeEach(() => {
-    useHistory.mockClear().mockReturnValue(history);
-    mutator = {
-      relatedBudgets: {
-        GET: jest.fn(),
-      },
-    };
+    useHistory.mockReturnValue(history);
+    useOkapiKy.mockReturnValue(kyMock);
   });
 
-  afterEach(cleanup);
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should load related budget data', async () => {
-    mutator.relatedBudgets.GET.mockReturnValue(Promise.resolve([]));
+    renderRelatedFunds({ query: 'budgetQuery' });
 
-    await act(async () => {
-      renderRelatedFunds({ mutator, query: 'budgetQuery' });
-    });
-
-    expect(mutator.relatedBudgets.GET).toHaveBeenCalled();
+    expect(kyMock.get).toHaveBeenCalled();
   });
 
   it('should not load related budget data', async () => {
-    await act(async () => {
-      renderRelatedFunds({ mutator });
-    });
+    renderRelatedFunds();
 
-    expect(mutator.relatedBudgets.GET).not.toHaveBeenCalled();
+    expect(kyMock.get).not.toHaveBeenCalled();
   });
 
   it('should open item', async () => {
-    await act(async () => {
-      renderRelatedFunds({ mutator });
-    });
+    renderRelatedFunds();
 
     ConnectionListing.mock.calls[0][0].openItem({ target: {} }, { id: 'id' });
 

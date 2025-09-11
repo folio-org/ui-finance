@@ -1,82 +1,56 @@
-import React from 'react';
-import { act, render, cleanup } from '@folio/jest-config-stripes/testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import ConnectionListing from '../../components/ConnectionListing';
 import LedgerGroups from './LedgerGroups';
 
 jest.mock('../../components/ConnectionListing', () => jest.fn().mockReturnValue('ConnectionListing'));
+jest.mock('./useRelatedGroups', () => ({
+  useRelatedGroups: jest.fn(() => ({ groups: [], isFetching: false })),
+}));
 
 const historyMock = {
   push: jest.fn(),
 };
 
-const renderLedgerGroups = ({
-  funds = [],
-  currency = 'USD',
-  mutator,
-  ledgerId = 'ledgerId',
-  fiscalYearId = 'fyId',
-}) => (render(
+const defaultProps = {
+  currency: 'USD',
+  fiscalYearId: 'fiscalYearId',
+  funds: [],
+  ledgerId: 'ledgerId',
+};
+
+const wrapper = ({ children }) => (
   <MemoryRouter>
-    <LedgerGroups
-      history={historyMock}
-      mutator={mutator}
-      fiscalYearId={fiscalYearId}
-      ledgerId={ledgerId}
-      currency={currency}
-      funds={funds}
-    />
-  </MemoryRouter>,
-));
+    {children}
+  </MemoryRouter>
+);
+
+const renderLedgerGroups = (props = {}) => render(
+  <LedgerGroups
+    {...defaultProps}
+    {...props}
+  />,
+  { wrapper },
+);
 
 describe('LedgerGroups', () => {
-  let mutator;
-
-  beforeEach(() => {
-    mutator = {
-      groupFundFYByFundId: {
-        GET: jest.fn(),
-      },
-      groups: {
-        GET: jest.fn(),
-      },
-      ledgerGroupSummaries: {
-        GET: jest.fn(),
-      },
-    };
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  afterEach(cleanup);
+  it('should render component', () => {
+    renderLedgerGroups();
 
-  it('should load all data', async () => {
-    mutator.groupFundFYByFundId.GET.mockReturnValue(Promise.resolve({}));
-    mutator.groups.GET.mockReturnValue(Promise.resolve([]));
-    mutator.ledgerGroupSummaries.GET.mockReturnValue(Promise.resolve([]));
-
-    await act(async () => {
-      renderLedgerGroups({ mutator, funds: [{ id: 'fundId' }] });
-    });
-
-    expect(mutator.groupFundFYByFundId.GET).toHaveBeenCalled();
-    expect(mutator.groups.GET).toHaveBeenCalled();
-    expect(mutator.ledgerGroupSummaries.GET).toHaveBeenCalled();
-  });
-
-  it('should not load data', async () => {
-    await act(async () => {
-      renderLedgerGroups({ mutator });
-    });
-
-    expect(mutator.groupFundFYByFundId.GET).not.toHaveBeenCalled();
-    expect(mutator.groups.GET).not.toHaveBeenCalled();
-    expect(mutator.ledgerGroupSummaries.GET).not.toHaveBeenCalled();
+    expect(screen.getByText('ConnectionListing')).toBeInTheDocument();
   });
 
   it('should open item', async () => {
-    await act(async () => {
-      renderLedgerGroups({ mutator });
-    });
+    renderLedgerGroups();
 
     ConnectionListing.mock.calls[0][0].openItem({}, { id: 'id' });
 

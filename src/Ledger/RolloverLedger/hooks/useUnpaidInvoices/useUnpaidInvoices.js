@@ -30,12 +30,12 @@ export const useUnpaidInvoices = (fy = {}, options = {}) => {
 
   const { data = {}, isFetching } = useQuery(
     [namespace, pagination.timestamp, pagination.limit, pagination.offset],
-    async () => {
+    async ({ signal }) => {
       const unpaidInvoices = await ky.get(INVOICES_API, { searchParams }).json();
       const vendorIds = [...new Set(unpaidInvoices?.invoices?.map(({ vendorId }) => vendorId))];
       const vendors = await batchRequest(
         async ({ params }) => {
-          const { organizations = [] } = await ky.get(VENDORS_API, { searchParams: params }).json();
+          const { organizations = [] } = await ky.get(VENDORS_API, { searchParams: params, signal }).json();
 
           return organizations;
         },

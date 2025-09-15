@@ -28,13 +28,13 @@ export const useGroups = ({ pagination }) => {
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = () => {
+  const queryFn = ({ signal }) => {
     if (!filtersCount) {
       return { groups: [], totalRecords: 0 };
     }
 
     return (
-      ky.get(GROUPS_API, { searchParams }).json()
+      ky.get(GROUPS_API, { searchParams, signal }).json()
     );
   };
   const options = {

@@ -1,8 +1,11 @@
-import React from 'react';
-import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import {
   HasCommand,
   expandAllSections,
@@ -26,6 +29,9 @@ jest.mock('react-router', () => ({
   useHistory: jest.fn(),
 }));
 jest.mock('../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
+jest.mock('../../common/RelatedFunds/useRelatedBudgets', () => ({
+  useRelatedBudgets: jest.fn(() => ({ budgets: [], isFetching: false })),
+}));
 jest.mock('./FiscalYearInformation', () => jest.fn().mockReturnValue('FiscalYearInformation'));
 
 const defaultProps = {
@@ -48,6 +54,10 @@ const renderFiscalYearDetails = (props = defaultProps) => (render(
 ));
 
 describe('FiscalYearDetails component', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should display fy details accordions', async () => {
     await act(async () => renderFiscalYearDetails());
 

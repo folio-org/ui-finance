@@ -53,13 +53,13 @@ export const useFunds = ({
   };
 
   const queryKey = [namespace, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = async () => {
+  const queryFn = async ({ signal }) => {
     if (!filtersCount) {
       return { funds: [], totalRecords: 0 };
     }
 
     const { funds, totalRecords } = await ky
-      .get(FUNDS_API, { searchParams: { ...defaultSearchParams, ...searchParams } })
+      .get(FUNDS_API, { searchParams: { ...defaultSearchParams, ...searchParams }, signal })
       .json();
 
     const { ledgersMap } = await fetchReferences(funds);

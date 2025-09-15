@@ -10,12 +10,13 @@ export const useExportFund = (fiscalYearCode, options = {}) => {
   const [namespace] = useNamespace();
 
   const queryKey = [namespace, 'exportFunds', fiscalYearCode];
-  const queryFn = () => ky
+  const queryFn = ({ signal }) => ky
     .get(FUND_CODES_EXPENSE_CLASSES_API, {
       searchParams: {
         fiscalYearCode,
         limit: LIMIT_MAX,
       },
+      signal,
     })
     .json();
 

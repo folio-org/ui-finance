@@ -27,6 +27,12 @@ jest.mock('react-router', () => ({
 }));
 jest.mock('./LedgerInformation', () => jest.fn().mockReturnValue('LedgerInformation'));
 jest.mock('./../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
+jest.mock('../../common/RelatedFunds/useRelatedBudgets', () => ({
+  useRelatedBudgets: jest.fn(() => ({ budgets: [], isFetching: false })),
+}));
+jest.mock('./useRelatedGroups', () => ({
+  useRelatedGroups: jest.fn(() => ({ groups: [], isFetching: false })),
+}));
 
 const defaultProps = {
   ledger: { id: 'ledgerId' },
@@ -49,6 +55,10 @@ const renderLedgerDetails = (props = defaultProps) => (render(
 ));
 
 describe('LedgerDetails component', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should display ledger details accordions', () => {
     const { getByText } = renderLedgerDetails();
 

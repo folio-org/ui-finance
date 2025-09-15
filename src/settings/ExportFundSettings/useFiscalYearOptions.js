@@ -10,12 +10,13 @@ export const useFiscalYearOptions = (options = {}) => {
   const [namespace] = useNamespace();
 
   const queryKey = [namespace, 'fiscalYearOptions'];
-  const queryFn = () => ky
+  const queryFn = ({ signal }) => ky
     .get(FISCAL_YEARS_API, {
       searchParams: {
         limit: LIMIT_MAX,
         query: 'cql.allRecords=1 sortby name/sort.ascending',
       },
+      signal,
     })
     .json();
 

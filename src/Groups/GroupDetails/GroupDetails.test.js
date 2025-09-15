@@ -1,8 +1,7 @@
-import React from 'react';
-import { render } from '@folio/jest-config-stripes/testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 import {
   HasCommand,
   expandAllSections,
@@ -25,8 +24,11 @@ jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
 }));
-jest.mock('./GroupInformation', () => jest.fn().mockReturnValue('GroupInformation'));
 jest.mock('../../common/FinancialSummary', () => jest.fn().mockReturnValue('FinancialSummary'));
+jest.mock('../../common/RelatedFunds/useRelatedBudgets', () => ({
+  useRelatedBudgets: jest.fn(() => ({ budgets: [], isFetching: false })),
+}));
+jest.mock('./GroupInformation', () => jest.fn().mockReturnValue('GroupInformation'));
 
 const defaultProps = {
   group: { name: 'group', status: 'Active' },
@@ -48,6 +50,10 @@ const renderGroupDetails = (props = defaultProps) => (render(
 ));
 
 describe('GroupDetails component', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should display group details', () => {
     const { getByText } = renderGroupDetails();
 

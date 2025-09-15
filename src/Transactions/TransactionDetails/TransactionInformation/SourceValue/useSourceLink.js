@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
@@ -13,13 +12,13 @@ import { TRANSACTION_SOURCE } from '../../../constants';
 import { getSourceLink } from './utils';
 
 const queryFnsMap = {
-  [TRANSACTION_SOURCE.invoice]: async (ky, transaction) => {
-    const { vendorInvoiceNo } = await ky(`${INVOICES_API}/${transaction.sourceInvoiceId}`).json();
+  [TRANSACTION_SOURCE.invoice]: async (ky, transaction, signal) => {
+    const { vendorInvoiceNo } = await ky.get(`${INVOICES_API}/${transaction.sourceInvoiceId}`, { signal }).json();
 
     return vendorInvoiceNo;
   },
-  [TRANSACTION_SOURCE.poLine]: async (ky, transaction) => {
-    const { poLineNumber } = await ky(`${LINES_API}/${transaction.encumbrance?.sourcePoLineId}`).json();
+  [TRANSACTION_SOURCE.poLine]: async (ky, transaction, signal) => {
+    const { poLineNumber } = await ky.get(`${LINES_API}/${transaction.encumbrance?.sourcePoLineId}`, { signal }).json();
 
     return poLineNumber;
   },
@@ -33,7 +32,7 @@ export const useSourceLink = (transaction, intl) => {
 
   const { isLoading, data } = useQuery(
     ['finance', 'transaction-source-value', transaction.id],
-    () => queryFn(ky, transaction),
+    ({ signal }) => queryFn(ky, transaction, signal),
     { enabled: Boolean(queryFn) },
   );
 

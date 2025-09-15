@@ -42,7 +42,7 @@ export const useRolloverLogs = ({
   };
 
   const queryKey = [namespace, ledgerId, pagination.timestamp, pagination.limit, pagination.offset];
-  const queryFn = () => ky.get(LEDGER_ROLLOVER_LOGS_API, { searchParams }).json();
+  const queryFn = ({ signal }) => ky.get(LEDGER_ROLLOVER_LOGS_API, { searchParams, signal }).json();
   const options = {
     enabled: Boolean(ledgerId && pagination.timestamp),
     keepPreviousData: true,

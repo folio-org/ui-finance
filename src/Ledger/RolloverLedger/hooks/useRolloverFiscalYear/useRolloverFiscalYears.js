@@ -14,7 +14,7 @@ export const useRolloverFiscalYears = (series) => {
   };
   const { data: { fiscalYears } = {}, isLoading } = useQuery(
     ['finance', 'fiscal-years', series],
-    () => ky.get(`${FISCAL_YEARS_API}`, { searchParams }).json(),
+    ({ signal }) => ky.get(`${FISCAL_YEARS_API}`, { searchParams, signal }).json(),
     { enabled: Boolean(series) },
   );
 

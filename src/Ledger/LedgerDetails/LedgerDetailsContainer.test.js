@@ -34,6 +34,12 @@ jest.mock('../../common/hooks', () => ({
   useLedgerFunds: jest.fn(),
   useLedgerPreviousFiscalYears: jest.fn(),
 }));
+jest.mock('../../common/RelatedFunds/useRelatedBudgets', () => ({
+  useRelatedBudgets: jest.fn(() => ({ budgets: [], isFetching: false })),
+}));
+jest.mock('./useRelatedGroups', () => ({
+  useRelatedGroups: jest.fn(() => ({ groups: [], isFetching: false })),
+}));
 
 const ledger = {
   id: 'ledgerId',

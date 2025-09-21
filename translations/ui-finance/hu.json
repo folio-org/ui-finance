@@ -582,5 +582,7 @@
     "budget.expenseClasses.unassigned": "Unassigned",
     "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist.",
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
-    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
+    "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
+    "settings.exchangeRateSource.providerType.keyRequired": "Key required"
 }

@@ -133,7 +133,7 @@
     "transaction.source": "Source",
     "transaction.tags": "Mots-clés",
     "transaction.to": "À",
-    "transaction.transfer.hasBeenCreated": "{amount} a été transféré avec succès sur le budget {budgetName}",
+    "transaction.transfer.hasBeenCreated": "{amount} a été transféré avec succès sur le budget <b>{budgetName}</b>.",
     "transaction.transfer.title": "Transfert/transférer",
     "transaction.transferFrom": "Transfert de",
     "transaction.transferTo": "Transfert à",
@@ -227,9 +227,9 @@
     "budget.actions.remove.error.transactionIsPresentBudgetDeleteError": "Le budget ne peut pas être supprimé, car il contient des transactions",
     "budget.remove.heading": "Supprimer le budget",
     "budget.remove.message": "Voulez-vous vraiment supprimer le budget?",
-    "transaction.allocation.genericError": "{amount} n'a pas été correctement alloué au budget {budgetName}",
+    "transaction.allocation.genericError": "{amount} n'a pas été correctement alloué au budget <b>{budgetName}</b>.",
     "transaction.allocation.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
-    "transaction.transfer.genericError": "{amount} n'a pas été transféré avec succès sur le budget {budgetName}",
+    "transaction.transfer.genericError": "{amount} n'a pas été transféré avec succès sur le budget <b>{budgetName}</b>.",
     "transaction.transfer.allowableAllocationIdsMismatch": "This transaction cannot be made between these two Funds as the \"allow transfer to or from\" Fund setting on one or more of the Funds is too restrictive.",
     "fund.actions.load.error": "Échec du chargement des données budgétaires",
     "fund.actions.viewTransactions": "Afficher les transactions pour le budget actuel",
@@ -582,5 +582,7 @@
     "budget.expenseClasses.unassigned": "Unassigned",
     "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" applies to transactions completed prior to the inclusion of expense classes on the budget, if there are any that exist.",
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
-    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
+    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
+    "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
+    "settings.exchangeRateSource.providerType.keyRequired": "Key required"
 }

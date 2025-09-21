@@ -581,6 +581,8 @@
     "transaction.button.switchFunds": "Переключити Грошові кошти",
     "budget.expenseClasses.unassigned": "Анульовано",
     "budget.expenseClasses.unassigned.tooltip": "\"Анульовано\" застосовується до транзакцій, що були завершені до включення класів витрат до бюджету, якщо такі існують.",
-    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
-    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
+    "transaction.transfer.budgetRestrictedExpendituresError": "Не вдалося перерахувати {amount} до бюджету <b>{toBudgetName}</b>, оскільки сума перевищує допустимий ліміт витрат для <b>{fromBudgetName}</b>, а також діють обмеження облікової книги Грошових коштів.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} успішно розподілено до бюджету <b>{budgetName}</b>",
+    "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
+    "settings.exchangeRateSource.providerType.keyRequired": "Key required"
 }

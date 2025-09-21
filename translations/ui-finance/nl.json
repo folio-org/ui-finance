@@ -565,7 +565,7 @@
     "allocation.batch.logs.search.keyword": "Alle",
     "allocation.batch.logs.search.jobName": "Functie",
     "transaction.validation.totalAllocatedExceeded": "De totale toewijzing kan niet minder dan nul zijn",
-    "transaction.allocation.increase.hasBeenCreated": "{amount} is succesvol toegewezen aan het budget <b>.{budgetNaam}</b>",
+    "transaction.allocation.increase.hasBeenCreated": "{amount} is succesvol toegewezen aan het budget <b>.{budgetName}</b>",
     "transaction.allocation.decrease.hasBeenCreated": "Budget <b>.{budgetName}</b> toewijzing met succes verlaagd met {amount}",
     "document.settings.title": "Financiële instellingen",
     "settings.exchangeRateSource.title": "Bron wisselkoers",
@@ -581,6 +581,8 @@
     "transaction.button.switchFunds": "Wisselfondsen",
     "budget.expenseClasses.unassigned": "Niet toegewezen",
     "budget.expenseClasses.unassigned.tooltip": "\"Unassigned\" (niet-toegewezen) is van toepassing op transacties die voltooid zijn voordat Onkostensoorten in het Budget zijn opgenomen, als die er zijn.",
-    "transaction.transfer.budgetRestrictedExpendituresError": "{Bedrag} kon niet worden overgeschreven naar het Budget <b>.{toBudgetName}</b> omdat het de toegestane uitgavenlimiet voor <b> overschrijdt{fromBudgetName}</b> en Beperkingen op Grootboekfondsen zijn actief.",
-    "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>."
+    "transaction.transfer.budgetRestrictedExpendituresError": "{amount} kon niet worden overgeschreven naar het Budget <b>.{toBudgetName}</b> omdat het de toegestane uitgavenlimiet voor <b> overschrijdt{fromBudgetName}</b> en Beperkingen op Grootboekfondsen zijn actief.",
+    "transaction.allocation.move.hasBeenCreated": "{amount} is succesvol toegewezen aan het budget <b>.{budgetName}</b>.",
+    "settings.exchangeRateSource.providerType.noKeyRequired": "Geen sleutel Vereist",
+    "settings.exchangeRateSource.providerType.keyRequired": "Vereiste sleutel"
 }

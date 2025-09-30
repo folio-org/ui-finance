@@ -23,6 +23,10 @@ import Transactions from '../../Transactions';
 import { Budget } from '../Budget';
 import { getInitialRoute } from './utils';
 
+/* TODO: remove refs */
+import POC from '../POC';
+/*  */
+
 const Main = () => {
   const match = useRouteMatch();
   const stripes = useStripes();
@@ -30,6 +34,10 @@ const Main = () => {
   return (
     <div style={{ width: '100%' }}>
       <Switch>
+        <Route
+          path="/finance/poc"
+          component={POC}
+        />
         <Route
           path={LEDGERS_ROUTE}
           component={Ledger}

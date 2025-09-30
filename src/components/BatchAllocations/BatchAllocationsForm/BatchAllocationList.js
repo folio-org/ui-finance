@@ -14,7 +14,8 @@ import { useBatchAllocationFormatter } from '../hooks';
 import { getBatchAllocationColumnMapping } from '../utils';
 
 export const BatchAllocationList = ({
-  fields,
+  // fields,
+  contentData,
   props: {
     fiscalYear,
     isLoading,
@@ -33,7 +34,8 @@ export const BatchAllocationList = ({
   return (
     <>
       <MultiColumnList
-        contentData={fields.value}
+        contentData={contentData}
+        // contentData={fields.value}
         columnMapping={columnMapping}
         columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
         formatter={formatter}
@@ -43,13 +45,14 @@ export const BatchAllocationList = ({
         sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
         visibleColumns={BATCH_ALLOCATION_COLUMNS}
       />
-      <AcqEndOfList totalCount={fields.value?.length} />
+      {/* <AcqEndOfList totalCount={fields.value?.length} /> */}
+      <AcqEndOfList totalCount={contentData?.length} />
     </>
   );
 };
 
 BatchAllocationList.propTypes = {
-  fields: PropTypes.object.isRequired,
+  // fields: PropTypes.object.isRequired,
   props: PropTypes.shape({
     fiscalYear: PropTypes.object,
     isLoading: PropTypes.bool,

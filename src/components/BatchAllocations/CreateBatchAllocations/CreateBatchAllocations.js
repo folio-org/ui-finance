@@ -134,9 +134,11 @@ export const CreateBatchAllocations = () => {
   const initialValues = useMemo(() => ({
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: (
       financeData
-        ?.map((item) => ({
+      /* TODO: create mock data */
+        ?.flatMap((item, i) => new Array(300).fill({
           ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
           ...item,
+          name: `${item.name}-${i}`,
         }))
     ),
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData]: null,

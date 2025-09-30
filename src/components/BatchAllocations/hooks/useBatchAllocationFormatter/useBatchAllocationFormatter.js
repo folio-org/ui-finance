@@ -16,6 +16,7 @@ import {
   AmountWithCurrencyField,
   FieldSelectFinal,
   FieldTags,
+  Select,
 } from '@folio/stripes-acq-components';
 
 import { composeValidators } from '../../../../common/utils';
@@ -47,23 +48,23 @@ const checkIfUnchanged = ({ isBudgetChanged, isFundChanged } = {}) => {
 };
 
 export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
-  const form = useForm();
+  // const form = useForm();
 
   const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
   const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
 
   const formatter = useMemo(() => ({
     [BATCH_ALLOCATION_FIELDS.fundName]: (item) => {
-      const { values } = form.getState();
-      const isIconVisible = (
-        (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA]))
-        && checkIfUnchanged(values[CALCULATED_FINANCE_DATA]?.[item[ROW_INDEX]])
-      );
+      // const { values } = form.getState();
+      // const isIconVisible = (
+      //   (item[IS_MISSED] || Boolean(values[CALCULATED_FINANCE_DATA]))
+      //   && checkIfUnchanged(values[CALCULATED_FINANCE_DATA]?.[item[ROW_INDEX]])
+      // );
 
       return (
         <Row>
           <Col xs>{item.fundName}</Col>
-          {isIconVisible && (
+          {/* isIconVisible */ false && (
             <Tooltip
               text={intl.formatMessage({ id: 'ui-finance.allocation.batch.form.validation.error.missedFund' })}
               id="fund-missed-tooltip"
@@ -83,14 +84,22 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
     },
     [BATCH_ALLOCATION_FIELDS.fundStatus]: (item) => {
       return (
-        <FieldSelectFinal
+        // <FieldSelectFinal
+        //   aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundStatus.toLocaleLowerCase()}`}
+        //   dataOptions={fundStatusOptions}
+        //   disabled={isLoading}
+        //   fullWidth
+        //   marginBottom0
+        //   name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+        //   validateFields={[]}
+        // />
+        <Select
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.fundStatus.toLocaleLowerCase()}`}
           dataOptions={fundStatusOptions}
           disabled={isLoading}
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
-          validateFields={[]}
         />
       );
     },
@@ -108,122 +117,164 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
     },
     [BATCH_ALLOCATION_FIELDS.budgetStatus]: (item) => {
       return (
-        <FieldSelectFinal
+        <Select
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetStatus.toLocaleLowerCase()}`}
           dataOptions={budgetStatusOptions}
           disabled={isLoading}
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
-          validateFields={[]}
         />
       );
     },
     [BATCH_ALLOCATION_FIELDS.budgetAllocationChange]: (item) => {
       return (
-        <Field
+        // <Field
+        //   aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllocationChange.toLocaleLowerCase()}`}
+        //   fullWidth
+        //   component={TextField}
+        //   disabled={isLoading}
+        //   marginBottom0
+        //   name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
+        //   parse={parseNumberOrInitial}
+        //   type="number"
+        //   validate={composeValidators(
+        //     validateNumericValue(intl),
+        //   )}
+        //   validateFields={[]}
+        // />
+        <TextField
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllocationChange.toLocaleLowerCase()}`}
           fullWidth
-          component={TextField}
           disabled={isLoading}
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
-          parse={parseNumberOrInitial}
           type="number"
-          validate={composeValidators(
-            validateNumericValue(intl),
-          )}
-          validateFields={[]}
         />
       );
     },
     [BATCH_ALLOCATION_FIELDS.budgetAfterAllocation]: (item) => {
       return (
-        <Field
+        // <Field
+        //   aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation.toLocaleLowerCase()}`}
+        //   component={TextField}
+        //   disabled
+        //   fullWidth
+        //   marginBottom0
+        //   name={`${CALCULATED_FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
+        //   type="number"
+        //   validate={validateAllocationAfterField(intl, item[ROW_INDEX])}
+        //   validateFields={[]}
+        // />
+        <TextField
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation.toLocaleLowerCase()}`}
-          component={TextField}
           disabled
           fullWidth
           marginBottom0
           name={`${CALCULATED_FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
           type="number"
-          validate={validateAllocationAfterField(intl, item[ROW_INDEX])}
-          validateFields={[]}
         />
       );
     },
     [BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]: (item) => {
       return (
-        <Field
+        // <Field
+        //   aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance.toLocaleLowerCase()}`}
+        //   component={TextField}
+        //   disabled={isLoading}
+        //   fullWidth
+        //   marginBottom0
+        //   name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
+        //   parse={parseNumberOrInitial}
+        //   type="number"
+        //   validate={composeValidators(
+        //     validateNumericValue(intl),
+        //     validateNotNegative(intl),
+        //   )}
+        //   validateFields={[]}
+        // />
+        <TextField
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance.toLocaleLowerCase()}`}
-          component={TextField}
           disabled={isLoading}
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
-          parse={parseNumberOrInitial}
           type="number"
-          validate={composeValidators(
-            validateNumericValue(intl),
-            validateNotNegative(intl),
-          )}
-          validateFields={[]}
         />
       );
     },
     [BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]: (item) => {
       return (
-        <Field
+        // <Field
+        //   aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure.toLocaleLowerCase()}`}
+        //   component={TextField}
+        //   disabled={isLoading}
+        //   fullWidth
+        //   marginBottom0
+        //   name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
+        //   parse={parseNumberOrInitial}
+        //   type="number"
+        //   validate={composeValidators(
+        //     validateNumericValue(intl),
+        //     validateNotNegative(intl),
+        //   )}
+        //   validateFields={[]}
+        // />
+        <TextField
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure.toLocaleLowerCase()}`}
-          component={TextField}
           disabled={isLoading}
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
-          parse={parseNumberOrInitial}
           type="number"
-          validate={composeValidators(
-            validateNumericValue(intl),
-            validateNotNegative(intl),
-          )}
-          validateFields={[]}
         />
       );
     },
     [BATCH_ALLOCATION_FIELDS.transactionDescription]: (item) => {
       return (
-        <Field
+        // <Field
+        //   aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionDescription.toLocaleLowerCase()}`}
+        //   component={TextField}
+        //   disabled={isLoading}
+        //   fullWidth
+        //   marginBottom0
+        //   name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
+        //   placeholder="Description"
+        //   type="text"
+        //   validateFields={[]}
+        // />
+        <TextField
           aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionDescription.toLocaleLowerCase()}`}
-          component={TextField}
           disabled={isLoading}
           fullWidth
           marginBottom0
           name={`${FINANCE_DATA}.${item[ROW_INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
           placeholder="Description"
           type="text"
-          validateFields={[]}
         />
       );
     },
     [BATCH_ALLOCATION_FIELDS.transactionTag]: (item) => {
       return (
         <div className={css.tagsField}>
-          <FieldTags
+          {/* <FieldTags
             aria-labelledby={`list-column-${BATCH_ALLOCATION_FIELDS.transactionTag.toLocaleLowerCase()}`}
             disabled={isLoading}
-            formValues={form.getState().values}
+            // formValues={form.getState().values}
             fullWidth
             labelless
             marginBottom0
             name={`${FINANCE_DATA}.${item[ROW_INDEX]}.transactionTag.tagList`}
-          />
+          /> */}
+
+          Tags to implement
         </div>
       );
     },
   }), [
     budgetStatusOptions,
     fiscalYear?.currency,
-    form,
+    // form,
     fundStatusOptions,
     intl,
     isLoading,

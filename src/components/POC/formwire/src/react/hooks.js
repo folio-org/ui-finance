@@ -1,117 +1,260 @@
-import { useState, useEffect, startTransition, useContext } from 'react';
+/**
+ * React hooks for FormEngine integration
+ */
 
-import { shallowEqual } from '../core/utils';
-import { FormContext, useFormEngine } from './FormContext';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useFormEngine, useFormContext } from './FormContext.js';
 
 /**
- * useField: subscribe to a single field path with a subscription mask.
- * Returns { input, meta, value, error, touched, active }.
+ * Hook for field state and handlers
+ * @param {string} name - Field name
+ * @param {Object} options - Field options
  */
-export function useField(name, subscription = { value: true, error: true, touched: true, active: true }) {
+export function useField(name, options = {}) {
   const engine = useFormEngine();
+  const { defaultValidateOn } = useFormContext();
+  
+  const {
+    validate,
+    validateOn = defaultValidateOn,
+    subscription = { value: true, error: true, touched: true, active: true }
+  } = options;
 
+  // Create context for automatic cleanup
+  const fieldContext = useMemo(() => ({ name, subscription }), [name, subscription]);
+
+  // Get initial state
   const [value, setValue] = useState(() => engine.get(name));
-  const [error, setError] = useState(() => engine.errors[name] || null);
+  const [error, setError] = useState(() => engine.getErrors()[name] || null);
   const [touched, setTouched] = useState(() => engine.isTouched(name));
   const [active, setActive] = useState(() => engine.active === name);
 
+  // Subscribe to field changes with optimized event system
   useEffect(() => {
-    const unsub = [];
+    if (!subscription.value) return;
+    
+    const unsubscribe = engine.on(`change:${name}`, (newValue) => {
+      setValue(newValue);
+    }, fieldContext);
+    
+    return unsubscribe;
+  }, [engine, name, subscription.value, fieldContext]);
 
-    if (subscription.value) {
-      unsub.push(engine.subscribe(name, (v) => startTransition(() => setValue(v))));
-    }
-    if (subscription.error) {
-      unsub.push(engine.subscribeMeta(name, (err) => startTransition(() => setError(err))));
-    }
-    if (subscription.touched) {
-      unsub.push(engine.emitter.on(`touch:${name}`, () => startTransition(() => setTouched(true))));
-    }
-    if (subscription.active) {
-      unsub.push(engine.emitter.on('focus', (path) => startTransition(() => setActive(path === name))));
-      unsub.push(engine.emitter.on('blur', () => startTransition(() => setActive(false))));
-    }
+  // Subscribe to field errors with optimized event system
+  useEffect(() => {
+    if (!subscription.error) return;
+    
+    const unsubscribe = engine.on(`error:${name}`, (newError) => {
+      setError(newError);
+    }, fieldContext);
+    
+    return unsubscribe;
+  }, [engine, name, subscription.error, fieldContext]);
 
-    return () => unsub.forEach(u => u && u());
-  }, [engine, name, JSON.stringify(subscription)]);
+  // Subscribe to field touched state with optimized event system
+  useEffect(() => {
+    if (!subscription.touched) return;
+    
+    const unsubscribe = engine.on(`touch:${name}`, () => {
+      setTouched(true);
+    }, fieldContext);
+    
+    return unsubscribe;
+  }, [engine, name, subscription.touched, fieldContext]);
 
-  const input = {
+  // Subscribe to field active state with optimized event system
+  useEffect(() => {
+    if (!subscription.active) return;
+    
+    const unsubscribe = engine.on('focus', ({ path }) => {
+      setActive(path === name);
+    }, fieldContext);
+    
+    const unsubscribeBlur = engine.on('blur', () => {
+      setActive(false);
+    }, fieldContext);
+    
+    return () => {
+      unsubscribe();
+      unsubscribeBlur();
+    };
+  }, [engine, name, subscription.active, fieldContext]);
+
+  // Field handlers
+  const onChange = useCallback((event) => {
+    const newValue = event.target ? event.target.value : event;
+    engine.set(name, newValue);
+  }, [engine, name]);
+
+  const onBlur = useCallback(() => {
+    engine.touch(name);
+    engine.blur();
+    
+    // Run validation on blur
+    if (validate && validateOn === 'blur') {
+      const fieldValue = engine.get(name);
+      const result = validate(fieldValue, engine.getValues());
+      
+      if (result && typeof result.then === 'function') {
+        result.then((error) => {
+          if (error) {
+            engine.setError(name, error);
+          } else {
+            engine.clearError(name);
+          }
+        }).catch((err) => {
+          engine.setError(name, err.message);
+        });
+      } else if (result) {
+        engine.setError(name, result);
+      } else {
+        engine.clearError(name);
+      }
+    }
+  }, [engine, name, validate, validateOn]);
+
+  const onFocus = useCallback(() => {
+    engine.focus(name);
+  }, [engine, name]);
+
+  // Input props
+  const input = useMemo(() => ({
     name,
-    value,
-    onChange: (v) => startTransition(() => engine.set(name, v)),
-    onBlur: () => {
-      startTransition(() => {
-        engine.touch(name);
-        engine.blur();
-      });
-    },
-    onFocus: () => startTransition(() => engine.focus(name)),
-  };
+    value: value || '',
+    onChange,
+    onBlur,
+    onFocus,
+  }), [name, value, onChange, onBlur, onFocus]);
 
-  const meta = { error, touched, active };
+  // Meta props
+  const meta = useMemo(() => ({
+    error,
+    touched,
+    active,
+    dirty: touched && value !== engine.get(name),
+  }), [error, touched, active, name, value, engine]);
 
   return { input, meta, value, error, touched, active };
 }
 
 /**
- * useFormState: subscribe to global changes and apply optional selector.
+ * Hook for form state
+ * @param {Object} subscription - What to subscribe to
  */
-export function useFormState(selector) {
+export function useFormState(subscription = { values: true, errors: true, touched: true, active: true, submitting: true, valid: true }) {
   const engine = useFormEngine();
-  const [selValue, setSelValue] = useState(() => (selector ? selector(engine.getValues()) : engine.getValues()));
+  
+  const [formState, setFormState] = useState(() => engine.getFormState());
 
   useEffect(() => {
-    const unsub = engine.subscribe('*', (_evt, _p, values) => {
-      const next = selector ? selector(values) : values;
-
-      startTransition(() => {
-        if (typeof next === 'object') {
-          if (!shallowEqual(next, selValue)) setSelValue(next);
-        } else {
-          setSelValue(next);
-        }
-      });
+    const unsubscribe = engine.on('change', () => {
+      if (subscription.values || subscription.errors || subscription.touched || subscription.active || subscription.submitting || subscription.valid) {
+        setFormState(engine.getFormState());
+      }
     });
 
-    return unsub;
-  }, [engine, selector]);
+    const unsubscribeError = engine.on('error', () => {
+      if (subscription.errors || subscription.valid) {
+        setFormState(engine.getFormState());
+      }
+    });
 
-  return selValue;
+    const unsubscribeTouch = engine.on('touch', () => {
+      if (subscription.touched) {
+        setFormState(engine.getFormState());
+      }
+    });
+
+    const unsubscribeFocus = engine.on('focus', () => {
+      if (subscription.active) {
+        setFormState(engine.getFormState());
+      }
+    });
+
+    const unsubscribeBlur = engine.on('blur', () => {
+      if (subscription.active) {
+        setFormState(engine.getFormState());
+      }
+    });
+
+    const unsubscribeSubmit = engine.on('submit', () => {
+      if (subscription.submitting || subscription.valid) {
+        setFormState(engine.getFormState());
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      unsubscribeError();
+      unsubscribeTouch();
+      unsubscribeFocus();
+      unsubscribeBlur();
+      unsubscribeSubmit();
+    };
+  }, [engine, subscription]);
+
+  return formState;
 }
 
 /**
- * useWatch(pathOrSelector, cb)
- *
- * Subscribe to a specific path (string) or a selector function.
- * Runs the callback on change, but does NOT cause re-render.
+ * Hook for watching specific values
+ * @param {string|Array} paths - Path(s) to watch
+ * @param {Function} selector - Optional selector function
  */
-export function useWatch(pathOrSelector, cb, opts = {}) {
-  const { engine } = useContext(FormContext);
-
-  useEffect(() => {
-    if (!engine) return;
-    if (typeof pathOrSelector === 'string') {
-      return engine.subscribe(pathOrSelector, (val) => cb(val));
-    } else if (typeof pathOrSelector === 'function') {
-      return engine.subscribeSelector(pathOrSelector, (val) => cb(val), opts);
+export function useWatch(paths, selector) {
+  const engine = useFormEngine();
+  
+  const [values, setValues] = useState(() => {
+    if (Array.isArray(paths)) {
+      return paths.map(path => engine.get(path));
     }
-  }, [engine, pathOrSelector, cb]);
+    return engine.get(paths);
+  });
+
+  useEffect(() => {
+    const pathArray = Array.isArray(paths) ? paths : [paths];
+    
+    const unsubscribers = pathArray.map(path => 
+      engine.on(`change:${path}`, () => {
+        const newValues = pathArray.map(p => engine.get(p));
+        if (selector) {
+          setValues(selector(newValues));
+        } else {
+          setValues(Array.isArray(paths) ? newValues : newValues[0]);
+        }
+      })
+    );
+
+    return () => {
+      unsubscribers.forEach(unsubscribe => unsubscribe());
+    };
+  }, [engine, paths, selector]);
+
+  return values;
 }
 
 /**
- * useWatchState(selector)
- *
- * Returns the current derived value of the form and re-renders only when it changes.
+ * Hook for form submission
  */
-export function useWatchState(selector, { deep = true } = {}) {
-  const { engine } = useContext(FormContext);
-  const [value, setValue] = useState(() => selector(engine.getValues()));
+export function useFormSubmit() {
+  const engine = useFormEngine();
+  
+  const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState(null);
 
   useEffect(() => {
-    if (!engine) return;
+    const unsubscribe = engine.on('submit', ({ submitting: isSubmitting, success, error, values }) => {
+      setSubmitting(isSubmitting);
+      setSubmitResult({ success, error, values });
+    });
 
-    return engine.subscribeSelector(selector, setValue, { deep });
-  }, [engine, selector, deep]);
+    return unsubscribe;
+  }, [engine]);
 
-  return value;
+  const submit = useCallback(async (onSubmit) => {
+    const result = await engine.submit(onSubmit);
+    return result;
+  }, [engine]);
+
+  return { submit, submitting, submitResult };
 }

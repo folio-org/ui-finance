@@ -1,18 +1,31 @@
+/**
+ * FormContext - React context for FormEngine
+ */
+
 import React, { createContext, useContext } from 'react';
 
-/**
- * FormProvider: React context provider that exposes FormEngine instance.
- */
-export const FormContext = createContext(null);
+const FormContext = createContext(null);
 
-export function FormProvider({ engine, children }) {
-  return React.createElement(FormContext.Provider, { value: engine }, children);
-}
+export const FormProvider = ({ children, engine, defaultValidateOn = 'blur' }) => {
+  return (
+    <FormContext.Provider value={{ engine, defaultValidateOn }}>
+      {children}
+    </FormContext.Provider>
+  );
+};
 
-export function useFormEngine() {
-  const engine = useContext(FormContext);
+export const useFormEngine = () => {
+  const context = useContext(FormContext);
+  if (!context) {
+    throw new Error('useFormEngine must be used within a FormProvider');
+  }
+  return context.engine;
+};
 
-  if (!engine) throw new Error('useFormEngine must be used inside FormProvider');
-
-  return engine;
-}
+export const useFormContext = () => {
+  const context = useContext(FormContext);
+  if (!context) {
+    throw new Error('useFormContext must be used within a FormProvider');
+  }
+  return context;
+};

@@ -1,8 +1,5 @@
 import { Button, Col, Datepicker, MultiSelection, Pane, Paneset, Row, Select, Selection, TextArea, TextField } from '@folio/stripes/components';
-import FormEngine from './formwire/src/core/FormEngine';
-import { FormProvider } from './formwire/src/react/FormContext';
-import Field from './formwire/src/react/adapters/FinalFormField';
-import FieldArray from './formwire/src/react/adapters/FinalFormFieldArray';
+import { Form, Field, FieldArray } from './formwire/src';
 
 const selectOptions = [
   { label: 'One', value: 1 },
@@ -10,31 +7,37 @@ const selectOptions = [
   { label: 'Three', value: 3 },
 ];
 
-const generateRow = () => Array.from({ length: 10 }).reduce((acc, _, index) => {
-  acc[`field${index + 1}`] = index + 1;
-
-  return acc;
-}, {});
+const generateRow = () => ({
+  text: '',
+  number: 0,
+  select: 1,
+  selection: 1,
+  multiselection: [1],
+  textarea: '',
+  datepicker: null,
+});
 
 const initialValues = {
-  lines: Array.from({ length: 1150 }, () => generateRow()),
+  lines: Array.from({ length: 150 }, () => generateRow()),
 };
 
-const engine = new FormEngine(initialValues);
-
 export default function Main() {
-  console.log('engine', engine);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('submit', engine.getValues());
+  const onSubmit = (values) => {
+    // eslint-disable-next-line no-console
+    console.log('submit', values);
+    // eslint-disable-next-line no-console
+    console.log('submit lines count:', values?.lines?.length);
+    // eslint-disable-next-line no-console
+    console.log('first line sample:', values?.lines?.[0]);
   };
 
   return (
     <Paneset>
-      <form
-        onSubmit={handleSubmit}
+      <Form
+        onSubmit={onSubmit}
         style={{ width: '100%' }}
+        defaultValidateOn="blur"
+        initialValues={initialValues}
       >
         <Pane
           defaultWidth="fill"
@@ -57,114 +60,113 @@ export default function Main() {
               padding: '0 1rem',
             }}
           >
-            <FormProvider engine={engine}>
-              <Row
-                style={{
-                  position: 'sticky',
-                  top: 0,
-                  marginBottom: '0.5rem',
-                  padding: '0.5rem 0',
-                  backgroundColor: 'white',
-                  borderBottom: '1px solid var(--color-border)',
-                  zIndex: 1,
-                }}
+            <Row
+              style={{
+                position: 'sticky',
+                top: 0,
+                marginBottom: '0.5rem',
+                padding: '0.5rem 0',
+                backgroundColor: 'white',
+                borderBottom: '1px solid var(--color-border)',
+                zIndex: 1,
+              }}
+            >
+              <Col
+                style={{ width: '50px' }}
               >
+                &nbsp;
+              </Col>
+              {Array.from({ length: 6 }).map((_, index) => (
                 <Col
-                  style={{ width: '50px' }}
+                  xs
+                  key={index}
+                  style={{ fontWeight: 'bold', textAlign: 'center' }}
                 >
-                  &nbsp;
+                  <strong>{index + 1}</strong>
                 </Col>
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <Col
-                    xs
-                    key={index}
-                    style={{ fontWeight: 'bold', textAlign: 'center' }}
-                  >
-                    <strong>{index + 1}</strong>
-                  </Col>
-                ))}
-              </Row>
-              <FieldArray name="lines">
-                {({ fields }) => (
-                  <>
-                    {fields.map((line, idx) => (
-                      <Row key={line.__id}>
-                        <Col
-                          style={{
-                            width: '50px',
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                            paddingTop: '0.25rem',
-                          }}
-                        >
-                          {idx + 1}
-                        </Col>
+              ))}
+            </Row>
+            <FieldArray name="lines">
+              {({ fields }) => (
+                <>
+                  {fields.map((line, idx) => (
+                    <Row key={line.__id}>
+                      <Col
+                        style={{
+                          width: '50px',
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                          paddingTop: '0.25rem',
+                        }}
+                      >
+                        {idx + 1}
+                      </Col>
 
-                        <Col xs>
-                          <Field
-                            component={TextField}
-                            name={`lines[${idx}].text`}
-                            validate={(value) => value > 1 && 'Should be less than or equal to ' + 1}
-                            fullWidth
-                          />
-                        </Col>
-                        <Col xs>
-                          <Field
-                            component={TextField}
-                            name={`lines[${idx}].number`}
-                            validate={(value) => value > 2 && 'Should be less than or equal to ' + 2}
-                            fullWidth
-                            type="number"
-                          />
-                        </Col>
-                        <Col xs>
-                          <Field
-                            component={Select}
-                            dataOptions={selectOptions}
-                            name={`lines[${idx}].select`}
-                            fullWidth
-                          />
-                        </Col>
-                        <Col xs>
-                          <Field
-                            component={Selection}
-                            dataOptions={selectOptions}
-                            name={`lines[${idx}].selection`}
-                            fullWidth
-                          />
-                        </Col>
-                        <Col xs>
-                          <Field
-                            component={MultiSelection}
-                            dataOptions={selectOptions}
-                            name={`lines[${idx}].multiselection`}
-                            fullWidth
-                          />
-                        </Col>
-                        <Col xs>
-                          <Field
-                            component={TextArea}
-                            dataOptions={selectOptions}
-                            name={`lines[${idx}].textarea`}
-                            fullWidth
-                          />
-                        </Col>
-                        <Col xs>
-                          <Field
-                            component={Datepicker}
-                            name={`lines[${idx}].datepicker`}
-                            fullWidth
-                          />
-                        </Col>
-                      </Row>
-                    ))}
-                  </>
-                )}
-              </FieldArray>
-            </FormProvider>
+                      <Col xs>
+                        <Field
+                          component={TextField}
+                          name={`lines[${idx}].text`}
+                          validate={(value) => (value === 'bad' ? 'Text is incorrect and validation fails' : undefined)}
+                          validateOn="change"
+                          fullWidth
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
+                          component={TextField}
+                          name={`lines[${idx}].number`}
+                          validate={(value) => (value && Number(value) > 100 ? 'Number should be 100 or less' : undefined)}
+                          fullWidth
+                          type="number"
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
+                          component={Select}
+                          dataOptions={selectOptions}
+                          name={`lines[${idx}].select`}
+                          fullWidth
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
+                          component={Selection}
+                          dataOptions={selectOptions}
+                          name={`lines[${idx}].selection`}
+                          fullWidth
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
+                          component={MultiSelection}
+                          dataOptions={selectOptions}
+                          name={`lines[${idx}].multiselection`}
+                          fullWidth
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
+                          component={TextArea}
+                          name={`lines[${idx}].textarea`}
+                          fullWidth
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
+                          component={Datepicker}
+                          name={`lines[${idx}].datepicker`}
+                          fullWidth
+                        />
+                      </Col>
+                    </Row>
+
+                  ))}
+                </>
+              )}
+            </FieldArray>
           </div>
         </Pane>
-      </form>
+      </Form>
     </Paneset>
   );
 }

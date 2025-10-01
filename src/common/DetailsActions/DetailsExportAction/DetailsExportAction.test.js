@@ -21,8 +21,6 @@ describe('DetailsExportAction', () => {
   it('should display action button', () => {
     renderDetailsExportAction();
 
-    screen.debug();
-
     expect(screen.getByTestId('action-export-csv')).toBeInTheDocument();
   });
 

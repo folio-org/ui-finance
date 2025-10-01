@@ -4,8 +4,40 @@
  * Main hook for form management with uncontrolled inputs
  */
 
-import { useRef, useCallback, useMemo, useEffect, useState } from 'react';
+import { startTransition, useRef, useCallback, useMemo, useEffect, useReducer } from 'react';
 import { FormEngine } from '../core/FormEngine';
+
+// Form state reducer
+function formStateReducer(state, action) {
+  switch (action.type) {
+    case 'SET_FORM_STATE':
+      return {
+        ...state,
+        ...action.payload,
+        _version: state._version + 1,
+      };
+    case 'BATCH_UPDATE':
+      return {
+        ...state,
+        ...action.payload,
+        _version: state._version + 1,
+        _isBatching: true,
+      };
+    case 'END_BATCH':
+      return {
+        ...state,
+        _isBatching: false,
+      };
+    case 'RESET':
+      return {
+        ...action.payload,
+        _version: 0,
+        _isBatching: false,
+      };
+    default:
+      return state;
+  }
+}
 
 /**
  * Main form hook
@@ -20,30 +52,61 @@ export function useForm(options = {}) {
 
   const engine = engineRef.current;
 
-  // Form state
-  const [formState, setFormState] = useState(() => engine.getFormState());
+  // Form state with useReducer
+  const [formState, dispatch] = useReducer(formStateReducer, () => ({
+    ...engine.getFormState(),
+    _version: 0,
+    _isBatching: false,
+  }));
 
-  // Update form state when engine state changes - OPTIMIZED
+  // Update form state when engine state changes - ULTRA OPTIMIZED
   useEffect(() => {
     let isUpdating = false;
+    const batchTimeout = null;
+    let lastUpdateTime = 0;
 
-    const updateFormState = () => {
+    const updateFormState = (eventType) => {
+      // Skip change events for performance, but allow validation events
+      if (eventType === 'change') {
+        return;
+      }
+
+      const now = Date.now();
+
+      // Throttle updates to 30fps for validation events
+      if (now - lastUpdateTime < 33) {
+        return;
+      }
+
       if (isUpdating) return;
       isUpdating = true;
+      lastUpdateTime = now;
 
-      // Batch state updates
-      requestAnimationFrame(() => {
-        setFormState(engine.getFormState());
+      // Clear previous timeout
+      if (batchTimeout) {
+        clearTimeout(batchTimeout);
+      }
+
+      // Use React transitions for smooth updates
+      startTransition(() => {
+        const newState = engine.getFormState();
+
+        // Immediate update for validation, submit, reset
+        dispatch({ type: 'SET_FORM_STATE', payload: newState });
+
         isUpdating = false;
       });
     };
 
-    const unsubscribe = engine.on('change', updateFormState);
-    const unsubscribeValidation = engine.on('validation', updateFormState);
-    const unsubscribeSubmit = engine.on('submit', updateFormState);
-    const unsubscribeReset = engine.on('reset', updateFormState);
+    const unsubscribe = engine.on('change', () => updateFormState('change'));
+    const unsubscribeValidation = engine.on('validation', () => updateFormState('validation'));
+    const unsubscribeSubmit = engine.on('submit', () => updateFormState('submit'));
+    const unsubscribeReset = engine.on('reset', () => updateFormState('reset'));
 
     return () => {
+      if (batchTimeout) {
+        clearTimeout(batchTimeout);
+      }
       unsubscribe();
       unsubscribeValidation();
       unsubscribeSubmit();

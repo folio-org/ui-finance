@@ -4,8 +4,9 @@
  * Hook for controlled field components
  */
 
-import { useCallback, useMemo, useEffect, useState, useRef } from 'react';
+import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import { useFormContext } from '../components/FormProvider';
+import { getByPath } from '../utils';
 
 /**
  * Controller hook for controlled field components
@@ -17,9 +18,9 @@ export function useController({
 }) {
   const { register, formState, setValue, getValue } = useFormContext();
   const [fieldState, setFieldState] = useState({
-    error: formState.errors[name],
-    isTouched: formState.touchedFields[name] || false,
-    isDirty: formState.dirtyFields[name] || false,
+    error: undefined,
+    isTouched: false,
+    isDirty: false,
   });
 
   const fieldRef = useRef(null);
@@ -27,37 +28,45 @@ export function useController({
   // Register field with form engine
   const { onChange, onBlur } = register(name, rules);
 
-  // Update field state when form state changes
-  const fieldError = formState.errors[name];
-  const isTouched = formState.touchedFields[name] || false;
-  const isDirty = formState.dirtyFields[name] || false;
+  // Update field state only for errors (performance optimized)
+  const fieldError = getByPath(formState.errors, name);
 
   useEffect(() => {
-    setFieldState({
+    setFieldState(prev => ({
+      ...prev,
       error: fieldError,
-      isTouched,
-      isDirty,
-    });
-  }, [fieldError, isTouched, isDirty]);
+    }));
+  }, [fieldError]);
 
   const handleChange = useCallback((event) => {
+    // Handle both direct values and events
     const value = event?.target?.value ?? event;
 
+    // Direct update without transitions for maximum performance
     setValue(name, value);
-    onChange(event);
+
+    // Create a synthetic event for the original onChange
+    const syntheticEvent = {
+      target: { value },
+      currentTarget: { value },
+    };
+
+    onChange(syntheticEvent);
   }, [name, setValue, onChange]);
 
   const handleBlur = useCallback((event) => {
     onBlur(event);
   }, [onBlur]);
 
+  const currentValue = getValue(name);
+
   const field = useMemo(() => ({
     ref: fieldRef,
     name,
-    value: getValue(name) ?? defaultValue,
+    value: currentValue ?? defaultValue,
     onChange: handleChange,
     onBlur: handleBlur,
-  }), [name, defaultValue, getValue, handleChange, handleBlur]);
+  }), [name, defaultValue, currentValue, handleChange, handleBlur]);
 
   return {
     field,

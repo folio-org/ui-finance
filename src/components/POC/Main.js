@@ -1,5 +1,6 @@
-import { Button, Col, Datepicker, MultiSelection, Pane, Paneset, Row, Select, Selection, TextArea, TextField } from '@folio/stripes/components';
-import { Form, Field, FieldArray } from './formwire/src';
+import React, { useTransition, Suspense } from 'react';
+import { Button, Checkbox, Col, Datepicker, MultiSelection, Pane, Paneset, RadioButton, Row, Select, Selection, TextArea, TextField } from '@folio/stripes/components';
+import { useForm, Form, Controller } from './folio-form/src';
 
 const selectOptions = [
   { label: 'One', value: 1 },
@@ -18,10 +19,240 @@ const generateRow = () => ({
 });
 
 const initialValues = {
-  lines: Array.from({ length: 150 }, () => generateRow()),
+  lines: Array.from({ length: 1150 }, () => generateRow()),
 };
 
+// Optimized field components with React.memo
+const OptimizedTextField = React.memo(({ name, rules, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field, fieldState }) => (
+        <TextField
+          {...field}
+          {...props}
+          error={fieldState.error?.message}
+          onChange={(e) => field.onChange(e)}
+        />
+      )}
+    />
+  );
+});
+
+const OptimizedTextArea = React.memo(({ name, rules, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <TextArea
+          {...field}
+          {...props}
+          onChange={(e) => field.onChange(e)}
+        />
+      )}
+    />
+  );
+});
+
+const OptimizedSelect = React.memo(({ name, rules, dataOptions, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <Select
+          {...field}
+          {...props}
+          dataOptions={dataOptions}
+          onChange={(e) => field.onChange(e)}
+        />
+      )}
+    />
+  );
+});
+
+const OptimizedSelection = React.memo(({ name, rules, dataOptions, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <Selection
+          {...field}
+          {...props}
+          dataOptions={dataOptions}
+          onChange={(value) => field.onChange(value)}
+        />
+      )}
+    />
+  );
+});
+
+const OptimizedMultiSelection = React.memo(({ name, rules, dataOptions, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <MultiSelection
+          {...field}
+          {...props}
+          dataOptions={dataOptions}
+          onChange={(value) => field.onChange(value)}
+        />
+      )}
+    />
+  );
+});
+
+const OptimizedDatepicker = React.memo(({ name, rules, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <Datepicker
+          {...field}
+          {...props}
+          onChange={(e, value) => field.onChange(value)}
+        />
+      )}
+    />
+  );
+});
+
+// Optimized checkbox component
+const OptimizedCheckbox = React.memo(({ name, rules, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <Checkbox
+          {...field}
+          {...props}
+        />
+      )}
+    />
+  );
+});
+
+// Optimized radio component
+const OptimizedRadio = React.memo(({ name, rules, ...props }) => {
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      render={({ field }) => (
+        <RadioButton
+          {...field}
+          {...props}
+        />
+      )}
+    />
+  );
+});
+
+// Memoized row component for better performance
+const FormRow = React.memo(({ idx, selectOptions: options }) => (
+  <Row key={idx}>
+    <Col
+      style={{
+        width: '50px',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingTop: '0.25rem',
+      }}
+    >
+      {idx + 1}
+    </Col>
+
+    <Col xs>
+      <OptimizedCheckbox
+        name={`lines[${idx}].checkbox`}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedRadio
+        name={`lines[${idx}].radio`}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedTextField
+        name={`lines[${idx}].text`}
+        rules={{
+          validate: (value) => (value === 'bad' ? 'Text is incorrect and validation fails' : undefined),
+        }}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedTextField
+        name={`lines[${idx}].number`}
+        rules={{
+          validate: (value) => (value && Number(value) > 100 ? 'Number should be 100 or less' : undefined),
+        }}
+        fullWidth
+        type="number"
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedSelect
+        name={`lines[${idx}].select`}
+        dataOptions={options}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedSelection
+        name={`lines[${idx}].selection`}
+        dataOptions={options}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedMultiSelection
+        name={`lines[${idx}].multiselection`}
+        dataOptions={options}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedTextArea
+        name={`lines[${idx}].textarea`}
+        fullWidth
+      />
+    </Col>
+
+    <Col xs>
+      <OptimizedDatepicker
+        name={`lines[${idx}].datepicker`}
+        fullWidth
+      />
+    </Col>
+  </Row>
+));
+
 export default function Main() {
+  const form = useForm({
+    defaultValues: initialValues,
+    mode: 'onBlur', // Smart validation on blur only
+  });
+
+  const { handleSubmit } = form;
+  const [isPending] = useTransition();
+
   const onSubmit = (values) => {
     // eslint-disable-next-line no-console
     console.log('submit', values);
@@ -34,10 +265,9 @@ export default function Main() {
   return (
     <Paneset>
       <Form
-        onSubmit={onSubmit}
+        form={form}
+        onSubmit={handleSubmit(onSubmit)}
         style={{ width: '100%' }}
-        defaultValidateOn="blur"
-        initialValues={initialValues}
       >
         <Pane
           defaultWidth="fill"
@@ -48,8 +278,9 @@ export default function Main() {
                 type="submit"
                 buttonStyle="primary"
                 marginBottom0
+                disabled={isPending}
               >
-                Submit
+                {isPending ? 'Processing...' : 'Submit'}
               </Button>
             )
           )}
@@ -76,7 +307,7 @@ export default function Main() {
               >
                 &nbsp;
               </Col>
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 8 }).map((_, index) => (
                 <Col
                   xs
                   key={index}
@@ -86,84 +317,13 @@ export default function Main() {
                 </Col>
               ))}
             </Row>
-            <FieldArray name="lines">
-              {({ fields }) => (
-                <>
-                  {fields.map((line, idx) => (
-                    <Row key={line.__id}>
-                      <Col
-                        style={{
-                          width: '50px',
-                          fontWeight: 'bold',
-                          textAlign: 'center',
-                          paddingTop: '0.25rem',
-                        }}
-                      >
-                        {idx + 1}
-                      </Col>
 
-                      <Col xs>
-                        <Field
-                          component={TextField}
-                          name={`lines[${idx}].text`}
-                          validate={(value) => (value === 'bad' ? 'Text is incorrect and validation fails' : undefined)}
-                          validateOn="change"
-                          fullWidth
-                        />
-                      </Col>
-                      <Col xs>
-                        <Field
-                          component={TextField}
-                          name={`lines[${idx}].number`}
-                          validate={(value) => (value && Number(value) > 100 ? 'Number should be 100 or less' : undefined)}
-                          fullWidth
-                          type="number"
-                        />
-                      </Col>
-                      <Col xs>
-                        <Field
-                          component={Select}
-                          dataOptions={selectOptions}
-                          name={`lines[${idx}].select`}
-                          fullWidth
-                        />
-                      </Col>
-                      <Col xs>
-                        <Field
-                          component={Selection}
-                          dataOptions={selectOptions}
-                          name={`lines[${idx}].selection`}
-                          fullWidth
-                        />
-                      </Col>
-                      <Col xs>
-                        <Field
-                          component={MultiSelection}
-                          dataOptions={selectOptions}
-                          name={`lines[${idx}].multiselection`}
-                          fullWidth
-                        />
-                      </Col>
-                      <Col xs>
-                        <Field
-                          component={TextArea}
-                          name={`lines[${idx}].textarea`}
-                          fullWidth
-                        />
-                      </Col>
-                      <Col xs>
-                        <Field
-                          component={Datepicker}
-                          name={`lines[${idx}].datepicker`}
-                          fullWidth
-                        />
-                      </Col>
-                    </Row>
-
-                  ))}
-                </>
-              )}
-            </FieldArray>
+            {/* Render 50 rows of form fields with Suspense */}
+            <Suspense fallback={<div>Loading form fields...</div>}>
+              {Array.from({ length: 1150 }).map((_, idx) => (
+                <FormRow key={idx} idx={idx} selectOptions={selectOptions} />
+              ))}
+            </Suspense>
           </div>
         </Pane>
       </Form>

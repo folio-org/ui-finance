@@ -55,6 +55,7 @@ function navigateToObjectKey(current, key) {
   if (!(key in current)) {
     current[key] = {};
   }
+
   return current[key];
 }
 

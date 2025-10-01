@@ -44,6 +44,9 @@ export class FormEngine {
     this._valuesCache = null;
     this._valuesCacheVersion = 0;
     this._valuesVersion = 0;
+
+    // Validation debouncing
+    this._validationTimeouts = new Map();
   }
 
   // ============================================================================
@@ -78,7 +81,7 @@ export class FormEngine {
     this.fieldRules.delete(name);
     this.touchedFields.delete(name);
     this.dirtyFields.delete(name);
-    delete this.errors[name];
+    setByPath(this.errors, name, undefined);
   }
 
   // ============================================================================
@@ -89,17 +92,24 @@ export class FormEngine {
    * Handle field change
    */
   handleFieldChange(name, event) {
-    const element = event.target;
+    // Handle both events and direct values
     let value;
 
-    if (element.type === 'checkbox') {
-      value = element.checked;
-    } else if (element.type === 'radio') {
-      value = element.checked ? element.value : undefined;
-    } else if (element.type === 'file') {
-      value = element.files;
+    if (event && typeof event === 'object' && event.target) {
+      const element = event.target;
+
+      if (element.type === 'checkbox') {
+        value = element.checked;
+      } else if (element.type === 'radio') {
+        value = element.checked ? element.value : undefined;
+      } else if (element.type === 'file') {
+        value = element.files;
+      } else {
+        value = element.value;
+      }
     } else {
-      value = element.value;
+      // Direct value passed
+      value = event;
     }
 
     // Update current values
@@ -109,8 +119,8 @@ export class FormEngine {
     this.dirtyFields.add(name);
 
     // Clear error if exists
-    if (this.errors[name]) {
-      delete this.errors[name];
+    if (getByPath(this.errors, name)) {
+      setByPath(this.errors, name, undefined);
     }
 
     // Validate if mode is onChange
@@ -143,6 +153,43 @@ export class FormEngine {
   // ============================================================================
 
   /**
+   * Debounced field validation for better performance
+   */
+  _debouncedValidateField(name) {
+    // Clear existing timeout for this field
+    const existingTimeout = this._validationTimeouts.get(name);
+    if (existingTimeout) {
+      clearTimeout(existingTimeout);
+    }
+
+    // Set new timeout with 300ms delay
+    const timeout = setTimeout(() => {
+      // Only validate if field is visible (performance optimization)
+      if (this._isFieldVisible(name)) {
+        this.validateField(name);
+      }
+      this._validationTimeouts.delete(name);
+    }, 300);
+
+    this._validationTimeouts.set(name, timeout);
+  }
+
+  /**
+   * Check if field is visible in viewport (performance optimization)
+   */
+  _isFieldVisible(name) {
+    const ref = this.fieldRefs.get(name);
+    if (!ref?.current) return true; // Assume visible if no ref
+
+    const element = ref.current;
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    // Field is visible if it's within viewport with some margin
+    return rect.top < windowHeight + 200 && rect.bottom > -200;
+  }
+
+  /**
    * Validate a single field
    */
   async validateField(name) {
@@ -159,7 +206,7 @@ export class FormEngine {
     if (!isValid) {
       this.errors = { ...this.errors, ...errors };
     } else {
-      delete this.errors[name];
+      setByPath(this.errors, name, undefined);
     }
 
     this.emit('validation', { name, isValid, errors });
@@ -390,25 +437,30 @@ export class FormEngine {
       this.touchedFields.add(name);
     }
 
-    // Update DOM if field is registered
-    const ref = this.fieldRefs.get(name);
+    // Skip DOM updates for maximum performance
+    // const ref = this.fieldRefs.get(name);
+    // if (ref?.current) {
+    //   const element = ref.current;
+    //   if (element.type === 'checkbox' || element.type === 'radio') {
+    //     element.checked = Boolean(value);
+    //   } else {
+    //     element.value = value;
+    //   }
+    // }
 
-    if (ref?.current) {
-      const element = ref.current;
-
-      if (element.type === 'checkbox' || element.type === 'radio') {
-        element.checked = Boolean(value);
-      } else {
-        element.value = value;
-      }
+    // Smart validation with debouncing - only for touched, dirty, visible fields with rules
+    if (options.shouldValidate !== false &&
+        this.touchedFields.has(name) &&
+        this.dirtyFields.has(name) &&
+        this.fieldRules.has(name) &&
+        this._isFieldVisible(name)) {
+      this._debouncedValidateField(name);
     }
 
-    // Async validation to avoid blocking UI
-    if (options.shouldValidate !== false) {
-      Promise.resolve().then(() => this.validateField(name));
-    }
-
-    this.emit('change', { name, value });
+    // Emit change event only for validation (performance optimized)
+    requestAnimationFrame(() => {
+      this.emit('change', { name, value });
+    });
   }
 
   // ============================================================================
@@ -419,7 +471,7 @@ export class FormEngine {
    * Set field error
    */
   setError(name, error) {
-    this.errors[name] = error;
+    setByPath(this.errors, name, error);
     this.emit('error', { name, error });
   }
 
@@ -431,7 +483,7 @@ export class FormEngine {
       const names = Array.isArray(name) ? name : [name];
 
       for (const fieldName of names) {
-        delete this.errors[fieldName];
+        setByPath(this.errors, fieldName, undefined);
       }
     } else {
       this.errors = {};

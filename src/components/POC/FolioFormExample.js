@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+
 import { useForm, Form, commonRules } from './folio-form/src';
 
 // Example form data type
@@ -29,7 +30,7 @@ export default function FolioFormExample() {
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
       <h1>Folio Form Example</h1>
-      
+
       <Form form={form} onSubmit={form.handleSubmit(onSubmit)}>
         <div style={{ marginBottom: '20px' }}>
           <label htmlFor="firstName">First Name:</label>

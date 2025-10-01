@@ -1,32 +1,21 @@
 /**
  * Folio Form - useForm hook
- * 
+ *
  * Main hook for form management with uncontrolled inputs
  */
 
 import { useRef, useCallback, useMemo, useEffect, useState } from 'react';
 import { FormEngine } from '../core/FormEngine';
-import { 
-  FieldValues, 
-  FieldPath, 
-  FieldPathValue, 
-  FieldError, 
-  UseFormReturn, 
-  FormOptions,
-  ValidationRules 
-} from '../types';
 
 /**
  * Main form hook
  */
-export function useForm<T extends FieldValues = FieldValues>(
-  options: FormOptions<T> = {}
-): UseFormReturn<T> {
+export function useForm(options = {}) {
   // Create form engine instance
-  const engineRef = useRef<FormEngine<T> | null>(null);
-  
+  const engineRef = useRef(null);
+
   if (!engineRef.current) {
-    engineRef.current = new FormEngine<T>(options.defaultValues, options);
+    engineRef.current = new FormEngine(options.defaultValues, options);
   }
 
   const engine = engineRef.current;
@@ -34,23 +23,25 @@ export function useForm<T extends FieldValues = FieldValues>(
   // Form state
   const [formState, setFormState] = useState(() => engine.getFormState());
 
-  // Update form state when engine state changes
+  // Update form state when engine state changes - OPTIMIZED
   useEffect(() => {
-    const unsubscribe = engine.on('change', () => {
-      setFormState(engine.getFormState());
-    });
+    let isUpdating = false;
 
-    const unsubscribeValidation = engine.on('validation', () => {
-      setFormState(engine.getFormState());
-    });
+    const updateFormState = () => {
+      if (isUpdating) return;
+      isUpdating = true;
 
-    const unsubscribeSubmit = engine.on('submit', () => {
-      setFormState(engine.getFormState());
-    });
+      // Batch state updates
+      requestAnimationFrame(() => {
+        setFormState(engine.getFormState());
+        isUpdating = false;
+      });
+    };
 
-    const unsubscribeReset = engine.on('reset', () => {
-      setFormState(engine.getFormState());
-    });
+    const unsubscribe = engine.on('change', updateFormState);
+    const unsubscribeValidation = engine.on('validation', updateFormState);
+    const unsubscribeSubmit = engine.on('submit', updateFormState);
+    const unsubscribeReset = engine.on('reset', updateFormState);
 
     return () => {
       unsubscribe();
@@ -64,26 +55,19 @@ export function useForm<T extends FieldValues = FieldValues>(
   // FIELD METHODS
   // ============================================================================
 
-  const register = useCallback(<K extends FieldPath<T>>(
-    name: K,
-    rules?: ValidationRules<T>[K]
-  ) => {
+  const register = useCallback((name, rules) => {
     return engine.register(name, rules);
   }, [engine]);
 
-  const unregister = useCallback((name: FieldPath<T>) => {
+  const unregister = useCallback((name) => {
     engine.unregister(name);
   }, [engine]);
 
-  const setValue = useCallback(<K extends FieldPath<T>>(
-    name: K,
-    value: FieldPathValue<T, K>,
-    options: { shouldValidate?: boolean; shouldDirty?: boolean; shouldTouch?: boolean } = {}
-  ) => {
-    engine.setValue(name, value, options);
+  const setValue = useCallback((name, value, setOptions = {}) => {
+    engine.setValue(name, value, setOptions);
   }, [engine]);
 
-  const getValue = useCallback(<K extends FieldPath<T>>(name: K): FieldPathValue<T, K> => {
+  const getValue = useCallback((name) => {
     return engine.getValue(name);
   }, [engine]);
 
@@ -91,32 +75,33 @@ export function useForm<T extends FieldValues = FieldValues>(
     return engine.getValues();
   }, [engine]);
 
-  const setError = useCallback((name: FieldPath<T>, error: FieldError) => {
+  const setError = useCallback((name, error) => {
     engine.setError(name, error);
   }, [engine]);
 
-  const clearErrors = useCallback((name?: FieldPath<T> | FieldPath<T>[]) => {
+  const clearErrors = useCallback((name) => {
     engine.clearErrors(name);
   }, [engine]);
 
-  const trigger = useCallback(async (name?: FieldPath<T> | FieldPath<T>[]): Promise<boolean> => {
+  const trigger = useCallback(async (name) => {
     return engine.trigger(name);
   }, [engine]);
 
-  const reset = useCallback((values?: Partial<T>) => {
+  const reset = useCallback((values) => {
     engine.reset(values);
   }, [engine]);
 
-  const handleSubmit = useCallback((onSubmit: (data: T) => void | Promise<void>) => {
-    return (e?: React.BaseSyntheticEvent) => {
+  const handleSubmit = useCallback((onSubmit) => {
+    return (e) => {
       if (e) {
         e.preventDefault();
       }
+
       return engine.handleSubmit(onSubmit);
     };
   }, [engine]);
 
-  const watch = useCallback(<K extends FieldPath<T>>(name?: K | K[]) => {
+  const watch = useCallback((name) => {
     return engine.watch(name);
   }, [engine]);
 
@@ -124,43 +109,51 @@ export function useForm<T extends FieldValues = FieldValues>(
   // FIELD ARRAY METHODS (simplified for now)
   // ============================================================================
 
-  const append = useCallback((value: any) => {
+  const append = useCallback((_value) => {
     // TODO: Implement field array append
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const prepend = useCallback((value: any) => {
+  const prepend = useCallback((_value) => {
     // TODO: Implement field array prepend
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const insert = useCallback((index: number, value: any) => {
+  const insert = useCallback((_index, _value) => {
     // TODO: Implement field array insert
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const swap = useCallback((indexA: number, indexB: number) => {
+  const swap = useCallback((_indexA, _indexB) => {
     // TODO: Implement field array swap
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const move = useCallback((from: number, to: number) => {
+  const move = useCallback((_from, _to) => {
     // TODO: Implement field array move
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const update = useCallback((index: number, value: any) => {
+  const update = useCallback((_index, _value) => {
     // TODO: Implement field array update
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const remove = useCallback((index: number | number[]) => {
+  const remove = useCallback((_index) => {
     // TODO: Implement field array remove
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
-  const replace = useCallback((values: any[]) => {
+  const replace = useCallback((_values) => {
     // TODO: Implement field array replace
+    // eslint-disable-next-line no-console
     console.warn('Field array methods not implemented yet');
   }, []);
 
@@ -180,11 +173,11 @@ export function useForm<T extends FieldValues = FieldValues>(
     trigger,
     reset,
     handleSubmit,
-    
+
     // Form state
     formState,
     watch,
-    
+
     // Field array methods
     append,
     prepend,

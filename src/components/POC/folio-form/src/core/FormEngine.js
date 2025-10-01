@@ -1,52 +1,32 @@
 /**
  * Folio Form - Core Form Engine
- * 
+ *
  * Enhanced React Hook Form implementation with:
  * - Uncontrolled inputs for maximum performance
  * - Ref-based field management
  * - Minimal re-renders
- * - TypeScript-first design
+ * - JavaScript implementation
  */
 
-import { RefObject } from 'react';
-import { 
-  FieldValues, 
-  FieldPath, 
-  FieldPathValue, 
-  FieldError, 
-  FieldErrors, 
-  FormState, 
-  ValidationRules,
-  FormOptions 
-} from '../types';
-import { getByPath, setByPath, getFormValues, setFormValues, clearFormValues, deepEqual } from '../utils';
-import { validateForm } from '../utils/validation';
+import { getByPath, setByPath, setFormValues } from '../utils';
 
-export class FormEngine<T extends FieldValues = FieldValues> {
-  // Field references
-  private fieldRefs = new Map<string, RefObject<HTMLElement>>();
-  private fieldRules = new Map<string, ValidationRules<T>[keyof T]>();
-  
-  // Form state
-  private defaultValues: Partial<T>;
-  private currentValues: T;
-  private errors: FieldErrors<T> = {};
-  private touchedFields = new Set<string>();
-  private dirtyFields = new Set<string>();
-  private isSubmitting = false;
-  private isSubmitted = false;
-  private submitCount = 0;
-  
-  // Configuration
-  private options: Required<FormOptions<T>>;
-  
-  // Event listeners
-  private listeners = new Map<string, Set<Function>>();
+export class FormEngine {
+  constructor(defaultValues = {}, options = {}) {
+    // Field references
+    this.fieldRefs = new Map();
+    this.fieldRules = new Map();
 
-  constructor(defaultValues: Partial<T> = {}, options: FormOptions<T> = {}) {
+    // Form state
     this.defaultValues = { ...defaultValues };
-    this.currentValues = { ...defaultValues } as T;
-    
+    this.currentValues = { ...defaultValues };
+    this.errors = {};
+    this.touchedFields = new Set();
+    this.dirtyFields = new Set();
+    this.isSubmitting = false;
+    this.isSubmitted = false;
+    this.submitCount = 0;
+
+    // Configuration
     this.options = {
       mode: 'onSubmit',
       reValidateMode: 'onChange',
@@ -56,6 +36,14 @@ export class FormEngine<T extends FieldValues = FieldValues> {
       delayError: 0,
       ...options,
     };
+
+    // Event listeners
+    this.listeners = new Map();
+
+    // Performance optimizations
+    this._valuesCache = null;
+    this._valuesCacheVersion = 0;
+    this._valuesVersion = 0;
   }
 
   // ============================================================================
@@ -65,17 +53,9 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Register a field
    */
-  register<K extends FieldPath<T>>(
-    name: K,
-    rules?: ValidationRules<T>[K]
-  ): {
-    ref: RefObject<HTMLElement>;
-    name: string;
-    onChange: (event: any) => void;
-    onBlur: (event: any) => void;
-  } {
-    const ref: RefObject<HTMLElement> = { current: null };
-    
+  register(name, rules) {
+    const ref = { current: null };
+
     // Store field reference and rules
     this.fieldRefs.set(name, ref);
     if (rules) {
@@ -85,15 +65,15 @@ export class FormEngine<T extends FieldValues = FieldValues> {
     return {
       ref,
       name,
-      onChange: (event: any) => this.handleFieldChange(name, event),
-      onBlur: (event: any) => this.handleFieldBlur(name, event),
+      onChange: (event) => this.handleFieldChange(name, event),
+      onBlur: (event) => this.handleFieldBlur(name, event),
     };
   }
 
   /**
    * Unregister a field
    */
-  unregister(name: FieldPath<T>): void {
+  unregister(name) {
     this.fieldRefs.delete(name);
     this.fieldRules.delete(name);
     this.touchedFields.delete(name);
@@ -108,9 +88,9 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Handle field change
    */
-  private handleFieldChange(name: FieldPath<T>, event: any): void {
+  handleFieldChange(name, event) {
     const element = event.target;
-    let value: any;
+    let value;
 
     if (element.type === 'checkbox') {
       value = element.checked;
@@ -124,10 +104,10 @@ export class FormEngine<T extends FieldValues = FieldValues> {
 
     // Update current values
     setByPath(this.currentValues, name, value);
-    
+
     // Mark as dirty
     this.dirtyFields.add(name);
-    
+
     // Clear error if exists
     if (this.errors[name]) {
       delete this.errors[name];
@@ -145,10 +125,10 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Handle field blur
    */
-  private handleFieldBlur(name: FieldPath<T>, event: any): void {
+  handleFieldBlur(name, _event) {
     // Mark as touched
     this.touchedFields.add(name);
-    
+
     // Validate if mode is onBlur
     if (this.options.mode === 'onBlur' || this.options.mode === 'all') {
       this.validateField(name);
@@ -165,17 +145,15 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Validate a single field
    */
-  private async validateField(name: FieldPath<T>): Promise<boolean> {
+  async validateField(name) {
     const rules = this.fieldRules.get(name);
+
     if (!rules) return true;
 
-    const value = getByPath(this.currentValues, name);
-    const fieldNames = Array.from(this.fieldRefs.keys());
-    
-    const { isValid, errors } = await validateForm(
+    const { isValid, errors } = await this.validateFormFields(
       this.currentValues,
       { [name]: rules },
-      [name]
+      [name],
     );
 
     if (!isValid) {
@@ -185,30 +163,189 @@ export class FormEngine<T extends FieldValues = FieldValues> {
     }
 
     this.emit('validation', { name, isValid, errors });
+
     return isValid;
   }
 
   /**
    * Validate all fields
    */
-  async validate(): Promise<boolean> {
+  async validate() {
     const fieldNames = Array.from(this.fieldRefs.keys());
-    const rules: Record<string, ValidationRules<T>[keyof T]> = {};
-    
+    const rules = {};
+
     for (const [name, rule] of this.fieldRules) {
       rules[name] = rule;
     }
 
-    const { isValid, errors } = await validateForm(
+    const { isValid, errors } = await this.validateFormFields(
       this.currentValues,
       rules,
-      fieldNames
+      fieldNames,
     );
 
     this.errors = errors;
     this.emit('validation', { isValid, errors });
+
     return isValid;
   }
+
+  /**
+   * Validate form fields
+   */
+  async validateFormFields(values, rules, fieldNames) {
+    const errors = {};
+    let isValid = true;
+
+    for (const fieldName of fieldNames) {
+      const fieldRules = rules[fieldName];
+
+      if (!fieldRules) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      const value = getByPath(values, fieldName);
+      const result = await this.validateFieldValue(value, fieldRules, values, fieldName);
+
+      if (!result.isValid && result.error) {
+        errors[fieldName] = result.error;
+        isValid = false;
+      }
+    }
+
+    return { isValid, errors };
+  }
+
+  /**
+   * Validate a single field value
+   */
+  async validateFieldValue(value, rules, formValues, _fieldName) {
+    // Required validation
+    if (rules.required) {
+      if (this.isEmpty(value)) {
+        return {
+          isValid: false,
+          error: {
+            type: 'required',
+            message: typeof rules.required === 'string' ? rules.required : 'This field is required',
+          },
+        };
+      }
+    }
+
+    // Skip other validations if value is empty and not required
+    if (this.isEmpty(value)) {
+      return { isValid: true };
+    }
+
+    // Min validation
+    if (rules.min !== undefined) {
+      const minValue = typeof rules.min === 'number' ? rules.min : rules.min.value;
+      const message = typeof rules.min === 'object' ? rules.min.message : `Value must be at least ${minValue}`;
+
+      if (typeof value === 'number' && value < minValue) {
+        return {
+          isValid: false,
+          error: { type: 'min', message },
+        };
+      }
+    }
+
+    // Max validation
+    if (rules.max !== undefined) {
+      const maxValue = typeof rules.max === 'number' ? rules.max : rules.max.value;
+      const message = typeof rules.max === 'object' ? rules.max.message : `Value must be at most ${maxValue}`;
+
+      if (typeof value === 'number' && value > maxValue) {
+        return {
+          isValid: false,
+          error: { type: 'max', message },
+        };
+      }
+    }
+
+    // MinLength validation
+    if (rules.minLength !== undefined) {
+      const minLength = typeof rules.minLength === 'number' ? rules.minLength : rules.minLength.value;
+      const message = typeof rules.minLength === 'object' ? rules.minLength.message : `Value must be at least ${minLength} characters`;
+
+      if (typeof value === 'string' && value.length < minLength) {
+        return {
+          isValid: false,
+          error: { type: 'minLength', message },
+        };
+      }
+    }
+
+    // MaxLength validation
+    if (rules.maxLength !== undefined) {
+      const maxLength = typeof rules.maxLength === 'number' ? rules.maxLength : rules.maxLength.value;
+      const message = typeof rules.maxLength === 'object' ? rules.maxLength.message : `Value must be at most ${maxLength} characters`;
+
+      if (typeof value === 'string' && value.length > maxLength) {
+        return {
+          isValid: false,
+          error: { type: 'maxLength', message },
+        };
+      }
+    }
+
+    // Pattern validation
+    if (rules.pattern !== undefined) {
+      const pattern = typeof rules.pattern === 'object' ? rules.pattern.value : rules.pattern;
+      const message = typeof rules.pattern === 'object' ? rules.pattern.message : 'Value does not match required pattern';
+
+      if (typeof value === 'string' && !pattern.test(value)) {
+        return {
+          isValid: false,
+          error: { type: 'pattern', message },
+        };
+      }
+    }
+
+    // Custom validation
+    if (rules.validate) {
+      try {
+        const result = await rules.validate(value, formValues);
+
+        if (result === false) {
+          return {
+            isValid: false,
+            error: { type: 'validate', message: 'Invalid value' },
+          };
+        }
+
+        if (typeof result === 'string') {
+          return {
+            isValid: false,
+            error: { type: 'validate', message: result },
+          };
+        }
+      } catch (error) {
+        return {
+          isValid: false,
+          error: { type: 'validate', message: error instanceof Error ? error.message : 'Validation failed' },
+        };
+      }
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Check if value is empty
+   */
+  isEmpty(value) {
+    if (value == null) return true;
+    if (typeof value === 'string') return value.trim() === '';
+    if (Array.isArray(value)) return value.length === 0;
+    if (typeof value === 'object') return Object.keys(value).length === 0;
+
+    return false;
+  }
+
+  // Removed getValueByPath - using utils/getByPath instead
 
   // ============================================================================
   // VALUE MANAGEMENT
@@ -217,39 +354,48 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Get value by field name
    */
-  getValue<K extends FieldPath<T>>(name: K): FieldPathValue<T, K> {
+  getValue(name) {
     return getByPath(this.currentValues, name);
   }
 
   /**
-   * Get all form values
+   * Get all form values - OPTIMIZED
    */
-  getValues(): T {
-    return { ...this.currentValues };
+  getValues() {
+    // Return reference if no changes, create copy only when needed
+    if (this._valuesCache && this._valuesCacheVersion === this._valuesVersion) {
+      return this._valuesCache;
+    }
+
+    this._valuesCache = { ...this.currentValues };
+    this._valuesCacheVersion = this._valuesVersion;
+
+    return this._valuesCache;
   }
 
   /**
    * Set value by field name
    */
-  setValue<K extends FieldPath<T>>(
-    name: K,
-    value: FieldPathValue<T, K>,
-    options: { shouldValidate?: boolean; shouldDirty?: boolean; shouldTouch?: boolean } = {}
-  ): void {
+  setValue(name, value, options = {}) {
     setByPath(this.currentValues, name, value);
-    
+
+    // Invalidate cache
+    this._valuesVersion++;
+
     if (options.shouldDirty !== false) {
       this.dirtyFields.add(name);
     }
-    
+
     if (options.shouldTouch !== false) {
       this.touchedFields.add(name);
     }
 
     // Update DOM if field is registered
     const ref = this.fieldRefs.get(name);
+
     if (ref?.current) {
-      const element = ref.current as any;
+      const element = ref.current;
+
       if (element.type === 'checkbox' || element.type === 'radio') {
         element.checked = Boolean(value);
       } else {
@@ -257,8 +403,9 @@ export class FormEngine<T extends FieldValues = FieldValues> {
       }
     }
 
+    // Async validation to avoid blocking UI
     if (options.shouldValidate !== false) {
-      this.validateField(name);
+      Promise.resolve().then(() => this.validateField(name));
     }
 
     this.emit('change', { name, value });
@@ -271,7 +418,7 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Set field error
    */
-  setError(name: FieldPath<T>, error: FieldError): void {
+  setError(name, error) {
     this.errors[name] = error;
     this.emit('error', { name, error });
   }
@@ -279,9 +426,10 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Clear field errors
    */
-  clearErrors(name?: FieldPath<T> | FieldPath<T>[]): void {
+  clearErrors(name) {
     if (name) {
       const names = Array.isArray(name) ? name : [name];
+
       for (const fieldName of names) {
         delete this.errors[fieldName];
       }
@@ -294,7 +442,7 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Get field errors
    */
-  getErrors(): FieldErrors<T> {
+  getErrors() {
     return { ...this.errors };
   }
 
@@ -305,7 +453,7 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Handle form submission
    */
-  async handleSubmit(onSubmit: (data: T) => void | Promise<void>): Promise<void> {
+  async handleSubmit(onSubmit) {
     this.isSubmitting = true;
     this.submitCount++;
     this.emit('submit', { isSubmitting: true });
@@ -313,25 +461,26 @@ export class FormEngine<T extends FieldValues = FieldValues> {
     try {
       // Validate form
       const isValid = await this.validate();
-      
+
       if (!isValid) {
         this.isSubmitting = false;
         this.emit('submit', { isSubmitting: false, isValid: false, errors: this.errors });
+
         return;
       }
 
       // Call submit handler
       await onSubmit(this.getValues());
-      
+
       this.isSubmitted = true;
       this.isSubmitting = false;
       this.emit('submit', { isSubmitting: false, isValid: true, values: this.getValues() });
     } catch (error) {
       this.isSubmitting = false;
-      this.emit('submit', { 
-        isSubmitting: false, 
-        isValid: false, 
-        error: error instanceof Error ? error.message : 'Submission failed' 
+      this.emit('submit', {
+        isSubmitting: false,
+        isValid: false,
+        error: error instanceof Error ? error.message : 'Submission failed',
       });
     }
   }
@@ -343,7 +492,7 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Get form state
    */
-  getFormState(): FormState<T> {
+  getFormState() {
     return {
       isDirty: this.dirtyFields.size > 0,
       isValid: Object.keys(this.errors).length === 0,
@@ -351,10 +500,10 @@ export class FormEngine<T extends FieldValues = FieldValues> {
       isSubmitted: this.isSubmitted,
       submitCount: this.submitCount,
       touchedFields: Object.fromEntries(
-        Array.from(this.touchedFields).map(field => [field, true])
+        Array.from(this.touchedFields).map(field => [field, true]),
       ),
       dirtyFields: Object.fromEntries(
-        Array.from(this.dirtyFields).map(field => [field, true])
+        Array.from(this.dirtyFields).map(field => [field, true]),
       ),
       errors: this.getErrors(),
       values: this.getValues(),
@@ -364,9 +513,10 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Reset form
    */
-  reset(values?: Partial<T>): void {
+  reset(values) {
     const resetValues = values || this.defaultValues;
-    this.currentValues = { ...resetValues } as T;
+
+    this.currentValues = { ...resetValues };
     this.errors = {};
     this.touchedFields.clear();
     this.dirtyFields.clear();
@@ -376,7 +526,7 @@ export class FormEngine<T extends FieldValues = FieldValues> {
 
     // Reset DOM values
     setFormValues(this.fieldRefs, resetValues);
-    
+
     this.emit('reset', { values: resetValues });
   }
 
@@ -387,14 +537,15 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Subscribe to events
    */
-  on(event: string, callback: Function): () => void {
+  on(event, callback) {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set());
     }
-    this.listeners.get(event)!.add(callback);
+    this.listeners.get(event).add(callback);
 
     return () => {
       const listeners = this.listeners.get(event);
+
       if (listeners) {
         listeners.delete(callback);
       }
@@ -404,13 +555,15 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Emit event
    */
-  private emit(event: string, data: any): void {
+  emit(event, data) {
     const listeners = this.listeners.get(event);
+
     if (listeners) {
       listeners.forEach(callback => {
         try {
           callback(data);
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error(`Error in event listener for ${event}:`, error);
         }
       });
@@ -424,10 +577,11 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Trigger validation for specific fields
    */
-  async trigger(name?: FieldPath<T> | FieldPath<T>[]): Promise<boolean> {
+  async trigger(name) {
     if (name) {
       const names = Array.isArray(name) ? name : [name];
       const results = await Promise.all(names.map(n => this.validateField(n)));
+
       return results.every(result => result);
     } else {
       return this.validate();
@@ -437,13 +591,15 @@ export class FormEngine<T extends FieldValues = FieldValues> {
   /**
    * Watch field values
    */
-  watch<K extends FieldPath<T>>(name?: K | K[]): FieldPathValue<T, K> | T {
+  watch(name) {
     if (name) {
       if (Array.isArray(name)) {
-        const result: any = {};
+        const result = {};
+
         for (const fieldName of name) {
           result[fieldName] = this.getValue(fieldName);
         }
+
         return result;
       } else {
         return this.getValue(name);

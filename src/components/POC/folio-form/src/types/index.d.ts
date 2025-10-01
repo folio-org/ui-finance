@@ -1,6 +1,5 @@
 /**
- * Folio Form - Enhanced React Hook Form
- * TypeScript definitions
+ * Folio Form - TypeScript definitions
  */
 
 import { RefObject } from 'react';

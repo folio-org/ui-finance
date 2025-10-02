@@ -12,7 +12,6 @@ import {
   DEBOUNCE_DELAYS,
   EVENTS,
 } from '../../constants';
-import { validateField } from '../../utils/validation';
 
 // Field state reducer
 const fieldStateReducer = (state, action) => {
@@ -44,7 +43,7 @@ export function useField(name, options = {}) {
   // Get initial state with useReducer
   const [fieldState, dispatch] = useReducer(fieldStateReducer, {
     value: engine.get(name),
-    error: engine.getErrors()[name],
+    error: name ? engine.getErrors()[name] : undefined,
     touched: engine.isTouched(name),
     active: engine.active === name,
   });
@@ -140,7 +139,7 @@ export function useField(name, options = {}) {
 
       // Register validator if provided
       if (validate && !engine.hasValidator(name)) {
-        engine.registerValidator(name, validate);
+        engine.registerValidator(name, validate, validateOn);
       }
 
       // Run validation on change
@@ -148,7 +147,18 @@ export function useField(name, options = {}) {
         if (debounceDelay > 0) {
           debouncedValidate(newValue, engine.getValues());
         } else {
-          validateField(validate, newValue, engine.getValues(), engine, name);
+          engine.validationService.validateFieldWithMode(
+            name,
+            newValue,
+            engine.getValues(),
+            VALIDATION_MODES.CHANGE,
+          ).then(error => {
+            if (error) {
+              engine.setError(name, error);
+            } else {
+              engine.clearError(name);
+            }
+          });
         }
       }
     },
@@ -156,11 +166,27 @@ export function useField(name, options = {}) {
       engine.touch(name);
       engine.blur();
 
+      // Clear error if field has error and value changed (for submit-only fields)
+      if (validate && validateOn === VALIDATION_MODES.SUBMIT && name && engine.getErrors()[name]) {
+        engine.clearError(name);
+      }
+
       // Run validation on blur
       if (validate && validateOn === VALIDATION_MODES.BLUR) {
         const fieldValue = engine.get(name);
 
-        validateField(validate, fieldValue, engine.getValues(), engine, name);
+        engine.validationService.validateFieldWithMode(
+          name,
+          fieldValue,
+          engine.getValues(),
+          VALIDATION_MODES.BLUR,
+        ).then(error => {
+          if (error) {
+            engine.setError(name, error);
+          } else {
+            engine.clearError(name);
+          }
+        });
       }
     },
     onFocus: () => {

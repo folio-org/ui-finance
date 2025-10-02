@@ -239,9 +239,10 @@ export default class FormEngine {
    * Register validator for field
    * @param {string} path - Field path
    * @param {Function} validator - Validation function
+   * @param {string} validateOn - Validation mode ('blur', 'change', 'submit')
    */
-  registerValidator(path, validator) {
-    this.validationService.registerValidator(path, validator);
+  registerValidator(path, validator, validateOn = 'blur') {
+    this.validationService.registerValidator(path, validator, validateOn);
   }
 
   /**

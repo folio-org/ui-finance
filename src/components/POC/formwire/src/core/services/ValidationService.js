@@ -7,7 +7,7 @@ import { getByPath } from '../../utils/path';
 
 export class ValidationService {
   constructor(options = {}) {
-    this.validators = new Map();
+    this.validators = new Map(); // Map<path, {validator, validateOn}>
     this.options = {
       debounceDelay: 300,
       validateOnChange: false,
@@ -20,9 +20,10 @@ export class ValidationService {
    * Register validator for field
    * @param {string} path - Field path
    * @param {Function} validator - Validation function
+   * @param {string} validateOn - Validation mode ('blur', 'change', 'submit')
    */
-  registerValidator(path, validator) {
-    this.validators.set(path, validator);
+  registerValidator(path, validator, validateOn = 'blur') {
+    this.validators.set(path, { validator, validateOn });
   }
 
   /**
@@ -33,9 +34,11 @@ export class ValidationService {
    * @returns {Promise<string|null>} Error message or null
    */
   async validateField(path, value, allValues) {
-    const validator = this.validators.get(path);
+    const validatorData = this.validators.get(path);
 
-    if (!validator) return null;
+    if (!validatorData) return null;
+
+    const { validator } = validatorData;
 
     try {
       const result = await validator(value, allValues);
@@ -64,6 +67,31 @@ export class ValidationService {
     }
 
     return errors;
+  }
+
+  /**
+   * Validate field with mode check
+   * @param {string} path - Field path
+   * @param {*} value - Field value
+   * @param {*} allValues - All form values
+   * @param {string} mode - Validation mode ('blur', 'change', 'submit')
+   * @returns {Promise<string|null>} Error message or null
+   */
+  async validateFieldWithMode(path, value, allValues, mode) {
+    const validatorData = this.validators.get(path);
+
+    if (!validatorData) {
+      return null;
+    }
+
+    const { validateOn } = validatorData;
+
+    // Check if field should be validated in this mode
+    if (validateOn !== mode) {
+      return null;
+    }
+
+    return this.validateField(path, value, allValues);
   }
 
   /**

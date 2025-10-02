@@ -1,6 +1,6 @@
 /**
  * FormWire - Ultra-lightweight form state management
- * 
+ *
  * Exports:
  * - FormEngine: Core form engine with batching and validation
  * - Form: Main form component
@@ -11,12 +11,18 @@
  */
 
 // Core
-export { default as FormEngine } from './core/FormEngine.js';
+export { default as FormEngine } from './core/FormEngine';
+
+// Services
+export { ValidationService } from './core/services/ValidationService';
+export { CacheService } from './core/services/CacheService';
+export { EventService } from './core/services/EventService';
+export { BatchService } from './core/services/BatchService';
 
 // React components
-export { default as Form } from './react/Form.js';
-export { default as Field } from './react/Field.js';
-export { default as FieldArray } from './react/FieldArray.js';
+export { default as Form } from './react/Form';
+export { default as Field } from './react/Field';
+export { default as FieldArray } from './react/FieldArray';
 
 // React hooks
 export {
@@ -24,15 +30,17 @@ export {
   useFormState,
   useWatch,
   useFormSubmit,
-  useDebouncedValidation,
-} from './react/hooks.js';
+} from './react/hooks';
 
 // React context
 export {
   FormProvider,
   useFormEngine,
   useFormContext,
-} from './react/FormContext.js';
+} from './react/FormContext';
+
+// Utilities
+export * from './utils/index';
 
 // Default export
-export { default } from './react/Form.js';
+export { default } from './react/Form';

@@ -1,12 +1,12 @@
 /**
- * FormEngine - Ultra-lightweight form state management
+ * FormEngine - Ultra-lightweight form state management with service injection
  *
  * Features:
+ * - Service injection for validation, caching, and events
  * - Minimal memory footprint
  * - Zero dependencies
  * - Optimized for performance
  * - Simple and maintainable
- * - Built-in validation system
  * - Batched updates
  * - Proper WeakMap caching
  */
@@ -16,41 +16,105 @@ import {
   DEBOUNCE_DELAYS,
   FORM_ENGINE_OPTIONS,
 } from '../constants';
+import { getByPath, setByPath } from '../utils/path';
+import { ValidationService } from './services/ValidationService';
+import { CacheService } from './services/CacheService';
+import { EventService } from './services/EventService';
+import { BatchService } from './services/BatchService';
 
 export default class FormEngine {
-  constructor(initialValues = {}, options = {}) {
-    // Core state
-    this.values = { ...initialValues };
+  constructor(services = {}) {
+    // Services (injected dependencies)
+    this.validationService = services.validationService || new ValidationService();
+    this.cacheService = services.cacheService || new CacheService();
+    this.eventService = services.eventService || new EventService();
+    this.batchService = services.batchService || new BatchService();
+
+    // State (initialized via init method)
+    this.values = Object.create(null);
     this.errors = Object.create(null);
     this.touched = new Set();
     this.active = null;
     this.submitting = false;
-    this.validators = new Map();
     this.batchQueue = [];
     this.isBatching = false;
 
-    // Configuration
+    // Configuration (set via init method)
+    this.options = {};
+
+    // Initialization state
+    this.isInitialized = false;
+
+    // Performance tracking
+    this.operations = 0;
+    this.renderCount = 0;
+  }
+
+  /**
+   * Initialize form with values and configuration
+   * @param {Object} initialValues - Initial form values
+   * @param {Object} config - Form configuration
+   */
+  init(initialValues = Object.create(null), config = {}) {
+    this._resetState();
+
+    this.values = Object.assign(Object.create(null), initialValues);
+
     this.options = {
       [FORM_ENGINE_OPTIONS.ENABLE_BATCHING]: true,
       [FORM_ENGINE_OPTIONS.BATCH_DELAY]: DEBOUNCE_DELAYS.DEFAULT,
       [FORM_ENGINE_OPTIONS.ENABLE_VALIDATION]: true,
       [FORM_ENGINE_OPTIONS.VALIDATE_ON_CHANGE]: false,
       [FORM_ENGINE_OPTIONS.VALIDATE_ON_BLUR]: true,
-      ...options,
+      ...config,
     };
 
-    // Optimized event system - NO DATA DUPLICATION
-    this.listeners = new Map(); // Primary storage for event emission only
-    this.contexts = new WeakMap(); // Track contexts for cleanup (metadata only)
+    this._configureServices();
 
-    // Improved WeakMap-based caching for performance
-    this.valueCache = new WeakMap();
-    this.formStateCache = new WeakMap();
-    this.validationCache = new WeakMap();
+    this.isInitialized = true;
 
-    // Performance tracking
-    this.operations = 0;
-    this.renderCount = 0;
+    this.eventService.emit(EVENTS.INIT, { values: this.values, config: this.options });
+
+    return this;
+  }
+
+  /**
+   * Reset form to initial state
+   */
+  reset() {
+    this._resetState();
+    this.isInitialized = false;
+    this.eventService.emit(EVENTS.RESET, {});
+
+    return this;
+  }
+
+  /**
+   * Check if form is initialized
+   * @returns {boolean}
+   */
+  isReady() {
+    return this.isInitialized;
+  }
+
+  /**
+   * Get current configuration
+   * @returns {Object}
+   */
+  getConfig() {
+    return { ...this.options };
+  }
+
+  /**
+   * Update configuration (partial update)
+   * @param {Object} newConfig - New configuration options
+   */
+  updateConfig(newConfig) {
+    this.options = { ...this.options, ...newConfig };
+    this._configureServices();
+    this.eventService.emit(EVENTS.CONFIG_UPDATE, { config: this.options });
+
+    return this;
   }
 
   // ============================================================================
@@ -62,21 +126,13 @@ export default class FormEngine {
    * @param {string} path - Dot notation path (e.g., 'user.name', 'items[0].title')
    */
   get(path) {
+    this._ensureInitialized();
     this.operations++;
 
-    // Check cache first
-    const cacheKey = { path, values: this.values };
-
-    if (this.valueCache.has(cacheKey)) {
-      return this.valueCache.get(cacheKey);
-    }
-
-    const value = this._getByPath(this.values, path);
-
-    // Cache the result
-    this.valueCache.set(cacheKey, value);
-
-    return value;
+    return this.cacheService.getValue(
+      this.cacheService.createValueKey(path, this.values),
+      () => getByPath(this.values, path),
+    );
   }
 
   /**
@@ -86,11 +142,12 @@ export default class FormEngine {
    * @param {Object} options - Options for setting value
    */
   set(path, value, options = {}) {
+    this._ensureInitialized();
     this.operations++;
-    this._setByPath(this.values, path, value);
 
-    // Clear only relevant caches instead of all caches
-    this._clearRelevantCaches(path);
+    this.values = setByPath(this.values, path, value);
+
+    this.cacheService.clearForPath(path);
 
     // Run validation if enabled
     if (this.options.enableValidation && this.options.validateOnChange) {
@@ -101,8 +158,8 @@ export default class FormEngine {
     if (this.options[FORM_ENGINE_OPTIONS.ENABLE_BATCHING] && !options.immediate) {
       this._queueChange(path, value);
     } else {
-      this._emit(EVENTS.CHANGE, { path, value });
-      this._emit(`${EVENTS.CHANGE}:${path}`, value);
+      this.eventService.emit(EVENTS.CHANGE, { path, value });
+      this.eventService.emit(`${EVENTS.CHANGE}:${path}`, value);
     }
   }
 
@@ -114,11 +171,11 @@ export default class FormEngine {
     if (this.options[FORM_ENGINE_OPTIONS.ENABLE_BATCHING]) {
       this.batch(() => {
         updates.forEach(({ path, value }) => {
-          this._setByPath(this.values, path, value);
-          this._clearRelevantCaches(path);
+          this.values = setByPath(this.values, path, value);
+          this.cacheService.clearForPath(path);
         });
       });
-      this._emit(EVENTS.CHANGE, { batch: true, updates });
+      this.eventService.emit(EVENTS.CHANGE, { batch: true, updates });
     } else {
       updates.forEach(({ path, value }) => {
         this.set(path, value, { immediate: true });
@@ -131,39 +188,12 @@ export default class FormEngine {
    * @param {Function} fn - Function containing operations to batch
    */
   batch(fn) {
-    if (this.isBatching) {
-      fn();
+    this.batchService.batch(fn, (operations) => {
+      this.eventService.emit(EVENTS.CHANGE, { batch: true, updates: operations });
 
-      return;
-    }
-
-    this.isBatching = true;
-    this.batchQueue = [];
-
-    try {
-      fn();
-    } finally {
-      this.isBatching = false;
-
-      this._flushBatch();
-    }
-  }
-
-  /**
-   * Flush pending batch operations
-   * @private
-   */
-  _flushBatch() {
-    if (this.batchQueue.length === 0) return;
-
-    const updates = [...this.batchQueue];
-
-    this.batchQueue = [];
-
-    this._emit(EVENTS.CHANGE, { batch: true, updates });
-
-    updates.forEach(({ path, value }) => {
-      this._emit(`${EVENTS.CHANGE}:${path}`, value);
+      operations.forEach(({ path, value }) => {
+        this.eventService.emit(`${EVENTS.CHANGE}:${path}`, value);
+      });
     });
   }
 
@@ -174,21 +204,7 @@ export default class FormEngine {
    * @private
    */
   _queueChange(path, value) {
-    this.batchQueue.push({ path, value });
-
-    if (this.options.batchDelay > 0) {
-      clearTimeout(this.batchTimeout);
-      this.batchTimeout = setTimeout(() => {
-        this._flushBatch();
-      }, this.options.batchDelay);
-    } else if (!this.batchScheduled) {
-      // Use microtask for immediate batching
-      this.batchScheduled = true;
-      queueMicrotask(() => {
-        this.batchScheduled = false;
-        this._flushBatch();
-      });
-    }
+    this.batchService.queueOperation({ path, value });
   }
 
   /**
@@ -205,8 +221,8 @@ export default class FormEngine {
    */
   setError(path, error) {
     this.errors[path] = error;
-    this._emit(EVENTS.ERROR, { path, error });
-    this._emit(`${EVENTS.ERROR}:${path}`, error);
+    this.eventService.emit(EVENTS.ERROR, { path, error });
+    this.eventService.emit(`${EVENTS.ERROR}:${path}`, error);
   }
 
   /**
@@ -215,8 +231,8 @@ export default class FormEngine {
    */
   clearError(path) {
     delete this.errors[path];
-    this._emit(EVENTS.ERROR, { path, error: null });
-    this._emit(`${EVENTS.ERROR}:${path}`, null);
+    this.eventService.emit(EVENTS.ERROR, { path, error: null });
+    this.eventService.emit(`${EVENTS.ERROR}:${path}`, null);
   }
 
   /**
@@ -225,7 +241,16 @@ export default class FormEngine {
    * @param {Function} validator - Validation function
    */
   registerValidator(path, validator) {
-    this.validators.set(path, validator);
+    this.validationService.registerValidator(path, validator);
+  }
+
+  /**
+   * Check if validator is registered for field
+   * @param {string} path - Field path
+   * @returns {boolean}
+   */
+  hasValidator(path) {
+    return this.validationService.validators.has(path);
   }
 
   /**
@@ -235,20 +260,12 @@ export default class FormEngine {
    * @private
    */
   async _validateField(path, value) {
-    const validator = this.validators.get(path);
+    const error = await this.validationService.validateField(path, value, this.values);
 
-    if (!validator) return;
-
-    try {
-      const result = await validator(value, this.values);
-
-      if (result) {
-        this.setError(path, result);
-      } else {
-        this.clearError(path);
-      }
-    } catch (error) {
-      this.setError(path, error.message);
+    if (error) {
+      this.setError(path, error);
+    } else {
+      this.clearError(path);
     }
   }
 
@@ -256,25 +273,11 @@ export default class FormEngine {
    * Validate all fields
    */
   async validateAll() {
-    const errors = {};
-
-    for (const [path, validator] of this.validators) {
-      const value = this.get(path);
-
-      try {
-        const result = await validator(value, this.values);
-
-        if (result) {
-          errors[path] = result;
-        }
-      } catch (error) {
-        errors[path] = error.message;
-      }
-    }
+    const errors = await this.validationService.validateAll(this.values);
 
     // Update errors
     this.errors = errors;
-    this._emit(EVENTS.VALIDATION, { errors });
+    this.eventService.emit(EVENTS.VALIDATION, { errors });
 
     return Object.keys(errors).length === 0;
   }
@@ -300,8 +303,8 @@ export default class FormEngine {
    */
   touch(path) {
     this.touched.add(path);
-    this._emit(EVENTS.TOUCH, { path });
-    this._emit(`${EVENTS.TOUCH}:${path}`, true);
+    this.eventService.emit(EVENTS.TOUCH, { path });
+    this.eventService.emit(`${EVENTS.TOUCH}:${path}`, true);
   }
 
   /**
@@ -310,8 +313,8 @@ export default class FormEngine {
    */
   focus(path) {
     this.active = path;
-    this._emit(EVENTS.FOCUS, { path });
-    this._emit(`${EVENTS.FOCUS}:${path}`, true);
+    this.eventService.emit(EVENTS.FOCUS, { path });
+    this.eventService.emit(`${EVENTS.FOCUS}:${path}`, true);
   }
 
   /**
@@ -319,25 +322,14 @@ export default class FormEngine {
    */
   blur() {
     this.active = null;
-    this._emit(EVENTS.BLUR, {});
+    this.eventService.emit(EVENTS.BLUR, {});
   }
 
   /**
    * Get form state with improved WeakMap caching
    */
   getFormState() {
-    // Check cache first - use a more stable cache key
-    const cacheKey = {
-      valuesHash: this._hashObject(this.values),
-      errorsHash: this._hashObject(this.errors),
-      touchedSize: this.touched.size,
-      active: this.active,
-      submitting: this.submitting,
-    };
-
-    if (this.formStateCache.has(cacheKey)) {
-      return this.formStateCache.get(cacheKey);
-    }
+    this._ensureInitialized();
 
     const formState = {
       values: this.getValues(),
@@ -350,51 +342,114 @@ export default class FormEngine {
       pristine: this.touched.size === 0,
     };
 
-    // Cache the result
-    this.formStateCache.set(cacheKey, formState);
+    return this.cacheService.getFormState(formState, () => formState);
+  }
 
-    return formState;
+  // ============================================================================
+  // SERVICE MANAGEMENT
+  // ============================================================================
+
+  /**
+   * Replace validation service
+   * @param {ValidationService} service - New validation service
+   */
+  setValidationService(service) {
+    this.validationService = service;
+    this._configureServices();
+
+    return this;
   }
 
   /**
-   * Clear only relevant caches instead of all caches
-   * @param {string} path - Field path that changed
+   * Replace cache service
+   * @param {CacheService} service - New cache service
+   */
+  setCacheService(service) {
+    this.cacheService = service;
+
+    return this;
+  }
+
+  /**
+   * Replace event service
+   * @param {EventService} service - New event service
+   */
+  setEventService(service) {
+    this.eventService = service;
+
+    return this;
+  }
+
+  /**
+   * Get service statistics
+   * @returns {Object} Statistics from all services
+   */
+  getServiceStats() {
+    return {
+      cache: this.cacheService.getStats(),
+      validation: {
+        validatorsCount: this.validationService.validators.size,
+        options: this.validationService.options,
+      },
+      events: this.eventService.getStats(),
+      batch: this.batchService.getStats(),
+      engine: {
+        operations: this.operations,
+        renderCount: this.renderCount,
+        isInitialized: this.isInitialized,
+      },
+    };
+  }
+
+  // ============================================================================
+  // PRIVATE METHODS
+  // ============================================================================
+
+  /**
+   * Reset form state
    * @private
    */
-  _clearRelevantCaches(_path) {
-    // Clear value cache for this path and parent paths
-    const pathParts = _path.split('.');
+  _resetState() {
+    this.values = {};
+    this.errors = Object.create(null);
+    this.touched.clear();
+    this.active = null;
+    this.submitting = false;
+    this.batchQueue = [];
+    this.isBatching = false;
+    this.operations = 0;
+    this.renderCount = 0;
+  }
 
-    for (let i = 0; i < pathParts.length; i++) {
-      const partialPath = pathParts.slice(0, i + 1).join('.');
-
-      // Clear cache entries that might be affected by this change
-      this._clearCacheForPath(partialPath);
+  /**
+   * Configure services with current config
+   * @private
+   */
+  _configureServices() {
+    if (this.validationService && this.validationService.updateConfig) {
+      this.validationService.updateConfig({
+        debounceDelay: this.options.batchDelay,
+        validateOnChange: this.options.validateOnChange,
+        validateOnBlur: this.options.validateOnBlur,
+      });
     }
 
-    // Clear form state cache
-    this.formStateCache = new WeakMap();
+    if (this.batchService && this.batchService.updateConfig) {
+      this.batchService.updateConfig({
+        enableBatching: this.options[FORM_ENGINE_OPTIONS.ENABLE_BATCHING],
+        batchDelay: this.options[FORM_ENGINE_OPTIONS.BATCH_DELAY],
+      });
+    }
   }
 
   /**
-   * Clear cache entries for a specific path
-   * @param {string} path - Path to clear cache for
+   * Ensure form is initialized
    * @private
    */
-  _clearCacheForPath(_path) {
-    // This is a simplified implementation
-    // In a real implementation, you'd track which cache entries are affected by which paths
-    this.valueCache = new WeakMap();
-  }
-
-  /**
-   * Create a simple hash of an object for caching
-   * @param {Object} obj - Object to hash
-   * @returns {string} Hash string
-   * @private
-   */
-  _hashObject(obj) {
-    return JSON.stringify(obj);
+  _ensureInitialized() {
+    if (!this.isInitialized) {
+      throw new Error('FormEngine must be initialized before use. Call init() first.');
+    }
   }
 
   /**
@@ -402,8 +457,9 @@ export default class FormEngine {
    * @param {Function} onSubmit - Submit handler
    */
   async submit(onSubmit) {
+    this._ensureInitialized();
     this.submitting = true;
-    this._emit(EVENTS.SUBMIT, { submitting: true });
+    this.eventService.emit(EVENTS.SUBMIT, { submitting: true });
 
     try {
       const values = this.getValues();
@@ -419,7 +475,7 @@ export default class FormEngine {
         });
 
         this.submitting = false;
-        this._emit(EVENTS.SUBMIT, { submitting: false, success: false, errors });
+        this.eventService.emit(EVENTS.SUBMIT, { submitting: false, success: false, errors });
 
         return { success: false, errors, values };
       }
@@ -429,27 +485,15 @@ export default class FormEngine {
       }
 
       this.submitting = false;
-      this._emit(EVENTS.SUBMIT, { submitting: false, success: true, values });
+      this.eventService.emit(EVENTS.SUBMIT, { submitting: false, success: true, values });
 
       return { success: true, values };
     } catch (error) {
       this.submitting = false;
-      this._emit(EVENTS.SUBMIT, { submitting: false, success: false, error: error.message });
+      this.eventService.emit(EVENTS.SUBMIT, { submitting: false, success: false, error: error.message });
 
       return { success: false, error: error.message };
     }
-  }
-
-  /**
-   * Reset form
-   */
-  reset() {
-    this.values = {};
-    this.errors = Object.create(null);
-    this.touched.clear();
-    this.active = null;
-    this.submitting = false;
-    this._emit(EVENTS.RESET, this.getFormState());
   }
 
   // ============================================================================
@@ -460,259 +504,10 @@ export default class FormEngine {
    * Subscribe to events
    * @param {string} event - Event name
    * @param {Function} callback - Callback function
+   * @param {Object} context - Context for cleanup (optional)
    * @returns {Function} Unsubscribe function
    */
   on(event, callback, context = null) {
-    // Store listener in Map for event emission (PRIMARY STORAGE)
-    if (!this.listeners.has(event)) {
-      this.listeners.set(event, new Set());
-    }
-    this.listeners.get(event).add(callback);
-
-    // Track context for cleanup (METADATA ONLY - NO DUPLICATION)
-    if (context) {
-      if (!this.contexts.has(context)) {
-        this.contexts.set(context, new Set());
-      }
-      // Store only metadata reference, not the callback itself
-      this.contexts.get(context).add({ event, callback });
-    }
-
-    return () => {
-      // Remove from primary Map
-      const listeners = this.listeners.get(event);
-
-      if (listeners) {
-        listeners.delete(callback);
-      }
-
-      // Remove from context tracking
-      if (context) {
-        const contextCallbacks = this.contexts.get(context);
-
-        if (contextCallbacks) {
-          contextCallbacks.delete({ event, callback });
-        }
-      }
-    };
-  }
-
-  /**
-   * Emit event
-   * @param {string} event - Event name
-   * @param {*} data - Event data
-   * @private
-   */
-  _emit(event, data) {
-    const listeners = this.listeners.get(event);
-
-    if (listeners) {
-      listeners.forEach(callback => {
-        try {
-          callback(data);
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(`Error in event listener for ${event}:`, error);
-        }
-      });
-    }
-  }
-
-  // ============================================================================
-  // UTILITY METHODS
-  // ============================================================================
-
-  /**
-   * Get value by path
-   * @param {Object} obj - Object to get value from
-   * @param {string} path - Dot notation path
-   * @returns {*} Value at path
-   * @private
-   */
-  _getByPath(obj, path) {
-    if (!path) return obj;
-
-    const keys = path.split('.');
-    let current = obj;
-
-    for (const key of keys) {
-      if (current == null) return undefined;
-      current = this._getKeyValue(current, key);
-    }
-
-    return current;
-  }
-
-  /**
-   * Get value for a single key (handles array notation)
-   * @param {Object} current - Current object
-   * @param {string} key - Key to get
-   * @returns {*} Value at key
-   * @private
-   */
-  _getKeyValue(current, key) {
-    if (key.includes('[') && key.includes(']')) {
-      return this._getArrayValue(current, key);
-    }
-
-    return current[key];
-  }
-
-  /**
-   * Get array value
-   * @param {Object} current - Current object
-   * @param {string} key - Array key like 'items[0]'
-   * @returns {*} Value at array index
-   * @private
-   */
-  _getArrayValue(current, key) {
-    const arrayKey = key.substring(0, key.indexOf('['));
-    const index = parseInt(key.substring(key.indexOf('[') + 1, key.indexOf(']')), 10);
-
-    let arrayObj = current;
-
-    if (arrayKey) {
-      arrayObj = current[arrayKey];
-
-      if (arrayObj == null) return undefined;
-    }
-
-    if (!Array.isArray(arrayObj)) return undefined;
-
-    return arrayObj[index];
-  }
-
-  /**
-   * Set value by path
-   * @param {Object} obj - Object to set value in
-   * @param {string} path - Dot notation path
-   * @param {*} value - Value to set
-   * @private
-   */
-  _setByPath(obj, path, value) {
-    if (!path) return;
-
-    const keys = path.split('.');
-    let current = obj;
-
-    // Navigate to parent
-    for (let i = 0; i < keys.length - 1; i++) {
-      current = this._navigateToKey(current, keys[i]);
-      if (!current) return;
-    }
-
-    // Set final value
-    this._setFinalValue(current, keys[keys.length - 1], value);
-  }
-
-  /**
-   * Navigate to a key, creating objects/arrays as needed
-   * @param {Object} current - Current object
-   * @param {string} key - Key to navigate to
-   * @returns {Object} Next object
-   * @private
-   */
-  _navigateToKey(current, key) {
-    if (key.includes('[') && key.includes(']')) {
-      return this._navigateToArrayKey(current, key);
-    }
-
-    return this._navigateToObjectKey(current, key);
-  }
-
-  /**
-   * Navigate to array key
-   * @param {Object} current - Current object
-   * @param {string} key - Array key like 'items[0]'
-   * @returns {Object} Next object
-   * @private
-   */
-  _navigateToArrayKey(current, key) {
-    const arrayKey = key.substring(0, key.indexOf('['));
-    const index = parseInt(key.substring(key.indexOf('[') + 1, key.indexOf(']')), 10);
-
-    let arrayObj = current;
-
-    if (arrayKey) {
-      if (!(arrayKey in current)) {
-        current[arrayKey] = [];
-      }
-      arrayObj = current[arrayKey];
-    }
-
-    if (!Array.isArray(arrayObj)) return null;
-
-    if (index >= arrayObj.length) {
-      while (arrayObj.length <= index) {
-        arrayObj.push(undefined);
-      }
-    }
-
-    if (arrayObj[index] == null) {
-      arrayObj[index] = {};
-    }
-
-    return arrayObj[index];
-  }
-
-  /**
-   * Navigate to object key
-   * @param {Object} current - Current object
-   * @param {string} key - Object key
-   * @returns {Object} Next object
-   * @private
-   */
-  _navigateToObjectKey(current, key) {
-    if (!(key in current)) {
-      current[key] = {};
-    }
-
-    return current[key];
-  }
-
-  /**
-   * Set final value
-   * @param {Object} current - Current object
-   * @param {string} key - Final key
-   * @param {*} value - Value to set
-   * @private
-   */
-  _setFinalValue(current, key, value) {
-    if (key.includes('[') && key.includes(']')) {
-      this._setArrayValue(current, key, value);
-    } else {
-      current[key] = value;
-    }
-  }
-
-  /**
-   * Set array value
-   * @param {Object} current - Current object
-   * @param {string} key - Array key like 'items[0]'
-   * @param {*} value - Value to set
-   * @private
-   */
-  _setArrayValue(current, key, value) {
-    const arrayKey = key.substring(0, key.indexOf('['));
-    const index = parseInt(key.substring(key.indexOf('[') + 1, key.indexOf(']')), 10);
-
-    let arrayObj = current;
-
-    if (arrayKey) {
-      if (!(arrayKey in current)) {
-        current[arrayKey] = [];
-      }
-      arrayObj = current[arrayKey];
-    }
-
-    if (!Array.isArray(arrayObj)) return;
-
-    if (index >= arrayObj.length) {
-      while (arrayObj.length <= index) {
-        arrayObj.push(undefined);
-      }
-    }
-
-    arrayObj[index] = value;
+    return this.eventService.on(event, callback, context);
   }
 }

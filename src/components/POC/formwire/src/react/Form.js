@@ -3,30 +3,40 @@
  */
 
 import React, { useMemo, useCallback } from 'react';
-import FormEngine from '../core/FormEngine.js';
-import { FormProvider } from './FormContext.js';
+import FormEngine from '../core/FormEngine';
+import { FormProvider } from './FormContext';
 
 export default function Form({
   children,
   onSubmit,
   initialValues = {},
   defaultValidateOn = 'blur',
+  engine: providedEngine,
   ...rest
 }) {
-  // Create form engine instance
-  const engine = useMemo(() => new FormEngine(initialValues), [initialValues]);
+  // Create form engine instance or use provided one
+  const engine = useMemo(() => {
+    if (providedEngine) {
+      return providedEngine;
+    }
+
+    const newEngine = new FormEngine();
+
+    newEngine.init(initialValues, { validateOnBlur: defaultValidateOn === 'blur' });
+
+    return newEngine;
+  }, [providedEngine, initialValues, defaultValidateOn]);
 
   // Handle form submission
   const handleSubmit = useCallback(async (e) => {
-    if (e && e.preventDefault) {
-      e.preventDefault();
-    }
+    e?.preventDefault?.();
 
     if (onSubmit) {
       const result = await engine.submit(onSubmit);
 
       if (!result.success) {
-        console.warn('Form submission failed:', result.error || result.errors);
+        // Form submission failed - errors are handled by FormEngine
+        // Could emit custom event or call error callback here
       }
     }
   }, [engine, onSubmit]);

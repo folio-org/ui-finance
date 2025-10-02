@@ -2,16 +2,16 @@
  * FieldArray component - For managing arrays of fields with optimizations
  */
 
-import React, { useMemo, memo, useCallback } from 'react';
-import { useFormEngine } from './FormContext.js';
-import { useWatch } from './hooks.js';
+import React, { useMemo, memo } from 'react';
+import { useFormEngine } from './FormContext';
+import { useWatch } from './hooks';
 
-const FieldArray = memo(function FieldArray({ name, children }) {
+const FieldArray = memo(({ name, children }) => {
   const engine = useFormEngine();
-  
+
   // Watch array changes
   const array = useWatch(name, (value) => value || []);
-  
+
   // Generate field descriptors with stable IDs
   const fields = useMemo(() => {
     return array.map((_, index) => ({
@@ -25,19 +25,23 @@ const FieldArray = memo(function FieldArray({ name, children }) {
   const arrayMethods = useMemo(() => ({
     push: (item) => {
       const currentArray = engine.get(name) || [];
+
       engine.set(name, [...currentArray, item]);
     },
-    
+
     remove: (index) => {
       const currentArray = engine.get(name) || [];
       const newArray = currentArray.filter((_, i) => i !== index);
+
       engine.set(name, newArray);
     },
 
     insert: (index, item) => {
       const currentArray = engine.get(name) || [];
       const newArray = [...currentArray];
+
       newArray.splice(index, 0, item);
+
       engine.set(name, newArray);
     },
 
@@ -45,21 +49,27 @@ const FieldArray = memo(function FieldArray({ name, children }) {
       const currentArray = engine.get(name) || [];
       const newArray = [...currentArray];
       const [movedItem] = newArray.splice(fromIndex, 1);
+
       newArray.splice(toIndex, 0, movedItem);
+
       engine.set(name, newArray);
     },
 
     swap: (indexA, indexB) => {
       const currentArray = engine.get(name) || [];
       const newArray = [...currentArray];
+
       [newArray[indexA], newArray[indexB]] = [newArray[indexB], newArray[indexA]];
+
       engine.set(name, newArray);
     },
 
     update: (index, item) => {
       const currentArray = engine.get(name) || [];
       const newArray = [...currentArray];
+
       newArray[index] = item;
+
       engine.set(name, newArray);
     },
 

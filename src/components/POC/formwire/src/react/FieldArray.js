@@ -1,18 +1,18 @@
 /**
- * FieldArray component - For managing arrays of fields
+ * FieldArray component - For managing arrays of fields with optimizations
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, memo, useCallback } from 'react';
 import { useFormEngine } from './FormContext.js';
 import { useWatch } from './hooks.js';
 
-export default function FieldArray({ name, children }) {
+const FieldArray = memo(function FieldArray({ name, children }) {
   const engine = useFormEngine();
   
   // Watch array changes
   const array = useWatch(name, (value) => value || []);
   
-  // Generate field descriptors
+  // Generate field descriptors with stable IDs
   const fields = useMemo(() => {
     return array.map((_, index) => ({
       name: `${name}[${index}]`,
@@ -21,7 +21,7 @@ export default function FieldArray({ name, children }) {
     }));
   }, [name, array]);
 
-  // Array manipulation methods
+  // Memoized array manipulation methods
   const arrayMethods = useMemo(() => ({
     push: (item) => {
       const currentArray = engine.get(name) || [];
@@ -33,8 +33,42 @@ export default function FieldArray({ name, children }) {
       const newArray = currentArray.filter((_, i) => i !== index);
       engine.set(name, newArray);
     },
-    
-  }), [engine, name]);
+
+    insert: (index, item) => {
+      const currentArray = engine.get(name) || [];
+      const newArray = [...currentArray];
+      newArray.splice(index, 0, item);
+      engine.set(name, newArray);
+    },
+
+    move: (fromIndex, toIndex) => {
+      const currentArray = engine.get(name) || [];
+      const newArray = [...currentArray];
+      const [movedItem] = newArray.splice(fromIndex, 1);
+      newArray.splice(toIndex, 0, movedItem);
+      engine.set(name, newArray);
+    },
+
+    swap: (indexA, indexB) => {
+      const currentArray = engine.get(name) || [];
+      const newArray = [...currentArray];
+      [newArray[indexA], newArray[indexB]] = [newArray[indexB], newArray[indexA]];
+      engine.set(name, newArray);
+    },
+
+    update: (index, item) => {
+      const currentArray = engine.get(name) || [];
+      const newArray = [...currentArray];
+      newArray[index] = item;
+      engine.set(name, newArray);
+    },
+
+    clear: () => {
+      engine.set(name, []);
+    },
+
+    length: array.length,
+  }), [engine, name, array.length]);
 
   // Render with children function
   if (typeof children === 'function') {
@@ -51,4 +85,8 @@ export default function FieldArray({ name, children }) {
       ))}
     </div>
   );
-}
+});
+
+FieldArray.displayName = 'FieldArray';
+
+export default FieldArray;

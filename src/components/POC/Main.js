@@ -1,5 +1,6 @@
-import { Button, Col, Datepicker, MultiSelection, Pane, Paneset, Row, Select, Selection, TextArea, TextField } from '@folio/stripes/components';
+import { Button, Checkbox, Col, Datepicker, MultiSelection, Pane, Paneset, Row, Select, Selection, TextArea, TextField } from '@folio/stripes/components';
 import { Form, Field, FieldArray } from './formwire/src';
+import { VALIDATION_MODES, DEBOUNCE_DELAYS } from './formwire/src/constants';
 
 const selectOptions = [
   { label: 'One', value: 1 },
@@ -36,22 +37,20 @@ export default function Main() {
       <Form
         onSubmit={onSubmit}
         style={{ width: '100%' }}
-        defaultValidateOn="blur"
+        defaultValidateOn={VALIDATION_MODES.BLUR}
         initialValues={initialValues}
       >
         <Pane
           defaultWidth="fill"
           padContent={false}
           lastMenu={(
-            (
-              <Button
-                type="submit"
-                buttonStyle="primary"
-                marginBottom0
-              >
-                Submit
-              </Button>
-            )
+            <Button
+              type="submit"
+              buttonStyle="primary"
+              marginBottom0
+            >
+              Submit
+            </Button>
           )}
         >
           <div
@@ -76,7 +75,7 @@ export default function Main() {
               >
                 &nbsp;
               </Col>
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 7 }).map((_, index) => (
                 <Col
                   xs
                   key={index}
@@ -104,10 +103,24 @@ export default function Main() {
 
                       <Col xs>
                         <Field
+                          component={Checkbox}
+                          name={`lines[${idx}].checkbox`}
+                          fullWidth
+                        />
+                      </Col>
+                      <Col xs>
+                        <Field
                           component={TextField}
                           name={`lines[${idx}].text`}
-                          validate={(value) => (value === 'bad' ? 'Text is incorrect and validation fails' : undefined)}
-                          validateOn="change"
+                          validate={(value) => {
+                            // eslint-disable-next-line no-console
+                            console.log('value', value);
+
+                            return (value === 'bad' ? 'Text is incorrect and validation fails' : undefined);
+                          }}
+                          validateOn={VALIDATION_MODES.SUBMIT}
+                          debounceDelay={DEBOUNCE_DELAYS.TEXT}
+                          subscription={{ value: true, error: true, touched: true }}
                           fullWidth
                         />
                       </Col>
@@ -116,6 +129,8 @@ export default function Main() {
                           component={TextField}
                           name={`lines[${idx}].number`}
                           validate={(value) => (value && Number(value) > 100 ? 'Number should be 100 or less' : undefined)}
+                          debounceDelay={DEBOUNCE_DELAYS.NUMBER}
+                          subscription={{ value: true, error: true, touched: true }}
                           fullWidth
                           type="number"
                         />

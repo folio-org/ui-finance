@@ -2,11 +2,11 @@
  * FormWire - Ultra-lightweight form state management
  * 
  * Exports:
- * - FormEngine: Core form engine
+ * - FormEngine: Core form engine with batching and validation
  * - Form: Main form component
- * - Field: Field component
- * - FieldArray: Array field component
- * - Hooks: useField, useFormState, useWatch, useFormSubmit
+ * - Field: High-performance field with debouncing and selective subscriptions
+ * - FieldArray: Array field component with enhanced methods
+ * - Hooks: useField, useFormState, useWatch, useFormSubmit, useDebouncedValidation
  * - Context: FormProvider, useFormEngine, useFormContext
  */
 
@@ -24,6 +24,7 @@ export {
   useFormState,
   useWatch,
   useFormSubmit,
+  useDebouncedValidation,
 } from './react/hooks.js';
 
 // React context

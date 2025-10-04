@@ -425,7 +425,7 @@
     "invoice.unpaidInvoices.exportCSV.started": "A exportação da fatura foi iniciada com sucesso",
     "invoice.unpaidInvoices.exportCSV.error": "Falha ao exportar faturas",
     "actions.rolloverLogs": "Registros de prorrogação",
-    "ledger.rollover.logs.endDate": "Tempo final",
+    "ledger.rollover.logs.endDate": "Data final",
     "ledger.rollover.logs.errors": "Erros",
     "ledger.rollover.logs.export.failed": "Falha ao exportar registros de prorrogação",
     "ledger.rollover.logs.results": "Resultados",

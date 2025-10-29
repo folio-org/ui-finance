@@ -426,7 +426,7 @@
     "invoice.unpaidInvoices.exportCSV.error": "Failed to export invoices",
     "actions.rolloverLogs": "Dzienniki przeniesień",
     "ledger.rollover.logs.endDate": "Czas zakończenia",
-    "ledger.rollover.logs.errors": "Errors",
+    "ledger.rollover.logs.errors": "Błędy",
     "ledger.rollover.logs.export.failed": "Nie udało się wyeksportować dzienników przeniesień",
     "ledger.rollover.logs.results": "Wyniki",
     "ledger.rollover.logs.startDate": "Czas rozpoczęcia",

@@ -33,7 +33,7 @@ export const BatchAllocationList = ({
   return (
     <>
       <MultiColumnList
-        contentData={fields.value}
+        contentData={fields}
         columnMapping={columnMapping}
         columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
         formatter={formatter}
@@ -43,7 +43,7 @@ export const BatchAllocationList = ({
         sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
         visibleColumns={BATCH_ALLOCATION_COLUMNS}
       />
-      <AcqEndOfList totalCount={fields.value?.length} />
+      <AcqEndOfList totalCount={fields?.length} />
     </>
   );
 };

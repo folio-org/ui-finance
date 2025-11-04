@@ -30,6 +30,7 @@ import {
   FieldArray,
   useFormEngine,
   useFormState,
+  useWatch,
 } from '@folio/stripes-acq-components/experimental';
 
 import { BUDGET_STATUSES } from '../../Budget/constants';
@@ -43,6 +44,8 @@ import {
   handleRecalculateError,
   normalizeFinanceFormData,
 } from './utils';
+
+import css from './BatchAllocationsForm.css';
 
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA_FIELD,
@@ -121,20 +124,24 @@ const BatchAllocationsForm = ({
     submitting: true,
   });
 
+  console.log('engine state', engine.getDebugInfo());
+  console.log('isSortingDisabled', isSortingDisabled);
+
   const isSubmitDisabled = (
     isSubmitDisabledProp
     || get(values, CALCULATED_FINANCE_DATA_FIELD) === null
-    || isRecalculateRequired
+    // || isRecalculateRequired
     || !valid
     || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && engine.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
     || submitting
   );
 
-  console.group();
-  console.log('isRecalculateRequired', isRecalculateRequired);
-  console.log('submitting', submitting);
-  console.log('valid', valid);
-  console.groupEnd();
+  // console.group();
+  // console.log('isRecalculating', isRecalculating);
+  // console.log('isRecalculateRequired', isRecalculateRequired);
+  // console.log('submitting', submitting);
+  // console.log('valid', valid);
+  // console.groupEnd();
 
   /* Subscribe on form changes */
   useEffect(() => {
@@ -183,7 +190,7 @@ const BatchAllocationsForm = ({
 
     await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
-        engine.set(CALCULATED_FINANCE_DATA_FIELD, res.fyFinanceData, { silent: true });
+        engine.set(CALCULATED_FINANCE_DATA_FIELD, res.fyFinanceData);
       })
       .catch(async (error) => {
         engine.set(
@@ -236,7 +243,7 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="primary mega"
-          disabled={isSubmitDisabled}
+          // disabled={isSubmitDisabled}
           type="submit"
         >
           <FormattedMessage id="stripes-components.saveAndClose" />
@@ -263,48 +270,52 @@ const BatchAllocationsForm = ({
         paneTitle={paneTitle}
         paneSub={paneSub}
       >
-        <Headline
-          size="large"
-          tag="h2"
-          data-test-header-title
-        >
-          {headline}
-        </Headline>
+        <div className={css['form-container']}>
+          <Headline
+            size="large"
+            tag="h2"
+            data-test-header-title
+          >
+            {headline}
+          </Headline>
 
-        <FieldArray
-          id="batch-allocation-list"
-          name={FY_FINANCE_DATA_FIELD}
-        >
-          {({ fields }) => (
-            <BatchAllocationList
-              fields={fields}
-              props={{
-                fiscalYear,
-                isLoading: isLoading || isRecalculating,
-                onHeaderClick: isSortingDisabled ? noop : changeSorting,
-                sortDirection: sortingDirection,
-                sortedColumn: sortingField,
-              }}
-            />
-          )}
-        </FieldArray>
-
-        {
-          Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
-            <Layout className="marginTop1">
-              <MessageBanner type="error">
-                <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
-              </MessageBanner>
-              <Layout className="marginTopHalf">
-                <List
-                  items={initialValues[INVALID_FUNDS_FIELD]}
-                  itemFormatter={formatInvalidFundsListItem}
-                  listStyle="bullets"
+          <div className={css['form-content']}>
+            <FieldArray
+              id="batch-allocation-list"
+              name={FY_FINANCE_DATA_FIELD}
+            >
+              {({ fields }) => (
+                <BatchAllocationList
+                  fields={fields}
+                  props={{
+                    fiscalYear,
+                    isLoading: isLoading || isRecalculating,
+                    onHeaderClick: isSortingDisabled ? noop : changeSorting,
+                    sortDirection: sortingDirection,
+                    sortedColumn: sortingField,
+                  }}
                 />
+              )}
+            </FieldArray>
+          </div>
+
+          {
+            Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
+              <Layout className="marginTop1">
+                <MessageBanner type="error">
+                  <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
+                </MessageBanner>
+                <Layout className="marginTopHalf">
+                  <List
+                    items={initialValues[INVALID_FUNDS_FIELD]}
+                    itemFormatter={formatInvalidFundsListItem}
+                    listStyle="bullets"
+                  />
+                </Layout>
               </Layout>
-            </Layout>
-          )
-        }
+            )
+          }
+        </div>
       </Pane>
     </Paneset>
   );

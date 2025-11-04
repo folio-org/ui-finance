@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
+import {
+  memo,
+  useMemo,
+} from 'react';
 import { useIntl } from 'react-intl';
 
 import { MultiColumnList } from '@folio/stripes/components';
-import { AcqEndOfList } from '@folio/stripes-acq-components';
 
 import {
   BATCH_ALLOCATION_COLUMNS,
@@ -13,7 +15,7 @@ import {
 import { useBatchAllocationFormatter } from '../hooks';
 import { getBatchAllocationColumnMapping } from '../utils';
 
-export const BatchAllocationList = ({
+export const BatchAllocationList = memo(({
   fields,
   props: {
     fiscalYear,
@@ -33,6 +35,7 @@ export const BatchAllocationList = ({
   return (
     <>
       <MultiColumnList
+        autosize
         contentData={fields}
         columnMapping={columnMapping}
         columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
@@ -41,12 +44,21 @@ export const BatchAllocationList = ({
         onHeaderClick={onHeaderClick}
         sortDirection={sortDirection}
         sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
+        totalCount={fields?.length}
+        virtualize
         visibleColumns={BATCH_ALLOCATION_COLUMNS}
       />
-      <AcqEndOfList totalCount={fields?.length} />
     </>
   );
-};
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.fields === nextProps.fields
+    && prevProps.props.fiscalYear === nextProps.props.fiscalYear
+    && prevProps.props.isLoading === nextProps.props.isLoading
+    && prevProps.props.sortDirection === nextProps.props.sortDirection
+    && prevProps.props.sortedColumn === nextProps.props.sortedColumn
+  );
+});
 
 BatchAllocationList.propTypes = {
   fields: PropTypes.object.isRequired,

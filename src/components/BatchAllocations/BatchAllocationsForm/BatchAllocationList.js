@@ -17,13 +17,11 @@ import { getBatchAllocationColumnMapping } from '../utils';
 
 export const BatchAllocationList = memo(({
   fields,
-  props: {
-    fiscalYear,
-    isLoading,
-    onHeaderClick,
-    sortDirection,
-    sortedColumn,
-  },
+  fiscalYear,
+  isLoading,
+  onHeaderClick,
+  sortDirection,
+  sortedColumn,
 }) => {
   const intl = useIntl();
   const columnMapping = useMemo(() => {
@@ -50,23 +48,13 @@ export const BatchAllocationList = memo(({
       />
     </>
   );
-}, (prevProps, nextProps) => {
-  return (
-    prevProps.fields === nextProps.fields
-    && prevProps.props.fiscalYear === nextProps.props.fiscalYear
-    && prevProps.props.isLoading === nextProps.props.isLoading
-    && prevProps.props.sortDirection === nextProps.props.sortDirection
-    && prevProps.props.sortedColumn === nextProps.props.sortedColumn
-  );
 });
 
 BatchAllocationList.propTypes = {
   fields: PropTypes.object.isRequired,
-  props: PropTypes.shape({
-    fiscalYear: PropTypes.object,
-    isLoading: PropTypes.bool,
-    onHeaderClick: PropTypes.func.isRequired,
-    sortDirection: PropTypes.string,
-    sortedColumn: PropTypes.string,
-  }).isRequired,
+  fiscalYear: PropTypes.object,
+  isLoading: PropTypes.bool,
+  onHeaderClick: PropTypes.func.isRequired,
+  sortDirection: PropTypes.string,
+  sortedColumn: PropTypes.string,
 };

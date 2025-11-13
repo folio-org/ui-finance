@@ -1,6 +1,12 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook, act } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
+import {
+  act,
+  renderHook,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { exportToCsv } from '@folio/stripes/components';
 import { useOkapiKy } from '@folio/stripes/core';
 
@@ -31,6 +37,9 @@ describe('useLedgerExportCSV', () => {
       .mockClear()
       .mockReturnValue({
         get: () => ({
+          json: () => ({}),
+        }),
+        post: () => ({
           json: () => ({}),
         }),
       });

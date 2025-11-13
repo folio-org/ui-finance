@@ -384,6 +384,7 @@ const FundForm = ({
                         >
                           <FieldMultiSelection
                             dataOptions={fundOptions}
+                            id="transfer-from"
                             label={<FormattedMessage id="ui-finance.fund.information.transferFrom" />}
                             name="fund.allocatedFromIds"
                             parse={parseMultiSelectionValue}
@@ -399,6 +400,7 @@ const FundForm = ({
                         >
                           <FieldMultiSelection
                             dataOptions={fundOptions}
+                            id="transfer-to"
                             label={<FormattedMessage id="ui-finance.fund.information.transferTo" />}
                             name="fund.allocatedToIds"
                             parse={parseMultiSelectionValue}

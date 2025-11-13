@@ -1,7 +1,6 @@
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 
-import { fundsData } from '../../../../../test/jest/fixtures/export';
-
+import { fundsData } from 'fixtures/export';
 import { getAcqUnitsData } from './getAcqUnitsData';
 
 const fundData = Object.values(fundsData)[0];

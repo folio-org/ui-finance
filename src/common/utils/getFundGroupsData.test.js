@@ -2,7 +2,7 @@ import { fundsData } from 'fixtures/export';
 import {
   GROUPS_API,
   GROUP_FUND_FISCAL_YEARS_BATCH_API,
-} from '../../../../common/const';
+} from '../const';
 import { getFundGroupsData } from './getFundGroupsData';
 
 const fundData = Object.values(fundsData)[0];

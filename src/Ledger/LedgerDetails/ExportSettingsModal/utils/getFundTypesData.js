@@ -3,7 +3,7 @@ import { keyBy } from 'lodash';
 import { fetchExportDataByIds } from '@folio/stripes-acq-components';
 
 import { FUND_TYPES_API } from '../../../../common/const';
-import { getUniqItems } from './getUniqItems';
+import { getUniqItems } from '../../../../common/utils';
 
 export const getFundTypesData = (ky) => async (fundsMap) => {
   const fundTypeIds = getUniqItems(

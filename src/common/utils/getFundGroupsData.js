@@ -5,8 +5,8 @@ import {
 
 import { fetchExportDataByIds } from '@folio/stripes-acq-components';
 
-import { GROUPS_API } from '../../../../common/const';
-import { fetchGroupFundFiscalYearsBatch } from '../../../../common/utils';
+import { GROUPS_API } from '../const';
+import { fetchGroupFundFiscalYearsBatch } from './fetchGroupFundFiscalYearsBatch';
 import { getUniqItems } from './getUniqItems';
 
 const getGroupFundFiscalYears = (ky) => async (fundsMap, fiscalYearId) => {

@@ -15,7 +15,7 @@ describe('fetchGroupFundFiscalYearsBatch', () => {
   it('should call httpClient.post with correct API endpoint and data', async () => {
     const fundIds = ['fund1', 'fund2'];
     const filters = { fiscalYearId: 'fy1', groupId: 'group1' };
-    
+
     fetchGroupFundFiscalYearsBatch(httpClient)(fundIds, filters);
 
     expect(mockPost).toHaveBeenCalledWith(GROUP_FUND_FISCAL_YEARS_BATCH_API, {
@@ -29,7 +29,7 @@ describe('fetchGroupFundFiscalYearsBatch', () => {
 
   it('should call json() on the response', () => {
     const fundIds = ['fund1'];
-    
+
     fetchGroupFundFiscalYearsBatch(httpClient)(fundIds);
 
     expect(mockJson).toHaveBeenCalled();
@@ -37,7 +37,7 @@ describe('fetchGroupFundFiscalYearsBatch', () => {
 
   it('should handle empty filters', () => {
     const fundIds = ['fund1', 'fund2'];
-    
+
     fetchGroupFundFiscalYearsBatch(httpClient)(fundIds);
 
     expect(mockPost).toHaveBeenCalledWith(GROUP_FUND_FISCAL_YEARS_BATCH_API, {
@@ -53,7 +53,7 @@ describe('fetchGroupFundFiscalYearsBatch', () => {
     const fundIds = ['fund1'];
     const filters = { fiscalYearId: 'fy1' };
     const options = { signal: new AbortController().signal };
-    
+
     fetchGroupFundFiscalYearsBatch(httpClient)(fundIds, filters, options);
 
     expect(mockPost).toHaveBeenCalledWith(GROUP_FUND_FISCAL_YEARS_BATCH_API, {
@@ -68,9 +68,10 @@ describe('fetchGroupFundFiscalYearsBatch', () => {
 
   it('should return the result from json()', async () => {
     const expectedData = { data: 'test' };
+
     mockJson.mockResolvedValue(expectedData);
     const fundIds = ['fund1'];
-    
+
     const result = fetchGroupFundFiscalYearsBatch(httpClient)(fundIds);
 
     expect(result).resolves.toEqual(expectedData);
@@ -79,7 +80,7 @@ describe('fetchGroupFundFiscalYearsBatch', () => {
   it('should handle partial filters', () => {
     const fundIds = ['fund1'];
     const filters = { fiscalYearId: 'fy1' };
-    
+
     fetchGroupFundFiscalYearsBatch(httpClient)(fundIds, filters);
 
     expect(mockPost).toHaveBeenCalledWith(GROUP_FUND_FISCAL_YEARS_BATCH_API, {

@@ -4,6 +4,7 @@ export * from './exportRolloverErrors';
 export * from './exportRolloverResult';
 export * from './fetchFinanceData';
 export * from './fetchGroupCurrentFiscalYears';
+export * from './fetchGroupFundFiscalYearsBatch';
 export * from './fetchLedgerCurrentFiscalYear';
 export * from './fundValidation';
 export * from './generateBudgetsReport';

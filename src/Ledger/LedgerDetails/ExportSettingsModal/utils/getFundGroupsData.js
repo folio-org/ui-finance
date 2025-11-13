@@ -5,34 +5,15 @@ import {
 
 import { fetchExportDataByIds } from '@folio/stripes-acq-components';
 
-import {
-  GROUPS_API,
-  GROUP_FUND_FISCAL_YEARS_API,
-} from '../../../../common/const';
+import { GROUPS_API } from '../../../../common/const';
+import { fetchGroupFundFiscalYearsBatch } from '../../../../common/utils';
 import { getUniqItems } from './getUniqItems';
 
-const buildQueryByFundIds = (fiscalYearId) => (itemsChunk) => {
-  const query = itemsChunk
-    .map(fundId => `fundId==${fundId}`)
-    .join(' or ');
-
-  return [
-    `fiscalYearId==${fiscalYearId}`,
-    query,
-  ]
-    .filter(Boolean)
-    .map(value => `(${value})`)
-    .join(' and ');
-};
-
 const getGroupFundFiscalYears = (ky) => async (fundsMap, fiscalYearId) => {
-  const groupFundFiscalYears = await fetchExportDataByIds({
-    api: GROUP_FUND_FISCAL_YEARS_API,
-    buildQuery: buildQueryByFundIds(fiscalYearId),
-    ids: Object.keys(fundsMap),
-    ky,
-    records: 'groupFundFiscalYears',
-  });
+  const { groupFundFiscalYears } = await fetchGroupFundFiscalYearsBatch(ky)(
+    Object.keys(fundsMap),
+    { fiscalYearId },
+  );
 
   return groupBy('fundId', groupFundFiscalYears);
 };

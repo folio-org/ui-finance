@@ -252,7 +252,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           <FundStatusCell
             options={fundStatusOptions}
             isLoading={isLoading}
-            name={`${FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.fundStatus}`}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.fundStatus}`}
           />
         );
       },
@@ -277,7 +277,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           <BudgetStatusCell
             options={budgetStatusOptions}
             isLoading={isLoading}
-            name={`${FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`}
           />
         );
       },
@@ -286,7 +286,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           <BudgetAllocationChangeCell
             isLoading={isLoading}
             intl={intl}
-            name={`${FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.budgetAllocationChange}`}
           />
         );
       },
@@ -294,7 +294,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
         return (
           <BudgetAfterAllocationCell
             intl={intl}
-            calculatedName={`${CALCULATED_FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
+            calculatedName={`${CALCULATED_FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.budgetAfterAllocation}`}
             index={field[INDEX]}
           />
         );
@@ -304,7 +304,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           <BudgetAllowableEncumbranceCell
             isLoading={isLoading}
             intl={intl}
-            name={`${FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance}`}
           />
         );
       },
@@ -313,7 +313,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
           <BudgetAllowableExpenditureCell
             isLoading={isLoading}
             intl={intl}
-            name={`${FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure}`}
           />
         );
       },
@@ -321,7 +321,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
         return (
           <TransactionDescriptionCell
             isLoading={isLoading}
-            name={`${FINANCE_DATA}.${field[INDEX]}.${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.transactionDescription}`}
           />
         );
       },

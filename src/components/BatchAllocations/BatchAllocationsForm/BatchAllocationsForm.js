@@ -1,6 +1,5 @@
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import {
@@ -28,9 +27,9 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 import {
   EVENTS,
   FieldArray,
+  FIELD_EVENT_PREFIXES,
   useFormEngine,
   useFormState,
-  useWatch,
 } from '@folio/stripes-acq-components/experimental';
 
 import { BUDGET_STATUSES } from '../../Budget/constants';
@@ -52,7 +51,6 @@ const {
   fyFinanceData: FY_FINANCE_DATA_FIELD,
   invalidFunds: INVALID_FUNDS_FIELD,
   recalculateErrors: RECALCULATE_ERRORS_FIELD,
-  _isRecalculating: IS_RECALCULATING_FIELD,
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
@@ -114,7 +112,10 @@ const BatchAllocationsForm = ({
   const [isSortingDisabled, setIsSortingDisabled] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [isRecalculateRequired, setIsRecalculateRequired] = useState(true);
-  const previousFormValues = useRef({});
+
+  /* Keep the latest value of isRecalculateRequired for the recalculate check */
+  const isRecalculateRequiredRef = useRef(isRecalculateRequired);
+  isRecalculateRequiredRef.current = isRecalculateRequired;
 
   const engine = useFormEngine();
   const { values } = useFormState({ values: true });
@@ -124,26 +125,16 @@ const BatchAllocationsForm = ({
     submitting: true,
   });
 
-  console.log('engine state', engine.getDebugInfo());
-  console.log('isSortingDisabled', isSortingDisabled);
-
   const isSubmitDisabled = (
     isSubmitDisabledProp
     || get(values, CALCULATED_FINANCE_DATA_FIELD) === null
-    // || isRecalculateRequired
+    || isRecalculateRequired
     || !valid
     || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && engine.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
     || submitting
   );
 
-  // console.group();
-  // console.log('isRecalculating', isRecalculating);
-  // console.log('isRecalculateRequired', isRecalculateRequired);
-  // console.log('submitting', submitting);
-  // console.log('valid', valid);
-  // console.groupEnd();
-
-  /* Subscribe on form changes */
+  /* Subscribe on form changes to set budget status */
   useEffect(() => {
     const subscriber = formValuesSubscriber(engine, fiscalYear, currentFiscalYears);
     const fn = debounce(() => subscriber({ values: engine.getFormState().values }), 200);
@@ -161,22 +152,20 @@ const BatchAllocationsForm = ({
 
   /* Handle recalculate required */
   useEffect(() => {
-    if (
-      values
-      && values[FY_FINANCE_DATA_FIELD] !== previousFormValues.current[FY_FINANCE_DATA_FIELD]
-      && !isRecalculateRequired
-    ) {
-      previousFormValues.current = { ...values };
+    const unsubscribe = engine.on(
+      `${FIELD_EVENT_PREFIXES.CHANGE}${FY_FINANCE_DATA_FIELD}`,
+      () => {
+        if (!isRecalculateRequiredRef.current) {
+          setIsRecalculateRequired(true);
+        }
+      },
+      null,
+      { bubble: true },
+    );
 
-      setIsRecalculateRequired(true);
-    }
-  }, [values, isRecalculateRequired]);
-
-  /* DEBUG */
-  useEffect(() => {
-    Object.values(EVENTS).forEach((event) => {
-      engine.on(event, (...args) => console.log(event, args));
-    });
+    return () => {
+      unsubscribe();
+    };
   }, [engine]);
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
@@ -199,13 +188,11 @@ const BatchAllocationsForm = ({
           { silent: true },
         );
       })
-      .finally(() => {
+      .finally(async () => {
         setIsRecalculateRequired(false);
-
-        engine.set(IS_RECALCULATING_FIELD, false, { silent: true });
-        engine.submit();
-
         setIsRecalculating(false);
+
+        await engine.validateAll();
       });
   }, [engine, recalculate, showCallout]);
 
@@ -243,7 +230,7 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="primary mega"
-          // disabled={isSubmitDisabled}
+          disabled={isSubmitDisabled}
           type="submit"
         >
           <FormattedMessage id="stripes-components.saveAndClose" />

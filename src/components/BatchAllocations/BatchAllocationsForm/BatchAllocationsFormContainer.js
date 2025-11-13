@@ -20,22 +20,17 @@ export const BatchAllocationsFormContainer = ({
   } = useBatchAllocationMutation();
 
   const onSubmit = useCallback(async (values, form) => {
-    if (values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS._isRecalculating]) return;
-
-    console.log('values', values);
-    console.log('form', form);
-
     await new Promise(resolve => setTimeout(resolve, 6000));
 
-    // onSubmitProp(
-    //   {
-    //     ...values,
-    //     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFinanceFormData(
-    //       values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData],
-    //     ),
-    //   },
-    //   form,
-    // );
+    onSubmitProp(
+      {
+        ...values,
+        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: normalizeFinanceFormData(
+          values[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData],
+        ),
+      },
+      form,
+    );
   }, [onSubmitProp]);
 
   return (

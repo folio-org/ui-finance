@@ -111,7 +111,7 @@ export const BatchAllocationFieldTags = ({
         isLoading={isLoading}
         labelless
         marginBottom0
-        name={`${FINANCE_DATA_API}.${field[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.index]}.${BATCH_ALLOCATION_FIELDS.transactionTag}.tagList`}
+        name={`${FINANCE_DATA_API}[${field[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.index]}].${BATCH_ALLOCATION_FIELDS.transactionTag}.tagList`}
         {...props}
       />
     </div>

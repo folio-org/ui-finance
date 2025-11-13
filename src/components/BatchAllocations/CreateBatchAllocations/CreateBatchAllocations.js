@@ -112,7 +112,7 @@ export const CreateBatchAllocations = () => {
   ) => {
     await handle({
       fyFinanceData,
-      initialValues: form.getState().initialValues,
+      initialValues: form.getFormState().initialValues,
       sourceId,
       sourceType,
     })

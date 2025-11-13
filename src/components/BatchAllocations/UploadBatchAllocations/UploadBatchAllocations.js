@@ -139,7 +139,7 @@ export const UploadBatchAllocations = () => {
   ) => {
     await handle({
       fyFinanceData,
-      initialValues: form.getState().initialValues,
+      initialValues: form.getFormState().initialValues,
       sourceId,
       sourceType,
       worksheetName: fileData?.fileName,

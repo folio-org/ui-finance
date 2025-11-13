@@ -189,10 +189,10 @@ const BatchAllocationsForm = ({
         );
       })
       .finally(async () => {
+        await engine.validateAll();
+
         setIsRecalculateRequired(false);
         setIsRecalculating(false);
-
-        await engine.validateAll();
       });
   }, [engine, recalculate, showCallout]);
 

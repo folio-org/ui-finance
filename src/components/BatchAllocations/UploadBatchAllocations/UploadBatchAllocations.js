@@ -195,6 +195,7 @@ export const UploadBatchAllocations = () => {
         headline={fileData?.fileName}
         initialValues={initialValues}
         isLoading={isFetching}
+        isRecalculateDisabled={isBatchAllocationHandling}
         isSubmitDisabled={isBatchAllocationHandling}
         onCancel={onClose}
         onSubmit={onSubmit}

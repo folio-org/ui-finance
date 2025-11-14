@@ -113,6 +113,11 @@ describe('CreateBatchAllocations', () => {
 
     await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
     await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'stripes-components.saveAndClose' })).not.toBeDisabled();
+    });
+
     await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     expect(handle).toHaveBeenCalled();
@@ -129,6 +134,11 @@ describe('CreateBatchAllocations', () => {
 
     await userEvent.type(screen.getAllByLabelText('ui-finance.transaction.allocation.batch.columns.budgetAllocationChange')[0], '42');
     await userEvent.click(screen.getByRole('button', { name: 'ui-finance.allocation.batch.form.footer.recalculate' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'stripes-components.saveAndClose' })).not.toBeDisabled();
+    });
+
     await userEvent.click(screen.getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     expect(handle).toHaveBeenCalled();

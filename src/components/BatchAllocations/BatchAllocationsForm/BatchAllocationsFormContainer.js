@@ -20,8 +20,6 @@ export const BatchAllocationsFormContainer = ({
   } = useBatchAllocationMutation();
 
   const onSubmit = useCallback(async (values, form) => {
-    await new Promise(resolve => setTimeout(resolve, 6000));
-
     onSubmitProp(
       {
         ...values,
@@ -52,6 +50,7 @@ export const BatchAllocationsFormContainer = ({
 };
 
 BatchAllocationsFormContainer.propTypes = {
+  initialValues: PropTypes.shape({}).isRequired,
   isRecalculateDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };

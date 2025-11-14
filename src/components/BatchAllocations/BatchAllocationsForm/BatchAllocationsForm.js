@@ -61,8 +61,9 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
     const currentFiscalYear = currentFiscalYears.find(({ series }) => series === fiscalYear.series);
 
     const updates = [];
+    const items = values[FY_FINANCE_DATA_FIELD] || [];
 
-    values[FY_FINANCE_DATA_FIELD]?.forEach((item, index) => {
+    for (const [index, item] of items.entries()) {
       const shouldSetStatus = (
         !item.budgetId
         && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
@@ -81,7 +82,7 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
           value: status,
         });
       }
-    });
+    }
 
     if (updates.length > 0) {
       form.setMany(updates, { silent: true });
@@ -97,7 +98,7 @@ const BatchAllocationsForm = ({
   headline,
   initialValues,
   isLoading,
-  isRecalculateDisabled,
+  isRecalculateDisabled: isRecalculateDisabledProp,
   isSubmitDisabled: isSubmitDisabledProp,
   onCancel,
   paneSub,
@@ -115,6 +116,7 @@ const BatchAllocationsForm = ({
 
   /* Keep the latest value of isRecalculateRequired for the recalculate check */
   const isRecalculateRequiredRef = useRef(isRecalculateRequired);
+
   isRecalculateRequiredRef.current = isRecalculateRequired;
 
   const engine = useFormEngine();
@@ -132,6 +134,14 @@ const BatchAllocationsForm = ({
     || !valid
     || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && engine.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
     || submitting
+    || isLoading
+  );
+
+  const isRecalculateDisabled = (
+    isRecalculateDisabledProp
+    || submitting
+    || !isRecalculateRequired
+    || isLoading
   );
 
   /* Subscribe on form changes to set budget status */
@@ -221,7 +231,7 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="default mega"
-          disabled={isRecalculateDisabled || submitting}
+          disabled={isRecalculateDisabled}
           onClick={onRecalculate}
         >
           <FormattedMessage id="ui-finance.allocation.batch.form.footer.recalculate" />
@@ -274,13 +284,11 @@ const BatchAllocationsForm = ({
               {({ fields }) => (
                 <BatchAllocationList
                   fields={fields}
-                  props={{
-                    fiscalYear,
-                    isLoading: isLoading || isRecalculating,
-                    onHeaderClick: isSortingDisabled ? noop : changeSorting,
-                    sortDirection: sortingDirection,
-                    sortedColumn: sortingField,
-                  }}
+                  fiscalYear={fiscalYear}
+                  isLoading={isLoading || isRecalculating}
+                  onHeaderClick={isSortingDisabled ? noop : changeSorting}
+                  sortDirection={sortingDirection}
+                  sortedColumn={sortingField}
                 />
               )}
             </FieldArray>
@@ -313,7 +321,7 @@ BatchAllocationsForm.propTypes = {
   currentFiscalYears: PropTypes.arrayOf(PropTypes.object),
   fiscalYear: PropTypes.object,
   flowType: PropTypes.string.isRequired,
-  headline: PropTypes.string,
+  headline: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   initialValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   isRecalculateDisabled: PropTypes.bool,

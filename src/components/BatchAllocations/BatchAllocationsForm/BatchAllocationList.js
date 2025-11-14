@@ -31,22 +31,20 @@ export const BatchAllocationList = memo(({
   const formatter = useBatchAllocationFormatter(intl, fiscalYear, isLoading);
 
   return (
-    <>
-      <MultiColumnList
-        autosize
-        contentData={fields}
-        columnMapping={columnMapping}
-        columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
-        formatter={formatter}
-        loading={isLoading}
-        onHeaderClick={onHeaderClick}
-        sortDirection={sortDirection}
-        sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
-        totalCount={fields?.length}
-        virtualize
-        visibleColumns={BATCH_ALLOCATION_COLUMNS}
-      />
-    </>
+    <MultiColumnList
+      autosize
+      contentData={fields}
+      columnMapping={columnMapping}
+      columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
+      formatter={formatter}
+      loading={isLoading}
+      onHeaderClick={onHeaderClick}
+      sortDirection={sortDirection}
+      sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
+      totalCount={fields?.length}
+      virtualize
+      visibleColumns={BATCH_ALLOCATION_COLUMNS}
+    />
   );
 });
 

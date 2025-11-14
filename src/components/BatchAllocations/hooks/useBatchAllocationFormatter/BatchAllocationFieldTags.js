@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import PropTypes from 'prop-types';
 import {
   memo,
   startTransition,
@@ -52,7 +53,7 @@ const FieldTagsComponent = memo(({
   const addTag = useCallback(({ inputValue }) => {
     startTransition(() => {
       const formValues = engine.getFormState()?.values;
-      const tag = inputValue.replace(/\s|\|/g, '').toLowerCase();
+      const tag = inputValue.replaceAll(/\s|\|/g, '').toLowerCase();
       const updatedTags = get(formValues, name, []).concat(tag).filter(Boolean);
 
       if (tag) {
@@ -65,10 +66,12 @@ const FieldTagsComponent = memo(({
   const addAction = useMemo(() => ({ onSelect: addTag, render: renderTag }), [addTag]);
   const actions = useMemo(() => [addAction], [addAction]);
 
-  const dataOptions = useMemo(() => allTags.map(tag => tag.label.toLowerCase()).sort(), [allTags]);
+  const dataOptions = useMemo(() => {
+    return allTags.map(tag => tag.label.toLowerCase()).sort((a, b) => a.localeCompare(b));
+  }, [allTags]);
 
   const formatter = useCallback(({ option }) => {
-    const item = allTags.filter(tag => tag.label.toLowerCase() === option)[0];
+    const item = allTags.find(tag => tag.label.toLowerCase() === option);
 
     if (!item) return option;
 
@@ -95,6 +98,17 @@ const FieldTagsComponent = memo(({
   );
 });
 
+FieldTagsComponent.propTypes = {
+  allTags: PropTypes.arrayOf(PropTypes.object),
+  engine: PropTypes.object.isRequired,
+  fullWidth: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  labelless: PropTypes.bool,
+  marginBottom0: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  onAdd: PropTypes.func.isRequired,
+};
+
 export const BatchAllocationFieldTags = ({
   engine,
   isLoading,
@@ -116,4 +130,13 @@ export const BatchAllocationFieldTags = ({
       />
     </div>
   );
+};
+
+BatchAllocationFieldTags.propTypes = {
+  allTags: PropTypes.arrayOf(PropTypes.object),
+  disabled: PropTypes.bool,
+  engine: PropTypes.object.isRequired,
+  field: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  onAdd: PropTypes.func.isRequired,
 };

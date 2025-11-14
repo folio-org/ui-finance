@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   memo,
   useCallback,
@@ -65,6 +66,11 @@ const FundStatusCell = memo(({ options, isLoading, name }) => (
 ));
 
 FundStatusCell.displayName = 'FundStatusCell';
+FundStatusCell.propTypes = {
+  isLoading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const BudgetStatusCell = memo(({ options, isLoading, name }) => (
   <Field
@@ -79,6 +85,11 @@ const BudgetStatusCell = memo(({ options, isLoading, name }) => (
 ));
 
 BudgetStatusCell.displayName = 'BudgetStatusCell';
+BudgetStatusCell.propTypes = {
+  isLoading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const BudgetAllocationChangeCell = memo(({ isLoading, intl, name }) => (
   <Field
@@ -97,6 +108,11 @@ const BudgetAllocationChangeCell = memo(({ isLoading, intl, name }) => (
 ));
 
 BudgetAllocationChangeCell.displayName = 'BudgetAllocationChangeCell';
+BudgetAllocationChangeCell.propTypes = {
+  intl: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+};
 
 const BudgetAfterAllocationCell = memo(({ intl, calculatedName, index }) => (
   <Field
@@ -112,6 +128,11 @@ const BudgetAfterAllocationCell = memo(({ intl, calculatedName, index }) => (
 ));
 
 BudgetAfterAllocationCell.displayName = 'BudgetAfterAllocationCell';
+BudgetAfterAllocationCell.propTypes = {
+  calculatedName: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  intl: PropTypes.object.isRequired,
+};
 
 const BudgetAllowableEncumbranceCell = memo(({ isLoading, intl, name }) => (
   <Field
@@ -131,6 +152,11 @@ const BudgetAllowableEncumbranceCell = memo(({ isLoading, intl, name }) => (
 ));
 
 BudgetAllowableEncumbranceCell.displayName = 'BudgetAllowableEncumbranceCell';
+BudgetAllowableEncumbranceCell.propTypes = {
+  intl: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+};
 
 const BudgetAllowableExpenditureCell = memo(({ isLoading, intl, name }) => (
   <Field
@@ -150,6 +176,11 @@ const BudgetAllowableExpenditureCell = memo(({ isLoading, intl, name }) => (
 ));
 
 BudgetAllowableExpenditureCell.displayName = 'BudgetAllowableExpenditureCell';
+BudgetAllowableExpenditureCell.propTypes = {
+  intl: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+};
 
 const TransactionDescriptionCell = memo(({ isLoading, name }) => (
   <Field
@@ -165,6 +196,10 @@ const TransactionDescriptionCell = memo(({ isLoading, name }) => (
 ));
 
 TransactionDescriptionCell.displayName = 'TransactionDescriptionCell';
+TransactionDescriptionCell.propTypes = {
+  isLoading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+};
 
 const FundNameCell = memo(({ fieldName, intl, calculatedFinanceData, index }) => {
   const itemValue = useWatch(fieldName);
@@ -198,6 +233,12 @@ const FundNameCell = memo(({ fieldName, intl, calculatedFinanceData, index }) =>
 });
 
 FundNameCell.displayName = 'FundNameCell';
+FundNameCell.propTypes = {
+  calculatedFinanceData: PropTypes.arrayOf(PropTypes.object),
+  fieldName: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  intl: PropTypes.object.isRequired,
+};
 
 export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
   const engine = useFormEngine();

@@ -16,6 +16,7 @@
 * Prevent negative total allocations in budgets (moving allocation). Refs UIF-621.
 * Change labels for exchange rate provider type. Refs UIF-623.
 * Allow user to select current or previous fiscal year on ledger view to see totals for a specific year. Refs UIF-600.
+* *BREAKING* Use batch endpoint for `group-fund-fiscal-years`. Refs UIF-629.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

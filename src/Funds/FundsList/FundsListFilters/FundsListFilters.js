@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 
 import { AccordionSet } from '@folio/stripes/components';
 import {
   AcqCheckboxFilter,
-  AcqUnitFilter,
   AcqTagsFilter,
+  AcqUnitFilter,
   SelectionFilter,
   selectOptionsShape,
 } from '@folio/stripes-acq-components';
@@ -17,15 +17,19 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
+const DEFAULT_FUND_TYPES = [];
+const DEFAULT_GROUPS = [];
+const DEFAULT_LEDGERS = [];
+
 const FundsListFilters = ({
   activeFilters,
-  fundTypes,
-  groups,
-  ledgers,
   applyFilters,
+  fundTypes = DEFAULT_FUND_TYPES,
+  groups = DEFAULT_GROUPS,
+  ledgers = DEFAULT_LEDGERS,
 }) => {
   const adaptedApplyFilters = useCallback(
-    applyFiltersAdapter(applyFilters),
+    ({ name, values }) => applyFiltersAdapter(applyFilters)({ name, values }),
     [applyFilters],
   );
 
@@ -85,12 +89,6 @@ FundsListFilters.propTypes = {
   fundTypes: selectOptionsShape,
   groups: selectOptionsShape,
   ledgers: selectOptionsShape,
-};
-
-FundsListFilters.defaultProps = {
-  fundTypes: [],
-  groups: [],
-  ledgers: [],
 };
 
 export default FundsListFilters;

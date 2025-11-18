@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -20,8 +20,8 @@ import BudgetInformation from './BudgetInformation';
 const BudgetView = forwardRef(({
   budget,
   expenseClassesTotals,
-  fiscalStart,
-  fiscalEnd,
+  fiscalEnd = '',
+  fiscalStart = '',
   fiscalYearCurrency,
 }, ref) => {
   return (
@@ -79,14 +79,9 @@ const BudgetView = forwardRef(({
 BudgetView.propTypes = {
   budget: PropTypes.object.isRequired,
   expenseClassesTotals: PropTypes.arrayOf(PropTypes.object).isRequired,
-  fiscalStart: PropTypes.string,
   fiscalEnd: PropTypes.string,
+  fiscalStart: PropTypes.string,
   fiscalYearCurrency: PropTypes.string,
-};
-
-BudgetView.defaultProps = {
-  fiscalStart: '',
-  fiscalEnd: '',
 };
 
 export default BudgetView;

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -7,7 +6,10 @@ import { Loading } from '@folio/stripes/components';
 
 import { mapFiscalYearsToOptions } from '../../common/utils';
 
-function RolloverFiscalYearField({ fiscalYears, currentYearPeriodStart }) {
+function RolloverFiscalYearField({
+  currentYearPeriodStart,
+  fiscalYears,
+}) {
   if (!fiscalYears) {
     return <Loading />;
   }
@@ -27,9 +29,6 @@ function RolloverFiscalYearField({ fiscalYears, currentYearPeriodStart }) {
 RolloverFiscalYearField.propTypes = {
   currentYearPeriodStart: PropTypes.string,
   fiscalYears: PropTypes.arrayOf(PropTypes.object),
-};
-
-RolloverFiscalYearField.defaultProps = {
 };
 
 export default RolloverFiscalYearField;

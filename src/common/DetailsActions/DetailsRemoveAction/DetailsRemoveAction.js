@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { IfPermission } from '@folio/stripes/core';
@@ -8,7 +8,12 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
-const DetailsRemoveAction = ({ disabled, perm, onRemove, toggleActionMenu }) => {
+const DetailsRemoveAction = ({
+  disabled = false,
+  onRemove,
+  perm,
+  toggleActionMenu,
+}) => {
   const remove = useCallback(
     () => {
       onRemove();
@@ -38,14 +43,10 @@ const DetailsRemoveAction = ({ disabled, perm, onRemove, toggleActionMenu }) => 
 };
 
 DetailsRemoveAction.propTypes = {
-  perm: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  toggleActionMenu: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-};
-
-DetailsRemoveAction.defaultProps = {
-  disabled: false,
+  onRemove: PropTypes.func.isRequired,
+  perm: PropTypes.string.isRequired,
+  toggleActionMenu: PropTypes.func.isRequired,
 };
 
 export default DetailsRemoveAction;

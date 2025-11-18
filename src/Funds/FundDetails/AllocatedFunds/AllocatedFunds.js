@@ -1,10 +1,15 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { KeyValue, NoValue } from '@folio/stripes/components';
+import {
+  KeyValue,
+  NoValue,
+} from '@folio/stripes/components';
 
-const AllocatedFunds = ({ allocatedFunds, labelId }) => (
+const AllocatedFunds = ({
+  allocatedFunds = '',
+  labelId,
+}) => (
   <KeyValue
     label={<FormattedMessage id={labelId} />}
     value={allocatedFunds || <NoValue />}
@@ -14,10 +19,6 @@ const AllocatedFunds = ({ allocatedFunds, labelId }) => (
 AllocatedFunds.propTypes = {
   allocatedFunds: PropTypes.string,
   labelId: PropTypes.string.isRequired,
-};
-
-AllocatedFunds.defaultProps = {
-  allocatedFunds: '',
 };
 
 export default AllocatedFunds;

@@ -3,7 +3,9 @@ import { useIntl } from 'react-intl';
 
 import { useSourceLink } from './useSourceLink';
 
-const SourceValue = ({ transaction }) => {
+const DEFAULT_TRANSACTION = {};
+
+const SourceValue = ({ transaction = DEFAULT_TRANSACTION }) => {
   const intl = useIntl();
   const sourceLink = useSourceLink(transaction, intl);
 
@@ -12,10 +14,6 @@ const SourceValue = ({ transaction }) => {
 
 SourceValue.propTypes = {
   transaction: PropTypes.object,
-};
-
-SourceValue.defaultProps = {
-  transaction: {},
 };
 
 export default SourceValue;

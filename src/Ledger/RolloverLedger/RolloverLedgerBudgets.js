@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Checkbox,
@@ -21,7 +21,9 @@ import {
 
 import SetAllowancesField from './SetAllowancesField';
 
-const RolloverLedgerBudgets = ({ fundTypesMap }) => {
+const DEFAULT_FUND_TYPES_MAP = new Map();
+
+const RolloverLedgerBudgets = ({ fundTypesMap = DEFAULT_FUND_TYPES_MAP }) => {
   const intl = useIntl();
 
   const renderBudgetFields = useCallback((elem, index, fields) => {
@@ -116,10 +118,6 @@ const RolloverLedgerBudgets = ({ fundTypesMap }) => {
 
 RolloverLedgerBudgets.propTypes = {
   fundTypesMap: PropTypes.object,
-};
-
-RolloverLedgerBudgets.defaultProps = {
-  fundTypesMap: new Map(),
 };
 
 export default RolloverLedgerBudgets;

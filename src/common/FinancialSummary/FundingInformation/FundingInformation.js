@@ -1,14 +1,12 @@
-import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
   MultiColumnList,
   Headline,
 } from '@folio/stripes/components';
-import {
-  AmountWithCurrencyField,
-} from '@folio/stripes-acq-components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 import { FINANCIAL_SUMMARY } from '../constants';
 import { getFundingData } from '../utils';
@@ -19,7 +17,11 @@ const columnMapping = {
   fundingAmount: <FormattedMessage id="ui-finance.financialSummary.amount" />,
 };
 
-const FundingInformation = ({ data, currency, isFiscalYear }) => {
+const FundingInformation = ({
+  currency,
+  data,
+  isFiscalYear = false,
+}) => {
   const contentData = useMemo(() => getFundingData(data, isFiscalYear), [data, isFiscalYear]);
   const resultsFormatter = useMemo(() => ({
     fundingAmount: item => {
@@ -63,10 +65,6 @@ FundingInformation.propTypes = {
   data: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
   isFiscalYear: PropTypes.bool,
-};
-
-FundingInformation.defaultProps = {
-  isFiscalYear: false,
 };
 
 export default FundingInformation;

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -9,14 +8,16 @@ import { getFiscalYearsForSelect } from '../utils';
 
 import FiscalYearField from './FiscalYearField';
 
+const DEFAULT_VALIDATE_FIELDS = [];
+
 function FiscalYearFieldContainer({
   dataOptions,
-  disabled,
-  label,
+  disabled = false,
+  label = <FormattedMessage id="ui-finance.budget.fiscalYear" />,
   name,
   resources,
-  required,
-  validateFields,
+  required = false,
+  validateFields = DEFAULT_VALIDATE_FIELDS,
 }) {
   const fiscalYears = dataOptions || getFiscalYearsForSelect(resources);
 
@@ -38,21 +39,14 @@ FiscalYearFieldContainer.manifest = Object.freeze({
 
 FiscalYearFieldContainer.propTypes = {
   dataOptions: PropTypes.arrayOf(PropTypes.object),
+  disabled: PropTypes.bool,
   label: PropTypes.node,
   name: PropTypes.string.isRequired,
-  required: PropTypes.bool,
   resources: PropTypes.object.isRequired,
-  disabled: PropTypes.bool,
+  required: PropTypes.bool,
   // eslint-disable-next-line react/no-unused-prop-types
   series: PropTypes.string,
   validateFields: PropTypes.arrayOf(PropTypes.string),
-};
-
-FiscalYearFieldContainer.defaultProps = {
-  label: <FormattedMessage id="ui-finance.budget.fiscalYear" />,
-  required: false,
-  disabled: false,
-  validateFields: [],
 };
 
 export default stripesConnect(FiscalYearFieldContainer);

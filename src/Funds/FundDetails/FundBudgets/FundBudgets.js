@@ -1,4 +1,4 @@
-import React from 'react';
+import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,9 +8,11 @@ import ConnectionListing from '../../../components/ConnectionListing';
 
 const budgetColumns = ['name', 'allocated', 'netTransfers', 'unavailable', 'available', 'arrow'];
 
+const DEFAULT_BUDGETS = [];
+
 const FundBudgets = ({
-  addBudgetButton,
-  budgets,
+  addBudgetButton = noop,
+  budgets = DEFAULT_BUDGETS,
   budgetStatus,
   currency,
   labelId,
@@ -40,11 +42,6 @@ FundBudgets.propTypes = {
   labelId: PropTypes.string.isRequired,
   openBudget: PropTypes.func.isRequired,
   sectionId: PropTypes.string.isRequired,
-};
-
-FundBudgets.defaultProps = {
-  addBudgetButton: () => null,
-  budgets: [],
 };
 
 export default FundBudgets;

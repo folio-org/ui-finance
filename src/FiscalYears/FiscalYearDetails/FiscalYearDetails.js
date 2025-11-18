@@ -1,5 +1,8 @@
-import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useRef,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
@@ -43,11 +46,14 @@ import FiscalYearInformation from './FiscalYearInformation';
 import FiscalYearFunds from './FiscalYearFunds';
 import FiscalYearGroups from './FiscalYearGroups';
 
+const DEFAULT_FUNDS = [];
+const DEFAULT_LEDGERS = [];
+
 const FiscalYearDetails = ({
   fiscalYear,
-  funds,
+  funds = DEFAULT_FUNDS,
   groupSummaries,
-  ledgers,
+  ledgers = DEFAULT_LEDGERS,
   onClose,
   onEdit,
   onRemove,
@@ -216,18 +222,13 @@ const FiscalYearDetails = ({
 
 FiscalYearDetails.propTypes = {
   fiscalYear: PropTypes.object.isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object),
+  groupSummaries: PropTypes.arrayOf(PropTypes.object),
+  ledgers: PropTypes.arrayOf(PropTypes.object),
   onClose: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   openLedger: PropTypes.func.isRequired,
-  funds: PropTypes.arrayOf(PropTypes.object),
-  groupSummaries: PropTypes.arrayOf(PropTypes.object),
-  ledgers: PropTypes.arrayOf(PropTypes.object),
-};
-
-FiscalYearDetails.defaultProps = {
-  funds: [],
-  ledgers: [],
 };
 
 export default FiscalYearDetails;

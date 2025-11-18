@@ -1,33 +1,35 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useRef,
+} from 'react';
 import { Field } from 'react-final-form';
 
-class DebouncingValidatingField extends Component {
-  validate = (...args) => (
-    new Promise(resolve => {
-      if (this.clearTimeout) this.clearTimeout();
-      const timerId = setTimeout(() => {
-        resolve(this.props.validate(...args));
-      }, this.props.debounce);
+const DebouncingValidatingField = ({
+  debounce = 1000,
+  validate,
+  ...props
+}) => {
+  const timeoutRef = useRef(null);
 
-      this.clearTimeout = () => {
-        clearTimeout(timerId);
-        resolve();
-      };
-    })
-  )
+  const debouncedValidate = useCallback((...args) => {
+    return new Promise(resolve => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
-  render() {
-    return <Field {...this.props} validate={this.validate} />;
-  }
-}
+      timeoutRef.current = setTimeout(() => {
+        resolve(validate(...args));
+      }, debounce);
+    });
+  }, [validate, debounce]);
+
+  return <Field {...props} validate={debouncedValidate} />;
+};
 
 DebouncingValidatingField.propTypes = {
   debounce: PropTypes.number,
   validate: PropTypes.func,
-};
-DebouncingValidatingField.defaultProps = {
-  debounce: 1000,
 };
 
 export default DebouncingValidatingField;

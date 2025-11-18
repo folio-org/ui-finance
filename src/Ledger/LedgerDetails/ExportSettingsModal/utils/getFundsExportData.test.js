@@ -1,11 +1,13 @@
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 
 import { fetchAllRecords } from '@folio/stripes-acq-components';
 
-import { fundsData } from '../../../../../test/jest/fixtures/export';
-import { getAcqUnitsData } from './getAcqUnitsData';
+import { fundsData } from 'fixtures/export';
+import {
+  getAcqUnitsData,
+  getFundGroupsData,
+} from '../../../../common/utils';
 import { getAllocatableFunds } from './getAllocatableFunds';
-import { getFundGroupsData } from './getFundGroupsData';
 import { getFundsExportData } from './getFundsExportData';
 import { getFundTypesData } from './getFundTypesData';
 
@@ -13,9 +15,12 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   fetchAllRecords: jest.fn(),
 }));
-jest.mock('./getAcqUnitsData', () => ({ getAcqUnitsData: jest.fn(() => () => ({})) }));
+jest.mock('../../../../common/utils', () => ({
+  ...jest.requireActual('../../../../common/utils'),
+  getAcqUnitsData: jest.fn(() => () => ({})),
+  getFundGroupsData: jest.fn(),
+}));
 jest.mock('./getAllocatableFunds', () => ({ getAllocatableFunds: jest.fn(() => () => ({})) }));
-jest.mock('./getFundGroupsData', () => ({ getFundGroupsData: jest.fn() }));
 jest.mock('./getFundTypesData', () => ({ getFundTypesData: jest.fn() }));
 
 const params = {

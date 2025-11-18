@@ -10,7 +10,7 @@ import {
 import { useOkapiKy } from '@folio/stripes/core';
 
 import {
-  GROUP_FUND_FISCAL_YEARS_API,
+  GROUP_FUND_FISCAL_YEARS_BATCH_API,
   GROUP_SUMMARIES_API,
   GROUPS_API,
 } from '../../common/const';
@@ -30,9 +30,15 @@ const kyMock = {
   get: jest.fn((url) => ({
     json: () => {
       return Promise.resolve({
-        [GROUP_FUND_FISCAL_YEARS_API]: { groupFundFiscalYears: [{ groupId: 'groupId' }] },
         [GROUPS_API]: { groups },
         [GROUP_SUMMARIES_API]: { groupFiscalYearSummaries: [{ groupId: 'groupId' }] },
+      }[url]);
+    },
+  })),
+  post: jest.fn((url) => ({
+    json: () => {
+      return Promise.resolve({
+        [GROUP_FUND_FISCAL_YEARS_BATCH_API]: { groupFundFiscalYears: [{ groupId: 'groupId' }] },
       }[url]);
     },
   })),

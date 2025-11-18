@@ -6,9 +6,10 @@ import {
 
 import { generateBudgetsReport } from './generateBudgetsReport';
 
-jest.mock('../../Ledger/LedgerDetails/ExportSettingsModal/utils', () => ({
-  ...jest.requireActual('../../Ledger/LedgerDetails/ExportSettingsModal/utils'),
-  getAcqUnitsData: jest.fn(() => () => ({})),
+jest.mock('./getAcqUnitsData', () => ({
+  getAcqUnitsData: jest.fn(() => async () => ({})),
+}));
+jest.mock('./getFundGroupsData', () => ({
   getFundGroupsData: jest.fn(() => () => ({
     '69640328-788e-43fc-9c3c-af39e243f3b7': [{ code: 'ANZHIST' }],
   })),

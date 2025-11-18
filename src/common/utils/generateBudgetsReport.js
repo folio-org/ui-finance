@@ -1,10 +1,8 @@
 import { flatten, flow, keyBy, map } from 'lodash/fp';
 
 import { LEDGER_ROLLOVER_API } from '../const';
-import {
-  getAcqUnitsData,
-  getFundGroupsData,
-} from '../../Ledger/LedgerDetails/ExportSettingsModal/utils';
+import { getAcqUnitsData } from './getAcqUnitsData';
+import { getFundGroupsData } from './getFundGroupsData';
 
 const joinValues = (dataArray) => {
   return dataArray

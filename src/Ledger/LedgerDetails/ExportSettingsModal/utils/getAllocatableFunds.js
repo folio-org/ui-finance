@@ -8,7 +8,7 @@ import {
   FUNDS_API,
 } from '@folio/stripes-acq-components';
 
-import { getUniqItems } from './getUniqItems';
+import { getUniqItems } from '../../../../common/utils';
 
 export const getAllocatableFunds = (ky) => async (ledgerFundsMap) => {
   const ledgerFundIds = Object.keys(ledgerFundsMap);

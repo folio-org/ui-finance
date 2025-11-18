@@ -1,8 +1,8 @@
-import { fundsData } from '../../../../../test/jest/fixtures/export';
+import { fundsData } from 'fixtures/export';
 import {
   GROUPS_API,
-  GROUP_FUND_FISCAL_YEARS_API,
-} from '../../../../common/const';
+  GROUP_FUND_FISCAL_YEARS_BATCH_API,
+} from '../const';
 import { getFundGroupsData } from './getFundGroupsData';
 
 const fundData = Object.values(fundsData)[0];
@@ -12,7 +12,13 @@ const ky = {
     json: jest.fn(() => Promise.resolve(
       ({
         [GROUPS_API]: { groups: fundData.fundGroups },
-        [GROUP_FUND_FISCAL_YEARS_API]: {
+      })[url],
+    )),
+  }),
+  post: (url) => ({
+    json: jest.fn(() => Promise.resolve(
+      ({
+        [GROUP_FUND_FISCAL_YEARS_BATCH_API]: {
           groupFundFiscalYears: fundData.fundGroups.map(({ id }) => ({ fundId: fundData.id, groupId: id })),
         },
       })[url],

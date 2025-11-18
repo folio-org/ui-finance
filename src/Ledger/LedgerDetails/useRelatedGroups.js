@@ -8,10 +8,8 @@ import {
 } from '@folio/stripes/core';
 import { batchRequest } from '@folio/stripes-acq-components';
 
-import {
-  GROUP_FUND_FISCAL_YEARS_API,
-  GROUPS_API,
-} from '../../common/const';
+import { GROUPS_API } from '../../common/const';
+import { fetchGroupFundFiscalYearsBatch } from '../../common/utils';
 import { getLedgerGroupsSummary } from './utils';
 
 const DEFAULT_DATA = [];
@@ -35,23 +33,13 @@ export const useRelatedGroups = (params = {}, options = {}) => {
   const { data, ...rest } = useQuery({
     queryKey: [namespace, tenantId, fundIds, fiscalYearId, ledgerId],
     queryFn: async ({ signal }) => {
-      const groupFundFiscalYearsResponse = await batchRequest(
-        async ({ params: searchParams }) => (
-          ky.get(GROUP_FUND_FISCAL_YEARS_API, { searchParams, signal })
-            .json()
-            .then(({ groupFundFiscalYears }) => groupFundFiscalYears)
-        ),
+      const { groupFundFiscalYears } = await fetchGroupFundFiscalYearsBatch(ky)(
         fundIds,
-        (itemsChunk) => {
-          const query = itemsChunk
-            .map(id => `fundId==${id}`)
-            .join(' or ');
-
-          return query || '';
-        },
+        { fiscalYearId },
+        { signal },
       );
 
-      const groupIds = uniqBy(flatten(groupFundFiscalYearsResponse), 'groupId')
+      const groupIds = uniqBy(flatten(groupFundFiscalYears), 'groupId')
         .map(({ groupId }) => groupId);
 
       const relatedGroupsPromise = batchRequest(

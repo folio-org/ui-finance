@@ -5,9 +5,11 @@ import {
   FUNDS_API,
 } from '@folio/stripes-acq-components';
 
-import { getAcqUnitsData } from './getAcqUnitsData';
+import {
+  getAcqUnitsData,
+  getFundGroupsData,
+} from '../../../../common/utils';
 import { getFundTypesData } from './getFundTypesData';
-import { getFundGroupsData } from './getFundGroupsData';
 import { getAllocatableFunds } from './getAllocatableFunds';
 
 const getAllLedgerFunds = (ky) => async (ledger) => {

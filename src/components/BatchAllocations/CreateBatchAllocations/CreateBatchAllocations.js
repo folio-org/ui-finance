@@ -112,7 +112,7 @@ export const CreateBatchAllocations = () => {
   ) => {
     await handle({
       fyFinanceData,
-      initialValues: form.getState().initialValues,
+      initialValues: form.getFormState().initialValues,
       sourceId,
       sourceType,
     })
@@ -133,11 +133,10 @@ export const CreateBatchAllocations = () => {
 
   const initialValues = useMemo(() => ({
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: (
-      financeData
-        ?.map((item) => ({
-          ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
-          ...item,
-        }))
+      financeData?.map((item) => ({
+        ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
+        ...item,
+      }))
     ),
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.calculatedFinanceData]: null,
   }), [financeData]);
@@ -169,7 +168,8 @@ export const CreateBatchAllocations = () => {
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
-        isLoading={isFetching}
+        isLoading={isFetching || isBatchAllocationHandling}
+        isRecalculateDisabled={isBatchAllocationHandling}
         isSubmitDisabled={isBatchAllocationHandling}
         onCancel={onClose}
         onSubmit={onSubmit}

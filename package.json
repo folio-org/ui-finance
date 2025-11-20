@@ -63,7 +63,11 @@
       {
         "permissionName": "module.finance.enabled",
         "displayName": "UI: Finance module is enabled",
-        "visible": false
+        "visible": false,
+        "subPermissions": [
+          "mod-settings.entries.collection.get",
+          "mod-settings.global.read.stripes-core.prefs.manage"
+        ]
       },
       {
         "permissionName": "ui-finance.settings.view",
@@ -75,6 +79,8 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
+          "mod-settings.entries.collection.get",
+          "mod-settings.global.read.stripes-core.prefs.manage",
           "users.collection.get"
         ]
       },

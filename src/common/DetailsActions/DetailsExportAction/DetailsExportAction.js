@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { IfPermission } from '@folio/stripes/core';
@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/components';
 
 export const DetailsExportAction = ({
-  disabled,
+  disabled = false,
   onExportCSV,
   perm,
   toggleActionMenu,
@@ -46,8 +46,4 @@ DetailsExportAction.propTypes = {
   onExportCSV: PropTypes.func.isRequired,
   toggleActionMenu: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-};
-
-DetailsExportAction.defaultProps = {
-  disabled: false,
 };

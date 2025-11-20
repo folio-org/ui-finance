@@ -18,6 +18,7 @@
 * Allow user to select current or previous fiscal year on ledger view to see totals for a specific year. Refs UIF-600.
 * *BREAKING* Use batch endpoint for `group-fund-fiscal-years`. Refs UIF-629.
 * Include global `mod-settings` permissions in base permission sets. Refs UIF-630.
+* React v19: Refactor away from default props for functional components. Refs UIF-523.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

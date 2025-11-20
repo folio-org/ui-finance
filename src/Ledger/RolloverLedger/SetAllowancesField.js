@@ -1,13 +1,14 @@
-import React, { useCallback } from 'react';
-import { Field, useForm } from 'react-final-form';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { Field, useForm } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import {
-  Checkbox,
-} from '@folio/stripes/components';
+import { Checkbox } from '@folio/stripes/components';
 
-function SetAllowancesField({ setAllowances, elem }) {
+function SetAllowancesField({
+  elem,
+  setAllowances = false,
+}) {
   const { batch, change } = useForm();
   const intl = useIntl();
 
@@ -21,7 +22,7 @@ function SetAllowancesField({ setAllowances, elem }) {
     } else {
       change(`${elem}.setAllowances`, true);
     }
-  }, [elem, setAllowances]);
+  }, [batch, change, elem, setAllowances]);
 
   return (
     <Field
@@ -39,10 +40,6 @@ function SetAllowancesField({ setAllowances, elem }) {
 SetAllowancesField.propTypes = {
   elem: PropTypes.string.isRequired,
   setAllowances: PropTypes.bool,
-};
-
-SetAllowancesField.defaultProps = {
-  setAllowances: false,
 };
 
 export default SetAllowancesField;

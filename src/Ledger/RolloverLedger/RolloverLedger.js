@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
@@ -32,6 +32,8 @@ export const ROLLOVER_LEDGER_ACCORDION_LABELS = {
   [ROLLOVER_LEDGER_ACCORDION.encumbrances]: <FormattedMessage id="ui-finance.ledger.rollover.encumbrances" />,
 };
 
+const DEFAULT_LEDGER = {};
+
 const RolloverLedger = ({
   currentFiscalYear,
   fiscalYears,
@@ -39,7 +41,7 @@ const RolloverLedger = ({
   fundTypesMap,
   goToCreateFY,
   handleSubmit,
-  ledger,
+  ledger = DEFAULT_LEDGER,
   onCancel,
   pristine,
   submitting,
@@ -148,10 +150,6 @@ RolloverLedger.propTypes = {
   onCancel: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-};
-
-RolloverLedger.defaultProps = {
-  ledger: {},
 };
 
 export default stripesFinalForm({

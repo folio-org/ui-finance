@@ -1,7 +1,10 @@
-import React, { useCallback, useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useRef,
+} from 'react';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
 import { useOkapiKy } from '@folio/stripes/core';
@@ -34,27 +37,28 @@ import {
 
 import {
   CREATE_UNITS_PERM,
-  MANAGE_UNITS_PERM,
-  FISCAL_YEARS_API,
   FISCAL_YEAR_ROUTE,
+  FISCAL_YEARS_API,
+  MANAGE_UNITS_PERM,
 } from '../../common/const';
 import {
-  FISCAL_YEAR_ACCORDION_LABELS,
   FISCAL_YEAR_ACCORDION,
+  FISCAL_YEAR_ACCORDION_LABELS,
 } from '../constants';
 import { validateDuplicateFieldValue } from '../../common/utils';
 import DebouncingValidatingField from './DebouncingValidatingField';
 
 const CREATE_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.create" />;
 const EDIT_FISCAL_YEAR_TITLE = <FormattedMessage id="ui-finance.fiscalYear.form.title.edit" />;
+const DEFAULT_INITIAL_VALUES = {};
 
 const FiscalYearForm = ({
-  onCancel,
-  initialValues,
+  errorCode,
   handleSubmit,
+  initialValues = DEFAULT_INITIAL_VALUES,
+  onCancel,
   pristine,
   submitting,
-  errorCode,
 }) => {
   const ky = useOkapiKy();
   const accordionStatusRef = useRef();
@@ -236,16 +240,12 @@ const FiscalYearForm = ({
 };
 
 FiscalYearForm.propTypes = {
-  onCancel: PropTypes.func.isRequired,
+  errorCode: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
+  onCancel: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  initialValues: PropTypes.object,
-  errorCode: PropTypes.string,
-};
-
-FiscalYearForm.defaultProps = {
-  initialValues: {},
 };
 
 export default stripesForm({

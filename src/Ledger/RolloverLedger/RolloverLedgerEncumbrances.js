@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
 import { useIntl } from 'react-intl';
@@ -72,12 +72,6 @@ const RolloverLedgerEncumbrances = () => {
       {...fieldArrayProps}
     />
   );
-};
-
-RolloverLedgerEncumbrances.propTypes = {
-};
-
-RolloverLedgerEncumbrances.defaultProps = {
 };
 
 export default RolloverLedgerEncumbrances;

@@ -1,9 +1,15 @@
-import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 
 import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
-const FiscalYearFunds = ({ funds, currency, fiscalYearId }) => {
+const DEFAULT_FUNDS = [];
+
+const FiscalYearFunds = ({
+  currency,
+  fiscalYearId,
+  funds = DEFAULT_FUNDS,
+}) => {
   const buildQuery = useMemo(() => {
     if (fiscalYearId) {
       return `query=(fiscalYearId=="${fiscalYearId}")`;
@@ -22,13 +28,9 @@ const FiscalYearFunds = ({ funds, currency, fiscalYearId }) => {
 };
 
 FiscalYearFunds.propTypes = {
+  currency: PropTypes.string,
   fiscalYearId: PropTypes.string,
   funds: PropTypes.arrayOf(PropTypes.object),
-  currency: PropTypes.string,
-};
-
-FiscalYearFunds.defaultProps = {
-  funds: [],
 };
 
 export default FiscalYearFunds;

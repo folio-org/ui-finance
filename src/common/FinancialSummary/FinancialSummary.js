@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -10,12 +9,19 @@ import {
 import { AppIcon } from '@folio/stripes/core';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
-import FundingInformation from './FundingInformation';
 import FinancialActivity from './FinancialActivity';
+import FundingInformation from './FundingInformation';
 import Overages from './Overages';
+
 import css from './styles.css';
 
-const FinancialSummary = ({ data, fiscalYearCurrency, isFiscalYear }) => {
+const DEFAULT_DATA = {};
+
+const FinancialSummary = ({
+  data = DEFAULT_DATA,
+  fiscalYearCurrency,
+  isFiscalYear = false,
+}) => {
   const cashBalance = (
     <AmountWithCurrencyField
       amount={data.cashBalance}
@@ -86,11 +92,6 @@ FinancialSummary.propTypes = {
   data: PropTypes.object,
   fiscalYearCurrency: PropTypes.string.isRequired,
   isFiscalYear: PropTypes.bool,
-};
-
-FinancialSummary.defaultProps = {
-  data: {},
-  isFiscalYear: false,
 };
 
 export default FinancialSummary;

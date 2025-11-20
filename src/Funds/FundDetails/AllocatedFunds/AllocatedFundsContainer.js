@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
@@ -8,7 +11,13 @@ import { batchFetch } from '@folio/stripes-acq-components';
 import { fundsResource } from '../../../common/resources';
 import AllocatedFunds from './AllocatedFunds';
 
-const AllocatedFundContainer = ({ fundIds, mutator, labelId }) => {
+const DEFAULT_FUND_IDS = [];
+
+const AllocatedFundContainer = ({
+  fundIds = DEFAULT_FUND_IDS,
+  labelId,
+  mutator,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [allocatedFunds, setAllocatedFunds] = useState('');
 
@@ -53,10 +62,6 @@ AllocatedFundContainer.propTypes = {
   fundIds: PropTypes.arrayOf(PropTypes.string),
   labelId: PropTypes.string.isRequired,
   mutator: PropTypes.object.isRequired,
-};
-
-AllocatedFundContainer.defaultProps = {
-  fundIds: [],
 };
 
 export default stripesConnect(AllocatedFundContainer);

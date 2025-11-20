@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { writeStorage } from '@rehooks/local-storage';
+import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   useHistory,
   useLocation,
@@ -24,12 +24,26 @@ import {
   OVERALL_ROLLOVER_STATUS,
 } from '../../../common/const';
 import RolloverErrorsLink from '../RolloverErrorsLink';
+
 import css from './LedgerRolloverProgress.css';
 
 // attributes that show if corresponding stage is completed
 const STAGE_ATTRS = ['budgetsClosingRolloverStatus', 'financialRolloverStatus', 'ordersRolloverStatus'];
 
-function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearCode, rolloverToFY, rollover, errors }) {
+const DEFAULT_ERRORS = [];
+const DEFAULT_ROLLOVER = {};
+const DEFAULT_ROLLOVER_STATUS = {};
+const DEFAULT_ROLLOVER_TO_FY = {};
+
+function LedgerRolloverProgress({
+  errors = DEFAULT_ERRORS,
+  fromYearCode,
+  ledgerName,
+  onClose,
+  rollover = DEFAULT_ROLLOVER,
+  rolloverStatus = DEFAULT_ROLLOVER_STATUS,
+  rolloverToFY = DEFAULT_ROLLOVER_TO_FY,
+}) {
   const history = useHistory();
   const location = useLocation();
   const toYearCode = rolloverToFY.code;
@@ -130,20 +144,13 @@ function LedgerRolloverProgress({ ledgerName, onClose, rolloverStatus, fromYearC
 }
 
 LedgerRolloverProgress.propTypes = {
+  errors: PropTypes.arrayOf(PropTypes.object),
   fromYearCode: PropTypes.string,
   ledgerName: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   rollover: PropTypes.object,
-  errors: PropTypes.arrayOf(PropTypes.object),
   rolloverStatus: PropTypes.object,
   rolloverToFY: PropTypes.object,
-};
-
-LedgerRolloverProgress.defaultProps = {
-  errors: [],
-  rollover: {},
-  rolloverStatus: {},
-  rolloverToFY: {},
 };
 
 export default LedgerRolloverProgress;

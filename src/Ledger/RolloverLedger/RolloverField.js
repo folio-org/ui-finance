@@ -1,13 +1,17 @@
-import React, { useCallback } from 'react';
-import { Field, useForm } from 'react-final-form';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import {
+  Field,
+  useForm,
+} from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import {
-  Checkbox,
-} from '@folio/stripes/components';
+import { Checkbox } from '@folio/stripes/components';
 
-function RolloverField({ rollover, elem }) {
+function RolloverField({
+  elem,
+  rollover = false,
+}) {
   const { batch, change, resetFieldState } = useForm();
   const intl = useIntl();
 
@@ -41,10 +45,6 @@ function RolloverField({ rollover, elem }) {
 RolloverField.propTypes = {
   elem: PropTypes.string.isRequired,
   rollover: PropTypes.bool,
-};
-
-RolloverField.defaultProps = {
-  rollover: false,
 };
 
 export default RolloverField;

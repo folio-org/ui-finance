@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -9,23 +8,19 @@ import {
   NoValue,
   Row,
 } from '@folio/stripes/components';
-import {
-  FolioFormattedDate,
-} from '@folio/stripes-acq-components';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
-import {
-  TRANSACTIONS_ROUTE,
-} from '../../../common/const';
+import { TRANSACTIONS_ROUTE } from '../../../common/const';
 
 const BudgetInformation = ({
   allowableEncumbrance,
   allowableExpenditure,
-  budgetStatus,
-  fiscalEnd,
-  fiscalStart,
+  budgetStatus = '',
+  fiscalEnd = '',
+  fiscalStart = '',
   fiscalYearCurrency,
-  name,
   id,
+  name = '',
 }) => (
   <Row>
     <Col xs={3}>
@@ -95,15 +90,8 @@ BudgetInformation.propTypes = {
   fiscalEnd: PropTypes.string,
   fiscalStart: PropTypes.string,
   fiscalYearCurrency: PropTypes.string,
-  name: PropTypes.string,
   id: PropTypes.string,
-};
-
-BudgetInformation.defaultProps = {
-  budgetStatus: '',
-  fiscalEnd: '',
-  fiscalStart: '',
-  name: '',
+  name: PropTypes.string,
 };
 
 export default BudgetInformation;

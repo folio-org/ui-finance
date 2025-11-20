@@ -1,7 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
 import { Field } from 'react-final-form';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { useHistory } from 'react-router';
 
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -35,13 +41,15 @@ import { GROUP_STATUS_OPTIONS } from '../constants';
 const CREATE_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.create" />;
 const EDIT_GROUP_TITLE = <FormattedMessage id="ui-finance.groups.form.title.edit" />;
 
+const DEFAULT_INITIAL_VALUES = {};
+
 const GroupForm = ({
-  onCancel,
-  initialValues,
+  errorCode,
   handleSubmit,
+  initialValues = DEFAULT_INITIAL_VALUES,
+  onCancel,
   pristine,
   submitting,
-  errorCode,
 }) => {
   const intl = useIntl();
   const history = useHistory();
@@ -163,16 +171,12 @@ const GroupForm = ({
 };
 
 GroupForm.propTypes = {
-  onCancel: PropTypes.func.isRequired,
+  errorCode: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
+  onCancel: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  initialValues: PropTypes.object,
-  errorCode: PropTypes.string,
-};
-
-GroupForm.defaultProps = {
-  initialValues: {},
 };
 
 export default stripesFinalForm({

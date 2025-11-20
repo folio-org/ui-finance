@@ -115,8 +115,8 @@ const ExpenseClasses = ({
   currency,
   expenseClassesTotals,
   id,
-  loading,
-  visibleColumns,
+  loading = false,
+  visibleColumns = defaultVisibleColumns,
 }) => {
   const intl = useIntl();
 
@@ -176,11 +176,6 @@ ExpenseClasses.propTypes = {
   id: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   visibleColumns: PropTypes.arrayOf(PropTypes.string),
-};
-
-ExpenseClasses.defaultProps = {
-  loading: false,
-  visibleColumns: defaultVisibleColumns,
 };
 
 export default ExpenseClasses;

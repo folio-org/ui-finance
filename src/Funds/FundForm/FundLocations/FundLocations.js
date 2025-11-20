@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
+import { FormattedMessage } from 'react-intl';
 
 import { Loading } from '@folio/stripes/components';
 import {
@@ -18,8 +18,10 @@ const validate = (locations, { fund }) => {
     : undefined;
 };
 
+const DEFAULT_ASSIGNED_LOCATIONS = [];
+
 export const FundLocations = ({
-  assignedLocations,
+  assignedLocations = DEFAULT_ASSIGNED_LOCATIONS,
   centralOrdering = false,
   name,
 }) => {
@@ -39,10 +41,6 @@ export const FundLocations = ({
       tenants={tenants}
     />
   );
-};
-
-FundLocations.defaultProps = {
-  assignedLocations: [],
 };
 
 FundLocations.propTypes = {

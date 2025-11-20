@@ -1,9 +1,11 @@
-import React, { useCallback, useMemo, useRef } from 'react';
-import {
-  find,
-  get,
-} from 'lodash';
+import find from 'lodash/find';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import { Field } from 'react-final-form';
 import {
   FormattedMessage,
@@ -13,8 +15,8 @@ import { useHistory } from 'react-router';
 
 import {
   AcqUnitsField,
-  Donors,
   ConsortiumLocationsContextProvider,
+  Donors,
   FieldMultiSelectionFinal as FieldMultiSelection,
   FieldSelectionFinal as FieldSelection,
   FormFooter,
@@ -71,17 +73,21 @@ import { FundLocations } from './FundLocations';
 
 const parseMultiSelectionValue = (items) => items.map(({ value }) => value);
 
+const DEFAULT_FUNDS = [];
+const DEFAULT_FUND_TYPES = [];
+const DEFAULT_LEDGERS = [];
+
 const FundForm = ({
-  handleSubmit,
+  errorCode,
   form,
+  funds = DEFAULT_FUNDS,
+  fundTypes = DEFAULT_FUND_TYPES,
+  handleSubmit,
+  ledgers = DEFAULT_LEDGERS,
   onCancel,
   pristine,
   submitting,
   values: formValues,
-  funds,
-  fundTypes,
-  ledgers,
-  errorCode,
 }) => {
   const intl = useIntl();
   const ky = useOkapiKy();
@@ -488,22 +494,16 @@ const FundForm = ({
 };
 
 FundForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  errorCode: PropTypes.string,
   form: PropTypes.object,  // form object to get initialValues with composite fund
+  funds: PropTypes.arrayOf(PropTypes.object),
+  fundTypes: PropTypes.arrayOf(PropTypes.object),
+  handleSubmit: PropTypes.func.isRequired,
+  ledgers: PropTypes.arrayOf(PropTypes.object),
   onCancel: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,  // current form values with composite fund
-  funds: PropTypes.arrayOf(PropTypes.object),
-  fundTypes: PropTypes.arrayOf(PropTypes.object),
-  ledgers: PropTypes.arrayOf(PropTypes.object),
-  errorCode: PropTypes.string,
-};
-
-FundForm.defaultProps = {
-  funds: [],
-  fundTypes: [],
-  ledgers: [],
 };
 
 export default stripesFinalForm({

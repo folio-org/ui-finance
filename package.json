@@ -316,6 +316,7 @@
           "finance.transactions.item.get",
           "invoice.invoices.collection.get",
           "invoice.invoices.item.get",
+          "mod-settings.global.read.ui-tags.tags.manage",
           "orders.item.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",

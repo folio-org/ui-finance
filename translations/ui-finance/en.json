@@ -546,6 +546,11 @@
   "settings.exchangeRateSource.providerType.keyRequired": "Key required",
   "settings.exchangeRateSource.submit.success": "Settings successfully updated.",
   "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated.",
+  "settings.navigation.title": "Navigation",
+  "settings.navigation.description": "The finance application now has additional navigation option that can be enabled or disabled at any time. Checking the box below will make the Browse tab available to allow finance app users.",
+  "settings.navigation.enableBrowseTab": "Enable browse tab",
+  "settings.navigation.submit.success": "Settings successfully updated.",
+  "settings.navigation.submit.error.generic": "Navigation settings were not updated.",
 
   "menuSection.allocationTools": "Allocation tools",
   "selectFiscalYear": "Select fiscal year",

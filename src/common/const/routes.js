@@ -8,3 +8,4 @@ export const LEDGER_ROLLOVER_SETTINGS_ROUTE = `${LEDGERS_ROUTE}/:id/rollover-set
 export const BUDGET_ROUTE = '/finance/budget/';
 export const BUDGET_VIEW_ROUTE = '/view/';
 export const TRANSACTIONS_ROUTE = '/finance/transactions';
+export const BROWSE_ROUTE = '/finance/browse';

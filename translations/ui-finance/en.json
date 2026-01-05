@@ -620,5 +620,22 @@
   "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance",
   "permission.transfers.create": "Finance: Create transfers",
 
-  "plugin.findFund.notFound": "Find fund plugin is not enabled"
+  "plugin.findFund.notFound": "Find fund plugin is not enabled",
+
+  "browse.tab.search": "Search",
+  "browse.tab.browse": "Browse",
+  "browse.title": "Browse finance",
+  "browse.subtitle": "Select a fiscal year to browse results",
+  "browse.selectFiscalYear": "Select a fiscal year to browse results.",
+  "browse.noResults": "No results found matching the selected filters.",
+  "browse.filter.fiscalYear": "Fiscal years",
+  "browse.filter.ledgerStatus": "Ledger status",
+  "browse.filter.groupStatus": "Group status",
+  "browse.filter.fundStatus": "Fund status",
+  "browse.filter.budgetStatus": "Budget status",
+  "browse.filter.expenseClassStatus": "Expense class status",
+  "browse.actions.newFiscalYear": "New fiscal year",
+  "browse.actions.newLedger": "New ledger",
+  "browse.actions.newGroup": "New group",
+  "browse.actions.newFund": "New fund"
 }

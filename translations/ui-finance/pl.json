@@ -375,7 +375,7 @@
     "transaction.moveAllocation": "Przenieś przydział",
     "settings.button.export": "Eksport",
     "settings.exportFund.title": "Eksportuj kody funduszy i klas wydatków",
-    "settings.exportFund.helperText": "When exporting the combined fund and expense class codes you will receive a delimited file that includes all Fund codes and all Fund code & expense class code combinations where expense class has a status of 'active'.",
+    "settings.exportFund.helperText": "Podczas eksportu połączonych kodów funduszy i klas wydatków otrzymasz plik rozdzielany separatorami, który zawiera wszystkie kody funduszy oraz wszystkie kombinacje kodów funduszy i kodów klas wydatków, dla których klasa wydatków ma status „aktywny”.",
     "settings.exportFund.exportSettings": "Ustawienia eksportu",
     "settings.exportFund.success": "Wspólna lista kodów została pomyślnie wyeksportowana.",
     "validation.mustNotIncludeColon": "Kod nie może zawierać znaku: dwukropek",

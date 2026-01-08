@@ -19,6 +19,7 @@
 * *BREAKING* Use batch endpoint for `group-fund-fiscal-years`. Refs UIF-629.
 * Include global `mod-settings` permissions in base permission sets. Refs UIF-630.
 * React v19: Refactor away from default props for functional components. Refs UIF-523.
+* Replace the `moment` library with `dayjs`. Refs UIF-597.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

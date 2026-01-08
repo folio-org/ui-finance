@@ -498,7 +498,7 @@
     "allocation.worksheet.download.error": "Er is een fout opgetreden tijdens het genereren van het bestand.",
     "menuSection.allocationTools": "Toewijzingshulpmiddelen",
     "selectFiscalYear": "Selecteer boekjaar",
-    "actions.downloadAllocationWorksheet": "Allocation",
+    "actions.downloadAllocationWorksheet": "Download werkblad voor toewijzing (CSV)",
     "allocation.batch.form.title.edit": "Budgetten batchgewijs bewerken",
     "allocation.batch.form.footer.recalculate": "Herbereken",
     "allocation.batch.status.active": "Actief",

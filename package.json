@@ -28,7 +28,7 @@
       "finance.fund-update-logs": "1.0",
       "finance.funds": "3.0",
       "finance.group-fiscal-year-summaries": "1.0",
-      "finance.group-fund-fiscal-years": "1.0 2.0",
+      "finance.group-fund-fiscal-years": "2.0",
       "finance.groups": "1.0 2.0",
       "finance.ledger-rollovers-errors": "1.0",
       "finance.ledger-rollovers-logs": "1.0",
@@ -63,7 +63,11 @@
       {
         "permissionName": "module.finance.enabled",
         "displayName": "UI: Finance module is enabled",
-        "visible": false
+        "visible": false,
+        "subPermissions": [
+          "mod-settings.entries.collection.get",
+          "mod-settings.global.read.stripes-core.prefs.manage"
+        ]
       },
       {
         "permissionName": "ui-finance.settings.view",
@@ -75,6 +79,8 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
+          "mod-settings.entries.collection.get",
+          "mod-settings.global.read.stripes-core.prefs.manage",
           "users.collection.get"
         ]
       },
@@ -178,6 +184,7 @@
           "finance.finance-data.collection.get",
           "finance.funds.collection.get",
           "finance.group-fiscal-year-summaries.collection.get",
+          "finance.group-fund-fiscal-years.batch.post",
           "finance.group-fund-fiscal-years.collection.get",
           "finance.groups.collection.get",
           "finance.ledger-rollovers-errors.collection.get",
@@ -309,6 +316,7 @@
           "finance.transactions.item.get",
           "invoice.invoices.collection.get",
           "invoice.invoices.item.get",
+          "mod-settings.global.read.ui-tags.tags.manage",
           "orders.item.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
@@ -503,7 +511,6 @@
     "history": "^5.0.0",
     "identity-obj-proxy": "^3.0.0",
     "miragejs": "^0.1.32",
-    "moment": "~2.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intl": "^7.1.5",
@@ -533,7 +540,6 @@
   },
   "peerDependencies": {
     "@folio/stripes": "^10.0.0",
-    "moment": "^2.24.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intl": "^7.1.5",

@@ -9,8 +9,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { BUDGETS_API } from '../../../../common/const';
+import { getUniqItems } from '../../../../common/utils';
 import { EXPORT_EXPENSE_CLASS_STATUSES_MAP } from '../constants';
-import { getUniqItems } from './getUniqItems';
 
 const CONCURRENT_REQUESTS_COUNT = 5;
 

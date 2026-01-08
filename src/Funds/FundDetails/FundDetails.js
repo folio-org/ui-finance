@@ -15,11 +15,15 @@ import AllocatedFunds from './AllocatedFunds';
 import FundLedger from './FundLedger';
 import FundType from './FundType';
 
+const DEFAULT_ACQ_UNIT_IDS = [];
+const DEFAULT_GROUP_IDS = [];
+const DEFAULT_FUND = {};
+
 const FundDetails = ({
-  acqUnitIds,
+  acqUnitIds = DEFAULT_ACQ_UNIT_IDS,
   currency,
-  fund,
-  groupIds,
+  fund = DEFAULT_FUND,
+  groupIds = DEFAULT_GROUP_IDS,
 }) => (
   <>
     <Row>
@@ -104,12 +108,6 @@ FundDetails.propTypes = {
   currency: PropTypes.string,
   fund: PropTypes.object,
   groupIds: PropTypes.arrayOf(PropTypes.string),
-};
-
-FundDetails.defaultProps = {
-  acqUnitIds: [],
-  fund: {},
-  groupIds: [],
 };
 
 export default FundDetails;

@@ -1,13 +1,14 @@
+import get from 'lodash/get';
+import sortBy from 'lodash/sortBy';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   Route,
   useLocation,
   useHistory,
   useRouteMatch,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
-import { get, sortBy } from 'lodash';
 
 import {
   MultiColumnList,
@@ -89,15 +90,18 @@ const getResultsFormatter = (
   });
 };
 
+const DEFAULT_FUNDS = [];
+const DEFAULT_TRANSACTIONS = [];
+
 const TransactionsList = ({
-  onNeedMoreData,
-  resetData,
-  funds,
-  transactionsCount,
-  isLoadingTransactions,
-  transactions,
   fundId,
+  funds = DEFAULT_FUNDS,
+  isLoadingTransactions = false,
+  onNeedMoreData,
   pagination,
+  resetData,
+  transactions = DEFAULT_TRANSACTIONS,
+  transactionsCount = 0,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -229,21 +233,14 @@ const TransactionsList = ({
 };
 
 TransactionsList.propTypes = {
-  onNeedMoreData: PropTypes.func.isRequired,
-  resetData: PropTypes.func.isRequired,
-  funds: PropTypes.arrayOf(PropTypes.object),
-  transactionsCount: PropTypes.number,
-  isLoadingTransactions: PropTypes.bool,
-  transactions: PropTypes.arrayOf(PropTypes.object),
   fundId: PropTypes.string.isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object),
+  isLoadingTransactions: PropTypes.bool,
+  onNeedMoreData: PropTypes.func.isRequired,
   pagination: PropTypes.object.isRequired,
-};
-
-TransactionsList.defaultProps = {
-  transactionsCount: 0,
-  isLoadingTransactions: false,
-  transactions: [],
-  funds: [],
+  resetData: PropTypes.func.isRequired,
+  transactions: PropTypes.arrayOf(PropTypes.object),
+  transactionsCount: PropTypes.number,
 };
 
 export default TransactionsList;

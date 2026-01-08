@@ -1,13 +1,16 @@
-import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useRef,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
 import {
-  useStripes,
   IfPermission,
   Pluggable,
   TitleManager,
+  useStripes,
 } from '@folio/stripes/core';
 import {
   Accordion,
@@ -54,18 +57,22 @@ import GroupInformation from './GroupInformation';
 import GroupFund from './GroupFund';
 import { GroupExpenseClasses } from './GroupExpenseClasses';
 
+const DEFAULT_GROUP_SUMMARY = {};
+const DEFAULT_FISCAL_YEARS_RECORDS = { current: [], previous: [] };
+const DEFAULT_FUNDS = [];
+
 const GroupDetails = ({
-  group,
-  groupSummary,
-  fiscalYearsRecords,
-  funds,
-  onClose,
   editGroup,
+  fiscalYearsRecords = DEFAULT_FISCAL_YEARS_RECORDS,
+  funds = DEFAULT_FUNDS,
+  group,
+  groupSummary = DEFAULT_GROUP_SUMMARY,
+  onAddFundToGroup,
+  onClose,
+  onRemoveFundFromGroup,
+  onSelectFY,
   removeGroup,
   selectedFY,
-  onSelectFY,
-  onAddFundToGroup,
-  onRemoveFundFromGroup,
 }) => {
   const [isRemoveConfirmation, toggleRemoveConfirmation] = useModalToggle();
   const [isDownloadAllocationWorksheetModalOpen, toggleDownloadAllocationWorksheetModal] = useModalToggle();
@@ -318,12 +325,6 @@ GroupDetails.propTypes = {
   onSelectFY: PropTypes.func.isRequired,
   removeGroup: PropTypes.func.isRequired,
   selectedFY: PropTypes.object.isRequired,
-};
-
-GroupDetails.defaultProps = {
-  groupSummary: {},
-  fiscalYearsRecords: { current: [], previous: [] },
-  funds: [],
 };
 
 export default GroupDetails;

@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
@@ -8,7 +11,10 @@ import { baseManifest } from '@folio/stripes-acq-components';
 import { FUND_TYPES_API } from '../../../common/const';
 import FundType from './FundType';
 
-const FundTypeContainer = ({ fundTypeId, mutator }) => {
+const FundTypeContainer = ({
+  fundTypeId = '',
+  mutator,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fundTypeName, setFundTypeName] = useState('');
 
@@ -45,10 +51,6 @@ FundTypeContainer.manifest = Object.freeze({
 FundTypeContainer.propTypes = {
   fundTypeId: PropTypes.string,
   mutator: PropTypes.object.isRequired,
-};
-
-FundTypeContainer.defaultProps = {
-  fundTypeId: '',
 };
 
 export default stripesConnect(FundTypeContainer);

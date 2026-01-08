@@ -159,12 +159,12 @@ describe('FundForm component', () => {
       await waitFor(() => expect(screen.getByText('ui-finance.validation.mustNotIncludeColon')).toBeInTheDocument());
     });
 
-    it.skip('should display validate required error', async () => {
+    it('should display validate required error', async () => {
       renderFundForm();
 
       const field = screen.getByRole('textbox', { name: /code/i });
 
-      await act(() => user.type(field, ''));
+      await user.clear(field);
       await user.click(screen.getByText('stripes-components.saveAndClose'));
 
       await waitFor(() => expect(screen.queryByText('stripes-acq-components.validation.required')).toBeInTheDocument());
@@ -173,34 +173,37 @@ describe('FundForm component', () => {
     it('should filter funds in the \'Transfer from\' field', async () => {
       renderFundForm({ funds });
 
-      const container = (await screen.findByText('ui-finance.fund.information.transferFrom')).parentNode;
-      const label = within(container).getByText('ui-finance.fund.information.transferFrom');
+      // Make "Transfer from" input active
+      await user.click(screen.getByText('ui-finance.fund.information.transferFrom'));
 
-      await user.click(label);
+      const optionsList = screen.getByRole('listbox', { name: /information.transferFrom/i });
 
       // Options before filtering
-      funds.forEach((async ({ name }) => {
-        expect(within(container).getByText(name)).toBeInTheDocument();
+      funds.forEach((({ name }) => {
+        expect(within(optionsList).getByText(name)).toBeInTheDocument();
       }));
 
       await user.type(document.activeElement, 'foo');
 
       // Options after filtering
-      expect(within(container).queryByText(funds[0].name)).toBeInTheDocument();
-      expect(within(container).queryByText(funds[1].name)).not.toBeInTheDocument();
-      expect(within(container).queryByText(funds[2].name)).not.toBeInTheDocument();
+      expect(within(optionsList).queryByText(funds[0].name)).toBeInTheDocument();
+      expect(within(optionsList).queryByText(funds[1].name)).not.toBeInTheDocument();
+      expect(within(optionsList).queryByText(funds[2].name)).not.toBeInTheDocument();
     });
 
     it('should select funds options in the \'Transfer to\' field', async () => {
       renderFundForm({ funds });
 
-      const container = (await screen.findByText('ui-finance.fund.information.transferTo')).parentNode;
+      // Make "Transfer to" input active
+      await user.click(screen.getByText('ui-finance.fund.information.transferTo'));
 
-      funds.forEach(async ({ name }) => {
-        await user.click(within(container).queryByText(name));
-      });
+      const optionsList = screen.getByRole('listbox', { name: /information.transferTo/i });
 
-      await waitFor(() => expect(within(container).getByText(`${funds.length} items selected`)).toBeInTheDocument());
+      await Promise.all(funds.map(({ name }) => {
+        return user.click(within(optionsList).queryByText(name));
+      }));
+
+      expect(optionsList.querySelectorAll('[aria-selected="true"]')).toHaveLength(funds.length);
     });
   });
 

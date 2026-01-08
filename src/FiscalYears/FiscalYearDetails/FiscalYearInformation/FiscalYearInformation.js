@@ -1,18 +1,15 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  Row,
   Col,
+  FormattedDate,
   KeyValue,
   NoValue,
-  FormattedDate,
+  Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import {
-  AcqUnitsView,
-} from '@folio/stripes-acq-components';
+import { AcqUnitsView } from '@folio/stripes-acq-components';
 
 const renderUTCTime = value => (
   <FormattedDate
@@ -26,11 +23,13 @@ const renderUTCTime = value => (
   />
 );
 
+const DEFAULT_ACQ_UNIT_IDS = [];
+
 const FiscalYearInformation = ({
-  acqUnitIds,
+  acqUnitIds = DEFAULT_ACQ_UNIT_IDS,
   code,
   currency,
-  description,
+  description = '',
   metadata,
   name,
   periodEnd,
@@ -117,11 +116,6 @@ FiscalYearInformation.propTypes = {
   name: PropTypes.string.isRequired,
   periodEnd: PropTypes.string.isRequired,
   periodStart: PropTypes.string.isRequired,
-};
-
-FiscalYearInformation.defaultProps = {
-  acqUnitIds: [],
-  description: '',
 };
 
 export default FiscalYearInformation;

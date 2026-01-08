@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   IfPermission,
@@ -11,29 +15,38 @@ import {
 import {
   Accordion,
   Button,
+  dayjs,
   Icon,
 } from '@folio/stripes/components';
-import { batchFetch, DATE_FORMAT, LIMIT_MAX, useShowCallout } from '@folio/stripes-acq-components';
+import {
+  batchFetch,
+  DATE_FORMAT,
+  LIMIT_MAX,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
-import { budgetsResource, fiscalYearsResource } from '../../../common/resources';
-import FundBudgets from '../FundBudgets';
+import {
+  budgetsResource,
+  fiscalYearsResource,
+} from '../../../common/resources';
 import { BUDGET_STATUSES } from '../../../components/Budget/constants';
 import { SECTIONS_FUND } from '../../constants';
 import { getPlannedFiscalYears } from '../../utils';
+import FundBudgets from '../FundBudgets';
 
 const FundPlannedBudgetsContainer = ({
+  currentFY,
   fiscalYears,
   fundId,
   history,
   location,
   mutator,
   openNewBudgetModal,
-  currentFY,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [plannedBudgets, setPlannedBudgets] = useState([]);
   const showToast = useShowCallout();
-  const prevFYStartDate = moment.utc(currentFY.periodStart).add(1, 'day').format(DATE_FORMAT);
+  const prevFYStartDate = dayjs.utc(currentFY.periodStart).add(1, 'day').format(DATE_FORMAT);
 
   const plannedFiscalYears = useMemo(
     () => getPlannedFiscalYears(fiscalYears, plannedBudgets),

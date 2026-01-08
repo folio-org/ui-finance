@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   Route,
-  useLocation,
   useHistory,
+  useLocation,
   useRouteMatch,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 
 import {
   TitleManager,
@@ -62,14 +62,16 @@ const getResultsFormatter = ({ search }) => ({
   name: data => <TextLink to={`${FISCAL_YEAR_ROUTE}/${data.id}/view${search}`}>{data.name}</TextLink>,
 });
 
+const DEFAULT_FISCAL_YEARS = [];
+
 const FiscalYearsList = ({
-  isLoading,
+  fiscalYears = DEFAULT_FISCAL_YEARS,
+  fiscalYearsCount = 0,
+  isLoading = false,
   onNeedMoreData,
-  resetData,
-  fiscalYears,
-  fiscalYearsCount,
   pagination,
   refreshList,
+  resetData,
 }) => {
   const stripes = useStripes();
   const history = useHistory();
@@ -226,19 +228,13 @@ const FiscalYearsList = ({
 };
 
 FiscalYearsList.propTypes = {
-  onNeedMoreData: PropTypes.func.isRequired,
-  resetData: PropTypes.func.isRequired,
+  fiscalYears: PropTypes.arrayOf(PropTypes.object),
   fiscalYearsCount: PropTypes.number,
   isLoading: PropTypes.bool,
-  fiscalYears: PropTypes.arrayOf(PropTypes.object),
+  onNeedMoreData: PropTypes.func.isRequired,
   pagination: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
-};
-
-FiscalYearsList.defaultProps = {
-  fiscalYearsCount: 0,
-  isLoading: false,
-  fiscalYears: [],
+  resetData: PropTypes.func.isRequired,
 };
 
 export default FiscalYearsList;

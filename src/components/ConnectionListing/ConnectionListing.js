@@ -1,6 +1,9 @@
-import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useMemo } from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Button,
@@ -32,13 +35,15 @@ const sorters = {
   'available': ({ available }) => available,
 };
 
+const DEFAULT_ITEMS = [];
+
 const ConnectionListing = ({
-  items,
+  columnIdPrefix = '',
   currency,
-  openItem,
-  visibleColumns,
+  items = DEFAULT_ITEMS,
   onRemoveItem,
-  columnIdPrefix,
+  openItem,
+  visibleColumns = defaultColumns,
 }) => {
   const intl = useIntl();
   const isRemovable = Boolean(onRemoveItem);
@@ -105,18 +110,12 @@ const ConnectionListing = ({
 };
 
 ConnectionListing.propTypes = {
-  openItem: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object),
-  currency: PropTypes.string,
-  visibleColumns: PropTypes.arrayOf(PropTypes.string),
-  onRemoveItem: PropTypes.func,
   columnIdPrefix: PropTypes.string,
-};
-
-ConnectionListing.defaultProps = {
-  items: [],
-  visibleColumns: defaultColumns,
-  columnIdPrefix: '',
+  currency: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.object),
+  onRemoveItem: PropTypes.func,
+  openItem: PropTypes.func.isRequired,
+  visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default ConnectionListing;

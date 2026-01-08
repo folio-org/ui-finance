@@ -1,7 +1,14 @@
-import React, { useCallback, useMemo, useRef } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import { Field } from 'react-final-form';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { useHistory } from 'react-router';
 
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -52,14 +59,16 @@ const CREATE_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.c
 const EDIT_LEDGER_TITLE = <FormattedMessage id="ui-finance.ledger.form.title.edit" />;
 const SAVE_AND_CLOSE_TITLE = <FormattedMessage id="stripes-components.saveAndClose" />;
 
+const DEFAULT_INITIAL_VALUES = {};
+
 const LedgerForm = ({
+  errorCode,
   goToCreateFY,
   handleSubmit,
-  initialValues,
+  initialValues = DEFAULT_INITIAL_VALUES,
   onCancel,
-  submitting,
   pristine,
-  errorCode,
+  submitting,
 }) => {
   const intl = useIntl();
   const accordionStatusRef = useRef();
@@ -242,17 +251,13 @@ const LedgerForm = ({
 };
 
 LedgerForm.propTypes = {
+  errorCode: PropTypes.string,
   goToCreateFY: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
   onCancel: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
-  errorCode: PropTypes.string,
-};
-
-LedgerForm.defaultProps = {
-  initialValues: {},
+  submitting: PropTypes.bool.isRequired,
 };
 
 export default stripesFinalForm({

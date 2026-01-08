@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   Route,
   withRouter,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { FormattedMessage } from 'react-intl';
 
 import {
   TitleManager,
@@ -42,9 +42,7 @@ import CheckPermission from '../../common/CheckPermission';
 
 import { FundDetailsContainer } from '../FundDetails';
 import { FundsListFiltersContainer } from './FundsListFilters';
-import {
-  searchableIndexes,
-} from './FundsListSearchConfig';
+import { searchableIndexes } from './FundsListSearchConfig';
 import FundsListLastMenu from './FundsListLastMenu';
 
 const resultsPaneTitle = <FormattedMessage id="ui-finance.fund" />;
@@ -61,17 +59,19 @@ const getResultsFormatter = ({ search }) => ({
   name: data => <TextLink to={`${FUNDS_ROUTE}/view/${data.id}${search}`}>{data.name}</TextLink>,
 });
 
+const DEFAULT_FUNDS = [];
+
 const FundsList = ({
+  funds = DEFAULT_FUNDS,
+  fundsCount = 0,
   history,
-  isLoading,
+  isLoading = false,
   location,
   match,
   onNeedMoreData,
-  resetData,
-  funds,
-  fundsCount,
   pagination,
   refreshList,
+  resetData,
 }) => {
   const stripes = useStripes();
   const [
@@ -224,22 +224,16 @@ const FundsList = ({
 };
 
 FundsList.propTypes = {
-  onNeedMoreData: PropTypes.func.isRequired,
-  resetData: PropTypes.func.isRequired,
-  fundsCount: PropTypes.number,
-  isLoading: PropTypes.bool,
   funds: PropTypes.arrayOf(PropTypes.object),
+  fundsCount: PropTypes.number,
   history: ReactRouterPropTypes.history.isRequired,
+  isLoading: PropTypes.bool,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  onNeedMoreData: PropTypes.func.isRequired,
   pagination: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
-};
-
-FundsList.defaultProps = {
-  fundsCount: 0,
-  isLoading: false,
-  funds: [],
+  resetData: PropTypes.func.isRequired,
 };
 
 export default withRouter(FundsList);

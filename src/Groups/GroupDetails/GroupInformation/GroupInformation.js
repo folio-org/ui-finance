@@ -1,27 +1,36 @@
-import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
-  Row,
   Col,
   KeyValue,
   NoValue,
+  Row,
   Select,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import { AcqUnitsView } from '@folio/stripes-acq-components';
 
+const DEFAULT_ACQUISITION_UNIT_IDS = [];
+const DEFAULT_FISCAL_YEARS = [];
+
 const GroupInformation = ({
+  acqUnitIds = DEFAULT_ACQUISITION_UNIT_IDS,
+  code,
+  description = '',
+  fiscalYears = DEFAULT_FISCAL_YEARS,
   metadata,
   name,
-  code,
-  status,
-  description,
-  acqUnitIds,
-  fiscalYears,
-  selectedFiscalYearId,
   onSelectFY,
+  selectedFiscalYearId,
+  status,
 }) => {
   const intl = useIntl();
 
@@ -118,24 +127,18 @@ const GroupInformation = ({
 };
 
 GroupInformation.propTypes = {
-  metadata: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  code: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  description: PropTypes.string,
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
+  code: PropTypes.string.isRequired,
+  description: PropTypes.string,
   fiscalYears: PropTypes.shape({
     current: PropTypes.arrayOf(PropTypes.object),
     previous: PropTypes.arrayOf(PropTypes.object),
   }),
-  selectedFiscalYearId: PropTypes.string.isRequired,
+  metadata: PropTypes.object,
+  name: PropTypes.string.isRequired,
   onSelectFY: PropTypes.func.isRequired,
-};
-
-GroupInformation.defaultProps = {
-  description: '',
-  acqUnitIds: [],
-  fiscalYears: [],
+  selectedFiscalYearId: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default GroupInformation;

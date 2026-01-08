@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   Route,
   useLocation,
   useHistory,
   useRouteMatch,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 
 import {
   TitleManager,
@@ -44,9 +44,7 @@ import CheckPermission from '../../common/CheckPermission';
 
 import { GroupDetailsContainer } from '../GroupDetails';
 import GroupsListFilters from './GroupsListFilters';
-import {
-  searchableIndexes,
-} from './GroupsListSearchConfig';
+import { searchableIndexes } from './GroupsListSearchConfig';
 import GroupsListLastMenu from './GroupsListLastMenu';
 
 const resultsPaneTitle = <FormattedMessage id="ui-finance.group" />;
@@ -61,14 +59,16 @@ const getResultsFormatter = ({ search }) => ({
   name: data => <TextLink to={`${GROUPS_ROUTE}/${data.id}/view${search}`}>{data.name}</TextLink>,
 });
 
+const DEFAULT_GROUPS = [];
+
 const GroupsList = ({
-  isLoading,
+  isLoading = false,
+  groups = DEFAULT_GROUPS,
+  groupsCount = 0,
   onNeedMoreData,
-  resetData,
-  groups,
-  groupsCount,
   pagination,
   refreshList,
+  resetData,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -225,19 +225,13 @@ const GroupsList = ({
 };
 
 GroupsList.propTypes = {
-  onNeedMoreData: PropTypes.func.isRequired,
-  resetData: PropTypes.func.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.object),
   groupsCount: PropTypes.number,
   isLoading: PropTypes.bool,
-  groups: PropTypes.arrayOf(PropTypes.object),
+  onNeedMoreData: PropTypes.func.isRequired,
   pagination: PropTypes.object,
   refreshList: PropTypes.func.isRequired,
-};
-
-GroupsList.defaultProps = {
-  groupsCount: 0,
-  isLoading: false,
-  groups: [],
+  resetData: PropTypes.func.isRequired,
 };
 
 export default GroupsList;

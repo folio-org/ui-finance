@@ -1,8 +1,8 @@
-import React, {
+import PropTypes from 'prop-types';
+import {
   useCallback,
   useRef,
 } from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
@@ -61,18 +61,24 @@ import LedgerFunds from './LedgerFunds';
 import RolloverErrorsLink from './RolloverErrorsLink';
 import { ExportSettingsModal } from './ExportSettingsModal';
 
+const DEFAULT_FUNDS = [];
+const DEFAULT_FISCAL_YEAR = {};
+const DEFAULT_LEDGER = {};
+const DEFAULT_ROLLOVER_TO_FY = {};
+const DEFAULT_ROLLOVER_ERRORS = [];
+
 const LedgerDetails = ({
-  fiscalYear,
-  funds,
-  ledger,
+  fiscalYear = DEFAULT_FISCAL_YEAR,
+  funds = DEFAULT_FUNDS,
+  ledger = DEFAULT_LEDGER,
   onClose,
   onDelete,
   onEdit,
   onRollover,
   onRolloverLogs,
   onSelectFiscalYear,
-  rolloverErrors,
-  rolloverToFY,
+  rolloverErrors = DEFAULT_ROLLOVER_ERRORS,
+  rolloverToFY = DEFAULT_ROLLOVER_TO_FY,
   selectedFiscalYear,
 }) => {
   const [isExportConfirmation, toggleExportConfirmation] = useModalToggle();
@@ -360,14 +366,6 @@ LedgerDetails.propTypes = {
   rolloverErrors: PropTypes.arrayOf(PropTypes.object),
   rolloverToFY: PropTypes.object,
   selectedFiscalYear: PropTypes.string,
-};
-
-LedgerDetails.defaultProps = {
-  fiscalYear: {},
-  funds: [],
-  ledger: {},
-  rolloverErrors: [],
-  rolloverToFY: {},
 };
 
 export default LedgerDetails;

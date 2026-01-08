@@ -25,12 +25,14 @@ import css from './FundLocationsList.css';
 
 const SCOPE_TRANSLATION_ID = 'ui-finance.fund.information.locations';
 const DEFAULT_VALUE = [];
+const DEFAULT_ASSIGNED_LOCATIONS = [];
+const DEFAULT_LOCATIONS = [];
 
 export const FundLocationsList = ({
-  assignedLocations,
+  assignedLocations = DEFAULT_ASSIGNED_LOCATIONS,
   centralOrdering = false,
   fields,
-  locations,
+  locations = DEFAULT_LOCATIONS,
   meta,
   tenants,
 }) => {
@@ -210,11 +212,6 @@ export const FundLocationsList = ({
       />
     </>
   );
-};
-
-FundLocationsList.defaultProps = {
-  assignedLocations: [],
-  locations: [],
 };
 
 FundLocationsList.propTypes = {

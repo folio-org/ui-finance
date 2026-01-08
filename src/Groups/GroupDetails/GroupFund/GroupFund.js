@@ -1,9 +1,17 @@
-import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 
 import RelatedFunds from '../../../common/RelatedFunds/RelatedFunds';
 
-const GroupFund = ({ funds, currency, fiscalYearId, groupId, onRemoveFundFromGroup }) => {
+const DEFAULT_FUNDS = [];
+
+const GroupFund = ({
+  currency,
+  fiscalYearId,
+  funds = DEFAULT_FUNDS,
+  groupId,
+  onRemoveFundFromGroup,
+}) => {
   const buildQuery = useMemo(() => {
     if (fiscalYearId) {
       return `query=(fiscalYearId=="${fiscalYearId}" AND groupFundFY.groupId=="${groupId}")`;
@@ -23,15 +31,11 @@ const GroupFund = ({ funds, currency, fiscalYearId, groupId, onRemoveFundFromGro
 };
 
 GroupFund.propTypes = {
-  groupId: PropTypes.string.isRequired,
+  currency: PropTypes.string,
   fiscalYearId: PropTypes.string,
   funds: PropTypes.arrayOf(PropTypes.object),
-  currency: PropTypes.string,
+  groupId: PropTypes.string.isRequired,
   onRemoveFundFromGroup: PropTypes.func,
-};
-
-GroupFund.defaultProps = {
-  funds: [],
 };
 
 export default GroupFund;

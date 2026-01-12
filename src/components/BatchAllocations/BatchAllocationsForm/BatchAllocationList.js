@@ -19,6 +19,7 @@ export const BatchAllocationList = memo(({
   fields,
   fiscalYear,
   isLoading,
+  mclKey,
   onHeaderClick,
   sortDirection,
   sortedColumn,
@@ -32,6 +33,7 @@ export const BatchAllocationList = memo(({
 
   return (
     <MultiColumnList
+      key={mclKey}
       autosize
       contentData={fields}
       columnMapping={columnMapping}
@@ -52,6 +54,10 @@ BatchAllocationList.propTypes = {
   fields: PropTypes.object.isRequired,
   fiscalYear: PropTypes.object,
   isLoading: PropTypes.bool,
+  mclKey: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   onHeaderClick: PropTypes.func.isRequired,
   sortDirection: PropTypes.string,
   sortedColumn: PropTypes.string,

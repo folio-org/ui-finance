@@ -108,6 +108,11 @@ const BatchAllocationsForm = ({
   sortingField,
   sortingDirection,
 }) => {
+  // There’s an issue in MCL with updating the row height value in a virtualized list.
+  // As a workaround, we pass a `key` prop to the component and eagerly update it whenever a recalculation happens
+  // or every time the errors changes.
+  const [mclKey, setMclKey] = useState(Date.now());
+
   const showCallout = useShowCallout();
 
   const [isSortingDisabled, setIsSortingDisabled] = useState(false);
@@ -160,6 +165,17 @@ const BatchAllocationsForm = ({
     setIsSortingDisabled(dirty);
   }, [dirty]);
 
+  useEffect(() => {
+    const unsubscribe = engine.on(
+      EVENTS.ERROR,
+      () => setTimeout(() => setMclKey(Date.now())),
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [engine]);
+
   /* Handle recalculate required */
   useEffect(() => {
     const unsubscribe = engine.on(
@@ -199,10 +215,11 @@ const BatchAllocationsForm = ({
         );
       })
       .finally(async () => {
-        await engine.validateAll();
+        await engine.validate();
 
         setIsRecalculateRequired(false);
         setIsRecalculating(false);
+        setTimeout(() => setMclKey(Date.now()));
       });
   }, [engine, recalculate, showCallout]);
 
@@ -283,6 +300,7 @@ const BatchAllocationsForm = ({
             >
               {({ fields }) => (
                 <BatchAllocationList
+                  mclKey={mclKey}
                   fields={fields}
                   fiscalYear={fiscalYear}
                   isLoading={isLoading || isRecalculating}

@@ -41,11 +41,11 @@ export const BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES = {
 export const BATCH_ALLOCATION_FORM_SPECIAL_FIELDS = {
   calculatedFinanceData: 'calculatedFinanceData',
   fyFinanceData: 'fyFinanceData',
+  index: 'index',
   invalidFunds: 'invalidFunds',
   recalculateErrors: 'recalculateErrors',
   rowIndex: 'rowIndex',
   _isMissed: '_isMissed',
-  _isRecalculating: '_isRecalculating',
 };
 
 export const BATCH_ALLOCATION_LOG_STATUSES = {

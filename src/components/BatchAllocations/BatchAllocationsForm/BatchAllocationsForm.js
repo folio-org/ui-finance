@@ -1,14 +1,14 @@
-import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import {
+  startTransition,
   useState,
   useCallback,
   useEffect,
   useRef,
 } from 'react';
-import { FormSpy } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -23,8 +23,14 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import stripesFinalForm from '@folio/stripes/final-form';
 import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  EVENTS,
+  FieldArray,
+  FIELD_EVENT_PREFIXES,
+  useFormEngine,
+  useFormState,
+} from '@folio/stripes-acq-components/experimental';
 
 import { BUDGET_STATUSES } from '../../Budget/constants';
 import {
@@ -38,21 +44,26 @@ import {
   normalizeFinanceFormData,
 } from './utils';
 
+import css from './BatchAllocationsForm.css';
+
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA_FIELD,
   fyFinanceData: FY_FINANCE_DATA_FIELD,
   invalidFunds: INVALID_FUNDS_FIELD,
   recalculateErrors: RECALCULATE_ERRORS_FIELD,
-  _isRecalculating: IS_RECALCULATING_FIELD,
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
 
+/* Subscribe on form changes and set budget status */
 const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values }) => {
-  const currentFiscalYear = currentFiscalYears.find(({ series }) => series === fiscalYear.series);
+  startTransition(() => {
+    const currentFiscalYear = currentFiscalYears.find(({ series }) => series === fiscalYear.series);
 
-  form.batch(() => {
-    values[FY_FINANCE_DATA_FIELD]?.forEach((item, index) => {
+    const updates = [];
+    const items = values[FY_FINANCE_DATA_FIELD] || [];
+
+    for (const [index, item] of items.entries()) {
       const shouldSetStatus = (
         !item.budgetId
         && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
@@ -66,9 +77,16 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
           ? BUDGET_STATUSES.PLANNED
           : BUDGET_STATUSES.ACTIVE;
 
-        form.change(`${FY_FINANCE_DATA_FIELD}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`, status);
+        updates.push({
+          path: `${FY_FINANCE_DATA_FIELD}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`,
+          value: status,
+        });
       }
-    });
+    }
+
+    if (updates.length > 0) {
+      form.setMany(updates, { silent: true });
+    }
   });
 };
 
@@ -77,12 +95,10 @@ const BatchAllocationsForm = ({
   currentFiscalYears,
   fiscalYear,
   flowType,
-  form,
-  handleSubmit,
   headline,
   initialValues,
   isLoading,
-  isRecalculateDisabled,
+  isRecalculateDisabled: isRecalculateDisabledProp,
   isSubmitDisabled: isSubmitDisabledProp,
   onCancel,
   paneSub,
@@ -92,71 +108,103 @@ const BatchAllocationsForm = ({
   sortingField,
   sortingDirection,
 }) => {
+  const showCallout = useShowCallout();
+
   const [isSortingDisabled, setIsSortingDisabled] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [isRecalculateRequired, setIsRecalculateRequired] = useState(true);
-  const previousFormValues = useRef({});
 
-  const {
-    invalid,
-    submitting,
-  } = form.getState();
+  /* Keep the latest value of isRecalculateRequired for the recalculate check */
+  const isRecalculateRequiredRef = useRef(isRecalculateRequired);
+
+  isRecalculateRequiredRef.current = isRecalculateRequired;
+
+  const engine = useFormEngine();
+  const { values } = useFormState({ values: true });
+  const { dirty } = useFormState({ dirty: true });
+  const { submitting, valid } = useFormState({
+    valid: true,
+    submitting: true,
+  });
 
   const isSubmitDisabled = (
     isSubmitDisabledProp
-    || form.getState()?.values?.[CALCULATED_FINANCE_DATA_FIELD] === null
+    || get(values, CALCULATED_FINANCE_DATA_FIELD) === null
     || isRecalculateRequired
-    || invalid
-    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && form.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
+    || !valid
+    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && engine.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
     || submitting
+    || isLoading
   );
 
+  const isRecalculateDisabled = (
+    isRecalculateDisabledProp
+    || submitting
+    || !isRecalculateRequired
+    || isLoading
+  );
+
+  /* Subscribe on form changes to set budget status */
   useEffect(() => {
-    const subscriber = formValuesSubscriber(form, fiscalYear, currentFiscalYears);
-    const unsubscribe = form.subscribe(subscriber, { values: true });
+    const subscriber = formValuesSubscriber(engine, fiscalYear, currentFiscalYears);
+    const fn = debounce(() => subscriber({ values: engine.getFormState().values }), 200);
+    const unsubscribe = engine.on(EVENTS.CHANGE, fn);
 
     return () => {
       unsubscribe();
     };
-  }, [currentFiscalYears, fiscalYear, form]);
+  }, [currentFiscalYears, engine, fiscalYear]);
 
-  const showCallout = useShowCallout();
+  /* Set sorting disabled state */
+  useEffect(() => {
+    setIsSortingDisabled(dirty);
+  }, [dirty]);
+
+  /* Handle recalculate required */
+  useEffect(() => {
+    const unsubscribe = engine.on(
+      `${FIELD_EVENT_PREFIXES.CHANGE}${FY_FINANCE_DATA_FIELD}`,
+      () => {
+        if (!isRecalculateRequiredRef.current) {
+          setIsRecalculateRequired(true);
+        }
+      },
+      null,
+      { bubble: true },
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [engine]);
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
-
-  const onSaveAndClose = useCallback((e) => {
-    form.change(IS_RECALCULATING_FIELD, false);
-    handleSubmit(e);
-  }, [form, handleSubmit]);
 
   const onRecalculate = useCallback(async () => {
     setIsRecalculating(true);
 
-    const { [FY_FINANCE_DATA_FIELD]: fyFinanceData } = form.getState().values;
+    const { [FY_FINANCE_DATA_FIELD]: fyFinanceData } = engine.getFormState().values;
 
-    form.change(RECALCULATE_ERRORS_FIELD, undefined);
+    engine.set(RECALCULATE_ERRORS_FIELD, undefined, { silent: true });
 
     await recalculate({ fyFinanceData: normalizeFinanceFormData(fyFinanceData) })
       .then((res) => {
-        form.change(CALCULATED_FINANCE_DATA_FIELD, res.fyFinanceData);
+        engine.set(CALCULATED_FINANCE_DATA_FIELD, res.fyFinanceData);
       })
       .catch(async (error) => {
-        form.change(
+        engine.set(
           RECALCULATE_ERRORS_FIELD,
           await handleRecalculateError(error, showCallout),
+          { silent: true },
         );
       })
-      .finally(() => {
+      .finally(async () => {
+        await engine.validate();
+
         setIsRecalculateRequired(false);
-
-        form.batch(() => {
-          form.change(IS_RECALCULATING_FIELD, true);
-          form.submit();
-        });
-
         setIsRecalculating(false);
       });
-  }, [form, recalculate, showCallout]);
+  }, [engine, recalculate, showCallout]);
 
   useEffect(() => {
     if (recalculateOnInit) {
@@ -164,32 +212,6 @@ const BatchAllocationsForm = ({
     }
     /* onRecalculate should be triggered automatically only one time on form init */
   }, [recalculateOnInit]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleFormSpyChange = useCallback(({
-    dirty,
-    initialValues: initVals,
-    values,
-  }) => {
-    setIsSortingDisabled(dirty);
-
-    /*
-      Workaround for react-final-form-arrays issue https://github.com/final-form/react-final-form-arrays/issues/37
-      The form should not be dirty after resetting fields to initial values
-    */
-    if (dirty && isEqual(values.fyFinanceData, initVals.fyFinanceData)) {
-      form.initialize(values);
-    }
-
-    if (
-      values
-      && values[FY_FINANCE_DATA_FIELD] !== previousFormValues.current[FY_FINANCE_DATA_FIELD]
-      && !isRecalculateRequired
-    ) {
-      previousFormValues.current = { ...values };
-
-      setIsRecalculateRequired(true);
-    }
-  }, [form, isRecalculateRequired]);
 
   const start = (
     <Row>
@@ -209,7 +231,7 @@ const BatchAllocationsForm = ({
       <Col xs>
         <Button
           buttonStyle="default mega"
-          disabled={isRecalculateDisabled || submitting}
+          disabled={isRecalculateDisabled}
           onClick={onRecalculate}
         >
           <FormattedMessage id="ui-finance.allocation.batch.form.footer.recalculate" />
@@ -235,17 +257,17 @@ const BatchAllocationsForm = ({
   );
 
   return (
-    <form onSubmit={onSaveAndClose}>
-      <Paneset isRoot>
-        <Pane
-          defaultWidth="fill"
-          dismissible
-          footer={paneFooter}
-          id="batch-allocation-form"
-          onClose={closeForm}
-          paneTitle={paneTitle}
-          paneSub={paneSub}
-        >
+    <Paneset isRoot>
+      <Pane
+        defaultWidth="fill"
+        dismissible
+        footer={paneFooter}
+        id="batch-allocation-form"
+        onClose={closeForm}
+        paneTitle={paneTitle}
+        paneSub={paneSub}
+      >
+        <div className={css['form-container']}>
           <Headline
             size="large"
             tag="h2"
@@ -254,27 +276,23 @@ const BatchAllocationsForm = ({
             {headline}
           </Headline>
 
-          <FormSpy
-            subscription={{
-              dirty: true,
-              initialValues: true,
-              values: true,
-            }}
-            onChange={handleFormSpyChange}
-          />
-
-          <FieldArray
-            id="batch-allocation-list"
-            name={FY_FINANCE_DATA_FIELD}
-            component={BatchAllocationList}
-            props={{
-              fiscalYear,
-              isLoading: isLoading || isRecalculating,
-              onHeaderClick: isSortingDisabled ? noop : changeSorting,
-              sortDirection: sortingDirection,
-              sortedColumn: sortingField,
-            }}
-          />
+          <div className={css['form-content']}>
+            <FieldArray
+              id="batch-allocation-list"
+              name={FY_FINANCE_DATA_FIELD}
+            >
+              {({ fields }) => (
+                <BatchAllocationList
+                  fields={fields}
+                  fiscalYear={fiscalYear}
+                  isLoading={isLoading || isRecalculating}
+                  onHeaderClick={isSortingDisabled ? noop : changeSorting}
+                  sortDirection={sortingDirection}
+                  sortedColumn={sortingField}
+                />
+              )}
+            </FieldArray>
+          </div>
 
           {
             Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
@@ -292,9 +310,9 @@ const BatchAllocationsForm = ({
               </Layout>
             )
           }
-        </Pane>
-      </Paneset>
-    </form>
+        </div>
+      </Pane>
+    </Paneset>
   );
 };
 
@@ -303,9 +321,7 @@ BatchAllocationsForm.propTypes = {
   currentFiscalYears: PropTypes.arrayOf(PropTypes.object),
   fiscalYear: PropTypes.object,
   flowType: PropTypes.string.isRequired,
-  form: PropTypes.object.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  headline: PropTypes.string,
+  headline: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   initialValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   isRecalculateDisabled: PropTypes.bool,
@@ -319,8 +335,4 @@ BatchAllocationsForm.propTypes = {
   sortingDirection: PropTypes.string.isRequired,
 };
 
-export default stripesFinalForm({
-  keepDirtyOnReinitialize: true,
-  navigationCheck: true,
-  validate: ({ recalculateErrors }) => recalculateErrors,
-})(BatchAllocationsForm);
+export default BatchAllocationsForm;

@@ -1,8 +1,10 @@
 import { useIntl } from 'react-intl';
 import { useMutation } from 'react-query';
-import moment from 'moment';
 
-import { exportToCsv } from '@folio/stripes/components';
+import {
+  dayjs,
+  exportToCsv,
+} from '@folio/stripes/components';
 import {
   useOkapiKy,
   useNamespace,
@@ -24,7 +26,7 @@ export const useUnpaidInvoicesExport = () => {
   const mutationFn = async ({ query }) => {
     const exportData = await getInvoiceExportData({ ky, intl, query, currency });
 
-    const filename = `unpaid-invoice-export-${moment().format('YYYY-MM-DD-hh:mm')}`;
+    const filename = `unpaid-invoice-export-${dayjs().format('YYYY-MM-DD-hh:mm')}`;
 
     exportToCsv(
       [{ ...EXPORT_INVOICE_FIELDS, ...EXPORT_INVOICE_LINE_FIELDS }, ...exportData],

@@ -1,3 +1,7 @@
-.tagsField input {
-  background-color: transparent;
+.tagsField {
+  flex: auto;
+
+  & input {
+    background-color: transparent;
+  }
 }

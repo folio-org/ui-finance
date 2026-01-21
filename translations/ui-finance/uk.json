@@ -533,7 +533,7 @@
     "batchAllocations.uploadWorksheet.validation.error.parseFailed": "Не вдалося обробити <code> {fileName} </code>. Будь ласка, завантажте останню робочу таблицю та надішліть її повторно на обробку.",
     "allocation.batch.logs.actions.delete": "Видалити вибрані логи",
     "allocation.batch.logs.actions.delete.fail": "Лог з ІД {id} не був видалений",
-    "allocation.batch.logs.actions.delete.success": "Логи успішно видалені",
+    "allocation.batch.logs.actions.delete.success": "Лог(и) успішно видалено",
     "allocation.batch.logs.columns.createdByUsername": "Запущено:",
     "allocation.batch.logs.columns.createdDate": "Виконання почалося",
     "allocation.batch.logs.columns.jobName": "Назва завдання",

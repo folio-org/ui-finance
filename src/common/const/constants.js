@@ -143,3 +143,8 @@ export const BATCH_ALLOCATION_ROUTES_DICT = {
 export const FILE_EXTENSIONS = {
   csv: 'csv',
 };
+
+export const ERROR_CODES = {
+  currentFiscalYearNotFound: 'currentFiscalYearNotFound',
+  plannedFiscalYearNotFound: 'plannedFiscalYearNotFound',
+};

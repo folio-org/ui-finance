@@ -1,0 +1,1 @@
+export { genericErrorStrategy } from './genericErrorStrategy';

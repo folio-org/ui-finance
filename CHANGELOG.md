@@ -21,6 +21,7 @@
 * React v19: Refactor away from default props for functional components. Refs UIF-523.
 * Replace the `moment` library with `dayjs`. Refs UIF-597.
 * Use optimized form manager implementation for the batch allocation form. Refs UIF-628.
+* Handle `currentFiscalYearNotFound` and `plannedFiscalYearNotFound` error codes. Refs UIF-645.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

@@ -1,5 +1,6 @@
 export * from './composeValidators';
 export * from './csvToJson';
+export * from './errorHandling';
 export * from './exportRolloverErrors';
 export * from './exportRolloverResult';
 export * from './fetchFinanceData';

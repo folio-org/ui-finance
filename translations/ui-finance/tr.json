@@ -351,7 +351,7 @@
     "fiscalYear.details.financialSummary": "Finansal özet",
     "ledger.rolloverErrors": "Devretme hata protokolü",
     "ledger.rolloverErrorsLabel": "Devretme hataları",
-    "ledger.rolloverInProgress.hasErrors": "<b>Devretme</b> için <b>{ledgerName}</b> hata üretti: ",
+    "ledger.rolloverInProgress.hasErrors": "<b>Devretme</b> için <b>{ledgerName}</b> hata üretti:",
     "ledger.rollover.confirm.heading": "Mali yıl devretme",
     "ledger.rollover.confirm.message": "Defter <b>{ledgerName}</b> için <b>{currentFYCode}</b> <b>'ye devredilecektir.{chosenFYCode}</b>. Lütfen gerekli ayrıntıları tamamladığınızı ve Devretme işlemine devam etmeye hazır olduğunuzu onaylayın. Bu işlemin tamamlanması birkaç dakika sürebilir ve geri alınamaz.",
     "ledger.rollover.confirm.btn": "Onaylayın",

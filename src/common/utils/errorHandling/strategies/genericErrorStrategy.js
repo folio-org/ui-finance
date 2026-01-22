@@ -8,7 +8,8 @@ export const genericErrorStrategy = ({
   intl,
 }) => {
   const handle = (errorsContainer) => {
-    const responseErrorCode = errorsContainer.getError().code;
+    const responseError = errorsContainer.getError();
+    const responseErrorCode = responseError.code;
 
     /*
       In case of generic error code, we use `defaultErrorCode` to show more specific message.
@@ -20,6 +21,7 @@ export const genericErrorStrategy = ({
     const defaultMessage = (
       defaultMessageProp
       || (defaultMessageId && intl.formatMessage({ id: defaultMessageId }))
+      || responseError.message
       || intl.formatMessage({ id: `ui-finance.errors.${defaultErrorCode}` }) // Should be used if specific error message is not defined
     );
 

@@ -8,7 +8,6 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-
 import { LEDGERS_ROUTE } from '../../common/const';
 import {
   useLedger,
@@ -29,6 +28,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   useAcqRestrictions: jest.fn(() => ({ restrictions: {} })),
 }));
 jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
   useLedger: jest.fn(),
   useLedgerCurrentFiscalYear: jest.fn(),
   useLedgerFunds: jest.fn(),
@@ -139,17 +139,17 @@ describe('LedgerDetailsContainer', () => {
 
       await act(async () => {
         await userEvent.click(screen.getByTestId('details-edit-action'));
-      })
+      });
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/edit`);
     });
 
     it('should navigate to rollover', async () => {
-      renderLedgerDetailsContainer()
+      renderLedgerDetailsContainer();
 
       await act(async () => {
         await userEvent.click(screen.getByTestId('action-rollover'));
-      })
+      });
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/rollover`);
     });
@@ -159,7 +159,7 @@ describe('LedgerDetailsContainer', () => {
 
       await act(async () => {
         await userEvent.click(screen.getByTestId('action-rollover-logs'));
-      })
+      });
 
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(`${LEDGERS_ROUTE}/${defaultProps.match.params.id}/rollover-logs`);
     });

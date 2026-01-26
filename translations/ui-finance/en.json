@@ -15,6 +15,9 @@
 
   "errors.load.code": "Error code fetching",
   "errors.load.name": "Error name fetching",
+  "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+  "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+  "errors.genericError": "Something went wrong.",
 
   "exportCSV.exportSettings.heading": "Export settings",
   "exportCSV.exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with finance records in a different browser tab if needed.",

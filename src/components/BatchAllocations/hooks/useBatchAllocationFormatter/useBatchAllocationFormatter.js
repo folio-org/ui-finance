@@ -8,6 +8,7 @@ import {
 import {
   Col,
   Icon,
+  Loading,
   NoValue,
   Row,
   Select,
@@ -256,6 +257,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
   const {
     configs,
     isFetched,
+    isFetching: isTagsConfigFetching,
   } = useTagsConfigs();
 
   const tagsEnabled = isFetched && (!configs.length || configs[0].value === 'true');
@@ -367,6 +369,9 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
         );
       },
       [BATCH_ALLOCATION_FIELDS.transactionTag]: (field) => {
+        if (isTagsConfigFetching) return <Loading />;
+        if (!tagsEnabled) return null;
+
         return (
           <BatchAllocationFieldTags
             allTags={allTags}
@@ -374,7 +379,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
             onAdd={onAdd}
             engine={engine}
             isLoading={isMutating || isTagsFetching}
-            field={field}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.transactionTag}.tagList`}
           />
         );
       },
@@ -388,9 +393,11 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
     fundStatusOptions,
     intl,
     isMutating,
+    isTagsConfigFetching,
     isTagsFetching,
     isLoading,
     onAdd,
+    tagsEnabled,
   ]);
 
   return formatter;

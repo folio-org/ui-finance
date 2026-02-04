@@ -43,6 +43,8 @@ import {
   validateNumericValue,
 } from './validators';
 
+const EMPTY_OPTION = { labelId: 'stripes-acq-components.label.emptyValue', value: '' };
+
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA,
   fyFinanceData: FINANCE_DATA,
@@ -246,8 +248,12 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
 
   const calculatedFinanceData = useWatch(CALCULATED_FINANCE_DATA);
 
-  const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
-  const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
+  const fundStatusOptions = useMemo(() => {
+    return getFormattedOptions(intl, [EMPTY_OPTION, ...FUND_STATUSES_OPTIONS]);
+  }, [intl]);
+  const budgetStatusOptions = useMemo(() => {
+    return getFormattedOptions(intl, [EMPTY_OPTION, ...BUDGET_STATUSES_OPTIONS]);
+  }, [intl]);
 
   const {
     createTag,
@@ -260,7 +266,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
     isFetching: isTagsConfigFetching,
   } = useTagsConfigs();
 
-  const tagsEnabled = isFetched && (!configs.length || configs[0].value === 'true');
+  const tagsEnabled = isFetched && (!configs.length || configs[0].value === true);
 
   const {
     isFetching: isTagsFetching,

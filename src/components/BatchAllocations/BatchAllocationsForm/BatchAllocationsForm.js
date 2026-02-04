@@ -121,18 +121,19 @@ const BatchAllocationsForm = ({
 
   const engine = useFormEngine();
   const { values } = useFormState({ values: true });
-  const { dirty } = useFormState({ dirty: true });
   const { submitting, valid } = useFormState({
     valid: true,
     submitting: true,
   });
+
+  const fyFinanceDataFieldState = engine.getFieldState(FY_FINANCE_DATA_FIELD);
 
   const isSubmitDisabled = (
     isSubmitDisabledProp
     || get(values, CALCULATED_FINANCE_DATA_FIELD) === null
     || isRecalculateRequired
     || !valid
-    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && engine.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
+    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && fyFinanceDataFieldState?.pristine)
     || submitting
     || isLoading
   );
@@ -157,8 +158,8 @@ const BatchAllocationsForm = ({
 
   /* Set sorting disabled state */
   useEffect(() => {
-    setIsSortingDisabled(dirty);
-  }, [dirty]);
+    setIsSortingDisabled(fyFinanceDataFieldState?.dirty);
+  }, [fyFinanceDataFieldState?.dirty]);
 
   /* Handle recalculate required */
   useEffect(() => {
@@ -286,7 +287,7 @@ const BatchAllocationsForm = ({
                   fields={fields}
                   fiscalYear={fiscalYear}
                   isLoading={isLoading || isRecalculating}
-                  onHeaderClick={isSortingDisabled ? noop : changeSorting}
+                  onHeaderClick={(isSortingDisabled || isRecalculating) ? noop : changeSorting}
                   sortDirection={sortingDirection}
                   sortedColumn={sortingField}
                 />

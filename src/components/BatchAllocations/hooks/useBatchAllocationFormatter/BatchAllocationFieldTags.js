@@ -12,11 +12,7 @@ import { MultiSelection } from '@folio/stripes/components';
 import { filterArrayValues } from '@folio/stripes-acq-components';
 import { Field } from '@folio/stripes-acq-components/experimental';
 
-import { FINANCE_DATA_API } from '../../../../common/const';
-import {
-  BATCH_ALLOCATION_FIELDS,
-  BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
-} from '../../constants';
+import { BATCH_ALLOCATION_FIELDS } from '../../constants';
 
 import css from './styles.css';
 
@@ -112,7 +108,6 @@ FieldTagsComponent.propTypes = {
 export const BatchAllocationFieldTags = ({
   engine,
   isLoading,
-  field,
   ...props
 }) => {
   return (
@@ -125,7 +120,6 @@ export const BatchAllocationFieldTags = ({
         isLoading={isLoading}
         labelless
         marginBottom0
-        name={`${FINANCE_DATA_API}[${field[BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.index]}].${BATCH_ALLOCATION_FIELDS.transactionTag}.tagList`}
         {...props}
       />
     </div>
@@ -136,7 +130,6 @@ BatchAllocationFieldTags.propTypes = {
   allTags: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool,
   engine: PropTypes.object.isRequired,
-  field: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   onAdd: PropTypes.func.isRequired,
 };

@@ -85,7 +85,7 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
     }
 
     if (updates.length > 0) {
-      form.setMany(updates, { silent: true });
+      form.setMany(updates);
     }
   });
 };

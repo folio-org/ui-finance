@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} kon niet worden overgeschreven naar het Budget <b>.{toBudgetName}</b> omdat het de toegestane uitgavenlimiet voor <b> overschrijdt{fromBudgetName}</b> en Beperkingen op Grootboekfondsen zijn actief.",
     "transaction.allocation.move.hasBeenCreated": "{amount} is succesvol toegewezen aan het budget <b>.{budgetName}</b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "Geen sleutel Vereist",
-    "settings.exchangeRateSource.providerType.keyRequired": "Vereiste sleutel"
+    "settings.exchangeRateSource.providerType.keyRequired": "Vereiste sleutel",
+    "errors.currentFiscalYearNotFound": "Geen Huidige Boekjaar gevonden.",
+    "errors.plannedFiscalYearNotFound": "Geen gepland Boekjaar gevonden.",
+    "errors.genericError": "Er ging iets mis."
 }

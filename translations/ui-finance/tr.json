@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} bütçeye aktarılamadı <b>{toBudgetName}<b> için izin verilen harcama limitini aştığı için </b>{fromBudgetName}</b> ve Defter fon kısıtlamaları aktiftir.",
     "transaction.allocation.move.hasBeenCreated": "{amount} bütçeye başarıyla tahsis edildi <b>{budgetName}</b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "Anahtar gerekli değil",
-    "settings.exchangeRateSource.providerType.keyRequired": "Anahtar gerekli"
+    "settings.exchangeRateSource.providerType.keyRequired": "Anahtar gerekli",
+    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+    "errors.genericError": "Something went wrong."
 }

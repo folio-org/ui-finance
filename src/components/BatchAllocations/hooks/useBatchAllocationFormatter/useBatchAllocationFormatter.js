@@ -25,6 +25,7 @@ import {
   Field,
   useFormEngine,
   useWatch,
+  VALIDATION_MODES,
 } from '@folio/stripes-acq-components/experimental';
 
 import { composeValidators } from '../../../../common/utils';
@@ -107,6 +108,7 @@ const BudgetAllocationChangeCell = memo(({ isLoading, intl, name }) => (
     validate={composeValidators(
       validateNumericValue(intl),
     )}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -127,6 +129,7 @@ const BudgetAfterAllocationCell = memo(({ intl, calculatedName, index }) => (
     name={calculatedName}
     type="number"
     validate={validateAllocationAfterField(intl, index)}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -151,6 +154,7 @@ const BudgetAllowableEncumbranceCell = memo(({ isLoading, intl, name }) => (
       validateNumericValue(intl),
       validateNotNegative(intl),
     )}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -175,6 +179,7 @@ const BudgetAllowableExpenditureCell = memo(({ isLoading, intl, name }) => (
       validateNumericValue(intl),
       validateNotNegative(intl),
     )}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 

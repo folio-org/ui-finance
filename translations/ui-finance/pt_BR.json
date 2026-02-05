@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} não pôde ser transferido para o orçamento <b>{toBudgetName}</b> porque excede o limite de despesa permitido para <b>{fromBudgetName}</b> e as restrições de fundos contábeis estão ativas.",
     "transaction.allocation.move.hasBeenCreated": "{amount} foi alocado com sucesso no orçamento <b>{budgetName} </b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "Não é necessária chave",
-    "settings.exchangeRateSource.providerType.keyRequired": "Chave necessária"
+    "settings.exchangeRateSource.providerType.keyRequired": "Chave necessária",
+    "errors.currentFiscalYearNotFound": "Nenhum ano fiscal atual encontrado.",
+    "errors.plannedFiscalYearNotFound": "Nenhum ano fiscal planejado foi encontrado.",
+    "errors.genericError": "Algo deu errado."
 }

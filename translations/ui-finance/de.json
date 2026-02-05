@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
     "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
-    "settings.exchangeRateSource.providerType.keyRequired": "Key required"
+    "settings.exchangeRateSource.providerType.keyRequired": "Key required",
+    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+    "errors.genericError": "Something went wrong."
 }

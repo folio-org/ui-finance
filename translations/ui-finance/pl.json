@@ -489,7 +489,7 @@
     "ledger.rollover.restrictEncumbranceDuringRollover": "Enforce all budget encumbrance limits during rollover",
     "financialSummary.credited": "Zaksięgowane na plus",
     "transaction.filter.encumbranceStatus": "Status rezerwacji środków",
-    "transaction.allocation.budgetRestrictedExpendituresError": "{amount} was not successfully allocated to the budget <b>{toBudgetName}</b> because it exceeds the total allocation amount of <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
+    "transaction.allocation.budgetRestrictedExpendituresError": "{amount} nie została pomyślnie przydzielona do budżetu <b>{toBudgetName}</b>, ponieważ przekracza całkowitą kwotę przydziału <b>{fromBudgetName}</b> i aktywne są ograniczenia funduszu rejestru.",
     "permission.encumbrance.unrelease.execute": "Finanse: Cofnij zwolnienie rezerwacji środków",
     "permission.fund-budget.recalculate-totals.execute": "Finanse: przeliczanie wartości budżetu",
     "permission.ledger.rollover.execute": "Finanse: wykonywanie przeniesienia roku podatkowego",
@@ -535,12 +535,12 @@
     "allocation.batch.logs.actions.delete.fail": "Dziennik o identyfikatorze {id} nie został usunięty",
     "allocation.batch.logs.actions.delete.success": "Pomyślnie usunięto dziennik(i)",
     "allocation.batch.logs.columns.createdByUsername": "Uruchomiony przez",
-    "allocation.batch.logs.columns.createdDate": "Data i godzina rozpoczęcia importu",
+    "allocation.batch.logs.columns.createdDate": "Data i godzina rozpoczęcia",
     "allocation.batch.logs.columns.jobName": "Nazwa zadania",
     "allocation.batch.logs.columns.jobNumber": "Identyfikator",
     "allocation.batch.logs.columns.recordsCount": "Zaktualizowane rekordy",
     "allocation.batch.logs.columns.status": "Status",
-    "allocation.batch.logs.columns.updatedDate": "Zakończono działanie",
+    "allocation.batch.logs.columns.updatedDate": "Data i godzina zakończenia",
     "allocation.batch.logs.modal.delete.title": "Usuń dziennik",
     "allocation.batch.logs.modal.delete.description": "Ta akcja spowoduje trwałe usunięcie wybranych dzienników. Czy chcesz kontynuować?",
     "allocation.batch.logs.title": "Dzienniki",
@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} could not be transferred to the budget <b>{toBudgetName}</b> because it exceeds the allowable expenditure limit for <b>{fromBudgetName}</b> and ledger fund restrictions are active.",
     "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
-    "settings.exchangeRateSource.providerType.keyRequired": "Key required"
+    "settings.exchangeRateSource.providerType.keyRequired": "Key required",
+    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+    "errors.genericError": "Something went wrong."
 }

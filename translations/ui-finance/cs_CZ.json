@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} nelze převést do rozpočtu <b>{toBudgetName}</b>, protože překračuje povolený limit výdajů pro <b>{fromBudgetName}</b> a jsou aktivní omezení fondu účetní knihy.",
     "transaction.allocation.move.hasBeenCreated": "{amount} bylo úspěšně přiděleno do rozpočtu <b>{budgetName} </b> .",
     "settings.exchangeRateSource.providerType.noKeyRequired": "Není vyžadován žádný klíč",
-    "settings.exchangeRateSource.providerType.keyRequired": "Vyžadován klíč"
+    "settings.exchangeRateSource.providerType.keyRequired": "Vyžadován klíč",
+    "errors.currentFiscalYearNotFound": "Nebyl nalezen žádný aktuální fiskální rok.",
+    "errors.plannedFiscalYearNotFound": "Nebyl nalezen žádný plánovaný fiskální rok.",
+    "errors.genericError": "Něco se pokazilo."
 }

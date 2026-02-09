@@ -113,6 +113,7 @@ const BatchAllocationsForm = ({
   paneTitle,
   recalculate,
   recalculateOnInit = false,
+  setIsNavigationCheckEnabled,
   sortingField,
   sortingDirection,
 }) => {
@@ -144,6 +145,7 @@ const BatchAllocationsForm = ({
     || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && fyFinanceDataFieldState?.pristine)
     || submitting
     || isLoading
+    || isRecalculating
   );
 
   const isRecalculateDisabled = (
@@ -151,7 +153,17 @@ const BatchAllocationsForm = ({
     || submitting
     || !isRecalculateRequired
     || isLoading
+    || isRecalculating
   );
+
+  /*
+    Usually navigation checks whole form dirty state,
+    but in this case we need to trigger it only when finance data is changed,
+    so we are checking it manually and enabling navigation check when finance data is dirty
+  */
+  useEffect(() => {
+    setIsNavigationCheckEnabled(fyFinanceDataFieldState?.dirty);
+  }, [fyFinanceDataFieldState?.dirty, setIsNavigationCheckEnabled]);
 
   /* Subscribe on form changes to set budget status */
   useEffect(() => {
@@ -343,6 +355,7 @@ BatchAllocationsForm.propTypes = {
   paneTitle: PropTypes.string.isRequired,
   recalculate: PropTypes.func.isRequired,
   recalculateOnInit: PropTypes.bool,
+  setIsNavigationCheckEnabled: PropTypes.func.isRequired,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
 };

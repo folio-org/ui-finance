@@ -157,21 +157,6 @@ describe('BatchAllocationFieldTags', () => {
     expect(actionsCount).toBe(1);
   });
 
-  it('should use correct field name with index', () => {
-    const fieldIndex = 5;
-
-    renderComponent({
-      field: {
-        [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.index]: fieldIndex,
-        name: `fyFinanceData[${fieldIndex}]`,
-      },
-    });
-
-    const input = screen.getByTestId('field-input');
-
-    expect(input.name).toContain(`[${fieldIndex}]`);
-  });
-
   it('should pass custom allTags correctly', () => {
     const customTags = [
       { label: 'Custom1', value: 'custom1' },

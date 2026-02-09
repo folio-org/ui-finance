@@ -17,6 +17,7 @@ import {
   Headline,
   Layout,
   List,
+  Loading,
   MessageBanner,
   Pane,
   PaneFooter,
@@ -45,6 +46,12 @@ import {
 } from './utils';
 
 import css from './BatchAllocationsForm.css';
+
+const actionLoadingIndicator = (
+  <Layout className="margin-start-gutter">
+    <Loading />
+  </Layout>
+);
 
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA_FIELD,
@@ -97,6 +104,7 @@ const BatchAllocationsForm = ({
   flowType,
   headline,
   initialValues,
+  isBatchAllocationHandling,
   isLoading,
   isRecalculateDisabled: isRecalculateDisabledProp,
   isSubmitDisabled: isSubmitDisabledProp,
@@ -236,6 +244,7 @@ const BatchAllocationsForm = ({
           onClick={onRecalculate}
         >
           <FormattedMessage id="ui-finance.allocation.batch.form.footer.recalculate" />
+          {isRecalculating && actionLoadingIndicator}
         </Button>
       </Col>
       <Col xs>
@@ -245,6 +254,7 @@ const BatchAllocationsForm = ({
           type="submit"
         >
           <FormattedMessage id="stripes-components.saveAndClose" />
+          {isBatchAllocationHandling && actionLoadingIndicator}
         </Button>
       </Col>
     </Row>
@@ -293,24 +303,24 @@ const BatchAllocationsForm = ({
                 />
               )}
             </FieldArray>
-          </div>
 
-          {
-            Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
-              <Layout className="marginTop1">
-                <MessageBanner type="error">
-                  <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
-                </MessageBanner>
-                <Layout className="marginTopHalf">
-                  <List
-                    items={initialValues[INVALID_FUNDS_FIELD]}
-                    itemFormatter={formatInvalidFundsListItem}
-                    listStyle="bullets"
-                  />
-                </Layout>
-              </Layout>
-            )
-          }
+            {
+              Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
+                <>
+                  <MessageBanner type="error">
+                    <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
+                  </MessageBanner>
+                  <Layout className="marginTopHalf">
+                    <List
+                      items={initialValues[INVALID_FUNDS_FIELD]}
+                      itemFormatter={formatInvalidFundsListItem}
+                      listStyle="bullets"
+                    />
+                  </Layout>
+                </>
+              )
+            }
+          </div>
         </div>
       </Pane>
     </Paneset>
@@ -324,6 +334,7 @@ BatchAllocationsForm.propTypes = {
   flowType: PropTypes.string.isRequired,
   headline: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   initialValues: PropTypes.object.isRequired,
+  isBatchAllocationHandling: PropTypes.bool,
   isLoading: PropTypes.bool,
   isRecalculateDisabled: PropTypes.bool,
   isSubmitDisabled: PropTypes.bool,

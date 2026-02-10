@@ -168,6 +168,7 @@ export const CreateBatchAllocations = () => {
         fiscalYear={fiscalYear}
         headline={<FormattedMessage id="ui-finance.allocation.batch.form.title.edit" />}
         initialValues={initialValues}
+        isBatchAllocationHandling={isBatchAllocationHandling}
         isLoading={isFetching || isBatchAllocationHandling}
         isRecalculateDisabled={isBatchAllocationHandling}
         isSubmitDisabled={isBatchAllocationHandling}

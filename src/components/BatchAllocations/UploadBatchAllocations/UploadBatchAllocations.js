@@ -194,6 +194,7 @@ export const UploadBatchAllocations = () => {
         fiscalYear={fiscalYear}
         headline={fileData?.fileName}
         initialValues={initialValues}
+        isBatchAllocationHandling={isBatchAllocationHandling}
         isLoading={isFetching || isBatchAllocationHandling}
         isRecalculateDisabled={isBatchAllocationHandling}
         isSubmitDisabled={isBatchAllocationHandling}

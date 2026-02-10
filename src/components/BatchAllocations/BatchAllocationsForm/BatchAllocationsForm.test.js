@@ -44,6 +44,7 @@ const defaultProps = {
   paneTitle: 'FY2025',
   recalculate: jest.fn(() => Promise.resolve({ fyFinanceData: [] })),
   recalculateOnInit: false,
+  setIsNavigationCheckEnabled: jest.fn(),
   sortingField: 'fundName',
   sortingDirection: 'asc',
 };

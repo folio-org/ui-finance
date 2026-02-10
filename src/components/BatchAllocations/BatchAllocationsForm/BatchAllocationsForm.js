@@ -17,6 +17,7 @@ import {
   Headline,
   Layout,
   List,
+  Loading,
   MessageBanner,
   Pane,
   PaneFooter,
@@ -45,6 +46,12 @@ import {
 } from './utils';
 
 import css from './BatchAllocationsForm.css';
+
+const actionLoadingIndicator = (
+  <Layout className="margin-start-gutter">
+    <Loading />
+  </Layout>
+);
 
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA_FIELD,
@@ -85,7 +92,7 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
     }
 
     if (updates.length > 0) {
-      form.setMany(updates, { silent: true });
+      form.setMany(updates);
     }
   });
 };
@@ -97,6 +104,7 @@ const BatchAllocationsForm = ({
   flowType,
   headline,
   initialValues,
+  isBatchAllocationHandling,
   isLoading,
   isRecalculateDisabled: isRecalculateDisabledProp,
   isSubmitDisabled: isSubmitDisabledProp,
@@ -105,6 +113,7 @@ const BatchAllocationsForm = ({
   paneTitle,
   recalculate,
   recalculateOnInit = false,
+  setIsNavigationCheckEnabled,
   sortingField,
   sortingDirection,
 }) => {
@@ -121,20 +130,22 @@ const BatchAllocationsForm = ({
 
   const engine = useFormEngine();
   const { values } = useFormState({ values: true });
-  const { dirty } = useFormState({ dirty: true });
   const { submitting, valid } = useFormState({
     valid: true,
     submitting: true,
   });
+
+  const fyFinanceDataFieldState = engine.getFieldState(FY_FINANCE_DATA_FIELD);
 
   const isSubmitDisabled = (
     isSubmitDisabledProp
     || get(values, CALCULATED_FINANCE_DATA_FIELD) === null
     || isRecalculateRequired
     || !valid
-    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && engine.getFieldState(FY_FINANCE_DATA_FIELD)?.pristine)
+    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && fyFinanceDataFieldState?.pristine)
     || submitting
     || isLoading
+    || isRecalculating
   );
 
   const isRecalculateDisabled = (
@@ -142,7 +153,17 @@ const BatchAllocationsForm = ({
     || submitting
     || !isRecalculateRequired
     || isLoading
+    || isRecalculating
   );
+
+  /*
+    Usually navigation checks whole form dirty state,
+    but in this case we need to trigger it only when finance data is changed,
+    so we are checking it manually and enabling navigation check when finance data is dirty
+  */
+  useEffect(() => {
+    setIsNavigationCheckEnabled(fyFinanceDataFieldState?.dirty);
+  }, [fyFinanceDataFieldState?.dirty, setIsNavigationCheckEnabled]);
 
   /* Subscribe on form changes to set budget status */
   useEffect(() => {
@@ -157,8 +178,8 @@ const BatchAllocationsForm = ({
 
   /* Set sorting disabled state */
   useEffect(() => {
-    setIsSortingDisabled(dirty);
-  }, [dirty]);
+    setIsSortingDisabled(fyFinanceDataFieldState?.dirty);
+  }, [fyFinanceDataFieldState?.dirty]);
 
   /* Handle recalculate required */
   useEffect(() => {
@@ -235,6 +256,7 @@ const BatchAllocationsForm = ({
           onClick={onRecalculate}
         >
           <FormattedMessage id="ui-finance.allocation.batch.form.footer.recalculate" />
+          {isRecalculating && actionLoadingIndicator}
         </Button>
       </Col>
       <Col xs>
@@ -244,6 +266,7 @@ const BatchAllocationsForm = ({
           type="submit"
         >
           <FormattedMessage id="stripes-components.saveAndClose" />
+          {isBatchAllocationHandling && actionLoadingIndicator}
         </Button>
       </Col>
     </Row>
@@ -286,30 +309,30 @@ const BatchAllocationsForm = ({
                   fields={fields}
                   fiscalYear={fiscalYear}
                   isLoading={isLoading || isRecalculating}
-                  onHeaderClick={isSortingDisabled ? noop : changeSorting}
+                  onHeaderClick={(isSortingDisabled || isRecalculating) ? noop : changeSorting}
                   sortDirection={sortingDirection}
                   sortedColumn={sortingField}
                 />
               )}
             </FieldArray>
-          </div>
 
-          {
-            Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
-              <Layout className="marginTop1">
-                <MessageBanner type="error">
-                  <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
-                </MessageBanner>
-                <Layout className="marginTopHalf">
-                  <List
-                    items={initialValues[INVALID_FUNDS_FIELD]}
-                    itemFormatter={formatInvalidFundsListItem}
-                    listStyle="bullets"
-                  />
-                </Layout>
-              </Layout>
-            )
-          }
+            {
+              Boolean(initialValues[INVALID_FUNDS_FIELD]?.length) && (
+                <>
+                  <MessageBanner type="error">
+                    <FormattedMessage id="ui-finance.allocation.batch.form.validation.error.invalidFunds" />
+                  </MessageBanner>
+                  <Layout className="marginTopHalf">
+                    <List
+                      items={initialValues[INVALID_FUNDS_FIELD]}
+                      itemFormatter={formatInvalidFundsListItem}
+                      listStyle="bullets"
+                    />
+                  </Layout>
+                </>
+              )
+            }
+          </div>
         </div>
       </Pane>
     </Paneset>
@@ -323,6 +346,7 @@ BatchAllocationsForm.propTypes = {
   flowType: PropTypes.string.isRequired,
   headline: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   initialValues: PropTypes.object.isRequired,
+  isBatchAllocationHandling: PropTypes.bool,
   isLoading: PropTypes.bool,
   isRecalculateDisabled: PropTypes.bool,
   isSubmitDisabled: PropTypes.bool,
@@ -331,6 +355,7 @@ BatchAllocationsForm.propTypes = {
   paneTitle: PropTypes.string.isRequired,
   recalculate: PropTypes.func.isRequired,
   recalculateOnInit: PropTypes.bool,
+  setIsNavigationCheckEnabled: PropTypes.func.isRequired,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
 };

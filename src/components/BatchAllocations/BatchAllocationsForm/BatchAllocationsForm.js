@@ -42,6 +42,7 @@ import {
 import { BatchAllocationList } from './BatchAllocationList';
 import {
   handleRecalculateError,
+  isBudgetStatusShouldBeSet,
   normalizeFinanceFormData,
 } from './utils';
 
@@ -71,13 +72,7 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
     const items = values[FY_FINANCE_DATA_FIELD] || [];
 
     for (const [index, item] of items.entries()) {
-      const shouldSetStatus = (
-        !item.budgetId
-        && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
-        && !item[BATCH_ALLOCATION_FIELDS.budgetStatus]
-        && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]
-        && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
-      );
+      const shouldSetStatus = isBudgetStatusShouldBeSet(item);
 
       if (shouldSetStatus) {
         const status = new Date(fiscalYear?.periodStart) > new Date(currentFiscalYear?.periodStart)

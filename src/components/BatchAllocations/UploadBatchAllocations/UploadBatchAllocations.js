@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import {
@@ -88,6 +89,9 @@ export const UploadBatchAllocations = () => {
     { keepPreviousData: true },
   );
 
+  // Force finance data reload on upload batch allocation form open
+  const queryKey = useRef(Date.now()).current;
+
   const {
     budgetsFunds: financeData,
     isFetching: isFinanceDataFetching,
@@ -100,7 +104,10 @@ export const UploadBatchAllocations = () => {
       sourceId,
       sourceType,
     },
-    { keepPreviousData: true },
+    {
+      keepPreviousData: true,
+      queryKey,
+    },
   );
 
   const {
@@ -163,8 +170,8 @@ export const UploadBatchAllocations = () => {
   ]);
 
   const initialValues = useMemo(() => {
-    return buildInitialValues(fileData?.data, financeData, fiscalYear);
-  }, [fileData?.data, financeData, fiscalYear]);
+    return buildInitialValues(fileData?.data, financeData, fiscalYear, currentFiscalYears);
+  }, [currentFiscalYears, fileData?.data, financeData, fiscalYear]);
 
   const isFetching = isSourceDataFetching || isFinanceDataFetching;
 

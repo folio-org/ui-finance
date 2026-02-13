@@ -36,7 +36,10 @@ import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../../constants';
-import { parseNumberOrInitial } from '../../utils';
+import {
+  parseEmptyAsUndefined,
+  parseNumberOrInitial,
+} from '../../utils';
 import { BatchAllocationFieldTags } from './BatchAllocationFieldTags';
 import {
   validateAllocationAfterField,
@@ -44,7 +47,7 @@ import {
   validateNumericValue,
 } from './validators';
 
-const EMPTY_OPTION = { labelId: 'stripes-acq-components.label.emptyValue', value: '' };
+const EMPTY_OPTION = { labelId: 'stripes-acq-components.label.emptyValue', value: undefined };
 
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA,
@@ -66,6 +69,7 @@ const FundStatusCell = memo(({ options, isLoading, name }) => (
     fullWidth
     marginBottom0
     name={name}
+    parse={parseEmptyAsUndefined}
   />
 ));
 
@@ -85,6 +89,7 @@ const BudgetStatusCell = memo(({ options, isLoading, name }) => (
     fullWidth
     marginBottom0
     name={name}
+    parse={parseEmptyAsUndefined}
   />
 ));
 

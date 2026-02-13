@@ -33,6 +33,7 @@ options = {}) => {
   const {
     enabled = true,
     tenantId,
+    queryKey,
     ...queryOptions
   } = options;
 
@@ -44,12 +45,8 @@ options = {}) => {
     query,
   };
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-  } = useQuery({
-    queryKey: [namespace, query, limit],
+  const { data, ...rest } = useQuery({
+    queryKey: [namespace, query, limit].concat(queryKey),
     queryFn: ({ signal }) => fetchFinanceData(ky)({ searchParams, signal }),
     enabled,
     ...queryOptions,
@@ -58,7 +55,6 @@ options = {}) => {
   return ({
     budgetsFunds: data?.fyFinanceData || DEFAULT_DATA,
     totalRecords: data?.totalRecords,
-    isFetching,
-    isLoading,
+    ...rest,
   });
 };

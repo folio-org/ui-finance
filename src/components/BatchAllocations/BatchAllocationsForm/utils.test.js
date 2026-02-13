@@ -2,7 +2,11 @@ import get from 'lodash/get';
 
 import { ResponseErrorsContainer } from '@folio/stripes-acq-components';
 
-import { handleRecalculateError } from './utils';
+import { BATCH_ALLOCATION_FIELDS } from '../constants';
+import {
+  handleRecalculateError,
+  isBudgetStatusShouldBeSet,
+} from './utils';
 
 describe('handleRecalculateError', () => {
   const showCallout = jest.fn();
@@ -94,5 +98,43 @@ describe('handleRecalculateError', () => {
       messageId: 'ui-finance.allocation.batch.form.recalculate.error',
       type: 'error',
     });
+  });
+});
+
+describe('isBudgetStatusShouldBeSet', () => {
+  const {
+    budgetAllocationChange,
+    budgetStatus,
+    budgetAllowableExpenditure,
+    budgetAllowableEncumbrance,
+  } = BATCH_ALLOCATION_FIELDS;
+
+  it('returns true when budgetId is missing and allocation change > 0 and other fields empty', () => {
+    const item = {
+      // budgetId intentionally absent
+      [budgetAllocationChange]: 5,
+      [budgetStatus]: undefined,
+      [budgetAllowableExpenditure]: undefined,
+      [budgetAllowableEncumbrance]: undefined,
+    };
+
+    expect(isBudgetStatusShouldBeSet(item)).toBeTruthy();
+  });
+
+  it('returns false when allocation change is not greater than 0', () => {
+    const item = {
+      [budgetAllocationChange]: 0,
+    };
+
+    expect(isBudgetStatusShouldBeSet(item)).toBeFalsy();
+  });
+
+  it('returns false when budgetId is present', () => {
+    const item = {
+      budgetId: 'B1',
+      [budgetAllocationChange]: 10,
+    };
+
+    expect(isBudgetStatusShouldBeSet(item)).toBeFalsy();
   });
 });

@@ -57,3 +57,13 @@ export const handleRecalculateError = async (error, showCallout) => {
 
   return responseFormErrorsMap;
 };
+
+export const isBudgetStatusShouldBeSet = (item) => {
+  return (
+    !item.budgetId
+    && item[BATCH_ALLOCATION_FIELDS.budgetAllocationChange] > 0
+    && !item[BATCH_ALLOCATION_FIELDS.budgetStatus]
+    && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableExpenditure]
+    && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
+  );
+};

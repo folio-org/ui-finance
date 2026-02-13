@@ -163,8 +163,8 @@ export const UploadBatchAllocations = () => {
   ]);
 
   const initialValues = useMemo(() => {
-    return buildInitialValues(fileData?.data, financeData, fiscalYear);
-  }, [fileData?.data, financeData, fiscalYear]);
+    return buildInitialValues(fileData?.data, financeData, fiscalYear, currentFiscalYears);
+  }, [currentFiscalYears, fileData?.data, financeData, fiscalYear]);
 
   const isFetching = isSourceDataFetching || isFinanceDataFetching;
 

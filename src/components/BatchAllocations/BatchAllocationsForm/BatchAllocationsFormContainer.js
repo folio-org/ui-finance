@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useState,
+} from 'react';
 
 import { Form, VALIDATION_MODES } from '@folio/stripes-acq-components/experimental';
 
@@ -14,6 +17,8 @@ export const BatchAllocationsFormContainer = ({
   onSubmit: onSubmitProp,
   ...props
 }) => {
+  const [isNavigationCheckEnabled, setIsNavigationCheckEnabled] = useState(true);
+
   const {
     recalculate,
     isLoading: isBatchAllocationMutationLoading,
@@ -36,6 +41,7 @@ export const BatchAllocationsFormContainer = ({
       defaultValidateOn={VALIDATION_MODES.SUBMIT}
       initialValues={initialValues}
       navigationCheck
+      navigationGuardProps={{ enabled: isNavigationCheckEnabled }}
       onSubmit={onSubmit}
       validate={({ recalculateErrors }) => recalculateErrors}
     >
@@ -43,6 +49,7 @@ export const BatchAllocationsFormContainer = ({
         initialValues={initialValues}
         isRecalculateDisabled={isRecalculateDisabled || isBatchAllocationMutationLoading}
         recalculate={recalculate}
+        setIsNavigationCheckEnabled={setIsNavigationCheckEnabled}
         {...props}
       />
     </Form>

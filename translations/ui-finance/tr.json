@@ -351,7 +351,7 @@
     "fiscalYear.details.financialSummary": "Finansal özet",
     "ledger.rolloverErrors": "Devretme hata protokolü",
     "ledger.rolloverErrorsLabel": "Devretme hataları",
-    "ledger.rolloverInProgress.hasErrors": "<b>Devretme</b> için <b>{ledgerName}</b> hata üretti: ",
+    "ledger.rolloverInProgress.hasErrors": "<b>Devretme</b> için <b>{ledgerName}</b> hata üretti:",
     "ledger.rollover.confirm.heading": "Mali yıl devretme",
     "ledger.rollover.confirm.message": "Defter <b>{ledgerName}</b> için <b>{currentFYCode}</b> <b>'ye devredilecektir.{chosenFYCode}</b>. Lütfen gerekli ayrıntıları tamamladığınızı ve Devretme işlemine devam etmeye hazır olduğunuzu onaylayın. Bu işlemin tamamlanması birkaç dakika sürebilir ve geri alınamaz.",
     "ledger.rollover.confirm.btn": "Onaylayın",
@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "{amount} bütçeye aktarılamadı <b>{toBudgetName}<b> için izin verilen harcama limitini aştığı için </b>{fromBudgetName}</b> ve Defter fon kısıtlamaları aktiftir.",
     "transaction.allocation.move.hasBeenCreated": "{amount} bütçeye başarıyla tahsis edildi <b>{budgetName}</b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "Anahtar gerekli değil",
-    "settings.exchangeRateSource.providerType.keyRequired": "Anahtar gerekli"
+    "settings.exchangeRateSource.providerType.keyRequired": "Anahtar gerekli",
+    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+    "errors.genericError": "Something went wrong."
 }

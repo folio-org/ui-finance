@@ -11,6 +11,8 @@ import {
   BATCH_ALLOCATIONS_SOURCE,
 } from '../../../../common/const';
 
+const DEFAULT_DATA = {};
+
 export const useSourceData = (source, id, options = {}) => {
   const { enabled = true, ...queryOptions } = options;
 
@@ -18,11 +20,7 @@ export const useSourceData = (source, id, options = {}) => {
   const [namespace] = useNamespace({ key: source });
   const api = source === BATCH_ALLOCATIONS_SOURCE.ledger ? LEDGERS_API : GROUPS_API;
 
-  const {
-    data = {},
-    isFetching,
-    isLoading,
-  } = useQuery({
+  const { data = DEFAULT_DATA, ...rest } = useQuery({
     queryKey: [namespace, id, api],
     queryFn: async ({ signal }) => ky.get(`${api}/${id}`, { signal }).json(),
     enabled: Boolean(enabled && id),
@@ -31,7 +29,6 @@ export const useSourceData = (source, id, options = {}) => {
 
   return ({
     data,
-    isFetching,
-    isLoading,
+    ...rest,
   });
 };

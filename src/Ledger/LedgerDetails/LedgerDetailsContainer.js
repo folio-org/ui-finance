@@ -17,6 +17,7 @@ import {
 
 import { LEDGERS_ROUTE } from '../../common/const';
 import {
+  useCommonErrorResponseHandler,
   useLedger,
   useLedgerCurrentFiscalYear,
   useLedgerFunds,
@@ -42,6 +43,7 @@ export const LedgerDetailsContainer = ({
 }) => {
   const ledgerId = match.params.id;
   const showToast = useShowCallout();
+  const { handle: handleCommonError } = useCommonErrorResponseHandler();
 
   const [selectedFiscalYear, setSelectedFiscalYear] = useState();
   const [rolloverErrors, setRolloverErrors] = useState();
@@ -50,8 +52,8 @@ export const LedgerDetailsContainer = ({
     isLoading: isCurrentFiscalYearLoading,
     currentFiscalYear,
   } = useLedgerCurrentFiscalYear(ledgerId, {
-    onError: () => {
-      showToast({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
+    onError: (e) => {
+      handleCommonError(e, { defaultMessageId: 'ui-finance.fiscalYear.actions.load.error' });
     },
   });
 
@@ -61,8 +63,8 @@ export const LedgerDetailsContainer = ({
   } = useLedger(ledgerId, {
     enabled: Boolean(selectedFiscalYear && currentFiscalYear),
     fiscalYearId: selectedFiscalYear,
-    onError: () => {
-      showToast({ messageId: 'ui-finance.ledger.actions.load.error', type: 'error' });
+    onError: (e) => {
+      handleCommonError(e, { defaultMessageId: 'ui-finance.ledger.actions.load.error' });
     },
   });
 
@@ -70,8 +72,8 @@ export const LedgerDetailsContainer = ({
     isLoading: isFundsLoading,
     funds,
   } = useLedgerFunds(ledgerId, {
-    onError: () => {
-      showToast({ messageId: 'ui-finance.fund.actions.load.error', type: 'error' });
+    onError: (e) => {
+      handleCommonError(e, { defaultMessageId: 'ui-finance.fund.actions.load.error' });
     },
   });
 
@@ -134,10 +136,11 @@ export const LedgerDetailsContainer = ({
 
         refreshList();
       })
-      .catch(() => {
-        showToast({ messageId: 'ui-finance.ledger.actions.remove.error', type: 'error' });
+      .catch((error) => {
+        // Unlike react-query, stripes mutators return the Response object directly to the handler.
+        handleCommonError({ response: error }, { defaultMessageId: 'ui-finance.ledger.actions.remove.error' });
       });
-  }, [mutator.ledgerDetails, ledgerId, showToast, history, location.search, refreshList]);
+  }, [mutator.ledgerDetails, ledgerId, showToast, history, location.search, refreshList, handleCommonError]);
 
   const onRollover = useCallback(() => {
     history.push({

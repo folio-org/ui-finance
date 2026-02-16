@@ -2,7 +2,11 @@ import {
   fetchGroupCurrentFiscalYears,
   fetchLedgerCurrentFiscalYear,
 } from '../../common/utils';
-import { fetchSourceCurrentFiscalYears } from './utils';
+import {
+  fetchSourceCurrentFiscalYears,
+  parseEmptyAsUndefined,
+  parseNumberOrInitial,
+} from './utils';
 
 jest.mock('../../common/utils', () => ({
   ...jest.requireActual('../../common/utils'),
@@ -43,5 +47,29 @@ describe('fetchSourceCurrentFiscalYears', () => {
     await fetchSourceCurrentFiscalYears(httpClient)(sourceType, sourceId, options);
 
     expect(fetchLedgerCurrentFiscalYearMock).toHaveBeenCalledWith(sourceId, options);
+  });
+});
+
+describe('parseEmptyAsUndefined', () => {
+  it('returns undefined for empty string', () => {
+    expect(parseEmptyAsUndefined('')).toBeUndefined();
+  });
+
+  it('returns value unchanged for non-empty string', () => {
+    expect(parseEmptyAsUndefined('abc')).toBe('abc');
+  });
+
+  it('returns undefined for undefined input', () => {
+    expect(parseEmptyAsUndefined(undefined)).toBeUndefined();
+  });
+});
+
+describe('parseNumberOrInitial', () => {
+  it('parses numeric string to number', () => {
+    expect(parseNumberOrInitial('10')).toBe(10);
+  });
+
+  it('returns original value for non-numeric string', () => {
+    expect(parseNumberOrInitial('abc')).toBe('abc');
   });
 });

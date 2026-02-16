@@ -584,5 +584,8 @@
     "transaction.transfer.budgetRestrictedExpendituresError": "无法将{amount}转入预算<b>{toBudgetName}</b>因为它超出了<b>{fromBudgetName}</b>的允许支出限额，并且总账经费限制激活中。",
     "transaction.allocation.move.hasBeenCreated": "{amount}已成功分配至预算<b>{budgetName}</b> 。",
     "settings.exchangeRateSource.providerType.noKeyRequired": "无需密钥",
-    "settings.exchangeRateSource.providerType.keyRequired": "需要密钥"
+    "settings.exchangeRateSource.providerType.keyRequired": "需要密钥",
+    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+    "errors.genericError": "Something went wrong."
 }

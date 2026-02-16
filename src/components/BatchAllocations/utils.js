@@ -50,6 +50,7 @@ export const dehydrateAllocationLog = log => ({
 });
 
 export const parseNumberOrInitial = (value) => (value && (isFinite(Number(value)) ? Number(value) : value));
+export const parseEmptyAsUndefined = (value) => (value === '' ? undefined : value);
 
 export const fetchSourceCurrentFiscalYears = (httpClient) => async (sourceType, sourceId, options) => {
   const result = await {

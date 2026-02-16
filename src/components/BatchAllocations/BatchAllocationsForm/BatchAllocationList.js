@@ -5,7 +5,11 @@ import {
 } from 'react';
 import { useIntl } from 'react-intl';
 
-import { MultiColumnList } from '@folio/stripes/components';
+import {
+  Layout,
+  MultiColumnList,
+} from '@folio/stripes/components';
+import { AcqEndOfList } from '@folio/stripes-acq-components';
 
 import {
   BATCH_ALLOCATION_COLUMNS,
@@ -31,19 +35,23 @@ export const BatchAllocationList = memo(({
   const formatter = useBatchAllocationFormatter(intl, fiscalYear, isLoading);
 
   return (
-    <MultiColumnList
-      autosize
-      contentData={fields}
-      columnMapping={columnMapping}
-      columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
-      formatter={formatter}
-      loading={isLoading}
-      onHeaderClick={onHeaderClick}
-      sortDirection={sortDirection}
-      sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
-      totalCount={fields?.length}
-      visibleColumns={BATCH_ALLOCATION_COLUMNS}
-    />
+    <>
+      <MultiColumnList
+        contentData={fields}
+        columnMapping={columnMapping}
+        columnWidths={BATCH_ALLOCATION_LOG_COLUMN_WIDTHS}
+        formatter={formatter}
+        loading={isLoading}
+        onHeaderClick={onHeaderClick}
+        sortDirection={sortDirection}
+        sortedColumn={sortedColumn || BATCH_ALLOCATION_FIELDS.fundName}
+        totalCount={fields?.length}
+        visibleColumns={BATCH_ALLOCATION_COLUMNS}
+      />
+      <Layout className="padding-bottom-gutter">
+        <AcqEndOfList totalCount={fields?.length} />
+      </Layout>
+    </>
   );
 });
 

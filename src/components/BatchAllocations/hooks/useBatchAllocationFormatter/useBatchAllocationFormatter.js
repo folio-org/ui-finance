@@ -8,6 +8,7 @@ import {
 import {
   Col,
   Icon,
+  Loading,
   NoValue,
   Row,
   Select,
@@ -24,6 +25,7 @@ import {
   Field,
   useFormEngine,
   useWatch,
+  VALIDATION_MODES,
 } from '@folio/stripes-acq-components/experimental';
 
 import { composeValidators } from '../../../../common/utils';
@@ -34,13 +36,18 @@ import {
   BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../../constants';
-import { parseNumberOrInitial } from '../../utils';
+import {
+  parseEmptyAsUndefined,
+  parseNumberOrInitial,
+} from '../../utils';
 import { BatchAllocationFieldTags } from './BatchAllocationFieldTags';
 import {
   validateAllocationAfterField,
   validateNotNegative,
   validateNumericValue,
 } from './validators';
+
+const EMPTY_OPTION = { labelId: 'stripes-acq-components.label.emptyValue', value: undefined };
 
 const {
   calculatedFinanceData: CALCULATED_FINANCE_DATA,
@@ -62,6 +69,7 @@ const FundStatusCell = memo(({ options, isLoading, name }) => (
     fullWidth
     marginBottom0
     name={name}
+    parse={parseEmptyAsUndefined}
   />
 ));
 
@@ -81,6 +89,7 @@ const BudgetStatusCell = memo(({ options, isLoading, name }) => (
     fullWidth
     marginBottom0
     name={name}
+    parse={parseEmptyAsUndefined}
   />
 ));
 
@@ -104,6 +113,7 @@ const BudgetAllocationChangeCell = memo(({ isLoading, intl, name }) => (
     validate={composeValidators(
       validateNumericValue(intl),
     )}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -124,6 +134,7 @@ const BudgetAfterAllocationCell = memo(({ intl, calculatedName, index }) => (
     name={calculatedName}
     type="number"
     validate={validateAllocationAfterField(intl, index)}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -148,6 +159,7 @@ const BudgetAllowableEncumbranceCell = memo(({ isLoading, intl, name }) => (
       validateNumericValue(intl),
       validateNotNegative(intl),
     )}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -172,6 +184,7 @@ const BudgetAllowableExpenditureCell = memo(({ isLoading, intl, name }) => (
       validateNumericValue(intl),
       validateNotNegative(intl),
     )}
+    validateOn={VALIDATION_MODES.SUBMIT}
   />
 ));
 
@@ -245,8 +258,12 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
 
   const calculatedFinanceData = useWatch(CALCULATED_FINANCE_DATA);
 
-  const fundStatusOptions = useMemo(() => getFormattedOptions(intl, FUND_STATUSES_OPTIONS), [intl]);
-  const budgetStatusOptions = useMemo(() => getFormattedOptions(intl, BUDGET_STATUSES_OPTIONS), [intl]);
+  const fundStatusOptions = useMemo(() => {
+    return getFormattedOptions(intl, [EMPTY_OPTION, ...FUND_STATUSES_OPTIONS]);
+  }, [intl]);
+  const budgetStatusOptions = useMemo(() => {
+    return getFormattedOptions(intl, [EMPTY_OPTION, ...BUDGET_STATUSES_OPTIONS]);
+  }, [intl]);
 
   const {
     createTag,
@@ -256,9 +273,10 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
   const {
     configs,
     isFetched,
+    isFetching: isTagsConfigFetching,
   } = useTagsConfigs();
 
-  const tagsEnabled = isFetched && (!configs.length || configs[0].value === 'true');
+  const tagsEnabled = isFetched && (!configs.length || configs[0].value === true);
 
   const {
     isFetching: isTagsFetching,
@@ -367,6 +385,9 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
         );
       },
       [BATCH_ALLOCATION_FIELDS.transactionTag]: (field) => {
+        if (isTagsConfigFetching) return <Loading />;
+        if (!tagsEnabled) return null;
+
         return (
           <BatchAllocationFieldTags
             allTags={allTags}
@@ -374,7 +395,7 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
             onAdd={onAdd}
             engine={engine}
             isLoading={isMutating || isTagsFetching}
-            field={field}
+            name={`${FINANCE_DATA}[${field[INDEX]}].${BATCH_ALLOCATION_FIELDS.transactionTag}.tagList`}
           />
         );
       },
@@ -388,9 +409,11 @@ export const useBatchAllocationFormatter = (intl, fiscalYear, isLoading) => {
     fundStatusOptions,
     intl,
     isMutating,
+    isTagsConfigFetching,
     isTagsFetching,
     isLoading,
     onAdd,
+    tagsEnabled,
   ]);
 
   return formatter;

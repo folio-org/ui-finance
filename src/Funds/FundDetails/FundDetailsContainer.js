@@ -53,6 +53,7 @@ import {
   LEDGERS_API,
   TRANSACTIONS_ROUTE,
 } from '../../common/const';
+import { useCommonErrorResponseHandler } from '../../common/hooks';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import { SECTIONS_FUND } from '../constants';
 import { useBudgetsFiscalYears } from '../hooks';
@@ -75,8 +76,11 @@ export const FundDetailsContainer = ({
   const [currentFY, setCurrentFY] = useState();
   const [currentBudget, setCurrentBudget] = useState();
   const [plannedBudgets, setPlannedBudgets] = useState();
+
   const showToast = useShowCallout();
   const accordionStatusRef = useRef();
+  const { handle: handleCommonError } = useCommonErrorResponseHandler();
+
   const {
     fiscalYears: budgetsFiscalYears,
     isLoading: isFiscalYearsLoading,
@@ -96,8 +100,8 @@ export const FundDetailsContainer = ({
           return mutator.fundCurrentFY.GET({
             path: `${LEDGERS_API}/${fundResponse.fund.ledgerId}/current-fiscal-year`,
           });
-        }, () => {
-          showToast({ messageId: 'ui-finance.fund.actions.load.error', type: 'error' });
+        }, (error) => {
+          handleCommonError({ response: error }, { defaultMessageId: 'ui-finance.fund.actions.load.error' });
 
           setCompositeFund({ fund: {}, groupIds: [] });
         })
@@ -109,8 +113,8 @@ export const FundDetailsContainer = ({
               query: `fundId==${params.id} and fiscalYearId==${currentFYResponse.id}`,
             },
           });
-        }, () => {
-          showToast({ messageId: 'ui-finance.fiscalYear.actions.load.error', type: 'error' });
+        }, (error) => {
+          handleCommonError({ response: error }, { defaultMessageId: 'ui-finance.fiscalYear.actions.load.error' });
 
           setCurrentFY();
         })
@@ -120,7 +124,7 @@ export const FundDetailsContainer = ({
         .finally(() => setIsLoading(false));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [params.id, showToast],
+    [handleCommonError, params.id, showToast],
   );
 
   useEffect(fetchFund, [params.id]);
@@ -166,12 +170,12 @@ export const FundDetailsContainer = ({
 
           refreshList();
         })
-        .catch(() => {
-          showToast({ messageId: 'ui-finance.fund.actions.remove.error', type: 'error' });
+        .catch((error) => {
+          handleCommonError({ response: error }, { defaultMessageId: 'ui-finance.fund.actions.remove.error' });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fund.id, showToast, history, location.search, refreshList],
+    [fund.id, handleCommonError, showToast, history, location.search, refreshList],
   );
 
   const onRemove = useCallback(

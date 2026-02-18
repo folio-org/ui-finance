@@ -82,7 +82,7 @@ export const buildInitialValues = (
       };
 
       return {
-        ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
+        ...structuredClone(BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES),
         ...item,
         ...dataItemFields,
         fiscalYearId: fiscalYear.id,

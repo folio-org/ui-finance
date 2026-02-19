@@ -98,7 +98,8 @@
         "permissionName": "settings.finance.enabled",
         "displayName": "Settings (Finance): Can view and edit settings",
         "subPermissions": [
-          "settings.enabled"
+          "settings.enabled",
+          "stripes-core.settings.read"
         ],
         "visible": false
       },

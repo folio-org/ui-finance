@@ -78,8 +78,7 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
-          "mod-settings.entries.collection.get",
-          "mod-settings.global.read.stripes-core.prefs.manage",
+          "stripes-core.settings.read",
           "users.collection.get"
         ]
       },

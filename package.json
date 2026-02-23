@@ -43,6 +43,7 @@
       "orders": "13.0",
       "order-lines": "4.0",
       "tags": "1.0",
+      "tenant-addresses": "1.0",
       "users": "15.0 16.0"
     },
     "optionalOkapiInterfaces": {
@@ -236,7 +237,8 @@
           "finance.ledger-rollovers.item.post",
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledger-rollovers-logs.collection.get",
-          "finance.ledger-rollovers-budgets.collection.get"
+          "finance.ledger-rollovers-budgets.collection.get",
+          "tenant-addresses.collection.get"
         ]
       },
       {

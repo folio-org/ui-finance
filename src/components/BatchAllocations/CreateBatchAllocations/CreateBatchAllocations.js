@@ -134,7 +134,7 @@ export const CreateBatchAllocations = () => {
   const initialValues = useMemo(() => ({
     [BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData]: (
       financeData?.map((item) => ({
-        ...BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES,
+        ...structuredClone(BATCH_ALLOCATION_FORM_DEFAULT_FIELD_VALUES),
         ...item,
       }))
     ),

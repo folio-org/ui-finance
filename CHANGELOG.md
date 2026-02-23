@@ -17,7 +17,7 @@
 * Change labels for exchange rate provider type. Refs UIF-623.
 * Allow user to select current or previous fiscal year on ledger view to see totals for a specific year. Refs UIF-600.
 * *BREAKING* Use batch endpoint for `group-fund-fiscal-years`. Refs UIF-629.
-* Include global `mod-settings` permissions in base permission sets. Refs UIF-630.
+* Include global `stripes-core.settings.read` permission in base permission sets. Refs UIF-630.
 * React v19: Refactor away from default props for functional components. Refs UIF-523.
 * Replace the `moment` library with `dayjs`. Refs UIF-597.
 * Use optimized form manager implementation for the batch allocation form. Refs UIF-628.

@@ -1,5 +1,4 @@
 import debounce from 'lodash/debounce';
-import get from 'lodash/get';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import {
@@ -30,7 +29,6 @@ import {
   FieldArray,
   FIELD_EVENT_PREFIXES,
   useFormEngine,
-  useFormState,
 } from '@folio/stripes-acq-components/experimental';
 
 import { BUDGET_STATUSES } from '../../Budget/constants';
@@ -124,17 +122,17 @@ const BatchAllocationsForm = ({
   isRecalculateRequiredRef.current = isRecalculateRequired;
 
   const engine = useFormEngine();
-  const { values } = useFormState({ values: true });
-  const { submitting, valid } = useFormState({
-    valid: true,
-    submitting: true,
-  });
+
+  const {
+    submitting,
+    valid,
+  } = engine.getFormState();
 
   const fyFinanceDataFieldState = engine.getFieldState(FY_FINANCE_DATA_FIELD);
 
   const isSubmitDisabled = (
     isSubmitDisabledProp
-    || get(values, CALCULATED_FINANCE_DATA_FIELD) === null
+    || engine.getFieldState(FY_FINANCE_DATA_FIELD)?.value === null
     || isRecalculateRequired
     || !valid
     || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && fyFinanceDataFieldState?.pristine)

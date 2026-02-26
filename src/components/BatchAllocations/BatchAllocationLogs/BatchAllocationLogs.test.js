@@ -20,6 +20,10 @@ import {
 } from '../hooks';
 import { BatchAllocationLogs } from './BatchAllocationLogs';
 
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  PersistedPaneset: jest.fn(({ children }) => (children)),
+}));
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useFiltersToogle: jest.fn(),

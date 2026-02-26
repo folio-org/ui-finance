@@ -381,21 +381,27 @@
         ]
       },
       {
-        "permissionName": "ui-finance.acq.unit.assignment.assign",
+        "permissionName": "ui-finance.finance.acquisitions_units.assign.execute",
         "displayName": "Finance: Assign acquisition units to new record",
         "description": "",
         "visible": true,
+        "replaces": [
+          "ui-finance.acq.unit.assignment.assign"
+        ],
         "subPermissions": [
-          "finance.acquisitions-units-assignments.assign"
+          "finance.acquisitions-units-assignments.create.execute"
         ]
       },
       {
-        "permissionName": "ui-finance.acq.unit.assignment.manage",
+        "permissionName": "ui-finance.finance.acquisitions_units.manage.execute",
         "displayName": "Finance: Manage acquisition units",
         "description": "",
         "visible": true,
+        "replaces": [
+          "ui-finance.acq.unit.assignment.manage"
+        ],
         "subPermissions": [
-          "finance.acquisitions-units-assignments.manage"
+          "finance.acquisitions-units-assignments.manage.execute"
         ]
       },
       {

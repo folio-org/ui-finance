@@ -23,6 +23,7 @@
 * Use optimized form manager implementation for the batch allocation form. Refs UIF-628.
 * Handle `currentFiscalYearNotFound` and `plannedFiscalYearNotFound` error codes. Refs UIF-645.
 * Add tenant addresses interface for invoice addresses fetching. Refs UIF-653.
+* Rename permissions to make it easier to differentiate between them. Refs UIF-657.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

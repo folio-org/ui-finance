@@ -1,12 +1,9 @@
-import debounce from 'lodash/debounce';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import {
-  startTransition,
   useState,
   useCallback,
   useEffect,
-  useRef,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -25,22 +22,18 @@ import {
 } from '@folio/stripes/components';
 import { useShowCallout } from '@folio/stripes-acq-components';
 import {
-  EVENTS,
   FieldArray,
-  FIELD_EVENT_PREFIXES,
   useFormEngine,
 } from '@folio/stripes-acq-components/experimental';
 
-import { BUDGET_STATUSES } from '../../Budget/constants';
 import {
-  BATCH_ALLOCATION_FIELDS,
   BATCH_ALLOCATION_FLOW_TYPE,
   BATCH_ALLOCATION_FORM_SPECIAL_FIELDS,
 } from '../constants';
 import { BatchAllocationList } from './BatchAllocationList';
+import { useFormSubscriptions } from './useFormSubscriptions';
 import {
   handleRecalculateError,
-  isBudgetStatusShouldBeSet,
   normalizeFinanceFormData,
 } from './utils';
 
@@ -60,35 +53,6 @@ const {
 } = BATCH_ALLOCATION_FORM_SPECIAL_FIELDS;
 
 const formatInvalidFundsListItem = (item, i) => <li key={i}>{item.fundName || item.fundId}</li>;
-
-/* Subscribe on form changes and set budget status */
-const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values }) => {
-  startTransition(() => {
-    const currentFiscalYear = currentFiscalYears.find(({ series }) => series === fiscalYear.series);
-
-    const updates = [];
-    const items = values[FY_FINANCE_DATA_FIELD] || [];
-
-    for (const [index, item] of items.entries()) {
-      const shouldSetStatus = isBudgetStatusShouldBeSet(item);
-
-      if (shouldSetStatus) {
-        const status = new Date(fiscalYear?.periodStart) > new Date(currentFiscalYear?.periodStart)
-          ? BUDGET_STATUSES.PLANNED
-          : BUDGET_STATUSES.ACTIVE;
-
-        updates.push({
-          path: `${FY_FINANCE_DATA_FIELD}[${index}].${BATCH_ALLOCATION_FIELDS.budgetStatus}`,
-          value: status,
-        });
-      }
-    }
-
-    if (updates.length > 0) {
-      form.setMany(updates);
-    }
-  });
-};
 
 const BatchAllocationsForm = ({
   changeSorting,
@@ -112,30 +76,29 @@ const BatchAllocationsForm = ({
 }) => {
   const showCallout = useShowCallout();
 
-  const [isSortingDisabled, setIsSortingDisabled] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
-  const [isRecalculateRequired, setIsRecalculateRequired] = useState(true);
-
-  /* Keep the latest value of isRecalculateRequired for the recalculate check */
-  const isRecalculateRequiredRef = useRef(isRecalculateRequired);
-
-  isRecalculateRequiredRef.current = isRecalculateRequired;
 
   const engine = useFormEngine();
 
   const {
-    submitting,
-    valid,
-  } = engine.getFormState();
-
-  const fyFinanceDataFieldState = engine.getFieldState(FY_FINANCE_DATA_FIELD);
+    isFinanceDataFieldPristine,
+    isRecalculateRequired,
+    isFormSubmitting: submitting,
+    isFormValid: valid,
+    isSortingDisabled,
+    setIsRecalculateRequired,
+  } = useFormSubscriptions(engine, {
+    currentFiscalYears,
+    fiscalYear,
+    setIsNavigationCheckEnabled,
+  });
 
   const isSubmitDisabled = (
     isSubmitDisabledProp
     || engine.getFieldState(FY_FINANCE_DATA_FIELD)?.value === null
     || isRecalculateRequired
     || !valid
-    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && fyFinanceDataFieldState?.pristine)
+    || (flowType === BATCH_ALLOCATION_FLOW_TYPE.CREATE && isFinanceDataFieldPristine)
     || submitting
     || isLoading
     || isRecalculating
@@ -148,49 +111,6 @@ const BatchAllocationsForm = ({
     || isLoading
     || isRecalculating
   );
-
-  /*
-    Usually navigation checks whole form dirty state,
-    but in this case we need to trigger it only when finance data is changed,
-    so we are checking it manually and enabling navigation check when finance data is dirty
-  */
-  useEffect(() => {
-    setIsNavigationCheckEnabled(fyFinanceDataFieldState?.dirty);
-  }, [fyFinanceDataFieldState?.dirty, setIsNavigationCheckEnabled]);
-
-  /* Subscribe on form changes to set budget status */
-  useEffect(() => {
-    const subscriber = formValuesSubscriber(engine, fiscalYear, currentFiscalYears);
-    const fn = debounce(() => subscriber({ values: engine.getFormState().values }), 200);
-    const unsubscribe = engine.on(EVENTS.CHANGE, fn);
-
-    return () => {
-      unsubscribe();
-    };
-  }, [currentFiscalYears, engine, fiscalYear]);
-
-  /* Set sorting disabled state */
-  useEffect(() => {
-    setIsSortingDisabled(fyFinanceDataFieldState?.dirty);
-  }, [fyFinanceDataFieldState?.dirty]);
-
-  /* Handle recalculate required */
-  useEffect(() => {
-    const unsubscribe = engine.on(
-      `${FIELD_EVENT_PREFIXES.CHANGE}${FY_FINANCE_DATA_FIELD}`,
-      () => {
-        if (!isRecalculateRequiredRef.current) {
-          setIsRecalculateRequired(true);
-        }
-      },
-      null,
-      { bubble: true },
-    );
-
-    return () => {
-      unsubscribe();
-    };
-  }, [engine]);
 
   const closeForm = useCallback(() => onCancel(), [onCancel]);
 
@@ -218,7 +138,7 @@ const BatchAllocationsForm = ({
         setIsRecalculateRequired(false);
         setIsRecalculating(false);
       });
-  }, [engine, recalculate, showCallout]);
+  }, [engine, recalculate, setIsRecalculateRequired, showCallout]);
 
   useEffect(() => {
     if (recalculateOnInit) {

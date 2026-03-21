@@ -501,7 +501,7 @@
     "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)",
     "allocation.batch.form.title.edit": "Batch edit budgets",
     "allocation.batch.form.footer.recalculate": "Recalculate",
-    "allocation.batch.status.active": "Active",
+    "allocation.batch.status.active": "Actif",
     "allocation.batch.status.frozen": "Frozen",
     "allocation.batch.status.inactive": "Inactive",
     "transaction.allocation.batch.columns.fundName": "Fund name",

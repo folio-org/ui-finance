@@ -16,6 +16,7 @@
   "errors.load.code": "Error code fetching",
   "errors.load.name": "Error name fetching",
   "errors.currentFiscalYearNotFound": "No current fiscal year found.",
+  "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned.",
   "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
   "errors.genericError": "Something went wrong.",
 

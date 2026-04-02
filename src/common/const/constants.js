@@ -146,5 +146,6 @@ export const FILE_EXTENSIONS = {
 
 export const ERROR_CODES = {
   currentFiscalYearNotFound: 'currentFiscalYearNotFound',
+  failedToCreateAllocations: 'failedToCreateAllocations',
   plannedFiscalYearNotFound: 'plannedFiscalYearNotFound',
 };

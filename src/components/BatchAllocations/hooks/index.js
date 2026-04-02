@@ -1,4 +1,5 @@
 export { useBatchAllocation } from './useBatchAllocation';
+export { useBatchAllocationErrorsHandler } from './useBatchAllocationErrorsHandler';
 export * from './useBatchAllocationLog';
 export { useBatchAllocationLogs } from './useBatchAllocationLogs';
 export * from './useBatchAllocationLogsMutation';

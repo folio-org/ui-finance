@@ -585,7 +585,7 @@
     "transaction.allocation.move.hasBeenCreated": "{amount} успішно розподілено до бюджету <b>{budgetName}</b>",
     "settings.exchangeRateSource.providerType.noKeyRequired": "Ключ не потрібен",
     "settings.exchangeRateSource.providerType.keyRequired": "Потрібен ключ",
-    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
-    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
-    "errors.genericError": "Something went wrong."
+    "errors.currentFiscalYearNotFound": "Не знайдено поточного фінансового року.",
+    "errors.plannedFiscalYearNotFound": "Не знайдено запланованого фінансового року.",
+    "errors.genericError": "Щось пішло не так."
 }

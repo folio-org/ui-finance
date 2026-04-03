@@ -70,7 +70,6 @@ const BatchAllocationsForm = ({
   paneTitle,
   recalculate,
   recalculateOnInit = false,
-  setIsNavigationCheckEnabled,
   sortingField,
   sortingDirection,
 }) => {
@@ -90,7 +89,6 @@ const BatchAllocationsForm = ({
   } = useFormSubscriptions(engine, {
     currentFiscalYears,
     fiscalYear,
-    setIsNavigationCheckEnabled,
   });
 
   const isSubmitDisabled = (
@@ -268,7 +266,6 @@ BatchAllocationsForm.propTypes = {
   paneTitle: PropTypes.string.isRequired,
   recalculate: PropTypes.func.isRequired,
   recalculateOnInit: PropTypes.bool,
-  setIsNavigationCheckEnabled: PropTypes.func.isRequired,
   sortingField: PropTypes.string.isRequired,
   sortingDirection: PropTypes.string.isRequired,
 };

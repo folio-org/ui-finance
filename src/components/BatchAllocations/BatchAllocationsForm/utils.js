@@ -67,3 +67,10 @@ export const isBudgetStatusShouldBeSet = (item) => {
     && !item[BATCH_ALLOCATION_FIELDS.budgetAllowableEncumbrance]
   );
 };
+
+export const shouldBlockNavigation = (engine) => {
+  const { submitting, submitSucceeded } = engine.getFormState();
+  const { dirty } = engine.getFieldState(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData);
+
+  return dirty && !submitSucceeded && !submitting;
+};

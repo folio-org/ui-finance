@@ -52,7 +52,6 @@ const formValuesSubscriber = (form, fiscalYear, currentFiscalYears) => ({ values
 export const useFormSubscriptions = (engine, {
   currentFiscalYears,
   fiscalYear,
-  setIsNavigationCheckEnabled,
 }) => {
   const [isFormSubmitting, setIsFormSubmitting] = useState(() => engine.getFormState().submitting);
   const [isFormValid, setIsFormValid] = useState(() => engine.getFormState().valid);
@@ -100,15 +99,6 @@ export const useFormSubscriptions = (engine, {
       });
     };
   }, [engine]);
-
-  /*
-    Usually navigation checks whole form dirty state,
-    but in this case we need to trigger it only when finance data is changed,
-    so we are checking it manually and enabling navigation check when finance data is dirty
-  */
-  useEffect(() => {
-    setIsNavigationCheckEnabled(isFinanceDataFieldDirty);
-  }, [isFinanceDataFieldDirty, setIsNavigationCheckEnabled]);
 
   /* Subscribe on form changes to set budget status */
   useEffect(() => {

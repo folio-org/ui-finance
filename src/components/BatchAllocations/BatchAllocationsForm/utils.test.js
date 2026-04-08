@@ -2,10 +2,11 @@ import get from 'lodash/get';
 
 import { ResponseErrorsContainer } from '@folio/stripes-acq-components';
 
-import { BATCH_ALLOCATION_FIELDS } from '../constants';
+import { BATCH_ALLOCATION_FIELDS, BATCH_ALLOCATION_FORM_SPECIAL_FIELDS } from '../constants';
 import {
   handleRecalculateError,
   isBudgetStatusShouldBeSet,
+  shouldBlockNavigation,
 } from './utils';
 
 describe('handleRecalculateError', () => {
@@ -136,5 +137,94 @@ describe('isBudgetStatusShouldBeSet', () => {
     };
 
     expect(isBudgetStatusShouldBeSet(item)).toBeFalsy();
+  });
+});
+
+describe('shouldBlockNavigation', () => {
+  const createMockEngine = ({
+    submitting = false,
+    submitSucceeded = false,
+    dirty = false,
+  } = {}) => ({
+    getFormState: jest.fn(() => ({ submitting, submitSucceeded })),
+    getFieldState: jest.fn(() => ({ dirty })),
+  });
+
+  it('should block navigation when form is dirty and not submitted yet', () => {
+    const engine = createMockEngine({ dirty: true, submitSucceeded: false, submitting: false });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(true);
+    expect(engine.getFormState).toHaveBeenCalled();
+    expect(engine.getFieldState).toHaveBeenCalledWith(BATCH_ALLOCATION_FORM_SPECIAL_FIELDS.fyFinanceData);
+  });
+
+  it('should not block navigation when form is clean', () => {
+    const engine = createMockEngine({ dirty: false, submitSucceeded: false, submitting: false });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(false);
+  });
+
+  it('should not block navigation when form is successfully submitted', () => {
+    const engine = createMockEngine({ dirty: true, submitSucceeded: true, submitting: false });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(false);
+  });
+
+  it('should not block navigation when form is submitting', () => {
+    const engine = createMockEngine({ dirty: true, submitSucceeded: false, submitting: true });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(false);
+  });
+
+  it('should not block navigation when form is submitting and dirty', () => {
+    const engine = createMockEngine({ dirty: true, submitSucceeded: false, submitting: true });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(false);
+  });
+
+  it('should not block navigation when form is submitted successfully and dirty', () => {
+    const engine = createMockEngine({ dirty: true, submitSucceeded: true, submitting: false });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(false);
+  });
+
+  it('should not block navigation when form is clean and submitted', () => {
+    const engine = createMockEngine({ dirty: false, submitSucceeded: true, submitting: false });
+
+    const result = shouldBlockNavigation(engine);
+
+    expect(result).toBe(false);
+  });
+
+  it('should block navigation only when all conditions are met: dirty, not submitted, not submitting', () => {
+    const scenarios = [
+      { dirty: true, submitSucceeded: false, submitting: false, expected: true },
+      { dirty: false, submitSucceeded: false, submitting: false, expected: false },
+      { dirty: true, submitSucceeded: true, submitting: false, expected: false },
+      { dirty: true, submitSucceeded: false, submitting: true, expected: false },
+      { dirty: false, submitSucceeded: true, submitting: false, expected: false },
+      { dirty: false, submitSucceeded: false, submitting: true, expected: false },
+      { dirty: false, submitSucceeded: true, submitting: true, expected: false },
+      { dirty: true, submitSucceeded: true, submitting: true, expected: false },
+    ];
+
+    scenarios.forEach(({ dirty, submitSucceeded, submitting, expected }) => {
+      const engine = createMockEngine({ dirty, submitSucceeded, submitting });
+      const result = shouldBlockNavigation(engine);
+
+      expect(result).toBe(expected);
+    });
   });
 });

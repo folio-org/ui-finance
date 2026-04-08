@@ -25,6 +25,7 @@
 * Add tenant addresses interface for invoice addresses fetching. Refs UIF-653.
 * Rename permissions to make it easier to differentiate between them. Refs UIF-657.
 * Display `-` (no value) when there is no budget status specified in the log row. Refs UIF-656.
+* Handle batch allocation form page leaving. Refs UIF-652.
 * Improve error message on batch allocation screen if the budgets are not "Active" or "Planned". Refs UIF-651.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)

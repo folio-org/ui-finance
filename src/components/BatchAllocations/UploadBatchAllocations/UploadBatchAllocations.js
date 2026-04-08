@@ -37,6 +37,7 @@ import {
 } from '../constants';
 import {
   useBatchAllocation,
+  useBatchAllocationErrorsHandler,
   useBatchAllocationFormHandler,
   useSourceCurrentFiscalYears,
   useSourceData,
@@ -115,6 +116,8 @@ export const UploadBatchAllocations = () => {
     isLoading: isBatchAllocationHandling,
   } = useBatchAllocationFormHandler();
 
+  const { handle: handleErrors } = useBatchAllocationErrorsHandler();
+
   useEffect(() => {
     setIsFileDataLoading(true);
 
@@ -153,17 +156,12 @@ export const UploadBatchAllocations = () => {
     })
       .then(() => localforage.removeItem(storageKey))
       .then(() => onClose())
-      .catch(() => {
-        showCallout({
-          messageId: 'ui-finance.actions.allocations.batch.error',
-          type: 'error',
-        });
-      });
+      .catch(handleErrors);
   }, [
     fileData?.fileName,
     handle,
+    handleErrors,
     onClose,
-    showCallout,
     sourceId,
     sourceType,
     storageKey,

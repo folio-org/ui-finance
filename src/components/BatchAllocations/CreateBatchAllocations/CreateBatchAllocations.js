@@ -15,10 +15,7 @@ import {
 
 import { LoadingView } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
-import {
-  useShowCallout,
-  useSorting,
-} from '@folio/stripes-acq-components';
+import { useSorting } from '@folio/stripes-acq-components';
 
 import {
   LEDGERS_ROUTE,
@@ -34,6 +31,7 @@ import {
 } from '../constants';
 import {
   useBatchAllocation,
+  useBatchAllocationErrorsHandler,
   useBatchAllocationFormHandler,
   useSourceCurrentFiscalYears,
   useSourceData,
@@ -42,7 +40,6 @@ import { resolveDefaultBackPathname } from '../utils';
 
 export const CreateBatchAllocations = () => {
   const intl = useIntl();
-  const showCallout = useShowCallout();
 
   const location = useLocation();
   const history = useHistory();
@@ -102,6 +99,8 @@ export const CreateBatchAllocations = () => {
     isLoading: isBatchAllocationHandling,
   } = useBatchAllocationFormHandler();
 
+  const { handle: handleErrors } = useBatchAllocationErrorsHandler();
+
   const onClose = useCallback(() => {
     history.push(backPathname);
   }, [history, backPathname]);
@@ -117,16 +116,11 @@ export const CreateBatchAllocations = () => {
       sourceType,
     })
       .then(() => onClose())
-      .catch(() => {
-        showCallout({
-          messageId: 'ui-finance.actions.allocations.batch.error',
-          type: 'error',
-        });
-      });
+      .catch(handleErrors);
   }, [
     handle,
+    handleErrors,
     onClose,
-    showCallout,
     sourceId,
     sourceType,
   ]);

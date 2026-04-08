@@ -452,7 +452,7 @@
     "settings.fundTypes.termWillBeDeleted": "Fondstyp <b>{term}</b> wird <b>gelöscht</b>",
     "groups.item.information.fiscalYear.current": "Laufend:",
     "groups.item.information.fiscalYear.previous": "Vorheriges:",
-    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Der Code des Haushaltsjahres muss aus Buchstaben und vier Ziffern bestehen, z.B. HJ2023",
+    "fiscalYear.actions.save.error.invalidFiscalYearCode": "Der Code des Haushaltsjahres muss aus Buchstaben gefolgt von vier Ziffern bestehen, z.B. HJ2020",
     "transaction.allocation.budgetNotFoundForTransaction": "{amount} wurden nicht zugewiesen, weil <b>{fundCode}</b> kein Budget hat",
     "transaction.allocation.notEnoughMoneyForAllocationError": "{amount} wurden dem Budget <b>{toBudgetName}</b> nicht zugewiesen, weil die zulässige Gesamtzuweisung von <b>{fromBudgetName}</b> überschritten wird",
     "transaction.confirmModal.negativeAvailableAmount.heading": "Negativer verfügbarer Betrag",
@@ -585,7 +585,7 @@
     "transaction.allocation.move.hasBeenCreated": "{amount} was successfully allocated to the budget <b>{budgetName}</b>.",
     "settings.exchangeRateSource.providerType.noKeyRequired": "No key required",
     "settings.exchangeRateSource.providerType.keyRequired": "Key required",
-    "errors.currentFiscalYearNotFound": "No current fiscal year found.",
-    "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
+    "errors.currentFiscalYearNotFound": "Kein laufendes Haushaltsjahr gefunden.",
+    "errors.plannedFiscalYearNotFound": "Kein geplantes Haushaltsjahr gefunden.",
     "errors.genericError": "Something went wrong."
 }

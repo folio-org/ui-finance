@@ -36,6 +36,17 @@ import {
 const DEFAULT_LOG_DETAILS = [];
 const shortcuts = [];
 
+const getStatusLabel = (intl, entityType, status) => {
+  return status
+    ? (
+      <FormattedMessage
+        id={`ui-finance.${entityType}.status.${status.toLowerCase()}`}
+        defaultMessage={intl.formatMessage({ id: 'stripes-acq-components.invalidReference' })}
+      />
+    )
+    : <NoValue />;
+};
+
 export const BatchAllocationLogDetails = ({
   batchAllocationLog,
   onClose,
@@ -84,14 +95,10 @@ export const BatchAllocationLogDetails = ({
 
   const formatter = useMemo(() => ({
     [BATCH_ALLOCATION_FIELDS.budgetCurrentAllocation]: item => item.budgetCurrentAllocation ?? <NoValue />,
-    [BATCH_ALLOCATION_FIELDS.fundStatus]: item => (item.fundStatus
-      ? <FormattedMessage id={`ui-finance.fund.status.${item.fundStatus.toLowerCase()}`} />
-      : <FormattedMessage id="stripes-acq-components.invalidReference" />),
-    [BATCH_ALLOCATION_FIELDS.budgetStatus]: item => (item.budgetStatus
-      ? <FormattedMessage id={`ui-finance.budget.status.${item.budgetStatus.toLowerCase()}`} />
-      : <FormattedMessage id="stripes-acq-components.invalidReference" />),
+    [BATCH_ALLOCATION_FIELDS.fundStatus]: item => getStatusLabel(intl, 'fund', item.fundStatus),
+    [BATCH_ALLOCATION_FIELDS.budgetStatus]: item => getStatusLabel(intl, 'budget', item.budgetStatus),
     [BATCH_ALLOCATION_FIELDS.transactionTag]: item => item.transactionTag?.tagList?.join(', '),
-  }), []);
+  }), [intl]);
 
   return (
     <HasCommand

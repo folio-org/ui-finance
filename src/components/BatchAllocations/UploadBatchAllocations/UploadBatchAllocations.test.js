@@ -188,7 +188,7 @@ describe('UploadBatchAllocations', () => {
 
     expect(handle).toHaveBeenCalled();
     expect(showCalloutMock).toHaveBeenCalledWith({
-      messageId: 'ui-finance.actions.allocations.batch.error',
+      message: 'ui-finance.actions.allocations.batch.error',
       type: 'error',
     });
   });

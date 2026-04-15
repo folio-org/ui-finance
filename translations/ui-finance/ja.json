@@ -68,7 +68,7 @@
     "groups.item.information.available": "利用可能",
     "groups.item.information.description": "説明",
     "budget.status.active": "有効",
-    "budget.status.closed": "終了",
+    "budget.status.closed": "クローズ",
     "budget.status.frozen": "凍結",
     "budget.status.planned": "計画",
     "budget.hasBeenSaved": "予算<b> {name} </b>が保存されました",
@@ -418,7 +418,7 @@
     "invoice.status": "ステータス",
     "invoice.invoiceTotal": "合計額（システム）",
     "invoice.status.Approved": "承認済",
-    "invoice.status.Open": "Open",
+    "invoice.status.Open": "オープン",
     "invoice.status.Reviewed": "Reviewed",
     "invoice.unpaidInvoices": "未払請求書",
     "invoice.unpaidInvoices.exportCSV": "エクスポート リスト",
@@ -501,7 +501,7 @@
     "actions.downloadAllocationWorksheet": "Download allocation worksheet (CSV)",
     "allocation.batch.form.title.edit": "Batch edit budgets",
     "allocation.batch.form.footer.recalculate": "Recalculate",
-    "allocation.batch.status.active": "Active",
+    "allocation.batch.status.active": "アクティブ",
     "allocation.batch.status.frozen": "Frozen",
     "allocation.batch.status.inactive": "Inactive",
     "transaction.allocation.batch.columns.fundName": "ファンド名称",
@@ -559,7 +559,7 @@
     "allocation.batch.logs.filters.fiscalYearId": "Fiscal Year",
     "allocation.batch.logs.filters.groupId": "Group",
     "allocation.batch.logs.filters.ledgerId": "Ledger",
-    "allocation.batch.logs.filters.metadata.createdByUserId": "User",
+    "allocation.batch.logs.filters.metadata.createdByUserId": "ユーザー",
     "allocation.batch.logs.filters.metadata.createdDate": "Date",
     "allocation.batch.logs.search.jobNumber": "ID",
     "allocation.batch.logs.search.keyword": "All",
@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Key required",
     "errors.currentFiscalYearNotFound": "No current fiscal year found.",
     "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
-    "errors.genericError": "Something went wrong."
+    "errors.genericError": "Something went wrong.",
+    "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned."
 }

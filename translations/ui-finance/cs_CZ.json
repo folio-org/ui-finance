@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Vyžadován klíč",
     "errors.currentFiscalYearNotFound": "Nebyl nalezen žádný aktuální fiskální rok.",
     "errors.plannedFiscalYearNotFound": "Nebyl nalezen žádný plánovaný fiskální rok.",
-    "errors.genericError": "Něco se pokazilo."
+    "errors.genericError": "Něco se pokazilo.",
+    "errors.failedToCreateAllocations": "Přidělené prostředky nebyly aktualizovány, protože jeden nebo více rozpočtů není aktivních nebo plánovaných."
 }

@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Chave necessária",
     "errors.currentFiscalYearNotFound": "Nenhum ano fiscal atual encontrado.",
     "errors.plannedFiscalYearNotFound": "Nenhum ano fiscal planejado foi encontrado.",
-    "errors.genericError": "Algo deu errado."
+    "errors.genericError": "Algo deu errado.",
+    "errors.failedToCreateAllocations": "As alocações não foram atualizadas porque um ou mais orçamentos não estão ativos ou planejados."
 }

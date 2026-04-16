@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "需要密钥",
     "errors.currentFiscalYearNotFound": "未找到当前财务年度。",
     "errors.plannedFiscalYearNotFound": "未找到已规划的财务年度。",
-    "errors.genericError": "出了些问题。"
+    "errors.genericError": "出了些问题。",
+    "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned."
 }

@@ -368,7 +368,7 @@
     "fiscalYear.code.isInUse": "Ten kod roku budżetowego jest już używany",
     "errors.load.code": "Błąd pobierania kodu",
     "errors.load.name": "Błąd pobierania nazwy",
-    "expenseClass.helper": "Expense classes can be created and edited below. Once you have created expense classes, you can navigate to the Finance app to assign them to your budgets as desired. Once an expense class has been assigned to a budget, users can encumber or expend money against the expense class.",
+    "expenseClass.helper": "Klasy wydatków można utworzyć i edytować poniżej. Po ich utworzeniu możesz przejść do aplikacji Finanse, aby przypisać je do budżetów według potrzeb. Gdy klasa wydatków zostanie przypisana do budżetu, użytkownicy mogą rezerwować środki lub wydawać pieniądze w ramach tej klasy wydatków.",
     "fiscalYear.actions.save.error.fiscalYearInvalidPeriod": "Rok budżetowy nie został zapisany. Data zakończenia roku budżetowego jest wcześniejsza niż data rozpoczęcia!",
     "transaction.increaseAllocation": "Zwiększenie przydziału",
     "transaction.decreaseAllocation": "Zmniejszenie przydziału",
@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Key required",
     "errors.currentFiscalYearNotFound": "No current fiscal year found.",
     "errors.plannedFiscalYearNotFound": "No planned fiscal year found.",
-    "errors.genericError": "Something went wrong."
+    "errors.genericError": "Something went wrong.",
+    "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned."
 }

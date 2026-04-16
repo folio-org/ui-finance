@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Vereiste sleutel",
     "errors.currentFiscalYearNotFound": "Geen Huidige Boekjaar gevonden.",
     "errors.plannedFiscalYearNotFound": "Geen gepland Boekjaar gevonden.",
-    "errors.genericError": "Er ging iets mis."
+    "errors.genericError": "Er ging iets mis.",
+    "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned."
 }

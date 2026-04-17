@@ -1,9 +1,12 @@
 # Change history for ui-finance
 
-## 9.0.0 (IN PROGRESS)
+## 9.1.0 (IN PROGRESS)
+
+## [9.0.0](https://github.com/folio-org/ui-finance/tree/v9.0.0) (2026-04-17)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.4...v9.0.0)
 
 * *BREAKING* Create settings page to define alternate exchange rate source. Refs UIF-581.
-* *BREAKING* Update `orders` and `order-lines` interfaces. Refs UIF-581.
+* *BREAKING* Update `orders` and `order-lines` interfaces. Refs UIF-609.
 * Add a new field `providerType` to exchange rate source settings. Refs UIF-605.
 * Capabilities for setting up alternate exchange rate source. Refs UIF-583.
 * Do not fail rollover results export when no rollover budgets are created. Refs UIF-607.

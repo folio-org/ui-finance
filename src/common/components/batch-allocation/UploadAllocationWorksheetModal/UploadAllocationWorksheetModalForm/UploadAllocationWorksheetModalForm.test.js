@@ -6,6 +6,10 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
+import {
+  ALLOCATION_WORKSHEET_REQUIRED_FIELDS,
+  EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS,
+} from '../../../../const';
 import UploadAllocationWorksheetModalForm from './UploadAllocationWorksheetModalForm';
 
 const defaultProps = {
@@ -23,6 +27,10 @@ const renderForm = (props = {}) => render(
 );
 
 describe('UploadAllocationWorksheetModalForm', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render the modal with the correct heading', () => {
     renderForm();
 
@@ -41,6 +49,31 @@ describe('UploadAllocationWorksheetModalForm', () => {
     renderForm();
 
     expect(screen.getByRole('button', { name: 'stripes-core.button.confirm' })).toBeDisabled();
+  });
+
+  it('should keep quoted values from parsed CSV data', async () => {
+    const quotedValue = '"FY2025"';
+    const requiredHeaders = ALLOCATION_WORKSHEET_REQUIRED_FIELDS.map(
+      (field) => EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS[field],
+    );
+    const fiscalYearHeader = EXPORT_ALLOCATION_WORKSHEET_FIELDS_LABELS.fiscalYear;
+    const csvRow = requiredHeaders
+      .map((header) => (header === fiscalYearHeader ? '"""FY2025"""' : `stub-${header}`))
+      .join(',');
+    const csvContent = `${requiredHeaders.join(',')}\n${csvRow}`;
+
+    renderForm();
+
+    const fileInput = screen.getByTestId('file-uploader-input');
+    const file = new File([csvContent], 'valid.csv', { type: 'text/csv' });
+
+    file.text = jest.fn().mockResolvedValue(csvContent);
+
+    await userEvent.upload(fileInput, file);
+    await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
+
+    expect(defaultProps.onSubmit).toHaveBeenCalled();
+    expect(defaultProps.onSubmit.mock.calls[0][0].file.data[0].fiscalYear).toBe(quotedValue);
   });
 
   // TODO: Enable after group batch allocation feature is created

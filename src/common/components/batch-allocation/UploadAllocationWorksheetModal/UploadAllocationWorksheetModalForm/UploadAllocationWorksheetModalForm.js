@@ -23,15 +23,15 @@ const FileUploadField = ({ input, meta }) => {
     const rows = await csvToJson(file);
 
     const parsed = rows.map((row) => {
-      return Object.fromEntries(
-        Object
-          .entries(row)
-          .map(([key, value]) => {
-            const header = headersMap.get(key.replace(/(^")|("$)/g, ''));
+      return Object.entries(row).reduce((acc, [key, value]) => {
+        const mappedHeader = headersMap.get(key);
 
-            return [header, value.replace(/(^")|("$)/g, '')];
-          }),
-      );
+        if (mappedHeader) {
+          acc[mappedHeader] = value;
+        }
+
+        return acc;
+      }, {});
     });
 
     input.onChange({

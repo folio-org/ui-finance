@@ -646,12 +646,12 @@ export const csvToJson = async (file, options = {}) => {
 
   try {
     text = await file?.text();
-
-    if (typeof text !== 'string') {
-      throw new Error(CSV_ERRORS.readFailed);
-    }
   } catch {
     throw new Error(CSV_ERRORS.readFailed);
+  }
+
+  if (typeof text !== 'string') {
+    throw new TypeError(CSV_ERRORS.readFailed);
   }
 
   const resolvedDelimiter = delimiter ?? detectDelimiter(text) ?? DEFAULT_DELIMITER;

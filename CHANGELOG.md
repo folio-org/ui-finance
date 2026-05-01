@@ -2,6 +2,11 @@
 
 ## 9.1.0 (IN PROGRESS)
 
+## [9.0.1](https://github.com/folio-org/ui-finance/tree/v9.0.1) (2026-05-01)
+[Full Changelog](https://github.com/folio-org/ui-finance/compare/v9.0.0...v9.0.1)
+
+* Update `@folio/stripes-data-transfer-components` version to `~7.1.0`.
+
 ## [9.0.0](https://github.com/folio-org/ui-finance/tree/v9.0.0) (2026-04-17)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.4...v9.0.0)
 

@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -531,7 +531,7 @@
   },
   "dependencies": {
     "@folio/stripes-acq-components": "~7.1.0",
-    "@folio/stripes-data-transfer-components": "~7.0.0",
+    "@folio/stripes-data-transfer-components": "~7.1.0",
     "@rehooks/local-storage": "^2.4.4",
     "final-form": "^4.18.2",
     "final-form-arrays": "^3.0.1",

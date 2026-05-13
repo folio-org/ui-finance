@@ -2,6 +2,8 @@
 
 ## 9.1.0 (IN PROGRESS)
 
+* Fix `csvToJson` parser. Refs UIF-661.
+
 ## [9.0.0](https://github.com/folio-org/ui-finance/tree/v9.0.0) (2026-04-17)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.4...v9.0.0)
 

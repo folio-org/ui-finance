@@ -227,7 +227,9 @@
         "permissionName": "ui-finance.ledger.rollover.execute",
         "displayName": "Finance: Execute fiscal year rollover",
         "visible": true,
-        "replaces": ["ui-finance.ledger.rollover"],
+        "replaces": [
+          "ui-finance.ledger.rollover"
+        ],
         "subPermissions": [
           "finance.ledger-rollovers-errors.collection.get",
           "finance.ledger-rollovers-progress.collection.get",
@@ -374,7 +376,9 @@
         "permissionName": "ui-finance.fund-budget.recalculate-totals.execute",
         "displayName": "Finance: Recalculate budget totals",
         "visible": true,
-        "replaces": ["ui-finance.fund-budget.recalculateTotals"],
+        "replaces": [
+          "ui-finance.fund-budget.recalculateTotals"
+        ],
         "subPermissions": [
           "ui-finance.fund-budget.view",
           "finance.budgets-recalculate.item.post"
@@ -449,7 +453,9 @@
         "displayName": "Finance: Manually release encumbrance",
         "description": "",
         "visible": true,
-        "replaces": ["ui-finance.manually-release-encumbrances"],
+        "replaces": [
+          "ui-finance.manually-release-encumbrances"
+        ],
         "subPermissions": [
           "finance.release-encumbrance.item.post"
         ]
@@ -458,7 +464,9 @@
         "permissionName": "ui-finance.encumbrance.unrelease.execute",
         "displayName": "Finance: Unrelease encumbrance",
         "visible": true,
-        "replaces": ["ui-finance.encumbrance.unrelease"],
+        "replaces": [
+          "ui-finance.encumbrance.unrelease"
+        ],
         "subPermissions": [
           "finance.unrelease-encumbrance.item.post"
         ]
@@ -530,7 +538,7 @@
     "uuid": "^9.0.0"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "~7.1.0",
+    "@folio/stripes-acq-components": "^7.1.1099000000000442",
     "@folio/stripes-data-transfer-components": "~7.0.0",
     "@rehooks/local-storage": "^2.4.4",
     "final-form": "^4.18.2",

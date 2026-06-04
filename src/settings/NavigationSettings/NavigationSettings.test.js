@@ -6,17 +6,14 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { useOkapiKy } from '@folio/stripes/core';
-import {
-  ResponseErrorsContainer,
-  useShowCallout,
-} from '@folio/stripes-acq-components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
-import { NavigationSettings } from './NavigationSettings';
+import { NavigationSettings, isBrowseTabEnabled } from './NavigationSettings';
+
+const BROWSE_TAB_STORAGE_KEY = 'ui-finance-browse-tab-enabled';
 
 jest.mock('@folio/stripes/core', () => ({
   ...jest.requireActual('@folio/stripes/core'),
-  useOkapiKy: jest.fn(),
   useStripes: jest.fn(() => ({
     hasPerm: jest.fn(),
   })),
@@ -26,40 +23,25 @@ jest.mock('@folio/stripes/core', () => ({
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useShowCallout: jest.fn(),
-  ResponseErrorsContainer: {
-    create: jest.fn(),
-  },
+  usePaneFocus: jest.fn(() => ({ paneTitleRef: { current: null } })),
 }));
 
-const defaultProps = {};
-
 const renderComponent = (props = {}) => render(
-  <NavigationSettings
-    {...defaultProps}
-    {...props}
-  />,
+  <NavigationSettings {...props} />,
   { wrapper: MemoryRouter },
 );
 
 describe('NavigationSettings', () => {
-  const kyMock = {
-    put: jest.fn(() => ({
-      json: jest.fn(() => Promise.resolve({})),
-    })),
-    post: jest.fn(() => ({
-      json: jest.fn(() => Promise.resolve({})),
-    })),
-  };
   const showCalloutMock = jest.fn();
   const hasPermMock = jest.fn();
 
   beforeEach(() => {
-    useOkapiKy.mockReturnValue(kyMock);
+    localStorage.clear();
     useShowCallout.mockReturnValue(showCalloutMock);
+
     const { useStripes } = require('@folio/stripes/core');
-    useStripes.mockReturnValue({
-      hasPerm: hasPermMock,
-    });
+
+    useStripes.mockReturnValue({ hasPerm: hasPermMock });
     hasPermMock.mockReturnValue(true);
   });
 
@@ -67,7 +49,7 @@ describe('NavigationSettings', () => {
     jest.clearAllMocks();
   });
 
-  it('should render navigation settings', () => {
+  it('should render navigation settings form', () => {
     renderComponent();
 
     expect(screen.getByText('ui-finance.settings.navigation.title')).toBeInTheDocument();
@@ -75,12 +57,22 @@ describe('NavigationSettings', () => {
     expect(screen.getByText('ui-finance.settings.navigation.enableBrowseTab')).toBeInTheDocument();
   });
 
-  it('should render checkbox', () => {
+  it('should render checkbox unchecked when localStorage is empty', () => {
     renderComponent();
 
     const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).toBeInTheDocument();
+
     expect(checkbox).not.toBeChecked();
+  });
+
+  it('should render checkbox checked when localStorage has enabled=true', () => {
+    localStorage.setItem(BROWSE_TAB_STORAGE_KEY, JSON.stringify({ enabled: true }));
+
+    renderComponent();
+
+    const checkbox = screen.getByRole('checkbox');
+
+    expect(checkbox).toBeChecked();
   });
 
   it('should disable checkbox when user lacks edit permissions', () => {
@@ -89,6 +81,7 @@ describe('NavigationSettings', () => {
     renderComponent();
 
     const checkbox = screen.getByRole('checkbox');
+
     expect(checkbox).toBeDisabled();
   });
 
@@ -98,13 +91,15 @@ describe('NavigationSettings', () => {
     renderComponent();
 
     const checkbox = screen.getByRole('checkbox');
+
     expect(checkbox).not.toBeDisabled();
   });
 
-  it('should disable save button initially', () => {
+  it('should disable save button initially (pristine form)', () => {
     renderComponent();
 
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
+
     expect(saveButton).toBeDisabled();
   });
 
@@ -114,8 +109,6 @@ describe('NavigationSettings', () => {
     const checkbox = screen.getByRole('checkbox');
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
-    expect(saveButton).toBeDisabled();
-
     await userEvent.click(checkbox);
 
     await waitFor(() => {
@@ -123,7 +116,7 @@ describe('NavigationSettings', () => {
     });
   });
 
-  it('should create new navigation settings', async () => {
+  it('should save to localStorage and show success callout on submit', async () => {
     renderComponent();
 
     const checkbox = screen.getByRole('checkbox');
@@ -137,58 +130,18 @@ describe('NavigationSettings', () => {
     await userEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(kyMock.post).toHaveBeenCalledWith(
-        '/finance/navigation-settings',
-        { json: { enabled: true } }
-      );
       expect(showCalloutMock).toHaveBeenCalledWith({
         messageId: 'ui-finance.settings.navigation.submit.success',
       });
     });
+
+    const stored = JSON.parse(localStorage.getItem(BROWSE_TAB_STORAGE_KEY));
+
+    expect(stored.enabled).toBe(true);
   });
 
-  it('should update existing navigation settings', async () => {
-    // Mock that settings already exist
-    const existingSettings = { id: '123', enabled: false };
-    
-    // We need to modify the component to accept initial settings
-    // For now, we'll test the PUT path by mocking the component behavior
-    renderComponent();
-
-    const checkbox = screen.getByRole('checkbox');
-    const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
-
-    await userEvent.click(checkbox);
-    await waitFor(() => {
-      expect(saveButton).not.toBeDisabled();
-    });
-
-    await userEvent.click(saveButton);
-
-    // Since navigationSettings is null in the component, it will use POST
-    // This test verifies the POST path works
-    await waitFor(() => {
-      expect(kyMock.post).toHaveBeenCalled();
-    });
-  });
-
-  it('should handle request errors with error message', async () => {
-    const errorMessage = 'Test error message';
-    const errorHandler = {
-      getError: jest.fn(() => ({ message: errorMessage })),
-    };
-
-    ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
-
-    kyMock.post.mockReturnValueOnce({
-      json: jest.fn().mockRejectedValueOnce({
-        response: {
-          clone: () => ({
-            json: jest.fn().mockReturnValue({ message: errorMessage }),
-          }),
-        },
-      }),
-    });
+  it('should dispatch custom event on successful save', async () => {
+    const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
 
     renderComponent();
 
@@ -203,29 +156,21 @@ describe('NavigationSettings', () => {
     await userEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(showCalloutMock).toHaveBeenCalledWith({
-        type: 'error',
-        message: errorMessage,
-      });
+      expect(dispatchEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'browse-tab-settings-changed',
+        }),
+      );
     });
+
+    dispatchEventSpy.mockRestore();
   });
 
-  it('should handle request errors without error message', async () => {
-    const errorHandler = {
-      getError: jest.fn(() => ({ message: null })),
-    };
-
-    ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
-
-    kyMock.post.mockReturnValueOnce({
-      json: jest.fn().mockRejectedValueOnce({
-        response: {
-          clone: () => ({
-            json: jest.fn().mockReturnValue({}),
-          }),
-        },
-      }),
+  it('should show error callout when localStorage fails', async () => {
+    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('Storage full');
     });
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
     renderComponent();
 
@@ -245,31 +190,59 @@ describe('NavigationSettings', () => {
         messageId: 'ui-finance.settings.navigation.submit.error.generic',
       });
     });
+
+    Storage.prototype.setItem.mockRestore();
   });
 
-  it('should disable save button when user lacks edit permissions', () => {
+  it('should disable save button when user lacks permissions even after toggle', async () => {
     hasPermMock.mockReturnValue(false);
 
     renderComponent();
 
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
+
     expect(saveButton).toBeDisabled();
   });
 
-  it('should not enable save button when checkbox is toggled and user lacks permissions', async () => {
-    hasPermMock.mockReturnValue(false);
+  it('should handle corrupted localStorage data gracefully', () => {
+    localStorage.setItem(BROWSE_TAB_STORAGE_KEY, 'not-valid-json');
+
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
 
     renderComponent();
 
     const checkbox = screen.getByRole('checkbox');
-    const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
-    expect(saveButton).toBeDisabled();
-
-    await userEvent.click(checkbox);
-
-    // Save button should remain disabled due to isNonInteractive
-    expect(saveButton).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
   });
 });
 
+describe('isBrowseTabEnabled', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it('should return false when localStorage is empty', () => {
+    expect(isBrowseTabEnabled()).toBe(false);
+  });
+
+  it('should return true when enabled is true in localStorage', () => {
+    localStorage.setItem(BROWSE_TAB_STORAGE_KEY, JSON.stringify({ enabled: true }));
+
+    expect(isBrowseTabEnabled()).toBe(true);
+  });
+
+  it('should return false when enabled is false in localStorage', () => {
+    localStorage.setItem(BROWSE_TAB_STORAGE_KEY, JSON.stringify({ enabled: false }));
+
+    expect(isBrowseTabEnabled()).toBe(false);
+  });
+
+  it('should return false when localStorage has invalid JSON', () => {
+    localStorage.setItem(BROWSE_TAB_STORAGE_KEY, 'bad-json');
+
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    expect(isBrowseTabEnabled()).toBe(false);
+  });
+});

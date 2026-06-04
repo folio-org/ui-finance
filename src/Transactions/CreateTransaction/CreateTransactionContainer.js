@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { ConfirmationModal } from '@folio/stripes/components';
 import {
   getAmountWithCurrency,
-  getFundsForSelect,
   TRANSACTION_TYPES,
   useAllFunds,
   useShowCallout,
@@ -18,7 +17,7 @@ import {
 } from '@folio/stripes/core';
 
 import { BATCH_TRANSACTION_TYPES } from '../../common/const';
-import { useBatchTransactionsMutation } from '../../common/hooks';
+import { useBatchTransactionsMutation, useLedgers } from '../../common/hooks';
 import {
   TRANSACTION_SOURCE,
 } from '../constants';
@@ -55,6 +54,7 @@ export const CreateTransactionContainer = ({
     isLoading: isFundsLoading,
     funds,
   } = useAllFunds();
+  const { ledgers, isLoading: isLedgersLoading } = useLedgers();
   const { handleCreateTransactionErrorResponse } = useCreateTransactionErrorHandler();
   const {
     confirmModalProps,
@@ -173,7 +173,37 @@ export const CreateTransactionContainer = ({
     saveTransactionStep,
   ]);
 
-  const fundsOptions = useMemo(() => getFundsForSelect(funds), [funds]);
+  const fundsOptions = useMemo(() => {
+    if (!funds || !ledgers?.length) return [];
+
+    const ledgerMap = ledgers.reduce((acc, ledger) => {
+      acc[ledger.id] = ledger;
+
+      return acc;
+    }, {});
+
+    const grouped = {};
+
+    funds.forEach((fund) => {
+      const ledgerId = fund.ledgerId;
+      const ledger = ledgerMap[ledgerId];
+      const groupKey = ledgerId || 'unknown';
+
+      if (!grouped[groupKey]) {
+        grouped[groupKey] = {
+          label: ledger ? `${ledger.name} (${ledger.code})` : 'Unknown Ledger',
+          options: [],
+        };
+      }
+
+      grouped[groupKey].options.push({
+        label: `${fund.name} (${fund.code})`,
+        value: fund.id,
+      });
+    });
+
+    return Object.values(grouped).sort((a, b) => a.label.localeCompare(b.label));
+  }, [funds, ledgers]);
 
   return (
     <>
@@ -184,7 +214,7 @@ export const CreateTransactionContainer = ({
         fundId={fundId}
         fundsOptions={fundsOptions}
         initialValues={initialValues}
-        isFundsLoading={isFundsLoading}
+        isFundsLoading={isFundsLoading || isLedgersLoading}
         isLoading={isLoading}
         onClose={onClose}
         onSubmit={onSubmitTransactionForm}

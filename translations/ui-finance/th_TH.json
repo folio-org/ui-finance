@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Key required",
     "errors.currentFiscalYearNotFound": "ไม่พบปีงบประมาณปัจจุบัน",
     "errors.plannedFiscalYearNotFound": "ไม่พบปีงบประมาณที่วางแผนไว้",
-    "errors.genericError": "เกิดข้อผิดพลาดขึ้น"
+    "errors.genericError": "เกิดข้อผิดพลาดขึ้น",
+    "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned."
 }

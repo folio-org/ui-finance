@@ -587,5 +587,6 @@
     "settings.exchangeRateSource.providerType.keyRequired": "Потрібен ключ",
     "errors.currentFiscalYearNotFound": "Не знайдено поточного фінансового року.",
     "errors.plannedFiscalYearNotFound": "Не знайдено запланованого фінансового року.",
-    "errors.genericError": "Щось пішло не так."
+    "errors.genericError": "Щось пішло не так.",
+    "errors.failedToCreateAllocations": "Allocations have not been updated because one or more budgets are not active or planned."
 }

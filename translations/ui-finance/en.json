@@ -641,5 +641,25 @@
   "browse.actions.newFiscalYear": "New fiscal year",
   "browse.actions.newLedger": "New ledger",
   "browse.actions.newGroup": "New group",
-  "browse.actions.newFund": "New fund"
+  "browse.actions.newFund": "New fund",
+
+  "browse.subtitle.withCounts": "{ledgers} Ledgers • {groups} groups • {funds} Funds • {budgets} Budgets • {expenseClasses} Expense classes",
+
+  "browse.hierarchy.fiscalYear": "Fiscal year",
+  "browse.hierarchy.type.ledger": "Ledger",
+  "browse.hierarchy.type.group": "Group",
+  "browse.hierarchy.type.fund": "Fund",
+  "browse.hierarchy.type.budget": "Budget",
+  "browse.hierarchy.type.expenseClass": "Expense class",
+
+  "browse.hierarchy.collapseLedgers": "Collapse ledgers",
+  "browse.hierarchy.expandLedgers": "Expand ledgers",
+  "browse.hierarchy.collapseGroups": "Collapse groups",
+  "browse.hierarchy.expandGroups": "Expand groups",
+  "browse.hierarchy.collapseFunds": "Collapse funds",
+  "browse.hierarchy.expandFunds": "Expand funds",
+  "browse.hierarchy.collapseBudgets": "Collapse budgets",
+  "browse.hierarchy.expandBudgets": "Expand budgets",
+
+  "browse.hierarchy.noResults": "No financial data found for the selected fiscal year."
 }

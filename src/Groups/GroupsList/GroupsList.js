@@ -34,12 +34,14 @@ import {
   useLocationSorting,
 } from '@folio/stripes-acq-components';
 
-import { GROUPS_ROUTE } from '../../common/const';
+import { BROWSE_ROUTE, GROUPS_ROUTE } from '../../common/const';
 import {
+  useBrowseTabEnabled,
   useResultsPageTitle,
   useSelectedRow,
 } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import { SearchBrowseSegmentedControl, BROWSE_TABS } from '../../Browse';
 import CheckPermission from '../../common/CheckPermission';
 
 import { GroupDetailsContainer } from '../GroupDetails';
@@ -74,6 +76,8 @@ const GroupsList = ({
   const location = useLocation();
   const match = useRouteMatch();
   const stripes = useStripes();
+  const isBrowseEnabled = useBrowseTabEnabled();
+
   const [
     filters,
     searchQuery,
@@ -93,6 +97,12 @@ const GroupsList = ({
   const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/group/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('groups-list');
+
+  const handleTabChange = useCallback((tab) => {
+    if (tab === BROWSE_TABS.BROWSE) {
+      history.push(BROWSE_ROUTE);
+    }
+  }, [history]);
 
   const renderActionMenu = useCallback(() => <GroupsListLastMenu />, []);
   const resultsStatusMessage = (
@@ -141,6 +151,12 @@ const GroupsList = ({
             toggleFilters={toggleFilters}
             width="350px"
           >
+            {isBrowseEnabled && (
+              <SearchBrowseSegmentedControl
+                activeTab={BROWSE_TABS.SEARCH}
+                onTabChange={handleTabChange}
+              />
+            )}
             <FinanceNavigation />
 
             <SingleSearchForm

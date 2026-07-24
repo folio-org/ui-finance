@@ -7,20 +7,44 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import { useLocationFilters } from '@folio/stripes-acq-components';
+import { useFiscalYears, useLocationFilters } from '@folio/stripes-acq-components';
 
 import Browse from './Browse';
-import { useBrowseTabEnabled } from '../common/hooks';
+import { useBrowseTabEnabled, useFiscalYear } from '../common/hooks';
+import { useBrowseHierarchy } from './hooks';
 
 jest.mock('../common/hooks', () => ({
   ...jest.requireActual('../common/hooks'),
   useBrowseTabEnabled: jest.fn(),
+  useFiscalYear: jest.fn(),
 }));
+
+jest.mock('./hooks', () => ({
+  useBrowseHierarchy: jest.fn(),
+}));
+
+jest.mock('../common/CheckPermission', () => ({ children }) => children);
+
+jest.mock('../Ledger/LedgerDetails', () => () => <div data-testid="ledger-details">LedgerDetails</div>);
+
+jest.mock('../Groups/GroupDetails', () => ({
+  GroupDetailsContainer: () => <div data-testid="group-details">GroupDetails</div>,
+}));
+
+jest.mock('../Funds/FundDetails', () => ({
+  FundDetailsContainer: () => <div data-testid="fund-details">FundDetails</div>,
+}));
+
+jest.mock('../components/Budget/BudgetView', () => () => <div data-testid="budget-view">BudgetView</div>);
 
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
   PersistedPaneset: (props) => <div>{props.children}</div>,
+}));
+
+jest.mock('./BrowseHierarchy', () => ({
+  BrowseHierarchy: jest.fn(() => <div data-testid="browse-hierarchy">BrowseHierarchy</div>),
 }));
 
 jest.mock('./BrowseActionsMenu', () => ({
@@ -45,6 +69,8 @@ jest.mock('@folio/stripes/core', () => ({
   TitleManager: ({ children }) => children,
 }));
 
+const mockApplyFilters = jest.fn();
+
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useFiltersToogle: jest.fn(() => ({
@@ -54,11 +80,12 @@ jest.mock('@folio/stripes-acq-components', () => ({
   useLocationFilters: jest.fn(() => [
     {},
     '',
-    jest.fn(),
+    mockApplyFilters,
     jest.fn(),
     jest.fn(),
     jest.fn(),
   ]),
+  useFiscalYears: jest.fn(() => ({ fiscalYears: [] })),
   FiltersPane: jest.fn(({ children }) => <div data-testid="filters-pane">{children}</div>),
   ResetButton: jest.fn(({ disabled }) => <button data-testid="reset-button" disabled={disabled} type="button">Reset</button>),
   ResultsPane: jest.fn(({ children, title, subTitle, renderActionMenu }) => (
@@ -71,6 +98,12 @@ jest.mock('@folio/stripes-acq-components', () => ({
   )),
 }));
 
+const defaultHierarchyData = {
+  hierarchy: [],
+  counts: { ledgers: 0, groups: 0, funds: 0, budgets: 0, expenseClasses: 0 },
+  isLoading: false,
+};
+
 const renderComponent = (history = createMemoryHistory({ initialEntries: ['/finance/browse'] })) => render(
   <Router history={history}>
     <Browse />
@@ -80,6 +113,9 @@ const renderComponent = (history = createMemoryHistory({ initialEntries: ['/fina
 describe('Browse', () => {
   beforeEach(() => {
     useBrowseTabEnabled.mockReturnValue(true);
+    useFiscalYear.mockReturnValue({ fiscalYear: undefined, isLoading: false });
+    useBrowseHierarchy.mockReturnValue(defaultHierarchyData);
+    useFiscalYears.mockReturnValue({ fiscalYears: [] });
   });
 
   afterEach(() => {
@@ -132,32 +168,112 @@ describe('Browse', () => {
       expect(screen.getByTestId('browse-filters')).toBeInTheDocument();
     });
 
-    it('should show "select fiscal year" prompt when no fiscal year filter is applied', () => {
+    it('should show "select fiscal year" prompt when no fiscal year is selected', () => {
       renderComponent();
 
       expect(screen.getByText('ui-finance.browse.selectFiscalYear')).toBeInTheDocument();
-    });
-
-    it('should show "no results" message when a fiscal year filter is applied', () => {
-      useLocationFilters.mockReturnValue([
-        { fiscalYearId: ['fy-1'] },
-        '',
-        jest.fn(),
-        jest.fn(),
-        jest.fn(),
-        jest.fn(),
-      ]);
-
-      renderComponent();
-
-      expect(screen.getByText('ui-finance.browse.noResults')).toBeInTheDocument();
-      expect(screen.queryByText('ui-finance.browse.selectFiscalYear')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('browse-hierarchy')).not.toBeInTheDocument();
     });
 
     it('should disable the reset button when there is no active search', () => {
       renderComponent();
 
       expect(screen.getByTestId('reset-button')).toBeDisabled();
+    });
+  });
+
+  describe('default fiscal year selection', () => {
+    it('should not apply any fiscal year filter when none is currently in the "current" period', () => {
+      useFiscalYears.mockReturnValue({
+        fiscalYears: [
+          { id: 'fy-past', periodStart: '2000-01-01', periodEnd: '2000-12-31' },
+        ],
+      });
+
+      renderComponent();
+
+      expect(mockApplyFilters).not.toHaveBeenCalled();
+    });
+
+    it('should apply the fiscal year whose period contains today as the default', () => {
+      const now = new Date();
+      const yearAgo = new Date(now);
+
+      yearAgo.setFullYear(now.getFullYear() - 1);
+
+      const yearAhead = new Date(now);
+
+      yearAhead.setFullYear(now.getFullYear() + 1);
+
+      useFiscalYears.mockReturnValue({
+        fiscalYears: [
+          { id: 'fy-past', periodStart: '2000-01-01', periodEnd: '2000-12-31' },
+          { id: 'fy-current', periodStart: yearAgo.toISOString(), periodEnd: yearAhead.toISOString() },
+        ],
+      });
+
+      renderComponent();
+
+      expect(mockApplyFilters).toHaveBeenCalledWith('fiscalYearId', ['fy-current']);
+    });
+
+    it('should not override an already-selected fiscal year', () => {
+      useLocationFilters.mockReturnValue([
+        { fiscalYearId: ['fy-selected'] },
+        '',
+        mockApplyFilters,
+        jest.fn(),
+        jest.fn(),
+        jest.fn(),
+      ]);
+
+      const now = new Date();
+      const yearAhead = new Date(now);
+
+      yearAhead.setFullYear(now.getFullYear() + 1);
+
+      useFiscalYears.mockReturnValue({
+        fiscalYears: [
+          { id: 'fy-current', periodStart: now.toISOString(), periodEnd: yearAhead.toISOString() },
+        ],
+      });
+
+      renderComponent();
+
+      expect(mockApplyFilters).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when a fiscal year is selected', () => {
+    beforeEach(() => {
+      useLocationFilters.mockReturnValue([
+        { fiscalYearId: ['fy-1'] },
+        '',
+        mockApplyFilters,
+        jest.fn(),
+        jest.fn(),
+        jest.fn(),
+      ]);
+      useFiscalYear.mockReturnValue({ fiscalYear: { id: 'fy-1', code: 'FY2024' }, isLoading: false });
+    });
+
+    it('should render the hierarchy component', () => {
+      renderComponent();
+
+      expect(screen.getByTestId('browse-hierarchy')).toBeInTheDocument();
+      expect(screen.queryByText('ui-finance.browse.selectFiscalYear')).not.toBeInTheDocument();
+    });
+
+    it('should show the subtitle with counts', () => {
+      useBrowseHierarchy.mockReturnValue({
+        hierarchy: [{ id: 'led-1', name: 'Ledger', groups: [] }],
+        counts: { ledgers: 1, groups: 2, funds: 3, budgets: 4, expenseClasses: 5 },
+        isLoading: false,
+      });
+
+      renderComponent();
+
+      expect(screen.getByText('ui-finance.browse.subtitle.withCounts')).toBeInTheDocument();
     });
   });
 
@@ -181,6 +297,32 @@ describe('Browse', () => {
 
       expect(history.location.pathname).toBe('/finance/browse');
       expect(screen.getByTestId('results-pane')).toBeInTheDocument();
+    });
+  });
+
+  describe('detail view routes', () => {
+    it('should render ledger detail view when on ledger route', () => {
+      renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/ledger/led-1/view'] }));
+
+      expect(screen.getByTestId('ledger-details')).toBeInTheDocument();
+    });
+
+    it('should render group detail view when on group route', () => {
+      renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/group/grp-1/view'] }));
+
+      expect(screen.getByTestId('group-details')).toBeInTheDocument();
+    });
+
+    it('should render fund detail view when on fund route', () => {
+      renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/fund/fund-1/view'] }));
+
+      expect(screen.getByTestId('fund-details')).toBeInTheDocument();
+    });
+
+    it('should render budget view when on budget route', () => {
+      renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/budget/bud-1/view'] }));
+
+      expect(screen.getByTestId('budget-view')).toBeInTheDocument();
     });
   });
 });

@@ -1,0 +1,159 @@
+/* Hierarchy container */
+.hierarchyContainer {
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual row styling */
+.hierarchyRow {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.15s ease;
+}
+
+.hierarchyRow:hover {
+  background-color: var(--color-fill-hover);
+}
+
+.hierarchyRow[data-type="ledger"] {
+  background-color: var(--color-fill-table-header);
+}
+
+/* Row content layout */
+.rowContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Expand/collapse button */
+.expandButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.expandButton:hover {
+  color: var(--color-text-link);
+}
+
+.expandIconPlaceholder {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Record type label */
+.recordType {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  min-width: auto;
+}
+
+/* Separator */
+.separator {
+  color: var(--color-text-secondary);
+}
+
+/* Link styling */
+.hierarchyLink {
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+
+.hierarchyLink:hover {
+  text-decoration: underline;
+}
+
+/* Status text */
+.status {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Controls bar */
+.controlsBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--color-fill-table-header);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.controlLink {
+  color: var(--color-text-link);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+}
+
+.controlLink:hover {
+  text-decoration: underline;
+}
+
+.controlSeparator {
+  color: var(--color-text-secondary);
+}
+
+/* Summary counts */
+.summaryCounts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+/* Loading state */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+}
+
+/* Empty state */
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.emptyIcon {
+  margin-bottom: 16px;
+}
+
+/* Fiscal year header */
+.fiscalYearHeader {
+  padding: 12px 16px;
+  background-color: var(--color-fill-table-header);
+  border-bottom: 2px solid var(--color-border);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.fiscalYearLabel {
+  color: var(--color-text-secondary);
+  margin-right: 8px;
+}
+

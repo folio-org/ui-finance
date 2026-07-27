@@ -26,6 +26,7 @@ const BrowseHierarchy = ({
   hierarchy,
   fiscalYearCode,
   isLoading,
+  locationSearch,
 }) => {
   // Track expanded state for each level
   const [expandedLedgers, setExpandedLedgers] = useState(new Set());
@@ -187,6 +188,7 @@ const BrowseHierarchy = ({
             isExpanded={isBudgetExpanded}
             hasChildren={hasExpenseClasses}
             onToggle={() => toggleBudget(budgetKey)}
+            locationSearch={locationSearch}
           />
           {isBudgetExpanded && hasExpenseClasses && (
             budget.expenseClasses.map(expenseClass => (
@@ -224,6 +226,7 @@ const BrowseHierarchy = ({
             isExpanded={isFundExpanded}
             hasChildren={hasBudgets}
             onToggle={() => toggleFund(fundKey)}
+            locationSearch={locationSearch}
           />
           {isFundExpanded && hasBudgets && renderBudgets(fund.budgets, fundKey)}
         </React.Fragment>
@@ -250,6 +253,7 @@ const BrowseHierarchy = ({
             hasChildren={hasFunds}
             onToggle={() => toggleGroup(groupKey)}
             isUngrouped={group.isUngrouped}
+            locationSearch={locationSearch}
           />
           {isGroupExpanded && hasFunds && renderFunds(group.funds, groupKey)}
         </React.Fragment>
@@ -274,6 +278,7 @@ const BrowseHierarchy = ({
             isExpanded={isLedgerExpanded}
             hasChildren={hasGroups}
             onToggle={() => toggleLedger(ledger.id)}
+            locationSearch={locationSearch}
           />
           {isLedgerExpanded && hasGroups && renderGroups(ledger.groups, ledger.id)}
         </React.Fragment>
@@ -314,12 +319,14 @@ BrowseHierarchy.propTypes = {
   })),
   fiscalYearCode: PropTypes.string,
   isLoading: PropTypes.bool,
+  locationSearch: PropTypes.string,
 };
 
 BrowseHierarchy.defaultProps = {
   hierarchy: [],
   fiscalYearCode: '',
   isLoading: false,
+  locationSearch: '',
 };
 
 export default BrowseHierarchy;

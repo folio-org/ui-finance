@@ -140,6 +140,22 @@ describe('HierarchyRow', () => {
 
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
+
+    it('should preserve the current location search (e.g. the selected fiscal year) in the link href', () => {
+      renderComponent({ type: 'ledger', id: 'led-1', locationSearch: '?fiscalYearId=fy-1' });
+
+      const link = screen.getByRole('link');
+
+      expect(link).toHaveAttribute('href', '/finance/browse/ledger/led-1/view?fiscalYearId=fy-1');
+    });
+
+    it('should not append a search string when locationSearch is empty', () => {
+      renderComponent({ type: 'ledger', id: 'led-1', locationSearch: '' });
+
+      const link = screen.getByRole('link');
+
+      expect(link).toHaveAttribute('href', '/finance/browse/ledger/led-1/view');
+    });
   });
 
   describe('expand/collapse', () => {

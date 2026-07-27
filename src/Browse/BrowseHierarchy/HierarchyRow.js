@@ -50,6 +50,7 @@ const HierarchyRow = ({
   hasChildren,
   onToggle,
   isUngrouped,
+  locationSearch,
 }) => {
   const indent = level * INDENT_SIZE;
   const link = getRecordLink(type, id);
@@ -67,7 +68,7 @@ const HierarchyRow = ({
 
     if (link) {
       return (
-        <Link to={link} className={css.hierarchyLink}>
+        <Link to={{ pathname: link, search: locationSearch }} className={css.hierarchyLink}>
           {displayName}
         </Link>
       );
@@ -144,6 +145,7 @@ HierarchyRow.propTypes = {
   hasChildren: PropTypes.bool,
   onToggle: PropTypes.func,
   isUngrouped: PropTypes.bool,
+  locationSearch: PropTypes.string,
 };
 
 HierarchyRow.defaultProps = {
@@ -153,6 +155,7 @@ HierarchyRow.defaultProps = {
   hasChildren: false,
   onToggle: null,
   isUngrouped: false,
+  locationSearch: '',
 };
 
 export default HierarchyRow;

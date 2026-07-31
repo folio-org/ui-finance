@@ -1,3 +1,4 @@
+import escapeRegExp from 'lodash/escapeRegExp';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -6,6 +7,32 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { ALLOCATION_TYPE } from '../constants';
+
+/*
+ * FieldSelectionFinal's default onFilter (filterSelectValues from stripes-acq-components) only
+ * matches against each option's top-level `label`, so once funds are grouped by ledger, it matches
+ * against the ledger's label instead of any fund inside it - the filter box would otherwise appear
+ * to return no results for any fund name/code search. This mirrors filterSelectValues' matching
+ * (case-insensitive substring), but reaches into `options` for grouped entries.
+ */
+export const filterGroupedFundOptions = (value, dataOptions = []) => {
+  if (!value) return dataOptions;
+
+  const regex = new RegExp(escapeRegExp(value), 'i');
+  const matchesLabel = ({ label }) => regex.test(label);
+
+  return dataOptions.reduce((acc, opt) => {
+    if (opt.options) {
+      const filteredOptions = opt.options.filter(matchesLabel);
+
+      if (filteredOptions.length > 0) acc.push({ ...opt, options: filteredOptions });
+    } else if (matchesLabel(opt)) {
+      acc.push(opt);
+    }
+
+    return acc;
+  }, []);
+};
 
 export const isTransferTransaction = (transactionType) => transactionType === TRANSACTION_TYPES.transfer;
 export const isAllocationTransaction = (transactionType) => transactionType === TRANSACTION_TYPES.allocation;

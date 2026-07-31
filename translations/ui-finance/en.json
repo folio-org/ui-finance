@@ -484,6 +484,7 @@
   "transaction.transfer.title": "Transfer",
   "transaction.transferFrom": "Transfer from",
   "transaction.transferTo": "Transfer to",
+  "transaction.unknownLedger": "Unknown ledger",
   "transaction.type.Allocation": "Allocation",
   "transaction.type.Credit": "Credit",
   "transaction.type.Encumbrance": "Encumbrance",

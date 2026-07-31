@@ -13,6 +13,7 @@ import Browse from './Browse';
 import CheckPermission from '../common/CheckPermission';
 import { useBrowseTabEnabled, useFiscalYear } from '../common/hooks';
 import { useBrowseHierarchy } from './hooks';
+import { BrowseHierarchy } from './BrowseHierarchy';
 
 jest.mock('../common/hooks', () => ({
   ...jest.requireActual('../common/hooks'),
@@ -21,6 +22,7 @@ jest.mock('../common/hooks', () => ({
 }));
 
 jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
   useBrowseHierarchy: jest.fn(),
 }));
 
@@ -275,6 +277,55 @@ describe('Browse', () => {
       renderComponent();
 
       expect(screen.getByText('ui-finance.browse.subtitle.withCounts')).toBeInTheDocument();
+    });
+  });
+
+  describe('hierarchy filtering', () => {
+    const twoLedgerHierarchy = [
+      { id: 'led-active', name: 'Active Ledger', status: 'Active', groups: [] },
+      { id: 'led-frozen', name: 'Frozen Ledger', status: 'Frozen', groups: [] },
+    ];
+
+    beforeEach(() => {
+      useBrowseHierarchy.mockReturnValue({
+        hierarchy: twoLedgerHierarchy,
+        isLoading: false,
+      });
+    });
+
+    it('should pass the unfiltered hierarchy through when no status filters are selected', () => {
+      useLocationFilters.mockReturnValue([
+        { fiscalYearId: ['fy-1'] },
+        '',
+        mockApplyFilters,
+        jest.fn(),
+        jest.fn(),
+        jest.fn(),
+      ]);
+
+      renderComponent();
+
+      const lastCall = BrowseHierarchy.mock.calls[BrowseHierarchy.mock.calls.length - 1][0];
+
+      expect(lastCall.hierarchy).toHaveLength(2);
+    });
+
+    it('should only pass ledgers matching the selected ledger status filter', () => {
+      useLocationFilters.mockReturnValue([
+        { fiscalYearId: ['fy-1'], ledgerStatus: ['Active'] },
+        '',
+        mockApplyFilters,
+        jest.fn(),
+        jest.fn(),
+        jest.fn(),
+      ]);
+
+      renderComponent();
+
+      const lastCall = BrowseHierarchy.mock.calls[BrowseHierarchy.mock.calls.length - 1][0];
+
+      expect(lastCall.hierarchy).toHaveLength(1);
+      expect(lastCall.hierarchy[0].id).toBe('led-active');
     });
   });
 

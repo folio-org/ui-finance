@@ -31,6 +31,7 @@ import {
 } from '../../common/utils';
 import { ALLOCATION_TYPE } from '../constants';
 import {
+  filterGroupedFundOptions,
   isAllocationTransaction,
   isMoveAllocationType,
   validateAllocationAmount,
@@ -91,16 +92,32 @@ const CreateTransactionModal = ({
     || invalid
   );
 
+  const filterGroupedOptions = useCallback((options, filterFundId) => {
+    return options.reduce((acc, group) => {
+      if (group.options) {
+        const filtered = group.options.filter(f => f.value === filterFundId);
+
+        if (filtered.length > 0) {
+          acc.push({ ...group, options: filtered });
+        }
+      } else if (group.value === filterFundId) {
+        acc.push(group);
+      }
+
+      return acc;
+    }, []);
+  }, []);
+
   const optionsFrom = (
     (!hasToFundIdProperty || formValues.toFundId === fundId)
       ? fundsOptions
-      : fundsOptions.filter(f => f.value === fundId)
+      : filterGroupedOptions(fundsOptions, fundId)
   );
 
   const optionsTo = (
     (!hasFromFundIdProperty || formValues.fromFundId === fundId)
       ? fundsOptions
-      : fundsOptions.filter(f => f.value === fundId)
+      : filterGroupedOptions(fundsOptions, fundId)
   );
 
   const footer = (
@@ -150,6 +167,7 @@ const CreateTransactionModal = ({
                 name="fromFundId"
                 disabled={isFundFieldsDisabled}
                 loading={isFundsLoading}
+                onFilter={filterGroupedFundOptions}
               />
             </Col>
           )}
@@ -173,6 +191,7 @@ const CreateTransactionModal = ({
                 name="toFundId"
                 disabled={isFundFieldsDisabled}
                 loading={isFundsLoading}
+                onFilter={filterGroupedFundOptions}
               />
             </Col>
           )}

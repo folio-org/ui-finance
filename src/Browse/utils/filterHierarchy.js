@@ -11,6 +11,13 @@ const matchesStatus = (status, selectedStatuses) => (
  * descendants; a record that does match stays visible even if none of its
  * descendants match their own filters. The synthetic "Ungrouped" bucket has
  * no real status, so group status filters never hide it.
+ *
+ * This filters client-side over the already-fetched hierarchy because the
+ * finance-data endpoint (see useBrowseHierarchy) doesn't accept these status
+ * filters as query params yet - a mod-finance-storage ticket to add that is
+ * in progress. Once it ships, consider passing the filters into the query
+ * instead, as a payload-size optimization (the observable behavior here
+ * wouldn't need to change either way).
  */
 export const filterHierarchy = (hierarchy, filters = {}) => {
   const ledgerStatuses = filters[BROWSE_FILTERS.LEDGER_STATUS];

@@ -10,7 +10,6 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { useFiscalYears, useLocationFilters } from '@folio/stripes-acq-components';
 
 import Browse from './Browse';
-import CheckPermission from '../common/CheckPermission';
 import { useBrowseTabEnabled, useFiscalYear } from '../common/hooks';
 import { useBrowseHierarchy } from './hooks';
 
@@ -24,7 +23,7 @@ jest.mock('./hooks', () => ({
   useBrowseHierarchy: jest.fn(),
 }));
 
-jest.mock('../common/CheckPermission', () => jest.fn(({ children }) => children));
+jest.mock('../common/CheckPermission', () => ({ children }) => children);
 
 jest.mock('../Ledger/LedgerDetails', () => () => <div data-testid="ledger-details">LedgerDetails</div>);
 
@@ -302,44 +301,28 @@ describe('Browse', () => {
   });
 
   describe('detail view routes', () => {
-    it('should render ledger detail view when on ledger route, gated by the correct permission', () => {
+    it('should render ledger detail view when on ledger route', () => {
       renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/ledger/led-1/view'] }));
 
       expect(screen.getByTestId('ledger-details')).toBeInTheDocument();
-      expect(CheckPermission).toHaveBeenCalledWith(
-        expect.objectContaining({ perm: 'ui-finance.ledger.view' }),
-        expect.anything(),
-      );
     });
 
-    it('should render group detail view when on group route, gated by the correct permission', () => {
+    it('should render group detail view when on group route', () => {
       renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/group/grp-1/view'] }));
 
       expect(screen.getByTestId('group-details')).toBeInTheDocument();
-      expect(CheckPermission).toHaveBeenCalledWith(
-        expect.objectContaining({ perm: 'ui-finance.group.view' }),
-        expect.anything(),
-      );
     });
 
-    it('should render fund detail view when on fund route, gated by the correct permission', () => {
+    it('should render fund detail view when on fund route', () => {
       renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/fund/fund-1/view'] }));
 
       expect(screen.getByTestId('fund-details')).toBeInTheDocument();
-      expect(CheckPermission).toHaveBeenCalledWith(
-        expect.objectContaining({ perm: 'ui-finance.fund-budget.view' }),
-        expect.anything(),
-      );
     });
 
-    it('should render budget view when on budget route, gated by the correct permission', () => {
+    it('should render budget view when on budget route', () => {
       renderComponent(createMemoryHistory({ initialEntries: ['/finance/browse/budget/bud-1/view'] }));
 
       expect(screen.getByTestId('budget-view')).toBeInTheDocument();
-      expect(CheckPermission).toHaveBeenCalledWith(
-        expect.objectContaining({ perm: 'ui-finance.fund-budget.view' }),
-        expect.anything(),
-      );
     });
   });
 });

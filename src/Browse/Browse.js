@@ -149,7 +149,6 @@ const Browse = ({ history, location }) => {
           hierarchy={hierarchy}
           fiscalYearCode={fiscalYear?.code || ''}
           isLoading={isLoading}
-          locationSearch={location.search}
         />
       </div>
     );
@@ -244,12 +243,10 @@ const Browse = ({ history, location }) => {
         <Route
           path={BROWSE_BUDGET_VIEW_ROUTE}
           render={(routeProps) => (
-            <CheckPermission perm="ui-finance.fund-budget.view">
-              <BudgetViewContainer
-                closePath={BROWSE_ROUTE}
-                {...routeProps}
-              />
-            </CheckPermission>
+            <BudgetViewContainer
+              closePath={BROWSE_ROUTE}
+              {...routeProps}
+            />
           )}
         />
       </PersistedPaneset>

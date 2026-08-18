@@ -8,7 +8,6 @@ import {
 
 import { useStripes } from '@folio/stripes/core';
 import {
-  BROWSE_ROUTE,
   FISCAL_YEAR_ROUTE,
   FUNDS_ROUTE,
   GROUPS_ROUTE,
@@ -16,7 +15,6 @@ import {
   TRANSACTIONS_ROUTE,
 } from '../../common/const';
 
-import Browse from '../../Browse/Browse';
 import { FiscalYears } from '../../FiscalYears';
 import Funds from '../../Funds';
 import Groups from '../../Groups';
@@ -32,10 +30,6 @@ const Main = () => {
   return (
     <div style={{ width: '100%' }}>
       <Switch>
-        <Route
-          path={BROWSE_ROUTE}
-          component={Browse}
-        />
         <Route
           path={LEDGERS_ROUTE}
           component={Ledger}

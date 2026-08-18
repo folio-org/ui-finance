@@ -1,1 +1,1 @@
-export { useBrowseHierarchy, calculateCounts } from './useBrowseHierarchy';
+export { useBrowseHierarchy } from './useBrowseHierarchy';

@@ -37,8 +37,7 @@ import { SearchBrowseSegmentedControl } from './SearchBrowseSegmentedControl';
 import { BrowseFilters } from './BrowseFilters';
 import { BrowseActionsMenu } from './BrowseActionsMenu';
 import { BrowseHierarchy } from './BrowseHierarchy';
-import { useBrowseHierarchy, calculateCounts } from './hooks';
-import { filterHierarchy } from './utils/filterHierarchy';
+import { useBrowseHierarchy } from './hooks';
 import { BROWSE_TABS, BROWSE_FILTERS } from './constants';
 
 const resetData = () => {};
@@ -82,17 +81,11 @@ const Browse = ({ history, location }) => {
 
   const {
     hierarchy,
+    counts,
     isLoading: isHierarchyLoading,
   } = useBrowseHierarchy(selectedFiscalYearId);
 
   const isLoading = isFiscalYearLoading || isHierarchyLoading;
-
-  const filteredHierarchy = useMemo(
-    () => filterHierarchy(hierarchy, filters),
-    [hierarchy, filters],
-  );
-
-  const counts = useMemo(() => calculateCounts(filteredHierarchy), [filteredHierarchy]);
 
   const { fiscalYears } = useFiscalYears({ enabled: isBrowseEnabled });
 
@@ -153,7 +146,7 @@ const Browse = ({ history, location }) => {
     return (
       <div style={{ height, overflow: 'auto' }}>
         <BrowseHierarchy
-          hierarchy={filteredHierarchy}
+          hierarchy={hierarchy}
           fiscalYearCode={fiscalYear?.code || ''}
           isLoading={isLoading}
           locationSearch={location.search}

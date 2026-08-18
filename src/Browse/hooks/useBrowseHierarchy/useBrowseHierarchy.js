@@ -233,7 +233,7 @@ const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
 /**
  * Calculate counts for each level of the hierarchy.
  */
-export const calculateCounts = (hierarchy) => {
+const calculateCounts = (hierarchy) => {
   const ledgersCount = hierarchy.length;
   let groupsCount = 0;
   let fundsCount = 0;

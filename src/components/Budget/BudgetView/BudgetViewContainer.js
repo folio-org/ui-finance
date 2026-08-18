@@ -52,7 +52,7 @@ import {
   handleRemoveErrorResponse,
 } from './utils';
 
-export const BudgetViewContainer = ({ closePath, history, location, match, mutator, stripes }) => {
+export const BudgetViewContainer = ({ history, location, match, mutator, stripes }) => {
   const budgetId = match.params.budgetId;
   const [budget, setBudget] = useState({});
   const [fiscalYear, setFiscalYear] = useState();
@@ -153,19 +153,14 @@ export const BudgetViewContainer = ({ closePath, history, location, match, mutat
 
   const goToFundDetails = useCallback(
     () => {
-      if (closePath) {
-        history.push({
-          pathname: closePath,
-          search: location.search,
-        });
-      } else {
-        history.push({
-          pathname: `/finance/fund/view/${budget.fundId}`,
-          search: location.search,
-        });
-      }
+      const path = `/finance/fund/view/${budget.fundId}`;
+
+      history.push({
+        pathname: path,
+        search: location.search,
+      });
     },
-    [history, budget, location.search, closePath],
+    [history, budget, location.search],
   );
 
   // eslint-disable-next-line react/prop-types
@@ -456,7 +451,6 @@ BudgetViewContainer.manifest = Object.freeze({
 });
 
 BudgetViewContainer.propTypes = {
-  closePath: PropTypes.string,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,

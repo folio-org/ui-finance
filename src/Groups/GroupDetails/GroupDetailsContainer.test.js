@@ -105,14 +105,6 @@ describe('GroupDetailsContainer', () => {
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(GROUPS_ROUTE);
     });
 
-    it('should navigate to closePath when provided and close action is called', async () => {
-      await act(async () => renderGroupDetailsContainer({ ...defaultProps, closePath: '/finance/browse' }));
-
-      await act(async () => GroupDetails.mock.calls[0][0].onClose());
-
-      expect(historyMock.push.mock.calls[0][0].pathname).toBe('/finance/browse');
-    });
-
     it('should navigate to form', async () => {
       await act(async () => renderGroupDetailsContainer());
 

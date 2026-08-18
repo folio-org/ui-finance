@@ -1,10 +1,6 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { useCallback } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { Route, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
@@ -15,33 +11,17 @@ import {
   ResetButton,
   ResultsPane,
   useFiltersToogle,
-  useFiscalYears,
   useLocationFilters,
 } from '@folio/stripes-acq-components';
 
-import {
-  BROWSE_ROUTE,
-  BROWSE_LEDGER_VIEW_ROUTE,
-  BROWSE_GROUP_VIEW_ROUTE,
-  BROWSE_FUND_VIEW_ROUTE,
-  BROWSE_BUDGET_VIEW_ROUTE,
-  LEDGERS_ROUTE,
-} from '../common/const';
-import CheckPermission from '../common/CheckPermission';
-import LedgerDetailsContainer from '../Ledger/LedgerDetails';
-import { GroupDetailsContainer } from '../Groups/GroupDetails';
-import { FundDetailsContainer } from '../Funds/FundDetails';
-import BudgetViewContainer from '../components/Budget/BudgetView';
-import { useBrowseTabEnabled, useFiscalYear } from '../common/hooks';
+import { LEDGERS_ROUTE } from '../common/const';
+import { useBrowseTabEnabled } from '../common/hooks';
 import { SearchBrowseSegmentedControl } from './SearchBrowseSegmentedControl';
 import { BrowseFilters } from './BrowseFilters';
 import { BrowseActionsMenu } from './BrowseActionsMenu';
-import { BrowseHierarchy } from './BrowseHierarchy';
-import { useBrowseHierarchy } from './hooks';
 import { BROWSE_TABS, BROWSE_FILTERS } from './constants';
 
 const resetData = () => {};
-const noop = () => {};
 
 const centeredMessageStyles = {
   display: 'flex',
@@ -75,84 +55,23 @@ const Browse = ({ history, location }) => {
 
   const renderActionMenu = useCallback(() => <BrowseActionsMenu />, []);
 
-  const selectedFiscalYearId = filters[BROWSE_FILTERS.FISCAL_YEAR]?.[0];
-
-  const { fiscalYear, isLoading: isFiscalYearLoading } = useFiscalYear(selectedFiscalYearId);
-
-  const {
-    hierarchy,
-    counts,
-    isLoading: isHierarchyLoading,
-  } = useBrowseHierarchy(selectedFiscalYearId);
-
-  const isLoading = isFiscalYearLoading || isHierarchyLoading;
-
-  const { fiscalYears } = useFiscalYears({ enabled: isBrowseEnabled });
-
-  const currentFiscalYearId = useMemo(() => {
-    const now = Date.now();
-
-    return fiscalYears.find(({ periodStart, periodEnd }) => (
-      periodStart && periodEnd
-        && new Date(periodStart).getTime() <= now
-        && now <= new Date(periodEnd).getTime()
-    ))?.id;
-  }, [fiscalYears]);
-
-  useEffect(() => {
-    if (!selectedFiscalYearId && currentFiscalYearId) {
-      applyFilters(BROWSE_FILTERS.FISCAL_YEAR, [currentFiscalYearId]);
-    }
-  }, [selectedFiscalYearId, currentFiscalYearId, applyFilters]);
-
-  const subTitle = useMemo(() => {
-    if (!selectedFiscalYearId || isLoading) {
-      return <FormattedMessage id="ui-finance.browse.subtitle" />;
-    }
-
-    return (
-      <FormattedMessage
-        id="ui-finance.browse.subtitle.withCounts"
-        values={{
-          ledgers: counts.ledgers,
-          groups: counts.groups,
-          funds: counts.funds,
-          budgets: counts.budgets,
-          expenseClasses: counts.expenseClasses,
-        }}
-      />
-    );
-  }, [selectedFiscalYearId, isLoading, counts]);
-
   // Redirect to ledger if browse is not enabled
   if (!isBrowseEnabled) {
     return <Redirect to={LEDGERS_ROUTE} />;
   }
 
-  const renderContent = ({ height }) => {
-    // Show prompt to select fiscal year if none selected
-    if (!selectedFiscalYearId) {
-      return (
-        <div style={{ ...centeredMessageStyles, height }}>
-          <Icon icon="arrow-left" size="medium" />
-          <span>
-            <FormattedMessage id="ui-finance.browse.selectFiscalYear" />
-          </span>
-        </div>
-      );
-    }
+  const selectedFiscalYear = filters[BROWSE_FILTERS.FISCAL_YEAR]?.[0];
 
-    // Show hierarchy
-    return (
-      <div style={{ height, overflow: 'auto' }}>
-        <BrowseHierarchy
-          hierarchy={hierarchy}
-          fiscalYearCode={fiscalYear?.code || ''}
-          isLoading={isLoading}
-        />
-      </div>
-    );
-  };
+  const resultsMessage = selectedFiscalYear ? (
+    <FormattedMessage id="ui-finance.browse.noResults" />
+  ) : (
+    <>
+      <Icon icon="arrow-left" size="medium" />
+      <span>
+        <FormattedMessage id="ui-finance.browse.selectFiscalYear" />
+      </span>
+    </>
+  );
 
   return (
     <>
@@ -190,65 +109,20 @@ const Browse = ({ history, location }) => {
           id="browse-results-pane"
           autosize
           title={<FormattedMessage id="ui-finance.browse.title" />}
-          subTitle={subTitle}
-          count={counts.ledgers + counts.groups + counts.funds + counts.budgets + counts.expenseClasses}
+          subTitle={<FormattedMessage id="ui-finance.browse.subtitle" />}
+          count={0}
           renderActionMenu={renderActionMenu}
           toggleFiltersPane={toggleFilters}
           filters={filters}
           isFiltersOpened={isFiltersOpened}
-          isLoading={isLoading}
+          isLoading={false}
         >
-          {renderContent}
+          {({ height }) => (
+            <div style={{ ...centeredMessageStyles, height }}>
+              {resultsMessage}
+            </div>
+          )}
         </ResultsPane>
-
-        <Route
-          path={BROWSE_LEDGER_VIEW_ROUTE}
-          render={(routeProps) => (
-            <CheckPermission perm="ui-finance.ledger.view">
-              <LedgerDetailsContainer
-                key={routeProps.match.params?.id}
-                closePath={BROWSE_ROUTE}
-                refreshList={noop}
-              />
-            </CheckPermission>
-          )}
-        />
-
-        <Route
-          path={BROWSE_GROUP_VIEW_ROUTE}
-          render={(routeProps) => (
-            <CheckPermission perm="ui-finance.group.view">
-              <GroupDetailsContainer
-                key={routeProps.match.params?.id}
-                closePath={BROWSE_ROUTE}
-                refreshList={noop}
-              />
-            </CheckPermission>
-          )}
-        />
-
-        <Route
-          path={BROWSE_FUND_VIEW_ROUTE}
-          render={(routeProps) => (
-            <CheckPermission perm="ui-finance.fund-budget.view">
-              <FundDetailsContainer
-                closePath={BROWSE_ROUTE}
-                refreshList={noop}
-                {...routeProps}
-              />
-            </CheckPermission>
-          )}
-        />
-
-        <Route
-          path={BROWSE_BUDGET_VIEW_ROUTE}
-          render={(routeProps) => (
-            <BudgetViewContainer
-              closePath={BROWSE_ROUTE}
-              {...routeProps}
-            />
-          )}
-        />
       </PersistedPaneset>
     </>
   );

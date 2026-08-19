@@ -60,7 +60,6 @@ const showCalloutMock = jest.fn();
 
 describe('BudgetViewContainer', () => {
   beforeEach(() => {
-    historyMock.push.mockClear();
     showCalloutMock.mockClear();
     kyMock.post.mockClear();
     useOkapiKy
@@ -77,24 +76,6 @@ describe('BudgetViewContainer', () => {
     await screen.findByText('BudgetView');
 
     expect(screen.getByText('BudgetView')).toBeDefined();
-  });
-
-  it('should navigate to fund details by default when close action is called', async () => {
-    renderBudgetViewContainer();
-
-    await screen.findByText('BudgetView');
-    await user.click(screen.getByRole('button', { name: 'stripes-components.closeItem' }));
-
-    expect(historyMock.push.mock.calls[0][0].pathname).toBe('/finance/fund/view/fundId');
-  });
-
-  it('should navigate to closePath when provided and close action is called', async () => {
-    renderBudgetViewContainer({ ...defaultProps, closePath: '/finance/browse' });
-
-    await screen.findByText('BudgetView');
-    await user.click(screen.getByRole('button', { name: 'stripes-components.closeItem' }));
-
-    expect(historyMock.push.mock.calls[0][0].pathname).toBe('/finance/browse');
   });
 
   it('should open Increase allocation modal', async () => {

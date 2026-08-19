@@ -1,1 +1,0 @@
-export { NavigationSettings } from './NavigationSettings';

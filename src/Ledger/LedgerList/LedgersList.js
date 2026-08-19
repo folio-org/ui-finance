@@ -35,14 +35,12 @@ import {
   useItemToView,
 } from '@folio/stripes-acq-components';
 
-import { BROWSE_ROUTE, LEDGERS_ROUTE } from '../../common/const';
+import { LEDGERS_ROUTE } from '../../common/const';
 import {
-  useBrowseTabEnabled,
   useResultsPageTitle,
   useSelectedRow,
 } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
-import { SearchBrowseSegmentedControl, BROWSE_TABS } from '../../Browse';
 import CheckPermission from '../../common/CheckPermission';
 import LedgerListFilters from './LedgerListFilters';
 import {
@@ -75,8 +73,6 @@ const LedgerList = ({
   refreshList,
 }) => {
   const stripes = useStripes();
-  const isBrowseEnabled = useBrowseTabEnabled();
-
   const [
     filters,
     searchQuery,
@@ -97,12 +93,6 @@ const LedgerList = ({
 
   const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/ledger/filters');
-
-  const handleTabChange = useCallback((tab) => {
-    if (tab === BROWSE_TABS.BROWSE) {
-      history.push(BROWSE_ROUTE);
-    }
-  }, [history]);
 
   const renderActionMenu = useCallback(() => <LedgerListLastMenu />, []);
 
@@ -157,12 +147,6 @@ const LedgerList = ({
             toggleFilters={toggleFilters}
             width="350px"
           >
-            {isBrowseEnabled && (
-              <SearchBrowseSegmentedControl
-                activeTab={BROWSE_TABS.SEARCH}
-                onTabChange={handleTabChange}
-              />
-            )}
             <FinanceNavigation />
             <SingleSearchForm
               applySearch={applySearch}

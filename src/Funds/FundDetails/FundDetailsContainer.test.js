@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -86,15 +85,5 @@ describe('FundDetailsContainer', () => {
     DetailsEditAction.mock.calls[0][0].onEdit();
 
     expect(historyMock.push).toHaveBeenCalled();
-  });
-
-  it('should navigate to closePath when provided and close action is called', async () => {
-    renderFundDetailsContainer({ ...defaultProps, closePath: '/finance/browse' });
-
-    await screen.findByText('FundDetails');
-
-    await userEvent.click(screen.getByRole('button', { name: 'stripes-components.closeItem' }));
-
-    expect(historyMock.push.mock.calls[0][0].pathname).toBe('/finance/browse');
   });
 });

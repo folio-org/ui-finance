@@ -550,11 +550,6 @@
   "settings.exchangeRateSource.providerType.keyRequired": "Key required",
   "settings.exchangeRateSource.submit.success": "Settings successfully updated.",
   "settings.exchangeRateSource.submit.error.generic": "Exchange rate source was not updated.",
-  "settings.navigation.title": "Navigation",
-  "settings.navigation.description": "The finance application now has additional navigation option that can be enabled or disabled at any time. Checking the box below will make the Browse tab available to allow finance app users.",
-  "settings.navigation.enableBrowseTab": "Enable browse tab",
-  "settings.navigation.submit.success": "Settings successfully updated.",
-  "settings.navigation.submit.error.generic": "Navigation settings were not updated.",
 
   "menuSection.allocationTools": "Allocation tools",
   "selectFiscalYear": "Select fiscal year",
@@ -624,42 +619,5 @@
   "permission.encumbrance.release-manually.execute": "Finance: Manually release encumbrance",
   "permission.transfers.create": "Finance: Create transfers",
 
-  "plugin.findFund.notFound": "Find fund plugin is not enabled",
-
-  "browse.tab.search": "Search",
-  "browse.tab.browse": "Browse",
-  "browse.title": "Browse finance",
-  "browse.subtitle": "Select a fiscal year to browse results",
-  "browse.selectFiscalYear": "Select a fiscal year to browse results.",
-  "browse.noResults": "No results found matching the selected filters.",
-  "browse.filter.fiscalYear": "Fiscal years",
-  "browse.filter.ledgerStatus": "Ledger status",
-  "browse.filter.groupStatus": "Group status",
-  "browse.filter.fundStatus": "Fund status",
-  "browse.filter.budgetStatus": "Budget status",
-  "browse.filter.expenseClassStatus": "Expense class status",
-  "browse.actions.newFiscalYear": "New fiscal year",
-  "browse.actions.newLedger": "New ledger",
-  "browse.actions.newGroup": "New group",
-  "browse.actions.newFund": "New fund",
-
-  "browse.subtitle.withCounts": "{ledgers} Ledgers • {groups} groups • {funds} Funds • {budgets} Budgets • {expenseClasses} Expense classes",
-
-  "browse.hierarchy.fiscalYear": "Fiscal year",
-  "browse.hierarchy.type.ledger": "Ledger",
-  "browse.hierarchy.type.group": "Group",
-  "browse.hierarchy.type.fund": "Fund",
-  "browse.hierarchy.type.budget": "Budget",
-  "browse.hierarchy.type.expenseClass": "Expense class",
-
-  "browse.hierarchy.collapseLedgers": "Collapse ledgers",
-  "browse.hierarchy.expandLedgers": "Expand ledgers",
-  "browse.hierarchy.collapseGroups": "Collapse groups",
-  "browse.hierarchy.expandGroups": "Expand groups",
-  "browse.hierarchy.collapseFunds": "Collapse funds",
-  "browse.hierarchy.expandFunds": "Expand funds",
-  "browse.hierarchy.collapseBudgets": "Collapse budgets",
-  "browse.hierarchy.expandBudgets": "Expand budgets",
-
-  "browse.hierarchy.noResults": "No financial data found for the selected fiscal year."
+  "plugin.findFund.notFound": "Find fund plugin is not enabled"
 }

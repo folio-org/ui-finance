@@ -39,7 +39,6 @@ import {
 import GroupDetails from './GroupDetails';
 
 export const GroupDetailsContainer = ({
-  closePath,
   mutator,
   match,
   history,
@@ -125,12 +124,12 @@ export const GroupDetailsContainer = ({
   const closePane = useCallback(
     () => {
       history.push({
-        pathname: closePath || GROUPS_ROUTE,
+        pathname: GROUPS_ROUTE,
         search: location.search,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, closePath],
+    [location.search],
   );
 
   const editGroup = useCallback(
@@ -270,7 +269,6 @@ GroupDetailsContainer.manifest = Object.freeze({
 });
 
 GroupDetailsContainer.propTypes = {
-  closePath: PropTypes.string,
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,

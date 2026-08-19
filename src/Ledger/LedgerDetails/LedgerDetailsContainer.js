@@ -34,7 +34,6 @@ import useRolloverProgressPolling from './useRolloverProgressPolling';
 import LedgerDetails from './LedgerDetails';
 
 export const LedgerDetailsContainer = ({
-  closePath,
   history,
   match,
   mutator,
@@ -114,10 +113,10 @@ export const LedgerDetailsContainer = ({
 
   const closePane = useCallback(() => {
     history.push({
-      pathname: closePath || LEDGERS_ROUTE,
+      pathname: LEDGERS_ROUTE,
       search: location.search,
     });
-  }, [history, location.search, closePath]);
+  }, [history, location.search]);
 
   const editLedger = useCallback(() => {
     history.push({
@@ -230,7 +229,6 @@ LedgerDetailsContainer.manifest = Object.freeze({
 });
 
 LedgerDetailsContainer.propTypes = {
-  closePath: PropTypes.string,
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,

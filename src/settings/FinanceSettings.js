@@ -12,7 +12,6 @@ import FundTypeSettings from './FundTypeSettings';
 import { ExchangeRateSourceSettings } from './ExchangeRateSourceSettings';
 import ExpenseClassSettings from './ExpenseClassSettings';
 import ExportFundSettings from './ExportFundSettings';
-import { NavigationSettings } from './NavigationSettings';
 
 class FinanceSettings extends React.Component {
   static propTypes = {
@@ -45,12 +44,6 @@ class FinanceSettings extends React.Component {
       label: <FormattedMessage id="ui-finance.settings.exchangeRateSource.title" />,
       route: 'exchange-rate-source',
       perm: 'ui-finance.settings.exchange_rate_source.manage',
-    },
-    {
-      component: NavigationSettings,
-      label: <FormattedMessage id="ui-finance.settings.navigation.title" />,
-      route: 'navigation',
-      perm: 'ui-finance.settings.view',
     },
   ];
 

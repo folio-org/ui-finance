@@ -64,7 +64,6 @@ import FundPreviousBudgetsContainer from './FundPreviousBudgets';
 import { FundExpenseClasses } from './FundExpenseClasses';
 
 export const FundDetailsContainer = ({
-  closePath,
   history,
   match: { params },
   location,
@@ -140,12 +139,12 @@ export const FundDetailsContainer = ({
   const closePane = useCallback(
     () => {
       history.push({
-        pathname: closePath || FUNDS_ROUTE,
+        pathname: FUNDS_ROUTE,
         search: location.search,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search, closePath],
+    [location.search],
   );
 
   const editFund = useCallback(
@@ -431,7 +430,6 @@ FundDetailsContainer.manifest = Object.freeze({
 });
 
 FundDetailsContainer.propTypes = {
-  closePath: PropTypes.string,
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   location: ReactRouterPropTypes.location.isRequired,

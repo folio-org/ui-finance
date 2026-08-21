@@ -56,10 +56,8 @@ export const NavigationSettings = () => {
       const { handler } = await ResponseErrorsContainer.create(error?.response);
       const structuredError = handler.getError();
 
-      // Okapi can reject a request (e.g. a 403 from the gateway itself) with a
-      // plain-text body rather than a structured FOLIO error payload. When that
-      // happens, ResponseErrorsContainer falls back to a generic code wrapping
-      // the JSON-parse failure, which isn't fit to show a user as-is.
+      // a plain-text response (e.g. a raw 403 from Okapi) fails JSON.parse and
+      // ends up here as a generic code, so don't show that message as-is
       const errorMessage = structuredError.code !== ERROR_CODE_GENERIC
         ? structuredError.message
         : undefined;

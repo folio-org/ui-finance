@@ -203,9 +203,8 @@ describe('NavigationSettings', () => {
 
   it('should fall back to the generic message when Okapi rejects the request with a non-JSON body (e.g. a raw 403)', async () => {
     const errorHandler = {
-      // ResponseErrorsContainer falls back to this shape when the response body
-      // isn't valid JSON (e.g. a plain-text "Forbidden" from the gateway) --
-      // the message would otherwise be a confusing JSON-parse error.
+      // this is what ResponseErrorsContainer falls back to when the body isn't
+      // valid JSON, e.g. a plain-text "Forbidden" from the gateway
       getError: jest.fn(() => ({ message: "Unexpected token 'F', \"Forbidden\" is not valid JSON", code: 'genericError' })),
     };
 

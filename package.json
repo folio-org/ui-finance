@@ -42,6 +42,7 @@
       "location-units": "2.0",
       "orders": "13.0",
       "order-lines": "4.0",
+      "settings": "1.0",
       "tags": "1.0",
       "tenant-addresses": "1.0",
       "users": "15.0 16.0"
@@ -79,6 +80,7 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
+          "mod-settings.global.read.ui-finance",
           "stripes-core.settings.read",
           "users.collection.get"
         ]
@@ -170,7 +172,8 @@
           "finance.fund-types.item.post",
           "finance.fund-types.item.put",
           "finance-storage.exchange-rate-source.item.post",
-          "finance-storage.exchange-rate-source.item.put"
+          "finance-storage.exchange-rate-source.item.put",
+          "mod-settings.global.write.ui-finance"
         ]
       },
       {

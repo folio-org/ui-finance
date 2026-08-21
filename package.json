@@ -71,6 +71,16 @@
         ]
       },
       {
+        "permissionName": "mod-settings.global.read.ui-finance",
+        "displayName": "UI: read the tenant's finance navigation settings",
+        "visible": false
+      },
+      {
+        "permissionName": "mod-settings.global.write.ui-finance",
+        "displayName": "UI: update the tenant's finance navigation settings",
+        "visible": false
+      },
+      {
         "permissionName": "ui-finance.settings.view",
         "displayName": "Settings (Finance): View settings",
         "visible": true,

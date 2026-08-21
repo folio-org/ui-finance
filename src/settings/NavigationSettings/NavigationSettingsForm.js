@@ -75,16 +75,17 @@ const NavigationSettingsForm = ({
         <Layout className="padding-bottom-gutter">
           <Row>
             <Col xs>
-              <Layout className="padding-bottom-gutter">
-                <strong>
-                  <FormattedMessage id="ui-finance.settings.navigation.enableBrowseTab" />
-                </strong>
-              </Layout>
               <Field
                 component={Checkbox}
                 disabled={isNonInteractive}
+                label={(
+                  <strong>
+                    <FormattedMessage id="ui-finance.settings.navigation.enableBrowseTab" />
+                  </strong>
+                )}
                 name={FORM_FIELDS_NAMES.enabled}
                 type="checkbox"
+                vertical
               />
             </Col>
           </Row>

@@ -61,6 +61,12 @@ describe('NavigationSettingsForm', () => {
     expect(screen.getByRole('button', { name: 'stripes-acq-components.button.save' })).toBeInTheDocument();
   });
 
+  it('should associate the "Enable browse tab" label with the checkbox for accessibility', () => {
+    renderComponent();
+
+    expect(screen.getByRole('checkbox', { name: 'ui-finance.settings.navigation.enableBrowseTab' })).toBeInTheDocument();
+  });
+
   it('should render checkbox unchecked by default', () => {
     renderComponent();
 

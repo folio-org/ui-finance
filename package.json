@@ -42,13 +42,13 @@
       "location-units": "2.0",
       "orders": "13.0",
       "order-lines": "4.0",
-      "settings": "1.0",
       "tags": "1.0",
       "tenant-addresses": "1.0",
       "users": "15.0 16.0"
     },
     "optionalOkapiInterfaces": {
-      "consortia": "1.0"
+      "consortia": "1.0",
+      "settings": "1.0"
     },
     "queryResource": "query",
     "icons": [

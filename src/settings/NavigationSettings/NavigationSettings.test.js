@@ -172,10 +172,10 @@ describe('NavigationSettings', () => {
     });
   });
 
-  it('should handle request errors with error message', async () => {
+  it('should show the structured error message when the backend returns a real FOLIO error code', async () => {
     const errorMessage = 'Test error message';
     const errorHandler = {
-      getError: jest.fn(() => ({ message: errorMessage })),
+      getError: jest.fn(() => ({ message: errorMessage, code: 'someSpecificError' })),
     };
 
     ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
@@ -197,6 +197,37 @@ describe('NavigationSettings', () => {
       expect(showCalloutMock).toHaveBeenCalledWith({
         type: 'error',
         message: errorMessage,
+      });
+    });
+  });
+
+  it('should fall back to the generic message when Okapi rejects the request with a non-JSON body (e.g. a raw 403)', async () => {
+    const errorHandler = {
+      // ResponseErrorsContainer falls back to this shape when the response body
+      // isn't valid JSON (e.g. a plain-text "Forbidden" from the gateway) --
+      // the message would otherwise be a confusing JSON-parse error.
+      getError: jest.fn(() => ({ message: "Unexpected token 'F', \"Forbidden\" is not valid JSON", code: 'genericError' })),
+    };
+
+    ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
+
+    mockPost.mockReturnValueOnce({
+      json: jest.fn().mockRejectedValueOnce({ response: {} }),
+    });
+
+    renderComponent();
+
+    const checkbox = await screen.findByRole('checkbox');
+    const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
+
+    await userEvent.click(checkbox);
+    await waitFor(() => expect(saveButton).not.toBeDisabled());
+    await userEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(showCalloutMock).toHaveBeenCalledWith({
+        type: 'error',
+        messageId: 'ui-finance.settings.navigation.submit.error.generic',
       });
     });
   });

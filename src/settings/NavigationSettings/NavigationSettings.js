@@ -7,6 +7,7 @@ import {
 } from '@folio/stripes/core';
 import { LoadingPane } from '@folio/stripes/components';
 import {
+  ERROR_CODE_GENERIC,
   ResponseErrorsContainer,
   SETTINGS_ENTRIES_API,
   useShowCallout,
@@ -53,8 +54,15 @@ export const NavigationSettings = () => {
       refetch();
     } catch (error) {
       const { handler } = await ResponseErrorsContainer.create(error?.response);
+      const structuredError = handler.getError();
 
-      const errorMessage = handler.getError().message;
+      // Okapi can reject a request (e.g. a 403 from the gateway itself) with a
+      // plain-text body rather than a structured FOLIO error payload. When that
+      // happens, ResponseErrorsContainer falls back to a generic code wrapping
+      // the JSON-parse failure, which isn't fit to show a user as-is.
+      const errorMessage = structuredError.code !== ERROR_CODE_GENERIC
+        ? structuredError.message
+        : undefined;
 
       sendCallout({
         type: 'error',

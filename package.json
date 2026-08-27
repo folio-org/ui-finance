@@ -36,6 +36,7 @@
       "finance.ledger-rollovers": "1.0 2.0",
       "finance.ledgers": "1.5 2.0",
       "finance-storage.exchange-rate-source": "1.0",
+      "finance-storage.navigation-settings": "1.0",
       "finance.transactions": "6.0",
       "invoice": "7.0",
       "locations": "3.0",
@@ -71,16 +72,6 @@
         ]
       },
       {
-        "permissionName": "mod-settings.global.read.ui-finance",
-        "displayName": "UI: read the tenant's finance navigation settings",
-        "visible": false
-      },
-      {
-        "permissionName": "mod-settings.global.write.ui-finance",
-        "displayName": "UI: update the tenant's finance navigation settings",
-        "visible": false
-      },
-      {
         "permissionName": "ui-finance.settings.view",
         "displayName": "Settings (Finance): View settings",
         "visible": true,
@@ -90,7 +81,7 @@
           "finance.fiscal-years.collection.get",
           "finance.fund-codes-expense-classes.collection.get",
           "finance.fund-types.collection.get",
-          "mod-settings.global.read.ui-finance",
+          "finance-storage.navigation-settings.item.get",
           "stripes-core.settings.read",
           "users.collection.get"
         ]
@@ -183,7 +174,8 @@
           "finance.fund-types.item.put",
           "finance-storage.exchange-rate-source.item.post",
           "finance-storage.exchange-rate-source.item.put",
-          "mod-settings.global.write.ui-finance"
+          "finance-storage.navigation-settings.item.post",
+          "finance-storage.navigation-settings.item.put"
         ]
       },
       {

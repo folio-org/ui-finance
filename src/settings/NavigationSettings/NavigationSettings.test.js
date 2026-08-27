@@ -1,9 +1,5 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
 
 import {
   render,
@@ -11,15 +7,13 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import {
-  useOkapiKy,
-  useStripes,
-} from '@folio/stripes/core';
+import { useStripes } from '@folio/stripes/core';
 import {
   ResponseErrorsContainer,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
+import { useNavigationSettings } from '../../common/hooks';
 import { NavigationSettings } from './NavigationSettings';
 
 jest.mock('@folio/stripes-acq-components', () => ({
@@ -30,36 +24,30 @@ jest.mock('@folio/stripes-acq-components', () => ({
   },
 }));
 
-const queryClient = new QueryClient();
-// eslint-disable-next-line react/prop-types
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useNavigationSettings: jest.fn(),
+}));
+
 const wrapper = ({ children }) => (
-  <QueryClientProvider client={queryClient}>
-    <MemoryRouter>
-      {children}
-    </MemoryRouter>
-  </QueryClientProvider>
+  <MemoryRouter>
+    {children}
+  </MemoryRouter>
 );
 
 const renderComponent = () => render(<NavigationSettings />, { wrapper });
 
 describe('NavigationSettings', () => {
-  const mockGet = jest.fn();
-  const mockPost = jest.fn();
-  const mockPut = jest.fn();
   const showCalloutMock = jest.fn();
   const hasPermMock = jest.fn();
+  const saveNavigationSettingsMock = jest.fn();
 
   beforeEach(() => {
-    queryClient.clear();
-
-    mockGet.mockReturnValue({ json: jest.fn().mockResolvedValue({ items: [] }) });
-    mockPost.mockReturnValue({ json: jest.fn().mockResolvedValue({}) });
-    mockPut.mockReturnValue({ json: jest.fn().mockResolvedValue({}) });
-
-    useOkapiKy.mockClear().mockReturnValue({
-      get: mockGet,
-      post: mockPost,
-      put: mockPut,
+    saveNavigationSettingsMock.mockClear().mockResolvedValue();
+    useNavigationSettings.mockClear().mockReturnValue({
+      isBrowseTabEnabled: false,
+      isLoading: false,
+      saveNavigationSettings: saveNavigationSettingsMock,
     });
     useShowCallout.mockClear().mockReturnValue(showCalloutMock);
     useStripes.mockClear().mockReturnValue({
@@ -75,30 +63,42 @@ describe('NavigationSettings', () => {
   it('should render navigation settings', async () => {
     renderComponent();
 
-    await waitFor(() => {
-      expect(screen.getByText('ui-finance.settings.navigation.description')).toBeInTheDocument();
-    });
+    expect(screen.getByText('ui-finance.settings.navigation.description')).toBeInTheDocument();
     expect(screen.getByText('ui-finance.settings.navigation.enableBrowseTab')).toBeInTheDocument();
   });
 
-  it('should render checkbox unchecked when no settings entry exists', async () => {
+  it('should render loading pane while settings are being fetched', async () => {
+    useNavigationSettings.mockReturnValue({
+      isBrowseTabEnabled: false,
+      isLoading: true,
+      saveNavigationSettings: saveNavigationSettingsMock,
+    });
+
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+  });
+
+  it('should render checkbox unchecked when browse tab is disabled', async () => {
+    renderComponent();
+
+    const checkbox = screen.getByRole('checkbox');
 
     expect(checkbox).not.toBeChecked();
   });
 
-  it('should render checkbox checked when a settings entry with value true exists', async () => {
-    mockGet.mockReturnValue({
-      json: jest.fn().mockResolvedValue({ items: [{ id: 'settings-id', value: true }] }),
+  it('should render checkbox checked when browse tab is enabled', async () => {
+    useNavigationSettings.mockReturnValue({
+      isBrowseTabEnabled: true,
+      isLoading: false,
+      saveNavigationSettings: saveNavigationSettingsMock,
     });
 
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
 
-    await waitFor(() => expect(checkbox).toBeChecked());
+    expect(checkbox).toBeChecked();
   });
 
   it('should disable checkbox when user lacks edit permissions', async () => {
@@ -106,7 +106,7 @@ describe('NavigationSettings', () => {
 
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
 
     expect(checkbox).toBeDisabled();
   });
@@ -114,7 +114,7 @@ describe('NavigationSettings', () => {
   it('should disable save button initially and enable it once the checkbox is toggled', async () => {
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
     expect(saveButton).toBeDisabled();
@@ -126,10 +126,25 @@ describe('NavigationSettings', () => {
     });
   });
 
-  it('should create a new settings entry via POST when none exists yet', async () => {
+  it('should not enable save button when checkbox is toggled and user lacks permissions', async () => {
+    hasPermMock.mockReturnValue(false);
+
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
+    const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
+
+    expect(saveButton).toBeDisabled();
+
+    await userEvent.click(checkbox);
+
+    expect(saveButton).toBeDisabled();
+  });
+
+  it('should save the toggled value on submit', async () => {
+    renderComponent();
+
+    const checkbox = screen.getByRole('checkbox');
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
     await userEvent.click(checkbox);
@@ -137,38 +152,10 @@ describe('NavigationSettings', () => {
     await userEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockPost).toHaveBeenCalledWith(
-        'settings/entries',
-        { json: expect.objectContaining({ scope: 'ui-finance', key: 'enableBrowseTab', value: true }) },
-      );
+      expect(saveNavigationSettingsMock).toHaveBeenCalledWith(true);
       expect(showCalloutMock).toHaveBeenCalledWith({
         messageId: 'ui-finance.settings.navigation.submit.success',
       });
-    });
-  });
-
-  it('should update the existing settings entry via PUT when one already exists', async () => {
-    mockGet.mockReturnValue({
-      json: jest.fn().mockResolvedValue({ items: [{ id: 'settings-id', value: true }] }),
-    });
-
-    renderComponent();
-
-    const checkbox = await screen.findByRole('checkbox');
-
-    await waitFor(() => expect(checkbox).toBeChecked());
-
-    const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
-
-    await userEvent.click(checkbox);
-    await waitFor(() => expect(saveButton).not.toBeDisabled());
-    await userEvent.click(saveButton);
-
-    await waitFor(() => {
-      expect(mockPut).toHaveBeenCalledWith(
-        'settings/entries/settings-id',
-        { json: expect.objectContaining({ id: 'settings-id', scope: 'ui-finance', key: 'enableBrowseTab', value: false }) },
-      );
     });
   });
 
@@ -179,14 +166,11 @@ describe('NavigationSettings', () => {
     };
 
     ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
-
-    mockPost.mockReturnValueOnce({
-      json: jest.fn().mockRejectedValueOnce({ response: {} }),
-    });
+    saveNavigationSettingsMock.mockRejectedValueOnce({ response: {} });
 
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
     await userEvent.click(checkbox);
@@ -209,14 +193,11 @@ describe('NavigationSettings', () => {
     };
 
     ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
-
-    mockPost.mockReturnValueOnce({
-      json: jest.fn().mockRejectedValueOnce({ response: {} }),
-    });
+    saveNavigationSettingsMock.mockRejectedValueOnce({ response: {} });
 
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
     await userEvent.click(checkbox);
@@ -237,14 +218,11 @@ describe('NavigationSettings', () => {
     };
 
     ResponseErrorsContainer.create.mockResolvedValue({ handler: errorHandler });
-
-    mockPost.mockReturnValueOnce({
-      json: jest.fn().mockRejectedValueOnce({ response: {} }),
-    });
+    saveNavigationSettingsMock.mockRejectedValueOnce({ response: {} });
 
     renderComponent();
 
-    const checkbox = await screen.findByRole('checkbox');
+    const checkbox = screen.getByRole('checkbox');
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
 
     await userEvent.click(checkbox);
@@ -257,20 +235,5 @@ describe('NavigationSettings', () => {
         messageId: 'ui-finance.settings.navigation.submit.error.generic',
       });
     });
-  });
-
-  it('should not enable save button when checkbox is toggled and user lacks permissions', async () => {
-    hasPermMock.mockReturnValue(false);
-
-    renderComponent();
-
-    const checkbox = await screen.findByRole('checkbox');
-    const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
-
-    expect(saveButton).toBeDisabled();
-
-    await userEvent.click(checkbox);
-
-    expect(saveButton).toBeDisabled();
   });
 });

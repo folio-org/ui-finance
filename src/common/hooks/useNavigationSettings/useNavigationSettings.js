@@ -1,41 +1,54 @@
-import { useQuery } from 'react-query';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 
 import { useNamespace, useOkapiKy } from '@folio/stripes/core';
-import { SETTINGS_ENTRIES_API } from '@folio/stripes-acq-components';
 
-export const NAVIGATION_SETTINGS_SCOPE = 'ui-finance';
-export const NAVIGATION_SETTINGS_BROWSE_TAB_KEY = 'enableBrowseTab';
+import { NAVIGATION_SETTINGS_API } from '../../const';
 
 export const useNavigationSettings = (options = {}) => {
   const ky = useOkapiKy();
+  const queryClient = useQueryClient();
   const [namespace] = useNamespace({ key: 'navigation-settings' });
 
   const queryKey = [namespace];
-  const queryFn = ({ signal }) => ky
-    .get(SETTINGS_ENTRIES_API, {
-      searchParams: {
-        query: `(scope=="${NAVIGATION_SETTINGS_SCOPE}" and key=="${NAVIGATION_SETTINGS_BROWSE_TAB_KEY}")`,
-      },
-      signal,
-    })
-    .json();
+  const queryFn = ({ signal }) => ky.get(NAVIGATION_SETTINGS_API, { signal }).json();
 
   const {
-    data,
+    data: navigationSettingsEntry,
     isLoading,
     refetch,
   } = useQuery({
     queryKey,
     queryFn,
+    retry: false,
     ...options,
   });
 
-  const navigationSettingsEntry = data?.items?.[0];
+  const { mutateAsync: saveNavigationSettings } = useMutation({
+    mutationFn: (enableBrowseTab) => {
+      const payload = {
+        id: navigationSettingsEntry?.id || uuidv4(),
+        enableBrowseTab,
+      };
+
+      const request = navigationSettingsEntry
+        ? ky.put(`${NAVIGATION_SETTINGS_API}/${payload.id}`, { json: payload })
+        : ky.post(NAVIGATION_SETTINGS_API, { json: payload });
+
+      return request.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries(queryKey),
+  });
 
   return {
     navigationSettingsEntry,
-    isBrowseTabEnabled: Boolean(navigationSettingsEntry?.value),
+    isBrowseTabEnabled: Boolean(navigationSettingsEntry?.enableBrowseTab),
     isLoading,
     refetch,
+    saveNavigationSettings,
   };
 };

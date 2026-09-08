@@ -7,7 +7,9 @@ import {
 
 import { useNamespace, useOkapiKy } from '@folio/stripes/core';
 
-import { NAVIGATION_SETTINGS_API } from '../../const';
+import { SETTINGS_API } from '../../const';
+
+export const ENABLE_BROWSE_TAB_SETTING_KEY = 'ENABLE_BROWSE_TAB';
 
 export const useNavigationSettings = (options = {}) => {
   const ky = useOkapiKy();
@@ -15,10 +17,15 @@ export const useNavigationSettings = (options = {}) => {
   const [namespace] = useNamespace({ key: 'navigation-settings' });
 
   const queryKey = [namespace];
-  const queryFn = ({ signal }) => ky.get(NAVIGATION_SETTINGS_API, { signal }).json();
+  const queryFn = ({ signal }) => ky
+    .get(SETTINGS_API, {
+      searchParams: { query: `key=="${ENABLE_BROWSE_TAB_SETTING_KEY}"` },
+      signal,
+    })
+    .json();
 
   const {
-    data: navigationSettingsEntry,
+    data,
     isLoading,
     refetch,
   } = useQuery({
@@ -28,16 +35,20 @@ export const useNavigationSettings = (options = {}) => {
     ...options,
   });
 
+  const navigationSettingsEntry = data?.settings?.[0];
+
   const { mutateAsync: saveNavigationSettings } = useMutation({
     mutationFn: (enableBrowseTab) => {
       const payload = {
         id: navigationSettingsEntry?.id || uuidv4(),
-        enableBrowseTab,
+        key: ENABLE_BROWSE_TAB_SETTING_KEY,
+        value: String(enableBrowseTab),
+        _version: navigationSettingsEntry?._version,
       };
 
       const request = navigationSettingsEntry
-        ? ky.put(`${NAVIGATION_SETTINGS_API}/${payload.id}`, { json: payload })
-        : ky.post(NAVIGATION_SETTINGS_API, { json: payload });
+        ? ky.put(`${SETTINGS_API}/${payload.id}`, { json: payload })
+        : ky.post(SETTINGS_API, { json: payload });
 
       return request.json();
     },
@@ -46,7 +57,7 @@ export const useNavigationSettings = (options = {}) => {
 
   return {
     navigationSettingsEntry,
-    isBrowseTabEnabled: Boolean(navigationSettingsEntry?.enableBrowseTab),
+    isBrowseTabEnabled: navigationSettingsEntry?.value === 'true',
     isLoading,
     refetch,
     saveNavigationSettings,

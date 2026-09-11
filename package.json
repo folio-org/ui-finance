@@ -1,6 +1,6 @@
 {
   "name": "@folio/finance",
-  "version": "9.0.1",
+  "version": "9.1.0",
   "description": "Description for ui-finance",
   "main": "src/index.js",
   "repository": "",
@@ -501,10 +501,10 @@
     "@bigtest/interactor": "^0.9.0",
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
-    "@folio/eslint-config-stripes": "^8.0.0",
-    "@folio/jest-config-stripes": "^3.0.0",
+    "@folio/eslint-config-stripes": "^9.0.0",
+    "@folio/jest-config-stripes": "^4.0.0",
     "@folio/stripes": "^10.0.0",
-    "@folio/stripes-cli": "^4.0.0",
+    "@folio/stripes-cli": "^5.0.0",
     "babel-jest": "^26.3.0",
     "chai": "^4.2.0",
     "core-js": "^3.6.4",
@@ -530,7 +530,7 @@
     "uuid": "^9.0.0"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "~7.1.0",
+    "@folio/stripes-acq-components": "~7.2.0",
     "@folio/stripes-data-transfer-components": "~7.1.0",
     "@rehooks/local-storage": "^2.4.4",
     "final-form": "^4.18.2",

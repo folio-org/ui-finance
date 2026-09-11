@@ -7,7 +7,6 @@ import '@folio/stripes-acq-components/test/jest/__mock__';
 
 import { ORDER_TYPE } from '../constants';
 import RolloverLedger from './RolloverLedger';
-import { LEDGER_ROLLOVER_TYPES } from '../../common/const';
 
 const CURRENT_FISCAL_YEAR = {
   'id': '684b5dc5-92f6-4db7-b996-b549d88f5e4e',

@@ -29,7 +29,7 @@ const renderLedgerDetailsFiscalYear = (props = {}) => render(
   <LedgerDetailsFiscalYear
     {...defaultProps}
     {...props}
-  />
+  />,
 );
 
 describe('LedgerDetailsFiscalYear', () => {

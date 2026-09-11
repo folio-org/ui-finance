@@ -55,7 +55,7 @@ describe('useLedgerPreviousFiscalYears', () => {
     };
 
     const { result } = renderHook(() => useLedgerPreviousFiscalYears(ledger, {
-      onError: console.log
+      onError: console.log,
     }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());

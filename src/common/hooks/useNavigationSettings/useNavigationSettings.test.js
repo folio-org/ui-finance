@@ -7,8 +7,11 @@ import {
 import { act, renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { NAVIGATION_SETTINGS_API } from '../../const';
-import { useNavigationSettings } from './useNavigationSettings';
+import { SETTINGS_API } from '../../const';
+import {
+  BROWSE_TAB_ENABLED_SETTING_KEY,
+  useNavigationSettings,
+} from './useNavigationSettings';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -20,11 +23,13 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
+const emptyCollection = { settings: [], totalRecords: 0 };
+
 const mockGet = jest.fn().mockReturnValue({
-  json: jest.fn().mockRejectedValue(new Error('Not Found')),
+  json: jest.fn().mockResolvedValue(emptyCollection),
 });
 const mockPost = jest.fn().mockReturnValue({
-  json: jest.fn().mockResolvedValue({ id: 'settings-id', enableBrowseTab: true }),
+  json: jest.fn().mockResolvedValue({ id: 'settings-id', key: BROWSE_TAB_ENABLED_SETTING_KEY, value: 'true' }),
 });
 const mockPut = jest.fn().mockReturnValue({
   json: jest.fn().mockResolvedValue({}),
@@ -34,7 +39,7 @@ describe('useNavigationSettings', () => {
   beforeEach(() => {
     queryClient.clear();
     mockGet.mockReturnValue({
-      json: jest.fn().mockRejectedValue(new Error('Not Found')),
+      json: jest.fn().mockResolvedValue(emptyCollection),
     });
     useOkapiKy.mockClear().mockReturnValue({
       get: mockGet,
@@ -43,12 +48,15 @@ describe('useNavigationSettings', () => {
     });
   });
 
-  it('should request navigation settings from finance-storage', async () => {
+  it('should request the browse tab setting from finance-storage settings', async () => {
     renderHook(() => useNavigationSettings(), { wrapper });
 
     await waitFor(() => expect(mockGet).toHaveBeenCalledWith(
-      NAVIGATION_SETTINGS_API,
-      expect.objectContaining({ signal: expect.anything() }),
+      SETTINGS_API,
+      expect.objectContaining({
+        searchParams: { query: `key=="${BROWSE_TAB_ENABLED_SETTING_KEY}"` },
+        signal: expect.anything(),
+      }),
     ));
   });
 
@@ -61,11 +69,11 @@ describe('useNavigationSettings', () => {
     expect(result.current.navigationSettingsEntry).toBeUndefined();
   });
 
-  it('should return isBrowseTabEnabled true when a settings entry with enableBrowseTab true exists', async () => {
-    const entry = { id: 'settings-id', enableBrowseTab: true };
+  it('should return isBrowseTabEnabled true when a settings entry with value "true" exists', async () => {
+    const entry = { id: 'settings-id', key: BROWSE_TAB_ENABLED_SETTING_KEY, value: 'true' };
 
     mockGet.mockReturnValue({
-      json: jest.fn().mockResolvedValue(entry),
+      json: jest.fn().mockResolvedValue({ settings: [entry], totalRecords: 1 }),
     });
 
     const { result } = renderHook(() => useNavigationSettings(), { wrapper });
@@ -85,16 +93,22 @@ describe('useNavigationSettings', () => {
     });
 
     expect(mockPost).toHaveBeenCalledWith(
-      NAVIGATION_SETTINGS_API,
-      { json: expect.objectContaining({ enableBrowseTab: true }) },
+      SETTINGS_API,
+      { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value: 'true' } },
     );
   });
 
-  it('should update the existing settings entry via PUT when one already exists', async () => {
-    const entry = { id: 'settings-id', enableBrowseTab: true };
+  it('should update the existing settings entry via PUT when one already exists, preserving _version for optimistic locking', async () => {
+    const entry = {
+      id: 'settings-id',
+      key: BROWSE_TAB_ENABLED_SETTING_KEY,
+      value: 'true',
+      _version: 3,
+      metadata: { updatedDate: '2026-01-01T00:00:00.000+0000' },
+    };
 
     mockGet.mockReturnValue({
-      json: jest.fn().mockResolvedValue(entry),
+      json: jest.fn().mockResolvedValue({ settings: [entry], totalRecords: 1 }),
     });
 
     const { result } = renderHook(() => useNavigationSettings(), { wrapper });
@@ -106,8 +120,8 @@ describe('useNavigationSettings', () => {
     });
 
     expect(mockPut).toHaveBeenCalledWith(
-      `${NAVIGATION_SETTINGS_API}/settings-id`,
-      { json: { id: 'settings-id', enableBrowseTab: false } },
+      `${SETTINGS_API}/settings-id`,
+      { json: { ...entry, value: 'false' } },
     );
   });
 });

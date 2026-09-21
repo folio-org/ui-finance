@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import {
   useMutation,
   useQuery,
@@ -6,19 +5,27 @@ import {
 } from 'react-query';
 
 import { useNamespace, useOkapiKy } from '@folio/stripes/core';
+import { CQLBuilder } from '@folio/stripes-acq-components';
 
-import { NAVIGATION_SETTINGS_API } from '../../const';
+import { SETTINGS_API } from '../../const';
+
+export const BROWSE_TAB_ENABLED_SETTING_KEY = 'ENABLE_BROWSE_TAB';
 
 export const useNavigationSettings = (options = {}) => {
   const ky = useOkapiKy();
   const queryClient = useQueryClient();
   const [namespace] = useNamespace({ key: 'navigation-settings' });
 
+  const cqlBuilder = new CQLBuilder();
+  const searchParams = {
+    query: cqlBuilder.equal('key', BROWSE_TAB_ENABLED_SETTING_KEY).build(),
+  };
+
   const queryKey = [namespace];
-  const queryFn = ({ signal }) => ky.get(NAVIGATION_SETTINGS_API, { signal }).json();
+  const queryFn = ({ signal }) => ky.get(SETTINGS_API, { searchParams, signal }).json();
 
   const {
-    data: navigationSettingsEntry,
+    data,
     isLoading,
     refetch,
   } = useQuery({
@@ -28,16 +35,19 @@ export const useNavigationSettings = (options = {}) => {
     ...options,
   });
 
+  const navigationSettingsEntry = data?.settings?.[0];
+
   const { mutateAsync: saveNavigationSettings } = useMutation({
     mutationFn: (enableBrowseTab) => {
-      const payload = {
-        id: navigationSettingsEntry?.id || uuidv4(),
-        enableBrowseTab,
-      };
+      const value = String(enableBrowseTab);
 
+      /*
+       * On update, round-trip the fetched record (id, _version, metadata) rather than
+       * rebuilding it, so RMB's optimistic locking on `_version` doesn't reject the PUT.
+       */
       const request = navigationSettingsEntry
-        ? ky.put(`${NAVIGATION_SETTINGS_API}/${payload.id}`, { json: payload })
-        : ky.post(NAVIGATION_SETTINGS_API, { json: payload });
+        ? ky.put(`${SETTINGS_API}/${navigationSettingsEntry.id}`, { json: { ...navigationSettingsEntry, value } })
+        : ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } });
 
       return request.json();
     },
@@ -46,7 +56,7 @@ export const useNavigationSettings = (options = {}) => {
 
   return {
     navigationSettingsEntry,
-    isBrowseTabEnabled: Boolean(navigationSettingsEntry?.enableBrowseTab),
+    isBrowseTabEnabled: navigationSettingsEntry?.value === 'true',
     isLoading,
     refetch,
     saveNavigationSettings,

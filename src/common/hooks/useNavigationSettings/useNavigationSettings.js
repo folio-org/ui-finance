@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   useMutation,
   useQuery,
@@ -36,6 +37,8 @@ export const useNavigationSettings = (options = {}) => {
   });
 
   const navigationSettingsEntry = data?.settings?.[0];
+  const isBrowseTabEnabled = navigationSettingsEntry?.value === 'true';
+  const initialValues = useMemo(() => ({ enabled: isBrowseTabEnabled }), [isBrowseTabEnabled]);
 
   const { mutateAsync: saveNavigationSettings } = useMutation({
     mutationFn: (enableBrowseTab) => {
@@ -55,8 +58,8 @@ export const useNavigationSettings = (options = {}) => {
   });
 
   return {
-    navigationSettingsEntry,
-    isBrowseTabEnabled: navigationSettingsEntry?.value === 'true',
+    initialValues,
+    isBrowseTabEnabled,
     isLoading,
     refetch,
     saveNavigationSettings,

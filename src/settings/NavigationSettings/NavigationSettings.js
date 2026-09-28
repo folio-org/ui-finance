@@ -19,7 +19,7 @@ export const NavigationSettings = () => {
   const isNonInteractive = !stripes.hasPerm('ui-finance.settings.all');
 
   const {
-    isBrowseTabEnabled,
+    initialValues,
     isLoading,
     saveNavigationSettings,
   } = useNavigationSettings();
@@ -57,7 +57,7 @@ export const NavigationSettings = () => {
   return (
     <NavigationSettingsForm
       onSubmit={onSubmit}
-      initialValues={{ [FORM_FIELDS_NAMES.enabled]: isBrowseTabEnabled }}
+      initialValues={initialValues}
       isNonInteractive={isNonInteractive}
     />
   );

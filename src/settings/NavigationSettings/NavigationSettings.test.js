@@ -45,7 +45,7 @@ describe('NavigationSettings', () => {
   beforeEach(() => {
     saveNavigationSettingsMock.mockClear().mockResolvedValue();
     useNavigationSettings.mockClear().mockReturnValue({
-      isBrowseTabEnabled: false,
+      initialValues: { enabled: false },
       isLoading: false,
       saveNavigationSettings: saveNavigationSettingsMock,
     });
@@ -69,7 +69,7 @@ describe('NavigationSettings', () => {
 
   it('should render loading pane while settings are being fetched', async () => {
     useNavigationSettings.mockReturnValue({
-      isBrowseTabEnabled: false,
+      initialValues: { enabled: false },
       isLoading: true,
       saveNavigationSettings: saveNavigationSettingsMock,
     });
@@ -89,7 +89,7 @@ describe('NavigationSettings', () => {
 
   it('should render checkbox checked when browse tab is enabled', async () => {
     useNavigationSettings.mockReturnValue({
-      isBrowseTabEnabled: true,
+      initialValues: { enabled: true },
       isLoading: false,
       saveNavigationSettings: saveNavigationSettingsMock,
     });

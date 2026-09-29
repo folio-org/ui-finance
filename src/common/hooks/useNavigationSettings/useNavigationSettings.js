@@ -7,14 +7,12 @@ import {
 import { useNamespace, useOkapiKy } from '@folio/stripes/core';
 import { CQLBuilder } from '@folio/stripes-acq-components';
 
-import { SETTINGS_API } from '../../const';
-
-export const BROWSE_TAB_ENABLED_SETTING_KEY = 'ENABLE_BROWSE_TAB';
+import { BROWSE_TAB_ENABLED_SETTING_KEY, SETTINGS_API } from '../../const';
 
 export const useNavigationSettings = (options = {}) => {
   const ky = useOkapiKy();
   const queryClient = useQueryClient();
-  const [namespace] = useNamespace({ key: 'navigation-settings' });
+  const [namespace] = useNamespace({ key: BROWSE_TAB_ENABLED_SETTING_KEY });
 
   const cqlBuilder = new CQLBuilder();
   const searchParams = {

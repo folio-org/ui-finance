@@ -7,11 +7,8 @@ import {
 import { act, renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { SETTINGS_API } from '../../const';
-import {
-  BROWSE_TAB_ENABLED_SETTING_KEY,
-  useNavigationSettings,
-} from './useNavigationSettings';
+import { BROWSE_TAB_ENABLED_SETTING_KEY, SETTINGS_API } from '../../const';
+import { useNavigationSettings } from './useNavigationSettings';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },

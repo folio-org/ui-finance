@@ -12,7 +12,7 @@ import { BROWSE_TAB_ENABLED_SETTING_KEY, SETTINGS_API } from '../../const';
 export const useNavigationSettings = (options = {}) => {
   const ky = useOkapiKy();
   const queryClient = useQueryClient();
-  const [namespace] = useNamespace({ key: BROWSE_TAB_ENABLED_SETTING_KEY });
+  const [namespace] = useNamespace({ key: 'navigation-settings' });
 
   const cqlBuilder = new CQLBuilder();
   const searchParams = {

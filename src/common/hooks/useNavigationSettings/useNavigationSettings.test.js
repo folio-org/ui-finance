@@ -60,16 +60,15 @@ describe('useNavigationSettings', () => {
     ));
   });
 
-  it('should return isBrowseTabEnabled false and matching initialValues when no settings entry exists', async () => {
+  it('should return navigationSettings with enabled false when no settings entry exists', async () => {
     const { result } = renderHook(() => useNavigationSettings(), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
-    expect(result.current.isBrowseTabEnabled).toBe(false);
-    expect(result.current.initialValues).toEqual({ enabled: false });
+    expect(result.current.navigationSettings).toEqual({ enabled: false });
   });
 
-  it('should return isBrowseTabEnabled true and matching initialValues when a settings entry with value "true" exists', async () => {
+  it('should return navigationSettings with enabled true when a settings entry with value "true" exists', async () => {
     const entry = { id: 'settings-id', key: BROWSE_TAB_ENABLED_SETTING_KEY, value: 'true' };
 
     mockGet.mockReturnValue({
@@ -78,9 +77,7 @@ describe('useNavigationSettings', () => {
 
     const { result } = renderHook(() => useNavigationSettings(), { wrapper });
 
-    await waitFor(() => expect(result.current.isBrowseTabEnabled).toBe(true));
-
-    expect(result.current.initialValues).toEqual({ enabled: true });
+    await waitFor(() => expect(result.current.navigationSettings).toEqual({ enabled: true }));
   });
 
   it('should create a new settings entry via POST when none exists yet', async () => {
@@ -113,7 +110,7 @@ describe('useNavigationSettings', () => {
 
     const { result } = renderHook(() => useNavigationSettings(), { wrapper });
 
-    await waitFor(() => expect(result.current.isBrowseTabEnabled).toBe(true));
+    await waitFor(() => expect(result.current.navigationSettings).toEqual({ enabled: true }));
 
     await act(async () => {
       await result.current.saveNavigationSettings(false);

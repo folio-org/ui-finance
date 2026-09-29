@@ -19,7 +19,7 @@ export const NavigationSettings = () => {
   const isNonInteractive = !stripes.hasPerm('ui-finance.settings.all');
 
   const {
-    initialValues,
+    navigationSettings,
     isLoading,
     saveNavigationSettings,
   } = useNavigationSettings();
@@ -57,7 +57,7 @@ export const NavigationSettings = () => {
   return (
     <NavigationSettingsForm
       onSubmit={onSubmit}
-      initialValues={initialValues}
+      initialValues={navigationSettings}
       isNonInteractive={isNonInteractive}
     />
   );

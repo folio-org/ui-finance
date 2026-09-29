@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import {
   useMutation,
   useQuery,
@@ -23,7 +22,15 @@ export const useNavigationSettings = (options = {}) => {
   };
 
   const queryKey = [namespace];
-  const queryFn = ({ signal }) => ky.get(SETTINGS_API, { searchParams, signal }).json();
+  const queryFn = async ({ signal }) => {
+    const { settings } = await ky.get(SETTINGS_API, { searchParams, signal }).json();
+    const entry = settings?.[0];
+
+    return {
+      entry,
+      navigationSettings: { enabled: entry?.value === 'true' },
+    };
+  };
 
   const {
     data,
@@ -36,20 +43,18 @@ export const useNavigationSettings = (options = {}) => {
     ...options,
   });
 
-  const navigationSettingsEntry = data?.settings?.[0];
-  const isBrowseTabEnabled = navigationSettingsEntry?.value === 'true';
-  const initialValues = useMemo(() => ({ enabled: isBrowseTabEnabled }), [isBrowseTabEnabled]);
+  const navigationSettingsEntry = data?.entry;
 
-  const { mutateAsync: saveNavigationSettings } = useMutation({
-    mutationFn: (enableBrowseTab) => {
+  const { mutateAsync } = useMutation({
+    mutationFn: ({ entry, enableBrowseTab }) => {
       const value = String(enableBrowseTab);
 
       /*
-       * On update, round-trip the fetched record (id, _version, metadata) rather than
+       * Round-trips the fetched record (id, _version, metadata) on update rather than
        * rebuilding it, so RMB's optimistic locking on `_version` doesn't reject the PUT.
        */
-      const request = navigationSettingsEntry
-        ? ky.put(`${SETTINGS_API}/${navigationSettingsEntry.id}`, { json: { ...navigationSettingsEntry, value } })
+      const request = entry
+        ? ky.put(`${SETTINGS_API}/${entry.id}`, { json: { ...entry, value } })
         : ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } });
 
       return request.json();
@@ -57,9 +62,13 @@ export const useNavigationSettings = (options = {}) => {
     onSuccess: () => queryClient.invalidateQueries(queryKey),
   });
 
+  const saveNavigationSettings = (enableBrowseTab) => mutateAsync({
+    entry: navigationSettingsEntry,
+    enableBrowseTab,
+  });
+
   return {
-    initialValues,
-    isBrowseTabEnabled,
+    navigationSettings: data?.navigationSettings,
     isLoading,
     refetch,
     saveNavigationSettings,

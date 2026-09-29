@@ -18,5 +18,6 @@ export const LEDGER_ROLLOVER_ERRORS_API = 'finance/ledger-rollovers-errors';
 export const LEDGER_ROLLOVER_LOGS_API = 'finance/ledger-rollovers-logs';
 export const LEDGER_ROLLOVER_PROGRESS_API = 'finance/ledger-rollovers-progress';
 export const RELEASE_ENCUMBRANCE_API = 'finance/release-encumbrance/:{id}';
+export const SETTINGS_API = 'finance-storage/settings';
 export const TRANSACTIONS_API = 'finance/transactions';
 export const UNRELEASE_ENCUMBRANCE_API = 'finance/unrelease-encumbrance';

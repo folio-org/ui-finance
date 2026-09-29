@@ -13,6 +13,7 @@ export { useLedgerFunds } from './useLedgerFunds';
 export { useLedgerPreviousFiscalYears } from './useLedgerPreviousFiscalYears';
 export { useLedgerRollover } from './useLedgerRollover';
 export { useLedgerUpcomingFiscalYears } from './useLedgerUpcomingFiscalYears';
+export { useNavigationSettings } from './useNavigationSettings';
 export { useOrder } from './useOrder';
 export { useResultsPageTitle } from './useResultsPageTitle';
 export { useSelectedRow } from './useSelectedRow';

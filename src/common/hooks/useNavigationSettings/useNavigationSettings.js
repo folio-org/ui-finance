@@ -24,10 +24,7 @@ export const useNavigationSettings = (options = {}) => {
     const { settings } = await ky.get(SETTINGS_API, { searchParams, signal }).json();
     const entry = settings?.[0];
 
-    return {
-      entry,
-      navigationSettings: { enabled: entry?.value === 'true' },
-    };
+    return { enabled: entry?.value === 'true' };
   };
 
   const {
@@ -41,16 +38,18 @@ export const useNavigationSettings = (options = {}) => {
     ...options,
   });
 
-  const navigationSettingsEntry = data?.entry;
-
-  const { mutateAsync } = useMutation({
-    mutationFn: ({ entry, enableBrowseTab }) => {
+  const { mutateAsync: saveNavigationSettings } = useMutation({
+    mutationFn: async (enableBrowseTab) => {
       const value = String(enableBrowseTab);
 
       /*
-       * Round-trips the fetched record (id, _version, metadata) on update rather than
-       * rebuilding it, so RMB's optimistic locking on `_version` doesn't reject the PUT.
+       * Reads the current entry right before writing (rather than reusing the display
+       * query's cached data) so the PUT always carries a fresh `_version` for RMB's
+       * optimistic locking, and so mutationFn depends only on its own argument.
        */
+      const { settings } = await ky.get(SETTINGS_API, { searchParams }).json();
+      const entry = settings?.[0];
+
       const request = entry
         ? ky.put(`${SETTINGS_API}/${entry.id}`, { json: { ...entry, value } })
         : ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } });
@@ -60,13 +59,8 @@ export const useNavigationSettings = (options = {}) => {
     onSuccess: () => queryClient.invalidateQueries(queryKey),
   });
 
-  const saveNavigationSettings = (enableBrowseTab) => mutateAsync({
-    entry: navigationSettingsEntry,
-    enableBrowseTab,
-  });
-
   return {
-    navigationSettings: data?.navigationSettings,
+    navigationSettings: data,
     isLoading,
     refetch,
     saveNavigationSettings,

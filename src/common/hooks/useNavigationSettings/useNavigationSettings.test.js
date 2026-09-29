@@ -118,4 +118,35 @@ describe('useNavigationSettings', () => {
       { json: { ...entry, value: 'false' } },
     );
   });
+
+  it('should read the entry fresh right before saving, not reuse what the display query cached', async () => {
+    const staleEntry = {
+      id: 'settings-id',
+      key: BROWSE_TAB_ENABLED_SETTING_KEY,
+      value: 'true',
+      _version: 1,
+    };
+    const freshEntry = { ...staleEntry, _version: 2 };
+
+    mockGet
+      .mockReturnValueOnce({
+        json: jest.fn().mockResolvedValue({ settings: [staleEntry], totalRecords: 1 }),
+      })
+      .mockReturnValue({
+        json: jest.fn().mockResolvedValue({ settings: [freshEntry], totalRecords: 1 }),
+      });
+
+    const { result } = renderHook(() => useNavigationSettings(), { wrapper });
+
+    await waitFor(() => expect(result.current.navigationSettings).toEqual({ enabled: true }));
+
+    await act(async () => {
+      await result.current.saveNavigationSettings(false);
+    });
+
+    expect(mockPut).toHaveBeenCalledWith(
+      `${SETTINGS_API}/settings-id`,
+      { json: { ...freshEntry, value: 'false' } },
+    );
+  });
 });

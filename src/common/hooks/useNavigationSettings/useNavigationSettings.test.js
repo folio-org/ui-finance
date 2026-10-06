@@ -28,9 +28,8 @@ const mockGet = jest.fn().mockReturnValue({
 const mockPost = jest.fn().mockReturnValue({
   json: jest.fn().mockResolvedValue({ id: 'settings-id', key: BROWSE_TAB_ENABLED_SETTING_KEY, value: 'true' }),
 });
-const mockPut = jest.fn().mockReturnValue({
-  json: jest.fn().mockResolvedValue({}),
-});
+// PUT answers 204 and must not be parsed via `.json()`, so the mock has no `json` method
+const mockPut = jest.fn().mockResolvedValue({ status: 204 });
 
 describe('useNavigationSettings', () => {
   beforeEach(() => {

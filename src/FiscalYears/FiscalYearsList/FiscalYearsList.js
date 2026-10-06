@@ -40,6 +40,7 @@ import {
   useSelectedRow,
 } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import { SearchTabControl } from '../../Browse';
 import CheckPermission from '../../common/CheckPermission';
 
 import FiscalYearDetails from '../FiscalYearDetails';
@@ -144,6 +145,7 @@ const FiscalYearsList = ({
             toggleFilters={toggleFilters}
             width="350px"
           >
+            <SearchTabControl />
             <FinanceNavigation />
 
             <SingleSearchForm

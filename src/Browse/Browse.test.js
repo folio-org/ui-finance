@@ -10,6 +10,11 @@ import Browse from './Browse';
 jest.mock('../common/hooks', () => ({
   useBrowseTabEnabled: jest.fn(),
 }));
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  // eslint-disable-next-line react/prop-types
+  PersistedPaneset: (props) => <div>{props.children}</div>,
+}));
 jest.mock('./BrowseFilters', () => ({
   BrowseFilters: () => <div>BrowseFilters</div>,
 }));

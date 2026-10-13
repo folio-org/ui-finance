@@ -1,4 +1,5 @@
 export { useBatchTransactionsMutation } from './useBatchTransactionsMutation';
+export { useBrowseTabEnabled } from './useBrowseTabEnabled';
 export { useBudgetByFundAndFY } from './useBudgetByFundAndFY';
 export { useCommonErrorResponseHandler } from './useCommonErrorResponseHandler';
 export { useFiscalYear } from './useFiscalYear';

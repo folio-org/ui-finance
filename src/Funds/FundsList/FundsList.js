@@ -38,6 +38,7 @@ import {
   useSelectedRow,
 } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
+import { SearchTabControl } from '../../Browse';
 import CheckPermission from '../../common/CheckPermission';
 
 import { FundDetailsContainer } from '../FundDetails';
@@ -141,6 +142,7 @@ const FundsList = ({
             toggleFilters={toggleFilters}
             width="350px"
           >
+            <SearchTabControl />
             <FinanceNavigation />
 
             <SingleSearchForm

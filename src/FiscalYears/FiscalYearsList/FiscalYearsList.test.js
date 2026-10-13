@@ -4,6 +4,10 @@ import { MemoryRouter } from 'react-router-dom';
 
 import FiscalYearsList from './FiscalYearsList';
 
+jest.mock('../../Browse', () => ({
+  SearchTabControl: () => null,
+}));
+
 jest.mock('react-virtualized-auto-sizer', () => jest.fn(
   (props) => <div>{props.children({ width: 123 })}</div>,
 ));

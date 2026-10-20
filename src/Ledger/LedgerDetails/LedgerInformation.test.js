@@ -17,7 +17,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   AcqUnitsView: jest.fn(() => 'AcqUnitsView'),
-}))
+}));
 
 jest.mock('../../common/hooks', () => ({
   useLedgerCurrentFiscalYear: jest.fn(),

@@ -3,6 +3,7 @@
 ## 9.1.0 (IN PROGRESS)
 
 * Fix `csvToJson` parser. Refs UIF-661.
+* *BREAKING* Settings - Enable browse tab (navigation). Refs UIF-544.
 
 ## [9.0.0](https://github.com/folio-org/ui-finance/tree/v9.0.0) (2026-04-17)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.4...v9.0.0)
@@ -32,6 +33,7 @@
 * Display `-` (no value) when there is no budget status specified in the log row. Refs UIF-656.
 * Handle batch allocation form page leaving. Refs UIF-652.
 * Improve error message on batch allocation screen if the budgets are not "Active" or "Planned". Refs UIF-651.
+* Display "Period End Date (UTC)" as end of selected day. Refs UIF-666.
 
 ## [8.0.4](https://github.com/folio-org/ui-finance/tree/v8.0.4) (2025-05-06)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.3...v8.0.4)

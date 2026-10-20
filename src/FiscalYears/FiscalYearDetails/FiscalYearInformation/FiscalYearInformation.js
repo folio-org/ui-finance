@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  dayjs,
   FormattedDate,
   KeyValue,
   NoValue,
@@ -22,6 +23,11 @@ const renderUTCTime = value => (
     timeZone="UTC"
   />
 );
+
+const formatFYEndDate = (value) => {
+  // Workaround for https://folio-org.atlassian.net/browse/UIF-666
+  return dayjs.utc(value).endOf('day').format();
+};
 
 const DEFAULT_ACQ_UNIT_IDS = [];
 
@@ -77,7 +83,7 @@ const FiscalYearInformation = ({
           <KeyValue
             label={<FormattedMessage id="ui-finance.fiscalYear.information.periodEndUTC" />}
           >
-            {renderUTCTime(periodEnd)}
+            {renderUTCTime(formatFYEndDate(periodEnd))}
           </KeyValue>
         </Col>
 

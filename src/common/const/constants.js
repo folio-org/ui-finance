@@ -6,6 +6,8 @@ import {
 export const CHUNK_LIMIT = 25;
 export const NO_ID = 'noId';
 
+export const BROWSE_TAB_ENABLED_SETTING_KEY = 'ENABLE_BROWSE_TAB';
+
 export const CREATE_UNITS_PERM = 'finance.acquisitions-units-assignments.create.execute';
 export const MANAGE_UNITS_PERM = 'finance.acquisitions-units-assignments.manage.execute';
 

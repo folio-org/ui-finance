@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   screen,
-  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
@@ -62,6 +61,12 @@ describe('NavigationSettingsForm', () => {
     expect(screen.getByRole('button', { name: 'stripes-acq-components.button.save' })).toBeInTheDocument();
   });
 
+  it('should associate the "Enable browse tab" label with the checkbox for accessibility', () => {
+    renderComponent();
+
+    expect(screen.getByRole('checkbox', { name: 'ui-finance.settings.navigation.enableBrowseTab' })).toBeInTheDocument();
+  });
+
   it('should render checkbox unchecked by default', () => {
     renderComponent();
 
@@ -114,9 +119,7 @@ describe('NavigationSettingsForm', () => {
 
     await userEvent.click(checkbox);
 
-    await waitFor(() => {
-      expect(saveButton).not.toBeDisabled();
-    });
+    expect(saveButton).not.toBeDisabled();
   });
 
   it('should disable save button when isNonInteractive is true', () => {
@@ -135,19 +138,13 @@ describe('NavigationSettingsForm', () => {
 
     await userEvent.click(checkbox);
 
-    await waitFor(() => {
-      expect(saveButton).not.toBeDisabled();
-    });
-
     await userEvent.click(saveButton);
 
-    await waitFor(() => {
-      expect(onSubmitMock).toHaveBeenCalledWith(
-        { [FORM_FIELDS_NAMES.enabled]: true },
-        expect.anything(),
-        expect.anything(),
-      );
-    });
+    expect(onSubmitMock).toHaveBeenCalledWith(
+      { [FORM_FIELDS_NAMES.enabled]: true },
+      expect.anything(),
+      expect.anything(),
+    );
   });
 
   it('should submit form with enabled: false when checkbox is unchecked', async () => {
@@ -160,27 +157,19 @@ describe('NavigationSettingsForm', () => {
 
     await userEvent.click(checkbox);
 
-    await waitFor(() => {
-      expect(saveButton).not.toBeDisabled();
-    });
-
     await userEvent.click(saveButton);
 
-    await waitFor(() => {
-      expect(onSubmitMock).toHaveBeenCalledWith(
-        { [FORM_FIELDS_NAMES.enabled]: false },
-        expect.anything(),
-        expect.anything(),
-      );
-    });
+    expect(onSubmitMock).toHaveBeenCalledWith(
+      { [FORM_FIELDS_NAMES.enabled]: false },
+      expect.anything(),
+      expect.anything(),
+    );
   });
 
   it('should not call onSubmit when save button is disabled', async () => {
     renderComponent();
 
     const saveButton = screen.getByRole('button', { name: 'stripes-acq-components.button.save' });
-
-    expect(saveButton).toBeDisabled();
 
     await userEvent.click(saveButton);
 

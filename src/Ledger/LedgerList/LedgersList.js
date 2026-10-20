@@ -35,9 +35,8 @@ import {
   useItemToView,
 } from '@folio/stripes-acq-components';
 
-import { BROWSE_ROUTE, LEDGERS_ROUTE } from '../../common/const';
+import { LEDGERS_ROUTE } from '../../common/const';
 import {
-  useBrowseTabEnabled,
   useResultsPageTitle,
   useSelectedRow,
 } from '../../common/hooks';
@@ -75,8 +74,6 @@ const LedgerList = ({
   refreshList,
 }) => {
   const stripes = useStripes();
-  const isBrowseEnabled = useBrowseTabEnabled();
-
   const [
     filters,
     searchQuery,
@@ -97,12 +94,6 @@ const LedgerList = ({
 
   const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/ledger/filters');
-
-  const handleTabChange = useCallback((tab) => {
-    if (tab === BROWSE_TABS.BROWSE) {
-      history.push(BROWSE_ROUTE);
-    }
-  }, [history]);
 
   const renderActionMenu = useCallback(() => <LedgerListLastMenu />, []);
 

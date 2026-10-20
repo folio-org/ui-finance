@@ -32,9 +32,8 @@ import {
   useItemToView,
 } from '@folio/stripes-acq-components';
 
-import { BROWSE_ROUTE, FUNDS_ROUTE } from '../../common/const';
+import { FUNDS_ROUTE } from '../../common/const';
 import {
-  useBrowseTabEnabled,
   useResultsPageTitle,
   useSelectedRow,
 } from '../../common/hooks';
@@ -76,8 +75,6 @@ const FundsList = ({
   resetData,
 }) => {
   const stripes = useStripes();
-  const isBrowseEnabled = useBrowseTabEnabled();
-
   const [
     filters,
     searchQuery,
@@ -97,12 +94,6 @@ const FundsList = ({
   const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/fund/filters');
   const isRowSelected = useSelectedRow(`${match.path}/view/:id`);
-
-  const handleTabChange = useCallback((tab) => {
-    if (tab === BROWSE_TABS.BROWSE) {
-      history.push(BROWSE_ROUTE);
-    }
-  }, [history]);
 
   const shortcuts = [
     {

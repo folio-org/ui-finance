@@ -156,4 +156,3 @@ HierarchyRow.defaultProps = {
 };
 
 export default HierarchyRow;
-

@@ -72,6 +72,7 @@ export const useBrowseHierarchy = (fiscalYearId, options = {}) => {
 
         // Get unique ledger IDs from budgets
         const ledgerIdsFromBudgets = new Set();
+
         budgets.forEach(budget => {
           if (budget.fundDetails?.ledgerId) {
             ledgerIdsFromBudgets.add(budget.fundDetails.ledgerId);
@@ -211,6 +212,7 @@ const buildHierarchyFromFinanceData = (financeData) => {
 const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
   const groupsMap = allGroups.reduce((acc, group) => {
     acc[group.id] = group;
+
     return acc;
   }, {});
 
@@ -221,6 +223,7 @@ const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
       status: ledger.ledgerStatus,
       groupsMap: new Map(),
     };
+
     return acc;
   }, {});
 
@@ -272,6 +275,7 @@ const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
       }
 
       const ungrouped = ledger.groupsMap.get(UNGROUPED_ID);
+
       if (!ungrouped.fundsMap.has(fundId)) {
         ungrouped.fundsMap.set(fundId, { ...fundData, budgets: [] });
       }
@@ -280,6 +284,7 @@ const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
       groupIds.forEach(groupId => {
         if (!ledger.groupsMap.has(groupId)) {
           const group = groupsMap[groupId] || { id: groupId, name: 'Unknown Group', code: '' };
+
           ledger.groupsMap.set(groupId, {
             id: group.id,
             type: 'group',
@@ -292,6 +297,7 @@ const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
         }
 
         const groupData = ledger.groupsMap.get(groupId);
+
         if (!groupData.fundsMap.has(fundId)) {
           groupData.fundsMap.set(fundId, { ...fundData, budgets: [] });
         }
@@ -326,7 +332,7 @@ const buildHierarchyFromBudgets = (ledgers, allGroups, budgets) => {
  * Calculate counts for each level of the hierarchy.
  */
 const calculateCounts = (hierarchy) => {
-  let ledgersCount = hierarchy.length;
+  const ledgersCount = hierarchy.length;
   let groupsCount = 0;
   let fundsCount = 0;
   let budgetsCount = 0;

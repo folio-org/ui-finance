@@ -12,7 +12,7 @@ import {
   useAllFunds,
 } from '@folio/stripes-acq-components';
 
-import { useBatchTransactionsMutation, useBudgetByFundAndFY } from '../../common/hooks';
+import { useBatchTransactionsMutation, useBudgetByFundAndFY, useLedgers } from '../../common/hooks';
 import { ALLOCATION_TYPE } from '../constants';
 import { CreateTransactionContainer } from './CreateTransactionContainer';
 
@@ -30,12 +30,17 @@ jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useBatchTransactionsMutation: jest.fn(),
   useBudgetByFundAndFY: jest.fn(),
+  useLedgers: jest.fn(),
 }));
 
+const ledgers = [
+  { id: 'ledgerId', code: 'LGRA', name: 'Ledger A' },
+];
+
 const funds = [
-  { id: 'fundId', code: 'FNDA', name: 'Fund A' },
-  { id: 'fundId2', code: 'FNDB', name: 'Fund B' },
-  { id: 'fundId3', code: 'FNDC', name: 'Fund C' },
+  { id: 'fundId', code: 'FNDA', name: 'Fund A', ledgerId: ledgers[0].id },
+  { id: 'fundId2', code: 'FNDB', name: 'Fund B', ledgerId: ledgers[0].id },
+  { id: 'fundId3', code: 'FNDC', name: 'Fund C', ledgerId: ledgers[0].id },
 ];
 
 const defaultProps = {
@@ -128,6 +133,7 @@ describe('CreateTransactionContainer', () => {
   beforeEach(() => {
     defaultProps.fetchBudgetResources.mockClear();
     useAllFunds.mockReturnValue({ funds });
+    useLedgers.mockReturnValue({ ledgers, isLoading: false });
     useBatchTransactionsMutation.mockReturnValue({ batchTransactions: batchTransactionsMock });
     useOkapiKy.mockReturnValue(kyMock);
     useBudgetByFundAndFY.mockReturnValue({
@@ -156,6 +162,32 @@ describe('CreateTransactionContainer', () => {
     await clickCancelButton();
 
     expect(defaultProps.onClose).toHaveBeenCalled();
+  });
+
+  describe('fund options grouped by ledger', () => {
+    const openToDropdown = async () => {
+      const toggle = screen.getByRole('button', { name: (_name, element) => element?.getAttribute('name')?.startsWith('to') });
+
+      await act(async () => user.click(toggle));
+    };
+
+    it('should group funds under their own ledger name and code, and use a fallback label for a fund with no matching ledger', async () => {
+      const otherLedger = { id: 'other-ledger-id', code: 'LGRB', name: 'Ledger B' };
+      const fundInOtherLedger = { id: 'fund-other', code: 'FNDE', name: 'Fund E', ledgerId: otherLedger.id };
+      const fundWithUnknownLedger = { id: 'fund-orphan', code: 'FNDD', name: 'Fund D', ledgerId: 'missing-ledger-id' };
+
+      useLedgers.mockReturnValue({ ledgers: [...ledgers, otherLedger], isLoading: false });
+      useAllFunds.mockReturnValue({ funds: [...funds, fundInOtherLedger, fundWithUnknownLedger] });
+
+      renderCreateTransactionContainer();
+      await openToDropdown();
+
+      expect(await screen.findByText(`${ledgers[0].name} (${ledgers[0].code})`)).toBeInTheDocument();
+      expect(screen.getByText(`${otherLedger.name} (${otherLedger.code})`)).toBeInTheDocument();
+      expect(screen.getByText('ui-finance.transaction.unknownLedger')).toBeInTheDocument();
+      expect(await screen.findByRole('option', { name: new RegExp(fundInOtherLedger.code, 'i') })).toBeInTheDocument();
+      expect(await screen.findByRole('option', { name: new RegExp(fundWithUnknownLedger.code, 'i') })).toBeInTheDocument();
+    });
   });
 
   describe('Allocation transactions', () => {

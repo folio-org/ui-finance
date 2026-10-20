@@ -31,6 +31,7 @@ import {
 } from '../../common/utils';
 import { ALLOCATION_TYPE } from '../constants';
 import {
+  filterGroupedFundOptions,
   isAllocationTransaction,
   isMoveAllocationType,
   validateAllocationAmount,
@@ -166,6 +167,7 @@ const CreateTransactionModal = ({
                 name="fromFundId"
                 disabled={isFundFieldsDisabled}
                 loading={isFundsLoading}
+                onFilter={filterGroupedFundOptions}
               />
             </Col>
           )}
@@ -189,6 +191,7 @@ const CreateTransactionModal = ({
                 name="toFundId"
                 disabled={isFundFieldsDisabled}
                 loading={isFundsLoading}
+                onFilter={filterGroupedFundOptions}
               />
             </Col>
           )}

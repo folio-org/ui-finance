@@ -191,7 +191,7 @@ export const CreateTransactionContainer = ({
 
       if (!grouped[groupKey]) {
         grouped[groupKey] = {
-          label: ledger ? `${ledger.name} (${ledger.code})` : 'Unknown Ledger',
+          label: ledger ? `${ledger.name} (${ledger.code})` : intl.formatMessage({ id: 'ui-finance.transaction.unknownLedger' }),
           options: [],
         };
       }
@@ -203,7 +203,7 @@ export const CreateTransactionContainer = ({
     });
 
     return Object.values(grouped).sort((a, b) => a.label.localeCompare(b.label));
-  }, [funds, ledgers]);
+  }, [funds, ledgers, intl]);
 
   return (
     <>

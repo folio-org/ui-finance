@@ -34,9 +34,8 @@ import {
   useLocationSorting,
 } from '@folio/stripes-acq-components';
 
-import { BROWSE_ROUTE, FISCAL_YEAR_ROUTE } from '../../common/const';
+import { FISCAL_YEAR_ROUTE } from '../../common/const';
 import {
-  useBrowseTabEnabled,
   useResultsPageTitle,
   useSelectedRow,
 } from '../../common/hooks';
@@ -79,8 +78,6 @@ const FiscalYearsList = ({
   const history = useHistory();
   const location = useLocation();
   const match = useRouteMatch();
-  const isBrowseEnabled = useBrowseTabEnabled();
-
   const [
     filters,
     searchQuery,
@@ -102,12 +99,6 @@ const FiscalYearsList = ({
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('fiscal-years-list');
 
   const isRowSelected = useSelectedRow(`${match.path}/:id/view`);
-
-  const handleTabChange = useCallback((tab) => {
-    if (tab === BROWSE_TABS.BROWSE) {
-      history.push(BROWSE_ROUTE);
-    }
-  }, [history]);
 
   const renderLastMenu = useCallback(() => <FiscalYearsListLastMenu />, []);
   const resultsStatusMessage = (

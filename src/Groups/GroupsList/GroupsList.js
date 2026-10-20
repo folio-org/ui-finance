@@ -34,9 +34,8 @@ import {
   useLocationSorting,
 } from '@folio/stripes-acq-components';
 
-import { BROWSE_ROUTE, GROUPS_ROUTE } from '../../common/const';
+import { GROUPS_ROUTE } from '../../common/const';
 import {
-  useBrowseTabEnabled,
   useResultsPageTitle,
   useSelectedRow,
 } from '../../common/hooks';
@@ -76,8 +75,6 @@ const GroupsList = ({
   const location = useLocation();
   const match = useRouteMatch();
   const stripes = useStripes();
-  const isBrowseEnabled = useBrowseTabEnabled();
-
   const [
     filters,
     searchQuery,
@@ -97,12 +94,6 @@ const GroupsList = ({
   const pageTitle = useResultsPageTitle(filters);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/group/filters');
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('groups-list');
-
-  const handleTabChange = useCallback((tab) => {
-    if (tab === BROWSE_TABS.BROWSE) {
-      history.push(BROWSE_ROUTE);
-    }
-  }, [history]);
 
   const renderActionMenu = useCallback(() => <GroupsListLastMenu />, []);
   const resultsStatusMessage = (

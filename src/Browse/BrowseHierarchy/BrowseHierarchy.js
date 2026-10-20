@@ -67,11 +67,13 @@ const BrowseHierarchy = ({
   const toggleLedger = useCallback((ledgerId) => {
     setExpandedLedgers(prev => {
       const next = new Set(prev);
+
       if (next.has(ledgerId)) {
         next.delete(ledgerId);
       } else {
         next.add(ledgerId);
       }
+
       return next;
     });
   }, []);
@@ -79,11 +81,13 @@ const BrowseHierarchy = ({
   const toggleGroup = useCallback((groupKey) => {
     setExpandedGroups(prev => {
       const next = new Set(prev);
+
       if (next.has(groupKey)) {
         next.delete(groupKey);
       } else {
         next.add(groupKey);
       }
+
       return next;
     });
   }, []);
@@ -91,11 +95,13 @@ const BrowseHierarchy = ({
   const toggleFund = useCallback((fundKey) => {
     setExpandedFunds(prev => {
       const next = new Set(prev);
+
       if (next.has(fundKey)) {
         next.delete(fundKey);
       } else {
         next.add(fundKey);
       }
+
       return next;
     });
   }, []);
@@ -103,11 +109,13 @@ const BrowseHierarchy = ({
   const toggleBudget = useCallback((budgetKey) => {
     setExpandedBudgets(prev => {
       const next = new Set(prev);
+
       if (next.has(budgetKey)) {
         next.delete(budgetKey);
       } else {
         next.add(budgetKey);
       }
+
       return next;
     });
   }, []);
@@ -324,4 +332,3 @@ BrowseHierarchy.defaultProps = {
 };
 
 export default BrowseHierarchy;
-

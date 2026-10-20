@@ -79,4 +79,3 @@ HierarchyControls.propTypes = {
 };
 
 export default HierarchyControls;
-

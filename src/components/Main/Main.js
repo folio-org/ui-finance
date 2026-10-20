@@ -25,8 +25,6 @@ import Transactions from '../../Transactions';
 import { Budget } from '../Budget';
 import { getInitialRoute } from './utils';
 
-// Browse tab feature implementation for JIRA ticket
-
 const Main = () => {
   const match = useRouteMatch();
   const stripes = useStripes();

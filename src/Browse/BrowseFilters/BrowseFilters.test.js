@@ -1,17 +1,14 @@
-import { render } from '@folio/jest-config-stripes/testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { AcqCheckboxFilter } from '@folio/stripes-acq-components';
+import { AcqCheckboxFilter, FiscalYearFilter } from '@folio/stripes-acq-components';
 
-import { BrowseFiscalYearFilter } from '../BrowseFiscalYearFilter';
 import BrowseFilters from './BrowseFilters';
 import { BROWSE_FILTERS } from '../constants';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   AcqCheckboxFilter: jest.fn(() => <div data-testid="acq-checkbox-filter" />),
-}));
-jest.mock('../BrowseFiscalYearFilter', () => ({
-  BrowseFiscalYearFilter: jest.fn(() => <div data-testid="fiscal-year-filter" />),
+  FiscalYearFilter: jest.fn(() => <div data-testid="fiscal-year-filter" />),
 }));
 
 const defaultProps = {
@@ -31,14 +28,15 @@ describe('BrowseFilters', () => {
     jest.clearAllMocks();
   });
 
-  it('should render the BrowseFiscalYearFilter', () => {
+  it('should render the FiscalYearFilter', () => {
     renderComponent();
 
-    expect(BrowseFiscalYearFilter).toHaveBeenCalledWith(
+    expect(FiscalYearFilter).toHaveBeenCalledWith(
       expect.objectContaining({
         id: BROWSE_FILTERS.FISCAL_YEAR,
         name: BROWSE_FILTERS.FISCAL_YEAR,
         labelId: 'ui-finance.browse.filter.fiscalYear',
+        closedByDefault: false,
       }),
       expect.anything(),
     );
@@ -60,7 +58,7 @@ describe('BrowseFilters', () => {
         expect.objectContaining({
           id: name,
           name,
-          closedByDefault: false,
+          closedByDefault: true,
         }),
         expect.anything(),
       );
@@ -75,7 +73,7 @@ describe('BrowseFilters', () => {
 
     renderComponent({ activeFilters });
 
-    expect(BrowseFiscalYearFilter).toHaveBeenCalledWith(
+    expect(FiscalYearFilter).toHaveBeenCalledWith(
       expect.objectContaining({
         activeFilters: ['fy-1'],
       }),
@@ -96,8 +94,8 @@ describe('BrowseFilters', () => {
 
     renderComponent({ applyFilters });
 
-    // Get the onChange callback passed to BrowseFiscalYearFilter
-    const fiscalYearOnChange = BrowseFiscalYearFilter.mock.calls[0][0].onChange;
+    // Get the onChange callback passed to FiscalYearFilter
+    const fiscalYearOnChange = FiscalYearFilter.mock.calls[0][0].onChange;
 
     fiscalYearOnChange({ name: BROWSE_FILTERS.FISCAL_YEAR, values: ['fy-1'] });
 

@@ -1,2 +1,1 @@
-export { default as useBrowseTabEnabled } from './useBrowseTabEnabled';
-
+export { useBrowseTabEnabled } from './useBrowseTabEnabled';

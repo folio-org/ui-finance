@@ -4,37 +4,32 @@ import PropTypes from 'prop-types';
 import {
   AccordionSet,
 } from '@folio/stripes/components';
-import {
-  AcqCheckboxFilter,
-  FiscalYearFilter,
-} from '@folio/stripes-acq-components';
+import { AcqCheckboxFilter } from '@folio/stripes-acq-components';
 
 import {
-  BROWSE_FILTERS,
-  LEDGER_STATUS_OPTIONS_BROWSE,
-  GROUP_STATUS_OPTIONS_BROWSE,
-  FUND_STATUS_OPTIONS_BROWSE,
-  BUDGET_STATUS_OPTIONS_BROWSE,
-  EXPENSE_CLASS_STATUS_OPTIONS_BROWSE,
-} from '../constants';
-
-const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+  BUDGET_STATUSES_OPTIONS,
+  EXPENSE_CLASS_STATUS_OPTIONS,
+} from '../../components/Budget/constants';
+import { FUND_STATUSES_OPTIONS } from '../../Funds/constants';
+import { GROUP_STATUS_OPTIONS } from '../../Groups/constants';
+import { LEDGER_STATUS_OPTIONS } from '../../Ledger/constants';
+import { BrowseFiscalYearFilter } from '../BrowseFiscalYearFilter';
+import { BROWSE_FILTERS } from '../constants';
 
 const BrowseFilters = ({ activeFilters, applyFilters }) => {
   const adaptedApplyFilters = useCallback(
-    applyFiltersAdapter(applyFilters),
+    ({ name, values }) => applyFilters(name, values),
     [applyFilters],
   );
 
   return (
     <AccordionSet>
-      <FiscalYearFilter
+      <BrowseFiscalYearFilter
         id={BROWSE_FILTERS.FISCAL_YEAR}
         activeFilters={activeFilters[BROWSE_FILTERS.FISCAL_YEAR]}
         labelId="ui-finance.browse.filter.fiscalYear"
         name={BROWSE_FILTERS.FISCAL_YEAR}
         onChange={adaptedApplyFilters}
-        closedByDefault={false}
       />
       <AcqCheckboxFilter
         id={BROWSE_FILTERS.LEDGER_STATUS}
@@ -42,8 +37,8 @@ const BrowseFilters = ({ activeFilters, applyFilters }) => {
         labelId="ui-finance.browse.filter.ledgerStatus"
         name={BROWSE_FILTERS.LEDGER_STATUS}
         onChange={adaptedApplyFilters}
-        options={LEDGER_STATUS_OPTIONS_BROWSE}
-        closedByDefault
+        options={LEDGER_STATUS_OPTIONS}
+        closedByDefault={false}
       />
       <AcqCheckboxFilter
         id={BROWSE_FILTERS.GROUP_STATUS}
@@ -51,8 +46,8 @@ const BrowseFilters = ({ activeFilters, applyFilters }) => {
         labelId="ui-finance.browse.filter.groupStatus"
         name={BROWSE_FILTERS.GROUP_STATUS}
         onChange={adaptedApplyFilters}
-        options={GROUP_STATUS_OPTIONS_BROWSE}
-        closedByDefault
+        options={GROUP_STATUS_OPTIONS}
+        closedByDefault={false}
       />
       <AcqCheckboxFilter
         id={BROWSE_FILTERS.FUND_STATUS}
@@ -60,8 +55,8 @@ const BrowseFilters = ({ activeFilters, applyFilters }) => {
         labelId="ui-finance.browse.filter.fundStatus"
         name={BROWSE_FILTERS.FUND_STATUS}
         onChange={adaptedApplyFilters}
-        options={FUND_STATUS_OPTIONS_BROWSE}
-        closedByDefault
+        options={FUND_STATUSES_OPTIONS}
+        closedByDefault={false}
       />
       <AcqCheckboxFilter
         id={BROWSE_FILTERS.BUDGET_STATUS}
@@ -69,8 +64,8 @@ const BrowseFilters = ({ activeFilters, applyFilters }) => {
         labelId="ui-finance.browse.filter.budgetStatus"
         name={BROWSE_FILTERS.BUDGET_STATUS}
         onChange={adaptedApplyFilters}
-        options={BUDGET_STATUS_OPTIONS_BROWSE}
-        closedByDefault
+        options={BUDGET_STATUSES_OPTIONS}
+        closedByDefault={false}
       />
       <AcqCheckboxFilter
         id={BROWSE_FILTERS.EXPENSE_CLASS_STATUS}
@@ -78,8 +73,8 @@ const BrowseFilters = ({ activeFilters, applyFilters }) => {
         labelId="ui-finance.browse.filter.expenseClassStatus"
         name={BROWSE_FILTERS.EXPENSE_CLASS_STATUS}
         onChange={adaptedApplyFilters}
-        options={EXPENSE_CLASS_STATUS_OPTIONS_BROWSE}
-        closedByDefault
+        options={EXPENSE_CLASS_STATUS_OPTIONS}
+        closedByDefault={false}
       />
     </AccordionSet>
   );
@@ -91,4 +86,3 @@ BrowseFilters.propTypes = {
 };
 
 export default BrowseFilters;
-

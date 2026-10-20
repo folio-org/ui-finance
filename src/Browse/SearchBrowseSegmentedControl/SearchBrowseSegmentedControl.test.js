@@ -73,4 +73,11 @@ describe('SearchBrowseSegmentedControl', () => {
 
     expect(document.querySelector('[data-test-search-browse-navigation]')).toBeInTheDocument();
   });
+
+  it('should expose the active tab to assistive technology', () => {
+    renderComponent({ activeTab: BROWSE_TABS.BROWSE });
+
+    expect(screen.getByText('ui-finance.browse.tab.browse').closest('button')).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByText('ui-finance.browse.tab.search').closest('button')).toHaveAttribute('aria-pressed', 'false');
+  });
 });

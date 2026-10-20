@@ -4,6 +4,8 @@
 
 * Fix `csvToJson` parser. Refs UIF-661.
 * *BREAKING* Settings - Enable browse tab (navigation). Refs UIF-544.
+* Display Browse tab in finance app. Refs UIF-545.
+* Fix saving the browse tab setting when the record already exists. Refs UIF-545.
 
 ## [9.0.0](https://github.com/folio-org/ui-finance/tree/v9.0.0) (2026-04-17)
 [Full Changelog](https://github.com/folio-org/ui-finance/compare/v8.0.4...v9.0.0)

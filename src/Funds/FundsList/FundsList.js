@@ -39,7 +39,7 @@ import {
   useSelectedRow,
 } from '../../common/hooks';
 import FinanceNavigation from '../../common/FinanceNavigation';
-import { SearchBrowseSegmentedControl, BROWSE_TABS } from '../../Browse';
+import { SearchTabControl } from '../../Browse';
 import CheckPermission from '../../common/CheckPermission';
 
 import { FundDetailsContainer } from '../FundDetails';
@@ -151,12 +151,7 @@ const FundsList = ({
             toggleFilters={toggleFilters}
             width="350px"
           >
-            {isBrowseEnabled && (
-              <SearchBrowseSegmentedControl
-                activeTab={BROWSE_TABS.SEARCH}
-                onTabChange={handleTabChange}
-              />
-            )}
+            <SearchTabControl />
             <FinanceNavigation />
 
             <SingleSearchForm

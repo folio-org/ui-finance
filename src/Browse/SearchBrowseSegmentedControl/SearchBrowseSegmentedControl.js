@@ -17,6 +17,7 @@ const SearchBrowseSegmentedControl = ({ activeTab, onTabChange }) => {
     >
       <Button
         onClick={() => onTabChange(BROWSE_TABS.SEARCH)}
+        aria-pressed={activeTab === BROWSE_TABS.SEARCH}
         buttonStyle={activeTab === BROWSE_TABS.SEARCH ? 'primary' : 'default'}
         data-test-search-tab
       >
@@ -24,6 +25,7 @@ const SearchBrowseSegmentedControl = ({ activeTab, onTabChange }) => {
       </Button>
       <Button
         onClick={() => onTabChange(BROWSE_TABS.BROWSE)}
+        aria-pressed={activeTab === BROWSE_TABS.BROWSE}
         buttonStyle={activeTab === BROWSE_TABS.BROWSE ? 'primary' : 'default'}
         data-test-browse-tab
       >
@@ -39,4 +41,3 @@ SearchBrowseSegmentedControl.propTypes = {
 };
 
 export default SearchBrowseSegmentedControl;
-

@@ -67,7 +67,9 @@
         "displayName": "UI: Finance module is enabled",
         "visible": false,
         "subPermissions": [
-          "stripes-core.settings.read"
+          "stripes-core.settings.read",
+          "finance-storage.settings.collection.get",
+          "finance.fiscal-years.collection.get"
         ]
       },
       {

@@ -9,7 +9,3 @@ export const BUDGET_ROUTE = '/finance/budget/';
 export const BUDGET_VIEW_ROUTE = '/view/';
 export const TRANSACTIONS_ROUTE = '/finance/transactions';
 export const BROWSE_ROUTE = '/finance/browse';
-export const BROWSE_LEDGER_VIEW_ROUTE = `${BROWSE_ROUTE}/ledger/:id/view`;
-export const BROWSE_GROUP_VIEW_ROUTE = `${BROWSE_ROUTE}/group/:id/view`;
-export const BROWSE_FUND_VIEW_ROUTE = `${BROWSE_ROUTE}/fund/:id/view`;
-export const BROWSE_BUDGET_VIEW_ROUTE = `${BROWSE_ROUTE}/budget/:budgetId/view`;

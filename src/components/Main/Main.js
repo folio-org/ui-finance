@@ -16,7 +16,7 @@ import {
   TRANSACTIONS_ROUTE,
 } from '../../common/const';
 
-import Browse from '../../Browse/Browse';
+import { Browse } from '../../Browse';
 import { FiscalYears } from '../../FiscalYears';
 import Funds from '../../Funds';
 import Groups from '../../Groups';

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import {
   AccordionSet,
 } from '@folio/stripes/components';
-import { AcqCheckboxFilter } from '@folio/stripes-acq-components';
+import {
+  AcqCheckboxFilter,
+  FiscalYearFilter,
+} from '@folio/stripes-acq-components';
 
 import {
   BUDGET_STATUSES_OPTIONS,
@@ -13,7 +16,6 @@ import {
 import { FUND_STATUSES_OPTIONS } from '../../Funds/constants';
 import { GROUP_STATUS_OPTIONS } from '../../Groups/constants';
 import { LEDGER_STATUS_OPTIONS } from '../../Ledger/constants';
-import { BrowseFiscalYearFilter } from '../BrowseFiscalYearFilter';
 import { BROWSE_FILTERS } from '../constants';
 
 const BrowseFilters = ({ activeFilters, applyFilters }) => {
@@ -24,12 +26,13 @@ const BrowseFilters = ({ activeFilters, applyFilters }) => {
 
   return (
     <AccordionSet>
-      <BrowseFiscalYearFilter
+      <FiscalYearFilter
         id={BROWSE_FILTERS.FISCAL_YEAR}
         activeFilters={activeFilters[BROWSE_FILTERS.FISCAL_YEAR]}
         labelId="ui-finance.browse.filter.fiscalYear"
         name={BROWSE_FILTERS.FISCAL_YEAR}
         onChange={adaptedApplyFilters}
+        closedByDefault={false}
       />
       <AcqCheckboxFilter
         id={BROWSE_FILTERS.LEDGER_STATUS}

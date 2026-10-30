@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import FiscalYearsList from './FiscalYearsList';
 
 jest.mock('../../Browse', () => ({
+  BROWSE_TABS: { SEARCH: 'search', BROWSE: 'browse' },
   SearchTabControl: () => null,
 }));
 

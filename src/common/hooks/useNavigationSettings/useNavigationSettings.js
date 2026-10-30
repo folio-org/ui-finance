@@ -51,12 +51,12 @@ export const useNavigationSettings = (options = {}) => {
       const entry = settings?.[0];
 
       /*
-       * PUT responds with 204 and only accepts `text/plain`, so it must not go through `.json()`
-       * (which sends `Accept: application/json` and gets rejected with 400).
+       * The response body isn't used, and PUT answers 204 with `text/plain` only, so neither write goes
+       * through `.json()` (it sends `Accept: application/json`, which PUT rejects with 400).
        */
       if (entry) return ky.put(`${SETTINGS_API}/${entry.id}`, { json: { ...entry, value } });
 
-      return ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } }).json();
+      return ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } });
     },
     onSuccess: () => queryClient.invalidateQueries(queryKey),
   });

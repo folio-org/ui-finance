@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-import { TitleManager, useStripes } from '@folio/stripes/core';
+import { TitleManager } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
 import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
@@ -14,12 +14,10 @@ import {
   useLocationFilters,
 } from '@folio/stripes-acq-components';
 
-import { useBrowseTabEnabled } from '../common/hooks';
-import { getInitialRoute } from '../components/Main/utils';
 import { BrowseActionsMenu } from './BrowseActionsMenu';
 import { BrowseFilters } from './BrowseFilters';
 import { BROWSE_TABS } from './constants';
-import { SearchBrowseSegmentedControl } from './SearchBrowseSegmentedControl';
+import { SearchTabControl } from './SearchTabControl';
 
 const resetData = () => {};
 
@@ -43,20 +41,9 @@ const renderSelectFiscalYear = ({ height }) => (
 );
 
 const Browse = ({ history, location }) => {
-  const stripes = useStripes();
-  const { isBrowseTabEnabled, isLoading } = useBrowseTabEnabled();
-
   const [filters, , applyFilters, , , resetFilters] = useLocationFilters(location, history, resetData);
 
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-finance/browse/filters');
-
-  const handleTabChange = (tab) => {
-    if (tab === BROWSE_TABS.SEARCH) history.push(getInitialRoute(stripes));
-  };
-
-  if (isLoading) return null;
-
-  if (!isBrowseTabEnabled) return <Redirect to={getInitialRoute(stripes)} />;
 
   return (
     <>
@@ -72,10 +59,7 @@ const Browse = ({ history, location }) => {
             toggleFilters={toggleFilters}
             width="350px"
           >
-            <SearchBrowseSegmentedControl
-              activeTab={BROWSE_TABS.BROWSE}
-              onTabChange={handleTabChange}
-            />
+            <SearchTabControl activeTab={BROWSE_TABS.BROWSE} />
 
             <ResetButton
               id="reset-browse-filters"

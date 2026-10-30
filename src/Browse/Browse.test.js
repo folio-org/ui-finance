@@ -4,11 +4,11 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { LEDGERS_ROUTE } from '../common/const';
-import { useBrowseTabEnabled } from '../common/hooks';
+import { useNavigationSettings } from '../common/hooks';
 import Browse from './Browse';
 
 jest.mock('../common/hooks', () => ({
-  useBrowseTabEnabled: jest.fn(),
+  useNavigationSettings: jest.fn(),
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
@@ -35,7 +35,7 @@ const renderComponent = () => render(
 
 describe('Browse', () => {
   beforeEach(() => {
-    useBrowseTabEnabled.mockReturnValue({ isBrowseTabEnabled: true, isLoading: false });
+    useNavigationSettings.mockReturnValue({ navigationSettings: { enabled: true }, isLoading: false });
   });
 
   it('should render the tabs, filters and the select fiscal year prompt', () => {
@@ -60,22 +60,5 @@ describe('Browse', () => {
 
     expect(screen.queryByText('ledgers page')).not.toBeInTheDocument();
     expect(screen.getByText('ui-finance.browse.selectFiscalYear')).toBeInTheDocument();
-  });
-
-  it('should redirect to search when the browse tab is disabled', () => {
-    useBrowseTabEnabled.mockReturnValue({ isBrowseTabEnabled: false, isLoading: false });
-
-    renderComponent();
-
-    expect(screen.getByText('ledgers page')).toBeInTheDocument();
-  });
-
-  it('should render nothing while the setting is loading', () => {
-    useBrowseTabEnabled.mockReturnValue({ isBrowseTabEnabled: false, isLoading: true });
-
-    renderComponent();
-
-    expect(screen.queryByText('ledgers page')).not.toBeInTheDocument();
-    expect(screen.queryByText('ui-finance.browse.tab.browse')).not.toBeInTheDocument();
   });
 });

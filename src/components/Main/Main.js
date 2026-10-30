@@ -17,6 +17,7 @@ import {
 } from '../../common/const';
 
 import { Browse } from '../../Browse';
+import { useNavigationSettings } from '../../common/hooks';
 import { FiscalYears } from '../../FiscalYears';
 import Funds from '../../Funds';
 import Groups from '../../Groups';
@@ -28,14 +29,23 @@ import { getInitialRoute } from './utils';
 const Main = () => {
   const match = useRouteMatch();
   const stripes = useStripes();
+  const { navigationSettings, isLoading } = useNavigationSettings();
+
+  const isBrowseTabEnabled = Boolean(navigationSettings?.enabled);
 
   return (
     <div style={{ width: '100%' }}>
       <Switch>
-        <Route
-          path={BROWSE_ROUTE}
-          component={Browse}
-        />
+        {isBrowseTabEnabled && (
+          <Route
+            path={BROWSE_ROUTE}
+            component={Browse}
+          />
+        )}
+        {/* defensive fallback: the Browse route is not registered while the tab is disabled */}
+        {!isLoading && !isBrowseTabEnabled && (
+          <Redirect from={BROWSE_ROUTE} to={getInitialRoute(stripes)} />
+        )}
         <Route
           path={LEDGERS_ROUTE}
           component={Ledger}

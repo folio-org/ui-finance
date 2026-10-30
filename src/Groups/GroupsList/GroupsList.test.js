@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import GroupsList from './GroupsList';
 
 jest.mock('../../Browse', () => ({
+  BROWSE_TABS: { SEARCH: 'search', BROWSE: 'browse' },
   SearchTabControl: () => null,
 }));
 

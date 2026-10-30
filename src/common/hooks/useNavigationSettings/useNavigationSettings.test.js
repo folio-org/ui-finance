@@ -25,12 +25,9 @@ const emptyCollection = { settings: [], totalRecords: 0 };
 const mockGet = jest.fn().mockReturnValue({
   json: jest.fn().mockResolvedValue(emptyCollection),
 });
-const mockPost = jest.fn().mockReturnValue({
-  json: jest.fn().mockResolvedValue({ id: 'settings-id', key: BROWSE_TAB_ENABLED_SETTING_KEY, value: 'true' }),
-});
-const mockPut = jest.fn().mockReturnValue({
-  json: jest.fn().mockResolvedValue({}),
-});
+// the write responses aren't parsed via `.json()`, so the mocks have no `json` method
+const mockPost = jest.fn().mockResolvedValue({ status: 201 });
+const mockPut = jest.fn().mockResolvedValue({ status: 204 });
 
 describe('useNavigationSettings', () => {
   beforeEach(() => {

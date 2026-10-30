@@ -120,6 +120,7 @@
           "finance.group-fiscal-year-summaries.collection.get",
           "finance.groups.collection.get",
           "finance.ledgers.collection.get",
+          "finance-storage.settings.collection.get",
           "users.collection.get"
         ]
       },
@@ -195,6 +196,8 @@
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
+          "finance.fiscal-years.collection.get",
+          "finance-storage.settings.collection.get",
           "users.collection.get"
         ]
       },
@@ -262,6 +265,7 @@
           "finance.groups.item.get",
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
+          "finance-storage.settings.collection.get",
           "users.collection.get"
         ]
       },
@@ -319,6 +323,7 @@
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",
+          "finance-storage.settings.collection.get",
           "invoice.invoices.collection.get",
           "invoice.invoices.item.get",
           "mod-settings.global.read.ui-tags.tags.manage",

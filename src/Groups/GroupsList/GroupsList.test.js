@@ -4,6 +4,11 @@ import { MemoryRouter } from 'react-router-dom';
 
 import GroupsList from './GroupsList';
 
+jest.mock('../../Browse', () => ({
+  BROWSE_TABS: { SEARCH: 'search', BROWSE: 'browse' },
+  SearchTabControl: () => null,
+}));
+
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types

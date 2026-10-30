@@ -50,11 +50,13 @@ export const useNavigationSettings = (options = {}) => {
       const { settings } = await ky.get(SETTINGS_API, { searchParams }).json();
       const entry = settings?.[0];
 
-      const request = entry
-        ? ky.put(`${SETTINGS_API}/${entry.id}`, { json: { ...entry, value } })
-        : ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } });
+      /*
+       * The response body isn't used, and PUT answers 204 with `text/plain` only, so neither write goes
+       * through `.json()` (it sends `Accept: application/json`, which PUT rejects with 400).
+       */
+      if (entry) return ky.put(`${SETTINGS_API}/${entry.id}`, { json: { ...entry, value } });
 
-      return request.json();
+      return ky.post(SETTINGS_API, { json: { key: BROWSE_TAB_ENABLED_SETTING_KEY, value } });
     },
     onSuccess: () => queryClient.invalidateQueries(queryKey),
   });

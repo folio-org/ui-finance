@@ -36,6 +36,7 @@
       "finance.ledger-rollovers": "1.0 2.0",
       "finance.ledgers": "1.5 2.0",
       "finance-storage.exchange-rate-source": "1.0",
+      "finance-storage.fiscal-year-hierarchy": "1.0",
       "finance-storage.settings": "1.0",
       "finance.transactions": "6.0",
       "invoice": "7.0",
@@ -120,6 +121,7 @@
           "finance.group-fiscal-year-summaries.collection.get",
           "finance.groups.collection.get",
           "finance.ledgers.collection.get",
+          "finance-storage.fiscal-year-hierarchy.collection.get",
           "finance-storage.settings.collection.get",
           "users.collection.get"
         ]
@@ -197,6 +199,7 @@
           "finance.ledgers.current-fiscal-year.item.get",
           "finance.ledgers.item.get",
           "finance.fiscal-years.collection.get",
+          "finance-storage.fiscal-year-hierarchy.collection.get",
           "finance-storage.settings.collection.get",
           "users.collection.get"
         ]
@@ -265,6 +268,7 @@
           "finance.groups.item.get",
           "finance.ledgers.collection.get",
           "finance.ledgers.current-fiscal-year.item.get",
+          "finance-storage.fiscal-year-hierarchy.collection.get",
           "finance-storage.settings.collection.get",
           "users.collection.get"
         ]
@@ -323,6 +327,7 @@
           "finance.ledgers.item.get",
           "finance.transactions.collection.get",
           "finance.transactions.item.get",
+          "finance-storage.fiscal-year-hierarchy.collection.get",
           "finance-storage.settings.collection.get",
           "invoice.invoices.collection.get",
           "invoice.invoices.item.get",

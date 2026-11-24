@@ -1,0 +1,80 @@
+.hierarchy {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  align-items: baseline;
+  border-bottom: 3px solid var(--primary);
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: var(--text-weight-bold, 600);
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.fiscalYear {
+  background-color: var(--color-fill-table-row-odd);
+  font-weight: var(--text-weight-bold, 600);
+  padding: 0.5rem 1rem;
+}
+
+.controls {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controls button {
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.row {
+  --hierarchy-indent: 1.5rem;
+
+  align-items: center;
+  display: flex;
+  gap: 0.25rem;
+  min-height: 2rem;
+  padding: 0.25rem 1rem;
+  padding-inline-start: calc(1rem + var(--hierarchy-level, 0) * var(--hierarchy-indent));
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The fiscal year row is the first (darker) stripe, so the rows start with the lighter one */
+.row:nth-child(odd) {
+  background-color: var(--color-fill-table-row-even);
+}
+
+.row:nth-child(even) {
+  background-color: var(--color-fill-table-row-odd);
+}
+
+.row:hover {
+  background-color: var(--color-fill-hover);
+}
+
+.toggle,
+.togglePlaceholder {
+  flex: 0 0 1.5rem;
+  width: 1.5rem;
+}
+
+.type {
+  font-weight: var(--text-weight-bold, 600);
+}
+
+.state {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 2rem 1rem;
+}

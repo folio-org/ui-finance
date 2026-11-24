@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import { withRouter } from 'react-router-dom';
+import {
+  Route,
+  withRouter,
+} from 'react-router-dom';
 
 import { TitleManager } from '@folio/stripes/core';
 import {
@@ -18,6 +21,18 @@ import {
   useLocationFilters,
 } from '@folio/stripes-acq-components';
 
+import {
+  BROWSE_BUDGET_VIEW_ROUTE,
+  BROWSE_FUND_VIEW_ROUTE,
+  BROWSE_GROUP_VIEW_ROUTE,
+  BROWSE_LEDGER_VIEW_ROUTE,
+  BROWSE_ROUTE,
+} from '../common/const';
+import CheckPermission from '../common/CheckPermission';
+import BudgetViewContainer from '../components/Budget/BudgetView';
+import { FundDetailsContainer } from '../Funds/FundDetails';
+import { GroupDetailsContainer } from '../Groups/GroupDetails';
+import LedgerDetailsContainer from '../Ledger/LedgerDetails';
 import { BrowseActionsMenu } from './BrowseActionsMenu';
 import { BrowseFilters } from './BrowseFilters';
 import { BROWSE_FILTERS, BROWSE_TABS } from './constants';
@@ -63,6 +78,7 @@ const Browse = ({ history, location }) => {
     counts,
     keysByType,
     isLoading,
+    refetch: refreshList,
   } = useBrowseHierarchy(selectedFiscalYearId);
 
   // The current fiscal year is selected by default
@@ -146,6 +162,59 @@ const Browse = ({ history, location }) => {
         >
           {renderContent}
         </ResultsPane>
+
+        <Route
+          path={BROWSE_LEDGER_VIEW_ROUTE}
+          render={({ match }) => (
+            <CheckPermission perm="ui-finance.ledger.view">
+              <LedgerDetailsContainer
+                key={match.params.id}
+                closePath={BROWSE_ROUTE}
+                refreshList={refreshList}
+              />
+            </CheckPermission>
+          )}
+        />
+
+        <Route
+          path={BROWSE_GROUP_VIEW_ROUTE}
+          render={({ match }) => (
+            <CheckPermission perm="ui-finance.group.view">
+              <GroupDetailsContainer
+                key={match.params.id}
+                closePath={BROWSE_ROUTE}
+                refreshList={refreshList}
+              />
+            </CheckPermission>
+          )}
+        />
+
+        <Route
+          path={BROWSE_FUND_VIEW_ROUTE}
+          render={(routeProps) => (
+            <CheckPermission perm="ui-finance.fund-budget.view">
+              <FundDetailsContainer
+                key={routeProps.match.params.id}
+                closePath={BROWSE_ROUTE}
+                refreshList={refreshList}
+                {...routeProps}
+              />
+            </CheckPermission>
+          )}
+        />
+
+        <Route
+          path={BROWSE_BUDGET_VIEW_ROUTE}
+          render={(routeProps) => (
+            <CheckPermission perm="ui-finance.fund-budget.view">
+              <BudgetViewContainer
+                key={routeProps.match.params.budgetId}
+                closePath={BROWSE_ROUTE}
+                {...routeProps}
+              />
+            </CheckPermission>
+          )}
+        />
       </PersistedPaneset>
     </>
   );

@@ -6,6 +6,7 @@ import { useFiscalYears } from '@folio/stripes-acq-components';
 
 import { hierarchyResponse } from 'fixtures';
 import { LEDGERS_ROUTE } from '../common/const';
+import CheckPermission from '../common/CheckPermission';
 import { useNavigationSettings } from '../common/hooks';
 import Browse from './Browse';
 import { useBrowseHierarchy } from './hooks';
@@ -23,6 +24,11 @@ jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Loading: () => <div>Loading</div>,
 }));
+jest.mock('../common/CheckPermission', () => jest.fn(({ children }) => children));
+jest.mock('../Ledger/LedgerDetails', () => () => <div>LedgerDetails</div>);
+jest.mock('../Groups/GroupDetails', () => ({ GroupDetailsContainer: () => <div>GroupDetails</div> }));
+jest.mock('../Funds/FundDetails', () => ({ FundDetailsContainer: () => <div>FundDetails</div> }));
+jest.mock('../components/Budget/BudgetView', () => () => <div>BudgetView</div>);
 jest.mock('./hooks', () => ({
   useBrowseHierarchy: jest.fn(),
 }));
@@ -151,6 +157,31 @@ describe('Browse', () => {
       renderComponent();
 
       expect(screen.getByText('ui-finance.browse.hierarchy.noResults')).toBeInTheDocument();
+    });
+  });
+
+  describe('record views', () => {
+    beforeEach(() => {
+      CheckPermission.mockClear();
+    });
+
+    it.each([
+      ['/finance/browse/ledger/ledger-1/view', 'LedgerDetails', 'ui-finance.ledger.view'],
+      ['/finance/browse/group/group-1/view', 'GroupDetails', 'ui-finance.group.view'],
+      ['/finance/browse/fund/fund-1/view', 'FundDetails', 'ui-finance.fund-budget.view'],
+      ['/finance/browse/budget/budget-1/view', 'BudgetView', 'ui-finance.fund-budget.view'],
+    ])('should show %s in the third pane gated by its permission', (entry, text, perm) => {
+      renderComponent(entry);
+
+      expect(screen.getByText(text)).toBeInTheDocument();
+      expect(CheckPermission).toHaveBeenCalledWith(expect.objectContaining({ perm }), expect.anything());
+    });
+
+    it('should not show a record view on the browse route', () => {
+      renderComponent();
+
+      expect(screen.queryByText('LedgerDetails')).not.toBeInTheDocument();
+      expect(CheckPermission).not.toHaveBeenCalled();
     });
   });
 });

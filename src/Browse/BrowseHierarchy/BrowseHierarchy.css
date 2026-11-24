@@ -61,6 +61,16 @@
   background-color: var(--color-fill-hover);
 }
 
+.row.selected,
+.row.selected:hover {
+  background-color: var(--color-fill-current-selection, var(--primary));
+  color: var(--color-text-inverse, #fff);
+}
+
+.row.selected a {
+  color: inherit;
+}
+
 .toggle,
 .togglePlaceholder {
   flex: 0 0 1.5rem;

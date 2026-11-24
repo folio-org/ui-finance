@@ -3,9 +3,20 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+import {
+  generatePath,
+  Link,
+  useLocation,
+} from 'react-router-dom';
 
 import { IconButton } from '@folio/stripes/components';
 
+import {
+  BROWSE_BUDGET_VIEW_ROUTE,
+  BROWSE_FUND_VIEW_ROUTE,
+  BROWSE_GROUP_VIEW_ROUTE,
+  BROWSE_LEDGER_VIEW_ROUTE,
+} from '../../common/const';
 import { HIERARCHY_NODE_TYPES } from '../constants';
 import css from './BrowseHierarchy.css';
 
@@ -25,6 +36,14 @@ const STATUS_MESSAGE_IDS = {
   [HIERARCHY_NODE_TYPES.EXPENSE_CLASS]: (status) => `ui-finance.budget.expenseClasses.status.${status}`,
 };
 
+// Expense classes have no record view of their own, so their rows are not links
+const getRecordPath = {
+  [HIERARCHY_NODE_TYPES.LEDGER]: (id) => generatePath(BROWSE_LEDGER_VIEW_ROUTE, { id }),
+  [HIERARCHY_NODE_TYPES.GROUP]: (id) => generatePath(BROWSE_GROUP_VIEW_ROUTE, { id }),
+  [HIERARCHY_NODE_TYPES.FUND]: (id) => generatePath(BROWSE_FUND_VIEW_ROUTE, { id }),
+  [HIERARCHY_NODE_TYPES.BUDGET]: (id) => generatePath(BROWSE_BUDGET_VIEW_ROUTE, { budgetId: id }),
+};
+
 const HierarchyRow = ({
   isExpanded,
   level,
@@ -32,15 +51,18 @@ const HierarchyRow = ({
   onToggle,
 }) => {
   const intl = useIntl();
+  const { pathname, search } = useLocation();
 
-  const { code, children, isUngrouped, key, name, status, type } = node;
+  const { code, children, id, isUngrouped, key, name, status, type } = node;
   const hasChildren = children.length > 0;
 
   const displayName = code ? `${name} (${code})` : name;
+  const recordPath = !isUngrouped && getRecordPath[type]?.(id);
+  const isSelected = Boolean(recordPath) && pathname === recordPath;
 
   return (
     <div
-      className={css.row}
+      className={isSelected ? `${css.row} ${css.selected}` : css.row}
       data-testid={`hierarchy-row-${type}`}
       style={{ '--hierarchy-level': level }}
     >
@@ -67,7 +89,14 @@ const HierarchyRow = ({
         </>
       )}
       <span className={isUngrouped ? css.type : undefined}>
-        {isUngrouped ? <FormattedMessage id="ui-finance.browse.hierarchy.ungrouped" /> : displayName}
+        {isUngrouped && <FormattedMessage id="ui-finance.browse.hierarchy.ungrouped" />}
+        {!isUngrouped && recordPath && (
+          // the location search keeps the selected fiscal year when a record view is opened and closed
+          <Link to={{ pathname: recordPath, search }}>
+            {displayName}
+          </Link>
+        )}
+        {!isUngrouped && !recordPath && displayName}
       </span>
       {status && (
         <>
@@ -87,6 +116,7 @@ HierarchyRow.propTypes = {
   node: PropTypes.shape({
     children: PropTypes.arrayOf(PropTypes.object).isRequired,
     code: PropTypes.string,
+    id: PropTypes.string,
     isUngrouped: PropTypes.bool,
     key: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

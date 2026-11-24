@@ -34,6 +34,7 @@ import useRolloverProgressPolling from './useRolloverProgressPolling';
 import LedgerDetails from './LedgerDetails';
 
 export const LedgerDetailsContainer = ({
+  closePath = LEDGERS_ROUTE,
   history,
   match,
   mutator,
@@ -113,10 +114,10 @@ export const LedgerDetailsContainer = ({
 
   const closePane = useCallback(() => {
     history.push({
-      pathname: LEDGERS_ROUTE,
+      pathname: closePath,
       search: location.search,
     });
-  }, [history, location.search]);
+  }, [closePath, history, location.search]);
 
   const editLedger = useCallback(() => {
     history.push({
@@ -130,7 +131,7 @@ export const LedgerDetailsContainer = ({
       .then(() => {
         showToast({ messageId: 'ui-finance.ledger.actions.remove.success' });
         history.replace({
-          pathname: LEDGERS_ROUTE,
+          pathname: closePath,
           search: location.search,
         });
 
@@ -140,7 +141,7 @@ export const LedgerDetailsContainer = ({
         // Unlike react-query, stripes mutators return the Response object directly to the handler.
         handleCommonError({ response: error }, { defaultMessageId: 'ui-finance.ledger.actions.remove.error' });
       });
-  }, [mutator.ledgerDetails, ledgerId, showToast, history, location.search, refreshList, handleCommonError]);
+  }, [mutator.ledgerDetails, ledgerId, closePath, showToast, history, location.search, refreshList, handleCommonError]);
 
   const onRollover = useCallback(() => {
     history.push({
@@ -229,6 +230,7 @@ LedgerDetailsContainer.manifest = Object.freeze({
 });
 
 LedgerDetailsContainer.propTypes = {
+  closePath: PropTypes.string,
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,

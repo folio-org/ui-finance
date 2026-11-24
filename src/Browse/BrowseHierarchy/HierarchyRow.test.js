@@ -1,3 +1,5 @@
+import { MemoryRouter } from 'react-router-dom';
+
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
@@ -13,14 +15,16 @@ const buildNode = (overrides = {}) => ({
   ...overrides,
 });
 
-const renderComponent = (props = {}) => render(
-  <HierarchyRow
-    isExpanded={false}
-    level={0}
-    node={buildNode()}
-    onToggle={jest.fn()}
-    {...props}
-  />,
+const renderComponent = (props = {}, entry = '/finance/browse') => render(
+  <MemoryRouter initialEntries={[entry]}>
+    <HierarchyRow
+      isExpanded={false}
+      level={0}
+      node={buildNode()}
+      onToggle={jest.fn()}
+      {...props}
+    />
+  </MemoryRouter>,
 );
 
 describe('HierarchyRow', () => {
@@ -82,5 +86,39 @@ describe('HierarchyRow', () => {
     renderComponent({ isExpanded: true, node: buildNode({ children: [buildNode({ key: 'child' })] }) });
 
     expect(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  describe('record links', () => {
+    it.each([
+      ['ledger', '/finance/browse/ledger/ledger-1/view'],
+      ['group', '/finance/browse/group/ledger-1/view'],
+      ['fund', '/finance/browse/fund/ledger-1/view'],
+      ['budget', '/finance/browse/budget/ledger-1/view'],
+    ])('should link a %s to its record view', (type, href) => {
+      renderComponent({ node: buildNode({ type }) });
+
+      expect(screen.getByRole('link', { name: 'Main Library (MAIN-LIB)' })).toHaveAttribute('href', href);
+    });
+
+    it('should keep the location search in the link', () => {
+      renderComponent({}, '/finance/browse?fiscalYearId=fy-1');
+
+      expect(screen.getByRole('link')).toHaveAttribute(
+        'href',
+        '/finance/browse/ledger/ledger-1/view?fiscalYearId=fy-1',
+      );
+    });
+
+    it('should not link an expense class', () => {
+      renderComponent({ node: buildNode({ type: 'expenseClass' }) });
+
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    });
+
+    it('should not link the ungrouped group', () => {
+      renderComponent({ node: buildNode({ type: 'group', isUngrouped: true }) });
+
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    });
   });
 });

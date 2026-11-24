@@ -22,7 +22,7 @@ export const useBrowseHierarchy = (fiscalYearId, options = {}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'browse-hierarchy' });
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: [namespace, fiscalYearId],
     queryFn: async ({ signal }) => {
       const response = await ky.get(FISCAL_YEAR_HIERARCHY_API, {
@@ -41,5 +41,6 @@ export const useBrowseHierarchy = (fiscalYearId, options = {}) => {
     counts: data?.counts || EMPTY_COUNTS,
     keysByType: data?.keysByType || EMPTY_KEYS,
     isLoading,
+    refetch,
   };
 };

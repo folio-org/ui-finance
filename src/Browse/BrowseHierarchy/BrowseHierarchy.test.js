@@ -1,3 +1,5 @@
+import { MemoryRouter } from 'react-router-dom';
+
 import { render, screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
@@ -8,11 +10,13 @@ import BrowseHierarchy from './BrowseHierarchy';
 const { hierarchy, keysByType } = buildHierarchy(hierarchyResponse);
 
 const renderComponent = () => render(
-  <BrowseHierarchy
-    fiscalYearName="Fiscal year 2024"
-    hierarchy={hierarchy}
-    keysByType={keysByType}
-  />,
+  <MemoryRouter>
+    <BrowseHierarchy
+      fiscalYearName="Fiscal year 2024"
+      hierarchy={hierarchy}
+      keysByType={keysByType}
+    />
+  </MemoryRouter>,
 );
 
 const rowsOf = (type) => screen.queryAllByTestId(`hierarchy-row-${type}`);

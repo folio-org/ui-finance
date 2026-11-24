@@ -134,6 +134,16 @@ describe('LedgerDetailsContainer', () => {
       expect(historyMock.push.mock.calls[0][0].pathname).toBe(LEDGERS_ROUTE);
     });
 
+    it('should navigate to the given close path when close action is called', async () => {
+      renderLedgerDetailsContainer({ closePath: '/finance/browse' });
+
+      await act(async () => {
+        await userEvent.click(screen.getByRole('button', { name: 'stripes-components.closeItem' }));
+      });
+
+      expect(historyMock.push.mock.calls[0][0].pathname).toBe('/finance/browse');
+    });
+
     it('should navigate to form', async () => {
       renderLedgerDetailsContainer();
 
